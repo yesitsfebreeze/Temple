@@ -44,7 +44,8 @@ class Config extends Storage
      */
     public function addTemplateDir($dir)
     {
-        return $this->addDirectory($dir, "templates", "template");
+
+        return $this->addDirectory($dir, "templates/dirs");
     }
 
     /**
@@ -53,7 +54,7 @@ class Config extends Storage
      */
     public function getTemplateDir($dir = false)
     {
-        return $this->getDirectory($dir, "templates");
+        return $this->getDirectory($dir, "templates/dirs");
     }
 
 
@@ -63,7 +64,7 @@ class Config extends Storage
      */
     public function addPluginDir($dir)
     {
-        return $this->addDirectory($dir, "plugins", "plugin");
+        return $this->addDirectory($dir, "plugins/dirs");
     }
 
     /**
@@ -72,7 +73,7 @@ class Config extends Storage
      */
     public function getPluginDir($dir = false)
     {
-        return $this->getDirectory($dir, "plugins");
+        return $this->getDirectory($dir, "plugins/dirs");
     }
 
 
@@ -82,7 +83,7 @@ class Config extends Storage
      */
     public function setCacheDir($dir)
     {
-        return $this->addDirectory($dir, "cache", true);
+        return $this->addDirectory($dir, "cache_dir", true);
     }
 
     /**
@@ -91,7 +92,7 @@ class Config extends Storage
      */
     public function getCacheDir($dir = false)
     {
-        return $this->getDirectory($dir, "cache", true);
+        return $this->getDirectory($dir, "cache_dir");
     }
 
     /**
@@ -105,38 +106,55 @@ class Config extends Storage
      *
      * @param string $dir
      * @param string $name
-     * @param string $singular
-     * @param bool|false $single
+     * @param bool $create
      * @return bool|Error
      */
-    private function addDirectory($dir, $name, $singular, $single = false)
+
+    private function addDirectory($dir, $name, $create = false)
     {
         try {
-
-            $dir = $this->validateDirectory($dir, $name, $singular);
-
-            if ($single) {
-                if ($dir) {
-                    return $this->set($name . "/dir", $dir);
-                }
+            if (!$create) {
+                $dir = $this->validateDirectory($dir);
             }
 
-            $dirs = $this->get($name . "/dirs");
+            $dirs = $this->get($name);
             if ("array" == gettype($dirs)) {
                 if (array_key_exists($dir, array_flip($dirs))) {
                     return false;
                 } else {
                     if ($dir) {
-                        array_unshift($dirs, $dir);
 
-                        return $this->set($name . "/dirs", $dirs);
+                        $dir = $this->getDirectoryPath($dir);
+
+                        if ($create) {
+                            if (!is_dir($dir)) {
+                                mkdir($dir, 0777, true);
+                            }
+                        }
+
+                        if (strrev($dir)[0] != "/") $dir = $dir . "/";
+                        array_unshift($dirs, $dir);
+                        $this->set($name, $dirs);
+
+                        return $dir;
                     } else {
                         return false;
                     }
                 }
             } else {
+
+                $dir = $this->getDirectoryPath($dir);
+                if ($create) {
+                    if (!is_dir($dir)) {
+                        mkdir($dir, 0777, true);
+                    }
+                }
+                if (strrev($dir)[0] != "/") $dir = $dir . "/";
+                $this->set($name, $dir);
+
                 return $dirs;
             }
+
         } catch (\Exception $e) {
             return new Error($e);
         }
@@ -145,15 +163,11 @@ class Config extends Storage
     /**
      * @param null $dir
      * @param $name
-     * @param bool|false $single
      * @return array|bool
      */
-    private function getDirectory($dir = NULL, $name, $single = false)
+    private function getDirectory($dir = NULL, $name)
     {
-        if ($single) {
-            return $this->get($name . "/dir");
-        }
-        $dirs = $this->get($name . "/dirs");
+        $dirs = $this->get($name);
         if ($dir) {
             if (array_key_exists($dir, $dirs)) {
                 return $dirs[ $dir ];
@@ -165,20 +179,30 @@ class Config extends Storage
         }
     }
 
+    /**
+     * @param $dir
+     * @return string
+     */
+    private function getDirectoryPath($dir)
+    {
+        if ($dir[0] != "/") {
+            $framework = $this->getFrameworkDirectory();
+            $dir       = $framework . $dir . "/";
+        }
+        return $dir;
+    }
+
 
     /**
      * @param $path
-     * @param $type
      * @return Error|string
      */
-    private function validateDirectory($path, $type, $singular = false)
+    private function validateDirectory($path)
     {
         if ($path[0] != "/") $path = $this->getRootDirectory() . $path . "/";
         if (is_dir($path)) return $path;
 
-        if ($singular) $type = $singular;
-
-        return new Error("is trying to add a {$type} directory, but cant find:",$path);
+        return new Error("Cannot add directory because it does not exist:", $path);
     }
 
     /**
@@ -194,18 +218,32 @@ class Config extends Storage
     }
 
     /**
+     * @return array|string
+     */
+    private function getFrameworkDirectory()
+    {
+
+        if ($this->has("frameworkDir")) {
+            return $this->get("frameworkDir");
+        } else {
+            $framework = explode("Caramel", __DIR__);
+            $framework = $framework[0] . "Caramel/";
+
+            return $framework;
+        }
+    }
+
+    /**
      * assigning the default settings to the config
      */
     private function setDefaults()
     {
-        $root = $this->getRootDirectory();
-        # add the default cache dir
-        $this->set("cache/dir", $root . 'template_cache/');
         # add default empty directories for plugins and templates
         $this->set("templates/dirs", array());
         $this->set("plugins/dirs", array());
         # add the internal plugin directory
         $this->addPluginDir(__DIR__ . '/../../Plugins/');
+
     }
 
 }

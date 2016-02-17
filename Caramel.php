@@ -30,7 +30,8 @@ class Caramel
     {
         try {
 
-            $this->config    = new Config();
+            $this->config = new Config();
+            $this->setDirs();
             $this->cache     = new Cache($this->config);
             $this->variables = new Storage();
             $this->plugins   = new Plugins($this, $this->config, $this->variables);
@@ -58,6 +59,7 @@ class Caramel
     /**
      * Renders and returns the passed file
      * @param $file
+     * @return string
      */
     public function fetch($file)
     {
@@ -65,6 +67,7 @@ class Caramel
             $lexed = $this->lexer->lex($file);
             $this->parser->parse($lexed["file"], $lexed["dom"]);
         }
+
         return file_get_contents($this->cache->getCachePath($file));
     }
 
@@ -105,7 +108,7 @@ class Caramel
      * @param bool|false $value
      * @return bool|mixed
      */
-    public function data($name = false, $value = null)
+    public function data($name = false, $value = NULL)
     {
         try {
             if (!is_null($value)) {
@@ -138,4 +141,12 @@ class Caramel
         }
     }
 
+    /**
+     * initially sets the required directories
+     */
+    private function setDirs()
+    {
+        $this->config->set("frameworkDir", __DIR__ . "/");
+        $this->config->setCacheDir($this->config->get("cache_dir"));
+    }
 }

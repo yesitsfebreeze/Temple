@@ -29,8 +29,6 @@ class Cache
     {
         $this->config       = $config;
         $this->dependencies = array();
-        $cache              = $this->createDirectory($this->config->get("cache/dir"));
-        $this->config->set("cache/dir", $cache);
     }
 
 
@@ -63,25 +61,6 @@ class Cache
         }
     }
 
-    /**
-     * @param $path
-     * @return string
-     */
-    private function createDirectory($path)
-    {
-        $paths = explode("/", $path);
-        $path  = "";
-        foreach ($paths as $chunk) {
-            if ($chunk != "") {
-                $path .= '/' . $chunk;
-                if (!is_dir($path) && ($path != $chunk)) {
-                    mkdir($path, 0777);
-                }
-            }
-        }
-
-        return $path . '/';
-    }
 
     /**
      * @param $file
@@ -122,6 +101,7 @@ class Cache
         $file = $this->createFile($file);
         file_put_contents($file, $content);
         $this->content = $content;
+
         return $this->content;
     }
 
@@ -156,7 +136,8 @@ class Cache
             $file = str_replace($templateDir, "", $file);
         }
         # add cache directory and escape the slashes with an underscore
-        $cacheDir = $this->createDirectory($this->config->get("cache/dir"));
+        $cacheDir = $this->config->get("cache_dir") . "tempalte/";
+        if (!is_dir($cacheDir)) mkdir($cacheDir,0777,true);
         $file     = $cacheDir . str_replace("/", '_', $file);
         # make sure we have a php extension
         $file = $this->createFileExtension($file);

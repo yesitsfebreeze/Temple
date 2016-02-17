@@ -368,8 +368,8 @@ class Lexer
 
         # if we found some files return them
         if (sizeof($files) > 0) return $files;
-
+        
         # otherwise throw an error
-        return new Error("Can't find template file.", $this->file, $this->lineNo - 1);
+        return new Error("Can't find template file.", $file);
     }
 }
