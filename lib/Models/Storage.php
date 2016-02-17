@@ -2,7 +2,7 @@
 
 namespace Caramel;
 
-use \Exception as Exception;
+use Exception as namespacedException;
 
 
 /**
@@ -31,13 +31,13 @@ class Storage
     /**
      * @param string $path
      * @return array
-     * @throws Exception
+     * @throws namespacedException
      */
     public function get($path = NULL)
     {
         try {
             return $this->getter($path);
-        } catch (Exception $e) {
+        } catch (namespacedException $e) {
             return new Error($e);
         }
     }
@@ -51,6 +51,7 @@ class Storage
     {
         try {
             $this->getter($path);
+
             return true;
         } catch (Exception $e) {
             return false;
@@ -60,7 +61,7 @@ class Storage
     /**
      * @param $path
      * @return array
-     * @throws Exception
+     * @throws namespacedException
      */
     private function getter($path)
     {
@@ -70,7 +71,7 @@ class Storage
             foreach ($paths as $position => $key) {
                 if (!isset($storage[ $key ])) {
                     # if path is not set throw error
-                    throw new Exception("Sorry, '{$path}' is undefined!");
+                    throw new namespacedException("Sorry, '{$path}' is undefined!");
                 } else {
                     # reference back to current key
                     $storage = $storage[ $key ];
@@ -90,6 +91,22 @@ class Storage
      * @return bool
      */
     public function set($path, $value)
+    {
+        try {
+            $this->setter($path, $value);
+
+            return true;
+        } catch (namespacedException $e) {
+            return false;
+        }
+    }
+
+    /**
+     * @param $path
+     * @param $value
+     * @return bool
+     */
+    public function setter($path, $value)
     {
         $paths   = $this->getPath($path);
         $storage = &$this->storage;
