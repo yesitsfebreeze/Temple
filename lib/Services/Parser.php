@@ -23,9 +23,6 @@ class Parser
     /** @var  string $output */
     private $output;
 
-    /** @var  string $indent */
-    private $indent;
-
 
     /**
      * Parser constructor.
@@ -35,7 +32,6 @@ class Parser
     {
         $this->config  = $milk->config();
         $this->cache   = $milk->cache;
-        $this->indent  = $this->config->get("output_indent");
         $this->plugins = $this->config->get("plugins/registered");
     }
 
@@ -52,7 +48,7 @@ class Parser
 
         # the returns make sure that the parse process
         # stops if we have an empty dom
-        # this enables you to parse a modified dom in the
+        # this enables you to parse a modified dom in a plugin or function
 
         $this->dom = $this->preProcessPlugins($this->dom);
         if (empty($this->dom)) return $this->cache->save($file, "");
