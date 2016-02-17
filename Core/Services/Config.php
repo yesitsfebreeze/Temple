@@ -13,7 +13,7 @@ class Config extends Storage
      */
     public function __construct()
     {
-        $this->addConfigFile(__DIR__ . "/../../config.php");
+        $this->addConfigFile(__DIR__ . "/../../default_config.php");
     }
 
     /**
@@ -242,7 +242,7 @@ class Config extends Storage
         $this->set("templates/dirs", array());
         $this->set("plugins/dirs", array());
         # add the internal plugin directory
-        $this->addPluginDir(__DIR__ . '/../../Plugins/');
+        $this->addPluginDir(__DIR__ . '/../Plugins/');
 
     }
 

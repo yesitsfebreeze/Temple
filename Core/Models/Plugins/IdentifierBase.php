@@ -6,7 +6,7 @@ namespace Caramel;
  * Class PluginBase
  * @package Caramel
  */
-abstract class PluginBase
+abstract class IdentifierBase
 {
 
     /** @var  Config $config */
@@ -20,13 +20,13 @@ abstract class PluginBase
 
     /**
      * PluginBase constructor.
-     * @param Caramel $milk
+     * @param Caramel $caramel
      */
-    public function __construct(Caramel $milk)
+    public function __construct(Caramel $caramel)
     {
-        $this->milk      = $milk;
-        $this->config    = $milk->config();
-        $this->variables = $milk->variables();
+        $this->caramel      = $caramel;
+        $this->config    = $caramel->config();
+        $this->variables = $caramel->variables();
     }
 
     /**

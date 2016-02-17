@@ -19,12 +19,12 @@ class CaramelAutoloader
      */
     public function __construct()
     {
-        $this->lib = $this->pwd . "/lib/";
+        $this->lib = $this->pwd . "/Core/";
         if (is_dir($this->lib)) {
             $this->load();
         } else {
             # oh man..
-            throw new Exception("Caramel says: Gosh! you deleted the library!");
+            throw new Exception("Gosh! you deleted the core!");
         }
     }
 

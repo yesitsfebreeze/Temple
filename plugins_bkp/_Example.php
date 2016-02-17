@@ -17,7 +17,7 @@ namespace Caramel;
  *
  * @purpose: explains how to use plugins
  * @usage: none
- * @autor: Stefan Hövelmanns - hvlmnns.de
+ * @autor: Stefan Hövelmanns
  * @License: MIT
  * @package Caramel
  *

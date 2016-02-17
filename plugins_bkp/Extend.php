@@ -52,7 +52,7 @@ class Caramel_Plugin_Extend extends PluginBase
         $this->config->set("self_closing", $selfClosing);
 
         # add the file dependency to the parser
-        $this->milk->cache->addDependency(reset($dom)->get("file"));
+        $this->caramel->cache->addDependency(reset($dom)->get("file"));
 
         # check if the dom as an extend
         $node = $this->isExtending($dom);
@@ -84,7 +84,7 @@ class Caramel_Plugin_Extend extends PluginBase
 
             # we have to reinitialize the parsing process for
             # our dom to check for other extends
-            $this->milk->parser->parse($this->file, $dom);
+            $this->caramel->parser->parse($this->file, $dom);
 
             # to stop the current parsing process,
             # we just return a empty array
@@ -159,7 +159,7 @@ class Caramel_Plugin_Extend extends PluginBase
         if ($path != "") {
             # absolute extend
             if ($path[0] == "/") {
-                $dom = $this->milk->lexer->lex($path)["dom"];
+                $dom = $this->caramel->lexer->lex($path)["dom"];
             }
             # relative extend
             if ($path[0] != "/") {
@@ -170,11 +170,11 @@ class Caramel_Plugin_Extend extends PluginBase
                 $folder = strrev(implode("/", $folder));
                 # concat folder and path to get full file path
                 $path = $folder . "/" . $path;
-                $dom  = $this->milk->lexer->lex($path)["dom"];
+                $dom  = $this->caramel->lexer->lex($path)["dom"];
             }
         } else {
             # get parent file with level and namesspace
-            $dom = $this->milk->lexer->lex($node->get("namespace"), $node->get("level") + 1)["dom"];
+            $dom = $this->caramel->lexer->lex($node->get("namespace"), $node->get("level") + 1)["dom"];
         }
 
         # in case we still fail somehow, at least give the user an error.

@@ -26,12 +26,12 @@ class Parser
 
     /**
      * Parser constructor.
-     * @param Caramel $milk
+     * @param Caramel $caramel
      */
-    public function __construct(Caramel $milk)
+    public function __construct(Caramel $caramel)
     {
-        $this->config  = $milk->config();
-        $this->cache   = $milk->cache;
+        $this->config  = $caramel->config();
+        $this->cache   = $caramel->cache;
         $this->plugins = $this->config->get("plugins/registered");
     }
 
