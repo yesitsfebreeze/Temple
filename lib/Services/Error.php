@@ -12,16 +12,16 @@ class Error
     private $error;
 
     /** @var string $bodyBg */
-    private $bodyBg = "#f1f1f1";
+    private $bodyBg = "#3b3a39";
 
     /** @var string $bodyColor */
-    private $bodyColor = "#58586f";
+    private $bodyColor = "#e0dddc";
 
-    /** @var string color */
-    private $textColor = "#85859e";
+    /** @var string $textColor */
+    private $textColor = "#a6a2a0";
 
     /** @var string $highlight */
-    private $highlight = "#60a3db";
+    private $highlight = "#d6963c";
 
     /** @var string $file */
     private $file;
