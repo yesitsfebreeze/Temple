@@ -32,7 +32,7 @@ class Caramel
     {
         try {
             $this->variables = new Storage();
-            $this->config    = new Config(__DIR__ . "/../");
+            $this->config    = new Config(__DIR__ . "/..");
             $this->cache     = new Cache($this);
             $this->plugins   = new PluginLoader($this);
             $this->parser    = new Parser($this);

@@ -131,13 +131,15 @@ class Cache
      */
     public function getCachePath($file)
     {
+        $DirectoryHandler = $this->config->getDirectoryHandler();
         # remove the template dir
-        foreach ($this->config->getDirectoryHandler()->getTemplateDir() as $templateDir) {
+        foreach ($DirectoryHandler->getTemplateDir() as $templateDir) {
             $file = str_replace($templateDir, "", $file);
         }
         # add cache directory and escape the slashes with an underscore
-        $cacheDir = $this->config->get("cache_dir") . "tempalte/";
-        if (!is_dir($cacheDir)) mkdir($cacheDir,0777,true);
+        $DirectoryHandler->setCacheDir($this->config->get("cache_dir"));
+        $cacheDir = $this->config->get("cache_dir") . "/tempalte/";
+        if (!is_dir($cacheDir)) mkdir($cacheDir,0777);
         $file     = $cacheDir . str_replace("/", '_', $file);
         # make sure we have a php extension
         $file = $this->createFileExtension($file);

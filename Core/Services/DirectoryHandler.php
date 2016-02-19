@@ -173,6 +173,7 @@ class DirectoryHandler
      */
     private function createDirectory($create, $dir)
     {
+
         if ($create) {
             if (!is_dir($dir)) {
                 mkdir($dir, 0777, true);
