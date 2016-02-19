@@ -143,7 +143,6 @@ class Caramel
      * getter for the variables
      *
      * @param $name
-     * @param bool|false $value
      * @return Config
      */
     public function unsetVariable($name = NULL)
@@ -160,6 +159,8 @@ class Caramel
     }
 
 
+
+
     /**
      * replaces the default debug template
      *
@@ -169,6 +170,75 @@ class Caramel
     {
         // TODO: implement this
         return true;
+    }
+
+
+    # directory setters/getters
+
+    /**
+     * adds a new plugin directory
+     *
+     * @param $dir
+     * @return bool|Error
+     */
+    public function addPluginDir($dir)
+    {
+        return $this->config()->getDirectoryHandler()->addPluginDir($dir);
+    }
+
+    /**
+     *  get specific or all plugin directories
+     *
+     * @param $dir
+     * @return array|bool|string
+     */
+    public function getPluginDir($dir)
+    {
+        return $this->config()->getDirectoryHandler()->getPluginDir($dir);
+    }
+
+    /**
+     * adds a new template directory
+     *
+     * @param $dir
+     * @return mixed
+     */
+    public function addTemplateDir($dir)
+    {
+        return $this->config()->getDirectoryHandler()->addTemplateDir($dir);
+    }
+
+    /**
+     * get specific or all template directories
+     *
+     * @param $dir
+     * @return array|bool|string
+     */
+    public function getTemplateDir($dir)
+    {
+        return $this->config()->getDirectoryHandler()->getTemplateDir($dir);
+    }
+
+    /**
+     * sets the cache directory
+     *
+     * @param $dir
+     * @return bool|Error
+     */
+    public function setCacheDir($dir)
+    {
+        return $this->config()->getDirectoryHandler()->setCacheDir($dir);
+    }
+
+    /**
+     * returns the current cache directory
+     *
+     * @param $dir
+     * @return array|bool|string
+     */
+    public function getCacheDir($dir)
+    {
+        return $this->config()->getDirectoryHandler()->getCacheDir($dir);
     }
 
 }

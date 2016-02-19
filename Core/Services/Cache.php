@@ -132,7 +132,7 @@ class Cache
     public function getCachePath($file)
     {
         # remove the template dir
-        foreach ($this->config->getTemplateDir() as $templateDir) {
+        foreach ($this->config->getDirectoryHandler()->getTemplateDir() as $templateDir) {
             $file = str_replace($templateDir, "", $file);
         }
         # add cache directory and escape the slashes with an underscore
