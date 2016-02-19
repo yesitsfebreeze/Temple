@@ -3,6 +3,8 @@
 namespace Caramel;
 
 /**
+ * the main class for the caramel template engine
+ *
  * Class Caramel
  * @package Caramel
  */
@@ -11,7 +13,7 @@ class Caramel
 
 
     /**
-     * Configuration storage
+     * Configuration Storage
      * @var Config $config
      */
     private $config;
@@ -29,12 +31,10 @@ class Caramel
     function __construct()
     {
         try {
-
-            $this->config = new Config();
-            $this->setDirs();
-            $this->cache     = new Cache($this->config);
             $this->variables = new Storage();
-            $this->plugins   = new Plugins($this, $this->config, $this->variables);
+            $this->config    = new Config(__DIR__);
+            $this->cache     = new Cache($this);
+            $this->plugins   = new PluginLoader($this);
             $this->parser    = new Parser($this);
             $this->lexer     = new Lexer($this);
         } catch (\Exception $e) {
@@ -44,36 +44,49 @@ class Caramel
 
 
     /**
-     * Renders and displays the passed file
+     * Renders and includes the passed file
+     *
      * @param $file
      */
     public function display($file)
     {
-        if ($this->cache->isModified($file)) {
-            $lexed = $this->lexer->lex($file);
-            $this->parser->parse($lexed["file"], $lexed["dom"]);
-        }
-        include $this->cache->getCachePath($file);
+        $file = $this->parse($file);
+        include $file;
     }
 
     /**
      * Renders and returns the passed file
+     *
      * @param $file
      * @return string
      */
     public function fetch($file)
     {
+        $file = $this->parse($file);
+
+        return file_get_contents($file);
+    }
+
+
+    /**
+     * parsed a template file
+     *
+     * @param $file
+     * @return mixed|string
+     */
+    private function parse($file)
+    {
         if ($this->cache->isModified($file)) {
             $lexed = $this->lexer->lex($file);
             $this->parser->parse($lexed["file"], $lexed["dom"]);
         }
 
-        return file_get_contents($this->cache->getCachePath($file));
+        return $this->cache->getCachePath($file);
     }
-
 
     /**
      * getter for the config
+     *
      * @return Config
      */
     public function config()
@@ -83,15 +96,73 @@ class Caramel
 
     /**
      * getter for the variables
+     *
+     * @param $name
      * @return Config
      */
-    public function variables()
+    public function getVariables($name = NULL)
     {
-        return $this->variables;
+        try {
+            if (!is_null($name)) {
+                if ($this->variables->has($name)) {
+                    return $this->variables->get($name);
+                } else {
+                    return false;
+                }
+            } else {
+                return $this->variables;
+            }
+        } catch (\Exception $e) {
+            return new Error($e);
+        }
     }
+
+
+    /**
+     * getter for the variables
+     *
+     * @param $name
+     * @param bool|false $value
+     * @return Config
+     */
+    public function setVariable($name = NULL, $value = NULL)
+    {
+        try {
+            if (!is_null($value)) {
+                return $this->variables->set($name, $value);
+            } else {
+                return false;
+            }
+        } catch (\Exception $e) {
+            return new Error($e);
+        }
+    }
+
+
+    /**
+     * getter for the variables
+     *
+     * @param $name
+     * @param bool|false $value
+     * @return Config
+     */
+    public function unsetVariable($name = NULL)
+    {
+        try {
+            if (!is_null($name)) {
+                return $this->variables->set($name, NULL);
+            } else {
+                return false;
+            }
+        } catch (\Exception $e) {
+            return new Error($e);
+        }
+    }
+
 
     /**
      * replaces the default debug template
+     *
      * @return Config
      */
     public function changeDebugTemplate($file)
@@ -100,53 +171,4 @@ class Caramel
         return true;
     }
 
-
-    /**
-     * function to assign or get data to/from our variables
-     * if value is not set it will return the data
-     * @param $name
-     * @param bool|false $value
-     * @return bool|mixed
-     */
-    public function data($name = false, $value = NULL)
-    {
-        try {
-            if (!is_null($value)) {
-                return $this->variables->set($name, $value);
-            } else {
-                if ($this->variables->has($name)) {
-                    return $this->variables->get($name);
-                } else {
-                    return false;
-                }
-            }
-        } catch (\Exception $e) {
-            return new Error($e);
-        }
-
-    }
-
-
-    /**
-     * function to delete stuff from the variables
-     * @param bool|false $name
-     * @return bool|Error
-     */
-    public function unsetData($name = false)
-    {
-        try {
-            return $this->variables->set($name, NULL);
-        } catch (\Exception $e) {
-            return new Error($e);
-        }
-    }
-
-    /**
-     * initially sets the required directories
-     */
-    private function setDirs()
-    {
-        $this->config->set("frameworkDir", __DIR__ . "/");
-        $this->config->setCacheDir($this->config->get("cache_dir"));
-    }
 }

@@ -8,11 +8,17 @@ namespace Caramel;
  */
 class Config extends Storage
 {
+
+    /** @var string $root */
+    private $root;
+
     /**
      * add default config file on construct
+     * @param $root
      */
-    public function __construct()
+    public function __construct($root)
     {
+        $this->root = $root;
         $this->addConfigFile(__DIR__ . "/../../default_config.php");
     }
 
@@ -243,7 +249,17 @@ class Config extends Storage
         $this->set("plugins/dirs", array());
         # add the internal plugin directory
         $this->addPluginDir(__DIR__ . '/../Plugins/');
+        $this->setDirs();
 
+    }
+
+    /**
+     * initially sets the required directories
+     */
+    private function setDirs()
+    {
+        $this->set("frameworkDir", $this->root . "/");
+        $this->setCacheDir($this->get("cache_dir"));
     }
 
 }

@@ -23,11 +23,11 @@ class Cache
 
     /**
      * Cache constructor.
-     * @param Config $config
+     * @param Caramel $caramel
      */
-    public function __construct(Config $config)
+    public function __construct(Caramel $caramel)
     {
-        $this->config       = $config;
+        $this->config       = $caramel->config();
         $this->dependencies = array();
     }
 

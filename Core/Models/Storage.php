@@ -2,10 +2,13 @@
 
 namespace Caramel;
 
-use Exception as namespacedException;
+use Exception as exception;
 
 
 /**
+ * this class handles all data storage
+ * deep array setters and getters are separated by "/"
+ *
  * Class Storage
  * @package Caramel
  */
@@ -16,6 +19,8 @@ class Storage
     private $storage;
 
     /**
+     * merge an array into the storage
+     *
      * @param array $array
      */
     public function merge($array)
@@ -29,23 +34,27 @@ class Storage
 
 
     /**
+     * returns a value from the storage
+     *
      * @param string $path
      * @return array
-     * @throws namespacedException
+     * @throws exception
      */
     public function get($path = NULL)
     {
         try {
             return $this->getter($path);
-        } catch (namespacedException $e) {
+        } catch (exception $e) {
             return new Error($e);
         }
     }
 
     /**
+     * returns if the storage has the passed value
+     *
      * @param string $path
      * @return array
-     * @throws Exception
+     * @throws exception
      */
     public function has($path)
     {
@@ -53,39 +62,14 @@ class Storage
             $this->getter($path);
 
             return true;
-        } catch (Exception $e) {
+        } catch (exception $e) {
             return false;
         }
     }
 
     /**
-     * @param $path
-     * @return array
-     * @throws namespacedException
-     */
-    private function getter($path)
-    {
-        $storage = $this->storage;
-        if ($path) {
-            $paths = $this->getPath($path);
-            foreach ($paths as $position => $key) {
-                if (!isset($storage[ $key ])) {
-                    # if path is not set throw error
-                    throw new namespacedException("Sorry, '{$path}' is undefined!");
-                } else {
-                    # reference back to current key
-                    $storage = $storage[ $key ];
-                }
-            }
-
-            return $storage;
-        } else {
-            # if nothing is defined just return whole config
-            return $storage;
-        }
-    }
-
-    /**
+     * sets a value to the storage
+     *
      * @param $path
      * @param $value
      * @return bool
@@ -96,8 +80,47 @@ class Storage
             $this->setter($path, $value);
 
             return true;
-        } catch (namespacedException $e) {
+        } catch (exception $e) {
             return false;
+        }
+    }
+
+
+    /**
+     * @param $path
+     * @return bool
+     */
+    public function delete($path)
+    {
+        $this->set($path, NULL);
+    }
+
+    /**
+     * the method to set data
+     *
+     * @param $path
+     * @return array
+     * @throws exception
+     */
+    private function getter($path)
+    {
+        $storage = $this->storage;
+        if ($path) {
+            $paths = $this->getPath($path);
+            foreach ($paths as $position => $key) {
+                if (!isset($storage[ $key ])) {
+                    # if path is not set throw error
+                    throw new exception("Sorry, '{$path}' is undefined!");
+                } else {
+                    # reference back to current key
+                    $storage = $storage[ $key ];
+                }
+            }
+
+            return $storage;
+        } else {
+            # if nothing is defined just return whole config
+            return $storage;
         }
     }
 
@@ -131,23 +154,16 @@ class Storage
         return $storage;
     }
 
-    /**
-     * @param $path
-     * @return bool
-     */
-    public function delete($path)
-    {
-        $this->set($path, NULL);
-    }
-
 
     /**
+     * returns the path as an array
+     *
      * @param $path
      * @return array|mixed
      */
     private function getPath($path)
     {
-        #remove last / if existent
+        # remove last / if existent
         $path = preg_replace('/\/$/', '', $path);
         # get path array
         $path = explode("/", $path);

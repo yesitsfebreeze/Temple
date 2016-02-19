@@ -39,7 +39,7 @@ class CaramelIdentifierVar extends IdentifierBase
             $node->set("display", false);
             $name  = $this->getVariableName($node);
             $value = $this->parseVariable($node);
-            $this->caramel->data($name, $value);
+            $this->caramel->setVariable($name, $value);
         }
 
         return $node;
@@ -90,7 +90,7 @@ class CaramelIdentifierVar extends IdentifierBase
 
         if ($value[0] == "@") {
             $var = $this->getVariableName(false,$value);
-            return $this->caramel->data($var);
+            return $this->caramel->getVariables($var);
         } else {
             # test if we have a forced string
             $isString = false;

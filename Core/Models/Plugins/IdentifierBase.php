@@ -26,7 +26,7 @@ abstract class IdentifierBase
     {
         $this->caramel      = $caramel;
         $this->config    = $caramel->config();
-        $this->variables = $caramel->variables();
+        $this->variables = $caramel->getVariables();
     }
 
     /**
