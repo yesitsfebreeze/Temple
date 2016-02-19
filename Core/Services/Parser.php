@@ -161,7 +161,7 @@ class Parser
     }
 
     /**
-     * @param $dom
+     * @param $output
      * @return Error
      * @throws Exception
      */
@@ -177,7 +177,6 @@ class Parser
      */
     private function iteratePlugins($element, $type)
     {
-        /** @var PluginBase $plugin */
         foreach ($this->plugins as $key => $position) {
             foreach ($position as $plugin) {
                 try {

@@ -127,8 +127,6 @@ else
 
 TODO: add default setting for cache dir
 
-TODO: define a main function to resolve absolute and relative paths
-
 TODO: implement dynamic cache functionality
 
 TODO: implement imports

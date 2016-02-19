@@ -19,7 +19,9 @@ class Config extends Storage
     public function __construct($root)
     {
         $this->root = $root;
-        $this->addConfigFile(__DIR__ . "/../../default_config.php");
+
+        # adding the default configuration
+        $this->addConfigFile($this->root . "config.php");
     }
 
     /**
