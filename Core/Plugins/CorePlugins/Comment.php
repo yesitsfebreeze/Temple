@@ -5,7 +5,7 @@ namespace Caramel;
 
 /**
  *
- * Class Caramel__Plugin_Comment
+ * Class PluginComment
  *
  * @purpose: converts line to comment with all of its children
  * @usage: # at linestart
