@@ -106,26 +106,25 @@ class Lexer
         $this->node->set("file", $this->file);
         $this->node->set("level", $this->level);
         $this->node->set("line", $this->lineNo);
-        $this->node->set("indent", $indent);
-        $this->node->set("tag", $tag);
-        $this->node->set("display", true);
-
-        $this->node->set("start/display", true);
-        $this->node->set("start/prefix", "<");
-        $this->node->set("start/tag", $tag);
-        $this->node->set("start/postfix", ">");
-
-        $this->node->set("end/display", true);
-        $this->node->set("end/prefix", "</");
-        $this->node->set("end/tag", $tag);
-        $this->node->set("end/postfix", ">");
-
-        $this->node->set("attributes", $attributes);
-        $this->node->set("process_plugins", true);
         $this->node->set("plain", $line);
+        $this->node->set("indent", $indent);
+        $this->node->set("attributes", $attributes);
+        $this->node->set("display", true);
+        $this->node->set("plugins", true);
         $this->node->set("self_closing", $this->isSelfClosing($this->node));
         $this->node->set("has_children", false);
         $this->node->set("children", array());
+
+        $this->node->set("tag/name", $tag);
+        $this->node->set("tag/opening/display", true);
+        $this->node->set("tag/opening/prefix", "<");
+        $this->node->set("tag/opening/tag", $tag);
+        $this->node->set("tag/opening/postfix", ">");
+        $this->node->set("tag/closing/display", true);
+        $this->node->set("tag/closing/prefix", "</");
+        $this->node->set("tag/closing/tag", $tag);
+        $this->node->set("tag/closing/postfix", ">");
+
         # add the node to our dom
         # all the logic of children/parent behaviour happens here
         $this->createDom();

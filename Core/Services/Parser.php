@@ -85,11 +85,11 @@ class Parser
             /** @var storage $node */
 
             # open the tag
-            if ($node->get("display") && $node->get("start/display")) {
-                $output .= $node->get("start/prefix");
-                $output .= $node->get("start/tag");
+            if ($node->get("display") && $node->get("tag/opening/display")) {
+                $output .= $node->get("tag/opening/prefix");
+                $output .= $node->get("tag/opening/tag");
                 $output .= $node->get("attributes");
-                $output .= $node->get("start/postfix");
+                $output .= $node->get("tag/opening/postfix");
             }
 
             # recursively iterate over the children
@@ -104,11 +104,11 @@ class Parser
             }
 
             # close the tag
-            if ($node->get("display") && $node->get("end/display")) {
+            if ($node->get("display") && $node->get("tag/closing/display")) {
                 if (!$node->get("self_closing")) {
-                    $output .= $node->get("end/prefix");
-                    $output .= $node->get("end/tag");
-                    $output .= $node->get("end/postfix");
+                    $output .= $node->get("tag/closing/prefix");
+                    $output .= $node->get("tag/closing/tag");
+                    $output .= $node->get("tag/closing/postfix");
                 }
             }
         }
@@ -185,7 +185,7 @@ class Parser
                     }
                     if ($type == "plugins") {
                         # only process if it's not disabled
-                        if ($element->get("process_plugins")) {
+                        if ($element->get("plugins")) {
                             $element = $plugin->process($element);
                         }
                     }
