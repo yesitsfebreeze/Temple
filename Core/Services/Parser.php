@@ -88,14 +88,16 @@ class Parser
             if ($node->get("display") && $node->get("tag/opening/display")) {
                 $output .= $node->get("tag/opening/prefix");
                 $output .= $node->get("tag/opening/tag");
+                if ($node->get("tag/opening/tag") != "") {
+                    $output .= " ";
+                }
                 $output .= $node->get("attributes");
                 $output .= $node->get("tag/opening/postfix");
             }
 
             # recursively iterate over the children
-
-            if ($node->get("has_children")) {
-                if (!$node->get("self_closing")) {
+            if ($node->has("children")) {
+                if (!$node->get("selfclosing")) {
                     $children = $node->get("children");
                     $output .= $this->output($children);
                 } else {
@@ -105,7 +107,7 @@ class Parser
 
             # close the tag
             if ($node->get("display") && $node->get("tag/closing/display")) {
-                if (!$node->get("self_closing")) {
+                if (!$node->get("selfclosing")) {
                     $output .= $node->get("tag/closing/prefix");
                     $output .= $node->get("tag/closing/tag");
                     $output .= $node->get("tag/closing/postfix");
@@ -140,7 +142,7 @@ class Parser
 
             # check of node has children,
             # if so process each of them recursively
-            if ($node->get("has_children")) {
+            if ($node->has("children")) {
                 $children = &$node->get("children");
                 $this->processPlugins($children);
             }
@@ -187,6 +189,9 @@ class Parser
                         # only process if it's not disabled
                         if ($element->get("plugins")) {
                             $element = $plugin->process($element);
+                            if (!($element instanceof Node)) {
+                                throw new \Exception("You need to return the node in your plugin!");
+                            }
                         }
                     }
                     if ($type == "post") {

@@ -108,14 +108,13 @@ class Lexer
         $this->node->set("line", $this->lineNo);
         $this->node->set("plain", $line);
         $this->node->set("indent", $indent);
-        $this->node->set("attributes", $attributes);
+        $this->node->set("attributes", trim($attributes));
         $this->node->set("display", true);
         $this->node->set("plugins", true);
-        $this->node->set("self_closing", $this->isSelfClosing($this->node));
-        $this->node->set("has_children", false);
+        $this->node->set("selfclosing", $this->isSelfClosing($this->node));
         $this->node->set("children", array());
 
-        $this->node->set("tag/name", $tag);
+        $this->node->set("tag/tag", $tag);
         $this->node->set("tag/opening/display", true);
         $this->node->set("tag/opening/prefix", "<");
         $this->node->set("tag/opening/tag", $tag);
@@ -204,7 +203,6 @@ class Lexer
         /** @var Storage $node */
         /** @var Storage $children */
         # get the selected nodes children
-        $node->set("has_children", true);
         $children = $node->get("children");
         # add our current node to them
         $children[] = $this->node;

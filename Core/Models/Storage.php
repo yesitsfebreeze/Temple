@@ -55,7 +55,13 @@ class Storage
     public function has($path)
     {
         try {
-            $this->getter($path);
+            $value = $this->getter($path);
+
+            if (gettype($value) == "array") {
+                if (sizeof($value) == 0) {
+                    return false;
+                }
+            }
 
             return true;
         } catch (\Exception $e) {

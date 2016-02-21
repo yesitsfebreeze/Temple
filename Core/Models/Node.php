@@ -74,13 +74,7 @@ class Node extends Storage
          * if the node is self closing or not
          * @var boolean
          */
-        $this->set("self_closing", NULL);
-
-        /**
-         * if the node has children or not
-         * @var bool
-         */
-        $this->set("has_children", NULL);
+        $this->set("selfclosing", NULL);
 
         /**
          * the node children
@@ -92,7 +86,7 @@ class Node extends Storage
          * the tag name
          * @var string
          */
-        $this->set("tag/name", NULL);
+        $this->set("tag/tag", NULL);
 
         /**
          * the tag name of the opening tag

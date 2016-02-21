@@ -66,8 +66,8 @@ abstract class Plugin
 
     /**
      * processes the actual node
-     * @var Storage $node
-     * @return Storage $node
+     * @var Node $node
+     * @return Node $node
      * hast to return $node
      */
     public function process($node)
