@@ -94,7 +94,7 @@ class Lexer
     private function createNode($line)
     {
         # create a new storage for the node
-        $this->node = new Storage();
+        $this->node = new Node();
 
         # get the information for our node
         $indent     = $this->getIndent($line);

@@ -17,9 +17,6 @@ class PluginLoader
     /*** @var array $plugins */
     private $plugins = array();
 
-    /*** @var array $pluginTypes */
-    private $pluginTypes = ["Identifier", "Function"];
-
     /**
      * Plugins constructor.
      * @param Caramel $caramel
@@ -38,7 +35,7 @@ class PluginLoader
      */
     private function getPlugins()
     {
-        $dirs    = $this->config->get("plugins/dirs");
+        $dirs = $this->config->get("plugins/dirs");
         # iterate all plugin directories
         foreach ($dirs as $dir) {
             # search the directory recursively to get all plugins
@@ -61,19 +58,14 @@ class PluginLoader
         if (strrev(substr(strrev($pluginFile), 0, 4)) == ".php") {
             # add a string to the file name to ensure we have a string
             $pluginFile = $pluginFile . '';
-            foreach ($this->pluginTypes as $type) {
-                if (strpos($pluginFile, $type) !== false) {
-                    $this->loadPlugin($pluginFile,$type);
-                }
-            }
+            $this->loadPlugin($pluginFile);
         }
     }
 
     /**
      * @param $pluginFile
-     * @param $type
      */
-    private function loadPlugin($pluginFile, $type)
+    private function loadPlugin($pluginFile)
     {
         # magic require
         require_once $pluginFile;
@@ -82,7 +74,7 @@ class PluginLoader
         $pluginName = strrev(explode("/", strrev(str_replace(".php", "", $pluginFile)))[0]);
         $pluginName = strtoupper($pluginName[0]) . substr($pluginName, 1);
 
-        $pluginClass = "\\" . __NAMESPACE__ . "\\" . "Caramel" . $type . "" . $pluginName;
+        $pluginClass = "\\" . __NAMESPACE__ . "\\" . "Plugin" . $pluginName;
         if (class_exists($pluginClass)) {
             # create a new instance of the plugin
             $plugin = new $pluginClass($this->caramel);
@@ -90,7 +82,7 @@ class PluginLoader
             $this->addPlugin($plugin->getPosition(), $plugin);
         } else {
             $pluginClass = str_replace("\\Caramel\\", "", $pluginClass);
-            new Error("You need to define the class '$pluginClass'  !", $pluginFile);
+            new Error("You need to define the Caramel namespaced class '$pluginClass'  !", $pluginFile);
         }
     }
 

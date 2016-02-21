@@ -22,7 +22,7 @@ namespace Caramel;
  * @package Caramel
  *
  */
-class CaramelFunctionFor extends FunctionBase
+class PluginFor extends FunctionPlugin
 {
 
     /**

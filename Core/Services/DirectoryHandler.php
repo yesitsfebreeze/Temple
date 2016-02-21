@@ -79,6 +79,11 @@ class DirectoryHandler
      */
     public function setCacheDir($dir)
     {
+
+        $dir = preg_replace("/\/$/","",$dir);
+        if (array_reverse(explode("/",$dir))[0] != "Caramel") $dir = preg_replace("/\/$/","",$dir) . "/Caramel";
+        $dir = $dir . "/";
+
         return $this->addDirectory($dir, "cache_dir", true);
     }
 

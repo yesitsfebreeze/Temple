@@ -2,8 +2,6 @@
 
 namespace Caramel;
 
-use Exception as exception;
-
 
 /**
  * this class handles all data storage
@@ -38,13 +36,12 @@ class Storage
      *
      * @param string $path
      * @return array
-     * @throws exception
      */
     public function get($path = NULL)
     {
         try {
             return $this->getter($path);
-        } catch (exception $e) {
+        } catch (\Exception $e) {
             return new Error($e);
         }
     }
@@ -54,7 +51,6 @@ class Storage
      *
      * @param string $path
      * @return array
-     * @throws exception
      */
     public function has($path)
     {
@@ -62,14 +58,12 @@ class Storage
             $this->getter($path);
 
             return true;
-        } catch (exception $e) {
+        } catch (\Exception $e) {
             return false;
         }
     }
 
     /**
-     * sets a value to the storage
-     *
      * @param $path
      * @param $value
      * @return bool
@@ -80,7 +74,7 @@ class Storage
             $this->setter($path, $value);
 
             return true;
-        } catch (exception $e) {
+        } catch (\Exception $e) {
             return false;
         }
     }
@@ -100,7 +94,7 @@ class Storage
      *
      * @param $path
      * @return array
-     * @throws exception
+     * @throws \Exception
      */
     private function getter($path)
     {
@@ -110,7 +104,7 @@ class Storage
             foreach ($paths as $position => $key) {
                 if (!isset($storage[ $key ])) {
                     # if path is not set throw error
-                    throw new exception("Sorry, '{$path}' is undefined!");
+                    throw new \Exception("Sorry, '{$path}' is undefined!");
                 } else {
                     # reference back to current key
                     $storage = $storage[ $key ];

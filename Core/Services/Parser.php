@@ -123,7 +123,7 @@ class Parser
      */
     private function preProcessPlugins($dom)
     {
-        return $this->iteratePlugins($dom, "pre");
+        return $this->executePlugins($dom, "pre");
     }
 
     /**
@@ -136,7 +136,7 @@ class Parser
         /** @var Storage $node */
         foreach ($nodes as &$node) {
             # process current node
-            $node = $this->iteratePlugins($node, "plugins");
+            $node = $this->executePlugins($node, "plugins");
 
             # check of node has children,
             # if so process each of them recursively
@@ -157,7 +157,7 @@ class Parser
      */
     private function postProcessPlugins($dom)
     {
-        return $this->iteratePlugins($dom, "post");
+        return $this->executePlugins($dom, "post");
     }
 
     /**
@@ -167,7 +167,7 @@ class Parser
      */
     private function processOutputPlugins($output)
     {
-        return $this->iteratePlugins($output, "output");
+        return $this->executePlugins($output, "output");
     }
 
     /**
@@ -175,7 +175,7 @@ class Parser
      * @param $type
      * @return mixed|Error
      */
-    private function iteratePlugins($element, $type)
+    private function executePlugins($element, $type)
     {
         foreach ($this->plugins as $key => $position) {
             foreach ($position as $plugin) {

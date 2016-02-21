@@ -11,6 +11,9 @@ $config = array(
     # directory where we want the cache to be located at
     "cache_dir" => "cache",
 
+    # the symbol used for identifying comments
+    "comment_symbol" => "#",
+
     # display comments in the frontend
     "show_comments" => true,
 

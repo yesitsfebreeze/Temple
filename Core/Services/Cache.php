@@ -113,6 +113,36 @@ class Cache
         return $this->content;
     }
 
+    public function clearCache()
+    {
+        $cacheDir = $this->config->getDirectoryHandler()->getCacheDir();
+
+        return $this->recursiveDirectoryRemove($cacheDir);
+    }
+
+    /**
+     * @param $dir
+     * @return bool|Error
+     */
+    private function recursiveDirectoryRemove($dir)
+    {
+        try {
+            foreach (scandir($dir) as $item) {
+                if ($item != '..' && $item != '.') {
+                    $item = $dir . "/" . $item;
+                    if (!is_dir($item)) {
+                        unlink($item);
+                    } else {
+                        $this->recursiveDirectoryRemove($item);
+                    }
+                }
+            }
+            return rmdir($dir);
+        } catch (\Exception $e) {
+            return new Error($e);
+        }
+    }
+
     /**
      * @param $file
      * @throws \Exception
@@ -139,8 +169,8 @@ class Cache
         # add cache directory and escape the slashes with an underscore
         $DirectoryHandler->setCacheDir($this->config->get("cache_dir"));
         $cacheDir = $this->config->get("cache_dir") . "/tempalte/";
-        if (!is_dir($cacheDir)) mkdir($cacheDir,0777);
-        $file     = $cacheDir . str_replace("/", '_', $file);
+        if (!is_dir($cacheDir)) mkdir($cacheDir, 0777);
+        $file = $cacheDir . str_replace("/", '_', $file);
         # make sure we have a php extension
         $file = $this->createFileExtension($file);
 

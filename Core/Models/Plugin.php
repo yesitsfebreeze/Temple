@@ -3,37 +3,54 @@
 namespace Caramel;
 
 /**
- *
- * to implement a plugin, you have to follow a name convention.
- * The File name represents the plugin class name.
- * Each Plugin class has to be prefixed with with Caramel_Plugin_
- *
- * Example given:
- *      filename = MyPlugin.php
- *      classname = Caramel_Plugin_MyPlugin
- *
- *
- * Class Caramel_Plugin_MyPlugin
- *
- * @purpose: explains how to use plugins
- * @usage: none
- * @autor: Stefan Hövelmanns
- * @License: MIT
+ * Class Plugin
  * @package Caramel
- *
  */
-class CaramelFunctionIF extends FunctionBase
+abstract class Plugin
 {
 
+    /** @var  Config $config */
+    public $config;
+
+    /** @var  Storage $variables */
+    public $variables;
+
+    /** @var  integer $position */
+    protected $position;
+
     /**
-     *
-     * the parsing position
-     *
-     * @var int $position
+     * Plugin constructor.
+     * @param Caramel $caramel
      */
-    public $position = 0;
+    public function __construct(Caramel $caramel)
+    {
+        $this->caramel   = $caramel;
+        $this->config    = $caramel->config();
+        $this->variables = $caramel->getVariables();
+    }
+
+    /**
+     * @return int
+     * @throws \Exception
+     */
+    public function getPosition()
+    {
+        if (!is_null($this->position)) {
+            return $this->position;
+        } else {
+            $pluginName = str_replace("\\", "&#92;", get_class($this));
+            throw new \Exception("you need to set a position for " . $pluginName . "!");
+        }
+    }
 
 
+    /**
+     * @return string
+     */
+    public function getName()
+    {
+        return str_replace('Caramel\Plugin', "", get_class($this));
+    }
 
     /**
      * this is called before we even touch a node
@@ -81,6 +98,5 @@ class CaramelFunctionIF extends FunctionBase
     {
         return $output;
     }
-
 
 }

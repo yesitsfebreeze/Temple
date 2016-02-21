@@ -21,7 +21,7 @@ class Config extends Storage
      */
     public function __construct($root)
     {
-        $this->root             = $root;
+        $this->root = $root;
         # adding the default configuration
         $this->addConfigFile($this->root . "/config.php");
         $this->DirectoryHandler = new DirectoryHandler($this);
@@ -67,7 +67,8 @@ class Config extends Storage
     private function setDirectories()
     {
         $this->set("frameworkDir", $this->root . "/");
-        $this->DirectoryHandler->addPluginDir(__DIR__ . '/../Plugins/');
+        $this->set("cache_dir", $this->get("cache_dir"));
+        $this->DirectoryHandler->addPluginDir(($this->root . "/Core/Plugins/CorePlugins"));
     }
 
     /**
