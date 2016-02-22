@@ -25,7 +25,7 @@ namespace Caramel;
 class PluginVar extends Plugin
 {
 
-    public $position = 0;
+    public $position = 9999999991;
 
     /**
      * @var Storage $node
@@ -52,7 +52,7 @@ class PluginVar extends Plugin
     private function parseVariable($node)
     {
         $value = $node->get("attributes");
-        if ($node->get("has_children")) {
+        if ($node->has("children")) {
             $children = $node->get("children");
 
             $array = array();
@@ -85,12 +85,13 @@ class PluginVar extends Plugin
     {
 
         if (gettype($value) == "string") {
-            $value    = trim($value);
+            $value = trim($value);
         }
 
         if ($value[0] == "@") {
-            $var = $this->getVariableName(false,$value);
-            return $this->caramel->getVariables($var);
+            $var = $this->getVariableName(false, $value);
+
+            return $this->caramel->getVariable($var);
         } else {
             # test if we have a forced string
             $isString = false;
@@ -124,13 +125,23 @@ class PluginVar extends Plugin
      * @param $name string
      * @return string
      */
-    private function getVariableName($node,$name = "")
+    private function getVariableName($node, $name = "")
     {
         if ($name == "") $name = $node->get("tag/tag");
         $name = preg_replace("/^@/", "", $name);
         $name = preg_replace("/\./", "/", $name);
 
         return $name;
+    }
+
+
+    public function processOutput($output)
+    {
+
+        $output = preg_replace("/\{\{@(.*?)\}\}/", '<?php $__CRML->getVariable("$1") ?>', $output);
+        $output = preg_replace("/\{@(.*?)\}/", '<?php echo $__CRML->getVariable("$1") ?>', $output);
+
+        return $output;
     }
 
 }

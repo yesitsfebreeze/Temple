@@ -44,6 +44,8 @@ class Parser
     {
         $this->dom = $dom;
 
+        $this->cache->save($file, "");
+
         if (empty($this->dom)) return false;
         # the returns make sure that the parse process
         # stops if we have an empty dom
@@ -62,6 +64,7 @@ class Parser
 
         # process the output plugins
         if (trim($this->output) == "") return false;
+
         $this->output = $this->processOutputPlugins($this->output);
 
         $this->cache->save($file, $this->output);
@@ -81,14 +84,16 @@ class Parser
             /** @var Node $node */
 
             # open the tag
-            if ($node->get("display") && $node->get("tag/opening/display")) {
-                $output .= $node->get("tag/opening/prefix");
-                $output .= $node->get("tag/opening/tag");
-                if ($node->get("tag/opening/tag") != "") {
-                    $output .= " ";
+            if ($node->get("tag/display")) {
+                if ($node->get("display") && $node->get("tag/opening/display")) {
+                    $output .= $node->get("tag/opening/prefix");
+                    $output .= $node->get("tag/opening/tag");
+                    if ($node->get("tag/opening/tag") != "") {
+                        $output .= " ";
+                    }
+                    $output .= $node->get("attributes");
+                    $output .= $node->get("tag/opening/postfix");
                 }
-                $output .= $node->get("attributes");
-                $output .= $node->get("tag/opening/postfix");
             }
 
             if ($node->has("content")) {
@@ -109,11 +114,13 @@ class Parser
             }
 
             # close the tag
-            if ($node->get("display") && $node->get("tag/closing/display")) {
-                if (!$node->get("selfclosing")) {
-                    $output .= $node->get("tag/closing/prefix");
-                    $output .= $node->get("tag/closing/tag");
-                    $output .= $node->get("tag/closing/postfix");
+            if ($node->get("tag/display")) {
+                if ($node->get("display") && $node->get("tag/closing/display") && $node->get("tag/display")) {
+                    if (!$node->get("selfclosing")) {
+                        $output .= $node->get("tag/closing/prefix");
+                        $output .= $node->get("tag/closing/tag");
+                        $output .= $node->get("tag/closing/postfix");
+                    }
                 }
             }
         }

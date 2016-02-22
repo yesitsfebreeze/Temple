@@ -18,7 +18,7 @@ class PluginIds extends Plugin
 {
 
     /** @var int $position */
-    protected $position = 1;
+    protected $position = 4;
 
     /**
      * @param Node $node

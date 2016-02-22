@@ -123,8 +123,10 @@ function test param1 param2
 	php
 		echo param1
 		echo param2
-	
 
+
+
+TODO: variables need namespacing/scoping
 
 
 TODO: implement dynamic cache functionality

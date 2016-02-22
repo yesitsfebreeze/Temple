@@ -18,7 +18,7 @@ class PluginComment extends Plugin
 {
 
     /** @var int $position */
-    protected $position = 0;
+    protected $position = 2;
 
     /**
      * @param Node $node

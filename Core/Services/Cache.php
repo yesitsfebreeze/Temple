@@ -93,7 +93,7 @@ class Cache
     public function save($file, $content)
     {
         if ($this->config->get("file_header")) {
-            $content = "<!-- " . $this->config->get("file_header") . " -->\n" . $content;
+            $content = "<!-- " . $this->config->get("file_header") . " -->" . $content;
         }
 
         $this->createDependencyFile($file);

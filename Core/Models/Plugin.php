@@ -26,7 +26,7 @@ abstract class Plugin
     {
         $this->caramel   = $caramel;
         $this->config    = $caramel->config();
-        $this->variables = $caramel->getVariables();
+        $this->variables = $caramel->getVariable();
     }
 
     /**

@@ -51,8 +51,10 @@ class Caramel
      */
     public function display($file)
     {
-        $file = $this->parse($file);
-        include $file;
+        $templateFile = $this->parse($file);
+        # scoped Caramel
+        $__CRML = $this;
+        include $templateFile;
     }
 
     /**
@@ -63,9 +65,9 @@ class Caramel
      */
     public function fetch($file)
     {
-        $file = $this->parse($file);
+        $templateFile = $this->parse($file);
 
-        return file_get_contents($file);
+        return file_get_contents($templateFile);
     }
 
 
@@ -96,12 +98,13 @@ class Caramel
     }
 
     /**
-     * getter for the variables
+     * getter for the variable
+     * if name is not set it will return all variables
      *
      * @param $name
      * @return Config
      */
-    public function getVariables($name = NULL)
+    public function getVariable($name = NULL)
     {
         try {
             if (!is_null($name)) {

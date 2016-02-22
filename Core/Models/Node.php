@@ -24,6 +24,12 @@ class Node extends Storage
         $this->set("tag/tag", NULL);
 
         /**
+         * if we want to display the tags
+         * @var string
+         */
+        $this->set("tag/display", NULL);
+
+        /**
          * the tag name of the opening tag
          * @var string
          */

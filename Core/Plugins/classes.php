@@ -18,7 +18,7 @@ class PluginClasses extends Plugin
 {
 
     /** @var int $position */
-    protected $position = 1;
+    protected $position = 3;
 
     /**
      * @param Node $node

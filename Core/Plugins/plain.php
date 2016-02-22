@@ -32,7 +32,7 @@ class PluginPlain extends Plugin
 {
 
     /** @var int $position */
-    protected $position = 25;
+    protected $position = 1;
 
     /**
      * @param Node $node

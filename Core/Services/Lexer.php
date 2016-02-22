@@ -103,6 +103,7 @@ class Lexer
 
         # add everything we need to our node
         $this->node->set("tag/tag", $tag);
+        $this->node->set("tag/display", true);
         $this->node->set("tag/opening/display", true);
         $this->node->set("tag/opening/prefix", "<");
         $this->node->set("tag/opening/tag", $tag);
@@ -288,10 +289,11 @@ class Lexer
         # trim it to remove all unnecessary whitespace
         # prepend a space to prevent stitching the attributes to the tag name
 
-        $line       = trim($line);
+        $line = trim($line);
 
         $attributes = " " . preg_replace("/^$tag/", "", $line);
         if (trim($attributes) == "") return "";
+
         return $attributes;
     }
 

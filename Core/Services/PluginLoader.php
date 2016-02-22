@@ -25,7 +25,7 @@ class PluginLoader
     {
         $this->caramel   = $caramel;
         $this->config    = $caramel->config();
-        $this->variables = $caramel->getVariables();
+        $this->variables = $caramel->getVariable();
         $plugins         = $this->getPlugins();
         $this->config->set("plugins/registered", $plugins);
     }
