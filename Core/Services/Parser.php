@@ -94,13 +94,20 @@ class Parser
                 $output .= $node->get("tag/opening/postfix");
             }
 
+            if ($node->has("content")) {
+                $content = $node->get("content");
+                if (gettype($content) == "string") {
+                    $output .= $content;
+                }
+            }
+
             # recursively iterate over the children
             if ($node->has("children")) {
                 if (!$node->get("selfclosing")) {
                     $children = $node->get("children");
                     $output .= $this->output($children);
                 } else {
-                    new Error("You can't have children in an " . $node->get("tag") . "!", $node->get("file"), $node->get("line"));
+                    new Error("You can't have children in an " . $node->get("tag/tag") . "!", $node->get("file"), $node->get("line"));
                 }
             }
 

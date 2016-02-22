@@ -102,6 +102,16 @@ class Lexer
         $attributes = $this->getAttributes($line, $tag);
 
         # add everything we need to our node
+        $this->node->set("tag/tag", $tag);
+        $this->node->set("tag/opening/display", true);
+        $this->node->set("tag/opening/prefix", "<");
+        $this->node->set("tag/opening/tag", $tag);
+        $this->node->set("tag/opening/postfix", ">");
+        $this->node->set("tag/closing/display", true);
+        $this->node->set("tag/closing/prefix", "</");
+        $this->node->set("tag/closing/tag", $tag);
+        $this->node->set("tag/closing/postfix", ">");
+
         $this->node->set("namespace", $this->namespace);
         $this->node->set("file", $this->file);
         $this->node->set("level", $this->level);
@@ -113,16 +123,6 @@ class Lexer
         $this->node->set("plugins", true);
         $this->node->set("selfclosing", $this->isSelfClosing($this->node));
         $this->node->set("children", array());
-
-        $this->node->set("tag/tag", $tag);
-        $this->node->set("tag/opening/display", true);
-        $this->node->set("tag/opening/prefix", "<");
-        $this->node->set("tag/opening/tag", $tag);
-        $this->node->set("tag/opening/postfix", ">");
-        $this->node->set("tag/closing/display", true);
-        $this->node->set("tag/closing/prefix", "</");
-        $this->node->set("tag/closing/tag", $tag);
-        $this->node->set("tag/closing/postfix", ">");
 
         # add the node to our dom
         # all the logic of children/parent behaviour happens here
@@ -153,7 +153,7 @@ class Lexer
                 $this->node->set("parent", $this->prev);
                 # throw an error if the parent node is selfclosing
                 if ($this->isSelfClosing($this->node->get("parent"))) {
-                    $tag = $this->node->get("parent")->get("tag");
+                    $tag = $this->node->get("parent")->get("tag/tag");
                     new Error("You can't have children in an $tag!", $this->file, $this->lineNo);
                 } else {
                     # otherwise add it to the children of the last node
@@ -178,6 +178,10 @@ class Lexer
         }
     }
 
+    /**
+     * @param Node|bool $parent
+     * @return bool|Node
+     */
     private function findParent($parent = false)
     {
         if (!$parent) {
@@ -217,9 +221,9 @@ class Lexer
      */
     private function isSelfClosing($node)
     {
-        /** @var Storage $node */
+        /** @var Node $node */
         # check if our tag is in the self closing array set in the config
-        if (in_array($node->get("tag"), $this->config->get("self_closing"))) return true;
+        if (in_array($node->get("tag/tag"), $this->config->get("self_closing"))) return true;
 
         return false;
     }
@@ -283,10 +287,11 @@ class Lexer
         # replace our tag in current line so we are left with the attributes
         # trim it to remove all unnecessary whitespace
         # prepend a space to prevent stitching the attributes to the tag name
-        $line       = trim($line);
-        $attributes = " " . str_replace($tag, "", $line);
-        if (trim($attributes) == "") return "";
 
+        $line       = trim($line);
+
+        $attributes = " " . preg_replace("/^$tag/", "", $line);
+        if (trim($attributes) == "") return "";
         return $attributes;
     }
 
@@ -365,7 +370,7 @@ class Lexer
 
         # if we found some files return them
         if (sizeof($files) > 0) return $files;
-        
+
         # otherwise throw an error
         return new Error("Can't find template file.", $file);
     }

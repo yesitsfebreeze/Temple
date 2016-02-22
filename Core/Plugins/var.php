@@ -34,7 +34,7 @@ class PluginVar extends Plugin
      */
     public function process($node)
     {
-        if ($node->get("tag")[0] == "@") {
+        if ($node->get("tag/tag")[0] == "@") {
             # hide it if we have a variable tag
             $node->set("display", false);
             $name  = $this->getVariableName($node);
@@ -126,7 +126,7 @@ class PluginVar extends Plugin
      */
     private function getVariableName($node,$name = "")
     {
-        if ($name == "") $name = $node->get("tag");
+        if ($name == "") $name = $node->get("tag/tag");
         $name = preg_replace("/^@/", "", $name);
         $name = preg_replace("/\./", "/", $name);
 

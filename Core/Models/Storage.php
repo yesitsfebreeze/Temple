@@ -35,7 +35,7 @@ class Storage
      * returns a value from the storage
      *
      * @param string $path
-     * @return array
+     * @return mixed
      */
     public function get($path = NULL)
     {
