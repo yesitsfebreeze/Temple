@@ -176,41 +176,34 @@ class Parser
     }
 
     /**
-     * @param array|Storage $element
+     * @param array|Node $element
      * @param $type
      * @return mixed|Error
      */
     private function executePlugins($element, $type)
     {
         foreach ($this->plugins as $key => $position) {
+            /** @var Plugin $plugin */
             foreach ($position as $plugin) {
                 try {
                     if ($type == "pre") {
                         $element = $plugin->preProcess($element);
-                        if (is_null($element)) {
-                            throw new \Exception("You need to return the dom in the preProcess method!");
-                        }
+                        $this->throwPluginError($element, $plugin, "preProcess", '$dom');
                     }
                     if ($type == "plugins") {
                         # only process if it's not disabled
                         if ($element->get("plugins")) {
                             $element = $plugin->process($element);
-                            if (is_null($element)) {
-                                throw new \Exception("You need to return the node in the process method!");
-                            }
+                            $this->throwPluginError($element, $plugin, 'process', '$node');
                         }
                     }
                     if ($type == "post") {
                         $element = $plugin->postProcess($element);
-                        if (is_null($element)) {
-                            throw new \Exception("You need to return the dom in the postProcess method!");
-                        }
+                        $this->throwPluginError($element, $plugin, 'postProcess', '$dom');
                     }
                     if ($type == "output") {
                         $element = $plugin->processOutput($element);
-                        if (is_null($element)) {
-                            throw new \Exception("You need to return the output in the processOutput method!");
-                        }
+                        $this->throwPluginError($element, $plugin, 'processOutput', '$output');
                     }
                 } catch (Exception $e) {
                     return new Error($e);
@@ -219,6 +212,20 @@ class Parser
         }
 
         return $element;
+    }
+
+    /**
+     * @param array|Node $element
+     * @param Plugin $plugin
+     * @param string $msg
+     * @throws Exception
+     */
+    private function throwPluginError($element, $plugin, $method, $variable)
+    {
+        if (is_null($element)) {
+            $pluginName = str_replace("Caramel\\Plugin", "", get_class($plugin));
+            throw new \Exception("You need to return the variable: {$variable} </br></br>Plugin: {$pluginName} </br>Method: {$method} </br></br>");
+        }
     }
 
 }
