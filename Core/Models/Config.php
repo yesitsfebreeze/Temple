@@ -18,7 +18,7 @@ $config = array(
     "show_comments" => true,
 
     # display block name comments in the frontend
-    "show_blocks" => false,
+    "show_blocks" => true,
 
     # default self closing items
     "self_closing" => array("area", "base", "br", "col", "command", "embed", "hr", "img", "input", "keygen", "link", "meta", "param", "source", "track", "wbr"),

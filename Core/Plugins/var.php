@@ -22,7 +22,7 @@ namespace Caramel;
  * @package Caramel
  *
  */
-class PluginVar extends IdentifierPlugin
+class PluginVar extends Plugin
 {
 
     public $position = 0;

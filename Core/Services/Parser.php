@@ -42,7 +42,6 @@ class Parser
      */
     public function parse($file, $dom)
     {
-
         $this->dom = $dom;
         if (empty($this->dom)) return $this->cache->save($file, "");
 
@@ -184,21 +183,30 @@ class Parser
                 try {
                     if ($type == "pre") {
                         $element = $plugin->preProcess($element);
+                        if (is_null($element)) {
+                            throw new \Exception("You need to return the dom in the preProcess method!");
+                        }
                     }
                     if ($type == "plugins") {
                         # only process if it's not disabled
                         if ($element->get("plugins")) {
                             $element = $plugin->process($element);
-                            if (!($element instanceof Node)) {
-                                throw new \Exception("You need to return the node in your plugin!");
+                            if (is_null($element)) {
+                                throw new \Exception("You need to return the node in the process method!");
                             }
                         }
                     }
                     if ($type == "post") {
                         $element = $plugin->postProcess($element);
+                        if (is_null($element)) {
+                            throw new \Exception("You need to return the dom in the postProcess method!");
+                        }
                     }
                     if ($type == "output") {
                         $element = $plugin->processOutput($element);
+                        if (is_null($element)) {
+                            throw new \Exception("You need to return the output in the processOutput method!");
+                        }
                     }
                 } catch (Exception $e) {
                     return new Error($e);

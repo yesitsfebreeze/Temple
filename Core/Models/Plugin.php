@@ -90,9 +90,9 @@ abstract class Plugin
     /**
      * this is called after the plugins processed
      * all nodes and converted it into a html string
-     * @var array $dom
-     * @return array $dom
-     * * has to return $dom
+     * @var string $output
+     * @return string $output
+     * * has to return $output
      */
     public function processOutput($output)
     {
