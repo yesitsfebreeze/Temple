@@ -16,7 +16,9 @@ namespace Caramel;
  *          extend /file/absolute: searches for file regarding to root path
  *
  *      blocks:
- *          block blockname: defines a block wich can be modified afterwards
+ *          block blockname: defines a block which can be modified afterwards
+ *          block blockname: if we write this in an extending file where this block exists in the parent file,
+ *                           it will be overwritten
  *          block prepend blockname: inserts content of this block before the "block blockname" block
  *          block wrap blockname: wraps content of the "block blockname" block with the content of our current block
  *          block append blockname: inserts content of this block after the "block blockname" block
@@ -62,9 +64,13 @@ class PluginExtend extends Plugin
         $node = reset($dom);
         if ($this->isExtending($node)) {
             $this->addExtendToSelfClosing();
+
             # add the file dependency to the parser
             $this->addDependency($node);
             $this->extend($dom, $node);
+
+            # return a empty array to stop the current parsing process
+            return array();
         }
 
         return $dom;
@@ -82,7 +88,7 @@ class PluginExtend extends Plugin
         $this->getFirstFile($node);
 
         # get all extending blocks from our current dom
-        $this->getPreviousBlocks($dom);
+        $this->getFileBlocks($dom);
 
         # get the dom which will be extended
         $dom = $this->getExtendDom($node);
@@ -99,9 +105,6 @@ class PluginExtend extends Plugin
         # we have to reinitialize the parsing process
         # with the new dom to check for other extends
         $this->caramel->parser->parse($this->rootFile, $dom);
-
-        # return a empty array to stop the current parsing process
-        return array();
     }
 
     /**
@@ -119,7 +122,7 @@ class PluginExtend extends Plugin
      * @return array
      * @throws \Exception
      */
-    private function getPreviousBlocks($dom)
+    private function getFileBlocks($dom)
     {
         /** @var Node $node */
         foreach ($dom as $node) {
@@ -134,7 +137,7 @@ class PluginExtend extends Plugin
 
     /**
      * @param Node $node
-     * @return Storage
+     * @return array
      */
     private function getExtendDom($node)
     {
@@ -173,29 +176,26 @@ class PluginExtend extends Plugin
     }
 
     /**
-     * @param $dom
-     * @param $blocks
+     * @param array $dom
+     * @param array $blocks
      * @return mixed
      * @throws \Exception
      */
     private function overrideBlocks($dom, $blocks)
     {
-        /** @var Storage $node */
+
+        /** @var Node $node */
         foreach ($dom as &$node) {
 
             # process children blocks first
             if ($node->has("children")) {
-                if ($node->has("children")) {
-                    $children = $node->get("children");
-                    if (is_null($children)) $children = array();
-                    $this->overrideBlocks($children, $blocks);
-                }
+                $children = $node->get("children");
+                $this->overrideBlocks($children, $blocks);
             }
 
             if ($node->get("tag/tag") == "block") {
 
                 $block = trim($node->get("attributes"));
-
                 # first add the last complete block override if exists
                 $replace = &$blocks[ $block ];
                 $node    = $this->replace($node, $replace);

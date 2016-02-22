@@ -43,26 +43,25 @@ class Parser
     public function parse($file, $dom)
     {
         $this->dom = $dom;
-        if (empty($this->dom)) return $this->cache->save($file, "");
 
+        if (empty($this->dom)) return false;
         # the returns make sure that the parse process
         # stops if we have an empty dom
         # this enables you to parse a modified dom in a plugin or function
-
         $this->dom = $this->preProcessPlugins($this->dom);
-        if (empty($this->dom)) return $this->cache->save($file, "");
+        if (empty($this->dom)) return false;
 
         $this->dom = $this->processPlugins($this->dom);
-        if (empty($this->dom)) return $this->cache->save($file, "");
+        if (empty($this->dom)) return false;
 
         $this->dom = $this->postProcessPlugins($this->dom);
-        if (empty($this->dom)) return $this->cache->save($file, "");
+        if (empty($this->dom)) return false;
 
         # parse and save the output
         $this->output = $this->output($this->dom);
 
         # process the output plugins
-        if (trim($this->output) == "") return $this->cache->save($file, "");
+        if (trim($this->output) == "") return false;
         $this->output = $this->processOutputPlugins($this->output);
 
         $this->cache->save($file, $this->output);
@@ -78,10 +77,8 @@ class Parser
     {
         # temp variable for the output
         $output = '';
-
         foreach ($nodes as $node) {
-
-            /** @var storage $node */
+            /** @var Node $node */
 
             # open the tag
             if ($node->get("display") && $node->get("tag/opening/display")) {

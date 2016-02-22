@@ -32,12 +32,12 @@ class Caramel
     {
         try {
             $this->variables = new Storage();
-            $this->variables->set("caramel",$this);
-            $this->config    = new Config(__DIR__);
-            $this->cache     = new Cache($this);
-            $this->plugins   = new PluginLoader($this);
-            $this->parser    = new Parser($this);
-            $this->lexer     = new Lexer($this);
+            $this->variables->set("caramel", $this);
+            $this->config  = new Config(__DIR__);
+            $this->cache   = new Cache($this);
+            $this->plugins = new PluginLoader($this);
+            $this->parser  = new Parser($this);
+            $this->lexer   = new Lexer($this);
         } catch (\Exception $e) {
             new Error($e);
         }
@@ -195,6 +195,7 @@ class Caramel
                     array_push($list, $plugin->getName());
                 }
             }
+
             return $list;
         } else {
             return array();

@@ -16,7 +16,12 @@ namespace Caramel;
  *      - or you can
  *      - write like this
  *
- *      -- this text has no trailing space, which is otherwise added by default
+ *      - a line with just a - inside a plain tag will create a break
+ *        -
+ *        like this
+ *
+ *      -- this text has no trailing space,
+ *         which is otherwise added by default
  *
  * @autor: Stefan Hövelmanns - hvlmnns.de
  * @License: MIT
@@ -74,8 +79,13 @@ class PluginPlain extends Plugin
     private function processChildren($node, $trailing)
     {
         $children = $node->get("children");
+        /** @var Node $child */
         foreach ($children as $child) {
             $child = $this->createPlain($child, $trailing, true);
+            if ($child->get("tag/tag") == "-" && $child->get("attributes") == "") {
+                $child->set("content", "</br>");
+            }
+
             if ($child->has("children")) {
                 $this->processChildren($child, $trailing);
             }
@@ -101,7 +111,7 @@ class PluginPlain extends Plugin
             $node->set("content", $node->get("content") . " ");
         }
         if ($child) {
-            $node->set("content", $node->get("tag/opening/tag") . $node->get("content"));
+            $node->set("content", $node->get("tag/opening/tag") . " " . $node->get("content"));
         }
 
         return $node;
