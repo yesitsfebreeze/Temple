@@ -64,10 +64,8 @@ class Lexer
      */
     public function lex($file, $level = 0)
     {
-
         # reset necessary member variables for each file
         $this->init($file, $level);
-
         # open the current file and process it line per line
         $handle = fopen($this->file, "r");
         while (($line = fgets($handle)) !== false) {

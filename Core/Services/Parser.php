@@ -44,8 +44,6 @@ class Parser
     {
         $this->dom = $dom;
 
-        $this->cache->save($file, "");
-
         if (empty($this->dom)) return false;
         # the returns make sure that the parse process
         # stops if we have an empty dom

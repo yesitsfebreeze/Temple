@@ -92,26 +92,12 @@ class Cache
      */
     public function save($file, $content)
     {
-        if ($this->config->get("file_header")) {
-            $content = "<!-- " . $this->config->get("file_header") . " -->" . $content;
-        }
-
         $this->createDependencyFile($file);
-
         $file = $this->createFile($file);
         file_put_contents($file, $content);
-        $this->content = $content;
-
-        return $this->content;
+        return $file;
     }
 
-    /**
-     * @return string
-     */
-    public function getContent()
-    {
-        return $this->content;
-    }
 
     public function clearCache()
     {
@@ -137,6 +123,7 @@ class Cache
                     }
                 }
             }
+
             return rmdir($dir);
         } catch (\Exception $e) {
             return new Error($e);
@@ -162,15 +149,18 @@ class Cache
     public function getCachePath($file)
     {
         $DirectoryHandler = $this->config->getDirectoryHandler();
+
         # remove the template dir
         foreach ($DirectoryHandler->getTemplateDir() as $templateDir) {
             $file = str_replace($templateDir, "", $file);
         }
+
         # add cache directory and escape the slashes with an underscore
         $DirectoryHandler->setCacheDir($this->config->get("cache_dir"));
-        $cacheDir = $this->config->get("cache_dir") . "/tempalte/";
+        $cacheDir = $this->config->get("cache_dir") . "tempalte/";
         if (!is_dir($cacheDir)) mkdir($cacheDir, 0777);
         $file = $cacheDir . str_replace("/", '_', $file);
+
         # make sure we have a php extension
         $file = $this->createFileExtension($file);
 

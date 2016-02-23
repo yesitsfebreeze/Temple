@@ -37,7 +37,7 @@ class Caramel
             $this->cache   = new Cache($this);
             $this->plugins = new PluginLoader($this);
             $this->lexer   = new Lexer($this);
-            $this->helpers = new Helpers();
+            $this->helpers = new Helpers($this);
             $this->parser  = new Parser($this);
         } catch (\Exception $e) {
             new Error($e);
@@ -53,6 +53,9 @@ class Caramel
     public function display($file)
     {
         $templateFile = $this->parse($file);
+        if ($this->config->get("file_header")) {
+            echo "<!-- " . $this->config->get("file_header") . " -->";
+        }
         # scoped Caramel
         $__CRML = $this;
         include $templateFile;
@@ -67,8 +70,10 @@ class Caramel
     public function fetch($file)
     {
         $templateFile = $this->parse($file);
-
-        return file_get_contents($templateFile);
+        $return = array();
+        $return["file"] = $templateFile;
+        $return["content"] = file_get_contents($templateFile);
+        return $return;
     }
 
 
@@ -78,7 +83,7 @@ class Caramel
      * @param $file
      * @return mixed|string
      */
-    private function parse($file)
+    public function parse($file)
     {
         if ($this->cache->isModified($file)) {
             $lexed = $this->lexer->lex($file);
@@ -223,7 +228,7 @@ class Caramel
      * @param $dir
      * @return array|bool|string
      */
-    public function getPluginDir($dir)
+    public function getPluginDir($dir = false)
     {
         return $this->config()->getDirectoryHandler()->getPluginDir($dir);
     }
@@ -245,7 +250,7 @@ class Caramel
      * @param $dir
      * @return array|bool|string
      */
-    public function getTemplateDir($dir)
+    public function getTemplateDir($dir = false)
     {
         return $this->config()->getDirectoryHandler()->getTemplateDir($dir);
     }
@@ -267,7 +272,7 @@ class Caramel
      * @param $dir
      * @return array|bool|string
      */
-    public function getCacheDir($dir)
+    public function getCacheDir($dir = false)
     {
         return $this->config()->getDirectoryHandler()->getCacheDir($dir);
     }

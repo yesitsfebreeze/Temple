@@ -18,10 +18,10 @@ $config = array(
     "show_comments" => true,
 
     # display block name comments in the frontend
-    "show_blocks" => true,
+    "show_blocks" => false,
 
     # default self closing items
-    "self_closing" => array("extend", "area", "base", "br", "col", "command", "embed", "hr", "img", "input", "keygen", "link", "meta", "param", "source", "track", "wbr"),
+    "self_closing" => array("import", "extend", "area", "base", "br", "col", "command", "embed", "hr", "img", "input", "keygen", "link", "meta", "param", "source", "track", "wbr"),
 
     # default self closing items
     // TODO: get this from a resource

@@ -8,7 +8,7 @@ namespace Caramel;
  * @package Caramel
  *
  * @description: handles the extending of files and blocks
- * @position: 0
+ * @position: 1
  * @author: Stefan Hövelmanns
  * @License: MIT
  *
@@ -18,13 +18,19 @@ class PluginExtend extends Plugin
 {
 
     /** @var int $position */
-    protected $position = 0;
+    protected $position = 1;
 
     /** @var array $blocks */
     private $blocks = array();
 
-    /** @var string $file */
-    private $rootFile = false;
+    /** @var bool $topLevel */
+    private $topLevel = false;
+
+    /** @var array $rootFiles */
+    private $rootFiles = array();
+
+    /** @var string $rootFile */
+    private $rootFile;
 
     /**
      * @param Node $node
@@ -150,7 +156,7 @@ class PluginExtend extends Plugin
     {
 
         # get the root file
-        $this->getFirstFile($node);
+        $this->getRootFile($node);
 
         # get all extending blocks from our current dom
         $this->getFileBlocks($dom);
@@ -163,23 +169,30 @@ class PluginExtend extends Plugin
 
         # if the current extend file is the same as our root file,
         # we would run into an recursion so we have to throw an error
-        if ($node == $this->rootFile) {
+        if (!$this->topLevel && $node->get("file") == $this->rootFile) {
             return new Error("Recursive extends are not allowed!", $this->rootFile, 1);
         }
 
+        # reset the top level variable
+        $this->topLevel = false;
+
         # we have to reinitialize the parsing process
         # with the new dom to check for other extends
-        $this->caramel->parser->parse($this->rootFile, $dom);
+        return $this->caramel->parser->parse($this->rootFile, $dom);
     }
 
     /**
      * @param Node $node
      */
-    protected function getFirstFile($node)
+    protected function getRootFile($node)
     {
         # just set the file if it's set to false
         # this way we can keep track of our root file
-        if (!$this->rootFile) $this->rootFile = $node->get("file");
+        if (!isset($this->rootFiles[ $node->get("namespace") ])) {
+            $this->rootFiles[ $node->get("namespace") ] = $node->get("file");
+            $this->topLevel                             = true;
+        }
+        $this->rootFile = $this->rootFiles[ $node->get("namespace") ];
     }
 
     /**
