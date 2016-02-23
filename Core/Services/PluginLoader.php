@@ -27,7 +27,7 @@ class PluginLoader
         $this->config    = $caramel->config();
         $this->variables = $caramel->getVariable();
         $plugins         = $this->getPlugins();
-        $this->config->set("plugins/registered", $plugins);
+        $this->config->set("plugins.registered", $plugins);
     }
 
     /**
@@ -35,7 +35,7 @@ class PluginLoader
      */
     private function getPlugins()
     {
-        $dirs = $this->config->get("plugins/dirs");
+        $dirs = $this->config->get("plugins.dirs");
         # iterate all plugin directories
         foreach ($dirs as $dir) {
             # search the directory recursively to get all plugins

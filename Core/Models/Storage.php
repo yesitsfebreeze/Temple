@@ -5,7 +5,7 @@ namespace Caramel;
 
 /**
  * this class handles all data storage
- * deep array setters and getters are separated by "/"
+ * deep array setters and getters are separated by "."
  *
  * Class Storage
  * @package Caramel
@@ -164,9 +164,9 @@ class Storage
     private function getPath($path)
     {
         # remove last / if existent
-        $path = preg_replace('/\/$/', '', $path);
+        $path = preg_replace('/\.$/', '', $path);
         # get path array
-        $path = explode("/", $path);
+        $path = explode(".", $path);
 
         return $path;
     }

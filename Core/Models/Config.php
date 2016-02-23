@@ -21,7 +21,7 @@ $config = array(
     "show_blocks" => true,
 
     # default self closing items
-    "self_closing" => array("area", "base", "br", "col", "command", "embed", "hr", "img", "input", "keygen", "link", "meta", "param", "source", "track", "wbr"),
+    "self_closing" => array("extend", "area", "base", "br", "col", "command", "embed", "hr", "img", "input", "keygen", "link", "meta", "param", "source", "track", "wbr"),
 
     # default self closing items
     // TODO: get this from a resource

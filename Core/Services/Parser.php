@@ -32,7 +32,7 @@ class Parser
     {
         $this->config  = $caramel->config();
         $this->cache   = $caramel->cache;
-        $this->plugins = $this->config->get("plugins/registered");
+        $this->plugins = $this->config->get("plugins.registered");
     }
 
     /**
@@ -84,15 +84,15 @@ class Parser
             /** @var Node $node */
 
             # open the tag
-            if ($node->get("tag/display")) {
-                if ($node->get("display") && $node->get("tag/opening/display")) {
-                    $output .= $node->get("tag/opening/prefix");
-                    $output .= $node->get("tag/opening/tag");
-                    if ($node->get("tag/opening/tag") != "") {
+            if ($node->get("tag.display")) {
+                if ($node->get("display") && $node->get("tag.opening.display")) {
+                    $output .= $node->get("tag.opening.prefix");
+                    $output .= $node->get("tag.opening.tag");
+                    if ($node->get("tag.opening.tag") != "") {
                         $output .= " ";
                     }
                     $output .= $node->get("attributes");
-                    $output .= $node->get("tag/opening/postfix");
+                    $output .= $node->get("tag.opening.postfix");
                 }
             }
 
@@ -109,17 +109,17 @@ class Parser
                     $children = $node->get("children");
                     $output .= $this->output($children);
                 } else {
-                    new Error("You can't have children in an " . $node->get("tag/tag") . "!", $node->get("file"), $node->get("line"));
+                    new Error("You can't have children in an " . $node->get("tag.tag") . "!", $node->get("file"), $node->get("line"));
                 }
             }
 
             # close the tag
-            if ($node->get("tag/display")) {
-                if ($node->get("display") && $node->get("tag/closing/display") && $node->get("tag/display")) {
+            if ($node->get("tag.display")) {
+                if ($node->get("display") && $node->get("tag.closing.display") && $node->get("tag.display")) {
                     if (!$node->get("selfclosing")) {
-                        $output .= $node->get("tag/closing/prefix");
-                        $output .= $node->get("tag/closing/tag");
-                        $output .= $node->get("tag/closing/postfix");
+                        $output .= $node->get("tag.closing.prefix");
+                        $output .= $node->get("tag.closing.tag");
+                        $output .= $node->get("tag.closing.postfix");
                     }
                 }
             }

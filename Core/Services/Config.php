@@ -55,8 +55,8 @@ class Config extends Storage
     private function setDefaults()
     {
         # add default empty directories for plugins and templates
-        $this->set("templates/dirs", array());
-        $this->set("plugins/dirs", array());
+        $this->set("templates.dirs", array());
+        $this->set("plugins.dirs", array());
         $this->setDirectories();
 
     }
@@ -66,7 +66,7 @@ class Config extends Storage
      */
     private function setDirectories()
     {
-        $this->set("frameworkDir", $this->root . "/");
+        $this->set("framework_dir", $this->root . "/");
         $this->set("cache_dir", $this->get("cache_dir"));
         $this->DirectoryHandler->addPluginDir(($this->root . "/Plugins"));
     }

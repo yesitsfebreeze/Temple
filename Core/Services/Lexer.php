@@ -102,16 +102,16 @@ class Lexer
         $attributes = $this->getAttributes($line, $tag);
 
         # add everything we need to our node
-        $this->node->set("tag/tag", $tag);
-        $this->node->set("tag/display", true);
-        $this->node->set("tag/opening/display", true);
-        $this->node->set("tag/opening/prefix", "<");
-        $this->node->set("tag/opening/tag", $tag);
-        $this->node->set("tag/opening/postfix", ">");
-        $this->node->set("tag/closing/display", true);
-        $this->node->set("tag/closing/prefix", "</");
-        $this->node->set("tag/closing/tag", $tag);
-        $this->node->set("tag/closing/postfix", ">");
+        $this->node->set("tag.tag", $tag);
+        $this->node->set("tag.display", true);
+        $this->node->set("tag.opening.display", true);
+        $this->node->set("tag.opening.prefix", "<");
+        $this->node->set("tag.opening.tag", $tag);
+        $this->node->set("tag.opening.postfix", ">");
+        $this->node->set("tag.closing.display", true);
+        $this->node->set("tag.closing.prefix", "</");
+        $this->node->set("tag.closing.tag", $tag);
+        $this->node->set("tag.closing.postfix", ">");
 
         $this->node->set("namespace", $this->namespace);
         $this->node->set("file", $this->file);
@@ -154,7 +154,7 @@ class Lexer
                 $this->node->set("parent", $this->prev);
                 # throw an error if the parent node is selfclosing
                 if ($this->isSelfClosing($this->node->get("parent"))) {
-                    $tag = $this->node->get("parent")->get("tag/tag");
+                    $tag = $this->node->get("parent")->get("tag.tag");
                     new Error("You can't have children in an $tag!", $this->file, $this->lineNo);
                 } else {
                     # otherwise add it to the children of the last node
@@ -224,7 +224,7 @@ class Lexer
     {
         /** @var Node $node */
         # check if our tag is in the self closing array set in the config
-        if (in_array($node->get("tag/tag"), $this->config->get("self_closing"))) return true;
+        if (in_array($node->get("tag.tag"), $this->config->get("self_closing"))) return true;
 
         return false;
     }
@@ -300,11 +300,12 @@ class Lexer
 
     /**
      * @param $file
+     * @param $level
      */
     private function init($file, $level)
     {
         # set the namespace to our file name without the extension
-        $this->namespace = str_replace(".mlk", "", $file);
+        $this->namespace = str_replace("." . $this->config->get("extension"), "", $file);
         # this is an array of the current file
         # and the parent files if they exist
         $templateFiles = $this->templateFiles($file);

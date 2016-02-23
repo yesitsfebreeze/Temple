@@ -33,7 +33,7 @@ class DirectoryHandler
     public function addTemplateDir($dir)
     {
 
-        return $this->addDirectory($dir, "templates/dirs");
+        return $this->addDirectory($dir, "templates.dirs");
     }
 
     /**
@@ -44,7 +44,7 @@ class DirectoryHandler
      */
     public function getTemplateDir($dir = false)
     {
-        return $this->getDirectory($dir, "templates/dirs");
+        return $this->getDirectory($dir, "templates.dirs");
     }
 
 
@@ -56,7 +56,7 @@ class DirectoryHandler
      */
     public function addPluginDir($dir)
     {
-        return $this->addDirectory($dir, "plugins/dirs");
+        return $this->addDirectory($dir, "plugins.dirs");
     }
 
     /**
@@ -67,7 +67,7 @@ class DirectoryHandler
      */
     public function getPluginDir($dir = false)
     {
-        return $this->getDirectory($dir, "plugins/dirs");
+        return $this->getDirectory($dir, "plugins.dirs");
     }
 
 
@@ -259,8 +259,8 @@ class DirectoryHandler
     private function getFrameworkDirectory()
     {
 
-        if ($this->config->has("frameworkDir")) {
-            return $this->config->get("frameworkDir");
+        if ($this->config->has("framework_dir")) {
+            return $this->config->get("framework_dir");
         } else {
             $framework = explode("Caramel", __DIR__);
             $framework = $framework[0] . "Caramel/";

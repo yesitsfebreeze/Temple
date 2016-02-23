@@ -2,32 +2,18 @@
 
 namespace Caramel;
 
-
 /**
  *
  * Class PluginExtend
- *
- * @purpose: handles template extending and block overriding
- * @usage:
- *
- *      extends:
- *          extend: search for same file in parent tempalte if available
- *          extend file/relative: searches for file regarding to current file path
- *          extend /file/absolute: searches for file regarding to root path
- *
- *      blocks:
- *          block blockname: defines a block which can be modified afterwards
- *          block blockname: if we write this in an extending file where this block exists in the parent file,
- *                           it will be overwritten
- *          block prepend blockname: inserts content of this block before the "block blockname" block
- *          block wrap blockname: wraps content of the "block blockname" block with the content of our current block
- *          block append blockname: inserts content of this block after the "block blockname" block
- *
- * @autor: Stefan Hövelmanns - hvlmnns.de
- * @License: MIT
  * @package Caramel
  *
+ * @description: handles the extending of files and blocks
+ * @position: 0
+ * @author: Stefan Hövelmanns
+ * @License: MIT
+ *
  */
+
 class PluginExtend extends Plugin
 {
 
@@ -41,29 +27,61 @@ class PluginExtend extends Plugin
     private $rootFile = false;
 
     /**
-     * hide the blocks from being displayed
-     * except we set show_blocks in the config
-     *
+     * @param Node $node
+     * @return bool
+     */
+    public function check($node)
+    {
+        return ($node->get("tag.tag") == "block");
+    }
+
+    /**
      * @param Node $node
      * @return Node $node
      */
     public function process($node)
     {
-        $node = $this->hideBlocks($node);
+        $node = $this->processBlocks($node);
 
         return $node;
     }
 
     /**
+     * converts the blocks to comments or completely removes them
+     * depending on configuration
+     *
+     * @param Node $node
+     * @return Node $node
+     */
+    private function processBlocks($node)
+    {
+        if ($this->config->get("show_blocks")) {
+            # shows name and namespace attributes as a comment for the block
+            $node->set("attributes", $node->get("attributes") . " -> " . $node->get("namespace"));
+            $node->set("tag.opening.prefix", "<!-- ");
+            $node->set("tag.opening.postfix", " -->");
+            $node->set("tag.closing.display", false);
+        } else {
+            # just hide the blocks
+            $node->set("display", false);
+        }
+
+        return $node;
+    }
+
+    /**
+     * handles the extending of templates
+     *
      * @param array $dom
      * @return array
      * @throws \Exception
      */
     public function preProcess($dom)
     {
+        # get the first node from the dom
         $node = reset($dom);
-        if ($this->isExtending($node)) {
-            $this->addExtendToSelfClosing();
+
+        if ($this->fileExtends($node)) {
 
             # add the file dependency to the parser
             $this->addDependency($node);
@@ -74,6 +92,53 @@ class PluginExtend extends Plugin
         }
 
         return $dom;
+    }
+
+    /**
+     * checks if the file has an extend tag
+     *
+     * @param Node $node
+     * @return bool|mixed
+     */
+    private function fileExtends($node)
+    {
+
+        # check if node hast extend tag
+        if ($node->get("tag.tag") == "extend") {
+
+            $node->set("display", false);
+
+            # extend has to be first statement
+            if ($node->get("line") != 1) {
+                return new Error("'extend' hast to be the first statement!", $node->get("file"), $node->get("line"));
+            }
+
+            $isRootLevel   = $node->get("level") >= sizeof($this->config->getDirectoryHandler()->getTemplateDir()) - 1;
+            $hasAttributes = $node->get("attributes") != "";
+
+            # level must be smaller than our amount of template directories
+            # if we want to extend the parent directory
+            if (!$hasAttributes && $isRootLevel) {
+                return new Error("You'r trying to extend a file without a parent template!", $node->get("file"), $node->get("line"));
+            }
+
+            # passed all testing
+            return true;
+
+        }
+
+        return false;
+    }
+
+    /**
+     * adds a cache dependency to the file
+     * so we know we have to parse the parent file too
+     *
+     * @param Node $node
+     */
+    private function addDependency($node)
+    {
+        $this->caramel->cache->addDependency($node->get("file"));
     }
 
     /**
@@ -126,7 +191,7 @@ class PluginExtend extends Plugin
     {
         /** @var Node $node */
         foreach ($dom as $node) {
-            if ($node->get("tag/tag") == "block") {
+            if ($node->get("tag.tag") == "block") {
                 $name = trim($node->get("attributes"));
                 # create array if it doesn't exist
                 if (!isset($this->blocks[ $name ])) $this->blocks[ $name ] = array();
@@ -193,7 +258,7 @@ class PluginExtend extends Plugin
                 $this->overrideBlocks($children, $blocks);
             }
 
-            if ($node->get("tag/tag") == "block") {
+            if ($node->get("tag.tag") == "block") {
 
                 $block = trim($node->get("attributes"));
                 # first add the last complete block override if exists
@@ -364,83 +429,4 @@ class PluginExtend extends Plugin
 
         return $node;
     }
-
-    /**
-     * @param Node $node
-     * @return bool|mixed
-     */
-    private function isExtending($node)
-    {
-
-        # check if node hast extend tag
-        if ($node->get("tag/tag") == "extend") {
-
-            $node->set("display", false);
-
-            # extend has to be first statement
-            if ($node->get("line") != 1) {
-                return new Error("'extend' hast to be the first statement!", $node->get("file"), $node->get("line"));
-            }
-
-            $isRootLevel   = $node->get("level") >= sizeof($this->config->getDirectoryHandler()->getTemplateDir()) - 1;
-            $hasAttributes = $node->get("attributes") != "";
-
-            # level must be smaller than our amount of template directories
-            # if we want to extend the parent directory
-            if (!$hasAttributes && $isRootLevel) {
-                return new Error("You'r trying to extend a file without a parent template!", $node->get("file"), $node->get("line"));
-            }
-
-            # passed all testing
-            return $node;
-
-        }
-
-        return false;
-    }
-
-    /**
-     * @param Node $node
-     * @return Node
-     */
-    private function hideBlocks($node)
-    {
-        if ($node->get("tag/tag") == "block") {
-
-            if ($this->config->get("show_blocks")) {
-                # shows name and namespace attributes as a comment for the block
-                $node->set("attributes", $node->get("attributes") . " -> " . $node->get("namespace"));
-                $node->set("tag/opening/prefix", "<!-- ");
-                $node->set("tag/opening/postfix", " -->");
-                $node->set("tag/closing/display", false);
-            } else {
-                # just hide the blocks
-                $node->set("display", false);
-            }
-        }
-
-        return $node;
-    }
-
-    /**
-     * adds the extend tag to the self closing elements
-     */
-    private function addExtendToSelfClosing()
-    {
-        # add the extend tag to our self closing config array
-        $selfClosing = $this->config->get("self_closing");
-        if (!in_array("extend", $selfClosing)) {
-            $selfClosing[] = "extend";
-            $this->config->set("self_closing", $selfClosing);
-        }
-    }
-
-    /**
-     * @param Node $node
-     */
-    private function addDependency($node)
-    {
-        $this->caramel->cache->addDependency($node->get("file"));
-    }
-
 }
