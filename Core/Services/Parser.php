@@ -200,7 +200,7 @@ class Parser
                     if ($type == "plugins") {
                         # only process if it's not disabled
                         if ($element->get("plugins")) {
-                            $element = $plugin->process($element);
+                            $element = $plugin->realProcess($element);
                             $this->throwPluginError($element, $plugin, 'process', '$node');
                         }
                     }

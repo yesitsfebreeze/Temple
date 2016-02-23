@@ -4,29 +4,29 @@ namespace Caramel;
 
 /**
  *
- * Class PluginFor
+ * Class PluginYourName
  * @package Caramel
  *
- * @description: handle foreach loops of variables
- * @position: 4
- * @author: Stefan Hövelmanns
- * @License: MIT
+ * @purpose: handles template extending and block overriding
+ * @usage: describe you plugin here
+ * @author: you
+ * @License: your Licence
  *
  */
 
-class PluginFor extends Plugin
+class PluginYourName extends Plugin
 {
 
     /** @var int $position */
-    protected $position = 4;
+    protected $position = 666;
 
     /**
      * @param Node $node
      * @return bool
      */
-    public function check($node)
+    private function check($node)
     {
-        return ($node->get("tag/tag") == "for");
+        return ($node->get("tag/tag") == "yourtag");
     }
 
     /**

@@ -36,8 +36,9 @@ class Caramel
             $this->config  = new Config(__DIR__);
             $this->cache   = new Cache($this);
             $this->plugins = new PluginLoader($this);
-            $this->parser  = new Parser($this);
             $this->lexer   = new Lexer($this);
+            $this->helpers = new Helpers();
+            $this->parser  = new Parser($this);
         } catch (\Exception $e) {
             new Error($e);
         }

@@ -42,10 +42,8 @@ class PluginPlain extends Plugin
     public function process($node)
     {
 
-        # check if we have a tag
-        $pass = $this->checkTag($node);
-
-        if ($pass) {
+        # check if we have a plain tag
+        if ($this->checkTag($node)) {
 
             $trailing = true;
             # if we have a double minus we don't use the trailing space
@@ -113,6 +111,11 @@ class PluginPlain extends Plugin
         if ($child) {
             $node->set("content", $node->get("tag/opening/tag") . " " . $node->get("content"));
         }
+
+        # replace all php tags for security reasons
+        $content = str_replace("<?php", "", $node->get("content"));
+        $content = str_replace("?>", "", $content);
+        $node->set("content", $content);
 
         return $node;
     }

@@ -39,10 +39,8 @@ class PluginPhp extends Plugin
     public function process($node)
     {
 
-        # check if we have a tag
-        $pass = $this->checkTag($node);
-
-        if ($pass) {
+        # check if we have a php tag
+        if ($this->checkTag($node)) {
             $node->set("tag/opening/prefix", "<?php");
             $node->set("tag/opening/tag", "");
             $node->set("tag/opening/postfix", "");
