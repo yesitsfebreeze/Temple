@@ -30,10 +30,7 @@ class PluginCleanup extends Plugin
     {
         $output = $this->prepare($output);
         $output = $this->bufferPhp($output);
-        $output = $this->removeInnerPhp($output);
-
-        debug("-------------------------");
-        debug(htmlspecialchars($output));
+        $output = $this->cleanup($output);
 
         return $output;
     }
@@ -55,7 +52,7 @@ class PluginCleanup extends Plugin
      */
     private function bufferPhp($output)
     {
-        if ($this->find($output, "<?php") && $this->find($output, "?>")) {
+        if ($this->caramel->helpers->find($output, "<?php") && $this->caramel->helpers->find($output, "?>")) {
             $end     = strpos($output, "?>") + 2;
             $start   = strpos($output, "?>") - strpos(strrev(substr($output, 0, $end)), "php?<") - 3;
             $length  = $end - $start;
@@ -73,38 +70,34 @@ class PluginCleanup extends Plugin
 
     /**
      * @param $output
-     * @param bool $first
+     * @param bool $topLevel
      * @return string $output
      */
-    private function removeInnerPhp($output, $first = true)
+    private function cleanup($output, $topLevel = true)
     {
         preg_match_all("/\{\{cleanup::(.*?)::cleanup}}/", $output, $matches);
         if (isset($matches[1])) {
             $matches = $matches[1];
             foreach ($matches as $match) {
+
+                # clean the buffer item
                 $bufferItem = $this->buffer[ $match ];
-                if (!$first) {
-                    $bufferItem = str_replace("<?php ", "", $bufferItem);
-                    $bufferItem = str_replace(" ?>", "", $bufferItem);
+                $bufferItem = preg_replace("/\<\?php( |)/", "", $bufferItem);
+                $bufferItem = preg_replace("/( |)\?\>/", "", $bufferItem);
+                $bufferItem = $this->cleanup($bufferItem, false);
+
+                # if we are on the first iteration, wrap a php tag around it,
+                # else do nothing
+                if ($topLevel) {
+                    $output = str_replace("{{cleanup::" . $match . "::cleanup}}", '<?php ' . $bufferItem . ' ?>', $output);
+                } else {
+                    $output = str_replace("{{cleanup::" . $match . "::cleanup}}", $bufferItem, $output);
                 }
-                $output     = str_replace("{{cleanup::" . $match . "::cleanup}}", $bufferItem, $output);
-                $output     = $this->removeInnerPhp($output, false);
+                unset($this->buffer[ $match ]);
             }
         }
 
         return $output;
-    }
-
-    /**
-     * searches a string for the needle and returns true if found
-     *
-     * @param string $string
-     * @param string $needle
-     * @return bool
-     */
-    private function find($string, $needle)
-    {
-        return sizeof(explode($needle, $string)) > 1;
     }
 
 }
