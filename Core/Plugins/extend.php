@@ -89,8 +89,6 @@ class PluginExtend extends Plugin
 
         if ($this->fileExtends($node)) {
 
-            # add the file dependency to the parser
-            $this->addDependency($node);
             $this->extend($dom, $node);
 
             # return a empty array to stop the current parsing process
@@ -119,7 +117,7 @@ class PluginExtend extends Plugin
                 return new Error("'extend' hast to be the first statement!", $node->get("file"), $node->get("line"));
             }
 
-            $isRootLevel   = $node->get("level") >= sizeof($this->config->getDirectoryHandler()->getTemplateDir()) - 1;
+            $isRootLevel   = $node->get("level") >= sizeof($this->config->directories()->getTemplateDirs()) - 1;
             $hasAttributes = $node->get("attributes") != "";
 
             # level must be smaller than our amount of template directories
@@ -137,17 +135,6 @@ class PluginExtend extends Plugin
     }
 
     /**
-     * adds a cache dependency to the file
-     * so we know we have to parse the parent file too
-     *
-     * @param Node $node
-     */
-    private function addDependency($node)
-    {
-        $this->caramel->cache->addDependency($node->get("file"));
-    }
-
-    /**
      * @param array $dom
      * @param Node $node
      * @return array|Error
@@ -157,6 +144,9 @@ class PluginExtend extends Plugin
 
         # get the root file
         $this->getRootFile($node);
+
+        # add the file dependency to the current cache file
+        $this->caramel->cache->dependency($this->rootFile, $node->get("file"));
 
         # get all extending blocks from our current dom
         $this->getFileBlocks($dom);
@@ -298,7 +288,7 @@ class PluginExtend extends Plugin
 
     /**
      * @param Node $node
-     * @param $replace
+     * @param array $replace
      * @return Storage
      */
     private function replace($node, &$replace)
@@ -306,12 +296,13 @@ class PluginExtend extends Plugin
         if (!is_null($replace)) {
             # update the node namespace
             $node->set("namespace", reset($replace)->get("namespace"));
-            $replace = $replace[ sizeof($replace) - 1 ];
+            /** @var Node $replaceItem */
+            $replaceItem = $replace[ sizeof($replace) - 1 ];
             # reset the children to a clean Storage
             # since we completely replace them
             $node->set("children", new Storage());
             # get children from the replace array
-            $replaces = $replace->get("children");
+            $replaces = $replaceItem->get("children");
             $node     = $this->merge($node, $replaces);
             unset($replace);
         }
@@ -373,7 +364,6 @@ class PluginExtend extends Plugin
      */
     private function prepend($node, &$prepend)
     {
-        /** @var Storage $node */
         if (!is_null($prepend)) {
             # update the node namespace
             $node->set("namespace", reset($prepend)->get("namespace"));
@@ -381,11 +371,12 @@ class PluginExtend extends Plugin
             $prepend  = array_reverse($prepend);
             $replaces = $node->get("children");
             $replaces = array_values($replaces);
+            /** @var Node $prepended */
             foreach ($prepend as $prepended) {
-                $prepended = $prepended->get("children");
+                $prepends = $prepended->get("children");
                 # also reverse the children to obtain right order
-                $prepended = array_reverse($prepended);
-                foreach ($prepended as $child) {
+                $prepends = array_reverse($prepends);
+                foreach ($prepends as $child) {
                     # add all prepended nodes before our block
                     array_unshift($replaces, $child);
                 }
@@ -405,16 +396,16 @@ class PluginExtend extends Plugin
      */
     private function append($node, &$append)
     {
-        /** @var Storage $node */
         if (!is_null($append)) {
             # update the node namespace
             $node->set("namespace", reset($append)->get("namespace"));
             # reverse the nodes to obtain right order
             $append   = array_reverse($append);
             $replaces = $node->get("children");
+            /** @var Node $appended */
             foreach ($append as $appended) {
-                $appended = $appended->get("children");
-                foreach ($appended as $child) {
+                $appends = $appended->get("children");
+                foreach ($appends as $child) {
                     # add all prepended nodes after our block
                     array_push($replaces, $child);
                 }

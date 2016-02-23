@@ -2,8 +2,10 @@
 
 namespace Caramel;
 
+
 /**
  * Class CaramelError
+ *
  * @package Caramel
  */
 class Error
@@ -32,7 +34,8 @@ class Error
 
     /**
      * Error constructor.
-     * @param $error
+     *
+     * @param      $error
      * @param bool $file
      * @param bool $line
      */
@@ -50,6 +53,7 @@ class Error
         $this->display();
     }
 
+
     /**
      * including styles and set title
      */
@@ -62,6 +66,9 @@ class Error
         $head .= ".trace{color:{$this->textColor};margin:4px 0;}";
         $head .= ".colored{color:{$this->highlight};}";
         $head .= "h1{font-weight:400;position:relative;color:{$this->highlight};margin-bottom:20px;}";
+        $head .= ".issues{padding: 30px 0;}";
+        $head .= "a{color:{$this->highlight}}";
+        $head .= "a:hover,a:focus,a:active{color:{$this->highlight}}";
         $head .= "</style>";
         $head .= "<title>Ops!</title>";
 
@@ -96,6 +103,7 @@ class Error
             $message .= "</p></h4>";
         }
 
+        $message .= "<div class='issues'>Please report any unsolved problem to my <a href='https://github.com/hvlmnns/Caramel/issues' title='issues' target='_blank'>Github</a> page.</div>";
 
         # build the trace display
         foreach ($this->error->getTrace() as $trace) {
@@ -118,7 +126,6 @@ class Error
      */
     private function display()
     {
-
         # update the status code
         http_response_code(500);
 

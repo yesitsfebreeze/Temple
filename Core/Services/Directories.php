@@ -2,13 +2,14 @@
 
 namespace Caramel;
 
+
 /**
  * handles the directory creation
+ * Class Directories
  *
- * Class DirectoryHandler
  * @package Caramel
  */
-class DirectoryHandler
+class Directories
 {
 
     /** @var Config $config */
@@ -16,13 +17,15 @@ class DirectoryHandler
 
 
     /**
-     * DirectoryHandler constructor.
+     * Directories constructor.
+     *
      * @param Config $config
      */
     public function __construct($config)
     {
         $this->config = $config;
     }
+
 
     /**
      * adds a template directory
@@ -36,6 +39,7 @@ class DirectoryHandler
         return $this->addDirectory($dir, "templates.dirs");
     }
 
+
     /**
      * returns all or selected template directories
      *
@@ -44,7 +48,23 @@ class DirectoryHandler
      */
     public function getTemplateDir($dir = false)
     {
+        if (!$dir) {
+            new Error("Please select a directory");
+        }
+
         return $this->getDirectory($dir, "templates.dirs");
+    }
+
+
+    /**
+     * returns all or selected template directories
+     *
+     * @param $dir
+     * @return string|array|bool
+     */
+    public function getTemplateDirs()
+    {
+        return $this->getDirectory(false, "templates.dirs");
     }
 
 
@@ -59,6 +79,7 @@ class DirectoryHandler
         return $this->addDirectory($dir, "plugins.dirs");
     }
 
+
     /**
      * returns all or selected plugin directories
      *
@@ -67,7 +88,23 @@ class DirectoryHandler
      */
     public function getPluginDir($dir = false)
     {
+        if (!$dir) {
+            new Error("Please select a directory");
+        }
+
         return $this->getDirectory($dir, "plugins.dirs");
+    }
+
+
+    /**
+     * returns all plugin directories
+     *
+     * @param $dir
+     * @return string|array|bool
+     */
+    public function getPluginDirs()
+    {
+        return $this->getDirectory(false, "plugins.dirs");
     }
 
 
@@ -79,37 +116,35 @@ class DirectoryHandler
      */
     public function setCacheDir($dir)
     {
-
-        $dir = preg_replace("/\/$/","",$dir);
-        if (array_reverse(explode("/",$dir))[0] != "Caramel") $dir = preg_replace("/\/$/","",$dir) . "/Caramel";
+        $dir = preg_replace("/\/$/", "", $dir);
+        if (array_reverse(explode("/", $dir))[0] != "Caramel") $dir = preg_replace("/\/$/", "", $dir) . "/Caramel";
         $dir = $dir . "/";
 
         return $this->addDirectory($dir, "cache_dir", true);
     }
 
+
     /**
      * returns the cache directory
      *
-     * @param $dir
      * @return string|array|bool
      */
-    public function getCacheDir($dir = false)
+    public function getCacheDir()
     {
-        return $this->getDirectory($dir, "cache_dir");
+        return $this->getDirectory(false, "cache_dir");
     }
 
+
     /**
-     *
      * validates and adds a directory to our config
      * the $name variable will determent the array name
      * the $single variable will create a simple string instead of an array
-     *
      * note: the directories will be added top down,
      * so the last added item will be indexed with 0
      *
      * @param string $dir
      * @param string $name
-     * @param bool $create
+     * @param bool   $create
      * @return bool|Error
      */
 
@@ -124,15 +159,16 @@ class DirectoryHandler
             $dirs = $this->config->get($name);
 
             if ("array" == gettype($dirs)) {
-                return $this->assignToArray($name,$dirs,$dir,$create);
+                return $this->assignToArray($name, $dirs, $dir, $create);
             } else {
-                return $this->assignToString($name,$dirs,$dir,$create);
+                return $this->assignToString($name, $dirs, $dir, $create);
             }
 
         } catch (\Exception $e) {
             return new Error($e);
         }
     }
+
 
     /**
      * @param $name
@@ -141,7 +177,7 @@ class DirectoryHandler
      * @param $create
      * @return bool|string
      */
-    private function assignToArray($name,$dirs,$dir,$create)
+    private function assignToArray($name, $dirs, $dir, $create)
     {
         if (array_key_exists($dir, array_flip($dirs))) {
             return false;
@@ -149,7 +185,7 @@ class DirectoryHandler
             if ($dir) {
 
                 $dir = $this->getDirectoryPath($dir);
-                $this->createDirectory($create,$dir);
+                $this->createDirectory($create, $dir);
 
                 if (strrev($dir)[0] != "/") $dir = $dir . "/";
                 array_unshift($dirs, $dir);
@@ -162,23 +198,24 @@ class DirectoryHandler
         }
     }
 
-    private function assignToString($name,$dirs,$dir,$create)
+
+    private function assignToString($name, $dirs, $dir, $create)
     {
         $dir = $this->getDirectoryPath($dir);
-        $this->createDirectory($create,$dir);
+        $this->createDirectory($create, $dir);
         if (strrev($dir)[0] != "/") $dir = $dir . "/";
         $this->config->set($name, $dir);
 
         return $dirs;
     }
 
+
     /**
      * @param boolean $create
-     * @param string $dir
+     * @param string  $dir
      */
     private function createDirectory($create, $dir)
     {
-
         if ($create) {
             if (!is_dir($dir)) {
                 mkdir($dir, 0777, true);
@@ -186,11 +223,12 @@ class DirectoryHandler
         }
     }
 
+
     /**
      * returns the selected directory/ies
      *
      * @param null $dir
-     * @param $name
+     * @param      $name
      * @return array|bool
      */
     private function getDirectory($dir = NULL, $name)
@@ -206,6 +244,7 @@ class DirectoryHandler
             return $dirs;
         }
     }
+
 
     /**
      * checks if we have a relative or an absolute directory
@@ -239,8 +278,10 @@ class DirectoryHandler
         return new Error("Cannot add directory because it does not exist:", $dir);
     }
 
+
     /**
      * gets the current document root
+     *
      * @return string
      */
     private function getRootDirectory()
@@ -251,6 +292,7 @@ class DirectoryHandler
         return $root;
     }
 
+
     /**
      * Returns the Caramel Directory
      *
@@ -258,7 +300,6 @@ class DirectoryHandler
      */
     private function getFrameworkDirectory()
     {
-
         if ($this->config->has("framework_dir")) {
             return $this->config->get("framework_dir");
         } else {

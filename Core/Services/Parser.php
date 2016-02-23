@@ -2,10 +2,12 @@
 
 namespace Caramel;
 
+
 use Exception as Exception;
 
 /**
  * Class Parser
+ *
  * @package Caramel
  */
 class Parser
@@ -26,6 +28,7 @@ class Parser
 
     /**
      * Parser constructor.
+     *
      * @param Caramel $caramel
      */
     public function __construct(Caramel $caramel)
@@ -35,8 +38,9 @@ class Parser
         $this->plugins = $this->config->get("plugins.registered");
     }
 
+
     /**
-     * @param array $dom
+     * @param array  $dom
      * @param string $file
      * @return bool
      */
@@ -69,6 +73,7 @@ class Parser
 
         return $this->output;
     }
+
 
     /**
      * @param $nodes
@@ -126,6 +131,7 @@ class Parser
         return $output;
     }
 
+
     /**
      * @param $dom
      * @return Error
@@ -135,6 +141,7 @@ class Parser
     {
         return $this->executePlugins($dom, "pre");
     }
+
 
     /**
      * @param $nodes
@@ -160,6 +167,7 @@ class Parser
         return $nodes;
     }
 
+
     /**
      * @param $dom
      * @return Error
@@ -169,6 +177,7 @@ class Parser
     {
         return $this->executePlugins($dom, "post");
     }
+
 
     /**
      * @param $output
@@ -180,9 +189,10 @@ class Parser
         return $this->executePlugins($output, "output");
     }
 
+
     /**
      * @param array|Node $element
-     * @param $type
+     * @param            $type
      * @return mixed|Error
      */
     private function executePlugins($element, $type)
@@ -219,10 +229,14 @@ class Parser
         return $element;
     }
 
+
     /**
-     * @param array|Node $element
-     * @param Plugin $plugin
-     * @param string $msg
+     * helper method for plugin return errors
+     *
+     * @param $element
+     * @param $plugin
+     * @param $method
+     * @param $variable
      * @throws Exception
      */
     private function throwPluginError($element, $plugin, $method, $variable)

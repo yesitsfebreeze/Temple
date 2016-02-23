@@ -361,7 +361,7 @@ class Lexer
         if ($ext != $configExt) $file = $file . $configExt;
 
         $files = array();
-        foreach ($this->config->getDirectoryHandler()->getTemplateDir() as $level => $templateDir) {
+        foreach ($this->config->directories()->getTemplateDirs() as $level => $templateDir) {
             # concat all template directories
             # with he passed file path
             $checkFile = $templateDir . $file;

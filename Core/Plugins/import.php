@@ -68,7 +68,7 @@ class PluginImport extends Plugin
         # if the file has an absolute path
         $file      = $node->get("attributes");
         $relative  = $file[0] != "/";
-        $templates = $this->caramel->getTemplateDir();
+        $templates = $this->caramel->getTemplateDirs();
 
         if ($relative) {
             $dir  = $this->getParentPath($node, $templates);

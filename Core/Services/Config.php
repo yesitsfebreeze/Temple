@@ -2,8 +2,10 @@
 
 namespace Caramel;
 
+
 /**
  * Class CaramelConfig
+ *
  * @package Caramel
  */
 class Config extends Storage
@@ -12,11 +14,13 @@ class Config extends Storage
     /** @var string $root */
     private $root;
 
-    /** @var DirectoryHandler $DirectoryHandler */
-    private $DirectoryHandler;
+    /** @var Directories $Directories */
+    private $Directories;
+
 
     /**
      * add default config file on construct
+     *
      * @param $root
      */
     public function __construct($root)
@@ -24,9 +28,10 @@ class Config extends Storage
         $this->root = $root;
         # adding the default configuration
         $this->addConfigFile($this->root . "/Models/Config.php");
-        $this->DirectoryHandler = new DirectoryHandler($this);
+        $this->Directories = new Directories($this);
         $this->setDefaults();
     }
+
 
     /**
      * @param $file
@@ -49,6 +54,7 @@ class Config extends Storage
         }
     }
 
+
     /**
      * assigning the default settings to the config
      */
@@ -61,6 +67,7 @@ class Config extends Storage
 
     }
 
+
     /**
      * initially sets the required directories
      */
@@ -68,15 +75,17 @@ class Config extends Storage
     {
         $this->set("framework_dir", $this->root . "/");
         $this->set("cache_dir", $this->get("cache_dir"));
-        $this->DirectoryHandler->addPluginDir(($this->root . "/Plugins"));
+        $this->Directories->addPluginDir(($this->root . "/Plugins"));
+        $this->Directories->setCacheDir($this->get("cache_dir"));
     }
 
+
     /**
-     * @return DirectoryHandler
+     * @return Directories
      */
-    public function getDirectoryHandler()
+    public function directories()
     {
-        return $this->DirectoryHandler;
+        return $this->Directories;
     }
 
 }

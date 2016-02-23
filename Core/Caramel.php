@@ -2,10 +2,11 @@
 
 namespace Caramel;
 
+
 /**
  * the main class for the caramel template engine
- *
  * Class Caramel
+ *
  * @package Caramel
  */
 class Caramel
@@ -14,12 +15,14 @@ class Caramel
 
     /**
      * Configuration Storage
+     *
      * @var Config $config
      */
     private $config;
 
     /**
      * Storage of all variables for the frontend
+     *
      * @var Storage $variables
      */
     private $variables;
@@ -61,6 +64,7 @@ class Caramel
         include $templateFile;
     }
 
+
     /**
      * Renders and returns the passed file
      *
@@ -69,10 +73,11 @@ class Caramel
      */
     public function fetch($file)
     {
-        $templateFile = $this->parse($file);
-        $return = array();
-        $return["file"] = $templateFile;
+        $templateFile      = $this->parse($file);
+        $return            = array();
+        $return["file"]    = $templateFile;
         $return["content"] = file_get_contents($templateFile);
+
         return $return;
     }
 
@@ -85,13 +90,14 @@ class Caramel
      */
     public function parse($file)
     {
-        if ($this->cache->isModified($file)) {
+        if ($this->cache->modified($file)) {
             $lexed = $this->lexer->lex($file);
             $this->parser->parse($lexed["file"], $lexed["dom"]);
         }
 
-        return $this->cache->getCachePath($file);
+        return $this->cache->getPath($file);
     }
+
 
     /**
      * getter for the config
@@ -102,6 +108,7 @@ class Caramel
     {
         return $this->config;
     }
+
 
     /**
      * getter for the variable
@@ -131,7 +138,7 @@ class Caramel
     /**
      * getter for the variables
      *
-     * @param $name
+     * @param            $name
      * @param bool|false $value
      * @return Config
      */
@@ -180,12 +187,13 @@ class Caramel
         return true;
     }
 
+
     /**
      * clears the cache
      */
     public function clearCache()
     {
-        return $this->cache->clearCache();
+        return $this->cache->clear();
     }
 
 
@@ -211,6 +219,7 @@ class Caramel
         }
     }
 
+
     /**
      * adds a new plugin directory
      *
@@ -219,19 +228,33 @@ class Caramel
      */
     public function addPluginDir($dir)
     {
-        return $this->config()->getDirectoryHandler()->addPluginDir($dir);
+        return $this->config()->directories()->addPluginDir($dir);
     }
 
+
     /**
-     *  get specific or all plugin directories
+     *  get specific plugin directory
      *
      * @param $dir
      * @return array|bool|string
      */
     public function getPluginDir($dir = false)
     {
-        return $this->config()->getDirectoryHandler()->getPluginDir($dir);
+        return $this->config()->directories()->getPluginDir($dir);
     }
+
+
+    /**
+     *  get all plugin directories
+     *
+     * @param $dir
+     * @return array|bool|string
+     */
+    public function getPluginDirs()
+    {
+        return $this->config()->directories()->getPluginDirs();
+    }
+
 
     /**
      * adds a new template directory
@@ -241,19 +264,33 @@ class Caramel
      */
     public function addTemplateDir($dir)
     {
-        return $this->config()->getDirectoryHandler()->addTemplateDir($dir);
+        return $this->config()->directories()->addTemplateDir($dir);
     }
 
+
     /**
-     * get specific or all template directories
+     * get specific template directory
      *
      * @param $dir
      * @return array|bool|string
      */
     public function getTemplateDir($dir = false)
     {
-        return $this->config()->getDirectoryHandler()->getTemplateDir($dir);
+        return $this->config()->directories()->getTemplateDir($dir);
     }
+
+
+    /**
+     * get all template directories
+     *
+     * @param $dir
+     * @return array|bool|string
+     */
+    public function getTemplateDirs()
+    {
+        return $this->config()->directories()->getTemplateDirs();
+    }
+
 
     /**
      * sets the cache directory
@@ -263,18 +300,18 @@ class Caramel
      */
     public function setCacheDir($dir)
     {
-        return $this->config()->getDirectoryHandler()->setCacheDir($dir);
+        return $this->config()->directories()->setCacheDir($dir);
     }
+
 
     /**
      * returns the current cache directory
      *
-     * @param $dir
      * @return array|bool|string
      */
-    public function getCacheDir($dir = false)
+    public function getCacheDir()
     {
-        return $this->config()->getDirectoryHandler()->getCacheDir($dir);
+        return $this->config()->directories()->getCacheDir();
     }
 
 }

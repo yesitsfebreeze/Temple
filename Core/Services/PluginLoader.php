@@ -2,10 +2,11 @@
 
 namespace Caramel;
 
+
 /**
  * handles the plugin loading
- *
  * Class PluginLoader
+ *
  * @package Caramel
  */
 class PluginLoader
@@ -17,8 +18,10 @@ class PluginLoader
     /*** @var array $plugins */
     private $plugins = array();
 
+
     /**
      * Plugins constructor.
+     *
      * @param Caramel $caramel
      */
     public function __construct(Caramel $caramel)
@@ -29,6 +32,7 @@ class PluginLoader
         $plugins         = $this->getPlugins();
         $this->config->set("plugins.registered", $plugins);
     }
+
 
     /**
      * gets all registered plugins
@@ -48,6 +52,7 @@ class PluginLoader
         return $this->plugins;
     }
 
+
     /**
      * @param $pluginFile
      * @return mixed
@@ -61,6 +66,7 @@ class PluginLoader
             $this->loadPlugin($pluginFile);
         }
     }
+
 
     /**
      * @param $pluginFile
@@ -85,6 +91,7 @@ class PluginLoader
             new Error("You need to define the Caramel namespaced class '$pluginClass'  !", $pluginFile);
         }
     }
+
 
     /**
      * @param $position

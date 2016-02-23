@@ -9,7 +9,7 @@ require_once "Core/Models/Plugin.php";
 # Services
 require_once "Core/Services/Error.php";
 require_once "Core/Services/Helpers.php";
-require_once "Core/Services/DirectoryHandler.php";
+require_once "Core/Services/Directories.php";
 require_once "Core/Services/Config.php";
 require_once "Core/Services/Cache.php";
 require_once "Core/Services/PluginLoader.php";
