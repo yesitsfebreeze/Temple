@@ -247,7 +247,6 @@ class Caramel
     /**
      *  get all plugin directories
      *
-     * @param $dir
      * @return array|bool|string
      */
     public function getPluginDirs()
@@ -283,7 +282,6 @@ class Caramel
     /**
      * get all template directories
      *
-     * @param $dir
      * @return array|bool|string
      */
     public function getTemplateDirs()
