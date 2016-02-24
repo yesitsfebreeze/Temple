@@ -10,14 +10,11 @@ namespace Caramel;
  */
 class Cache
 {
-    /** @var Config $config */
-    private $config;
+    /** @var Caramel $crml */
+    private $crml;
 
     /** @var string $cacheDir */
     private $cacheDir;
-
-    /** @var Directories $dirs */
-    private $dirs;
 
     /** @var string $cacheFile */
     private $cacheFile = "__cache.php";
@@ -29,14 +26,29 @@ class Cache
     /**
      * Cache constructor.
      *
-     * @param Caramel $caramel
+     * @param Caramel $crml
      */
-    public function __construct(Caramel $caramel)
+    public function __construct(Caramel $crml)
     {
-        $this->helpers  = $caramel->helpers;
-        $this->config   = $caramel->config();
-        $this->dirs     = $this->config->directories();
-        $this->cacheDir = $this->dirs->getCacheDir();
+        $this->crml = $crml;
+//        $this->updateCacheDir();
+    }
+
+
+    /**
+     * sets the cache directory
+     *
+     * @param string $dir
+     * @return string
+     */
+    public function set($dir)
+    {
+        $dir = preg_replace("/\/$/", "", $dir);
+        if (array_reverse(explode("/", $dir))[0] != "Caramel") $dir = preg_replace("/\/$/", "", $dir) . "/Caramel";
+        $dir = $dir . "/";
+        $this->crml->config()->set("cache_dir", $dir);
+
+        return $this->updateCacheDir();
     }
 
 
@@ -74,7 +86,7 @@ class Cache
         } else {
             $times = $cache["times"];
             foreach ($dependencies as $dependency) {
-                $templates = $this->helpers->templates($dependency);
+                $templates = $this->crml->helpers()->templates($dependency);
                 foreach ($templates as $template) {
                     $cacheTime   = $times[ $dependency ][ md5($template) ];
                     $currentTime = filemtime($template);
@@ -127,7 +139,7 @@ class Cache
     {
         $file      = $this->clean($file);
         $cache     = $this->getCache();
-        $templates = $this->helpers->templates($file);
+        $templates = $this->crml->helpers()->templates($file);
         foreach ($templates as $template) {
             $cache["times"][ $file ][ md5($template) ] = filemtime($template);
         }
@@ -174,7 +186,7 @@ class Cache
     {
         $this->updateCacheDir();
         # remove the template dir
-        foreach ($this->dirs->getTemplateDirs() as $dir) {
+        foreach ($this->crml->template()->dirs() as $dir) {
             $file = str_replace($dir, "", $file);
         }
 
@@ -199,7 +211,7 @@ class Cache
      */
     private function extension($file)
     {
-        $file             = str_replace("." . $this->config->get("extension"), ".php", $file);
+        $file             = str_replace("." . $this->crml->config()->get("extension"), ".php", $file);
         $currentExtension = array_reverse(explode(".", $file))[0];
         if ($currentExtension != "php") {
             $file = $file . ".php";
@@ -264,11 +276,11 @@ class Cache
      */
     private function clean($file)
     {
-        foreach ($this->dirs->getTemplateDirs() as $templateDir) {
+        foreach ($this->crml->template()->dirs() as $templateDir) {
             $file = str_replace($templateDir, "", $file);
         }
 
-        $file = str_replace("." . $this->config->get("extension"), "", $file);
+        $file = str_replace("." . $this->crml->config()->get("extension"), "", $file);
 
         return $file;
     }
@@ -276,11 +288,16 @@ class Cache
 
     /**
      * updates the cache directory if we changed it via php
+     *
+     * @return string
      */
     private function updateCacheDir()
     {
-        $this->dirs->setCacheDir($this->config->get("cache_dir"));
-        $this->cacheDir = $this->config->get("cache_dir");
+        $dir = $this->crml->config()->get("cache_dir");
+        $this->crml->directories()->add($dir, "cache_dir", true);
+        $this->cacheDir = $this->crml->config()->get("cache_dir");
+
+        return $this->cacheDir;
     }
 
 }

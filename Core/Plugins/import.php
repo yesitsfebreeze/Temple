@@ -38,11 +38,11 @@ class PluginImport extends Plugin
     {
         $node->set("tag.display", false);
 
-        $file = $this->getPath($node);
-        $cachePath = $this->caramel->parse($file);
+        $file      = $this->getPath($node);
+        $cachePath = $this->crml->template()->parse($file);
 
         # add the dependency
-        $this->caramel->cache->dependency($node->get("file"), $file);
+        $this->crml->cache()->dependency($node->get("file"), $file);
 
         $node->set("content", "<?php include '" . $cachePath . "' ?>");
 
@@ -61,7 +61,7 @@ class PluginImport extends Plugin
         # if the file has an absolute path
         $file      = $node->get("attributes");
         $relative  = $file[0] != "/";
-        $templates = $this->caramel->getTemplateDirs();
+        $templates = $this->crml->template()->dirs();
 
         if ($relative) {
             $dir  = $this->getParentPath($node, $templates);

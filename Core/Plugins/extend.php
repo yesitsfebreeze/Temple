@@ -2,16 +2,15 @@
 
 namespace Caramel;
 
+
 /**
- *
  * Class PluginExtend
- * @package Caramel
  *
+ * @package    Caramel
  * @description: handles the extending of files and blocks
- * @position: 1
- * @author: Stefan Hövelmanns
- * @License: MIT
- *
+ * @position   : 1
+ * @author     : Stefan Hövelmanns
+ * @License    : MIT
  */
 
 class PluginExtend extends Plugin
@@ -32,6 +31,7 @@ class PluginExtend extends Plugin
     /** @var string $rootFile */
     private $rootFile;
 
+
     /**
      * @param Node $node
      * @return bool
@@ -40,6 +40,7 @@ class PluginExtend extends Plugin
     {
         return ($node->get("tag.tag") == "block");
     }
+
 
     /**
      * @param Node $node
@@ -52,6 +53,7 @@ class PluginExtend extends Plugin
         return $node;
     }
 
+
     /**
      * converts the blocks to comments or completely removes them
      * depending on configuration
@@ -61,7 +63,7 @@ class PluginExtend extends Plugin
      */
     private function processBlocks($node)
     {
-        if ($this->config->get("show_blocks")) {
+        if ($this->crml->config()->get("show_blocks")) {
             # shows name and namespace attributes as a comment for the block
             $node->set("attributes", $node->get("attributes") . " -> " . $node->get("namespace"));
             $node->set("tag.opening.prefix", "<!-- ");
@@ -74,6 +76,7 @@ class PluginExtend extends Plugin
 
         return $node;
     }
+
 
     /**
      * handles the extending of templates
@@ -98,6 +101,7 @@ class PluginExtend extends Plugin
         return $dom;
     }
 
+
     /**
      * checks if the file has an extend tag
      *
@@ -117,7 +121,7 @@ class PluginExtend extends Plugin
                 return new Error("'extend' hast to be the first statement!", $node->get("file"), $node->get("line"));
             }
 
-            $isRootLevel   = $node->get("level") >= sizeof($this->config->directories()->getTemplateDirs()) - 1;
+            $isRootLevel   = $node->get("level") >= sizeof($this->crml->template()->dirs()) - 1;
             $hasAttributes = $node->get("attributes") != "";
 
             # level must be smaller than our amount of template directories
@@ -134,9 +138,10 @@ class PluginExtend extends Plugin
         return false;
     }
 
+
     /**
      * @param array $dom
-     * @param Node $node
+     * @param Node  $node
      * @return array|Error
      */
     private function extend($dom, $node)
@@ -155,7 +160,7 @@ class PluginExtend extends Plugin
         $dom = $this->overrideBlocks($dom, $this->blocks);
 
         # add the file dependency to the current cache file
-        $this->caramel->cache->dependency($this->rootFile, reset($dom)->get("file"));
+        $this->crml->cache()->dependency($this->rootFile, reset($dom)->get("file"));
 
         # if the current extend file is the same as our root file,
         # we would run into an recursion so we have to throw an error
@@ -168,8 +173,9 @@ class PluginExtend extends Plugin
 
         # we have to reinitialize the parsing process
         # with the new dom to check for other extends
-        return $this->caramel->parser->parse($this->rootFile, $dom);
+        return $this->crml->parser()->parse($this->rootFile, $dom);
     }
+
 
     /**
      * @param Node $node
@@ -184,6 +190,7 @@ class PluginExtend extends Plugin
         }
         $this->rootFile = $this->rootFiles[ $node->get("namespace") ];
     }
+
 
     /**
      * @param array $dom
@@ -203,6 +210,7 @@ class PluginExtend extends Plugin
         }
     }
 
+
     /**
      * @param Node $node
      * @return array
@@ -216,7 +224,7 @@ class PluginExtend extends Plugin
             $path = str_replace("." . $this->config->get("extension"), "", $path);
             # absolute extend
             if ($path[0] == "/") {
-                $dom = $this->caramel->lexer->lex($path)["dom"];
+                $dom = $this->crml->lexer->lex($path)["dom"];
             }
             # relative extend
             if ($path[0] != "/") {
@@ -227,11 +235,11 @@ class PluginExtend extends Plugin
                 $folder = strrev(implode("/", $folder));
                 # concat folder and path to get full file path
                 $path = $folder . "/" . $path;
-                $dom  = $this->caramel->lexer->lex($path)["dom"];
+                $dom  = $this->crml->lexer()->lex($path)["dom"];
             }
         } else {
             # get parent file with level and names space
-            $dom = $this->caramel->lexer->lex($node->get("namespace"), $node->get("level") + 1)["dom"];
+            $dom = $this->crml->lexer()->lex($node->get("namespace"), $node->get("level") + 1)["dom"];
         }
 
         # in case we still fail somehow, at least give the user an error.
@@ -242,6 +250,7 @@ class PluginExtend extends Plugin
         return $dom;
 
     }
+
 
     /**
      * @param array $dom
@@ -286,8 +295,9 @@ class PluginExtend extends Plugin
         return $dom;
     }
 
+
     /**
-     * @param Node $node
+     * @param Node  $node
      * @param array $replace
      * @return Storage
      */
@@ -310,9 +320,10 @@ class PluginExtend extends Plugin
         return $node;
     }
 
+
     /**
      * @param Node $node
-     * @param $wraps
+     * @param      $wraps
      * @return mixed
      */
     private function wrap($node, &$wraps)
@@ -330,6 +341,7 @@ class PluginExtend extends Plugin
 
         return $node;
     }
+
 
     /**
      * @param Node $node
@@ -357,9 +369,10 @@ class PluginExtend extends Plugin
         return false;
     }
 
+
     /**
      * @param Node $node
-     * @param $prepend
+     * @param      $prepend
      * @return Storage
      */
     private function prepend($node, &$prepend)
@@ -389,9 +402,10 @@ class PluginExtend extends Plugin
         return $node;
     }
 
+
     /**
      * @param Node $node
-     * @param $append
+     * @param      $append
      * @return Storage
      */
     private function append($node, &$append)
@@ -419,9 +433,10 @@ class PluginExtend extends Plugin
         return $node;
     }
 
+
     /**
      * @param Node $node
-     * @param $replaces
+     * @param      $replaces
      * @return Storage
      */
     private function merge($node, $replaces)

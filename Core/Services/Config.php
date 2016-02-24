@@ -14,26 +14,24 @@ class Config extends Storage
     /** @var string $root */
     private $root;
 
-    /** @var Directories $Directories */
-    private $Directories;
-
 
     /**
      * add default config file on construct
      *
-     * @param $root
+     * @param string  $root
      */
     public function __construct($root)
     {
         $this->root = $root;
         # adding the default configuration
         $this->addConfigFile($this->root . "/Models/Config.php");
-        $this->Directories = new Directories($this);
         $this->setDefaults();
     }
 
 
     /**
+     * merges a new config file into our current config
+     *
      * @param $file
      */
     public function addConfigFile($file)
@@ -56,36 +54,14 @@ class Config extends Storage
 
 
     /**
-     * assigning the default settings to the config
+     * initially sets the required settings
      */
     private function setDefaults()
     {
-        # add default empty directories for plugins and templates
         $this->set("templates.dirs", array());
         $this->set("plugins.dirs", array());
-        $this->setDirectories();
-
-    }
-
-
-    /**
-     * initially sets the required directories
-     */
-    private function setDirectories()
-    {
         $this->set("framework_dir", $this->root . "/");
         $this->set("cache_dir", $this->get("cache_dir"));
-        $this->Directories->addPluginDir(($this->root . "/Plugins"));
-        $this->Directories->setCacheDir($this->get("cache_dir"));
-    }
-
-
-    /**
-     * @return Directories
-     */
-    public function directories()
-    {
-        return $this->Directories;
     }
 
 }

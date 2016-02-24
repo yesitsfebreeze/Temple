@@ -12,7 +12,8 @@ require_once "Core/Services/Helpers.php";
 require_once "Core/Services/Directories.php";
 require_once "Core/Services/Config.php";
 require_once "Core/Services/Cache.php";
-require_once "Core/Services/PluginLoader.php";
+require_once "Core/Services/Plugins.php";
+require_once "Core/Services/Template.php";
 
 require_once "Core/Services/Lexer.php";
 require_once "Core/Services/Parser.php";

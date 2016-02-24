@@ -5,15 +5,18 @@ namespace Caramel;
 
 class Helpers
 {
+    /** @var Caramel $crml */
+    private $crml;
+
 
     /**
      * Helpers constructor.
      *
-     * @param Caramel $caramel
+     * @param Caramel $crml
      */
-    public function __construct(Caramel $caramel)
+    public function __construct(Caramel $crml)
     {
-        $this->config = $caramel->config();
+        $this->crml = $crml;
     }
 
 
@@ -42,11 +45,11 @@ class Helpers
         # get the file extension
         # add add the config extension if it doesn't exist
         $ext       = strrev(substr(strrev($file), 0, 4));
-        $configExt = '.' . $this->config->get("extension");
+        $configExt = '.' . $this->crml->config()->get("extension");
         if ($ext != $configExt) $file = $file . $configExt;
 
         $files = array();
-        foreach ($this->config->directories()->getTemplateDirs() as $level => $templateDir) {
+        foreach ($this->crml->template()->dirs() as $level => $templateDir) {
 
             # concat all template directories
             # with he passed file path

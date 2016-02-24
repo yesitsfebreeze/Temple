@@ -12,126 +12,18 @@ namespace Caramel;
 class Directories
 {
 
-    /** @var Config $config */
-    private $config;
+    /** @var Caramel $crml */
+    private $crml;
 
 
     /**
      * Directories constructor.
      *
-     * @param Config $config
+     * @param Caramel $crml
      */
-    public function __construct($config)
+    public function __construct(Caramel $crml)
     {
-        $this->config = $config;
-    }
-
-
-    /**
-     * adds a template directory
-     *
-     * @param $dir
-     * @return mixed
-     */
-    public function addTemplateDir($dir)
-    {
-
-        return $this->addDirectory($dir, "templates.dirs");
-    }
-
-
-    /**
-     * returns all or selected template directories
-     *
-     * @param $dir
-     * @return string|array|bool
-     */
-    public function getTemplateDir($dir = false)
-    {
-        if (!$dir) {
-            new Error("Please select a directory");
-        }
-
-        return $this->getDirectory($dir, "templates.dirs");
-    }
-
-
-    /**
-     * returns all or selected template directories
-     *
-     * @param $dir
-     * @return string|array|bool
-     */
-    public function getTemplateDirs()
-    {
-        return $this->getDirectory(false, "templates.dirs");
-    }
-
-
-    /**
-     * adds a plugin directory
-     *
-     * @param $dir
-     * @return bool|Error
-     */
-    public function addPluginDir($dir)
-    {
-        return $this->addDirectory($dir, "plugins.dirs");
-    }
-
-
-    /**
-     * returns all or selected plugin directories
-     *
-     * @param $dir
-     * @return string|array|bool
-     */
-    public function getPluginDir($dir = false)
-    {
-        if (!$dir) {
-            new Error("Please select a directory");
-        }
-
-        return $this->getDirectory($dir, "plugins.dirs");
-    }
-
-
-    /**
-     * returns all plugin directories
-     *
-     * @param $dir
-     * @return string|array|bool
-     */
-    public function getPluginDirs()
-    {
-        return $this->getDirectory(false, "plugins.dirs");
-    }
-
-
-    /**
-     * sets the cache directory
-     *
-     * @param $dir
-     * @return bool|Error
-     */
-    public function setCacheDir($dir)
-    {
-        $dir = preg_replace("/\/$/", "", $dir);
-        if (array_reverse(explode("/", $dir))[0] != "Caramel") $dir = preg_replace("/\/$/", "", $dir) . "/Caramel";
-        $dir = $dir . "/";
-
-        return $this->addDirectory($dir, "cache_dir", true);
-    }
-
-
-    /**
-     * returns the cache directory
-     *
-     * @return string|array|bool
-     */
-    public function getCacheDir()
-    {
-        return $this->getDirectory(false, "cache_dir");
+        $this->crml = $crml;
     }
 
 
@@ -148,21 +40,67 @@ class Directories
      * @return bool|Error
      */
 
-    private function addDirectory($dir, $name, $create = false)
+    public function add($dir, $name, $create = false)
     {
         try {
 
             if (!$create) {
-                $dir = $this->validateDirectory($dir);
+                $dir = $this->validate($dir);
             }
 
-            $dirs = $this->config->get($name);
+            $dirs = $this->crml->config()->get($name);
 
-            if ("array" == gettype($dirs)) {
-                return $this->assignToArray($name, $dirs, $dir, $create);
+            if (gettype($dirs) == "array") {
+                return $this->forArray($name, $dirs, $dir, $create);
+
             } else {
-                return $this->assignToString($name, $dirs, $dir, $create);
+                return $this->forString($name, $dirs, $dir, $create);
             }
+
+        } catch (\Exception $e) {
+            return new Error($e);
+        }
+    }
+
+
+    /**
+     * returns the selected directory/ies
+     *
+     * @param      $name
+     * @return array|bool
+     */
+    public function get($name)
+    {
+        return $dirs = $this->crml->config()->get($name);
+    }
+
+
+    /**
+     * @param string $dir
+     * @param string $name
+     * @return bool|Error
+     */
+
+    public function remove($dir, $name)
+    {
+        try {
+
+            $dirs = $this->crml->config()->get($name);
+            if (gettype($dirs) != "array") {
+                return new Error("Sorry, you cant delete this directory");
+            }
+            # add a trailing slash if it doesn't exist
+            if (strrev($dir)[0] != "/") {
+                $dir = $dir . "/";
+            }
+            if (in_array($dir, $dirs)) {
+                $dirs = array_flip($dirs);
+                unset($dirs[ $dir ]);
+                $dirs = array_flip($dirs);
+            }
+
+            return $this->crml->config()->set($name, $dirs);
+
 
         } catch (\Exception $e) {
             return new Error($e);
@@ -177,19 +115,19 @@ class Directories
      * @param $create
      * @return bool|string
      */
-    private function assignToArray($name, $dirs, $dir, $create)
+    private function forArray($name, $dirs, $dir, $create)
     {
         if (array_key_exists($dir, array_flip($dirs))) {
             return false;
         } else {
             if ($dir) {
+                $dir = $this->path($dir);
 
-                $dir = $this->getDirectoryPath($dir);
-                $this->createDirectory($create, $dir);
+                $this->create($create, $dir);
 
                 if (strrev($dir)[0] != "/") $dir = $dir . "/";
                 array_unshift($dirs, $dir);
-                $this->config->set($name, $dirs);
+                $this->crml->config()->set($name, $dirs);
 
                 return $dir;
             } else {
@@ -199,12 +137,12 @@ class Directories
     }
 
 
-    private function assignToString($name, $dirs, $dir, $create)
+    private function forString($name, $dirs, $dir, $create)
     {
-        $dir = $this->getDirectoryPath($dir);
-        $this->createDirectory($create, $dir);
+        $dir = $this->path($dir);
+        $this->create($create, $dir);
         if (strrev($dir)[0] != "/") $dir = $dir . "/";
-        $this->config->set($name, $dir);
+        $this->crml->config()->set($name, $dir);
 
         return $dirs;
     }
@@ -214,34 +152,12 @@ class Directories
      * @param boolean $create
      * @param string  $dir
      */
-    private function createDirectory($create, $dir)
+    private function create($create, $dir)
     {
         if ($create) {
             if (!is_dir($dir)) {
                 mkdir($dir, 0777, true);
             }
-        }
-    }
-
-
-    /**
-     * returns the selected directory/ies
-     *
-     * @param null $dir
-     * @param      $name
-     * @return array|bool
-     */
-    private function getDirectory($dir = NULL, $name)
-    {
-        $dirs = $this->config->get($name);
-        if ($dir) {
-            if (array_key_exists($dir, $dirs)) {
-                return $dirs[ $dir ];
-            } else {
-                return false;
-            }
-        } else {
-            return $dirs;
         }
     }
 
@@ -253,10 +169,10 @@ class Directories
      * @param $dir
      * @return string
      */
-    private function getDirectoryPath($dir)
+    private function path($dir)
     {
         if ($dir[0] != "/") {
-            $framework = $this->getFrameworkDirectory();
+            $framework = $this->framework();
             $dir       = $framework . $dir . "/";
         }
 
@@ -270,9 +186,9 @@ class Directories
      * @param $dir
      * @return Error|string
      */
-    private function validateDirectory($dir)
+    private function validate($dir)
     {
-        if ($dir[0] != "/") $dir = $this->getRootDirectory() . $dir . "/";
+        if ($dir[0] != "/") $dir = $this->root() . $dir . "/";
         if (is_dir($dir)) return $dir;
 
         return new Error("Cannot add directory because it does not exist:", $dir);
@@ -284,7 +200,7 @@ class Directories
      *
      * @return string
      */
-    private function getRootDirectory()
+    private function root()
     {
         $root = strrev(explode("/", strrev($_SERVER["DOCUMENT_ROOT"]))[0]);
         $root = explode($root, __DIR__)[0] . $root . "/";
@@ -298,10 +214,10 @@ class Directories
      *
      * @return array|string
      */
-    private function getFrameworkDirectory()
+    private function framework()
     {
-        if ($this->config->has("framework_dir")) {
-            return $this->config->get("framework_dir");
+        if ($this->crml->config()->has("framework_dir")) {
+            return $this->crml->config()->get("framework_dir");
         } else {
             $framework = explode("Caramel", __DIR__);
             $framework = $framework[0] . "Caramel/";

@@ -13,11 +13,8 @@ use Exception as Exception;
 class Parser
 {
 
-    /** @var  Config $config */
-    private $config;
-
-    /** @var  Cache $cache */
-    private $cache;
+    /** @var Caramel $crml */
+    private $crml;
 
     /** @var  Storage $dom */
     private $dom;
@@ -29,13 +26,12 @@ class Parser
     /**
      * Parser constructor.
      *
-     * @param Caramel $caramel
+     * @param Caramel $crml
      */
-    public function __construct(Caramel $caramel)
+    public function __construct(Caramel $crml)
     {
-        $this->config  = $caramel->config();
-        $this->cache   = $caramel->cache;
-        $this->plugins = $this->config->get("plugins.registered");
+        $this->crml  = $crml;
+        $this->plugins = $this->crml->config()->get("plugins.registered");
     }
 
 
@@ -69,7 +65,7 @@ class Parser
 
         $this->output = $this->processOutputPlugins($this->output);
 
-        $this->cache->save($file, $this->output);
+        $this->crml->cache()->save($file, $this->output);
 
         return $this->output;
     }
@@ -150,7 +146,7 @@ class Parser
      */
     private function processPlugins($nodes)
     {
-        /** @var Storage $node */
+        /** @var Node $node */
         foreach ($nodes as &$node) {
             # process current node
             $node = $this->executePlugins($node, "plugins");

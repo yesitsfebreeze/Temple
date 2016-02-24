@@ -2,8 +2,10 @@
 
 namespace Caramel;
 
+
 /**
  * Class Lexer
+ *
  * @package Caramel
  */
 class Lexer
@@ -45,21 +47,22 @@ class Lexer
     /** @var  string $indent */
     private $lineNo;
 
+
     /**
      * Lexer constructor.
-     * @param Caramel $caramel
+     *
+     * @param Caramel $crml
      */
-    public function __construct(Caramel $caramel)
+    public function __construct(Caramel $crml)
     {
-        $this->caramel = $caramel;
-        $this->config = $caramel->config();
-        $this->cache  = $caramel->cache;
-        $this->parser = $caramel->parser;
+        $this->crml = $crml;
+        $this->cache   = $crml->cache;
+        $this->parser  = $crml->parser;
     }
 
 
     /**
-     * @param $file
+     * @param     $file
      * @param int $level
      * @return array
      */
@@ -86,6 +89,7 @@ class Lexer
 
         return $lexed;
     }
+
 
     /**
      * @param $line
@@ -131,6 +135,7 @@ class Lexer
         $this->prev = $this->node;
 
     }
+
 
     /**
      * @throws \Exception
@@ -178,6 +183,7 @@ class Lexer
         }
     }
 
+
     /**
      * @param Node|bool $parent
      * @return bool|Node
@@ -198,6 +204,7 @@ class Lexer
         }
     }
 
+
     /**
      * @param $node
      * @throws \Exception
@@ -214,6 +221,7 @@ class Lexer
         $node->set("children", $children);
     }
 
+
     /**
      * @param $node
      * @return bool
@@ -223,7 +231,7 @@ class Lexer
     {
         /** @var Node $node */
         # check if our tag is in the self closing array set in the config
-        if (in_array($node->get("tag.tag"), $this->config->get("self_closing"))) return true;
+        if (in_array($node->get("tag.tag"), $this->crml->config()->get("self_closing"))) return true;
 
         return false;
     }
@@ -264,6 +272,7 @@ class Lexer
         return 0;
     }
 
+
     /**
      * @param $line
      * @return string
@@ -276,6 +285,7 @@ class Lexer
 
         return $tag;
     }
+
 
     /**
      * @param $line
@@ -304,10 +314,10 @@ class Lexer
     private function init($file, $level)
     {
         # set the namespace to our file name without the extension
-        $this->namespace = str_replace("." . $this->config->get("extension"), "", $file);
+        $this->namespace = str_replace("." . $this->crml->config()->get("extension"), "", $file);
         # this is an array of the current file
         # and the parent files if they exist
-        $templateFiles = $this->caramel->helpers->templates($file);
+        $templateFiles = $this->crml->helpers()->templates($file);
         $file          = $this->lookupFile($templateFiles, $file, $level);
         $this->file    = $file;
         # reset the dom array

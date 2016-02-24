@@ -11,21 +11,29 @@ namespace Caramel;
  */
 class Caramel
 {
+    /** @var Storage $Variables */
+    private $Variables;
 
+    /** @var Config $Config */
+    private $Config;
 
-    /**
-     * Configuration Storage
-     *
-     * @var Config $config
-     */
-    private $config;
+    /** @var Directories $Directories */
+    private $Directories;
 
-    /**
-     * Storage of all variables for the frontend
-     *
-     * @var Storage $variables
-     */
-    private $variables;
+    /** @var Helpers $Helpers */
+    private $Helpers;
+
+    /** @var Cache $Cache */
+    private $Cache;
+
+    /** @var Plugins $Plugins */
+    private $Plugins;
+
+    /** @var Lexer $Lexer */
+    private $Lexer;
+
+    /** @var Parser $Parser */
+    private $Parser;
 
 
     /**
@@ -34,14 +42,15 @@ class Caramel
     function __construct()
     {
         try {
-            $this->variables = new Storage();
-            $this->variables->set("caramel", $this);
-            $this->config  = new Config(__DIR__);
-            $this->helpers = new Helpers($this);
-            $this->cache   = new Cache($this);
-            $this->plugins = new PluginLoader($this);
-            $this->lexer   = new Lexer($this);
-            $this->parser  = new Parser($this);
+            $this->Variables   = new Storage();
+            $this->Directories = new Directories($this);
+            $this->Config      = new Config(__DIR__);
+            $this->Helpers     = new Helpers($this);
+            $this->Cache       = new Cache($this);
+            $this->Plugins     = new Plugins($this);
+            $this->Lexer       = new Lexer($this);
+            $this->Parser      = new Parser($this);
+            $this->Tempalte    = new Template($this);
         } catch (\Exception $e) {
             new Error($e);
         }
@@ -49,267 +58,83 @@ class Caramel
 
 
     /**
-     * Renders and includes the passed file
-     *
-     * @param $file
+     * @return Template
      */
-    public function display($file)
+    public function template()
     {
-        $templateFile = $this->parse($file);
-        if ($this->config->get("file_header")) {
-            echo "<!-- " . $this->config->get("file_header") . " -->";
-        }
-        # scoped Caramel
-        $__CRML = $this;
-        include $templateFile;
+        return $this->Tempalte;
     }
 
 
     /**
-     * Renders and returns the passed file
-     *
-     * @param $file
-     * @return string
+     * @return Storage
      */
-    public function fetch($file)
+    public function variables()
     {
-        $templateFile      = $this->parse($file);
-        $return            = array();
-        $return["file"]    = $templateFile;
-        $return["content"] = file_get_contents($templateFile);
-
-        return $return;
+        return $this->Variables;
     }
 
 
     /**
-     * parsed a template file
-     *
-     * @param $file
-     * @return mixed|string
-     */
-    public function parse($file)
-    {
-        if ($this->cache->modified($file)) {
-            $lexed = $this->lexer->lex($file);
-            $this->parser->parse($lexed["file"], $lexed["dom"]);
-        }
-
-        return $this->cache->getPath($file);
-    }
-
-
-    /**
-     * getter for the config
-     *
      * @return Config
      */
     public function config()
     {
-        return $this->config;
+        return $this->Config;
     }
 
 
     /**
-     * getter for the variable
-     * if name is not set it will return all variables
-     *
-     * @param $name
-     * @return Config
+     * @return Directories
      */
-    public function getVariable($name = NULL)
+    public function directories()
     {
-        try {
-            if (!is_null($name)) {
-                if ($this->variables->has($name)) {
-                    return $this->variables->get($name);
-                } else {
-                    return false;
-                }
-            } else {
-                return $this->variables;
-            }
-        } catch (\Exception $e) {
-            return new Error($e);
-        }
+        return $this->Directories;
     }
 
 
     /**
-     * getter for the variables
-     *
-     * @param            $name
-     * @param bool|false $value
-     * @return Config
+     * @return Helpers
      */
-    public function setVariable($name = NULL, $value = NULL)
+    public function helpers()
     {
-        try {
-            if (!is_null($value)) {
-                return $this->variables->set($name, $value);
-            } else {
-                return false;
-            }
-        } catch (\Exception $e) {
-            return new Error($e);
-        }
+        return $this->Helpers;
     }
 
 
     /**
-     * getter for the variables
-     *
-     * @param $name
-     * @return Config
+     * @return Cache
      */
-    public function unsetVariable($name = NULL)
+    public function cache()
     {
-        try {
-            if (!is_null($name)) {
-                return $this->variables->set($name, NULL);
-            } else {
-                return false;
-            }
-        } catch (\Exception $e) {
-            return new Error($e);
-        }
+        return $this->Cache;
     }
 
 
     /**
-     * replaces the default debug template
-     *
-     * @return Config
+     * @return Plugins
      */
-    public function changeDebugTemplate($file)
+    public function plugins()
     {
-        // TODO: implement this
-        return true;
+        return $this->Plugins;
     }
 
 
     /**
-     * clears the cache
+     * @return Lexer
      */
-    public function clearCache()
+    public function lexer()
     {
-        return $this->cache->clear();
+        return $this->Lexer;
     }
 
 
     /**
-     * returns an ordered plugin list
-     *
-     * @return array
+     * @return Parser
      */
-    public function getPlugins()
+    public function parser()
     {
-        $plugins = $this->config()->get("plugins/registered");
-        $list    = array();
-        if (sizeof($plugins) > 0) {
-            foreach ($plugins as $pluginList) {
-                foreach ($pluginList as $plugin) {
-                    array_push($list, $plugin->getName());
-                }
-            }
-
-            return $list;
-        } else {
-            return array();
-        }
-    }
-
-
-    /**
-     * adds a new plugin directory
-     *
-     * @param $dir
-     * @return bool|Error
-     */
-    public function addPluginDir($dir)
-    {
-        return $this->config()->directories()->addPluginDir($dir);
-    }
-
-
-    /**
-     *  get specific plugin directory
-     *
-     * @param $dir
-     * @return array|bool|string
-     */
-    public function getPluginDir($dir = false)
-    {
-        return $this->config()->directories()->getPluginDir($dir);
-    }
-
-
-    /**
-     *  get all plugin directories
-     *
-     * @return array|bool|string
-     */
-    public function getPluginDirs()
-    {
-        return $this->config()->directories()->getPluginDirs();
-    }
-
-
-    /**
-     * adds a new template directory
-     *
-     * @param $dir
-     * @return mixed
-     */
-    public function addTemplateDir($dir)
-    {
-        return $this->config()->directories()->addTemplateDir($dir);
-    }
-
-
-    /**
-     * get specific template directory
-     *
-     * @param $dir
-     * @return array|bool|string
-     */
-    public function getTemplateDir($dir = false)
-    {
-        return $this->config()->directories()->getTemplateDir($dir);
-    }
-
-
-    /**
-     * get all template directories
-     *
-     * @return array|bool|string
-     */
-    public function getTemplateDirs()
-    {
-        return $this->config()->directories()->getTemplateDirs();
-    }
-
-
-    /**
-     * sets the cache directory
-     *
-     * @param $dir
-     * @return bool|Error
-     */
-    public function setCacheDir($dir)
-    {
-        return $this->config()->directories()->setCacheDir($dir);
-    }
-
-
-    /**
-     * returns the current cache directory
-     *
-     * @return array|bool|string
-     */
-    public function getCacheDir()
-    {
-        return $this->config()->directories()->getCacheDir();
+        return $this->Parser;
     }
 
 }

@@ -2,8 +2,10 @@
 
 namespace Caramel;
 
+
 /**
  * Class Plugin
+ *
  * @package Caramel
  */
 abstract class Plugin
@@ -12,22 +14,20 @@ abstract class Plugin
     /** @var  Config $config */
     public $config;
 
-    /** @var  Storage $variables */
-    public $variables;
-
     /** @var  integer $position */
     protected $position;
 
+
     /**
      * Plugin constructor.
-     * @param Caramel $caramel
+     *
+     * @param Caramel $crml
      */
-    public function __construct(Caramel $caramel)
+    public function __construct(Caramel $crml)
     {
-        $this->caramel   = $caramel;
-        $this->config    = $caramel->config();
-        $this->variables = $caramel->getVariable();
+        $this->crml = $crml;
     }
+
 
     /**
      * @return int
@@ -52,6 +52,7 @@ abstract class Plugin
         return str_replace('Caramel\Plugin', "", get_class($this));
     }
 
+
     /**
      * this is called before we even touch a node
      * so we can add stuff to our config etc
@@ -65,6 +66,7 @@ abstract class Plugin
         return $dom;
     }
 
+
     /**
      * the function we should use for processing a node
      *
@@ -76,6 +78,7 @@ abstract class Plugin
     {
         return $node;
     }
+
 
     /**
      * processes the actual node
@@ -93,6 +96,7 @@ abstract class Plugin
         }
     }
 
+
     /**
      * the function to check if we want to
      * modify a node
@@ -104,6 +108,7 @@ abstract class Plugin
     {
         return $node;
     }
+
 
     /**
      * this is called after the plugins processed
@@ -117,6 +122,7 @@ abstract class Plugin
     {
         return $dom;
     }
+
 
     /**
      * this is called after the plugins processed
