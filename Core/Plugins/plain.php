@@ -4,30 +4,15 @@ namespace Caramel;
 
 
 /**
- *
  * Class PluginPlain
  *
- * @purpose: converts content of an within the plain tag into plain text
- * @usage:
- *
- *      - my text
- *          another text
- *
- *      - or you can
- *      - write like this
- *
- *      - a line with just a - inside a plain tag will create a break
- *        -
- *        like this
- *
- *      -- this text has no trailing space,
- *         which is otherwise added by default
- *
- * @autor: Stefan Hövelmanns - hvlmnns.de
- * @License: MIT
- * @package Caramel
- *
+ * @package     Caramel
+ * @description converts a node to plain text
+ * @position    3
+ * @author      Stefan Hövelmanns
+ * @License     MIT
  */
+
 class PluginPlain extends Plugin
 {
 
@@ -77,7 +62,7 @@ class PluginPlain extends Plugin
      * recursively iterates over our children and
      * adjust them for the comment
      *
-     * @param Node $node
+     * @param Node    $node
      * @param boolean $trailing
      */
     private function processChildren($node, $trailing)
@@ -100,7 +85,7 @@ class PluginPlain extends Plugin
     /**
      * creates the comment from the current node
      *
-     * @param Node $node
+     * @param Node    $node
      * @param boolean $trailing
      * @param boolean $child
      * @return mixed
