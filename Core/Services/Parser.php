@@ -30,7 +30,7 @@ class Parser
      */
     public function __construct(Caramel $crml)
     {
-        $this->crml  = $crml;
+        $this->crml    = $crml;
         $this->plugins = $this->crml->config()->get("plugins.registered");
     }
 
@@ -43,7 +43,6 @@ class Parser
     public function parse($file, $dom)
     {
         $this->dom = $dom;
-
         if (empty($this->dom)) return false;
         # the returns make sure that the parse process
         # stops if we have an empty dom
@@ -64,7 +63,6 @@ class Parser
         if (trim($this->output) == "") return false;
 
         $this->output = $this->processOutputPlugins($this->output);
-
         $this->crml->cache()->save($file, $this->output);
 
         return $this->output;

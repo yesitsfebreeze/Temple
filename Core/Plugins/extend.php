@@ -6,11 +6,11 @@ namespace Caramel;
 /**
  * Class PluginExtend
  *
- * @package    Caramel
- * @description: handles the extending of files and blocks
- * @position   : 1
- * @author     : Stefan Hövelmanns
- * @License    : MIT
+ * @package     Caramel
+ * @description handles the extending of files and blocks
+ * @position    1
+ * @author      Stefan Hövelmanns
+ * @License     MIT
  */
 
 class PluginExtend extends Plugin
@@ -43,27 +43,15 @@ class PluginExtend extends Plugin
 
 
     /**
-     * @param Node $node
-     * @return Node $node
-     */
-    public function process($node)
-    {
-        $node = $this->processBlocks($node);
-
-        return $node;
-    }
-
-
-    /**
      * converts the blocks to comments or completely removes them
      * depending on configuration
      *
      * @param Node $node
      * @return Node $node
      */
-    private function processBlocks($node)
+    public function process($node)
     {
-        if ($this->crml->config()->get("show_blocks")) {
+        if ($this->crml->config()->get("show_block_as_comments")) {
             # shows name and namespace attributes as a comment for the block
             $node->set("attributes", $node->get("attributes") . " -> " . $node->get("namespace"));
             $node->set("tag.opening.prefix", "<!-- ");
@@ -71,7 +59,7 @@ class PluginExtend extends Plugin
             $node->set("tag.closing.display", false);
         } else {
             # just hide the blocks
-            $node->set("display", false);
+            $node->set("tag.display", false);
         }
 
         return $node;
@@ -90,25 +78,26 @@ class PluginExtend extends Plugin
         # get the first node from the dom
         $node = reset($dom);
 
-        if ($this->fileExtends($node)) {
+        if ($this->extending($node)) {
 
             $this->extend($dom, $node);
 
             # return a empty array to stop the current parsing process
             return array();
         }
+        $this->rootFile = false;
 
         return $dom;
     }
 
 
     /**
-     * checks if the file has an extend tag
+     * checks if the file has an valid extend tag
      *
      * @param Node $node
      * @return bool|mixed
      */
-    private function fileExtends($node)
+    private function extending($node)
     {
 
         # check if node hast extend tag
@@ -140,6 +129,9 @@ class PluginExtend extends Plugin
 
 
     /**
+     * extends the current file and replaces all blocks
+     * this will restart the parsing process
+     *
      * @param array $dom
      * @param Node  $node
      * @return array|Error
@@ -147,20 +139,11 @@ class PluginExtend extends Plugin
     private function extend($dom, $node)
     {
 
-        # get the root file
         $this->getRootFile($node);
 
-        # get all extending blocks from our current dom
-        $this->getFileBlocks($dom);
+        $this->getBlocks($dom);
 
-        # get the dom which will be extended
-        $dom = $this->getExtendDom($node);
-
-        # override all blocks in the current dom
-        $dom = $this->overrideBlocks($dom, $this->blocks);
-
-        # add the file dependency to the current cache file
-        $this->crml->cache()->dependency($this->rootFile, reset($dom)->get("file"));
+        $dom = $this->getDom($node);
 
         # if the current extend file is the same as our root file,
         # we would run into an recursion so we have to throw an error
@@ -168,7 +151,11 @@ class PluginExtend extends Plugin
             return new Error("Recursive extends are not allowed!", $this->rootFile, 1);
         }
 
-        # reset the top level variable
+        $dom = $this->blocks($dom, $this->blocks);
+
+        $this->crml->cache()->dependency($this->rootFile, reset($dom)->get("file"));
+
+        # reset the variables
         $this->topLevel = false;
 
         # we have to reinitialize the parsing process
@@ -193,11 +180,13 @@ class PluginExtend extends Plugin
 
 
     /**
+     * get all extending blocks from our current dom
+     *
      * @param array $dom
      * @return array
      * @throws \Exception
      */
-    private function getFileBlocks($dom)
+    private function getBlocks($dom)
     {
         /** @var Node $node */
         foreach ($dom as $node) {
@@ -212,10 +201,12 @@ class PluginExtend extends Plugin
 
 
     /**
+     * returns the dom of the file which got extended
+     *
      * @param Node $node
      * @return array
      */
-    private function getExtendDom($node)
+    private function getDom($node)
     {
         $dom = false;
         /** @var Storage $node */
@@ -224,7 +215,7 @@ class PluginExtend extends Plugin
             $path = str_replace("." . $this->config->get("extension"), "", $path);
             # absolute extend
             if ($path[0] == "/") {
-                $dom = $this->crml->lexer->lex($path)["dom"];
+                $dom = $this->crml->lexer()->lex($path)["dom"];
             }
             # relative extend
             if ($path[0] != "/") {
@@ -253,12 +244,14 @@ class PluginExtend extends Plugin
 
 
     /**
+     * extend all blocks in the current dom
+     *
      * @param array $dom
      * @param array $blocks
      * @return mixed
      * @throws \Exception
      */
-    private function overrideBlocks($dom, $blocks)
+    private function blocks($dom, $blocks)
     {
 
         /** @var Node $node */
@@ -267,14 +260,13 @@ class PluginExtend extends Plugin
             # process children blocks first
             if ($node->has("children")) {
                 $children = $node->get("children");
-                $this->overrideBlocks($children, $blocks);
+                $this->blocks($children, $blocks);
             }
 
             if ($node->get("tag.tag") == "block") {
-
                 $block = trim($node->get("attributes"));
                 # first add the last complete block override if exists
-                $replace = &$blocks[ $block ];
+                $replace = &$blocks[ 'replace ' . $block ];
                 $node    = $this->replace($node, $replace);
 
                 # then wrap the node afterwards
@@ -288,7 +280,7 @@ class PluginExtend extends Plugin
                 # then add all appends
                 $append = &$blocks[ 'append ' . $block ];
                 $node   = $this->append($node, $append);
-
+                $node->set("extended", true);
             }
         }
 
@@ -297,24 +289,22 @@ class PluginExtend extends Plugin
 
 
     /**
+     * replaces a block with the extending block
+     *
      * @param Node  $node
-     * @param array $replace
+     * @param array $replaces
      * @return Storage
      */
-    private function replace($node, &$replace)
+    private function replace($node, &$replaces)
     {
-        if (!is_null($replace)) {
+
+        if (!is_null($replaces)) {
+            /** @var Node $replace */
+            $replace = reset(array_reverse($replaces));
             # update the node namespace
-            $node->set("namespace", reset($replace)->get("namespace"));
-            /** @var Node $replaceItem */
-            $replaceItem = $replace[ sizeof($replace) - 1 ];
-            # reset the children to a clean Storage
-            # since we completely replace them
-            $node->set("children", new Storage());
-            # get children from the replace array
-            $replaces = $replaceItem->get("children");
-            $node     = $this->merge($node, $replaces);
-            unset($replace);
+            $node->set("namespace", $replace->get("namespace"));
+            $node->set("children", array($replace));
+            $replaces = NULL;
         }
 
         return $node;
@@ -322,6 +312,8 @@ class PluginExtend extends Plugin
 
 
     /**
+     * wraps a block with the extending block
+     *
      * @param Node $node
      * @param      $wraps
      * @return mixed
@@ -329,13 +321,16 @@ class PluginExtend extends Plugin
     private function wrap($node, &$wraps)
     {
         if (!is_null($wraps)) {
+
             # update the node namespace
             $node->set("namespace", reset($wraps)->get("namespace"));
-            foreach ($wraps as &$wrap) {
-                /*** @var Node $last */
-                $last = $this->getLastWrapChild($wrap);
-                $last->set("children", array($node));
-                $node = $wrap;
+
+            $children = $node->get("children");
+            foreach ($wraps as $wrap) {
+                /** @var Node $inner */
+                $inner = $this->inner($wrap);
+                $inner->set("children", $children);
+                $node->set("children", array($wrap));
             }
         }
 
@@ -344,36 +339,33 @@ class PluginExtend extends Plugin
 
 
     /**
+     * get the most inner node
+     *
      * @param Node $node
      * @return bool
      */
-    private function getLastWrapChild(&$node)
+    private function inner(&$node)
     {
         /** @var Storage $node */
         if ($node->has("children")) {
-            $children = $node->get("children");
-            # since we wrap the children with stuff
-            # it absolutely makes no sense to have more than one children
-            if (sizeof($children) > 1) {
-                return new Error("The 'block wrap' function can't have more than one children", $node->get("file"), $node->get("line"));
-            } else {
-                # get first entry and recurse
-                $child = reset($children);
+            # get the last node and try to get its inner
+            $child = reset(array_reverse($node->get("children")));
 
-                return $this->getLastWrapChild($child);
-            }
+            # it absolutely makes no sense to have more than one children
+            return $this->inner($child);
+
         } else {
             return $node;
         }
-
-        return false;
     }
 
 
     /**
-     * @param Node $node
-     * @param      $prepend
-     * @return Storage
+     * adds the extending block content before the block
+     *
+     * @param Node       $node
+     * @param array|Node $prepend
+     * @return Node
      */
     private function prepend($node, &$prepend)
     {
@@ -381,22 +373,14 @@ class PluginExtend extends Plugin
             # update the node namespace
             $node->set("namespace", reset($prepend)->get("namespace"));
             # reverse the nodes to obtain right order
-            $prepend  = array_reverse($prepend);
-            $replaces = $node->get("children");
-            $replaces = array_values($replaces);
-            /** @var Node $prepended */
-            foreach ($prepend as $prepended) {
-                $prepends = $prepended->get("children");
-                # also reverse the children to obtain right order
-                $prepends = array_reverse($prepends);
-                foreach ($prepends as $child) {
-                    # add all prepended nodes before our block
-                    array_unshift($replaces, $child);
-                }
-            }
+            $prepend = array_reverse($prepend);
             # put it together
-            $node = $this->merge($node, $replaces);
-            unset($prepend);
+            foreach ($prepend as &$item) {
+                $children = $node->get("children");
+                array_unshift($children, $item);
+                $node->set("children", $children);
+                unset($append);
+            }
         }
 
         return $node;
@@ -404,9 +388,11 @@ class PluginExtend extends Plugin
 
 
     /**
-     * @param Node $node
-     * @param      $append
-     * @return Storage
+     * adds the extending block content after the block
+     *
+     * @param Node       $node
+     * @param array|Node $append
+     * @return Node
      */
     private function append($node, &$append)
     {
@@ -414,37 +400,15 @@ class PluginExtend extends Plugin
             # update the node namespace
             $node->set("namespace", reset($append)->get("namespace"));
             # reverse the nodes to obtain right order
-            $append   = array_reverse($append);
-            $replaces = $node->get("children");
-            /** @var Node $appended */
-            foreach ($append as $appended) {
-                $appends = $appended->get("children");
-                foreach ($appends as $child) {
-                    # add all prepended nodes after our block
-                    array_push($replaces, $child);
-                }
-            }
+            $append = array_reverse($append);
             # put it together
-
-            $node = $this->merge($node, $replaces);
-            unset($append);
+            foreach ($append as &$item) {
+                $children = $node->get("children");
+                array_push($children, $item);
+                $node->set("children", $children);
+                unset($append);
+            }
         }
-
-        return $node;
-    }
-
-
-    /**
-     * @param Node $node
-     * @param      $replaces
-     * @return Storage
-     */
-    private function merge($node, $replaces)
-    {
-        # always order the replacing nodes
-        /** @var Storage $node */
-        /** @var Storage $children */
-        $node->set("children", array_values($replaces));
 
         return $node;
     }
