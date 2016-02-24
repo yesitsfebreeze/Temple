@@ -37,10 +37,10 @@ class Caramel
             $this->variables = new Storage();
             $this->variables->set("caramel", $this);
             $this->config  = new Config(__DIR__);
+            $this->helpers = new Helpers($this);
             $this->cache   = new Cache($this);
             $this->plugins = new PluginLoader($this);
             $this->lexer   = new Lexer($this);
-            $this->helpers = new Helpers($this);
             $this->parser  = new Parser($this);
         } catch (\Exception $e) {
             new Error($e);

@@ -51,6 +51,7 @@ class Lexer
      */
     public function __construct(Caramel $caramel)
     {
+        $this->caramel = $caramel;
         $this->config = $caramel->config();
         $this->cache  = $caramel->cache;
         $this->parser = $caramel->parser;
@@ -306,7 +307,7 @@ class Lexer
         $this->namespace = str_replace("." . $this->config->get("extension"), "", $file);
         # this is an array of the current file
         # and the parent files if they exist
-        $templateFiles = $this->templateFiles($file);
+        $templateFiles = $this->caramel->helpers->templates($file);
         $file          = $this->lookupFile($templateFiles, $file, $level);
         $this->file    = $file;
         # reset the dom array
@@ -345,34 +346,5 @@ class Lexer
 
         # if not throw error
         return new Error("Can't find template file.", $this->file, $this->lineNo - 1);
-    }
-
-    /**
-     * @param $file
-     * @return Error|string
-     * @throws \Exception
-     */
-    private function templateFiles($file)
-    {
-        # get the file extension
-        # add add the config extension if it doesn't exist
-        $ext       = strrev(substr(strrev($file), 0, 4));
-        $configExt = '.' . $this->config->get("extension");
-        if ($ext != $configExt) $file = $file . $configExt;
-
-        $files = array();
-        foreach ($this->config->directories()->getTemplateDirs() as $level => $templateDir) {
-            # concat all template directories
-            # with he passed file path
-            $checkFile = $templateDir . $file;
-            # add them to our array if they exist
-            if (file_exists($checkFile)) $files[ $level ] = $checkFile;
-        }
-
-        # if we found some files return them
-        if (sizeof($files) > 0) return $files;
-
-        # otherwise throw an error
-        return new Error("Can't find template file.", $file);
     }
 }

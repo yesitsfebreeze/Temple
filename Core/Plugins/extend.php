@@ -145,9 +145,6 @@ class PluginExtend extends Plugin
         # get the root file
         $this->getRootFile($node);
 
-        # add the file dependency to the current cache file
-        $this->caramel->cache->dependency($this->rootFile, $node->get("file"));
-
         # get all extending blocks from our current dom
         $this->getFileBlocks($dom);
 
@@ -156,6 +153,9 @@ class PluginExtend extends Plugin
 
         # override all blocks in the current dom
         $dom = $this->overrideBlocks($dom, $this->blocks);
+
+        # add the file dependency to the current cache file
+        $this->caramel->cache->dependency($this->rootFile, reset($dom)->get("file"));
 
         # if the current extend file is the same as our root file,
         # we would run into an recursion so we have to throw an error
