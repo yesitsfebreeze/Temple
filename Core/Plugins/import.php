@@ -6,11 +6,11 @@ namespace Caramel;
 /**
  * Class PluginImport
  *
- * @package    Caramel
- * @description: handles file imports
- * @position   : 0
- * @author     : Stefan Hövelmanns
- * @License    : MIT
+ * @package     Caramel
+ * @description handles file imports
+ * @position    0
+ * @author      Stefan Hövelmanns
+ * @License     MIT
  */
 
 class PluginImport extends Plugin
@@ -59,31 +59,30 @@ class PluginImport extends Plugin
     private function getPath($node)
     {
         # if the file has an absolute path
-        $file      = $node->get("attributes");
-        $relative  = $file[0] != "/";
-        $templates = $this->crml->template()->dirs();
+        $path     = $node->get("attributes");
+        $relative = $path[0] != "/";
 
         if ($relative) {
-            $dir  = $this->getParentPath($node, $templates);
-            $file = $dir . $file;
+            $path = $this->getParentPath($node) . $path;
         }
 
-        return $file;
+        return $path;
     }
 
 
     /**
      * returns the template path to the file which is importing
      *
-     * @param Node  $node
-     * @param array $templates
+     * @param Node $node
      * @return mixed
      */
-    private function getParentPath($node, $templates)
+    private function getParentPath($node)
     {
-        $path = explode("/", $node->get("file"));
+        $templates = $this->crml->template()->dirs();
+        $path      = explode("/", $node->get("file"));
         array_pop($path);
         $path = implode("/", $path) . "/";
+
         foreach ($templates as $template) {
             $path = str_replace($template, "", $path);
         }
