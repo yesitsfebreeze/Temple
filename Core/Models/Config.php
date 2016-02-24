@@ -9,7 +9,7 @@ $config = array(
     "extension" => "crml",
 
     # directory where we want the cache to be located at
-    "cache_dir" => "cache",
+    "cache_dir" => "../Cache",
 
     # the symbol used for identifying comments
     "comment_symbol" => "#",

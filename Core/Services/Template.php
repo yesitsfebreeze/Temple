@@ -36,7 +36,7 @@ class Template
         }
 
         # scoped Caramel
-        $__CRML = $this;
+        $_crml = $this->crml;
 
         include $templateFile;
     }
@@ -57,12 +57,12 @@ class Template
     /**
      * removes a template directory
      *
-     * @param $dir
+     * @param integer $pos
      * @return string
      */
-    public function remove($dir)
+    public function remove($pos)
     {
-        return $this->crml->directories()->remove($dir, "templates.dirs");
+        return $this->crml->directories()->remove($pos, "templates.dirs");
     }
 
 

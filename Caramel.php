@@ -2,6 +2,8 @@
 
 namespace Caramel;
 
+require_once "autoload.php";
+
 
 /**
  * the main class for the caramel template engine
@@ -11,8 +13,8 @@ namespace Caramel;
  */
 class Caramel
 {
-    /** @var Storage $Variables */
-    private $Variables;
+    /** @var Storage $Vars */
+    private $Vars;
 
     /** @var Config $Config */
     private $Config;
@@ -42,7 +44,7 @@ class Caramel
     function __construct()
     {
         try {
-            $this->Variables   = new Storage();
+            $this->Vars   = new Vars();
             $this->Directories = new Directories($this);
             $this->Config      = new Config(__DIR__);
             $this->Helpers     = new Helpers($this);
@@ -69,9 +71,9 @@ class Caramel
     /**
      * @return Storage
      */
-    public function variables()
+    public function vars()
     {
-        return $this->Variables;
+        return $this->Vars;
     }
 
 

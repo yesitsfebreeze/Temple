@@ -76,35 +76,19 @@ class Directories
 
 
     /**
-     * @param string $dir
-     * @param string $name
-     * @return bool|Error
+     * @param integer $pos
+     * @param string  $name
+     * @return bool
      */
 
-    public function remove($dir, $name)
+    public function remove($pos, $name)
     {
-        try {
-
-            $dirs = $this->crml->config()->get($name);
-            if (gettype($dirs) != "array") {
-                return new Error("Sorry, you cant delete this directory");
-            }
-            # add a trailing slash if it doesn't exist
-            if (strrev($dir)[0] != "/") {
-                $dir = $dir . "/";
-            }
-            if (in_array($dir, $dirs)) {
-                $dirs = array_flip($dirs);
-                unset($dirs[ $dir ]);
-                $dirs = array_flip($dirs);
-            }
-
-            return $this->crml->config()->set($name, $dirs);
-
-
-        } catch (\Exception $e) {
-            return new Error($e);
+        $dirs = $this->crml->config()->get($name);
+        if (array_key_exists($pos, $dirs)) {
+            unset($dirs[ $pos ]);
         }
+
+        return $this->crml->config()->set($name, $dirs);
     }
 
 

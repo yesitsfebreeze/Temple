@@ -3,6 +3,7 @@
 
 # Models
 require_once "Core/Models/Storage.php";
+require_once "Core/Models/Vars.php";
 require_once "Core/Models/Node.php";
 require_once "Core/Models/Plugin.php";
 
@@ -14,8 +15,8 @@ require_once "Core/Services/Config.php";
 require_once "Core/Services/Cache.php";
 require_once "Core/Services/Plugins.php";
 require_once "Core/Services/Template.php";
-
 require_once "Core/Services/Lexer.php";
 require_once "Core/Services/Parser.php";
 
-require_once "Core/Caramel.php";
+# Class
+require_once "Caramel.php";

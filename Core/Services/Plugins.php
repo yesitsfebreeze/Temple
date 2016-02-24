@@ -52,12 +52,12 @@ class Plugins
     /**
      * removes a plugin dir
      *
-     * @param $dir
+     * @param integer $pos
      * @return string
      */
-    public function remove($dir)
+    public function remove($pos)
     {
-        return $this->crml->directories()->remove($dir, "plugins.dirs");
+        return $this->crml->directories()->remove($pos, "plugins.dirs");
     }
 
 

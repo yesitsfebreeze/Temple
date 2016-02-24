@@ -13,14 +13,8 @@ class Cache
     /** @var Caramel $crml */
     private $crml;
 
-    /** @var string $cacheDir */
-    private $cacheDir;
-
     /** @var string $cacheFile */
     private $cacheFile = "__cache.php";
-
-    /** @var Helpers $helpers */
-    private $helpers;
 
 
     /**
@@ -31,7 +25,7 @@ class Cache
     public function __construct(Caramel $crml)
     {
         $this->crml = $crml;
-//        $this->updateCacheDir();
+        $this->updateCacheDir();
     }
 
 
@@ -197,7 +191,7 @@ class Cache
         $file = str_replace("/", '.', $file);
 
         # add cache directory and escape the slashes with an underscore
-        $file = $this->cacheDir . $file;
+        $file = $this->updateCacheDir() . $file;
 
         return $file;
     }
@@ -247,8 +241,7 @@ class Cache
     {
         try {
             if (is_null($dir)) {
-                $this->updateCacheDir();
-                $dir = $this->cacheDir;
+                $dir = $this->updateCacheDir();
             }
             foreach (scandir($dir) as $item) {
                 if ($item != '..' && $item != '.') {
@@ -295,9 +288,7 @@ class Cache
     {
         $dir = $this->crml->config()->get("cache_dir");
         $this->crml->directories()->add($dir, "cache_dir", true);
-        $this->cacheDir = $this->crml->config()->get("cache_dir");
-
-        return $this->cacheDir;
+        return $this->crml->config()->get("cache_dir");
     }
 
 }
