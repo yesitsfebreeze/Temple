@@ -71,6 +71,10 @@ class Cache
      */
     public function modified($file)
     {
+        if (!$this->crml->config()->get("use_cache")) {
+            return true;
+        }
+
         $modified = false;
 
         $cache        = $this->getCache();

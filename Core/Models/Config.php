@@ -2,11 +2,11 @@
 
 $config = array(
 
-    # disable the cache
-    "nocache" => true,
-
     # our template file extension
     "extension" => "crml",
+
+    # disable the cache
+    "use_cache" => false,
 
     # directory where we want the cache to be located at
     "cache_dir" => "../Cache",
