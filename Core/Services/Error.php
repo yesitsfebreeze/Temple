@@ -65,22 +65,25 @@ class Error
     private function head()
     {
         # colors
-        $bodyBg    = "#3b3a39";
-        $bodyColor = "#e0dddc";
-        $textColor = "#a6a2a0";
-        $highlight = "#d6963c";
+        $bodyBg    = "#2B2B3B";
+        $bodyColor = "#E1E0DE";
+        $textColor = "#6E7A89";
+        $highlight = "#E59137";
 
         $output = "<style>";
-        $output .= "html,body{background-color:{$bodyBg};color:{$bodyColor};font-family:sans-serif;padding:50px;}";
-        $output .= "h3{margin-top:50px;margin-bottom:0px;}";
-        $output .= "h4{margin-top:15px;margin-bottom:50px;font-weight:400;font-size:120%;}";
+        $output .= "html,body{background-color:{$bodyBg};color:{$bodyColor};letter-spacing:0.04em;font-weight:400;font-family:'Catamaran',sans-serif;padding:50px;font-size: 16px}";
+        $output .= "h1{font-weight:100;position:relative;margin-bottom:20px}";
+        $output .= "h3{margin-top:50px;margin-bottom:0px;font-weight:400}";
+        $output .= "h4{margin-top:15px;margin-bottom:0px;font-weight:400;font-size:120%;}";
+        $output .= ".traces{color:{$textColor};font-weight:400;margin-top:50px}";
         $output .= ".trace{color:{$textColor};margin:4px 0;}";
         $output .= ".colored{color:{$highlight};}";
-        $output .= "h1{font-weight:400;position:relative;color:{$highlight};margin-bottom:20px;}";
         $output .= ".issues{padding: 30px 0;}";
         $output .= "a{color:{$highlight}}";
         $output .= "a:hover,a:focus,a:active{color:{$highlight}}";
+        $output .= ".issues{color:{$textColor};font-size: 87%}";
         $output .= "</style>";
+        $output .= "<link href='https://fonts.googleapis.com/css?family=Catamaran:400,500,300' rel='stylesheet' type='text/css'>";
         $output .= "<title>Caramel found an Error!</title>";
 
         return $output;
@@ -99,18 +102,18 @@ class Error
     {
         # get the message from the exception and
         # escape double quotes to prevent js errors
-        $text    = str_replace('"', "'", $error->getMessage());
+        $text   = str_replace('"', "'", $error->getMessage());
         $output = "<div class='content'>";
-        $output .= "<h1>Snap!</h1>";
+        $output .= "<h1><span class='colored'>c</span>aramel</h1>";
         $output .= "<h3>{$text}</h3>";
 
         if ($file !== false) {
             $this->file($file, $line);
         }
 
-        $output .= "<div class='issues'>Please report any unsolved problem to my <a href='https://github.com/hvlmnns/Caramel/issues' title='issues' target='_blank'>Github</a> page.</div>";
-
         $output .= $this->traces($error);
+
+        $output .= "<div class='issues'>Please report any unsolved problem to my <a href='https://github.com/hvlmnns/Caramel/issues' title='issues' target='_blank'>Github</a> page.</div>";
 
         return $output;
     }
@@ -131,7 +134,7 @@ class Error
         $filename = "<span class='colored'>" . array_pop($file) . "</span>";
         $output .= implode("/", $file) . "/" . $filename;
         if ($line !== false) {
-            $output .= " on line <b class='colored'>{$line}</b>";
+            $output .= " on line <span class='lineno colored'>{$line}</span>";
         }
         $output .= "</p>";
         $output .= "</h4>";
@@ -154,7 +157,7 @@ class Error
             $file = explode("/", $trace["file"]);
             $output .= "<p class='trace'>";
             $output .= "<span class='colored'>" . array_pop($file) . "</span>";
-            $output .= " on line <b class='colored'>" . $trace["line"] . "</b>";
+            $output .= " on line <span class='lineno colored'>" . $trace["line"] . "</span>";
             $output .= "</p>";
         }
         $output .= "</div>";
