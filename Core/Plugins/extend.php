@@ -55,6 +55,7 @@ class PluginExtend extends Plugin
             # hide parent blocks
             if ($node->get("attributes") == "parent") {
                 $node->set("tag.display", false);
+
                 return $node;
             }
             # shows name and namespace attributes as a comment for the block
@@ -74,21 +75,21 @@ class PluginExtend extends Plugin
     /**
      * handles the extending of templates
      *
-     * @param array $dom
+     * @param Dom $dom
      * @return array
      * @throws \Exception
      */
     public function preProcess($dom)
     {
         # get the first node from the dom
-        $node = reset($dom);
-
+        $nodes = $dom->get("nodes");
+        $node  = reset($nodes);
         if ($this->extending($node)) {
 
             $this->extend($dom, $node);
 
             # return a empty array to stop the current parsing process
-            return array();
+            return new Dom();
         }
         $this->rootFile = false;
 
@@ -137,17 +138,14 @@ class PluginExtend extends Plugin
      * extends the current file and replaces all blocks
      * this will restart the parsing process
      *
-     * @param array $dom
-     * @param Node  $node
+     * @param Dom  $dom
+     * @param Node $node
      * @return array|Error
      */
     private function extend($dom, $node)
     {
-
         $this->getRootFile($node);
-
         $this->getBlocks($dom);
-
         $dom = $this->getDom($node);
 
         # if the current extend file is the same as our root file,
@@ -158,14 +156,15 @@ class PluginExtend extends Plugin
 
         $dom = $this->blocks($dom, $this->blocks);
 
-        $this->crml->cache()->dependency($this->rootFile, reset($dom)->get("file"));
+        $this->crml->cache()->dependency($this->rootFile, reset($dom->get("nodes"))->get("file"));
 
         # reset the variables
         $this->topLevel = false;
 
         # we have to reinitialize the parsing process
         # with the new dom to check for other extends
-        $dom->set("template.file",$this->rootFile);
+        $dom->set("template.file", $this->rootFile);
+
         return $this->crml->parser()->parse($dom);
     }
 
@@ -188,14 +187,15 @@ class PluginExtend extends Plugin
     /**
      * get all extending blocks from our current dom
      *
-     * @param array $dom
+     * @param Dom $dom
      * @return array
      * @throws \Exception
      */
     private function getBlocks($dom)
     {
         /** @var Node $node */
-        foreach ($dom as $node) {
+        $nodes = $dom->get("nodes");
+        foreach ($nodes as $node) {
             if ($node->get("tag.tag") == "block") {
                 $name = trim($node->get("attributes"));
                 # create array if it doesn't exist
@@ -210,7 +210,7 @@ class PluginExtend extends Plugin
      * returns the dom of the file which got extended
      *
      * @param Node $node
-     * @return array
+     * @return Dom
      */
     private function getDom($node)
     {
@@ -236,7 +236,7 @@ class PluginExtend extends Plugin
             }
         } else {
             # get parent file with level and names space
-            $dom = $this->crml->lexer()->lex($node->get("namespace"), $node->get("level") + 1)["dom"];
+            $dom = $this->crml->lexer()->lex($node->get("namespace"), $node->get("level") + 1);
         }
 
         # in case we still fail somehow, at least give the user an error.
@@ -252,7 +252,7 @@ class PluginExtend extends Plugin
     /**
      * extend all blocks in the current dom
      *
-     * @param array $dom
+     * @param Dom   $dom
      * @param array $blocks
      * @return mixed
      * @throws \Exception
@@ -261,161 +261,61 @@ class PluginExtend extends Plugin
     {
 
         /** @var Node $node */
-        foreach ($dom as &$node) {
-
+        $nodes = $dom->get("nodes");
+        foreach ($nodes as &$node) {
             # process children blocks first
             if ($node->has("children")) {
-                $children = $node->get("children");
-                $this->blocks($children, $blocks);
+                $children = new Dom();
+                $children->set("nodes", $node->get("children"));
+                $node->set("children", $this->blocks($children, $blocks)->get("nodes"));
+
             }
 
             if ($node->get("tag.tag") == "block") {
-                $block = trim($node->get("attributes"));
-                # first add the last complete block override if exists
-                $replace = &$blocks[ 'replace ' . $block ];
-                $node    = $this->replace($node, $replace);
-
-                # then wrap the node afterwards
-                $wrap = &$blocks[ 'wrap ' . $block ];
-                $node = $this->wrap($node, $wrap);
-
-                # add all prepends next
-                $prepend = &$blocks[ 'prepend ' . $block ];
-                $node    = $this->prepend($node, $prepend);
-
-                # then add all appends
-                $append = &$blocks[ 'append ' . $block ];
-                $node   = $this->append($node, $append);
-                $node->set("extended", true);
+                $name  = trim($node->get("attributes"));
+                $stash = &$blocks[ $name ];
+                if (!is_null($stash)) {
+                    foreach ($stash as $block) {
+                        $node = $this->block($node, $block);
+                    }
+                }
             }
         }
+
+        $dom->set("nodes", $nodes);
 
         return $dom;
     }
 
 
     /**
-     * replaces a block with the extending block
-     *
-     * @param Node  $node
-     * @param array $replaces
-     * @return Storage
-     */
-    private function replace($node, &$replaces)
-    {
-
-        if (!is_null($replaces)) {
-            /** @var Node $replace */
-            $replace = reset(array_reverse($replaces));
-            # update the node namespace
-            $node->set("namespace", $replace->get("namespace"));
-            $node->set("children", array($replace));
-            $replaces = NULL;
-        }
-
-        return $node;
-    }
-
-
-    /**
-     * wraps a block with the extending block
+     * inserts the node into "block parent" if available
+     * and then replaces the node with the block
      *
      * @param Node $node
-     * @param      $wraps
-     * @return mixed
-     */
-    private function wrap($node, &$wraps)
-    {
-        if (!is_null($wraps)) {
-
-            # update the node namespace
-            $node->set("namespace", reset($wraps)->get("namespace"));
-
-            $children = $node->get("children");
-            foreach ($wraps as $wrap) {
-                /** @var Node $inner */
-                $inner = $this->inner($wrap);
-                $inner->set("children", $children);
-                $node->set("children", array($wrap));
-            }
-        }
-
-        return $node;
-    }
-
-
-    /**
-     * get the most inner node
-     *
-     * @param Node $node
-     * @return bool
-     */
-    private function inner(&$node)
-    {
-        /** @var Storage $node */
-        if ($node->has("children")) {
-            # get the last node and try to get its inner
-            $child = reset(array_reverse($node->get("children")));
-
-            # it absolutely makes no sense to have more than one children
-            return $this->inner($child);
-
-        } else {
-            return $node;
-        }
-    }
-
-
-    /**
-     * adds the extending block content before the block
-     *
-     * @param Node       $node
-     * @param array|Node $prepend
+     * @param Node $block
      * @return Node
      */
-    private function prepend($node, &$prepend)
+    private function block($node, $block)
     {
-        if (!is_null($prepend)) {
-            # update the node namespace
-            $node->set("namespace", reset($prepend)->get("namespace"));
-            # reverse the nodes to obtain right order
-            $prepend = array_reverse($prepend);
-            # put it together
-            foreach ($prepend as &$item) {
-                $children = $node->get("children");
-                array_unshift($children, $item);
-                $node->set("children", $children);
-                unset($append);
-            }
-        }
+        $block = $this->parent($node, $block);
+        $node = $block;
 
         return $node;
     }
 
 
-    /**
-     * adds the extending block content after the block
-     *
-     * @param Node       $node
-     * @param array|Node $append
-     * @return Node
-     */
-    private function append($node, &$append)
+    private function parent($node, $block)
     {
-        if (!is_null($append)) {
-            # update the node namespace
-            $node->set("namespace", reset($append)->get("namespace"));
-            # reverse the nodes to obtain right order
-            $append = array_reverse($append);
-            # put it together
-            foreach ($append as &$item) {
-                $children = $node->get("children");
-                array_push($children, $item);
-                $node->set("children", $children);
-                unset($append);
+        if ($block->has("children")) {
+            foreach ($block->get("children") as $item) {
+                $this->parent($node, $item);
+                if ($item->get("tag.tag") == "block" && $item->get("attributes") == "parent") {
+                    $item->set("children", array($node));
+                }
             }
         }
 
-        return $node;
+        return $block;
     }
 }

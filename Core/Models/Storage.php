@@ -109,29 +109,45 @@ class Storage
      * @param string       $value
      * @return array
      */
-    public function find($item, $attrs, $value = NULL)
+    public function find(&$item, $attrs, $value = NULL)
     {
         $found = array();
 
-        if ($item->has("children")) {
-            $children = $item->get("children");
-            /** @var Storage $child */
-            foreach ($children as $child) {
-                $found = $this->find($child, $attrs, $value);
-                if (gettype($attrs) == "array") {
-                    foreach ($attrs as $attr => $value) {
-                        if ($child->has($attr)) {
-                            if ($child->get($attr) == $value) {
-                                array_push($found, $child);
-                            }
-                        }
+        $this->findHelper($found, $item, $attrs, $value);
+        $children = $item->get("children");
+        /** @var Storage $child */
+        foreach ($children as &$child) {
+            $this->find($child, $attrs, $value);
+            $this->findHelper($found, $child, $attrs, $value);
+        }
+
+        return $found;
+    }
+
+
+    /**
+     * outsourcing the repeating find process
+     *
+     * @param array        $found
+     * @param Storage      $item
+     * @param array|string $attrs
+     * @param string       $value
+     * @return array
+     */
+    private function findHelper(&$found, &$item, $attrs, $value = NULL)
+    {
+        if (gettype($attrs) == "array") {
+            foreach ($attrs as $attr => $value) {
+                if ($item->has($attr)) {
+                    if ($item->get($attr) == $value) {
+                        array_push($found, $item);
                     }
-                } else {
-                    if ($child->has($attrs)) {
-                        if ($child->get($attrs) == $value) {
-                            array_push($found, $child);
-                        }
-                    }
+                }
+            }
+        } else {
+            if ($item->has($attrs)) {
+                if ($item->get($attrs) == $value) {
+                    array_push($found, $item);
                 }
             }
         }
@@ -151,7 +167,7 @@ class Storage
     {
         $storage = $this->storage;
         if ($path) {
-            $paths = $this->getPath($path);
+            $paths = $this->createPath($path);
             foreach ($paths as $position => $key) {
                 if (!isset($storage[ $key ])) {
                     # if path is not set throw error
@@ -175,9 +191,9 @@ class Storage
      * @param $value
      * @return bool
      */
-    public function setter($path, $value)
+    private function setter($path, $value)
     {
-        $paths   = $this->getPath($path);
+        $paths   = $this->createPath($path);
         $storage = &$this->storage;
         $parent  = false;
         $name    = false;
@@ -207,7 +223,7 @@ class Storage
      * @param $path
      * @return array|mixed
      */
-    private function getPath($path)
+    private function createPath($path)
     {
         # remove last / if existent
         $path = preg_replace('/\.$/', '', $path);
