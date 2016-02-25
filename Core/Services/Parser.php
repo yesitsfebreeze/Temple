@@ -2,6 +2,7 @@
 
 namespace Caramel;
 
+
 /**
  * Class Parser
  *
@@ -31,30 +32,43 @@ class Parser
      */
     public function parse($dom)
     {
-        $nodes = $dom->get("nodes");
-        if (empty($nodes)) return false;
+        if ($this->check($dom)) return false;
         # the returns make sure that the parse process
         # stops if we have an empty dom
         # this enables you to parse a modified dom in a plugin or function
-        $nodes = $this->preProcessPlugins($nodes);
-        if (empty($nodes)) return false;
+        $dom = $this->preProcessPlugins($dom);
+        if ($this->check($dom)) return false;
 
-        $nodes = $this->processPlugins($nodes);
-        if (empty($nodes)) return false;
+        $dom = $this->processPlugins($dom);
+        if ($this->check($dom)) return false;
 
-        $nodes = $this->postProcessPlugins($nodes);
-        if (empty($nodes)) return false;
+        $dom = $this->postProcessPlugins($dom);
+        if ($this->check($dom)) return false;
 
         # parse and save the output
         $output = $this->output($dom);
-
-        # process the output plugins
-        if (trim($output) == "") return false;
+        if (!$output) return false;
 
         $output = $this->processOutputPlugins($output);
         $this->crml->cache()->save($dom->get("template.file"), $output);
 
         return $output;
+    }
+
+
+    /**
+     * checks if we have a valid dom object
+     *
+     * @param Dom $dom
+     * @return bool
+     */
+    private function check($dom)
+    {
+        if ($dom->has("nodes")) {
+            return empty($dom->get("nodes"));
+        } else {
+            return true;
+        }
     }
 
 
@@ -68,7 +82,8 @@ class Parser
     {
         # temp variable for the output
         $output = '';
-        foreach ($dom as $node) {
+        $nodes  = $dom->get("nodes");
+        foreach ($nodes as $node) {
             /** @var Node $node */
 
             # open the tag
@@ -94,7 +109,8 @@ class Parser
             # recursively iterate over the children
             if ($node->has("children")) {
                 if (!$node->get("selfclosing")) {
-                    $children = $node->get("children");
+                    $children = new Dom();
+                    $children->set("nodes", $node->get("children"));
                     $output .= $this->output($children);
                 } else {
                     new Error("You can't have children in an " . $node->get("tag.tag") . "!", $node->get("file"), $node->get("line"));
@@ -112,6 +128,8 @@ class Parser
                 }
             }
         }
+
+        if (trim($output) == "") return false;
 
         return $output;
     }
@@ -133,30 +151,35 @@ class Parser
      * execute the plugins on each individual node
      * children will parsed first
      *
-     * @param $nodes
+     * @param Dom|array $dom
+     * @param array     $nodes
      * @return mixed|Error
      * @throws \Exception
      */
-    private function processPlugins($nodes)
+    private function processPlugins($dom, $nodes = NULL)
     {
+        if (is_null($nodes)) {
+            $nodes = $dom->get("nodes");
+        }
+
         /** @var Node $node */
         foreach ($nodes as &$node) {
             // TODO: check if this works, children first??
             if ($node->has("children")) {
                 $children = &$node->get("children");
-                $this->processPlugins($children);
+                $this->processPlugins($dom, $children);
             }
             $node = $this->executePlugins($node, "plugins");
         }
 
-        return $nodes;
+        return $dom;
     }
 
 
     /**
      * process the plugins after the main plugin process
      *
-     * @param $dom
+     * @param Dom $dom
      * @return mixed|Error
      * @throws \Exception
      */
@@ -169,7 +192,7 @@ class Parser
     /**
      * process the plugins after rendering is complete
      *
-     * @param $output
+     * @param string $output
      * @return mixed|Error
      * @throws \Exception
      */
@@ -233,7 +256,12 @@ class Parser
      */
     private function PluginError($element, $plugin, $method, $variable)
     {
-        if (is_null($element)) {
+        $error = false;
+        if ($variable == '$dom' && get_class($element) != "Caramel\\Dom") $error = true;
+        if ($variable == '$node' && get_class($element) != "Caramel\\Node") $error = true;
+        if ($variable == '$output' && gettype($element) != "string") $error = true;
+
+        if ($error) {
             $pluginName = str_replace("Caramel\\Plugin", "", get_class($plugin));
             throw new \Exception("You need to return the variable: {$variable} </br></br>Plugin: {$pluginName} </br>Method: {$method} </br></br>");
         }
