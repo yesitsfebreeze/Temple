@@ -2,9 +2,6 @@
 
 namespace Caramel;
 
-
-use Exception as Exception;
-
 /**
  * Class Parser
  *
@@ -16,12 +13,6 @@ class Parser
     /** @var Caramel $crml */
     private $crml;
 
-    /** @var  Storage $dom */
-    private $dom;
-
-    /** @var  string $output */
-    private $output;
-
 
     /**
      * Parser constructor.
@@ -30,54 +21,54 @@ class Parser
      */
     public function __construct(Caramel $crml)
     {
-        $this->crml    = $crml;
-        $this->plugins = $this->crml->config()->get("plugins.registered");
+        $this->crml = $crml;
     }
 
 
     /**
-     * @param array  $dom
-     * @param string $file
+     * @param Dom $dom
      * @return bool
      */
-    public function parse($file, $dom)
+    public function parse($dom)
     {
-        $this->dom = $dom;
-        if (empty($this->dom)) return false;
+        $nodes = $dom->get("nodes");
+        if (empty($nodes)) return false;
         # the returns make sure that the parse process
         # stops if we have an empty dom
         # this enables you to parse a modified dom in a plugin or function
-        $this->dom = $this->preProcessPlugins($this->dom);
-        if (empty($this->dom)) return false;
+        $nodes = $this->preProcessPlugins($nodes);
+        if (empty($nodes)) return false;
 
-        $this->dom = $this->processPlugins($this->dom);
-        if (empty($this->dom)) return false;
+        $nodes = $this->processPlugins($nodes);
+        if (empty($nodes)) return false;
 
-        $this->dom = $this->postProcessPlugins($this->dom);
-        if (empty($this->dom)) return false;
+        $nodes = $this->postProcessPlugins($nodes);
+        if (empty($nodes)) return false;
 
         # parse and save the output
-        $this->output = $this->output($this->dom);
+        $output = $this->output($dom);
 
         # process the output plugins
-        if (trim($this->output) == "") return false;
+        if (trim($output) == "") return false;
 
-        $this->output = $this->processOutputPlugins($this->output);
-        $this->crml->cache()->save($file, $this->output);
+        $output = $this->processOutputPlugins($output);
+        $this->crml->cache()->save($dom->get("template.file"), $output);
 
-        return $this->output;
+        return $output;
     }
 
 
     /**
-     * @param $nodes
+     * merges the nodes to a string
+     *
+     * @param Dom|mixed $dom
      * @return string
      */
-    private function output($nodes)
+    private function output($dom)
     {
         # temp variable for the output
         $output = '';
-        foreach ($nodes as $node) {
+        foreach ($dom as $node) {
             /** @var Node $node */
 
             # open the tag
@@ -127,9 +118,10 @@ class Parser
 
 
     /**
-     * @param $dom
-     * @return Error
-     * @throws Exception
+     * execute the plugins before we do anything else
+     *
+     * @param Dom $dom
+     * @return mixed|Error
      */
     private function preProcessPlugins($dom)
     {
@@ -138,24 +130,23 @@ class Parser
 
 
     /**
+     * execute the plugins on each individual node
+     * children will parsed first
+     *
      * @param $nodes
-     * @return mixed
-     * @throws Exception
+     * @return mixed|Error
+     * @throws \Exception
      */
     private function processPlugins($nodes)
     {
         /** @var Node $node */
         foreach ($nodes as &$node) {
-            # process current node
-            $node = $this->executePlugins($node, "plugins");
-
-            # check of node has children,
-            # if so process each of them recursively
+            // TODO: check if this works, children first??
             if ($node->has("children")) {
                 $children = &$node->get("children");
                 $this->processPlugins($children);
             }
-
+            $node = $this->executePlugins($node, "plugins");
         }
 
         return $nodes;
@@ -163,9 +154,11 @@ class Parser
 
 
     /**
+     * process the plugins after the main plugin process
+     *
      * @param $dom
-     * @return Error
-     * @throws Exception
+     * @return mixed|Error
+     * @throws \Exception
      */
     private function postProcessPlugins($dom)
     {
@@ -174,9 +167,11 @@ class Parser
 
 
     /**
+     * process the plugins after rendering is complete
+     *
      * @param $output
-     * @return Error
-     * @throws Exception
+     * @return mixed|Error
+     * @throws \Exception
      */
     private function processOutputPlugins($output)
     {
@@ -185,36 +180,39 @@ class Parser
 
 
     /**
-     * @param array|Node $element
-     * @param            $type
+     * processes all plugins depending on the passed type
+     *
+     * @param Dom|Node|string $element
+     * @param string          $type
      * @return mixed|Error
      */
     private function executePlugins($element, $type)
     {
-        foreach ($this->plugins as $key => $position) {
+        $plugins = $this->crml->config()->get("plugins.registered");
+        foreach ($plugins as $key => $position) {
             /** @var Plugin $plugin */
             foreach ($position as $plugin) {
                 try {
                     if ($type == "pre") {
                         $element = $plugin->preProcess($element);
-                        $this->throwPluginError($element, $plugin, "preProcess", '$dom');
+                        $this->PluginError($element, $plugin, "preProcess", '$dom');
                     }
                     if ($type == "plugins") {
                         # only process if it's not disabled
                         if ($element->get("plugins")) {
                             $element = $plugin->realProcess($element);
-                            $this->throwPluginError($element, $plugin, 'process', '$node');
+                            $this->PluginError($element, $plugin, 'process', '$node');
                         }
                     }
                     if ($type == "post") {
                         $element = $plugin->postProcess($element);
-                        $this->throwPluginError($element, $plugin, 'postProcess', '$dom');
+                        $this->PluginError($element, $plugin, 'postProcess', '$dom');
                     }
                     if ($type == "output") {
                         $element = $plugin->processOutput($element);
-                        $this->throwPluginError($element, $plugin, 'processOutput', '$output');
+                        $this->PluginError($element, $plugin, 'processOutput', '$output');
                     }
-                } catch (Exception $e) {
+                } catch (\Exception $e) {
                     return new Error($e);
                 }
             }
@@ -231,9 +229,9 @@ class Parser
      * @param $plugin
      * @param $method
      * @param $variable
-     * @throws Exception
+     * @throws \Exception
      */
-    private function throwPluginError($element, $plugin, $method, $variable)
+    private function PluginError($element, $plugin, $method, $variable)
     {
         if (is_null($element)) {
             $pluginName = str_replace("Caramel\\Plugin", "", get_class($plugin));
