@@ -22,14 +22,14 @@ class Dom extends Storage
          *
          * @var string
          */
-        $this->set("file", NULL);
+        $this->set("file", "");
 
         /**
          * if we want to display the tags
          *
          * @var string
          */
-        $this->set("nodes", NULL);
+        $this->set("nodes", array());
 
     }
 }
