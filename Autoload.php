@@ -5,6 +5,7 @@
 require_once "Core/Models/Storage.php";
 require_once "Core/Models/Vars.php";
 require_once "Core/Models/Node.php";
+require_once "Core/Models/Dom.php";
 require_once "Core/Models/Plugin.php";
 
 # Services
