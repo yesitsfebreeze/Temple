@@ -6,8 +6,8 @@ namespace Caramel;
 /**
  * this class handles all data storage
  * deep array setters and getters are separated by "."
- *
  * Class Storage
+ *
  * @package Caramel
  */
 class Storage
@@ -15,6 +15,7 @@ class Storage
 
     /** @var array $storage */
     private $storage;
+
 
     /**
      * merge an array into the storage
@@ -46,6 +47,7 @@ class Storage
         }
     }
 
+
     /**
      * returns if the storage has the passed value
      *
@@ -68,6 +70,7 @@ class Storage
             return false;
         }
     }
+
 
     /**
      * @param $path
@@ -94,6 +97,48 @@ class Storage
     {
         $this->set($path, NULL);
     }
+
+
+    /**
+     * searches for an item in the current tree
+     * if we pass an array it has the same behaviour
+     * iterates over the array values recursively
+     *
+     * @param Storage      $item
+     * @param array|string $attrs
+     * @param string       $value
+     * @return array
+     */
+    public function find($item, $attrs, $value = NULL)
+    {
+        $found = array();
+
+        if ($item->has("children")) {
+            $children = $item->get("children");
+            /** @var Storage $child */
+            foreach ($children as $child) {
+                $found = $this->find($child, $attrs, $value);
+                if (gettype($attrs) == "array") {
+                    foreach ($attrs as $attr => $value) {
+                        if ($child->has($attr)) {
+                            if ($child->get($attr) == $value) {
+                                array_push($found, $child);
+                            }
+                        }
+                    }
+                } else {
+                    if ($child->has($attrs)) {
+                        if ($child->get($attrs) == $value) {
+                            array_push($found, $child);
+                        }
+                    }
+                }
+            }
+        }
+
+        return $found;
+    }
+
 
     /**
      * the method to set data
@@ -123,6 +168,7 @@ class Storage
             return $storage;
         }
     }
+
 
     /**
      * @param $path
