@@ -27,7 +27,7 @@ class Helpers
      * @param string $needle
      * @return bool
      */
-    public function find($string, $needle)
+    public function str_find($string, $needle)
     {
         return sizeof(explode($needle, $string)) > 1;
     }
