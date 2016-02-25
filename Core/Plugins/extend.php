@@ -52,6 +52,11 @@ class PluginExtend extends Plugin
     public function process($node)
     {
         if ($this->crml->config()->get("show_block_as_comments")) {
+            # hide parent blocks
+            if ($node->get("attributes") == "parent") {
+                $node->set("tag.display", false);
+                return $node;
+            }
             # shows name and namespace attributes as a comment for the block
             $node->set("attributes", $node->get("attributes") . " -> " . $node->get("namespace"));
             $node->set("tag.opening.prefix", "<!-- ");
@@ -160,7 +165,8 @@ class PluginExtend extends Plugin
 
         # we have to reinitialize the parsing process
         # with the new dom to check for other extends
-        return $this->crml->parser()->parse($this->rootFile, $dom);
+        $dom->set("template.file",$this->rootFile);
+        return $this->crml->parser()->parse($dom);
     }
 
 

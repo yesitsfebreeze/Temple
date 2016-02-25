@@ -105,7 +105,7 @@ class Template
         if ($this->crml->cache()->modified($file)) {
             /** @var Dom $dom */
             $dom = $this->crml->lexer()->lex($file);
-            $this->crml->parser()->parse($dom->get("template.file"), $dom->get("nodes"));
+            $this->crml->parser()->parse($dom);
         }
 
         return $this->crml->cache()->getPath($file);

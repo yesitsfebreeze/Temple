@@ -57,9 +57,8 @@ abstract class Plugin
      * this is called before we even touch a node
      * so we can add stuff to our config etc
      *
-     * @var array $dom
-     * @return array $dom
-     * has to return $dom
+     * @var Dom $dom
+     * @return Dom $dom
      */
     public function preProcess($dom)
     {
@@ -72,7 +71,6 @@ abstract class Plugin
      *
      * @var Node $node
      * @return Node $node
-     * hast to return $node
      */
     public function process($node)
     {
@@ -114,9 +112,8 @@ abstract class Plugin
      * this is called after the plugins processed
      * all nodes
      *
-     * @var array $dom
-     * @return array $dom
-     * * has to return $dom
+     * @var Dom $dom
+     * @return Dom $dom
      */
     public function postProcess($dom)
     {
@@ -130,7 +127,6 @@ abstract class Plugin
      *
      * @var string $output
      * @return string $output
-     * * has to return $output
      */
     public function processOutput($output)
     {
