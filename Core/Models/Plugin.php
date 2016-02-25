@@ -79,6 +79,19 @@ abstract class Plugin
 
 
     /**
+     * the function to check if we want to
+     * modify a node
+     *
+     * @param $node
+     * @return bool
+     */
+    public function check($node)
+    {
+        return $node;
+    }
+
+
+    /**
      * processes the actual node
      * if all requirements are met
      *
@@ -92,19 +105,6 @@ abstract class Plugin
         } else {
             return $node;
         }
-    }
-
-
-    /**
-     * the function to check if we want to
-     * modify a node
-     *
-     * @param $node
-     * @return bool
-     */
-    public function check($node)
-    {
-        return $node;
     }
 
 
@@ -132,5 +132,4 @@ abstract class Plugin
     {
         return $output;
     }
-
 }
