@@ -173,16 +173,4 @@ class Node extends Storage
         $this->set("children", NULL);
 
     }
-
-
-    /**
-     * searches for a node in the current tree
-     *
-     * @param string $attr
-     * @param string $value
-     */
-    public function find($attr, $value)
-    {
-
-    }
 }
