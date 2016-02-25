@@ -103,8 +103,9 @@ class Template
     public function parse($file)
     {
         if ($this->crml->cache()->modified($file)) {
-            $lexed = $this->crml->lexer()->lex($file);
-            $this->crml->parser()->parse($lexed["file"], $lexed["dom"]);
+            /** @var Dom $dom */
+            $dom = $this->crml->lexer()->lex($file);
+            $this->crml->parser()->parse($dom->get("template.file"), $dom->get("nodes"));
         }
 
         return $this->crml->cache()->getPath($file);

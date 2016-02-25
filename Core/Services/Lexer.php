@@ -11,262 +11,164 @@ namespace Caramel;
 class Lexer
 {
 
-    /** @var  Config $config */
-    private $config;
+    /** @var Caramel $crml */
+    private $crml;
 
-    /** @var  Cache $cache */
-    private $cache;
-
-    /** @var  Parser $lines */
-    private $parser;
-
-    /** @var  Storage $dom */
+    /** @var Dom $dom */
     private $dom;
-
-    /** @var  Storage $node */
-    private $node;
-
-    /** @var  Storage $node */
-    private $prev;
-
-    /** @var  string $file */
-    private $file;
-
-    /** @var  integer $level */
-    private $level;
-
-    /** @var  string $namespace */
-    private $namespace;
-
-    /** @var  integer $indentAmount */
-    private $indentAmount;
-
-    /** @var  string $indentChar */
-    private $indentChar;
-
-    /** @var  string $indent */
-    private $lineNo;
 
 
     /**
      * Lexer constructor.
      *
-     * @param Caramel $crml
+     * @param $crml
      */
-    public function __construct(Caramel $crml)
+    public function __construct($crml)
     {
         $this->crml = $crml;
-        $this->cache   = $crml->cache;
-        $this->parser  = $crml->parser;
     }
 
 
     /**
-     * @param     $file
-     * @param int $level
+     * returns Dom object
+     *
+     * @param string   $file
+     * @param int|bool $level
      * @return array
      */
-    public function lex($file, $level = 0)
+    public function lex($file, $level = false)
     {
-        # reset necessary member variables for each file
-        $this->init($file, $level);
-        # open the current file and process it line per line
-        $handle = fopen($this->file, "r");
+        $this->dom = new Dom();
+        $this->prepare($file, $level);
+        $this->process();
+        $this->dom->delete("temp");
+
+        return $this->dom;
+    }
+
+
+    /**
+     * set the default values for our dom
+     *
+     * @param string  $file
+     * @param integer $level
+     */
+    private function prepare($file, $level)
+    {
+        $namespace = str_replace("." . $this->crml->config()->get("extension"), "", $file);
+        $this->dom->set("namespace", $namespace);
+        $this->dom->set("nodes", array());
+        $file = $this->template($file, $level);
+        $this->dom->set("template.level", $file->get("level"));
+        $this->dom->set("template.file", $file->get("file"));
+        $this->dom->set("template.line", 1);
+        $this->dom->set("template.indent.amount", 0);
+        $this->dom->set("template.indent.char", "");
+    }
+
+
+    /**
+     * returns the matching file template
+     *
+     * @param $file
+     * @param $level
+     * @return Storage
+     */
+    private function template($file, $level)
+    {
+
+        $template  = new Storage();
+        $templates = $this->crml->helpers()->templates($file);
+        if ($level !== false) {
+            if (isset($templates[ $level ])) {
+                $template->set("level", $level);
+                $template->set("file", $templates[ $level ]);
+            } else {
+                new Error("Can't find template file for '" . $file . "' on template level " . $level);
+            }
+        } else {
+            foreach ($templates as $level => $file) {
+                $template->set("level", $level);
+                $template->set("file", $file);
+            }
+        }
+
+        return $template;
+    }
+
+
+    /**
+     * creates a dom for the current file
+     *
+     * @return mixed
+     */
+    private function process()
+    {
+        $handle = fopen($this->dom->get("template.file"), "r");
         while (($line = fgets($handle)) !== false) {
             if (trim($line) != '') {
-                # convert the current line to a node and add it to the dom
-                $this->createNode($line);
-                # update line number
+                $info = $this->info($line);
+                $node = $this->node($line, $info);
+                $this->add($node);
+                $this->dom->set("template.prev", $node);
             }
-            $this->lineNo++;
+            $this->dom->set("template.line", $this->dom->get("template.line") + 1);
         }
         fclose($handle);
-
-        # create an array with the current file path and the dom
-        $lexed         = array();
-        $lexed["file"] = $this->file;
-        $lexed["dom"]  = $this->dom;
-
-        return $lexed;
     }
 
 
     /**
-     * @param $line
+     * returns an array with information about the current node
+     *
+     * @param     $line
+     * @return Storage
      */
-    private function createNode($line)
+    private function info($line)
     {
-        # create a new storage for the node
-        $this->node = new Node();
 
-        # get the information for our node
-        $indent     = $this->getIndent($line);
-        $tag        = $this->getTag($line);
-        $attributes = $this->getAttributes($line, $tag);
+        $info = new Storage();
+        $info->set("indent", $this->indent($line));
+        $line = trim($line);
+        $info->set("tag", $this->tag($line));
+        $info->set("attributes", $this->attributes($line, $info));
+        $info->set("selfclosing", $this->selfclosing($info));
 
-        # add everything we need to our node
-        $this->node->set("tag.tag", $tag);
-        $this->node->set("tag.display", true);
-        $this->node->set("tag.opening.display", true);
-        $this->node->set("tag.opening.prefix", "<");
-        $this->node->set("tag.opening.tag", $tag);
-        $this->node->set("tag.opening.postfix", ">");
-        $this->node->set("tag.closing.display", true);
-        $this->node->set("tag.closing.prefix", "</");
-        $this->node->set("tag.closing.tag", $tag);
-        $this->node->set("tag.closing.postfix", ">");
-
-        $this->node->set("namespace", $this->namespace);
-        $this->node->set("file", $this->file);
-        $this->node->set("level", $this->level);
-        $this->node->set("line", $this->lineNo);
-        $this->node->set("plain", $line);
-        $this->node->set("indent", $indent);
-        $this->node->set("attributes", trim($attributes));
-        $this->node->set("display", true);
-        $this->node->set("plugins", true);
-        $this->node->set("selfclosing", $this->isSelfClosing($this->node));
-        $this->node->set("children", array());
-
-        # add the node to our dom
-        # all the logic of children/parent behaviour happens here
-        $this->createDom();
-
-        $this->prev = $this->node;
-
+        return $info;
     }
 
 
     /**
-     * @throws \Exception
-     */
-    private function createDom()
-    {
-        # if we have no indent level or we are at the first line,
-        # just add the line
-        if ($this->node->get("indent") == 0 || $this->node->get("line") == 1) {
-            # we are at top level so add self as parent
-            $this->node->set("parent", $this->node);
-            # set the indent to zero
-            $this->node->set("indent", 0);
-            # just add the node to the dom
-            $this->dom[ $this->lineNo ] = $this->node;
-        } else {
-            # if indent is larger
-            if ($this->node->get("indent") > $this->prev->get("indent")) {
-                # add last node as parent
-                $this->node->set("parent", $this->prev);
-                # throw an error if the parent node is selfclosing
-                if ($this->isSelfClosing($this->node->get("parent"))) {
-                    $tag = $this->node->get("parent")->get("tag.tag");
-                    new Error("You can't have children in an $tag!", $this->file, $this->lineNo);
-                } else {
-                    # otherwise add it to the children of the last node
-                    $this->addChildren($this->prev);
-                }
-            }
-            # if indent is smaller
-            if ($this->node->get("indent") < $this->prev->get("indent")) {
-                # add the node parent to the last nodes parent
-                $parent = $this->findParent();
-                $this->node->set("parent", $parent);
-                # add the node to the parent
-                $this->addChildren($parent);
-            }
-            # if indent is same
-            if ($this->node->get("indent") == $this->prev->get("indent")) {
-                # add the node parent to the last nodes parent
-                $this->node->set("parent", $this->prev->get("parent"));
-                # add the node to our last nodes parent
-                $this->addChildren($this->prev->get("parent"));
-            }
-        }
-    }
-
-
-    /**
-     * @param Node|bool $parent
-     * @return bool|Node
-     */
-    private function findParent($parent = false)
-    {
-        if (!$parent) {
-            $parent = $this->prev->get("parent");
-        } else {
-            $parent = $parent->get("parent");
-        }
-        if ($parent->get("indent") == $this->node->get("indent")) {
-            $parent = $parent->get("parent");
-
-            return $parent;
-        } else {
-            return $this->findParent($parent);
-        }
-    }
-
-
-    /**
-     * @param $node
-     * @throws \Exception
-     */
-    private function addChildren($node)
-    {
-        /** @var Storage $node */
-        /** @var Storage $children */
-        # get the selected nodes children
-        $children = $node->get("children");
-        # add our current node to them
-        $children[] = $this->node;
-        # update the children of our selected node
-        $node->set("children", $children);
-    }
-
-
-    /**
-     * @param $node
-     * @return bool
-     * @throws \Exception
-     */
-    private function isSelfClosing($node)
-    {
-        /** @var Node $node */
-        # check if our tag is in the self closing array set in the config
-        if (in_array($node->get("tag.tag"), $this->crml->config()->get("self_closing"))) return true;
-
-        return false;
-    }
-
-
-    /**
-     * @param $line
+     * returns the indent of the current line
+     * also initially sets the indent character and amount
+     *
+     * @param     $line
      * @return float|int|Error
      */
-    private function getIndent($line)
+    private function indent($line)
     {
         # get tab or space whitespace form the line start
         $whitespace = substr($line, 0, strlen($line) - strlen(ltrim($line)));
 
         # initially set the indent variables
-        if ($this->indentAmount == 0) {
-            # how many chars one indent is
-            $this->indentAmount = strlen($whitespace);
-            # what character is used for the indent
-            $this->indentChar = $whitespace[0];
+        if ($this->dom->get("template.indent.amount") == 0) {
+            $this->dom->set("template.indent.amount", strlen($whitespace));
+            $this->dom->set("template.indent.char", $whitespace[0]);
         }
 
         # if the indent variables are set
-        if ($this->indentChar != "" && $this->indentAmount != 0) {
+        if ($this->dom->get("template.indent.char") != "" && $this->dom->get("template.indent.amount") != 0) {
 
             # divide our counted characters trough the amount
             # we used to indent in the first line
             # this should be a non decimal number
-            $indent = substr_count($whitespace, $this->indentChar);
-            $indent = $indent / $this->indentAmount;
+            $indent = substr_count($whitespace, $this->dom->get("template.indent.char"));
+            $indent = $indent / $this->dom->get("template.indent.amount");
             # if we have a non decimal number return how many times we indented
             if ("integer" == gettype($indent)) return $indent;
 
             # else throw an error since the amount of characters doesn't match
-            new Error("Indent isn't matching!", $this->file, $this->lineNo);
+            new Error("Indent isn't matching!", $this->dom->get("template.file"), $this->dom->get("template.line"));
         }
 
         return 0;
@@ -274,13 +176,15 @@ class Lexer
 
 
     /**
-     * @param $line
+     * returns the tag for the current line
+     *
+     * @param string $line
      * @return string
      */
-    private function getTag($line)
+    private function tag($line)
     {
         # match all characters until a word boundary or space or end of the string
-        preg_match("/^(.*?)(?:$| )/", trim($line), $tag);
+        preg_match("/^(.*?)(?:$| )/", $line, $tag);
         $tag = trim($tag[0]);
 
         return $tag;
@@ -288,73 +192,184 @@ class Lexer
 
 
     /**
-     * @param $line
-     * @param $tag
-     * @return bool|string
+     * returns the attributes for the current line
+     *
+     * @param string  $line
+     * @param Storage $info
+     * @return string
      */
-    private function getAttributes($line, $tag)
+    private function attributes($line, $info)
     {
-        # replace our tag in current line so we are left with the attributes
-        # trim it to remove all unnecessary whitespace
-        # prepend a space to prevent stitching the attributes to the tag name
-
-        $line = trim($line);
-
-        $attributes = " " . preg_replace("/^$tag/", "", $line);
-        if (trim($attributes) == "") return "";
+        # replace the tag from the beginning of the line and then trim the string
+        $tag        = $info->get("tag");
+        $attributes = trim(preg_replace("/^$tag/", "", $line));
 
         return $attributes;
     }
 
 
     /**
-     * @param $file
-     * @param $level
+     * returns if the current line has a self closing tag
+     *
+     * @param Storage $info
+     * @return string
      */
-    private function init($file, $level)
+    private function selfclosing($info)
     {
-        # set the namespace to our file name without the extension
-        $this->namespace = str_replace("." . $this->crml->config()->get("extension"), "", $file);
-        # this is an array of the current file
-        # and the parent files if they exist
-        $templateFiles = $this->crml->helpers()->templates($file);
-        $file          = $this->lookupFile($templateFiles, $file, $level);
-        $this->file    = $file;
-        # reset the dom array
-        $this->dom = array();
-        # initially set the line number to 1
-        $this->lineNo = 1;
-        # initially set the indent amount to 0
-        $this->indentAmount = 0;
-        # initially set the character used to indent to none
-        $this->indentChar = "";
+        # check if our tag is in the self closing array set in the config
+        if (in_array($info->get("tag"), $this->crml->config()->get("self_closing"))) return true;
+
+        return false;
     }
 
 
     /**
-     * @param $templateFiles
-     * @param $file
-     * @param $level
-     * @return string|Error
+     * creates a new node from a line
+     *
+     * @param string  $line
+     * @param Storage $info
+     * @return Node $node
      */
-    private function lookupFile($templateFiles, $file, $level)
+    private function node($line, $info)
     {
-        # don't go above the amount of our template folders
-        if ($level <= sizeof($templateFiles)) {
-            # see if we have the file available for the current level
-            if (isset($templateFiles[ $level ])) {
-                $file = $templateFiles[ $level ];
-            } else {
-                # otherwise check next level
-                $file = $this->lookupFile($templateFiles, $file, $level + 1);
-            }
-        }
-        # update the level
-        $this->level = $level;
-        # return the file if one is found
-        if (!is_null($file)) return $file;
+        # create a new storage for the node
+        $node = new Node();
 
-        # if not throw error
-        return new Error("Can't find template file.", $this->file, $this->lineNo - 1);
+        # add everything we need to our node
+        $node->set("tag.tag", $info->get("tag"));
+        $node->set("tag.display", true);
+        $node->set("tag.opening.display", true);
+        $node->set("tag.opening.prefix", "<");
+        $node->set("tag.opening.tag", $info->get("tag"));
+        $node->set("tag.opening.postfix", ">");
+        $node->set("tag.closing.display", true);
+        $node->set("tag.closing.prefix", "</");
+        $node->set("tag.closing.tag", $info->get("tag"));
+        $node->set("tag.closing.postfix", ">");
+
+        $node->set("namespace", $this->dom->get("namespace"));
+        $node->set("file", $this->dom->get("template.file"));
+        $node->set("level", $this->dom->get("template.level"));
+        $node->set("line", $this->dom->get("template.line"));
+        $node->set("plain", $line);
+        $node->set("indent", $info->get("indent"));
+        $node->set("attributes", $info->get("attributes"));
+        $node->set("display", true);
+        $node->set("plugins", true);
+        $node->set("selfclosing", $info->get("selfclosing"));
+        $node->set("children", array());
+
+        return $node;
     }
+
+
+    /**
+     * adds the node to the dom
+     * parent/child logic is handled here
+     *
+     * @param Node $node
+     */
+    private function add($node)
+    {
+        # root nodes
+        if ($node->get("indent") == 0 || $node->get("line") == 1) {
+            $node->delete("parent");
+            $this->dom->set("nodes." . $this->dom->get("template.line"), $node);
+        } else {
+            $indent     = $node->get("indent");
+            $prevIndent = $this->dom->get("template.prev")->get("indent");
+            # node position
+            if ($indent > $prevIndent) $this->deeper($node);
+            if ($indent < $prevIndent) $this->higher($node);
+            if ($indent == $prevIndent) $this->same($node);
+
+        }
+    }
+
+
+    /**
+     * adds a node to the dom if has a deeper level
+     * than the previous node
+     *
+     * @param Node $node
+     */
+    private function deeper($node)
+    {
+        $node->set("parent", $this->dom->get("template.prev"));
+        if ($node->get("parent")->get("selfclosing")) {
+            $tag = $node->get("parent")->get("tag.tag");
+            new Error("You can't have children in an $tag!", $this->dom->get("template.file"), $this->dom->get("template.line"));
+        } else {
+            $this->children($this->dom->get("template.prev"), $node);
+        }
+    }
+
+
+    /**
+     * adds a node to the dom if has a higher level
+     * than the previous node
+     *
+     * @param Node $node
+     */
+    private function higher($node)
+    {
+        $parent = $this->parent($node);
+        $node->set("parent", $parent);
+        $this->children($parent, $node);
+    }
+
+
+    /**
+     * adds a node to the dom if has the same  level
+     * than the previous node
+     *
+     * @param Node $node
+     */
+    private function same($node)
+    {
+        $parent = $this->dom->get("template.prev")->get("parent");
+        $node->set("parent", $parent);
+        $this->children($parent, $node);
+    }
+
+
+    /**
+     * adds the passed node to children
+     *
+     * @param Node $target
+     * @param Node $node
+     * @throws \Exception
+     */
+    private function children($target, $node)
+    {
+        $children   = $target->get("children");
+        $children[] = $node;
+        $target->set("children", $children);
+    }
+
+
+    /**
+     * returns the parent of the passed node
+     *
+     * @param Node      $node
+     * @param bool|Node $parent
+     * @return Node
+     */
+    private function parent($node, $parent = false)
+    {
+
+        if (!$parent) {
+            $temp = $this->dom->get("template.prev")->get("parent");
+        } else {
+            $temp = $parent->get("parent");
+        }
+        if ($temp->get("indent") == $node->get("indent")) {
+            $temp = $temp->get("parent");
+
+            return $temp;
+        } else {
+            return $this->parent($node, $temp);
+        }
+    }
+
 }
