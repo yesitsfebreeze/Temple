@@ -90,6 +90,8 @@ class Lexer
             foreach ($templates as $level => $file) {
                 $template->set("level", $level);
                 $template->set("file", $file);
+
+                return $template;
             }
         }
 
