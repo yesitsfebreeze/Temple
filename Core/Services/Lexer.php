@@ -1,6 +1,11 @@
 <?php
 
-namespace Caramel;
+namespace Caramel\Services;
+
+
+use Caramel\Models\Dom;
+use Caramel\Models\Node;
+use Caramel\Models\Storage;
 
 
 /**
@@ -11,21 +16,32 @@ namespace Caramel;
 class Lexer
 {
 
-    /** @var Caramel $crml */
-    private $crml;
-
     /** @var Dom $dom */
     private $dom;
 
+    /** @var Config $config */
+    private $config;
+
 
     /**
-     * Lexer constructor.
-     *
-     * @param $crml
+     * @param Config $config
      */
-    public function __construct($crml)
+    public function setConfig(Config $config)
     {
-        $this->crml = $crml;
+        $this->config = $config;
+    }
+
+
+    /** @var Helpers $helpers */
+    private $helpers;
+
+
+    /**
+     * @param Helpers $helpers
+     */
+    public function setHelpers(Helpers $helpers)
+    {
+        $this->helpers = $helpers;
     }
 
 
@@ -55,7 +71,7 @@ class Lexer
      */
     private function prepare($file, $level)
     {
-        $namespace = str_replace("." . $this->crml->config()->get("extension"), "", $file);
+        $namespace = str_replace("." . $this->config->get("extension"), "", $file);
         $this->dom->set("namespace", $namespace);
         $this->dom->set("nodes", array());
         $file = $this->template($file, $level);
@@ -78,7 +94,7 @@ class Lexer
     {
 
         $template  = new Storage();
-        $templates = $this->crml->helpers()->templates($file);
+        $templates = $this->helpers->templates($file);
         if ($level !== false) {
             if (isset($templates[ $level ])) {
                 $template->set("level", $level);
@@ -219,7 +235,7 @@ class Lexer
     private function selfclosing($info)
     {
         # check if our tag is in the self closing array set in the config
-        if (in_array($info->get("tag"), $this->crml->config()->get("self_closing"))) return true;
+        if (in_array($info->get("tag"), $this->config->get("self_closing"))) return true;
 
         return false;
     }
@@ -251,6 +267,7 @@ class Lexer
 
         $node->set("namespace", $this->dom->get("namespace"));
         $node->set("file", $this->dom->get("template.file"));
+        $node->set("dom", $this->dom);
         $node->set("level", $this->dom->get("template.level"));
         $node->set("line", $this->dom->get("template.line"));
         $node->set("plain", $line);

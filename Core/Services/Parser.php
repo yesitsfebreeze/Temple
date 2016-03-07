@@ -1,6 +1,11 @@
 <?php
 
-namespace Caramel;
+namespace Caramel\Services;
+
+
+use Caramel\Models\Dom;
+use Caramel\Models\Node;
+use Caramel\Models\Plugin;
 
 
 /**
@@ -11,18 +16,30 @@ namespace Caramel;
 class Parser
 {
 
-    /** @var Caramel $crml */
-    private $crml;
+
+    /** @var Config $config */
+    private $config;
 
 
     /**
-     * Parser constructor.
-     *
-     * @param Caramel $crml
+     * @param Config $config
      */
-    public function __construct(Caramel $crml)
+    public function setConfig(Config $config)
     {
-        $this->crml = $crml;
+        $this->config = $config;
+    }
+
+
+    /** @var Cache $cache */
+    private $cache;
+
+
+    /**
+     * @param Cache $cache
+     */
+    public function setCache(Cache $cache)
+    {
+        $this->cache = $cache;
     }
 
 
@@ -50,7 +67,7 @@ class Parser
         if (!$output) return false;
 
         $output = $this->processOutputPlugins($output);
-        $this->crml->cache()->save($dom->get("template.file"), $output);
+        $this->cache->save($dom->get("template.file"), $output);
 
         return $output;
     }
@@ -164,12 +181,12 @@ class Parser
 
         /** @var Node $node */
         foreach ($nodes as &$node) {
-            // TODO: check if this works, children first??
+            $node = $this->executePlugins($node, "plugins");
+
             if ($node->has("children")) {
                 $children = &$node->get("children");
                 $this->processPlugins($dom, $children);
             }
-            $node = $this->executePlugins($node, "plugins");
         }
 
         return $dom;
@@ -211,7 +228,7 @@ class Parser
      */
     private function executePlugins($element, $type)
     {
-        $plugins = $this->crml->config()->get("plugins.registered");
+        $plugins = $this->config->get("plugins.registered");
         foreach ($plugins as $key => $position) {
             /** @var Plugin $plugin */
             foreach ($position as $plugin) {
@@ -257,8 +274,8 @@ class Parser
     private function PluginError($element, $plugin, $method, $variable)
     {
         $error = false;
-        if ($variable == '$dom' && get_class($element) != "Caramel\\Dom") $error = true;
-        if ($variable == '$node' && get_class($element) != "Caramel\\Node") $error = true;
+        if ($variable == '$dom' && get_class($element) != "Caramel\\Models\\Dom") $error = true;
+        if ($variable == '$node' && get_class($element) != "Caramel\\Models\\Node") $error = true;
         if ($variable == '$output' && gettype($element) != "string") $error = true;
 
         if ($error) {

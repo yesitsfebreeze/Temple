@@ -3,6 +3,9 @@
 namespace Caramel;
 
 
+use Caramel\Services\Error;
+
+
 /**
  * Class PluginExtend
  *
@@ -12,8 +15,7 @@ namespace Caramel;
  * @author      Stefan Hövelmanns
  * @License     MIT
  */
-
-class PluginExtend extends Plugin
+class PluginExtend extends Models\Plugin
 {
 
     /** @var int $position */
@@ -51,7 +53,7 @@ class PluginExtend extends Plugin
      */
     public function process($node)
     {
-        if ($this->crml->config()->get("show_block_as_comments")) {
+        if ($this->caramel->config()->get("show_block_as_comments")) {
             # hide parent blocks
             if ($node->get("attributes") == "parent") {
                 $node->set("tag.display", false);
@@ -116,7 +118,7 @@ class PluginExtend extends Plugin
                 return new Error("'extend' hast to be the first statement!", $node->get("file"), $node->get("line"));
             }
 
-            $isRootLevel   = $node->get("level") >= sizeof($this->crml->template()->dirs()) - 1;
+            $isRootLevel   = $node->get("level") >= sizeof($this->caramel->template()->dirs()) - 1;
             $hasAttributes = $node->get("attributes") != "";
 
             # level must be smaller than our amount of template directories
@@ -156,7 +158,7 @@ class PluginExtend extends Plugin
 
         $dom = $this->blocks($dom, $this->blocks);
 
-        $this->crml->cache()->dependency($this->rootFile, reset($dom->get("nodes"))->get("file"));
+        $this->caramel->cache()->dependency($this->rootFile, reset($dom->get("nodes"))->get("file"));
 
         # reset the variables
         $this->topLevel = false;
@@ -165,7 +167,7 @@ class PluginExtend extends Plugin
         # with the new dom to check for other extends
         $dom->set("template.file", $this->rootFile);
 
-        return $this->crml->parser()->parse($dom);
+        return $this->caramel->parser()->parse($dom);
     }
 
 
@@ -218,10 +220,10 @@ class PluginExtend extends Plugin
         /** @var Storage $node */
         $path = trim($node->get("attributes"));
         if ($path != "") {
-            $path = str_replace("." . $this->config->get("extension"), "", $path);
+            $path = str_replace("." . $this->caramel->config()->get("extension"), "", $path);
             # absolute extend
             if ($path[0] == "/") {
-                $dom = $this->crml->lexer()->lex($path)["dom"];
+                $dom = $this->caramel->lexer()->lex($path)["dom"];
             }
             # relative extend
             if ($path[0] != "/") {
@@ -232,11 +234,11 @@ class PluginExtend extends Plugin
                 $folder = strrev(implode("/", $folder));
                 # concat folder and path to get full file path
                 $path = $folder . "/" . $path;
-                $dom  = $this->crml->lexer()->lex($path)["dom"];
+                $dom  = $this->caramel->lexer()->lex($path);
             }
         } else {
             # get parent file with level and names space
-            $dom = $this->crml->lexer()->lex($node->get("namespace"), $node->get("level") + 1);
+            $dom = $this->caramel->lexer()->lex($node->get("namespace"), $node->get("level") + 1);
         }
 
         # in case we still fail somehow, at least give the user an error.
@@ -299,16 +301,22 @@ class PluginExtend extends Plugin
     private function block($node, $block)
     {
         $block = $this->parent($node, $block);
-        $node = $block;
+        $node  = $block;
 
         return $node;
     }
 
 
+    /**
+     * @param Node $node
+     * @param Node $block
+     * @return mixed
+     */
     private function parent($node, $block)
     {
         if ($block->has("children")) {
             foreach ($block->get("children") as $item) {
+                /** @var Node $item */
                 $this->parent($node, $item);
                 if ($item->get("tag.tag") == "block" && $item->get("attributes") == "parent") {
                     $item->set("children", array($node));

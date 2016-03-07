@@ -1,6 +1,6 @@
 <?php
 
-namespace Caramel;
+namespace Caramel\Services;
 
 
 /**
@@ -108,7 +108,7 @@ class Error
         $output .= "<h3>{$text}</h3>";
 
         if ($file !== false) {
-            $this->file($file, $line);
+            $output .= $this->file($file, $line);
         }
 
         $output .= $this->traces($error);
@@ -156,7 +156,8 @@ class Error
 
             $file = explode("/", $trace["file"]);
             $output .= "<p class='trace'>";
-            $output .= "<span class='colored'>" . array_pop($file) . "</span>";
+            $filename = "<span class='colored'>" . array_pop($file) . "</span>";
+            $output .= implode("/", $file) . "/" . $filename;
             $output .= " on line <span class='lineno colored'>" . $trace["line"] . "</span>";
             $output .= "</p>";
         }

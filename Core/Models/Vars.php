@@ -1,6 +1,6 @@
 <?php
 
-namespace Caramel;
+namespace Caramel\Models;
 
 
 /**
@@ -8,6 +8,7 @@ namespace Caramel;
  *
  * @package Caramel
  */
-class Vars extends Storage{
+class Vars extends Storage
+{
 
 }

@@ -1,22 +1,34 @@
 <?php
 
-namespace Caramel;
+namespace Caramel\Services;
 
 
 class Helpers
 {
-    /** @var Caramel $crml */
-    private $crml;
+
+    /** @var Config $template */
+    private $config;
 
 
     /**
-     * Helpers constructor.
-     *
-     * @param Caramel $crml
+     * @param Config $config
      */
-    public function __construct(Caramel $crml)
+    public function setConfig(Config $config)
     {
-        $this->crml = $crml;
+        $this->config = $config;
+    }
+
+
+    /** @var Template $template */
+    private $template;
+
+
+    /**
+     * @param Template $template
+     */
+    public function setTemplate(Template $template)
+    {
+        $this->template = $template;
     }
 
 
@@ -45,11 +57,11 @@ class Helpers
         # get the file extension
         # add add the config extension if it doesn't exist
         $ext       = strrev(substr(strrev($file), 0, 4));
-        $configExt = '.' . $this->crml->config()->get("extension");
+        $configExt = '.' . $this->config->get("extension");
         if ($ext != $configExt) $file = $file . $configExt;
 
         $files = array();
-        foreach ($this->crml->template()->dirs() as $level => $templateDir) {
+        foreach ($this->template->dirs() as $level => $templateDir) {
 
             # concat all template directories
             # with he passed file path

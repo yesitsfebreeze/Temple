@@ -3,22 +3,23 @@
 namespace Caramel;
 
 
+use Caramel\Models\Node;
+
 /**
- *
  * Class PluginComment
  *
- * @purpose: converts line to comment with all of its children
- * @usage: # at linestart
- * @autor: Stefan Hövelmanns - hvlmnns.de
- * @License: MIT
+ * @purpose : converts line to comment with all of its children
+ * @usage   : # at linestart
+ * @autor   : Stefan Hövelmanns - hvlmnns.de
+ * @License : MIT
  * @package Caramel
- *
  */
-class PluginComment extends Plugin
+class PluginComment extends Models\Plugin
 {
 
     /** @var int $position */
     protected $position = 2;
+
 
     /**
      * @param Node $node
@@ -26,13 +27,13 @@ class PluginComment extends Plugin
      */
     public function check($node)
     {
-        return ($node->get("tag.tag")[0] == $this->crml->config()->get("comment_symbol") && ($node->get("tag.tag")[1] == " " || $node->get("tag.tag")[1] == ""));
+        return ($node->get("tag.tag")[0] == $this->caramel->config()->get("comment_symbol") && ($node->get("tag.tag")[1] == " " || $node->get("tag.tag")[1] == ""));
     }
 
 
     /**
      * @param Node $node
-     * @return Storage
+     * @return Node
      * @throws \Exception
      */
     public function process($node)
@@ -44,8 +45,8 @@ class PluginComment extends Plugin
         if ($node->has("children")) {
             # if we have children add a linebreak to the comment
             # for better readability
-            $node->set("tag.opening.prefix", "<!--\n");
-            $node->set("tag.closing.postfix", "\n--!>");
+            $node->set("tag.opening.prefix", "<!--\n\r");
+            $node->set("tag.closing.postfix", "\n\r--!>");
             # recursively process all children
             $this->processChildren($node);
         }
@@ -91,19 +92,39 @@ class PluginComment extends Plugin
         }
     }
 
+
     /**
      * removes the pre/postfixes and the closing tag
+     *
      * @param Node $node
      * @return mixed
      */
     private function createCommentChild($node)
     {
-        $node->set("tag.opening.prefix", "\n");
+        $node->set("tag.opening.prefix", "\r\n");
         $node->set("tag.opening.postfix", "");
         $node->set("tag.closing.prefix", "");
         $node->set("tag.closing.tag", "");
         $node->set("tag.closing.postfix", "");
         $node->set("plugins", false);
+        $node = $this->addIndent($node);
+
+        return $node;
+    }
+
+
+    /**
+     * adds the template indent to the comment
+     *
+     * @param Node $node
+     * @return Node
+     */
+    private function addIndent($node)
+    {
+        $replaceItem = "tag.opening.prefix";
+        $indent      = str_repeat($node->get("dom")->get("template.indent.char"), $node->get("dom")->get("template.indent.amount"));
+        $indent      = str_repeat($indent, $node->get("indent"));
+        $node->set($replaceItem, $node->get($replaceItem) . $indent);
 
         return $node;
     }

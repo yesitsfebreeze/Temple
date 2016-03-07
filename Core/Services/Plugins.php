@@ -1,39 +1,73 @@
 <?php
 
-namespace Caramel;
+namespace Caramel\Services;
 
+
+use Caramel\Caramel;
+use Caramel\Models\Plugin;
 
 /**
  * handles the plugin loading
  * Class PluginLoader
+
  *
- * @package Caramel
+*@package Caramel
  */
 class Plugins
 {
 
-    /** @var Caramel $crml */
-    private $crml;
-
     /*** @var array $plugins */
     private $plugins = array();
 
+    /** @var Caramel $caramel */
+    private $caramel;
+
 
     /**
-     * Plugins constructor.
-     *
-     * @param Caramel $crml
+     * @param Caramel $caramel
      */
-    public function __construct(Caramel $crml)
+    public function setCaramel(Caramel $caramel)
     {
-        $this->crml = $crml;
+        $this->caramel = $caramel;
+    }
 
+    /** @var Config $config */
+    private $config;
+
+
+    /**
+     * @param Config $config
+     */
+    public function setConfig(Config $config)
+    {
+        $this->config = $config;
+    }
+
+
+    /** @var Directories $directories */
+    private $directories;
+
+
+    /**
+     * @param Directories $directories
+     */
+    public function setDirectories(Directories $directories)
+    {
+        $this->directories = $directories;
+    }
+
+
+    /**
+     * initiates the plugins
+     */
+    public function init()
+    {
         # add the default plugin dir
-        $pluginDir = $crml->config()->get("framework_dir") . "Plugins";
+        $pluginDir = $this->config->get("framework_dir") . "../Plugins";
         $this->add($pluginDir);
 
         $plugins = $this->getPlugins();
-        $this->crml->config()->set("plugins.registered", $plugins);
+        $this->config->set("plugins.registered", $plugins);
     }
 
 
@@ -45,7 +79,7 @@ class Plugins
      */
     public function add($dir)
     {
-        return $this->crml->directories()->add($dir, "plugins.dirs");
+        return $this->directories->add($dir, "plugins.dirs");
     }
 
 
@@ -57,7 +91,7 @@ class Plugins
      */
     public function remove($pos)
     {
-        return $this->crml->directories()->remove($pos, "plugins.dirs");
+        return $this->directories->remove($pos, "plugins.dirs");
     }
 
 
@@ -68,7 +102,7 @@ class Plugins
      */
     public function dirs()
     {
-        return $this->crml->directories()->get("plugins.dirs");
+        return $this->directories->get("plugins.dirs");
     }
 
 
@@ -77,7 +111,7 @@ class Plugins
      */
     private function getPlugins()
     {
-        $dirs = $this->crml->config()->get("plugins.dirs");
+        $dirs = $this->config->get("plugins.dirs");
         # iterate all plugin directories
         foreach ($dirs as $dir) {
             # search the directory recursively to get all plugins
@@ -118,10 +152,11 @@ class Plugins
         $pluginName = strrev(explode("/", strrev(str_replace(".php", "", $pluginFile)))[0]);
         $pluginName = strtoupper($pluginName[0]) . substr($pluginName, 1);
 
-        $pluginClass = "\\" . __NAMESPACE__ . "\\" . "Plugin" . $pluginName;
+        $pluginClass = "Caramel\\Plugin" . $pluginName;
         if (class_exists($pluginClass)) {
+            /** @var Plugin $plugin */
             # create a new instance of the plugin
-            $plugin = new $pluginClass($this->crml);
+            $plugin = new $pluginClass($this->caramel);
             # add the plugin to our plugins array
             $this->addPlugin($plugin->getPosition(), $plugin);
         } else {

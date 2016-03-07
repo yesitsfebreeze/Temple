@@ -3,6 +3,10 @@
 namespace Caramel;
 
 
+use Caramel\Models\Node;
+use Caramel\Services\Error;
+
+
 /**
  * Class PluginImport
  *
@@ -12,8 +16,7 @@ namespace Caramel;
  * @author      Stefan Hövelmanns
  * @License     MIT
  */
-
-class PluginImport extends Plugin
+class PluginImport extends Models\Plugin
 {
 
     /** @var int $position */
@@ -38,11 +41,15 @@ class PluginImport extends Plugin
     {
         $node->set("tag.display", false);
 
-        $file      = $this->getPath($node);
-        $cachePath = $this->crml->template()->parse($file);
+        $file = $this->getPath($node);
+        debug($file);
+        if ($file == $node->get("namespace")) {
+            new Error("Recursive imports are not allowed!", $node->get("file"), $node->get("line"));
+        }
+        $cachePath = $this->caramel->template()->parse($file);
 
         # add the dependency
-        $this->crml->cache()->dependency($node->get("file"), $file);
+        $this->caramel->cache()->dependency($node->get("file"), $file);
 
         $node->set("content", "<?php include '" . $cachePath . "' ?>");
 
@@ -78,7 +85,7 @@ class PluginImport extends Plugin
      */
     private function getParentPath($node)
     {
-        $templates = $this->crml->template()->dirs();
+        $templates = $this->caramel->template()->dirs();
         $path      = explode("/", $node->get("file"));
         array_pop($path);
         $path = implode("/", $path) . "/";

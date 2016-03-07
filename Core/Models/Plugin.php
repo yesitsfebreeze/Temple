@@ -1,6 +1,9 @@
 <?php
 
-namespace Caramel;
+namespace Caramel\Models;
+
+
+use Caramel\Caramel;
 
 
 /**
@@ -10,10 +13,6 @@ namespace Caramel;
  */
 abstract class Plugin
 {
-
-    /** @var  Config $config */
-    public $config;
-
     /** @var  integer $position */
     protected $position;
 
@@ -21,11 +20,11 @@ abstract class Plugin
     /**
      * Plugin constructor.
      *
-     * @param Caramel $crml
+     * @param Caramel $caramel
      */
-    public function __construct(Caramel $crml)
+    public function __construct(Caramel $caramel)
     {
-        $this->crml = $crml;
+        $this->caramel = $caramel;
     }
 
 

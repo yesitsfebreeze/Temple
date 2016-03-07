@@ -1,6 +1,6 @@
 <?php
 
-namespace Caramel;
+namespace Caramel\Services;
 
 
 /**
@@ -12,18 +12,16 @@ namespace Caramel;
 class Directories
 {
 
-    /** @var Caramel $crml */
-    private $crml;
+    /** @var Config $config */
+    private $config;
 
 
     /**
-     * Directories constructor.
-     *
-     * @param Caramel $crml
+     * @param Config $config
      */
-    public function __construct(Caramel $crml)
+    public function setConfig(Config $config)
     {
-        $this->crml = $crml;
+        $this->config = $config;
     }
 
 
@@ -42,24 +40,20 @@ class Directories
 
     public function add($dir, $name, $create = false)
     {
-        try {
 
-            if (!$create) {
-                $dir = $this->validate($dir);
-            }
-
-            $dirs = $this->crml->config()->get($name);
-
-            if (gettype($dirs) == "array") {
-                return $this->forArray($name, $dirs, $dir, $create);
-
-            } else {
-                return $this->forString($name, $dirs, $dir, $create);
-            }
-
-        } catch (\Exception $e) {
-            return new Error($e);
+        if (!$create) {
+            $dir = $this->validate($dir);
         }
+
+        $dirs = $this->config->get($name);
+
+        if (gettype($dirs) == "array") {
+            return $this->forArray($name, $dirs, $dir, $create);
+
+        } else {
+            return $this->forString($name, $dirs, $dir, $create);
+        }
+
     }
 
 
@@ -71,7 +65,7 @@ class Directories
      */
     public function get($name)
     {
-        return $dirs = $this->crml->config()->get($name);
+        return $dirs = $this->config->get($name);
     }
 
 
@@ -83,12 +77,12 @@ class Directories
 
     public function remove($pos, $name)
     {
-        $dirs = $this->crml->config()->get($name);
+        $dirs = $this->config->get($name);
         if (array_key_exists($pos, $dirs)) {
             unset($dirs[ $pos ]);
         }
 
-        return $this->crml->config()->set($name, $dirs);
+        return $this->config->set($name, $dirs);
     }
 
 
@@ -111,7 +105,7 @@ class Directories
 
                 if (strrev($dir)[0] != "/") $dir = $dir . "/";
                 array_unshift($dirs, $dir);
-                $this->crml->config()->set($name, $dirs);
+                $this->config->set($name, $dirs);
 
                 return $dir;
             } else {
@@ -126,7 +120,7 @@ class Directories
         $dir = $this->path($dir);
         $this->create($create, $dir);
         if (strrev($dir)[0] != "/") $dir = $dir . "/";
-        $this->crml->config()->set($name, $dir);
+        $this->config->set($name, $dir);
 
         return $dirs;
     }
@@ -200,8 +194,8 @@ class Directories
      */
     private function framework()
     {
-        if ($this->crml->config()->has("framework_dir")) {
-            return $this->crml->config()->get("framework_dir");
+        if ($this->config->has("framework_dir")) {
+            return $this->config->get("framework_dir");
         } else {
             $framework = explode("Caramel", __DIR__);
             $framework = $framework[0] . "Caramel/";

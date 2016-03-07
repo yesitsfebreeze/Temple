@@ -1,6 +1,10 @@
 <?php
 
-namespace Caramel;
+namespace Caramel\Services;
+
+
+use Caramel\Caramel;
+use Caramel\Models\Dom;
 
 
 /**
@@ -10,13 +14,83 @@ namespace Caramel;
  */
 class Template
 {
-    /** @var Caramel $crml */
-    private $crml;
 
 
-    public function __construct($crml)
+    /** @var Caramel $caramel */
+    private $caramel;
+
+
+    /**
+     * @param Caramel $caramel
+     */
+    public function setCaramel(Caramel $caramel)
     {
-        $this->crml = $crml;
+        $this->caramel = $caramel;
+    }
+
+
+    /** @var Config $config */
+    private $config;
+
+
+    /**
+     * @param Config $config
+     */
+    public function setConfig(Config $config)
+    {
+        $this->config = $config;
+    }
+
+
+    /** @var Directories $directories */
+    private $directories;
+
+
+    /**
+     * @param Directories $directories
+     */
+    public function setDirectories(Directories $directories)
+    {
+        $this->directories = $directories;
+    }
+
+
+    /** @var Cache $cache */
+    private $cache;
+
+
+    /**
+     * @param Cache $cache
+     */
+    public function setCache(Cache $cache)
+    {
+        $this->cache = $cache;
+    }
+
+
+    /** @var Lexer $lexer */
+    private $lexer;
+
+
+    /**
+     * @param Lexer $lexer
+     */
+    public function setLexer(Lexer $lexer)
+    {
+        $this->lexer = $lexer;
+    }
+
+
+    /** @var Parser $parser */
+    private $parser;
+
+
+    /**
+     * @param Parser $parser
+     */
+    public function setParser(Parser $parser)
+    {
+        $this->parser = $parser;
     }
 
 
@@ -27,18 +101,22 @@ class Template
      */
     public function show($file)
     {
-        $templateFile = $this->parse($file);
+        try {
+            $templateFile = $this->parse($file);
 
-        # add the file header if wanted
-        $fileHeader = $this->crml->config()->get("file_header");
-        if ($fileHeader) {
-            echo "<!-- " . $fileHeader . " -->";
+            # add the file header if wanted
+            $fileHeader = $this->config->get("file_header");
+            if ($fileHeader) {
+                echo "<!-- " . $fileHeader . " -->";
+            }
+
+            # scoped Caramel
+            $_crml = $this->caramel;
+
+            include $templateFile;
+        } catch(\Exception $e) {
+            new Error($e->getMessage());
         }
-
-        # scoped Caramel
-        $_crml = $this->crml;
-
-        include $templateFile;
     }
 
 
@@ -50,7 +128,7 @@ class Template
      */
     public function add($dir)
     {
-        return $this->crml->directories()->add($dir, "templates.dirs");
+        return $this->directories->add($dir, "templates.dirs");
     }
 
 
@@ -62,7 +140,7 @@ class Template
      */
     public function remove($pos)
     {
-        return $this->crml->directories()->remove($pos, "templates.dirs");
+        return $this->directories->remove($pos, "templates.dirs");
     }
 
 
@@ -73,7 +151,7 @@ class Template
      */
     public function dirs()
     {
-        return $this->crml->directories()->get("templates.dirs");
+        return $this->directories->get("templates.dirs");
     }
 
 
@@ -102,12 +180,12 @@ class Template
      */
     public function parse($file)
     {
-        if ($this->crml->cache()->modified($file)) {
+        if ($this->cache->modified($file)) {
             /** @var Dom $dom */
-            $dom = $this->crml->lexer()->lex($file);
-            $this->crml->parser()->parse($dom);
+            $dom = $this->lexer->lex($file);
+            $this->parser->parse($dom);
         }
 
-        return $this->crml->cache()->getPath($file);
+        return $this->cache->getPath($file);
     }
 }

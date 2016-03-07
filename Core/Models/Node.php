@@ -1,6 +1,6 @@
 <?php
 
-namespace Caramel;
+namespace Caramel\Models;
 
 
 /**

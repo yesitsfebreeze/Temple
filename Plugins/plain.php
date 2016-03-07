@@ -3,6 +3,9 @@
 namespace Caramel;
 
 
+use Caramel\Models\Node;
+
+
 /**
  * Class PluginPlain
  *
@@ -12,8 +15,7 @@ namespace Caramel;
  * @author      Stefan Hövelmanns
  * @License     MIT
  */
-
-class PluginPlain extends Plugin
+class PluginPlain extends Models\Plugin
 {
 
     /** @var int $position */
@@ -32,7 +34,7 @@ class PluginPlain extends Plugin
 
     /**
      * @param Node $node
-     * @return Storage
+     * @return Node
      * @throws \Exception
      */
     public function process($node)

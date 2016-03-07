@@ -1,6 +1,9 @@
 <?php
 
-namespace Caramel;
+namespace Caramel\Models;
+
+
+use Caramel\Services\Error;
 
 
 /**

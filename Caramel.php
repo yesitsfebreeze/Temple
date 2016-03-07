@@ -2,8 +2,20 @@
 
 namespace Caramel;
 
-require_once "Autoload.php";
 
+use Caramel\Models\Vars;
+use Caramel\Services\Cache;
+use Caramel\Services\Config;
+use Caramel\Services\Directories;
+use Caramel\Services\Helpers;
+use Caramel\Services\Lexer;
+use Caramel\Services\Parser;
+use Caramel\Services\Plugins;
+use Caramel\Services\Template;
+
+require_once "autoload.php";
+
+new Autoloader("Core", "Caramel");
 
 /**
  * the main class for the caramel template engine
@@ -13,7 +25,7 @@ require_once "Autoload.php";
  */
 class Caramel
 {
-    /** @var Storage $Vars */
+    /** @var Vars $Vars */
     private $Vars;
 
     /** @var Config $Config */
@@ -43,19 +55,55 @@ class Caramel
      */
     function __construct()
     {
-        try {
-            $this->Vars   = new Vars();
-            $this->Directories = new Directories($this);
-            $this->Config      = new Config(__DIR__);
-            $this->Helpers     = new Helpers($this);
-            $this->Cache       = new Cache($this);
-            $this->Plugins     = new Plugins($this);
-            $this->Lexer       = new Lexer($this);
-            $this->Parser      = new Parser($this);
-            $this->Tempalte    = new Template($this);
-        } catch (\Exception $e) {
-            new Error($e);
-        }
+        $this->Vars        = new Vars();
+        $this->Config      = new Config();
+        $this->Directories = new Directories();
+        $this->Helpers     = new Helpers();
+        $this->Cache       = new Cache();
+        $this->Plugins     = new Plugins();
+        $this->Lexer       = new Lexer();
+        $this->Parser      = new Parser();
+        $this->Template    = new Template();
+
+        $this->init();
+    }
+
+
+    /**
+     * initiates Caramel
+     */
+    private function init()
+    {
+        $this->config()->addConfigFile(__DIR__ . "/config.json");
+        $this->config()->setDefaults(__DIR__);
+
+        $this->helpers()->setTemplate($this->template());
+        $this->helpers()->setConfig($this->config());
+
+        $this->directories()->setConfig($this->config());
+
+        $this->cache()->setConfig($this->config());
+        $this->cache()->setTemplate($this->template());
+        $this->cache()->setDirectories($this->directories());
+        $this->cache()->setHelpers($this->helpers());
+
+        $this->plugins()->setDirectories($this->directories());
+        $this->plugins()->setConfig($this->config());
+        $this->plugins()->setCaramel($this);
+        $this->plugins()->init();
+
+        $this->lexer()->setConfig($this->config());
+        $this->lexer()->setHelpers($this->helpers());
+
+        $this->parser()->setConfig($this->config());
+        $this->parser()->setCache($this->cache());
+
+        $this->template()->setConfig($this->config());
+        $this->template()->setCache($this->cache());
+        $this->template()->setDirectories($this->directories());
+        $this->template()->setLexer($this->lexer());
+        $this->template()->setParser($this->parser());
+        $this->template()->setCaramel($this);
     }
 
 
@@ -64,12 +112,12 @@ class Caramel
      */
     public function template()
     {
-        return $this->Tempalte;
+        return $this->Template;
     }
 
 
     /**
-     * @return Storage
+     * @return Vars
      */
     public function vars()
     {
