@@ -73,44 +73,6 @@ class Caramel
 
 
     /**
-     * initiates Caramel
-     */
-    private function init()
-    {
-        $this->config()->addConfigFile(__DIR__ . "/config.json");
-        $this->config()->setDefaults(__DIR__);
-
-        $this->helpers()->setTemplate($this->template());
-        $this->helpers()->setConfig($this->config());
-
-        $this->directories()->setConfig($this->config());
-
-        $this->cache()->setConfig($this->config());
-        $this->cache()->setTemplate($this->template());
-        $this->cache()->setDirectories($this->directories());
-        $this->cache()->setHelpers($this->helpers());
-
-        $this->plugins()->setDirectories($this->directories());
-        $this->plugins()->setConfig($this->config());
-        $this->plugins()->setCaramel($this);
-        $this->plugins()->init();
-
-        $this->lexer()->setConfig($this->config());
-        $this->lexer()->setHelpers($this->helpers());
-
-        $this->parser()->setConfig($this->config());
-        $this->parser()->setCache($this->cache());
-
-        $this->template()->setConfig($this->config());
-        $this->template()->setCache($this->cache());
-        $this->template()->setDirectories($this->directories());
-        $this->template()->setLexer($this->lexer());
-        $this->template()->setParser($this->parser());
-        $this->template()->setCaramel($this);
-    }
-
-
-    /**
      * @return Template
      */
     public function template()
@@ -188,6 +150,101 @@ class Caramel
     public function parser()
     {
         return $this->Parser;
+    }
+
+
+    /**
+     * initiates Caramel
+     */
+    private function init()
+    {
+        $this->initConfig();
+        $this->initHelpers();
+        $this->initDirectories();
+        $this->initCache();
+        $this->initPlugins();
+        $this->initLexer();
+        $this->initParser();
+        $this->initTemplate();
+    }
+
+    /**
+     * initiates the Caramel Config
+     */
+    private function initConfig()
+    {
+        $this->config()->addConfigFile(__DIR__ . "/config.json");
+        $this->config()->setDefaults(__DIR__);
+    }
+
+    /**
+     * initiates the Caramel Helpers
+     */
+    private function initHelpers()
+    {
+        $this->helpers()->setTemplate($this->template());
+        $this->helpers()->setConfig($this->config());
+    }
+
+    /**
+     * initiates the Caramel Directories
+     */
+    private function initDirectories()
+    {
+        $this->directories()->setConfig($this->config());
+    }
+
+    /**
+     * initiates the Caramel Cache
+     */
+    private function initCache()
+    {
+        $this->cache()->setConfig($this->config());
+        $this->cache()->setTemplate($this->template());
+        $this->cache()->setDirectories($this->directories());
+        $this->cache()->setHelpers($this->helpers());
+    }
+
+    /**
+     * initiates the Caramel Lexer
+     */
+    private function initLexer()
+    {
+        $this->lexer()->setConfig($this->config());
+        $this->lexer()->setHelpers($this->helpers());
+    }
+
+    /**
+     * initiates the Caramel Plugins
+     */
+    private function initPlugins()
+    {
+        $this->plugins()->setDirectories($this->directories());
+        $this->plugins()->setConfig($this->config());
+        $this->plugins()->setCaramel($this);
+        $this->plugins()->init();
+    }
+
+    /**
+     * initiates the Caramel Parser
+     */
+    private function initParser()
+    {
+        $this->parser()->setConfig($this->config());
+        $this->parser()->setCache($this->cache());
+    }
+
+    /**
+     * initiates the Caramel Template
+     */
+    private function initTemplate()
+    {
+        $this->template()->setConfig($this->config());
+        $this->template()->setCache($this->cache());
+        $this->template()->setDirectories($this->directories());
+        $this->template()->setLexer($this->lexer());
+        $this->template()->setParser($this->parser());
+        $this->template()->setCaramel($this);
     }
 
 }
