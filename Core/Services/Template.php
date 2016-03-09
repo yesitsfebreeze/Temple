@@ -92,7 +92,7 @@ class Template
     {
         $this->parser = $parser;
     }
-
+    
 
     /**
      * Renders and includes the passed file
