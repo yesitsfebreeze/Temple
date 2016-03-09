@@ -49,6 +49,10 @@
                 code("3","1","start","If conditions.");
                 code("3","2");
                 code("3","3","end");
+
+                code("4","1","start","Function definition.");
+                code("4","2");
+                code("4","3","end");
             ?>
 
         <div class="wrappy">
