@@ -113,7 +113,11 @@ class Template
             # scoped Caramel
             $_crml = $this->caramel;
 
-            include $templateFile;
+            if (file_exists($templateFile)) {
+                include $templateFile;
+            } else {
+                new Error("Can't include $file.crml");
+            }
         } catch(\Exception $e) {
             new Error($e->getMessage());
         }

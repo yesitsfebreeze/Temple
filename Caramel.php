@@ -49,6 +49,9 @@ class Caramel
     /** @var Parser $Parser */
     private $Parser;
 
+    /** @var Template $Template */
+    private $Template;
+
 
     /**
      * Caramel constructor.

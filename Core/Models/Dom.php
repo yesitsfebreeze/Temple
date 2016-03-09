@@ -18,11 +18,18 @@ class Dom extends Storage
     {
 
         /**
-         * the tag name
+         * the namsepace
          *
          * @var string
          */
-        $this->set("file", "");
+        $this->set("namespace", "");
+
+        /**
+         * the template storage
+         *
+         * @var string
+         */
+        $this->set("template", "");
 
         /**
          * if we want to display the tags

@@ -49,7 +49,11 @@ class Parser
      */
     public function parse($dom)
     {
+
+
+        $this->cache->save($dom->get("template.file"), "");
         if ($this->check($dom)) return false;
+
         # the returns make sure that the parse process
         # stops if we have an empty dom
         # this enables you to parse a modified dom in a plugin or function
@@ -169,7 +173,7 @@ class Parser
      * children will parsed first
      *
      * @param Dom|array $dom
-     * @param array     $nodes
+     * @param array $nodes
      * @return mixed|Error
      * @throws \Exception
      */
@@ -223,7 +227,7 @@ class Parser
      * processes all plugins depending on the passed type
      *
      * @param Dom|Node|string $element
-     * @param string          $type
+     * @param string $type
      * @return mixed|Error
      */
     private function executePlugins($element, $type)
