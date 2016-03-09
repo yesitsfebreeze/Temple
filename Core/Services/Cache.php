@@ -13,8 +13,6 @@ use Caramel\Caramel;
  */
 class Cache
 {
-    /** @var Caramel $crml */
-    private $crml;
 
     /** @var string $cacheFile */
     private $cacheFile = "__cache.php";
@@ -24,52 +22,16 @@ class Cache
     private $config;
 
 
-    /**
-     * @param Config $config
-     */
-    public function setConfig(Config $config)
-    {
-        $this->config = $config;
-    }
-
-
     /** @var Template $template */
     private $template;
-
-
-    /**
-     * @param Template $template
-     */
-    public function setTemplate(Template $template)
-    {
-        $this->template = $template;
-    }
 
 
     /** @var Directories $directories */
     private $directories;
 
 
-    /**
-     * @param Directories $directories
-     */
-    public function setDirectories(Directories $directories)
-    {
-        $this->directories = $directories;
-    }
-
-
     /** @var Helpers $helpers */
     private $helpers;
-
-
-    /**
-     * @param Helpers $helpers
-     */
-    public function setHelpers(Helpers $helpers)
-    {
-        $this->helpers = $helpers;
-    }
 
 
     /**
@@ -335,4 +297,35 @@ class Cache
         return $this->config->get("cache_dir");
     }
 
+    /**
+     * @param Config $config
+     */
+    public function setConfig(Config $config)
+    {
+        $this->config = $config;
+    }
+
+    /**
+     * @param Template $template
+     */
+    public function setTemplate(Template $template)
+    {
+        $this->template = $template;
+    }
+
+    /**
+     * @param Directories $directories
+     */
+    public function setDirectories(Directories $directories)
+    {
+        $this->directories = $directories;
+    }
+
+    /**
+     * @param Helpers $helpers
+     */
+    public function setHelpers(Helpers $helpers)
+    {
+        $this->helpers = $helpers;
+    }
 }

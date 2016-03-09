@@ -23,32 +23,14 @@ class Lexer
     private $config;
 
 
-    /**
-     * @param Config $config
-     */
-    public function setConfig(Config $config)
-    {
-        $this->config = $config;
-    }
-
-
     /** @var Helpers $helpers */
     private $helpers;
 
 
     /**
-     * @param Helpers $helpers
-     */
-    public function setHelpers(Helpers $helpers)
-    {
-        $this->helpers = $helpers;
-    }
-
-
-    /**
      * returns Dom object
      *
-     * @param string   $file
+     * @param string $file
      * @param int|bool $level
      * @return array
      */
@@ -66,7 +48,7 @@ class Lexer
     /**
      * set the default values for our dom
      *
-     * @param string  $file
+     * @param string $file
      * @param integer $level
      */
     private function prepare($file, $level)
@@ -212,7 +194,7 @@ class Lexer
     /**
      * returns the attributes for the current line
      *
-     * @param string  $line
+     * @param string $line
      * @param Storage $info
      * @return string
      */
@@ -244,7 +226,7 @@ class Lexer
     /**
      * creates a new node from a line
      *
-     * @param string  $line
+     * @param string $line
      * @param Storage $info
      * @return Node $node
      */
@@ -370,7 +352,7 @@ class Lexer
     /**
      * returns the parent of the passed node
      *
-     * @param Node      $node
+     * @param Node $node
      * @param bool|Node $parent
      * @return Node
      */
@@ -391,4 +373,20 @@ class Lexer
         }
     }
 
+
+    /**
+     * @param Config $config
+     */
+    public function setConfig(Config $config)
+    {
+        $this->config = $config;
+    }
+
+    /**
+     * @param Helpers $helpers
+     */
+    public function setHelpers(Helpers $helpers)
+    {
+        $this->helpers = $helpers;
+    }
 }

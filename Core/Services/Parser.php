@@ -20,27 +20,8 @@ class Parser
     /** @var Config $config */
     private $config;
 
-
-    /**
-     * @param Config $config
-     */
-    public function setConfig(Config $config)
-    {
-        $this->config = $config;
-    }
-
-
-    /** @var Cache $cache */
+    /** @var Config $config */
     private $cache;
-
-
-    /**
-     * @param Cache $cache
-     */
-    public function setCache(Cache $cache)
-    {
-        $this->cache = $cache;
-    }
 
 
     /**
@@ -286,6 +267,24 @@ class Parser
             $pluginName = str_replace("Caramel\\Plugin", "", get_class($plugin));
             throw new \Exception("You need to return the variable: {$variable} </br></br>Plugin: {$pluginName} </br>Method: {$method} </br></br>");
         }
+    }
+
+
+    /**
+     * @param Config $config
+     */
+    public function setConfig(Config $config)
+    {
+        $this->config = $config;
+    }
+
+
+    /**
+     * @param Cache $cache
+     */
+    public function setCache(Cache $cache)
+    {
+        $this->cache = $cache;
     }
 
 }

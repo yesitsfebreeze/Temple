@@ -17,15 +17,6 @@ class Directories
 
 
     /**
-     * @param Config $config
-     */
-    public function setConfig(Config $config)
-    {
-        $this->config = $config;
-    }
-
-
-    /**
      * validates and adds a directory to our config
      * the $name variable will determent the array name
      * the $single variable will create a simple string instead of an array
@@ -34,7 +25,7 @@ class Directories
      *
      * @param string $dir
      * @param string $name
-     * @param bool   $create
+     * @param bool $create
      * @return bool|Error
      */
 
@@ -71,7 +62,7 @@ class Directories
 
     /**
      * @param integer $pos
-     * @param string  $name
+     * @param string $name
      * @return bool
      */
 
@@ -128,7 +119,7 @@ class Directories
 
     /**
      * @param boolean $create
-     * @param string  $dir
+     * @param string $dir
      */
     private function create($create, $dir)
     {
@@ -202,5 +193,13 @@ class Directories
 
             return $framework;
         }
+    }
+
+    /**
+     * @param Config $config
+     */
+    public function setConfig(Config $config)
+    {
+        $this->config = $config;
     }
 }

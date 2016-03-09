@@ -20,79 +20,25 @@ class Template
     private $caramel;
 
 
-    /**
-     * @param Caramel $caramel
-     */
-    public function setCaramel(Caramel $caramel)
-    {
-        $this->caramel = $caramel;
-    }
-
-
     /** @var Config $config */
     private $config;
-
-
-    /**
-     * @param Config $config
-     */
-    public function setConfig(Config $config)
-    {
-        $this->config = $config;
-    }
 
 
     /** @var Directories $directories */
     private $directories;
 
 
-    /**
-     * @param Directories $directories
-     */
-    public function setDirectories(Directories $directories)
-    {
-        $this->directories = $directories;
-    }
-
-
     /** @var Cache $cache */
     private $cache;
-
-
-    /**
-     * @param Cache $cache
-     */
-    public function setCache(Cache $cache)
-    {
-        $this->cache = $cache;
-    }
 
 
     /** @var Lexer $lexer */
     private $lexer;
 
 
-    /**
-     * @param Lexer $lexer
-     */
-    public function setLexer(Lexer $lexer)
-    {
-        $this->lexer = $lexer;
-    }
-
-
     /** @var Parser $parser */
     private $parser;
 
-
-    /**
-     * @param Parser $parser
-     */
-    public function setParser(Parser $parser)
-    {
-        $this->parser = $parser;
-    }
-    
 
     /**
      * Renders and includes the passed file
@@ -118,7 +64,7 @@ class Template
             } else {
                 new Error("Can't include $file.crml");
             }
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             new Error($e->getMessage());
         }
     }
@@ -191,5 +137,53 @@ class Template
         }
 
         return $this->cache->getPath($file);
+    }
+
+    /**
+     * @param Caramel $caramel
+     */
+    public function setCaramel(Caramel $caramel)
+    {
+        $this->caramel = $caramel;
+    }
+
+    /**
+     * @param Config $config
+     */
+    public function setConfig(Config $config)
+    {
+        $this->config = $config;
+    }
+
+    /**
+     * @param Directories $directories
+     */
+    public function setDirectories(Directories $directories)
+    {
+        $this->directories = $directories;
+    }
+
+    /**
+     * @param Cache $cache
+     */
+    public function setCache(Cache $cache)
+    {
+        $this->cache = $cache;
+    }
+
+    /**
+     * @param Lexer $lexer
+     */
+    public function setLexer(Lexer $lexer)
+    {
+        $this->lexer = $lexer;
+    }
+
+    /**
+     * @param Parser $parser
+     */
+    public function setParser(Parser $parser)
+    {
+        $this->parser = $parser;
     }
 }

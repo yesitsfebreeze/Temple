@@ -9,9 +9,8 @@ use Caramel\Models\Plugin;
 /**
  * handles the plugin loading
  * Class PluginLoader
-
  *
-*@package Caramel
+ * @package Caramel
  */
 class Plugins
 {
@@ -22,39 +21,12 @@ class Plugins
     /** @var Caramel $caramel */
     private $caramel;
 
-
-    /**
-     * @param Caramel $caramel
-     */
-    public function setCaramel(Caramel $caramel)
-    {
-        $this->caramel = $caramel;
-    }
-
     /** @var Config $config */
     private $config;
 
 
-    /**
-     * @param Config $config
-     */
-    public function setConfig(Config $config)
-    {
-        $this->config = $config;
-    }
-
-
     /** @var Directories $directories */
     private $directories;
-
-
-    /**
-     * @param Directories $directories
-     */
-    public function setDirectories(Directories $directories)
-    {
-        $this->directories = $directories;
-    }
 
 
     /**
@@ -183,5 +155,30 @@ class Plugins
 
         return $this->plugins;
     }
+
+    /**
+     * @param Caramel $caramel
+     */
+    public function setCaramel(Caramel $caramel)
+    {
+        $this->caramel = $caramel;
+    }
+
+    /**
+     * @param Config $config
+     */
+    public function setConfig(Config $config)
+    {
+        $this->config = $config;
+    }
+
+    /**
+     * @param Directories $directories
+     */
+    public function setDirectories(Directories $directories)
+    {
+        $this->directories = $directories;
+    }
+
 
 }
