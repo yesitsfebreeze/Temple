@@ -15,8 +15,8 @@ class Error
      * Error constructor.
      *
      * @param \Exception|string $error
-     * @param bool              $file
-     * @param bool              $line
+     * @param bool $file
+     * @param bool $line
      */
     public function __construct($error, $file = false, $line = false)
     {
@@ -34,24 +34,22 @@ class Error
      * displays the output and performs a die
      *
      * @param \Exception|string $error
-     * @param bool              $file
-     * @param bool              $line
+     * @param bool $file
+     * @param bool $line
      */
     private function display($error, $file, $line)
     {
         # update the status code
-        http_response_code(500);
+        if (function_exists("http_response_code")) {
+            http_response_code(500);
+        }
 
-        $output = "<html>";
-        $output .= "    <head></head>";
-        $output .= "    <body></body>";
-        $output .= "    <script type='text/javascript'>";
+        $output = "    <script type='text/javascript'>";
         # replace the head with ours
         $output .= '        window.document.head.innerHTML = "' . $this->head() . '";';
         # replace the body with ours
         $output .= '        window.document.body.innerHTML = "' . $this->body($error, $file, $line) . '";';
         $output .= "    </script>";
-        $output .= "</html>";
 
         echo $output;
 
@@ -86,6 +84,7 @@ class Error
         $output .= "<link href='https://fonts.googleapis.com/css?family=Catamaran:400,500,300' rel='stylesheet' type='text/css'>";
         $output .= "<title>Caramel found an Error!</title>";
 
+        $output = $this->escape($output);
         return $output;
     }
 
@@ -94,8 +93,8 @@ class Error
      * creating the error message
      *
      * @param \Exception|string $error
-     * @param bool              $file
-     * @param bool              $line
+     * @param bool $file
+     * @param bool $line
      * @return string
      */
     private function body($error, $file, $line)
@@ -115,6 +114,7 @@ class Error
 
         $output .= "<div class='issues'>Please report any unsolved problem to my <a href='https://github.com/hvlmnns/Caramel/issues' title='issues' target='_blank'>Github</a> page.</div>";
 
+        $output = $this->escape($output);
         return $output;
     }
 
@@ -139,6 +139,7 @@ class Error
         $output .= "</p>";
         $output .= "</h4>";
 
+        $output = $this->escape($output);
         return $output;
     }
 
@@ -163,6 +164,18 @@ class Error
         }
         $output .= "</div>";
 
+        $output = $this->escape($output);
+        return $output;
+    }
+
+    /**
+     * escapes the " character to keep the js string valid
+     * @param $output
+     * @return mixed
+     */
+    private function escape($output)
+    {
+        $output = preg_replace('/\"/',"'",$output);
         return $output;
     }
 

@@ -223,7 +223,8 @@ class PluginExtend extends Models\Plugin
             $path = str_replace("." . $this->caramel->config()->get("extension"), "", $path);
             # absolute extend
             if ($path[0] == "/") {
-                $dom = $this->caramel->lexer()->lex($path)["dom"];
+                $dom = $this->caramel->lexer()->lex($path);
+                $dom = $dom["dom"];
             }
             # relative extend
             if ($path[0] != "/") {

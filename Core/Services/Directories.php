@@ -39,11 +39,13 @@ class Directories
         $dirs = $this->config->get($name);
 
         if (gettype($dirs) == "array") {
-            return $this->forArray($name, $dirs, $dir, $create);
+            $dirs = $this->forArray($name, $dirs, $dir, $create);
 
         } else {
-            return $this->forString($name, $dirs, $dir, $create);
+            $dirs = $this->forString($name, $dirs, $dir, $create);
         }
+
+        return $dirs;
 
     }
 
@@ -91,10 +93,10 @@ class Directories
         } else {
             if ($dir) {
                 $dir = $this->path($dir);
-
                 $this->create($create, $dir);
 
-                if (strrev($dir)[0] != "/") $dir = $dir . "/";
+                $temp = strrev($dir);
+                if ($temp[0] != "/") $dir = $dir . "/";
                 array_unshift($dirs, $dir);
                 $this->config->set($name, $dirs);
 
@@ -110,7 +112,8 @@ class Directories
     {
         $dir = $this->path($dir);
         $this->create($create, $dir);
-        if (strrev($dir)[0] != "/") $dir = $dir . "/";
+        $temp = strrev($dir);
+        if ($temp[0] != "/") $dir = $dir . "/";
         $this->config->set($name, $dir);
 
         return $dirs;
@@ -125,7 +128,11 @@ class Directories
     {
         if ($create) {
             if (!is_dir($dir)) {
-                mkdir($dir, 0777, true);
+                if (is_writable($dir)) {
+                    mkdir($dir, 0777, true);
+                } else {
+                    new Error("You don't have the right permissions to write: </br>" . $dir);
+                }
             }
         }
     }
@@ -171,8 +178,10 @@ class Directories
      */
     private function root()
     {
-        $root = strrev(explode("/", strrev($_SERVER["DOCUMENT_ROOT"]))[0]);
-        $root = explode($root, __DIR__)[0] . $root . "/";
+        $root = strrev($_SERVER["DOCUMENT_ROOT"]);
+        $root = strrev(explode("/", $root[0]));
+        $dir  = explode($root, __DIR__);
+        $root = $dir[0] . $root . "/";
 
         return $root;
     }

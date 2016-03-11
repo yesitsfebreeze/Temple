@@ -27,7 +27,8 @@ class PluginComment extends Models\Plugin
      */
     public function check($node)
     {
-        return ($node->get("tag.tag")[0] == $this->caramel->config()->get("comment_symbol") && ($node->get("tag.tag")[1] == " " || $node->get("tag.tag")[1] == ""));
+        $tag = $node->get("tag.tag");
+        return ($tag[0] == $this->caramel->config()->get("comment_symbol") && ($tag[1] == " " || $tag[1] == ""));
     }
 
 

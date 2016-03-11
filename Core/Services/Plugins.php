@@ -83,11 +83,12 @@ class Plugins
      */
     private function getPlugins()
     {
-        $dirs = $this->config->get("plugins.dirs");
+        $dirs = $this->dirs();
         # iterate all plugin directories
         foreach ($dirs as $dir) {
             # search the directory recursively to get all plugins
-            $files = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($dir), \RecursiveIteratorIterator::SELF_FIRST);
+            $dir = new \RecursiveDirectoryIterator($dir);
+            $files = new \RecursiveIteratorIterator($dir, \RecursiveIteratorIterator::SELF_FIRST);
             foreach ($files as $pluginFile) {
                 $this->loadPlugins($pluginFile);
             }
@@ -121,7 +122,8 @@ class Plugins
         require_once $pluginFile;
 
         # get the plugin name without the extension and convert first letter to uppercase
-        $pluginName = strrev(explode("/", strrev(str_replace(".php", "", $pluginFile)))[0]);
+        $pluginName = explode("/", strrev(str_replace(".php", "", $pluginFile)));
+        $pluginName = strrev($pluginName [0]);
         $pluginName = strtoupper($pluginName[0]) . substr($pluginName, 1);
 
         $pluginClass = "Caramel\\Plugin" . $pluginName;

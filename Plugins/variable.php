@@ -27,6 +27,13 @@ class PluginVariable extends Models\Plugin
     public $position = 9999999991;
 
 
+    public function check($node)
+    {
+        $tag = $node->get("tag.tag");
+
+        return $tag[0] == "@";
+    }
+
     /**
      * @var Node $node
      * @return Node $node
@@ -34,13 +41,11 @@ class PluginVariable extends Models\Plugin
      */
     public function process($node)
     {
-        if ($node->get("tag.tag")[0] == "@") {
-            # hide it if we have a variable tag
-            $node->set("display", false);
-            $name  = $this->getVariableName($node);
-            $value = $this->parseVariable($node);
-            $this->caramel->vars()->set($name, $value);
-        }
+        # hide it if we have a variable tag
+        $node->set("display", false);
+        $name  = $this->getVariableName($node);
+        $value = $this->parseVariable($node);
+        $this->caramel->vars()->set($name, $value);
 
         return $node;
     }
@@ -125,7 +130,7 @@ class PluginVariable extends Models\Plugin
 
     /**
      * @param Node|bool $node
-     * @param string    $name
+     * @param string $name
      * @return string
      */
     private function getVariableName($node, $name = "")

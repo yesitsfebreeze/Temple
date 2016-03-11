@@ -13,7 +13,7 @@ use Caramel\Services\Parser;
 use Caramel\Services\Plugins;
 use Caramel\Services\Template;
 
-require_once "autoload.php";
+require_once "Autoload.php";
 
 new Autoloader("Core", "Caramel");
 
