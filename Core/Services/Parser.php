@@ -67,7 +67,8 @@ class Parser
     private function check($dom)
     {
         if ($dom->has("nodes")) {
-            return empty($dom->get("nodes"));
+            $return = $dom->get("nodes");
+            return empty($return);
         } else {
             return true;
         }

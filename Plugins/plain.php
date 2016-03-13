@@ -28,7 +28,8 @@ class PluginPlain extends Models\Plugin
      */
     public function check($node)
     {
-        return ($node->get("tag.tag")[0] == ">");
+        $tag = $node->get("tag.tag");
+        return ($tag[0] == ">");
     }
 
 

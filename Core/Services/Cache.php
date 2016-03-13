@@ -43,7 +43,8 @@ class Cache
     public function set($dir)
     {
         $dir = preg_replace("/\/$/", "", $dir);
-        if (array_reverse(explode("/", $dir))[0] != "Caramel") $dir = preg_replace("/\/$/", "", $dir) . "/Caramel";
+        $temp = array_reverse(explode("/", $dir));
+        if ($temp[0] != "Caramel") $dir = preg_replace("/\/$/", "", $dir) . "/Caramel";
         $dir = $dir . "/";
         $this->config->set("cache_dir", $dir);
 
@@ -215,7 +216,8 @@ class Cache
     private function extension($file)
     {
         $file             = str_replace("." . $this->config->get("extension"), ".php", $file);
-        $currentExtension = array_reverse(explode(".", $file))[0];
+        $currentExtension = array_reverse(explode(".", $file));
+        $currentExtension = $currentExtension[0];
         if ($currentExtension != "php") {
             $file = $file . ".php";
         }
