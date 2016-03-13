@@ -28,7 +28,7 @@ class PluginPlain extends Models\Plugin
      */
     public function check($node)
     {
-        return ($node->get("tag.tag")[0] == "-");
+        return ($node->get("tag.tag")[0] == ">");
     }
 
 
@@ -42,7 +42,7 @@ class PluginPlain extends Models\Plugin
 
         $trailing = true;
         # if we have a double minus we don't use the trailing space
-        if ($node->get("tag.tag") == "--") $trailing = false;
+        if ($node->get("tag.tag") == ">>") $trailing = false;
 
         # create the plain node
         $node = $this->createPlain($node, $trailing);
@@ -73,7 +73,7 @@ class PluginPlain extends Models\Plugin
         /** @var Node $child */
         foreach ($children as $child) {
             $child = $this->createPlain($child, $trailing, true);
-            if ($child->get("tag.tag") == "-" && $child->get("attributes") == "") {
+            if ($child->get("tag.tag") == ">" && $child->get("attributes") == "") {
                 $child->set("content", "</br>");
             }
 

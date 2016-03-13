@@ -145,6 +145,13 @@ class Node extends Storage
         $this->set("attributes", NULL);
 
         /**
+         * everything after "-" in the line
+         *
+         * @var string
+         */
+        $this->set("content", NULL);
+
+        /**
          * if we want to render the node or not
          *
          * @var boolean

@@ -30,7 +30,7 @@ class Lexer
     /**
      * returns Dom object
      *
-     * @param string $file
+     * @param string   $file
      * @param int|bool $level
      * @return array
      */
@@ -48,7 +48,7 @@ class Lexer
     /**
      * set the default values for our dom
      *
-     * @param string $file
+     * @param string  $file
      * @param integer $level
      */
     private function prepare($file, $level)
@@ -132,6 +132,7 @@ class Lexer
         $line = trim($line);
         $info->set("tag", $this->tag($line));
         $info->set("attributes", $this->attributes($line, $info));
+        $info->set("content", $this->content($line, $info));
         $info->set("selfclosing", $this->selfclosing($info));
 
         return $info;
@@ -194,7 +195,7 @@ class Lexer
     /**
      * returns the attributes for the current line
      *
-     * @param string $line
+     * @param string  $line
      * @param Storage $info
      * @return string
      */
@@ -203,8 +204,31 @@ class Lexer
         # replace the tag from the beginning of the line and then trim the string
         $tag        = $info->get("tag");
         $attributes = trim(preg_replace("/^$tag/", "", $line));
+        $attributes = explode(">", $attributes);
 
-        return $attributes;
+        return $attributes[0];
+    }
+
+
+    /**
+     * returns the content for the current line
+     *
+     * @param string  $line
+     * @param Storage $info
+     * @return string
+     */
+    private function content($line, $info)
+    {
+        # replace the tag from the beginning of the line and then trim the string
+        $tag = $info->get("tag");
+        if ($this->helpers->str_find(substr($line, 1), ">")) {
+            $content = trim(preg_replace("/^$tag.*?>/", "", $line));
+            $content = trim($content) . " ";
+        } else {
+            $content = "";
+        }
+
+        return $content;
     }
 
 
@@ -226,7 +250,7 @@ class Lexer
     /**
      * creates a new node from a line
      *
-     * @param string $line
+     * @param string  $line
      * @param Storage $info
      * @return Node $node
      */
@@ -255,6 +279,7 @@ class Lexer
         $node->set("plain", $line);
         $node->set("indent", $info->get("indent"));
         $node->set("attributes", $info->get("attributes"));
+        $node->set("content", $info->get("content"));
         $node->set("display", true);
         $node->set("plugins", true);
         $node->set("selfclosing", $info->get("selfclosing"));
@@ -352,7 +377,7 @@ class Lexer
     /**
      * returns the parent of the passed node
      *
-     * @param Node $node
+     * @param Node      $node
      * @param bool|Node $parent
      * @return Node
      */
@@ -381,6 +406,7 @@ class Lexer
     {
         $this->config = $config;
     }
+
 
     /**
      * @param Helpers $helpers

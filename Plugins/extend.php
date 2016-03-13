@@ -3,6 +3,8 @@
 namespace Caramel;
 
 
+use Caramel\Models\Dom;
+use Caramel\Models\Node;
 use Caramel\Services\Error;
 
 
@@ -22,7 +24,10 @@ class PluginExtend extends Models\Plugin
     protected $position = 1;
 
     /** @var array $blocks */
-    private $blocks = array();
+    private $blockStash = array();
+
+    /** @var array $attributes */
+    private $attributeStash = array();
 
     /** @var bool $topLevel */
     private $topLevel = false;
@@ -148,6 +153,7 @@ class PluginExtend extends Models\Plugin
     {
         $this->getRootFile($node);
         $this->getBlocks($dom);
+        $this->getAttributes($dom);
         $dom = $this->getDom($node);
 
         # if the current extend file is the same as our root file,
@@ -156,7 +162,8 @@ class PluginExtend extends Models\Plugin
             return new Error("Recursive extends are not allowed!", $this->rootFile, 1);
         }
 
-        $dom = $this->blocks($dom, $this->blocks);
+        $dom = $this->blocks($dom, $this->blockStash);
+        $dom = $this->attributes($dom, $this->attributeStash);
 
         $this->caramel->cache()->dependency($this->rootFile, reset($dom->get("nodes"))->get("file"));
 
@@ -201,8 +208,30 @@ class PluginExtend extends Models\Plugin
             if ($node->get("tag.tag") == "block") {
                 $name = trim($node->get("attributes"));
                 # create array if it doesn't exist
-                if (!isset($this->blocks[ $name ])) $this->blocks[ $name ] = array();
-                $this->blocks[ $name ][] = $node;
+                if (!isset($this->blockStash[ $name ])) $this->blockStash[ $name ] = array();
+                $this->blockStash[ $name ][] = $node;
+            }
+        }
+    }
+
+
+    /**
+     * get all extending blocks from our current dom
+     *
+     * @param Dom $dom
+     * @return array
+     * @throws \Exception
+     */
+    private function getAttributes($dom)
+    {
+        /** @var Node $node */
+        $nodes = $dom->get("nodes");
+        foreach ($nodes as $node) {
+            if ($node->get("tag.tag") == "attributes") {
+                $name = trim($node->get("attributes"));
+                # create array if it doesn't exist
+                if (!isset($this->attributeStash[ $name ])) $this->attributeStash[ $name ] = array();
+                $this->attributeStash[ $name ][] = $node;
             }
         }
     }
@@ -217,7 +246,7 @@ class PluginExtend extends Models\Plugin
     private function getDom($node)
     {
         $dom = false;
-        /** @var Storage $node */
+        /** @var Node $node */
         $path = trim($node->get("attributes"));
         if ($path != "") {
             $path = str_replace("." . $this->caramel->config()->get("extension"), "", $path);
@@ -282,6 +311,16 @@ class PluginExtend extends Models\Plugin
                     }
                 }
             }
+
+            if ($node->get("tag.tag") == "attributes") {
+                $name  = trim($node->get("attributes"));
+                $stash = &$attributes[ $name ];
+                if (!is_null($stash)) {
+                    foreach ($stash as $attribute) {
+                        $node = $this->attributes($node, $attribute);
+                    }
+                }
+            }
         }
 
         $dom->set("nodes", $nodes);
@@ -326,4 +365,20 @@ class PluginExtend extends Models\Plugin
 
         return $block;
     }
+
+
+    /**
+     * extend all blocks in the current dom
+     *
+     * @param Dom   $dom
+     * @param array $attributes
+     * @return mixed
+     * @throws \Exception
+     */
+    private function attributes($dom, $attributes)
+    {
+        new Error("test");
+        return $dom;
+    }
+
 }
