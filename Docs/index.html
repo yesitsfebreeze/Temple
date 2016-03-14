@@ -6,87 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <title>caramel Documentation</title>
     <link href='https://fonts.googleapis.com/css?family=Catamaran:400,500,300' rel='stylesheet' type='text/css'>
-    <style>
-      .highlight table td { padding: 5px; }
-.highlight table pre { margin: 0; }
-.highlight, .highlight .w {
-  color: #f8f8f2;
-  background-color: #272822;
-}
-.highlight .err {
-  color: #151515;
-  background-color: #ac4142;
-}
-.highlight .c, .highlight .cd, .highlight .cm, .highlight .c1, .highlight .cs {
-  color: #505050;
-}
-.highlight .cp {
-  color: #f4bf75;
-}
-.highlight .nt {
-  color: #f4bf75;
-}
-.highlight .o, .highlight .ow {
-  color: #d0d0d0;
-}
-.highlight .p, .highlight .pi {
-  color: #d0d0d0;
-}
-.highlight .gi {
-  color: #90a959;
-}
-.highlight .gd {
-  color: #ac4142;
-}
-.highlight .gh {
-  color: #6a9fb5;
-  background-color: #151515;
-  font-weight: bold;
-}
-.highlight .k, .highlight .kn, .highlight .kp, .highlight .kr, .highlight .kv {
-  color: #aa759f;
-}
-.highlight .kc {
-  color: #d28445;
-}
-.highlight .kt {
-  color: #d28445;
-}
-.highlight .kd {
-  color: #d28445;
-}
-.highlight .s, .highlight .sb, .highlight .sc, .highlight .sd, .highlight .s2, .highlight .sh, .highlight .sx, .highlight .s1 {
-  color: #90a959;
-}
-.highlight .sr {
-  color: #75b5aa;
-}
-.highlight .si {
-  color: #8f5536;
-}
-.highlight .se {
-  color: #8f5536;
-}
-.highlight .nn {
-  color: #f4bf75;
-}
-.highlight .nc {
-  color: #f4bf75;
-}
-.highlight .no {
-  color: #f4bf75;
-}
-.highlight .na {
-  color: #6a9fb5;
-}
-.highlight .m, .highlight .mf, .highlight .mh, .highlight .mi, .highlight .il, .highlight .mo, .highlight .mb, .highlight .mx {
-  color: #90a959;
-}
-.highlight .ss {
-  color: #90a959;
-}
-    </style>
     <link href="stylesheets/screen.css" rel="stylesheet" media="screen" />
+    <link href="stylesheets/highlight.css" rel="stylesheet" media="screen" />
     <link href="stylesheets/print.css" rel="stylesheet" media="print" />
       <script src="javascripts/all.js"></script>
   </head>
@@ -102,7 +23,7 @@
 
     <div class="tocify-wrapper">
       <div class="logo">
-        <span class="highlight">c</span>aramel
+        <span class="highlight">caramel</span>
         <div class="sub">
             template engine
         </div>
@@ -129,10 +50,507 @@
 <p>Caramel is a flexible system to create templates which are easy to maintain.
 This is the documentation where you can find every bit of necessary information to create templates and extend caramel.</p>
 
-          <h1 id="core-plugins">Core Plugins</h1>
+<p>The system is build upon the same principles as an html dom.
+You have all possibilities to modify the dom or the nodes.</p>
+
+<p>Caramel already has some core plugins which handle the basic functionalities of a template engine.
+It also includes some predefined filter like markdown.</p>
+
+          <h1 id="setup">Setup</h1>
+<pre class="highlight php"><code><span class="cp">&lt;?php</span>
+<span class="k">require_once</span> <span class="s2">"Caramel/Caramel.php"</span><span class="p">;</span>
+<span class="cp">?&gt;</span>
+</code></pre>
+
+<p>Getting started with caramel is pretty easy.
+Just require the main class or use composer to require it.</p>
+<pre class="highlight php"><code><span class="cp">&lt;?php</span>
+<span class="nv">$caramel</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Caramel\Caramel</span><span class="p">();</span>
+<span class="cp">?&gt;</span>
+</code></pre>
+
+<p>After that create a new instance.</p>
+
+<div class="clear"></div>
+
+          <h1 id="config">Config</h1>
+
+<p>The config can customize caramel to your needs.</p>
+
+          <h2 id="extension">extension</h2>
+
+<p>Sets the template file extension.</p>
+<pre class="highlight php"><code><span class="cp">&lt;?php</span>
+<span class="nv">$caramel</span><span class="o">-&gt;</span><span class="na">config</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">set</span><span class="p">(</span><span class="s2">"extension"</span><span class="p">,</span><span class="s2">"crml"</span><span class="p">);</span>
+<span class="cp">?&gt;</span>
+</code></pre>
+
+<table><thead>
+<tr>
+<th style="text-align: left">setting</th>
+<th style="text-align: center">type</th>
+<th style="text-align: left">default</th>
+</tr>
+</thead><tbody>
+<tr>
+<td style="text-align: left">use_cache</td>
+<td style="text-align: center">string</td>
+<td style="text-align: left">&ldquo;crml&rdquo;</td>
+</tr>
+</tbody></table>
+
+          <h2 id="use_cache">use_cache</h2>
+
+<p>Set if we want to use the cache or render the template on each site request.</p>
+<pre class="highlight php"><code><span class="cp">&lt;?php</span>
+<span class="nv">$caramel</span><span class="o">-&gt;</span><span class="na">config</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">set</span><span class="p">(</span><span class="s2">"use_cache"</span><span class="p">,</span><span class="kc">true</span><span class="p">);</span>
+<span class="cp">?&gt;</span>
+</code></pre>
+
+<table><thead>
+<tr>
+<th style="text-align: left">setting</th>
+<th style="text-align: center">type</th>
+<th style="text-align: left">default</th>
+</tr>
+</thead><tbody>
+<tr>
+<td style="text-align: left">use_cache</td>
+<td style="text-align: center">bool</td>
+<td style="text-align: left">true</td>
+</tr>
+</tbody></table>
+
+          <h2 id="cache_dir">cache_dir</h2>
+
+<p>Sets where the cached templates will be saved.</p>
+<pre class="highlight php"><code><span class="cp">&lt;?php</span>
+<span class="nv">$caramel</span><span class="o">-&gt;</span><span class="na">config</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">set</span><span class="p">(</span><span class="s2">"cache_dir"</span><span class="p">,</span><span class="s2">"../Cache"</span><span class="p">);</span>
+<span class="cp">?&gt;</span>
+</code></pre>
+
+<table><thead>
+<tr>
+<th style="text-align: left">setting</th>
+<th style="text-align: center">type</th>
+<th style="text-align: left">default</th>
+</tr>
+</thead><tbody>
+<tr>
+<td style="text-align: left">cache_dir</td>
+<td style="text-align: center">string</td>
+<td style="text-align: left">&ldquo;../Cache&rdquo;</td>
+</tr>
+</tbody></table>
+
+          <h2 id="comment_symbol">comment_symbol</h2>
+
+<p>Sets the comment identifier.</p>
+<pre class="highlight php"><code><span class="cp">&lt;?php</span>
+<span class="nv">$caramel</span><span class="o">-&gt;</span><span class="na">config</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">set</span><span class="p">(</span><span class="s2">"comment_symbol"</span><span class="p">,</span><span class="s2">"#"</span><span class="p">);</span>
+<span class="cp">?&gt;</span>
+</code></pre>
+
+<table><thead>
+<tr>
+<th style="text-align: left">setting</th>
+<th style="text-align: center">type</th>
+<th style="text-align: left">default</th>
+</tr>
+</thead><tbody>
+<tr>
+<td style="text-align: left">comment_symbol</td>
+<td style="text-align: center">string</td>
+<td style="text-align: left">&ldquo;#&rdquo;</td>
+</tr>
+</tbody></table>
+
+          <h2 id="show_comments">show_comments</h2>
+
+<p>Sets if we want to see the comments in the html output.</p>
+<pre class="highlight php"><code><span class="cp">&lt;?php</span>
+<span class="nv">$caramel</span><span class="o">-&gt;</span><span class="na">config</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">set</span><span class="p">(</span><span class="s2">"show_comments"</span><span class="p">,</span><span class="kc">true</span><span class="p">);</span>
+<span class="cp">?&gt;</span>
+</code></pre>
+
+<table><thead>
+<tr>
+<th style="text-align: left">setting</th>
+<th style="text-align: center">type</th>
+<th style="text-align: left">default</th>
+</tr>
+</thead><tbody>
+<tr>
+<td style="text-align: left">show_comments</td>
+<td style="text-align: center">bool</td>
+<td style="text-align: left">true</td>
+</tr>
+</tbody></table>
+
+          <h2 id="block_comments">block_comments</h2>
+
+<p>Sets if we want to see the blocks as a comment in the html output.</p>
+<pre class="highlight php"><code><span class="cp">&lt;?php</span>
+<span class="nv">$caramel</span><span class="o">-&gt;</span><span class="na">config</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">set</span><span class="p">(</span><span class="s2">"block_comments"</span><span class="p">,</span><span class="kc">false</span><span class="p">);</span>
+<span class="cp">?&gt;</span>
+</code></pre>
+
+<table><thead>
+<tr>
+<th style="text-align: left">setting</th>
+<th style="text-align: center">type</th>
+<th style="text-align: left">default</th>
+</tr>
+</thead><tbody>
+<tr>
+<td style="text-align: left">block_comments</td>
+<td style="text-align: center">bool</td>
+<td style="text-align: left">false</td>
+</tr>
+</tbody></table>
+
+          <h2 id="variable_symbol">variable_symbol</h2>
+
+<p>Sets the variable identifier.</p>
+<pre class="highlight php"><code><span class="cp">&lt;?php</span>
+<span class="nv">$caramel</span><span class="o">-&gt;</span><span class="na">config</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">set</span><span class="p">(</span><span class="s2">"variable_symbol"</span><span class="p">,</span><span class="s2">"@"</span><span class="p">);</span>
+<span class="cp">?&gt;</span>
+</code></pre>
+
+<table><thead>
+<tr>
+<th style="text-align: left">setting</th>
+<th style="text-align: center">type</th>
+<th style="text-align: left">default</th>
+</tr>
+</thead><tbody>
+<tr>
+<td style="text-align: left">variable_symbol</td>
+<td style="text-align: center">string</td>
+<td style="text-align: left">&ldquo;@&rdquo;</td>
+</tr>
+</tbody></table>
+
+          <h2 id="left_delimiter">left_delimiter</h2>
+
+<p>Sets the left escape delimiter.</p>
+<pre class="highlight php"><code><span class="cp">&lt;?php</span>
+<span class="nv">$caramel</span><span class="o">-&gt;</span><span class="na">config</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">set</span><span class="p">(</span><span class="s2">"left_delimiter"</span><span class="p">,</span><span class="s2">"{"</span><span class="p">);</span>
+<span class="cp">?&gt;</span>
+</code></pre>
+
+<table><thead>
+<tr>
+<th style="text-align: left">setting</th>
+<th style="text-align: center">type</th>
+<th style="text-align: left">default</th>
+</tr>
+</thead><tbody>
+<tr>
+<td style="text-align: left">left_delimiter</td>
+<td style="text-align: center">string</td>
+<td style="text-align: left">&ldquo;{&rdquo;</td>
+</tr>
+</tbody></table>
+
+          <h2 id="right_delimiter">right_delimiter</h2>
+
+<p>Sets the right escape delimiter.</p>
+<pre class="highlight php"><code><span class="cp">&lt;?php</span>
+<span class="nv">$caramel</span><span class="o">-&gt;</span><span class="na">config</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">set</span><span class="p">(</span><span class="s2">"right_delimiter"</span><span class="p">,</span><span class="s2">"}"</span><span class="p">);</span>
+<span class="cp">?&gt;</span>
+</code></pre>
+
+<table><thead>
+<tr>
+<th style="text-align: left">setting</th>
+<th style="text-align: center">type</th>
+<th style="text-align: left">default</th>
+</tr>
+</thead><tbody>
+<tr>
+<td style="text-align: left">right_delimiter</td>
+<td style="text-align: center">string</td>
+<td style="text-align: left">&ldquo;}&rdquo;</td>
+</tr>
+</tbody></table>
+
+          <h2 id="file_header">file_header</h2>
+
+<p>A comment which will be displayed at the first line of each template.</p>
+<pre class="highlight php"><code><span class="cp">&lt;?php</span>
+<span class="nv">$caramel</span><span class="o">-&gt;</span><span class="na">config</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">set</span><span class="p">(</span><span class="s2">"file_header"</span><span class="p">,</span><span class="s2">"Caramel template engine."</span><span class="p">);</span>
+<span class="cp">?&gt;</span>
+</code></pre>
+
+<table><thead>
+<tr>
+<th style="text-align: left">setting</th>
+<th style="text-align: center">type</th>
+<th style="text-align: left">default</th>
+</tr>
+</thead><tbody>
+<tr>
+<td style="text-align: left">file_header</td>
+<td style="text-align: center">string</td>
+<td style="text-align: left">&ldquo;Caramel template engine.&rdquo;</td>
+</tr>
+</tbody></table>
+
+          <h2 id="self_closing">self_closing</h2>
+
+<p>Sets the default self closing html tags.</p>
+<pre class="highlight php"><code><span class="cp">&lt;?php</span>
+<span class="nv">$caramel</span><span class="o">-&gt;</span><span class="na">config</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">set</span><span class="p">(</span><span class="s2">"self_closing"</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span><span class="s2">"br"</span><span class="p">,</span> <span class="o">...</span><span class="p">));</span>
+<span class="cp">?&gt;</span>
+</code></pre>
+
+<table><thead>
+<tr>
+<th style="text-align: left">setting</th>
+<th style="text-align: center">type</th>
+<th style="text-align: left">default</th>
+</tr>
+</thead><tbody>
+<tr>
+<td style="text-align: left">self_closing</td>
+<td style="text-align: center">array</td>
+<td style="text-align: left">array(&ldquo;br&rdquo;, &hellip;)</td>
+</tr>
+</tbody></table>
+
+          <h2 id="inline_elements">inline_elements</h2>
+
+<p>Sets the default html inline elements.</p>
+<pre class="highlight php"><code><span class="cp">&lt;?php</span>
+<span class="nv">$caramel</span><span class="o">-&gt;</span><span class="na">config</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">set</span><span class="p">(</span><span class="s2">"inline_elements"</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span><span class="s2">"b"</span><span class="p">,</span> <span class="o">...</span><span class="p">));</span>
+<span class="cp">?&gt;</span>
+</code></pre>
+
+<table><thead>
+<tr>
+<th style="text-align: left">setting</th>
+<th style="text-align: center">type</th>
+<th style="text-align: left">default</th>
+</tr>
+</thead><tbody>
+<tr>
+<td style="text-align: left">inline_elements</td>
+<td style="text-align: center">array</td>
+<td style="text-align: left">array(&ldquo;b&rdquo;, &hellip;)</td>
+</tr>
+</tbody></table>
+
+          <h1 id="core-service">Core::Service</h1>
+
+<p>All services are implementing the Service class.
+The only purpose of that class is to serve the methods to implement other services into our current one.</p>
+
+          <h2 id="setcaramel">setCaramel</h2>
+
+<p>Sets the Caramel service for the current service.</p>
+<pre class="highlight php"><code><span class="cp">&lt;?php</span>
+<span class="nv">$service</span><span class="o">-&gt;</span><span class="na">setCaramel</span><span class="p">(</span><span class="nx">Caramel</span> <span class="nx">Instance</span><span class="p">);</span>
+<span class="cp">?&gt;</span>
+</code></pre>
+
+<table><thead>
+<tr>
+<th style="text-align: left">method</th>
+<th style="text-align: center">param</th>
+</tr>
+</thead><tbody>
+<tr>
+<td style="text-align: left">setCaramel</td>
+<td style="text-align: center">Caramel $Caramel</td>
+</tr>
+</tbody></table>
+
+          <h2 id="setvars">setVars</h2>
+
+<p>Sets the Vars service for the current service.</p>
+<pre class="highlight php"><code><span class="cp">&lt;?php</span>
+<span class="nv">$service</span><span class="o">-&gt;</span><span class="na">setVars</span><span class="p">(</span><span class="nx">Vars</span> <span class="nx">Instance</span><span class="p">);</span>
+<span class="cp">?&gt;</span>
+</code></pre>
+
+<table><thead>
+<tr>
+<th style="text-align: left">method</th>
+<th style="text-align: center">param</th>
+</tr>
+</thead><tbody>
+<tr>
+<td style="text-align: left">setVars</td>
+<td style="text-align: center">Vars $Vars</td>
+</tr>
+</tbody></table>
+
+          <h2 id="setconfig">setConfig</h2>
+
+<p>Sets the Config service for the current service.</p>
+<pre class="highlight php"><code><span class="cp">&lt;?php</span>
+<span class="nv">$service</span><span class="o">-&gt;</span><span class="na">setConfig</span><span class="p">(</span><span class="nx">Config</span> <span class="nx">Instance</span><span class="p">);</span>
+<span class="cp">?&gt;</span>
+</code></pre>
+
+<table><thead>
+<tr>
+<th style="text-align: left">method</th>
+<th style="text-align: center">param</th>
+</tr>
+</thead><tbody>
+<tr>
+<td style="text-align: left">setConfig</td>
+<td style="text-align: center">Config $Config</td>
+</tr>
+</tbody></table>
+
+          <h2 id="setdirectories">setDirectories</h2>
+
+<p>Sets the Directories service for the current service.</p>
+<pre class="highlight php"><code><span class="cp">&lt;?php</span>
+<span class="nv">$service</span><span class="o">-&gt;</span><span class="na">setDirectories</span><span class="p">(</span><span class="nx">Directories</span> <span class="nx">Instance</span><span class="p">);</span>
+<span class="cp">?&gt;</span>
+</code></pre>
+
+<table><thead>
+<tr>
+<th style="text-align: left">method</th>
+<th style="text-align: center">param</th>
+</tr>
+</thead><tbody>
+<tr>
+<td style="text-align: left">setDirectories</td>
+<td style="text-align: center">Directories $Directories</td>
+</tr>
+</tbody></table>
+
+          <h2 id="sethelpers">setHelpers</h2>
+
+<p>Sets the Helpers service for the current service.</p>
+<pre class="highlight php"><code><span class="cp">&lt;?php</span>
+<span class="nv">$service</span><span class="o">-&gt;</span><span class="na">setHelpers</span><span class="p">(</span><span class="nx">Helpers</span> <span class="nx">Instance</span><span class="p">);</span>
+<span class="cp">?&gt;</span>
+</code></pre>
+
+<table><thead>
+<tr>
+<th style="text-align: left">method</th>
+<th style="text-align: center">param</th>
+</tr>
+</thead><tbody>
+<tr>
+<td style="text-align: left">setHelpers</td>
+<td style="text-align: center">Helpers $Helpers</td>
+</tr>
+</tbody></table>
+
+          <h2 id="setcache">setCache</h2>
+
+<p>Sets the Cache service for the current service.</p>
+<pre class="highlight php"><code><span class="cp">&lt;?php</span>
+<span class="nv">$service</span><span class="o">-&gt;</span><span class="na">setCache</span><span class="p">(</span><span class="nx">Cache</span> <span class="nx">Instance</span><span class="p">);</span>
+<span class="cp">?&gt;</span>
+</code></pre>
+
+<table><thead>
+<tr>
+<th style="text-align: left">method</th>
+<th style="text-align: center">param</th>
+</tr>
+</thead><tbody>
+<tr>
+<td style="text-align: left">setCache</td>
+<td style="text-align: center">Cache $Cache</td>
+</tr>
+</tbody></table>
+
+          <h2 id="setplugins">setPlugins</h2>
+
+<p>Sets the Plugins service for the current service.</p>
+<pre class="highlight php"><code><span class="cp">&lt;?php</span>
+<span class="nv">$service</span><span class="o">-&gt;</span><span class="na">setPlugins</span><span class="p">(</span><span class="nx">Plugins</span> <span class="nx">Instance</span><span class="p">);</span>
+<span class="cp">?&gt;</span>
+</code></pre>
+
+<table><thead>
+<tr>
+<th style="text-align: left">method</th>
+<th style="text-align: center">param</th>
+</tr>
+</thead><tbody>
+<tr>
+<td style="text-align: left">setPlugins</td>
+<td style="text-align: center">Plugins $Plugins</td>
+</tr>
+</tbody></table>
+
+          <h2 id="setlexer">setLexer</h2>
+
+<p>Sets the Lexer service for the current service.</p>
+<pre class="highlight php"><code><span class="cp">&lt;?php</span>
+<span class="nv">$service</span><span class="o">-&gt;</span><span class="na">setLexer</span><span class="p">(</span><span class="nx">Lexer</span> <span class="nx">Instance</span><span class="p">);</span>
+<span class="cp">?&gt;</span>
+</code></pre>
+
+<table><thead>
+<tr>
+<th style="text-align: left">method</th>
+<th style="text-align: center">param</th>
+</tr>
+</thead><tbody>
+<tr>
+<td style="text-align: left">setLexer</td>
+<td style="text-align: center">Lexer $Lexer</td>
+</tr>
+</tbody></table>
+
+          <h2 id="setparser">setParser</h2>
+
+<p>Sets the Parser service for the current service.</p>
+<pre class="highlight php"><code><span class="cp">&lt;?php</span>
+<span class="nv">$service</span><span class="o">-&gt;</span><span class="na">setParser</span><span class="p">(</span><span class="nx">Parser</span> <span class="nx">Instance</span><span class="p">);</span>
+<span class="cp">?&gt;</span>
+</code></pre>
+
+<table><thead>
+<tr>
+<th style="text-align: left">method</th>
+<th style="text-align: center">param</th>
+</tr>
+</thead><tbody>
+<tr>
+<td style="text-align: left">setParser</td>
+<td style="text-align: center">Parser $Parser</td>
+</tr>
+</tbody></table>
+
+          <h2 id="settemplate">setTemplate</h2>
+
+<p>Sets the Template service for the current service.</p>
+<pre class="highlight php"><code><span class="cp">&lt;?php</span>
+<span class="nv">$service</span><span class="o">-&gt;</span><span class="na">setTemplate</span><span class="p">(</span><span class="nx">Template</span> <span class="nx">Instance</span><span class="p">);</span>
+<span class="cp">?&gt;</span>
+</code></pre>
+
+<table><thead>
+<tr>
+<th style="text-align: left">method</th>
+<th style="text-align: center">param</th>
+</tr>
+</thead><tbody>
+<tr>
+<td style="text-align: left">setTemplate</td>
+<td style="text-align: center">Template $Template</td>
+</tr>
+</tbody></table>
+
+          <h1 id="plugins">Plugins</h1>
 
 <p>test</p>
 
+          
       </div>
       <div class="dark-box">
           <div class="lang-selector">

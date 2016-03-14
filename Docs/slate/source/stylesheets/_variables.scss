@@ -1,6 +1,5 @@
-$highlight: #2484FF;
+$highlight: #1B7FFF;
 
-$bgcolor: #111111;
 $hambgcolor: $highlight;
 $hambasewidth: 25px;
 $hamsizemultiplier: 2;
@@ -28,16 +27,16 @@ under the License.
 
 // BACKGROUND COLORS
 ////////////////////
-$main-bg: #f7f7f7;
+$main-bg: #fafafa;
 
-$examples-bg: #393939;
-$code-bg: #393939;
-$code-annotation-bg: #1c1c1c;
+$examples-bg: #222;
+$code-bg: #222;
+$code-annotation-bg: $highlight;
 $nav-bg: #fff;
 $nav-subitem-bg: $nav-bg;
 $nav-active-bg: transparent;
 $lang-select-border: #000;
-$lang-select-bg: #222;
+$lang-select-bg: lighten($examples-bg, 10%);
 $lang-select-active-bg: $examples-bg; // feel free to change this to blue or something
 $lang-select-pressed-bg: #111; // color of language tab bg when mouse is pressed
 
@@ -68,12 +67,13 @@ $code-annotation-padding: 13px; // padding inside code annotations
 $h1-margin-bottom: 21px; // padding under the largest header tags
 $tablet-width: 930px; // min width before reverting to tablet size
 $phone-width: $tablet-width - $nav-width; // min width before reverting to mobile size
+$code-annotation-border: 5px;
 
 // FONTS
 ////////////////////
 %default-font {
   font-family: "Helvetica Neue", Helvetica, Arial, "Microsoft Yahei", "微软雅黑", STXihei, "华文细黑", sans-serif;
-  font-size:   13px;
+  font-size:   14px;
 }
 
 %header-font {
@@ -90,7 +90,7 @@ $phone-width: $tablet-width - $nav-width; // min width before reverting to mobil
 // OTHER
 ////////////////////
 $nav-active-shadow: #000;
-$nav-footer-border-color: #939393;
+$nav-footer-border-color: $main-bg;
 $nav-embossed-border-top: #000;
 $nav-embossed-border-bottom: #939393;
 $main-embossed-text-shadow: 0px 1px 0px #fff;
