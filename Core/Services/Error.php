@@ -8,7 +8,7 @@ namespace Caramel\Services;
  *
  * @package Caramel
  */
-class Error
+class Error extends Service
 {
 
     /**

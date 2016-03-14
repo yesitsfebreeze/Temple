@@ -13,18 +13,11 @@ use Caramel\Models\Storage;
  *
  * @package Caramel
  */
-class Lexer
+class Lexer extends Service
 {
 
     /** @var Dom $dom */
     private $dom;
-
-    /** @var Config $config */
-    private $config;
-
-
-    /** @var Helpers $helpers */
-    private $helpers;
 
 
     /**
@@ -398,21 +391,4 @@ class Lexer
         }
     }
 
-
-    /**
-     * @param Config $config
-     */
-    public function setConfig(Config $config)
-    {
-        $this->config = $config;
-    }
-
-
-    /**
-     * @param Helpers $helpers
-     */
-    public function setHelpers(Helpers $helpers)
-    {
-        $this->helpers = $helpers;
-    }
 }

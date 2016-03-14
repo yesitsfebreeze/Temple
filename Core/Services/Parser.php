@@ -13,16 +13,8 @@ use Caramel\Models\Plugin;
  *
  * @package Caramel
  */
-class Parser
+class Parser extends Service
 {
-
-
-    /** @var Config $config */
-    private $config;
-
-    /** @var Config $config */
-    private $cache;
-
 
     /**
      * @param Dom $dom
@@ -68,6 +60,7 @@ class Parser
     {
         if ($dom->has("nodes")) {
             $return = $dom->get("nodes");
+
             return empty($return);
         } else {
             return true;
@@ -155,7 +148,7 @@ class Parser
      * children will parsed first
      *
      * @param Dom|array $dom
-     * @param array $nodes
+     * @param array     $nodes
      * @return mixed|Error
      * @throws \Exception
      */
@@ -209,7 +202,7 @@ class Parser
      * processes all plugins depending on the passed type
      *
      * @param Dom|Node|string $element
-     * @param string $type
+     * @param string          $type
      * @return mixed|Error
      */
     private function executePlugins($element, $type)
@@ -268,24 +261,6 @@ class Parser
             $pluginName = str_replace("Caramel\\Plugin", "", get_class($plugin));
             throw new \Exception("You need to return the variable: {$variable} </br></br>Plugin: {$pluginName} </br>Method: {$method} </br></br>");
         }
-    }
-
-
-    /**
-     * @param Config $config
-     */
-    public function setConfig(Config $config)
-    {
-        $this->config = $config;
-    }
-
-
-    /**
-     * @param Cache $cache
-     */
-    public function setCache(Cache $cache)
-    {
-        $this->cache = $cache;
     }
 
 }

@@ -3,15 +3,8 @@
 namespace Caramel\Services;
 
 
-class Helpers
+class Helpers extends Service
 {
-
-    /** @var Config $template */
-    private $config;
-
-
-    /** @var Template $template */
-    private $template;
 
     /**
      * searches a string for the needle and returns true if found
@@ -57,19 +50,4 @@ class Helpers
         return new Error("Can't find template file.", $file);
     }
 
-    /**
-     * @param Config $config
-     */
-    public function setConfig(Config $config)
-    {
-        $this->config = $config;
-    }
-
-    /**
-     * @param Template $template
-     */
-    public function setTemplate(Template $template)
-    {
-        $this->template = $template;
-    }
 }

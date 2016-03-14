@@ -58,7 +58,7 @@ class PluginExtend extends Models\Plugin
      */
     public function process($node)
     {
-        if ($this->caramel->config()->get("show_block_as_comments")) {
+        if ($this->caramel->config()->get("block_comments")) {
             # hide parent blocks
             if ($node->get("attributes") == "parent") {
                 $node->set("tag.display", false);

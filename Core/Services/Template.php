@@ -12,33 +12,8 @@ use Caramel\Models\Dom;
  *
  * @package Caramel
  */
-class Template
+class Template extends Service
 {
-
-
-    /** @var Caramel $caramel */
-    private $caramel;
-
-
-    /** @var Config $config */
-    private $config;
-
-
-    /** @var Directories $directories */
-    private $directories;
-
-
-    /** @var Cache $cache */
-    private $cache;
-
-
-    /** @var Lexer $lexer */
-    private $lexer;
-
-
-    /** @var Parser $parser */
-    private $parser;
-
 
     /**
      * Renders and includes the passed file
@@ -106,7 +81,7 @@ class Template
 
 
     /**
-     * Renders and returns the passed file
+     * Renders and returns the passed dom
      *
      * @param $file
      * @return string
@@ -139,51 +114,4 @@ class Template
         return $this->cache->getPath($file);
     }
 
-    /**
-     * @param Caramel $caramel
-     */
-    public function setCaramel(Caramel $caramel)
-    {
-        $this->caramel = $caramel;
-    }
-
-    /**
-     * @param Config $config
-     */
-    public function setConfig(Config $config)
-    {
-        $this->config = $config;
-    }
-
-    /**
-     * @param Directories $directories
-     */
-    public function setDirectories(Directories $directories)
-    {
-        $this->directories = $directories;
-    }
-
-    /**
-     * @param Cache $cache
-     */
-    public function setCache(Cache $cache)
-    {
-        $this->cache = $cache;
-    }
-
-    /**
-     * @param Lexer $lexer
-     */
-    public function setLexer(Lexer $lexer)
-    {
-        $this->lexer = $lexer;
-    }
-
-    /**
-     * @param Parser $parser
-     */
-    public function setParser(Parser $parser)
-    {
-        $this->parser = $parser;
-    }
 }

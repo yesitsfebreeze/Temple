@@ -3,35 +3,16 @@
 namespace Caramel\Services;
 
 
-use Caramel\Caramel;
-
-
 /**
  * Class Cache
  *
  * @package Caramel
  */
-class Cache
+class Cache extends Service
 {
 
     /** @var string $cacheFile */
     private $cacheFile = "__cache.php";
-
-
-    /** @var Config $config */
-    private $config;
-
-
-    /** @var Template $template */
-    private $template;
-
-
-    /** @var Directories $directories */
-    private $directories;
-
-
-    /** @var Helpers $helpers */
-    private $helpers;
 
 
     /**
@@ -42,7 +23,7 @@ class Cache
      */
     public function set($dir)
     {
-        $dir = preg_replace("/\/$/", "", $dir);
+        $dir  = preg_replace("/\/$/", "", $dir);
         $temp = array_reverse(explode("/", $dir));
         if ($temp[0] != "Caramel") $dir = preg_replace("/\/$/", "", $dir) . "/Caramel";
         $dir = $dir . "/";
@@ -299,35 +280,4 @@ class Cache
         return $this->config->get("cache_dir");
     }
 
-    /**
-     * @param Config $config
-     */
-    public function setConfig(Config $config)
-    {
-        $this->config = $config;
-    }
-
-    /**
-     * @param Template $template
-     */
-    public function setTemplate(Template $template)
-    {
-        $this->template = $template;
-    }
-
-    /**
-     * @param Directories $directories
-     */
-    public function setDirectories(Directories $directories)
-    {
-        $this->directories = $directories;
-    }
-
-    /**
-     * @param Helpers $helpers
-     */
-    public function setHelpers(Helpers $helpers)
-    {
-        $this->helpers = $helpers;
-    }
 }

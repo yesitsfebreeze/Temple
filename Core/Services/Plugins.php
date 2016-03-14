@@ -3,7 +3,6 @@
 namespace Caramel\Services;
 
 
-use Caramel\Caramel;
 use Caramel\Models\Plugin;
 
 /**
@@ -12,22 +11,8 @@ use Caramel\Models\Plugin;
  *
  * @package Caramel
  */
-class Plugins
+class Plugins extends Service
 {
-
-    /*** @var array $plugins */
-    private $plugins = array();
-
-    /** @var Caramel $caramel */
-    private $caramel;
-
-    /** @var Config $config */
-    private $config;
-
-
-    /** @var Directories $directories */
-    private $directories;
-
 
     /**
      * initiates the plugins
@@ -38,8 +23,8 @@ class Plugins
         $pluginDir = $this->config->get("framework_dir") . "../Plugins";
         $this->add($pluginDir);
 
-        $plugins = $this->getPlugins();
-        $this->config->set("plugins.registered", $plugins);
+        $registeredPlugins = $this->getPlugins();
+        $this->config->set("plugins.registered", $registeredPlugins);
     }
 
 
@@ -87,7 +72,7 @@ class Plugins
         # iterate all plugin directories
         foreach ($dirs as $dir) {
             # search the directory recursively to get all plugins
-            $dir = new \RecursiveDirectoryIterator($dir);
+            $dir   = new \RecursiveDirectoryIterator($dir);
             $files = new \RecursiveIteratorIterator($dir, \RecursiveIteratorIterator::SELF_FIRST);
             foreach ($files as $pluginFile) {
                 $this->loadPlugins($pluginFile);
@@ -156,30 +141,6 @@ class Plugins
         ksort($this->plugins);
 
         return $this->plugins;
-    }
-
-    /**
-     * @param Caramel $caramel
-     */
-    public function setCaramel(Caramel $caramel)
-    {
-        $this->caramel = $caramel;
-    }
-
-    /**
-     * @param Config $config
-     */
-    public function setConfig(Config $config)
-    {
-        $this->config = $config;
-    }
-
-    /**
-     * @param Directories $directories
-     */
-    public function setDirectories(Directories $directories)
-    {
-        $this->directories = $directories;
     }
 
 

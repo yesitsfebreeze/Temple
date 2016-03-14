@@ -9,12 +9,8 @@ namespace Caramel\Services;
  *
  * @package Caramel
  */
-class Directories
+class Directories extends Service
 {
-
-    /** @var Config $config */
-    private $config;
-
 
     /**
      * validates and adds a directory to our config
@@ -204,11 +200,4 @@ class Directories
         }
     }
 
-    /**
-     * @param Config $config
-     */
-    public function setConfig(Config $config)
-    {
-        $this->config = $config;
-    }
 }

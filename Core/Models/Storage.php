@@ -21,16 +21,18 @@ class Storage
 
 
     /**
-     * merge an array into the storage
-     *
-     * @param array $array
+     * @param $path
+     * @param $value
+     * @return bool
      */
-    public function merge($array)
+    public function set($path, $value)
     {
-        foreach ($array as $key => $val) {
-            # this overrides all set keys in the config
-            # with the ones from the array
-            $this->storage[ $key ] = $val;
+        try {
+            $this->setter($path, $value);
+
+            return true;
+        } catch (\Exception $e) {
+            return false;
         }
     }
 
@@ -47,6 +49,21 @@ class Storage
             return $this->getter($path);
         } catch (\Exception $e) {
             return new Error($e);
+        }
+    }
+
+
+    /**
+     * merge an array into the storage
+     *
+     * @param array $array
+     */
+    public function merge($array)
+    {
+        foreach ($array as $key => $val) {
+            # this overrides all set keys in the config
+            # with the ones from the array
+            $this->storage[ $key ] = $val;
         }
     }
 
@@ -77,23 +94,6 @@ class Storage
 
     /**
      * @param $path
-     * @param $value
-     * @return bool
-     */
-    public function set($path, $value)
-    {
-        try {
-            $this->setter($path, $value);
-
-            return true;
-        } catch (\Exception $e) {
-            return false;
-        }
-    }
-
-
-    /**
-     * @param $path
      * @return bool
      */
     public function delete($path)
@@ -112,16 +112,26 @@ class Storage
      * @param string       $value
      * @return array
      */
-    public function find(&$item, $attrs, $value = NULL)
+    public function find($attrs, $value = NULL, &$item = NULL)
     {
-        $found = array();
-
+        $found    = array();
+        $children = false;
         $this->findHelper($found, $item, $attrs, $value);
-        $children = $item->get("children");
-        /** @var Storage $child */
-        foreach ($children as &$child) {
-            $this->find($child, $attrs, $value);
-            $this->findHelper($found, $child, $attrs, $value);
+        if ($item) {
+            if ($item->has("children")) {
+                $children = $item->get("children");
+            }
+        } else {
+            if ($this->has("children")) {
+                $children = $this->get("children");
+            }
+        }
+        if ($children) {
+            /** @var Storage $child */
+            foreach ($children as &$child) {
+                $this->find($attrs, $value, $child);
+                $this->findHelper($found, $child, $attrs, $value);
+            }
         }
 
         return $found;
@@ -137,7 +147,8 @@ class Storage
      * @param string       $value
      * @return array
      */
-    private function findHelper(&$found, &$item, $attrs, $value = NULL)
+    private
+    function findHelper(&$found, &$item, $attrs, $value = NULL)
     {
         if (gettype($attrs) == "array") {
             foreach ($attrs as $attr => $value) {
@@ -166,7 +177,8 @@ class Storage
      * @return array
      * @throws \Exception
      */
-    private function getter($path)
+    private
+    function getter($path)
     {
         $storage = $this->storage;
         if ($path) {
@@ -194,7 +206,8 @@ class Storage
      * @param $value
      * @return bool
      */
-    private function setter($path, $value)
+    private
+    function setter($path, $value)
     {
         $paths   = $this->createPath($path);
         $storage = &$this->storage;
@@ -226,7 +239,8 @@ class Storage
      * @param $path
      * @return array|mixed
      */
-    private function createPath($path)
+    private
+    function createPath($path)
     {
         # remove last / if existent
         $path = preg_replace('/\.$/', '', $path);
