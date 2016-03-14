@@ -146,7 +146,7 @@ class PluginVariable extends Models\Plugin
     public function processOutput($output)
     {
 
-        $matchPattern = "/" . preg_quote($this->caramel->config()->get("variable_match_pattern_start")) . "(.*?)" . preg_quote($this->caramel->config()->get("variable_match_pattern_end")) . "/";
+        $matchPattern = "/" . preg_quote($this->caramel->config()->get("variable_symbol")) . "(.*?)" . preg_quote($this->caramel->config()->get("left_delimiter")) . "/";
         $output       = preg_replace_callback(
             $matchPattern,
             function ($hits) {
