@@ -30,16 +30,16 @@
       </div>
         <div class="lang-selector">
         </div>
+              <ul class="toc-footer">
+                  <li><a href='https://github.com/hvlmnns/Caramel'>download caramel</a></li>
+                  <li><a href='https://github.com/hvlmnns/Caramel/fork'>fork caramel</a></li>
+              </ul>
         <div class="search">
           <input type="text" class="search" id="input-search" placeholder="Search">
         </div>
         <ul class="search-results"></ul>
       <div id="toc">
       </div>
-        <ul class="toc-footer">
-            <li><a href='https://github.com/hvlmnns/Caramel'>download caramel</a></li>
-            <li><a href='https://github.com/hvlmnns/Caramel/fork'>fork caramel</a></li>
-        </ul>
     </div>
     <div class="page-wrapper">
       <div class="dark-box"></div>
@@ -69,13 +69,68 @@ Just require the main class or use composer to require it.</p>
 <span class="cp">?&gt;</span>
 </code></pre>
 
-<p>After that create a new instance.</p>
+<p>After that create a new instance and you&#39;r good to go.</p>
 
-<div class="clear"></div>
+          <h1 id="syntax">Syntax</h1>
+
+<blockquote>
+<p>caramel markup</p>
+</blockquote>
+<pre class="highlight php"><code>html
+  head
+   title &gt; test
+  body
+   div &gt; hello world
+</code></pre>
+
+<p>Caramel works with an indent style syntax.
+Each new line represents a new tag or function.</p>
+
+<p>The indent <strong><em>must</em></strong> be consistent throughout one template file.</p>
+
+<blockquote>
+<p>parsed output</p>
+</blockquote>
+<pre class="highlight plaintext"><code>&lt;html&gt;
+  &lt;head&gt;
+    &lt;title&gt;test&lt;/title&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;div&gt;hello world&lt;/div&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+
+<p>This technique lets you save time while writing templates and puts the focus towards the result instead of the code.</p>
+
+<p>Since all templating functions are handled with <a href="#plugins">plugins</a>, all specific syntax definitions are documented there.</p>
 
           <h1 id="config">Config</h1>
 
 <p>The config can customize caramel to your needs.</p>
+
+<p>Caramel ships with a default config json file.</p>
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">"extension"</span><span class="p">:</span><span class="w">       </span><span class="s2">"crml"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"use_cache"</span><span class="p">:</span><span class="w">       </span><span class="kc">false</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"cache_dir"</span><span class="p">:</span><span class="w">       </span><span class="s2">"../Cache"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"comment_symbol"</span><span class="p">:</span><span class="w">  </span><span class="s2">"#"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"show_comments"</span><span class="p">:</span><span class="w">   </span><span class="kc">true</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"block_comments"</span><span class="p">:</span><span class="w">  </span><span class="kc">false</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"variable_symbol"</span><span class="p">:</span><span class="w"> </span><span class="s2">"@"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"left_delimiter"</span><span class="p">:</span><span class="w">  </span><span class="s2">"{"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"right_delimiter"</span><span class="p">:</span><span class="w"> </span><span class="s2">"}"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"file_header"</span><span class="p">:</span><span class="w">     </span><span class="s2">"Caramel template engine."</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"self_closing"</span><span class="p">:</span><span class="w">    </span><span class="p">[</span><span class="w">
+    </span><span class="s2">"br"</span><span class="p">,</span><span class="w">
+    </span><span class="err">...</span><span class="w">
+  </span><span class="p">],</span><span class="w">
+  </span><span class="nt">"inline_elements"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="s2">"b"</span><span class="p">,</span><span class="w">
+    </span><span class="err">...</span><span class="w">
+  </span><span class="p">]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
 
           <h2 id="extension">extension</h2>
 
@@ -341,7 +396,146 @@ Just require the main class or use composer to require it.</p>
 </tr>
 </tbody></table>
 
-          <h1 id="core-service">Core::Service</h1>
+          <h1 id="plugins">Plugins</h1>
+
+<p>Plugins are holding the main functionality for caramel.</p>
+
+<p>There are a view core plugins which provide the basic templating functions.
+Such as for loops and ifs.</p>
+
+          <h2 id="custom-plugins">custom plugins</h2>
+
+<p>How to create custom plugins.</p>
+
+          <h1 id="core">Core</h1>
+
+<p>Caramel is build around a Storage class which can hold any kind of data.
+All data models are implementing this Storage class to keep everything consistent.</p>
+
+          <h1 id="core-models-storage">Core/Models/Storage</h1>
+
+          <h2 id="set">set</h2>
+
+<p>Sets a value to the Storage object.</p>
+<pre class="highlight php"><code><span class="cp">&lt;?php</span>
+<span class="nv">$Storage</span><span class="o">-&gt;</span><span class="na">set</span><span class="p">(</span><span class="s2">"path.to.my.value"</span><span class="p">,</span><span class="s2">"hello world"</span><span class="p">);</span>
+<span class="cp">?&gt;</span>
+</code></pre>
+
+<table><thead>
+<tr>
+<th style="text-align: left">method</th>
+<th style="text-align: center">params</th>
+</tr>
+</thead><tbody>
+<tr>
+<td style="text-align: left">set</td>
+<td style="text-align: center">string , mixed</td>
+</tr>
+</tbody></table>
+
+          <h2 id="get">get</h2>
+
+<p>Returns a value from the Storage object.</p>
+<pre class="highlight php"><code><span class="cp">&lt;?php</span>
+<span class="nv">$Storage</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s2">"path.to.my.value"</span><span class="p">);</span>
+<span class="cp">?&gt;</span>
+</code></pre>
+
+<table><thead>
+<tr>
+<th style="text-align: left">method</th>
+<th style="text-align: center">params</th>
+</tr>
+</thead><tbody>
+<tr>
+<td style="text-align: left">get</td>
+<td style="text-align: center">string</td>
+</tr>
+</tbody></table>
+
+          <h2 id="merge">merge</h2>
+
+<p>Merges an array into the Storage object.</p>
+<pre class="highlight php"><code><span class="cp">&lt;?php</span>
+<span class="nv">$Storage</span><span class="o">-&gt;</span><span class="na">merge</span><span class="p">(</span><span class="k">array</span><span class="p">(</span><span class="s2">"key"</span> <span class="o">=&gt;</span> <span class="s2">"value"</span><span class="p">));</span>
+<span class="cp">?&gt;</span>
+</code></pre>
+
+<table><thead>
+<tr>
+<th style="text-align: left">method</th>
+<th style="text-align: center">param</th>
+</tr>
+</thead><tbody>
+<tr>
+<td style="text-align: left">merge</td>
+<td style="text-align: center">array</td>
+</tr>
+</tbody></table>
+
+          <h2 id="has">has</h2>
+
+<p>Returns if a value exists in the Storage object.</p>
+<pre class="highlight php"><code><span class="cp">&lt;?php</span>
+<span class="nv">$has</span> <span class="o">=</span> <span class="nv">$Storage</span><span class="o">-&gt;</span><span class="na">has</span><span class="p">(</span><span class="s2">"path.to.my.value"</span><span class="p">);</span>
+<span class="cp">?&gt;</span>
+</code></pre>
+
+<table><thead>
+<tr>
+<th style="text-align: left">method</th>
+<th style="text-align: center">params</th>
+</tr>
+</thead><tbody>
+<tr>
+<td style="text-align: left">has</td>
+<td style="text-align: center">string</td>
+</tr>
+</tbody></table>
+
+          <h2 id="delete">delete</h2>
+
+<p>Deletes a value from the Storage object.</p>
+<pre class="highlight php"><code><span class="cp">&lt;?php</span>
+<span class="nv">$Storage</span><span class="o">-&gt;</span><span class="na">delete</span><span class="p">(</span><span class="s2">"path.to.my.value"</span><span class="p">);</span>
+<span class="cp">?&gt;</span>
+</code></pre>
+
+<table><thead>
+<tr>
+<th style="text-align: left">method</th>
+<th style="text-align: center">params</th>
+</tr>
+</thead><tbody>
+<tr>
+<td style="text-align: left">delete</td>
+<td style="text-align: center">string</td>
+</tr>
+</tbody></table>
+
+          <h2 id="find">find</h2>
+
+<p>Returns if a value exists in the Storage object.</p>
+<pre class="highlight php"><code><span class="cp">&lt;?php</span>
+<span class="nv">$found</span> <span class="o">=</span> <span class="nv">$Storage</span><span class="o">-&gt;</span><span class="na">find</span><span class="p">(</span><span class="s2">"hello"</span><span class="p">,</span><span class="s2">"world"</span><span class="p">);</span>
+<span class="nv">$found</span> <span class="o">=</span> <span class="nv">$Storage</span><span class="o">-&gt;</span><span class="na">find</span><span class="p">(</span><span class="k">array</span><span class="p">(</span><span class="s2">"hello"</span> <span class="o">=&gt;</span> <span class="s2">"world"</span><span class="p">,</span><span class="s2">"goodbye"</span> <span class="o">=&gt;</span> <span class="s2">"world"</span><span class="p">));</span>
+<span class="cp">?&gt;</span>
+</code></pre>
+
+<table><thead>
+<tr>
+<th style="text-align: left">method</th>
+<th style="text-align: center">params</th>
+</tr>
+</thead><tbody>
+<tr>
+<td style="text-align: left">find</td>
+<td style="text-align: center">array or string, string or null</td>
+</tr>
+</tbody></table>
+
+          <h1 id="core-services-service">Core/Services/Service</h1>
 
 <p>All services are implementing the Service class.
 The only purpose of that class is to serve the methods to implement other services into our current one.</p>
@@ -545,10 +739,6 @@ The only purpose of that class is to serve the methods to implement other servic
 <td style="text-align: center">Template $Template</td>
 </tr>
 </tbody></table>
-
-          <h1 id="plugins">Plugins</h1>
-
-<p>test</p>
 
           
       </div>
