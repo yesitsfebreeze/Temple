@@ -85,7 +85,8 @@ class Error extends Service
         $output .= "<title>Caramel found an Error!</title>";
 
         $output = $this->escape($output);
-        return $output;
+
+        return $output; 
     }
 
 
@@ -115,6 +116,7 @@ class Error extends Service
         $output .= "<div class='issues'>Please report any unsolved problem to my <a href='https://github.com/hvlmnns/Caramel/issues' title='issues' target='_blank'>Github</a> page.</div>";
 
         $output = $this->escape($output);
+
         return $output;
     }
 
@@ -140,6 +142,7 @@ class Error extends Service
         $output .= "</h4>";
 
         $output = $this->escape($output);
+
         return $output;
     }
 
@@ -165,6 +168,7 @@ class Error extends Service
         $output .= "</div>";
 
         $output = $this->escape($output);
+
         return $output;
     }
 
@@ -175,7 +179,8 @@ class Error extends Service
      */
     private function escape($output)
     {
-        $output = preg_replace('/\"/',"'",$output);
+        $output = preg_replace('/\"/', "'", $output);
+
         return $output;
     }
 
