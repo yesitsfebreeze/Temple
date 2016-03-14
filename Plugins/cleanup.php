@@ -15,8 +15,15 @@ namespace Caramel;
 class PluginCleanup extends Models\Plugin
 {
 
-    /** @var int $position */
-    protected $position = 9999999993;
+
+    /**
+     * @return int;
+     */
+    public function getPosition()
+    {
+        return 9999999993;
+    }
+
 
     /** @var array $buffer */
     private $buffer = array();

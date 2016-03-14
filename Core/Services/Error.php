@@ -86,7 +86,7 @@ class Error extends Service
 
         $output = $this->escape($output);
 
-        return $output; 
+        return $output;
     }
 
 

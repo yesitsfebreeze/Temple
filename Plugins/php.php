@@ -24,8 +24,13 @@ use Caramel\Models\Node;
 class PluginPhp extends Models\Plugin
 {
 
-    /** @var int $position */
-    protected $position = 9999999992;
+    /**
+     * @return int;
+     */
+    public function getPosition()
+    {
+        return 9999999992;
+    }
 
 
     /**

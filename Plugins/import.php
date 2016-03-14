@@ -19,8 +19,13 @@ use Caramel\Services\Error;
 class PluginImport extends Models\Plugin
 {
 
-    /** @var int $position */
-    protected $position = 0;
+    /**
+     * @return int;
+     */
+    public function getPosition()
+    {
+        return 0;
+    }
 
 
     /**

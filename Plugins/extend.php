@@ -20,8 +20,13 @@ use Caramel\Services\Error;
 class PluginExtend extends Models\Plugin
 {
 
-    /** @var int $position */
-    protected $position = 1;
+    /**
+     * @return int;
+     */
+    public function getPosition()
+    {
+        return 1;
+    }
 
     /** @var array $blocks */
     private $blockStash = array();

@@ -18,8 +18,14 @@ use Caramel\Models\Node;
 class PluginClasses extends Models\Plugin
 {
 
-    /** @var int $position */
-    protected $position = 3;
+
+    /**
+     * @return int;
+     */
+    public function getPosition()
+    {
+        return 3;
+    }
 
 
     /**
@@ -44,7 +50,7 @@ class PluginClasses extends Models\Plugin
 
     /**
      * @param string $tag
-     * @param array  $classes
+     * @param array $classes
      * @return string
      */
     private function getClasses($tag, $classes)
@@ -66,9 +72,9 @@ class PluginClasses extends Models\Plugin
 
 
     /**
-     * @param Node   $node
+     * @param Node $node
      * @param string $tag
-     * @param array  $classes
+     * @param array $classes
      * @return mixed
      */
     private function updateTag($node, $tag, $classes)
@@ -90,7 +96,7 @@ class PluginClasses extends Models\Plugin
 
 
     /**
-     * @param Node  $node
+     * @param Node $node
      * @param array $classes
      * @return Node
      * @throws \Exception

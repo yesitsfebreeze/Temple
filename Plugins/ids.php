@@ -18,8 +18,13 @@ use Caramel\Models\Node;
 class PluginIds extends Models\Plugin
 {
 
-    /** @var int $position */
-    protected $position = 4;
+    /**
+     * @return int;
+     */
+    public function getPosition()
+    {
+        return 4;
+    }
 
 
     /**

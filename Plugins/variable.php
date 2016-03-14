@@ -24,7 +24,13 @@ use Caramel\Models\Node;
 class PluginVariable extends Models\Plugin
 {
 
-    public $position = 9999999991;
+    /**
+     * @return int;
+     */
+    public function getPosition()
+    {
+        return 9999999991;
+    }
 
 
     public function check($node)

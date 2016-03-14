@@ -13,9 +13,6 @@ use Caramel\Caramel;
  */
 abstract class Plugin
 {
-    /** @var  integer $position */
-    protected $position;
-
 
     /**
      * Plugin constructor.
@@ -24,23 +21,14 @@ abstract class Plugin
      */
     public function __construct(Caramel $caramel)
     {
-        $this->caramel = $caramel;
+        $this->caramel  = $caramel;
     }
 
 
     /**
      * @return int
-     * @throws \Exception
      */
-    public function getPosition()
-    {
-        if (!is_null($this->position)) {
-            return $this->position;
-        } else {
-            $pluginName = str_replace("\\", "&#92;", get_class($this));
-            throw new \Exception("you need to set a position for " . $pluginName . "!");
-        }
-    }
+    abstract public function getPosition();
 
 
     /**
@@ -86,7 +74,7 @@ abstract class Plugin
      */
     public function check($node)
     {
-        return $node;
+        return false;
     }
 
 

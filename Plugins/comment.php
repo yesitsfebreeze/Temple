@@ -17,8 +17,13 @@ use Caramel\Models\Node;
 class PluginComment extends Models\Plugin
 {
 
-    /** @var int $position */
-    protected $position = 2;
+    /**
+     * @return int;
+     */
+    public function getPosition()
+    {
+        return 2;
+    }
 
 
     /**

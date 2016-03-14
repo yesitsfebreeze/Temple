@@ -29,6 +29,8 @@ includes:
     - config_inline_elements
 
     - plugins
+    - plugins_core_import
+    - plugins_core_extend
     - plugins_custom
 
     - core
@@ -40,6 +42,11 @@ includes:
     - core_models_storage_has
     - core_models_storage_delete
     - core_models_storage_find
+    
+    - core_models_dom
+    - core_models_node
+    - core_models_vars
+    - core_models_plugin
 
     - core_services_service
     - core_services_service_set_caramel
