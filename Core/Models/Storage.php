@@ -57,14 +57,50 @@ class Storage
      * merge an array into the storage
      *
      * @param array $array
+     * @throws CaramelException
      */
     public function merge($array)
     {
-        foreach ($array as $key => $val) {
-            # this overrides all set keys in the config
-            # with the ones from the array
-            $this->storage[ $key ] = $val;
+        if (gettype($array) == "array") {
+            foreach ($array as $key => $val) {
+                # this overrides all set keys in the config
+                # with the ones from the array
+                $this->storage[ $key ] = $val;
+            }
+        } else {
+            throw new CaramelException("Only arrays are allowed to merge!");
         }
+    }
+
+
+    /**
+     * extends an array in the storage
+     *
+     * @param string       $path
+     * @param array|string $value
+     * @return array
+     * @throws CaramelException
+     */
+    public function extend($path, $value)
+    {
+
+        if ($this->has($path)) {
+            $temp = $this->get($path);
+        } else {
+            $temp = array();
+        }
+        if (gettype($temp) == "array") {
+            if (gettype($value) == "array") {
+                $value = array_merge($temp, $value);
+            } else {
+                $value = array_merge($temp, array($value));
+            }
+            $this->set($path, $value);
+        } else {
+            throw new CaramelException("Can't extend an non array value!");
+        }
+
+        return $value;
     }
 
 

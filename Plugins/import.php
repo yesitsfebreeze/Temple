@@ -34,6 +34,7 @@ class PluginImport extends Models\Plugin
      */
     public function check($node)
     {
+        $this->caramel->config()->extend("self_closing","import");
         return ($node->get("tag.tag") == "import");
     }
 

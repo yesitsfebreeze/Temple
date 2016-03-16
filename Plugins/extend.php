@@ -90,6 +90,7 @@ class PluginExtend extends Models\Plugin
      */
     public function preProcess($dom)
     {
+        $this->caramel->config()->extend("self_closing","extend");
         # get the first node from the dom
         $nodes = $dom->get("nodes");
         $node  = reset($nodes);
