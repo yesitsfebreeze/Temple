@@ -195,7 +195,7 @@ class Lexer extends Service
     private function attributes($line, $info)
     {
         # replace the tag from the beginning of the line and then trim the string
-        $tag        = $info->get("tag");
+        $tag        = preg_quote($info->get("tag"));
         $attributes = trim(preg_replace("/^$tag/", "", $line));
         $attributes = explode(">", $attributes);
 
@@ -263,10 +263,7 @@ class Lexer extends Service
         $node->set("tag.closing.prefix", "</");
         $node->set("tag.closing.tag", $info->get("tag"));
         $node->set("tag.closing.postfix", ">");
-
         $node->set("namespace", $this->dom->get("namespace"));
-        $node->set("file", $this->dom->get("template.file"));
-        $node->set("dom", $this->dom);
         $node->set("level", $this->dom->get("template.level"));
         $node->set("line", $this->dom->get("template.line"));
         $node->set("plain", $line);
@@ -277,6 +274,8 @@ class Lexer extends Service
         $node->set("plugins", true);
         $node->set("selfclosing", $info->get("selfclosing"));
         $node->set("children", array());
+        $node->set("file", $this->dom->get("template.file"));
+        $node->set("dom", $this->dom);
 
         return $node;
     }

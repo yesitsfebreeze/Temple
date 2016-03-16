@@ -103,13 +103,6 @@ class Node extends Storage
         $this->set("namespace", NULL);
 
         /**
-         * the file the node is located
-         *
-         * @var string
-         */
-        $this->set("file", NULL);
-
-        /**
          * how often the file was extended
          *
          * @var integer
@@ -178,6 +171,20 @@ class Node extends Storage
          * @var array
          */
         $this->set("children", NULL);
+
+        /**
+         * the file the node is located
+         *
+         * @var string
+         */
+        $this->set("file", NULL);
+
+        /**
+         * the current dom of the node
+         *
+         * @var Dom
+         */
+        $this->set("dom", NULL);
 
     }
 }
