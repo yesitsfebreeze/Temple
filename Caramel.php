@@ -173,6 +173,7 @@ class Caramel
         $this->initTemplate();
     }
 
+
     /**
      * initiates the Caramel Config
      */
@@ -183,6 +184,7 @@ class Caramel
         $this->config()->setDefaults(__DIR__);
     }
 
+
     /**
      * initiates the Caramel Helpers
      */
@@ -192,6 +194,7 @@ class Caramel
         $this->helpers()->setConfig($this->config());
     }
 
+
     /**
      * initiates the Caramel Directories
      */
@@ -199,6 +202,7 @@ class Caramel
     {
         $this->directories()->setConfig($this->config());
     }
+
 
     /**
      * initiates the Caramel Cache
@@ -211,6 +215,7 @@ class Caramel
         $this->cache()->setHelpers($this->helpers());
     }
 
+
     /**
      * initiates the Caramel Lexer
      */
@@ -219,6 +224,7 @@ class Caramel
         $this->lexer()->setConfig($this->config());
         $this->lexer()->setHelpers($this->helpers());
     }
+
 
     /**
      * initiates the Caramel Plugins
@@ -231,6 +237,7 @@ class Caramel
         $this->plugins()->init();
     }
 
+
     /**
      * initiates the Caramel Parser
      */
@@ -239,6 +246,7 @@ class Caramel
         $this->parser()->setConfig($this->config());
         $this->parser()->setCache($this->cache());
     }
+
 
     /**
      * initiates the Caramel Template
