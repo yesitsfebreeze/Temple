@@ -27,7 +27,7 @@ class PluginPhp extends Models\Plugin
     /**
      * @return int;
      */
-    public function getPosition()
+    public function position()
     {
         return 9999999992;
     }

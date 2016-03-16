@@ -20,7 +20,7 @@ class PluginComment extends Models\Plugin
     /**
      * @return int;
      */
-    public function getPosition()
+    public function position()
     {
         return 2;
     }

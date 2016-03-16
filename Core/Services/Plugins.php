@@ -117,7 +117,7 @@ class Plugins extends Service
             # create a new instance of the plugin
             $plugin = new $pluginClass($this->caramel);
             # add the plugin to our plugins array
-            $this->addPlugin($plugin->getPosition(), $plugin);
+            $this->addPlugin($plugin->position(), $plugin);
         } else {
             $pluginClass = str_replace("\\Caramel\\", "", $pluginClass);
             new Error("You need to define the Caramel namespaced class '$pluginClass'  !", $pluginFile);

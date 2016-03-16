@@ -28,7 +28,7 @@ abstract class Plugin
     /**
      * @return int
      */
-    abstract public function getPosition();
+    abstract public function position();
 
 
     /**
