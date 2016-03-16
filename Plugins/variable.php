@@ -24,6 +24,10 @@ use Caramel\Models\Node;
 class PluginVariable extends Models\Plugin
 {
 
+    /** @var  string $sign */
+    private $sign;
+
+
     /**
      * @return int;
      */
@@ -35,9 +39,10 @@ class PluginVariable extends Models\Plugin
 
     public function check($node)
     {
-        $tag = $node->get("tag.tag");
+        $this->sign = $this->caramel->config()->get("variable_symbol");
+        $tag        = $node->get("tag.tag");
 
-        return $tag[0] == "@";
+        return $tag[0] == $this->sign;
     }
 
     /**
@@ -63,7 +68,7 @@ class PluginVariable extends Models\Plugin
      */
     private function parseVariable($node)
     {
-        $value = $node->get("attributes");
+        $value = preg_replace("/^\s*?=\s*?/", "", $node->get("attributes"));
         if ($node->has("children")) {
             $children = $node->get("children");
 
@@ -142,17 +147,29 @@ class PluginVariable extends Models\Plugin
     private function getVariableName($node, $name = "")
     {
         if ($name == "") $name = $node->get("tag.tag");
-        $name = preg_replace("/^@/", "", $name);
-        $name = preg_replace("/\./", "/", $name);
+        $symbol = preg_quote($this->sign);
+        $name   = preg_replace("/^" . $symbol . "/", "", $name);
+        $name   = preg_replace("/\./", "/", $name);
 
         return $name;
     }
 
-
+    private function getMatchPattern()
+    {
+        $matchPattern = "/";
+        $matchPattern .= preg_quote($this->caramel->config()->get("variable_symbol"));
+        $matchPattern .= preg_quote($this->caramel->config()->get("left_delimiter"));
+        $matchPattern .= "(.*?)";
+        $matchPattern .= preg_quote($this->caramel->config()->get("right_delimiter"));
+        $matchPattern .= "/";
+        return $matchPattern;
+    }
+    
+    
     public function processOutput($output)
     {
 
-        $matchPattern = "/" . preg_quote($this->caramel->config()->get("variable_symbol")) . "(.*?)" . preg_quote($this->caramel->config()->get("left_delimiter")) . "/";
+        $matchPattern = $this->getMatchPattern();
         $output       = preg_replace_callback(
             $matchPattern,
             function ($hits) {
@@ -167,14 +184,16 @@ class PluginVariable extends Models\Plugin
 
                     return $array;
                 }
-
                 if (gettype($var) == "string") {
+
                     if ($var == "!false" || $var == "true" || $var == "!!") {
                         return "true";
                     }
                     if ($var == "!true" || $var == "false" || $var == "!") {
                         return "false";
                     }
+
+                    return $var;
                 }
 
                 if (is_double($var) || is_integer($var)) {
