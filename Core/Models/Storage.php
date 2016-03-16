@@ -3,8 +3,7 @@
 namespace Caramel\Models;
 
 
-use Caramel\Services\Error;
-
+use Caramel\Exceptions\CaramelException;
 
 /**
  * this class handles all data storage
@@ -42,13 +41,14 @@ class Storage
      *
      * @param string $path
      * @return mixed
+     * @throws CaramelException
      */
     public function get($path = NULL)
     {
         try {
             return $this->getter($path);
         } catch (\Exception $e) {
-            return new Error($e);
+            throw new CaramelException($e);
         }
     }
 
@@ -147,8 +147,7 @@ class Storage
      * @param string       $value
      * @return array
      */
-    private
-    function findHelper(&$found, &$item, $attrs, $value = NULL)
+    private function findHelper(&$found, &$item, $attrs, $value = NULL)
     {
         if (gettype($attrs) == "array") {
             foreach ($attrs as $attr => $value) {
@@ -177,8 +176,7 @@ class Storage
      * @return array
      * @throws \Exception
      */
-    private
-    function getter($path)
+    private function getter($path)
     {
         $storage = $this->storage;
         if ($path) {
@@ -206,8 +204,7 @@ class Storage
      * @param $value
      * @return bool
      */
-    private
-    function setter($path, $value)
+    private function setter($path, $value)
     {
         $paths   = $this->createPath($path);
         $storage = &$this->storage;
@@ -239,8 +236,7 @@ class Storage
      * @param $path
      * @return array|mixed
      */
-    private
-    function createPath($path)
+    private function createPath($path)
     {
         # remove last / if existent
         $path = preg_replace('/\.$/', '', $path);

@@ -3,6 +3,7 @@
 namespace Caramel\Services;
 
 
+use Caramel\Exceptions\CaramelException;
 use Caramel\Models\Dom;
 use Caramel\Models\Node;
 use Caramel\Models\Storage;
@@ -64,18 +65,20 @@ class Lexer extends Service
      * @param $file
      * @param $level
      * @return Storage
+     * @throws CaramelException
      */
     private function template($file, $level)
     {
 
         $template  = new Storage();
         $templates = $this->helpers->templates($file);
+
         if ($level !== false) {
             if (isset($templates[ $level ])) {
                 $template->set("level", $level);
                 $template->set("file", $templates[ $level ]);
             } else {
-                new Error("Can't find template file for '" . $file . "' on template level " . $level);
+                throw new CaramelException("Can't find template file for '" . $file . "' on template level " . $level);
             }
         } else {
             foreach ($templates as $level => $file) {
@@ -137,7 +140,8 @@ class Lexer extends Service
      * also initially sets the indent character and amount
      *
      * @param     $line
-     * @return float|int|Error
+     * @return float|int
+     * @throws CaramelException
      */
     private function indent($line)
     {
@@ -162,7 +166,7 @@ class Lexer extends Service
             if ("integer" == gettype($indent)) return $indent;
 
             # else throw an error since the amount of characters doesn't match
-            new Error("Indent isn't matching!", $this->dom->get("template.file"), $this->dom->get("template.line"));
+            throw new CaramelException("Indent isn't matching!", $this->dom->get("template.file"), $this->dom->get("template.line"));
         }
 
         return 0;
@@ -310,13 +314,14 @@ class Lexer extends Service
      * than the previous node
      *
      * @param Node $node
+     * @throws CaramelException
      */
     private function deeper($node)
     {
         $node->set("parent", $this->dom->get("template.prev"));
         if ($node->get("parent")->get("selfclosing")) {
             $tag = $node->get("parent")->get("tag.tag");
-            new Error("You can't have children in an $tag!", $this->dom->get("template.file"), $this->dom->get("template.line"));
+            throw new CaramelException("You can't have children in an $tag!", $this->dom->get("template.file"), $this->dom->get("template.line"));
         } else {
             $this->children($this->dom->get("template.prev"), $node);
         }

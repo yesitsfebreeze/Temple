@@ -3,6 +3,8 @@
 namespace Caramel\Services;
 
 
+use Caramel\Exceptions\CaramelException;
+
 class Helpers extends Service
 {
 
@@ -23,8 +25,8 @@ class Helpers extends Service
      * returns all found template files for the given abbreviation
      *
      * @param string $file
-     * @return Error|string
-     * @throws \Exception
+     * @return array
+     * @throws CaramelException
      */
     public function templates($file)
     {
@@ -47,7 +49,7 @@ class Helpers extends Service
         if (sizeof($files) > 0) return $files;
 
         # otherwise throw an error
-        return new Error("Can't find template file.", $file);
+        throw new CaramelException("Can't find template file.", $file);
     }
 
 }

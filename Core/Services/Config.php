@@ -3,6 +3,7 @@
 namespace Caramel\Services;
 
 
+use Caramel\Exceptions\CaramelException;
 use Caramel\Models\Storage;
 
 /**
@@ -17,6 +18,7 @@ class Config extends Storage
      * merges a new config file into our current config
      *
      * @param $file
+     * @throws CaramelException
      */
     public function addConfigFile($file)
     {
@@ -28,7 +30,7 @@ class Config extends Storage
                 $this->merge($config);
             }
         } else {
-            new Error("Can't find the config file!", $file);
+            throw new CaramelException("Can't find the config file!", $file);
         }
     }
 

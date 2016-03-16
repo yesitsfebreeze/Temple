@@ -3,6 +3,7 @@
 namespace Caramel\Services;
 
 
+use Caramel\Exceptions\CaramelException;
 use Caramel\Models\Dom;
 use Caramel\Models\Node;
 use Caramel\Models\Plugin;
@@ -73,6 +74,7 @@ class Parser extends Service
      *
      * @param Dom|mixed $dom
      * @return string
+     * @throws CaramelException
      */
     private function output($dom)
     {
@@ -109,7 +111,7 @@ class Parser extends Service
                     $children->set("nodes", $node->get("children"));
                     $output .= $this->output($children);
                 } else {
-                    new Error("You can't have children in an " . $node->get("tag.tag") . "!", $node->get("file"), $node->get("line"));
+                    throw new CaramelException("You can't have children in an " . $node->get("tag.tag") . "!", $node->get("file"), $node->get("line"));
                 }
             }
 
@@ -135,7 +137,7 @@ class Parser extends Service
      * execute the plugins before we do anything else
      *
      * @param Dom $dom
-     * @return mixed|Error
+     * @return mixed
      */
     private function preProcessPlugins($dom)
     {
@@ -149,8 +151,7 @@ class Parser extends Service
      *
      * @param Dom|array $dom
      * @param array     $nodes
-     * @return mixed|Error
-     * @throws \Exception
+     * @return mixed
      */
     private function processPlugins($dom, $nodes = NULL)
     {
@@ -176,8 +177,7 @@ class Parser extends Service
      * process the plugins after the main plugin process
      *
      * @param Dom $dom
-     * @return mixed|Error
-     * @throws \Exception
+     * @return mixed
      */
     private function postProcessPlugins($dom)
     {
@@ -189,8 +189,7 @@ class Parser extends Service
      * process the plugins after rendering is complete
      *
      * @param string $output
-     * @return mixed|Error
-     * @throws \Exception
+     * @return mixed
      */
     private function processOutputPlugins($output)
     {
@@ -203,7 +202,8 @@ class Parser extends Service
      *
      * @param Dom|Node|string $element
      * @param string          $type
-     * @return mixed|Error
+     * @return mixed
+     * @throws CaramelException
      */
     private function executePlugins($element, $type)
     {
@@ -232,7 +232,7 @@ class Parser extends Service
                         $this->PluginError($element, $plugin, 'processOutput', '$output');
                     }
                 } catch (\Exception $e) {
-                    return new Error($e);
+                    throw new CaramelException($e);
                 }
             }
         }
@@ -248,7 +248,7 @@ class Parser extends Service
      * @param $plugin
      * @param $method
      * @param $variable
-     * @throws \Exception
+     * @throws CaramelException
      */
     private function PluginError($element, $plugin, $method, $variable)
     {
@@ -259,7 +259,7 @@ class Parser extends Service
 
         if ($error) {
             $pluginName = str_replace("Caramel\\Plugin", "", get_class($plugin));
-            throw new \Exception("You need to return the variable: {$variable} </br></br>Plugin: {$pluginName} </br>Method: {$method} </br></br>");
+            throw new CaramelException("You need to return the variable: {$variable} </br></br>Plugin: {$pluginName} </br>Method: {$method} </br></br>");
         }
     }
 

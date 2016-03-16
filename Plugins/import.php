@@ -3,8 +3,8 @@
 namespace Caramel;
 
 
+use Caramel\Exceptions\CaramelException;
 use Caramel\Models\Node;
-use Caramel\Services\Error;
 
 
 /**
@@ -41,15 +41,15 @@ class PluginImport extends Models\Plugin
     /**
      * @param Node $node
      * @return Node $node
+     * @throws CaramelException
      */
     public function process($node)
     {
         $node->set("tag.display", false);
 
         $file = $this->getPath($node);
-        debug($file);
         if ($file == $node->get("namespace")) {
-            new Error("Recursive imports are not allowed!", $node->get("file"), $node->get("line"));
+            throw new CaramelException("Recursive imports are not allowed!", $node->get("file"), $node->get("line"));
         }
         $cachePath = $this->caramel->template()->parse($file);
 

@@ -3,6 +3,9 @@
 namespace Caramel\Services;
 
 
+use Caramel\Exceptions\CaramelException;
+
+
 /**
  * Class Cache
  *
@@ -92,11 +95,12 @@ class Cache extends Service
      * @param string $parent
      * @param string $file
      * @return bool
+     * @throws CaramelException
      */
     public function dependency($parent, $file)
     {
-        if (!$file || $file == "") new Error("Please set a file for your dependency");
-        if (!$parent || $parent == "") new Error("Please set a parent file for your dependency");
+        if (!$file || $file == "") throw new CaramelException("Please set a file for your dependency");
+        if (!$parent || $parent == "") throw new CaramelException("Please set a parent file for your dependency");
 
         $file   = $this->clean($file);
         $parent = $this->clean($parent);

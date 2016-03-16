@@ -3,7 +3,7 @@
 namespace Caramel\Services;
 
 
-use Caramel\Caramel;
+use Caramel\Exceptions\CaramelException;
 use Caramel\Models\Dom;
 
 
@@ -19,28 +19,25 @@ class Template extends Service
      * Renders and includes the passed file
      *
      * @param $file
+     * @throws CaramelException
      */
     public function show($file)
     {
-        try {
-            $templateFile = $this->parse($file);
+        $templateFile = $this->parse($file);
 
-            # add the file header if wanted
-            $fileHeader = $this->config->get("file_header");
-            if ($fileHeader) {
-                echo "<!-- " . $fileHeader . " -->";
-            }
+        # add the file header if wanted
+        $fileHeader = $this->config->get("file_header");
+        if ($fileHeader) {
+            echo "<!-- " . $fileHeader . " -->";
+        }
 
-            # scoped Caramel
-            $_crml = $this->caramel;
+        # scoped Caramel
+        $_crml = $this->caramel;
 
-            if (file_exists($templateFile)) {
-                include $templateFile;
-            } else {
-                new Error("Can't include $file.crml");
-            }
-        } catch (\Exception $e) {
-            new Error($e->getMessage());
+        if (file_exists($templateFile)) {
+            include $templateFile;
+        } else {
+            throw new CaramelException("Can't include $file.crml");
         }
     }
 

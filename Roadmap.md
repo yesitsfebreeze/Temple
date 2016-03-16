@@ -125,5 +125,10 @@ function test param1 param2
 		echo param2
 
 
+## plugin space
+    a wrapper for plugins and the order of initialisation!
 
+## snippets
+    per ini file
+    
 TODO: variables need namespacing/scoping

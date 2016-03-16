@@ -3,6 +3,9 @@
 namespace Caramel\Services;
 
 
+use Caramel\Exceptions\CaramelException;
+
+
 /**
  * handles the directory creation
  * Class Directories
@@ -119,6 +122,7 @@ class Directories extends Service
     /**
      * @param boolean $create
      * @param string $dir
+     * @throws CaramelException
      */
     private function create($create, $dir)
     {
@@ -127,7 +131,7 @@ class Directories extends Service
                 if (is_writable($dir)) {
                     mkdir($dir, 0777, true);
                 } else {
-                    new Error("You don't have the right permissions to write: </br>" . $dir);
+                    throw new CaramelException("You don't have the right permissions to write: </br>" . $dir);
                 }
             }
         }
@@ -156,14 +160,15 @@ class Directories extends Service
      * checks if the passed directory exists
      *
      * @param $dir
-     * @return Error|string
+     * @return string
+     * @throws CaramelException
      */
     private function validate($dir)
     {
         if ($dir[0] != "/") $dir = $this->root() . $dir . "/";
         if (is_dir($dir)) return $dir;
 
-        return new Error("Cannot add directory because it does not exist:", $dir);
+        throw new CaramelException("Cannot add directory because it does not exist:", $dir);
     }
 
 

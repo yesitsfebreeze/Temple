@@ -3,6 +3,7 @@
 namespace Caramel\Services;
 
 
+use Caramel\Exceptions\CaramelException;
 use Caramel\Models\Plugin;
 
 /**
@@ -13,6 +14,10 @@ use Caramel\Models\Plugin;
  */
 class Plugins extends Service
 {
+
+    /** @var  array $list */
+    private $list = array();
+
 
     /**
      * initiates the plugins
@@ -64,6 +69,18 @@ class Plugins extends Service
 
 
     /**
+     * adds a new container to the plugins configuration
+     *
+     * @param $name
+     * @param $plugins
+     */
+    public function container($name, $plugins)
+    {
+
+    }
+
+
+    /**
      * gets all registered plugins
      */
     private function getPlugins()
@@ -79,7 +96,7 @@ class Plugins extends Service
             }
         }
 
-        return $this->plugins;
+        return $this->list;
     }
 
 
@@ -100,6 +117,7 @@ class Plugins extends Service
 
     /**
      * @param $pluginFile
+     * @throws CaramelException
      */
     private function loadPlugin($pluginFile)
     {
@@ -120,7 +138,7 @@ class Plugins extends Service
             $this->addPlugin($plugin->position(), $plugin);
         } else {
             $pluginClass = str_replace("\\Caramel\\", "", $pluginClass);
-            new Error("You need to define the Caramel namespaced class '$pluginClass'  !", $pluginFile);
+            throw new CaramelException("You need to define the Caramel namespaced class '$pluginClass'  !", $pluginFile);
         }
     }
 
@@ -133,14 +151,14 @@ class Plugins extends Service
     private function addPlugin($position, $plugin)
     {
         # create position if not already existing
-        if (!isset($this->plugins[ $position ])) $this->plugins[ $position ] = array();
+        if (!isset($this->list[ $position ])) $this->list[ $position ] = array();
 
         # add the plugin and then
         # sort the array to keep things in order
-        $this->plugins[ $position ][] = $plugin;
-        ksort($this->plugins);
+        $this->list[ $position ][] = $plugin;
+        ksort($this->list);
 
-        return $this->plugins;
+        return $this->list;
     }
 
 

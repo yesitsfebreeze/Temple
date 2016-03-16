@@ -3,9 +3,9 @@
 namespace Caramel;
 
 
+use Caramel\Exceptions\CaramelException;
 use Caramel\Models\Dom;
 use Caramel\Models\Node;
-use Caramel\Services\Error;
 
 
 /**
@@ -111,6 +111,7 @@ class PluginExtend extends Models\Plugin
      *
      * @param Node $node
      * @return bool|mixed
+     * @throws CaramelException
      */
     private function extending($node)
     {
@@ -122,7 +123,7 @@ class PluginExtend extends Models\Plugin
 
             # extend has to be first statement
             if ($node->get("line") != 1) {
-                return new Error("'extend' hast to be the first statement!", $node->get("file"), $node->get("line"));
+                throw new CaramelException("'extend' hast to be the first statement!", $node->get("file"), $node->get("line"));
             }
 
             $isRootLevel   = $node->get("level") >= sizeof($this->caramel->template()->dirs()) - 1;
@@ -131,7 +132,7 @@ class PluginExtend extends Models\Plugin
             # level must be smaller than our amount of template directories
             # if we want to extend the parent directory
             if (!$hasAttributes && $isRootLevel) {
-                return new Error("You'r trying to extend a file without a parent template!", $node->get("file"), $node->get("line"));
+                throw new CaramelException("You'r trying to extend a file without a parent template!", $node->get("file"), $node->get("line"));
             }
 
             # passed all testing
@@ -149,7 +150,8 @@ class PluginExtend extends Models\Plugin
      *
      * @param Dom  $dom
      * @param Node $node
-     * @return array|Error
+     * @return array
+     * @throws CaramelException
      */
     private function extend($dom, $node)
     {
@@ -160,7 +162,7 @@ class PluginExtend extends Models\Plugin
         # if the current extend file is the same as our root file,
         # we would run into an recursion so we have to throw an error
         if (!$this->topLevel && $node->get("file") == $this->rootFile) {
-            return new Error("Recursive extends are not allowed!", $this->rootFile, 1);
+            throw new CaramelException("Recursive extends are not allowed!", $this->rootFile, 1);
         }
 
         $dom = $this->blocks($dom, $this->blockStash);
@@ -221,6 +223,7 @@ class PluginExtend extends Models\Plugin
      *
      * @param Node $node
      * @return Dom
+     * @throws CaramelException
      */
     private function getDom($node)
     {
@@ -252,7 +255,7 @@ class PluginExtend extends Models\Plugin
 
         # in case we still fail somehow, at least give the user an error.
         if (!$dom) {
-            return new Error("Seems like the parser crashed!", $node->get("file"), $node->get("line"));
+            throw new CaramelException("Seems like the parser crashed!", $node->get("file"), $node->get("line"));
         }
 
         return $dom;
