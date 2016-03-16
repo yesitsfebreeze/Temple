@@ -1,9 +1,9 @@
 extension:        "crml"
-use_cache:        false
+use_cache:        true
 cache_dir:        "../Cache"
 comment_symbol:   "#"
-show_comments:    true
-block_comments:   true
+show_comments:    false
+block_comments:   false
 variable_symbol:  "$"
 left_delimiter:   "{"
 right_delimiter:  "}"
