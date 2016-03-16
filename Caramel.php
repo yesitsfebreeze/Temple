@@ -12,9 +12,13 @@ use Caramel\Services\Lexer;
 use Caramel\Services\Parser;
 use Caramel\Services\Plugins;
 use Caramel\Services\Template;
+use Symfony\Component\Yaml\Yaml;
 
+// composer modules
+require_once "vendor/autoload.php";
+
+// Caramel loader
 require_once "Autoload.php";
-
 new Autoloader("Core", "Caramel");
 
 /**
@@ -58,6 +62,7 @@ class Caramel
      */
     function __construct()
     {
+        $this->Yaml        = new Yaml();
         $this->Vars        = new Vars();
         $this->Config      = new Config();
         $this->Directories = new Directories();
@@ -173,7 +178,8 @@ class Caramel
      */
     private function initConfig()
     {
-        $this->config()->addConfigFile(__DIR__ . "/config.json");
+        $this->config()->setYaml($this->Yaml);
+        $this->config()->addConfigFile(__DIR__ . "/config.yml");
         $this->config()->setDefaults(__DIR__);
     }
 

@@ -5,6 +5,7 @@ namespace Caramel\Services;
 
 use Caramel\Exceptions\CaramelException;
 use Caramel\Models\Storage;
+use Symfony\Component\Yaml\Yaml;
 
 /**
  * Class CaramelConfig
@@ -13,6 +14,10 @@ use Caramel\Models\Storage;
  */
 class Config extends Storage
 {
+
+    /** @var  Yaml $yaml */
+    private $yaml;
+
 
     /**
      * merges a new config file into our current config
@@ -23,9 +28,8 @@ class Config extends Storage
     public function addConfigFile($file)
     {
         if (file_exists($file)) {
-            # a little magic here, which includes the given file if it exists
-            $config = json_decode(file_get_contents($file), true);
-
+            $content = file_get_contents($file);
+            $config  = $this->yaml->parse($content);
             if (sizeof($config) > 0) {
                 $this->merge($config);
             }
@@ -46,6 +50,21 @@ class Config extends Storage
         $this->set("plugins.dirs", array());
         $this->set("framework_dir", $root . "/Core/");
         $this->set("cache_dir", $this->get("cache_dir"));
+
+        # set default self closing items
+        $selfclosing = array("br", "area", "base", "col", "command", "embed", "hr", "img", "input", "keygen", "link", "meta", "param", "source", "track", "wbr");
+        $this->extend("self_closing", $selfclosing);
+
+        # set default inline items
+        $inline = array("b", "big", "i", "small", "tt", "abbr", "acronym", "cite", "code", "dfn", "em", "kbd", "strong", "samp", "var", "a", "bdo", "br", "img", "map", "object", "q", "script", "span", "sub", "sup", "button", "input", "label", "select", "textarea");
+        $this->extend("inline_elements", $inline);
+
+    }
+
+
+    public function setYaml(Yaml $Yaml)
+    {
+        $this->yaml = $Yaml;
     }
 
 }

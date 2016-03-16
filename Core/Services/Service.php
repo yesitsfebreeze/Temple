@@ -5,12 +5,16 @@ namespace Caramel\Services;
 
 use Caramel\Caramel;
 use Caramel\Models\Vars;
+use Symfony\Component\Yaml\Yaml;
 
 abstract class Service
 {
 
     /** @var  Caramel $caramel */
     protected $caramel;
+
+    /** @var  Yaml $yaml */
+    protected $yaml;
 
     /** @var Vars $vars */
     protected $vars;
@@ -43,20 +47,30 @@ abstract class Service
     /**
      * sets $this->caramel
      *
-     * @param $Caramel
+     * @param Caramel $Caramel
      */
-    public function setCaramel($Caramel)
+    public function setCaramel(Caramel $Caramel)
     {
         $this->caramel = $Caramel;
     }
 
 
     /**
+     * sets $this->yaml
+     *
+     * @param Yaml $Yaml
+     */
+    public function setYaml(Yaml $Yaml)
+    {
+        $this->yaml = $Yaml;
+    }
+
+    /**
      * sets $this->vars
      *
-     * @param $Vars
+     * @param Vars $Vars
      */
-    public function setVars($Vars)
+    public function setVars(Vars $Vars)
     {
         $this->vars = $Vars;
     }
@@ -65,9 +79,9 @@ abstract class Service
     /**
      * sets $this->config
      *
-     * @param $Config
+     * @param Config $Config
      */
-    public function setConfig($Config)
+    public function setConfig(Config $Config)
     {
         $this->config = $Config;
     }
@@ -76,9 +90,9 @@ abstract class Service
     /**
      * sets $this->directories
      *
-     * @param $Directories
+     * @param Directories $Directories
      */
-    public function setDirectories($Directories)
+    public function setDirectories(Directories $Directories)
     {
         $this->directories = $Directories;
     }
@@ -87,9 +101,9 @@ abstract class Service
     /**
      * sets $this->helpers
      *
-     * @param $Helpers
+     * @param Helpers $Helpers
      */
-    public function setHelpers($Helpers)
+    public function setHelpers(Helpers $Helpers)
     {
         $this->helpers = $Helpers;
     }
@@ -98,9 +112,9 @@ abstract class Service
     /**
      * sets $this->cache
      *
-     * @param $Cache
+     * @param Cache $Cache
      */
-    public function setCache($Cache)
+    public function setCache(Cache $Cache)
     {
         $this->cache = $Cache;
     }
@@ -109,9 +123,9 @@ abstract class Service
     /**
      * sets $this->plugins
      *
-     * @param $Plugins
+     * @param Plugins $Plugins
      */
-    public function setPlugins($Plugins)
+    public function setPlugins(Plugins $Plugins)
     {
         $this->plugins = $Plugins;
     }
@@ -120,9 +134,9 @@ abstract class Service
     /**
      * sets $this->lexer
      *
-     * @param $Lexer
+     * @param Lexer $Lexer
      */
-    public function setLexer($Lexer)
+    public function setLexer(Lexer $Lexer)
     {
         $this->lexer = $Lexer;
     }
@@ -131,9 +145,9 @@ abstract class Service
     /**
      * sets $this->parser
      *
-     * @param $Parser
+     * @param Parser $Parser
      */
-    public function setParser($Parser)
+    public function setParser(Parser $Parser)
     {
         $this->parser = $Parser;
     }
@@ -142,9 +156,9 @@ abstract class Service
     /**
      * sets $this->template
      *
-     * @param $Template
+     * @param Template $Template
      */
-    public function setTemplate($Template)
+    public function setTemplate(Template $Template)
     {
         $this->template = $Template;
     }
