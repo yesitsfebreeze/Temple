@@ -1,10 +1,13 @@
 ## self_closing
 
-Sets the default self closing html tags.
+Sets the self closing html tags.
+
+This setting is automatically filled with the default values for html 5.    
+You still can add your own value tho.
 
 ```php
 <?php
-$caramel->config()->set("self_closing", array("br", ...));
+$caramel->config()->extend("self_closing", "mytag");
 ?>
 ```
 
