@@ -138,6 +138,7 @@ class Storage
     }
 
 
+    // TODO: needs to be generalized
     /**
      * searches for an item in the current tree
      * if we pass an array it has the same behaviour
