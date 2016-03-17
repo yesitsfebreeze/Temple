@@ -4,6 +4,7 @@ namespace Caramel;
 
 
 use Caramel\Models\Node;
+use Caramel\Services\Plugin;
 
 
 /**
@@ -15,7 +16,7 @@ use Caramel\Models\Node;
  * @author      Stefan Hövelmanns
  * @License     MIT
  */
-class PluginPlain extends Models\Plugin
+class PluginPlain extends Plugin
 {
 
     /**
@@ -31,7 +32,7 @@ class PluginPlain extends Models\Plugin
      * @param Node $node
      * @return bool
      */
-    public function check($node)
+    public function check(Node $node)
     {
         $tag = $node->get("tag.tag");
         return ($tag[0] == ">");
@@ -43,7 +44,7 @@ class PluginPlain extends Models\Plugin
      * @return Node
      * @throws \Exception
      */
-    public function process($node)
+    public function process(Node $node)
     {
 
         $trailing = true;
@@ -73,7 +74,7 @@ class PluginPlain extends Models\Plugin
      * @param Node    $node
      * @param boolean $trailing
      */
-    private function processChildren($node, $trailing)
+    private function processChildren(Node $node, $trailing)
     {
         $children = $node->get("children");
         /** @var Node $child */
@@ -98,7 +99,7 @@ class PluginPlain extends Models\Plugin
      * @param boolean $child
      * @return mixed
      */
-    private function createPlain($node, $trailing, $child = false)
+    private function createPlain(Node $node, $trailing, $child = false)
     {
         $node->set("tag.opening.display", false);
         $node->set("tag.closing.display", false);

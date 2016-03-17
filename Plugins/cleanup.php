@@ -3,6 +3,9 @@
 namespace Caramel;
 
 
+use Caramel\Services\Plugin;
+
+
 /**
  * Class PluginCleanup
  *
@@ -12,7 +15,7 @@ namespace Caramel;
  * @License : MIT
  * @package Caramel
  */
-class PluginCleanup extends Models\Plugin
+class PluginCleanup extends Plugin
 {
 
 
@@ -61,7 +64,7 @@ class PluginCleanup extends Models\Plugin
      */
     private function bufferPhp($output)
     {
-        if ($this->caramel->helpers()->str_find($output, "<?php") && $this->caramel->helpers()->str_find($output, "?>")) {
+        if ($this->helpers->str_find($output, "<?php") && $this->helpers->str_find($output, "?>")) {
             $end     = strpos($output, "?>") + 2;
             $start   = strpos($output, "?>") - strpos(strrev(substr($output, 0, $end)), "php?<") - 3;
             $length  = $end - $start;

@@ -4,6 +4,7 @@ namespace Caramel;
 
 
 use Caramel\Models\Node;
+use Caramel\Services\Plugin;
 
 
 /**
@@ -21,7 +22,7 @@ use Caramel\Models\Node;
  * @License : MIT
  * @package Caramel
  */
-class PluginPhp extends Models\Plugin
+class PluginPhp extends Plugin
 {
 
     /**
@@ -37,7 +38,7 @@ class PluginPhp extends Models\Plugin
      * @param Node $node
      * @return bool
      */
-    public function check($node)
+    public function check(Node $node)
     {
         return ($node->get("tag.tag") == "php");
     }
@@ -48,7 +49,7 @@ class PluginPhp extends Models\Plugin
      * @return Node
      * @throws \Exception
      */
-    public function process($node)
+    public function process(Node $node)
     {
         $node->set("tag.opening.prefix", "<?php");
         $node->set("tag.opening.tag", "");
@@ -70,7 +71,7 @@ class PluginPhp extends Models\Plugin
      * @param Node $node
      * @return Node
      */
-    private function processChildren($node)
+    private function processChildren(Node $node)
     {
         $children = $node->get("children");
         /** @var Node $child */

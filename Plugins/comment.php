@@ -4,6 +4,7 @@ namespace Caramel;
 
 
 use Caramel\Models\Node;
+use Caramel\Services\Plugin;
 
 /**
  * Class PluginComment
@@ -14,7 +15,7 @@ use Caramel\Models\Node;
  * @License : MIT
  * @package Caramel
  */
-class PluginComment extends Models\Plugin
+class PluginComment extends Plugin
 {
 
     /**
@@ -30,10 +31,10 @@ class PluginComment extends Models\Plugin
      * @param Node $node
      * @return bool
      */
-    public function check($node)
+    public function check(Node $node)
     {
         $tag = $node->get("tag.tag");
-        return ($tag[0] == $this->caramel->config()->get("comment_symbol") && ($tag[1] == " " || $tag[1] == ""));
+        return ($tag[0] == $this->config->get("comment_symbol") && ($tag[1] == " " || $tag[1] == ""));
     }
 
 
@@ -42,7 +43,7 @@ class PluginComment extends Models\Plugin
      * @return Node
      * @throws \Exception
      */
-    public function process($node)
+    public function process(Node $node)
     {
 
         # create the comment
@@ -67,7 +68,7 @@ class PluginComment extends Models\Plugin
      * @param Node $node
      * @return mixed
      */
-    private function createComment($node)
+    private function createComment(Node $node)
     {
         $node->set("tag.opening.prefix", "<!-- ");
         $node->set("tag.opening.tag", "");
@@ -87,7 +88,7 @@ class PluginComment extends Models\Plugin
      *
      * @param Node $node
      */
-    private function processChildren($node)
+    private function processChildren(Node $node)
     {
         $children = $node->get("children");
         foreach ($children as $child) {
@@ -105,7 +106,7 @@ class PluginComment extends Models\Plugin
      * @param Node $node
      * @return mixed
      */
-    private function createCommentChild($node)
+    private function createCommentChild(Node $node)
     {
         $node->set("tag.opening.prefix", "\r\n");
         $node->set("tag.opening.postfix", "");
@@ -125,7 +126,7 @@ class PluginComment extends Models\Plugin
      * @param Node $node
      * @return Node
      */
-    private function addIndent($node)
+    private function addIndent(Node $node)
     {
         $replaceItem = "tag.opening.prefix";
         $indent      = str_repeat($node->get("dom")->get("template.indent.char"), $node->get("dom")->get("template.indent.amount"));

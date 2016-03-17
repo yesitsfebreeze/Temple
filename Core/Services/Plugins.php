@@ -4,7 +4,6 @@ namespace Caramel\Services;
 
 
 use Caramel\Exceptions\CaramelException;
-use Caramel\Models\Plugin;
 
 /**
  * handles the plugin loading
@@ -76,7 +75,7 @@ class Plugins extends Service
      */
     public function container($name, $plugins)
     {
-
+        # TODO: implement this
     }
 
 
@@ -116,30 +115,68 @@ class Plugins extends Service
 
 
     /**
-     * @param $pluginFile
+     * loads all plugins
+     *
+     * @param string $file
      * @throws CaramelException
      */
-    private function loadPlugin($pluginFile)
+    private function loadPlugin($file)
     {
-        # magic require
-        require_once $pluginFile;
-
-        # get the plugin name without the extension and convert first letter to uppercase
-        $pluginName = explode("/", strrev(str_replace(".php", "", $pluginFile)));
-        $pluginName = strrev($pluginName [0]);
-        $pluginName = strtoupper($pluginName[0]) . substr($pluginName, 1);
-
-        $pluginClass = "Caramel\\Plugin" . $pluginName;
-        if (class_exists($pluginClass)) {
-            /** @var Plugin $plugin */
-            # create a new instance of the plugin
-            $plugin = new $pluginClass($this->caramel);
-            # add the plugin to our plugins array
+        require_once $file;
+        $class = $this->getPluginName($file);
+        if (class_exists($class)) {
+            $plugin = $this->createPlugin($class);
             $this->addPlugin($plugin->position(), $plugin);
         } else {
-            $pluginClass = str_replace("\\Caramel\\", "", $pluginClass);
-            throw new CaramelException("You need to define the Caramel namespaced class '$pluginClass'  !", $pluginFile);
+            $class = str_replace("\\Caramel\\", "", $class);
+            throw new CaramelException("You need to define the Caramel namespaced class '$class'  !", $file);
         }
+    }
+
+
+    /**
+     * extracts the plugin name
+     *
+     * @param string $file
+     * @return string
+     */
+    private function getPluginName($file)
+    {
+        # get the plugin name without the extension and convert first letter to uppercase
+        $class = explode("/", strrev(str_replace(".php", "", $file)));
+        $class = strrev($class [0]);
+        $class = strtoupper($class[0]) . substr($class, 1);
+
+        $class = "Caramel\\Plugin" . $class;
+
+        return $class;
+    }
+
+
+    /**
+     * creates a new plugin instance with the given class
+     *
+     * @param string $class
+     * @return Plugin
+     */
+    private function createPlugin($class)
+    {
+        /** @var Plugin $plugin */
+        # create a new instance of the plugin
+        $plugin = new $class();
+
+
+        $plugin->setYaml($this->yaml);
+        $plugin->setVars($this->vars);
+        $plugin->setConfig($this->config);
+        $plugin->setDirectories($this->directories);
+        $plugin->setHelpers($this->helpers);
+        $plugin->setCache($this->cache);
+        $plugin->setLexer($this->lexer);
+        $plugin->setParser($this->parser);
+        $plugin->setTemplate($this->template);
+
+        return $plugin;
     }
 
 

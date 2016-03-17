@@ -6,6 +6,7 @@ namespace Caramel;
 use Caramel\Exceptions\CaramelException;
 use Caramel\Models\Dom;
 use Caramel\Models\Node;
+use Caramel\Services\Plugin;
 
 
 /**
@@ -17,7 +18,7 @@ use Caramel\Models\Node;
  * @author      Stefan Hövelmanns
  * @License     MIT
  */
-class PluginExtend extends Models\Plugin
+class PluginExtend extends Plugin
 {
 
     /**
@@ -45,7 +46,7 @@ class PluginExtend extends Models\Plugin
      * @param Node $node
      * @return bool
      */
-    public function check($node)
+    public function check(Node $node)
     {
         return ($node->get("tag.tag") == "block");
     }
@@ -58,9 +59,9 @@ class PluginExtend extends Models\Plugin
      * @param Node $node
      * @return Node $node
      */
-    public function process($node)
+    public function process(Node $node)
     {
-        if ($this->caramel->config()->get("block_comments")) {
+        if ($this->config->get("block_comments")) {
             # hide parent blocks
             if ($node->get("attributes") == "parent") {
                 $node->set("tag.display", false);
@@ -88,9 +89,9 @@ class PluginExtend extends Models\Plugin
      * @return array
      * @throws \Exception
      */
-    public function preProcess($dom)
+    public function preProcess(Dom $dom)
     {
-        $this->caramel->config()->extend("self_closing","extend");
+        $this->config->extend("self_closing","extend");
         # get the first node from the dom
         $nodes = $dom->get("nodes");
         $node  = reset($nodes);
@@ -114,7 +115,7 @@ class PluginExtend extends Models\Plugin
      * @return bool|mixed
      * @throws CaramelException
      */
-    private function extending($node)
+    private function extending(Node $node)
     {
 
         # check if node hast extend tag
@@ -127,7 +128,7 @@ class PluginExtend extends Models\Plugin
                 throw new CaramelException("'extend' hast to be the first statement!", $node->get("file"), $node->get("line"));
             }
 
-            $isRootLevel   = $node->get("level") >= sizeof($this->caramel->template()->dirs()) - 1;
+            $isRootLevel   = $node->get("level") >= sizeof($this->template->dirs()) - 1;
             $hasAttributes = $node->get("attributes") != "";
 
             # level must be smaller than our amount of template directories
@@ -154,7 +155,7 @@ class PluginExtend extends Models\Plugin
      * @return array
      * @throws CaramelException
      */
-    private function extend($dom, $node)
+    private function extend(Dom $dom, Node $node)
     {
         $this->getRootFile($node);
         $this->getBlocks($dom);
@@ -168,7 +169,7 @@ class PluginExtend extends Models\Plugin
 
         $dom = $this->blocks($dom, $this->blockStash);
 
-        $this->caramel->cache()->dependency($this->rootFile, reset($dom->get("nodes"))->get("file"));
+        $this->cache->dependency($this->rootFile, reset($dom->get("nodes"))->get("file"));
 
         # reset the variables
         $this->topLevel = false;
@@ -177,14 +178,14 @@ class PluginExtend extends Models\Plugin
         # with the new dom to check for other extends
         $dom->set("template.file", $this->rootFile);
 
-        return $this->caramel->parser()->parse($dom);
+        return $this->parser->parse($dom);
     }
 
 
     /**
      * @param Node $node
      */
-    protected function getRootFile($node)
+    protected function getRootFile(Node $node)
     {
         # just set the file if it's set to false
         # this way we can keep track of our root file
@@ -203,7 +204,7 @@ class PluginExtend extends Models\Plugin
      * @return array
      * @throws \Exception
      */
-    private function getBlocks($dom)
+    private function getBlocks(Dom $dom)
     {
         /** @var Node $node */
         $nodes = $dom->get("nodes");
@@ -226,16 +227,16 @@ class PluginExtend extends Models\Plugin
      * @return Dom
      * @throws CaramelException
      */
-    private function getDom($node)
+    private function getDom(Node $node)
     {
         $dom = false;
         /** @var Node $node */
         $path = trim($node->get("attributes"));
         if ($path != "") {
-            $path = str_replace("." . $this->caramel->config()->get("extension"), "", $path);
+            $path = str_replace("." . $this->config->get("extension"), "", $path);
             # absolute extend
             if ($path[0] == "/") {
-                $dom = $this->caramel->lexer()->lex($path);
+                $dom = $this->lexer->lex($path);
                 $dom = $dom["dom"];
             }
             # relative extend
@@ -247,11 +248,11 @@ class PluginExtend extends Models\Plugin
                 $folder = strrev(implode("/", $folder));
                 # concat folder and path to get full file path
                 $path = $folder . "/" . $path;
-                $dom  = $this->caramel->lexer()->lex($path);
+                $dom  = $this->lexer->lex($path);
             }
         } else {
             # get parent file with level and names space
-            $dom = $this->caramel->lexer()->lex($node->get("namespace"), $node->get("level") + 1);
+            $dom = $this->lexer->lex($node->get("namespace"), $node->get("level") + 1);
         }
 
         # in case we still fail somehow, at least give the user an error.
@@ -272,7 +273,7 @@ class PluginExtend extends Models\Plugin
      * @return mixed
      * @throws \Exception
      */
-    private function blocks($dom, $blocks)
+    private function blocks(Dom $dom, $blocks)
     {
 
         /** @var Node $node */
@@ -312,7 +313,7 @@ class PluginExtend extends Models\Plugin
      * @param Node $block
      * @return Node
      */
-    private function block($node, $block)
+    private function block(Node $node, $block)
     {
         $block = $this->parent($node, $block);
         $node  = $block;
@@ -326,7 +327,7 @@ class PluginExtend extends Models\Plugin
      * @param Node $block
      * @return mixed
      */
-    private function parent($node, $block)
+    private function parent(Node $node, $block)
     {
         if ($block->has("children")) {
             foreach ($block->get("children") as $item) {

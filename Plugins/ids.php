@@ -4,6 +4,7 @@ namespace Caramel;
 
 
 use Caramel\Models\Node;
+use Caramel\Services\Plugin;
 
 
 /**
@@ -15,7 +16,7 @@ use Caramel\Models\Node;
  * @License : MIT
  * @package Caramel
  */
-class PluginIds extends Models\Plugin
+class PluginIds extends Plugin
 {
 
     /**
@@ -32,7 +33,7 @@ class PluginIds extends Models\Plugin
      * @return Node
      * @throws \Exception
      */
-    public function process($node)
+    public function process(Node $node)
     {
         $tag = $node->get("tag.tag");
         $ids = explode("#", $tag);
@@ -75,7 +76,7 @@ class PluginIds extends Models\Plugin
      * @param array  $ids
      * @return mixed
      */
-    private function updateTag($node, $tag, $ids)
+    private function updateTag(Node $node, $tag, $ids)
     {
         foreach (explode(" ", $ids) as $id) {
             $tag = str_replace('#' . $id, "", $tag);
@@ -99,7 +100,7 @@ class PluginIds extends Models\Plugin
      * @return Node
      * @throws \Exception
      */
-    private function setAttribute($node, $ids)
+    private function setAttribute(Node $node, $ids)
     {
         $attributes = $node->get("attributes");
         if ($attributes == "") {
@@ -128,7 +129,7 @@ class PluginIds extends Models\Plugin
      * @return string
      * @throws \Exception
      */
-    private function createNewTag($node)
+    private function createNewTag(Node $node)
     {
         # check if tag is empty now
         # if so create div or span,
@@ -136,7 +137,7 @@ class PluginIds extends Models\Plugin
         $inline = false;
         if ($node->has("parent")) {
             $parentTag = $node->get("parent")->get("tag.tag");
-            $inline    = in_array($parentTag, $this->caramel->config()->get("inline_elements"));
+            $inline    = in_array($parentTag, $this->config->get("inline_elements"));
         }
         if ($inline) {
             $tag = "span";

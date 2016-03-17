@@ -4,6 +4,7 @@ namespace Caramel;
 
 
 use Caramel\Models\Node;
+use Caramel\Services\Plugin;
 
 
 /**
@@ -21,7 +22,7 @@ use Caramel\Models\Node;
  * @License : MIT
  * @package Caramel
  */
-class PluginVariable extends Models\Plugin
+class PluginVariable extends Plugin
 {
 
     /** @var  string $sign */
@@ -37,9 +38,14 @@ class PluginVariable extends Models\Plugin
     }
 
 
-    public function check($node)
+    /**
+     * @param Node $node
+     * @return bool
+     * @throws Exceptions\CaramelException
+     */
+    public function check(Node $node)
     {
-        $this->sign = $this->caramel->config()->get("variable_symbol");
+        $this->sign = $this->config->get("variable_symbol");
         $tag        = $node->get("tag.tag");
 
         return $tag[0] == $this->sign;
@@ -50,13 +56,13 @@ class PluginVariable extends Models\Plugin
      * @return Node $node
      * hast to return $node
      */
-    public function process($node)
+    public function process(Node $node)
     {
         # hide it if we have a variable tag
         $node->set("display", false);
         $name  = $this->getVariableName($node);
         $value = $this->parseVariable($node);
-        $this->caramel->vars()->set($name, $value);
+        $this->vars->set($name, $value);
 
         return $node;
     }
@@ -66,7 +72,7 @@ class PluginVariable extends Models\Plugin
      * @param Node $node
      * @return bool|mixed
      */
-    private function parseVariable($node)
+    private function parseVariable(Node $node)
     {
         $value = preg_replace("/^\s*?=\s*?/", "", $node->get("attributes"));
         if ($node->has("children")) {
@@ -109,7 +115,7 @@ class PluginVariable extends Models\Plugin
         if ($value[0] == "@") {
             $var = $this->getVariableName(false, $value);
 
-            return $this->caramel->vars()->get($var);
+            return $this->vars->get($var);
         } else {
             # test if we have a forced string
             $isString = false;
@@ -144,7 +150,7 @@ class PluginVariable extends Models\Plugin
      * @param string $name
      * @return string
      */
-    private function getVariableName($node, $name = "")
+    private function getVariableName(Node $node, $name = "")
     {
         if ($name == "") $name = $node->get("tag.tag");
         $symbol = preg_quote($this->sign);
@@ -157,10 +163,10 @@ class PluginVariable extends Models\Plugin
     private function getMatchPattern()
     {
         $matchPattern = "/";
-        $matchPattern .= preg_quote($this->caramel->config()->get("variable_symbol"));
-        $matchPattern .= preg_quote($this->caramel->config()->get("left_delimiter"));
+        $matchPattern .= preg_quote($this->config->get("variable_symbol"));
+        $matchPattern .= preg_quote($this->config->get("left_delimiter"));
         $matchPattern .= "(.*?)";
-        $matchPattern .= preg_quote($this->caramel->config()->get("right_delimiter"));
+        $matchPattern .= preg_quote($this->config->get("right_delimiter"));
         $matchPattern .= "/";
         return $matchPattern;
     }
@@ -173,7 +179,7 @@ class PluginVariable extends Models\Plugin
         $output       = preg_replace_callback(
             $matchPattern,
             function ($hits) {
-                $var = $this->caramel->vars()->get($hits[1]);
+                $var = $this->vars->get($hits[1]);
                 if (gettype($var) == "array") {
                     $array = "[";
                     foreach ($var as $key => $value) {

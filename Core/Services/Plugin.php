@@ -17,17 +17,6 @@ abstract class Plugin extends Service
 {
 
     /**
-     * Plugin constructor.
-     *
-     * @param Caramel $caramel
-     */
-    public function __construct(Caramel $caramel)
-    {
-        $this->caramel  = $caramel;
-    }
-
-
-    /**
      * @return int
      */
     abstract public function position();
@@ -49,7 +38,7 @@ abstract class Plugin extends Service
      * @var Dom $dom
      * @return Dom $dom
      */
-    public function preProcess($dom)
+    public function preProcess(Dom $dom)
     {
         return $dom;
     }
@@ -61,7 +50,7 @@ abstract class Plugin extends Service
      * @var Node $node
      * @return Node $node
      */
-    public function process($node)
+    public function process(Node $node)
     {
         return $node;
     }
@@ -74,7 +63,7 @@ abstract class Plugin extends Service
      * @param $node
      * @return bool
      */
-    public function check($node)
+    public function check(Node $node)
     {
         return false;
     }
@@ -87,7 +76,7 @@ abstract class Plugin extends Service
      * @var Node $node
      * @return Node $node
      */
-    public function realProcess($node)
+    public function realProcess(Node $node)
     {
         if ($this->check($node) !== false) {
             return $this->process($node);
@@ -104,7 +93,7 @@ abstract class Plugin extends Service
      * @var Dom $dom
      * @return Dom $dom
      */
-    public function postProcess($dom)
+    public function postProcess(Dom $dom)
     {
         return $dom;
     }

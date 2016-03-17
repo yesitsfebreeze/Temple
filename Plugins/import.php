@@ -5,6 +5,7 @@ namespace Caramel;
 
 use Caramel\Exceptions\CaramelException;
 use Caramel\Models\Node;
+use Caramel\Services\Plugin;
 
 
 /**
@@ -16,7 +17,7 @@ use Caramel\Models\Node;
  * @author      Stefan Hövelmanns
  * @License     MIT
  */
-class PluginImport extends Models\Plugin
+class PluginImport extends Plugin
 {
 
     /**
@@ -32,9 +33,9 @@ class PluginImport extends Models\Plugin
      * @param Node $node
      * @return bool
      */
-    public function check($node)
+    public function check(Node $node)
     {
-        $this->caramel->config()->extend("self_closing","import");
+        $this->config->extend("self_closing","import");
         return ($node->get("tag.tag") == "import");
     }
 
@@ -44,7 +45,7 @@ class PluginImport extends Models\Plugin
      * @return Node $node
      * @throws CaramelException
      */
-    public function process($node)
+    public function process(Node $node)
     {
         $node->set("tag.display", false);
 
@@ -52,10 +53,10 @@ class PluginImport extends Models\Plugin
         if ($file == $node->get("namespace")) {
             throw new CaramelException("Recursive imports are not allowed!", $node->get("file"), $node->get("line"));
         }
-        $cachePath = $this->caramel->template()->parse($file);
+        $cachePath = $this->template->parse($file);
 
         # add the dependency
-        $this->caramel->cache()->dependency($node->get("file"), $file);
+        $this->cache->dependency($node->get("file"), $file);
 
         $node->set("content", "<?php include '" . $cachePath . "' ?>");
 
@@ -69,7 +70,7 @@ class PluginImport extends Models\Plugin
      * @param Node $node
      * @return string $file
      */
-    private function getPath($node)
+    private function getPath(Node $node)
     {
         # if the file has an absolute path
         $path     = $node->get("attributes");
@@ -89,9 +90,9 @@ class PluginImport extends Models\Plugin
      * @param Node $node
      * @return mixed
      */
-    private function getParentPath($node)
+    private function getParentPath(Node $node)
     {
-        $templates = $this->caramel->template()->dirs();
+        $templates = $this->template->dirs();
         $path      = explode("/", $node->get("file"));
         array_pop($path);
         $path = implode("/", $path) . "/";

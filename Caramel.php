@@ -182,7 +182,6 @@ class Caramel
         $this->Plugins->setDirectories($this->Directories);
         $this->Plugins->setHelpers($this->Helpers);
         $this->Plugins->setCache($this->Cache);
-        $this->Plugins->setPlugins($this->Plugins);
         $this->Plugins->setLexer($this->Lexer);
         $this->Plugins->setParser($this->Parser);
         $this->Plugins->setTemplate($this->Template);

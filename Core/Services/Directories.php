@@ -24,8 +24,8 @@ class Directories extends Service
      *
      * @param string $dir
      * @param string $name
-     * @param bool $create
-     * @return bool|Error
+     * @param bool   $create
+     * @return bool
      */
 
     public function add($dir, $name, $create = false)
@@ -63,7 +63,7 @@ class Directories extends Service
 
     /**
      * @param integer $pos
-     * @param string $name
+     * @param string  $name
      * @return bool
      */
 
@@ -121,14 +121,14 @@ class Directories extends Service
 
     /**
      * @param boolean $create
-     * @param string $dir
+     * @param string  $dir
      * @throws CaramelException
      */
     private function create($create, $dir)
     {
         if ($create) {
             if (!is_dir($dir)) {
-                if (is_writable($dir)) {
+                if (is_writable(dirname($dir))) {
                     mkdir($dir, 0777, true);
                 } else {
                     throw new CaramelException("You don't have the right permissions to write: </br>" . $dir);
