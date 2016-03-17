@@ -1,9 +1,11 @@
 <?php
 
-namespace Caramel\Models;
+namespace Caramel\Services;
 
 
 use Caramel\Caramel;
+use Caramel\Models\Dom;
+use Caramel\Models\Node;
 
 
 /**
@@ -11,7 +13,7 @@ use Caramel\Caramel;
  *
  * @package Caramel
  */
-abstract class Plugin
+abstract class Plugin extends Service
 {
 
     /**
