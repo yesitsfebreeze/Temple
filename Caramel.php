@@ -3,6 +3,7 @@
 namespace Caramel;
 
 
+use Caramel\Exceptions\ExceptionHandler;
 use Caramel\Models\Vars;
 use Caramel\Services\Cache;
 use Caramel\Services\Config;
@@ -72,7 +73,6 @@ class Caramel
         $this->Lexer       = new Lexer();
         $this->Parser      = new Parser();
         $this->Template    = new Template();
-
         $this->init();
     }
 

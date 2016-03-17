@@ -4,6 +4,7 @@ namespace Caramel\Services;
 
 
 use Caramel\Exceptions\CaramelException;
+use Caramel\Exceptions\ExceptionHandler;
 use Caramel\Models\Storage;
 use Symfony\Component\Yaml\Yaml;
 
@@ -58,6 +59,10 @@ class Config extends Storage
         # set default inline items
         $inline = array("b", "big", "i", "small", "tt", "abbr", "acronym", "cite", "code", "dfn", "em", "kbd", "strong", "samp", "var", "a", "bdo", "br", "img", "map", "object", "q", "script", "span", "sub", "sup", "button", "input", "label", "select", "textarea");
         $this->extend("inline_elements", $inline);
+
+        if ($this->get("use_exception_handler")) {
+            $this->set("exception_handler", new ExceptionHandler());
+        }
 
     }
 
