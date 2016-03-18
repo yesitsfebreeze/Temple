@@ -13,6 +13,13 @@ use Exception as Exception;
 class CaramelException extends Exception
 {
 
+    /** @var bool|string $caramelFile */
+    private $caramelFile;
+
+    /** @var integer|string $caramelLine */
+    private $caramelLine;
+
+
     public function __construct($message = "", $file = false, $line = false, $code = 0, Exception $previous = NULL)
     {
 
@@ -25,17 +32,40 @@ class CaramelException extends Exception
             $previous  = $exception->getPrevious();
         }
 
+
         if ($file) {
-            $this->file = $file;
+            $this->caramelFile = $file;
         }
 
         if ($line) {
-            $this->line = $file;
+            $this->caramelLine = $line;
         }
 
         # execute the default exception after that
         parent::__construct($message, $code, $previous);
 
+    }
+
+
+    /**
+     * returns the caramel file
+     *
+     * @return bool|string
+     */
+    public function getCaramelFile()
+    {
+        return $this->caramelFile;
+    }
+
+
+    /**
+     * returns the caramel line
+     *
+     * @return bool|int|string
+     */
+    public function getCaramelLine()
+    {
+        return $this->caramelLine;
     }
 
 }

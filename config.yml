@@ -1,4 +1,4 @@
-use_cache:        true
+use_cache:        false
 show_comments:    false
 block_comments:   false
 use_exception_handler: true

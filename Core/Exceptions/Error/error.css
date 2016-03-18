@@ -1,48 +1,40 @@
-html,
+@import url(https://fonts.googleapis.com/css?family=Cabin:400,700);
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Cabin', serif;
+    font-weight: 400;
+}
+
 body {
-    width:            100%;
-    height:           100%;
-    padding:          0;
-    margin:           0;
-    font-family:      "Helvetica Neue";
-    background-color: #fff;
-    color:            #777;
-    font-weight:      100;
-    padding-left:     10%;
-    font-size:        105%;
+    font-family: 'Cabin', serif;
+    color:       #737373;
+    background:  #262833;
+    margin:      0;
+}
+
+main {
+    margin: 4% 20%;
 }
 
 h1 {
-    font-size:   200%;
-    font-weight: 100;
-    padding-top: 10%;
+    color:       #E8A746;
+    padding-top: 120px;
 }
 
 h2 {
-    font-size:   180%;
-    font-weight: 100;
+    padding-bottom: 30px;
 }
 
-hr {
-    width:            40%;
-    margin-left:      0;
-    border:           none;
-    height:           1px;
-    background-color: #4183D7;
-}
-
-.color {
-    color: #4183D7;
-}
-
-ul {
-    padding-left: 0;
-}
-
-.file {
-    padding-bottom: 5%;
+footer small {
+    font-size: 0.8em;
 }
 
 .traces {
     list-style: none;
+    padding:    0;
+}
+
+.highlight {
+    color:       #E8A746;
+    font-weight: 700;
 }
