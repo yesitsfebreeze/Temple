@@ -1,18 +1,16 @@
 <?php
+
 $root   = realpath($_SERVER["DOCUMENT_ROOT"]);
 $assets = explode($root, __DIR__)[1] . "/";
 
 /** @var \Caramel\Exceptions\CaramelException $Exception */
-$code         = $Exception->getCode();
-$tempFile     = $Exception->getCaramelFile();
-$file         = array();
-$temp         = explode("/", $tempFile);
-$file["name"] = array_pop($temp);
-$file["path"] = str_replace($root,"",implode("/", $temp) . "/");
+$code        = $Exception->getCode();
+$caramelFile = $Exception->getCaramelFile();
+$caramelLine = $Exception->getCaramelLine();
+$file        = $Exception->getFile();
+$line        = $Exception->getLine();
+$traces      = $Exception->getTrace();
 
-$line   = $Exception->getCaramelLine();
-$msg    = $Exception->getMessage();
-$traces = $Exception->getTrace();
 ?>
 <html>
     <head>
@@ -22,57 +20,27 @@ $traces = $Exception->getTrace();
     <body>
         <main>
             <h1>
-                 Caramel Error <?php if ($code != 0) {echo $code;} ?>
+                Caramel Error <?php echo ($code != 0) ? $code : ""; ?>
             </h1>
             <h2>
-                <?php echo $msg; ?>
+                <?php echo $Exception->getMessage(); ?>
+                <?php if ($caramelFile) {
+                    echo "<p>";
+                    $Exception->displayCaramelErrorFile($root, $caramelFile, $caramelLine);
+                    echo "</p>";
+                } ?>
             </h2>
 
-            <?php if ($file && $file["path"] != "/") { ?>
 
-                <p class="file">
-                    <?php
-                    echo $file["path"];
-                    echo "<span class='highlight'>";
-                    echo $file["name"];
-                    echo "</span>";
-
-                    if ($line) {
-                        echo " in line ";
-                        echo "<span class='highlight'>";
-                        echo $line;
-                        echo "</span>";
-                    } ?>
-                </p>
-            <?php } ?>
             <ul class="traces">
                 <?php
+                echo "<li><p>";
+                $Exception->displayCaramelErrorFile($root, $file, $line);
+                echo "</p></li>";
+
                 foreach ($traces as $trace) {
                     echo "<li><p>";
-
-                    $tempFile     = $trace["file"];
-                    $file         = array();
-                    $temp         = explode("/", $tempFile);
-                    $file["name"] = array_pop($temp);
-                    $file["path"] = str_replace($root,"",implode("/", $temp) . "/");
-
-
-                    if ($trace["line"]) {
-                        echo $file["path"];
-                        echo "<span class='highlight'>";
-                        echo $file["name"];
-                        echo "</span>";
-                        echo " in line ";
-                        echo "<span class='highlight'>";
-                        echo $trace["line"];
-                        echo "</span>";
-                    }
-                    if ($trace["function"]) {
-                        echo " in function ";
-                        echo "<span class='highlight'>";
-                        echo $trace["function"];
-                        echo "</span>";
-                    }
+                    $Exception->displayCaramelErrorFile($root, $trace["file"], $trace["line"], $trace["function"]);
                     echo "</p></li>";
                 }
                 ?>

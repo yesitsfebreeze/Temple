@@ -67,6 +67,11 @@ class Config extends Storage
     }
 
 
+    /**
+     * sets $this->yaml
+     *
+     * @param Yaml $Yaml
+     */
     public function setYaml(Yaml $Yaml)
     {
         $this->yaml = $Yaml;

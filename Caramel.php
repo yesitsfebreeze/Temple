@@ -3,6 +3,7 @@
 namespace Caramel;
 
 
+use Caramel\Exceptions\ExceptionHandler;
 use Caramel\Models\Vars;
 use Caramel\Services\Cache;
 use Caramel\Services\Config;
@@ -211,5 +212,4 @@ class Caramel
         $this->Template->setParser($this->Parser);
         $this->Template->setCaramel($this);
     }
-
 }

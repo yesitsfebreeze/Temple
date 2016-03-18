@@ -6,7 +6,6 @@ namespace Caramel\Services;
 use Caramel\Exceptions\CaramelException;
 use Caramel\Models\Dom;
 use Caramel\Models\Node;
-use Caramel\Models\Plugin;
 
 
 /**
@@ -211,28 +210,24 @@ class Parser extends Service
         foreach ($plugins as $key => $position) {
             /** @var Plugin $plugin */
             foreach ($position as $plugin) {
-                try {
-                    if ($type == "pre") {
-                        $element = $plugin->preProcess($element);
-                        $this->PluginError($element, $plugin, "preProcess", '$dom');
+                if ($type == "pre") {
+                    $element = $plugin->preProcess($element);
+                    $this->PluginError($element, $plugin, "preProcess", '$dom');
+                }
+                if ($type == "plugins") {
+                    # only process if it's not disabled
+                    if ($element->get("plugins")) {
+                        $element = $plugin->realProcess($element);
+                        $this->PluginError($element, $plugin, 'process', '$node');
                     }
-                    if ($type == "plugins") {
-                        # only process if it's not disabled
-                        if ($element->get("plugins")) {
-                            $element = $plugin->realProcess($element);
-                            $this->PluginError($element, $plugin, 'process', '$node');
-                        }
-                    }
-                    if ($type == "post") {
-                        $element = $plugin->postProcess($element);
-                        $this->PluginError($element, $plugin, 'postProcess', '$dom');
-                    }
-                    if ($type == "output") {
-                        $element = $plugin->processOutput($element);
-                        $this->PluginError($element, $plugin, 'processOutput', '$output');
-                    }
-                } catch (\Exception $e) {
-                    throw new CaramelException($e);
+                }
+                if ($type == "post") {
+                    $element = $plugin->postProcess($element);
+                    $this->PluginError($element, $plugin, 'postProcess', '$dom');
+                }
+                if ($type == "output") {
+                    $element = $plugin->processOutput($element);
+                    $this->PluginError($element, $plugin, 'processOutput', '$output');
                 }
             }
         }

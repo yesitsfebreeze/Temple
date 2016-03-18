@@ -38,7 +38,6 @@ class Helpers extends Service
 
         $files = array();
         foreach ($this->template->dirs() as $level => $templateDir) {
-
             # concat all template directories
             # with he passed file path
             $template = $templateDir . $file;

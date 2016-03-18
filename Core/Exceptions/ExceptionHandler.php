@@ -23,7 +23,6 @@ class ExceptionHandler
 
         set_exception_handler(function ($Exception) use (&$originalHandler) {
             if ($Exception instanceof CaramelException) {
-
                 # include the error template
                 die(include_once "Error/Error.php");
 

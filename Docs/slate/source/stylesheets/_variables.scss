@@ -69,11 +69,13 @@ $tablet-width: 930px; // min width before reverting to tablet size
 $phone-width: $tablet-width - $nav-width; // min width before reverting to mobile size
 $code-annotation-border: 5px;
 
+@import url(https://fonts.googleapis.com/css?family=Cabin:400,700);
+
 // FONTS
 ////////////////////
 %default-font {
-  font-family: "Helvetica Neue", Helvetica, Arial, "Microsoft Yahei", "微软雅黑", STXihei, "华文细黑", sans-serif;
-  font-size:   14px;
+  font-family: "Cabin", Helvetica, Arial, "Microsoft Yahei", "微软雅黑", STXihei, "华文细黑", sans-serif;
+  font-size:   16px;
 }
 
 %header-font {

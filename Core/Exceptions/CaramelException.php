@@ -68,4 +68,47 @@ class CaramelException extends Exception
         return $this->caramelLine;
     }
 
+
+    /**
+     * splits file into name and path
+     *
+     * @param $file
+     * @param $root
+     * @return array $file
+     */
+    private function splitFile($file, $root)
+    {
+        $tempFile     = $file;
+        $file         = array();
+        $temp         = explode("/", $tempFile);
+        $file["name"] = array_pop($temp);
+        $file["path"] = str_replace($root . "/", "", implode("/", $temp) . "/");
+
+        return $file;
+    }
+
+
+    /**
+     * displays an exception file
+     *
+     * @param $file
+     * @param $root
+     * @param $line
+     * @param $function
+     */
+    function displayCaramelErrorFile($root, $file, $line = false, $function = false)
+    {
+
+        $file = $this->splitFile($file, $root);
+        echo $file["path"] . "<span class='highlight'>" . $file["name"] . "</span>";
+
+        if ($line) {
+            echo " in line " . "<span class='highlight'>" . $line . "</span>";
+        }
+        if ($function) {
+            echo " in function " . "<span class='highlight'>" . $function . "</span>";
+        }
+    }
+
+
 }

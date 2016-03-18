@@ -21,9 +21,6 @@ h1 {
     padding-top: 120px;
 }
 
-h2 {
-    padding-bottom: 30px;
-}
 
 footer small {
     font-size: 0.8em;
@@ -32,6 +29,15 @@ footer small {
 .traces {
     list-style: none;
     padding:    0;
+    height:     47px;
+    overflow:   hidden;
+    display:    inline-block;
+}
+
+.traces:hover, .traces:active, .traces:focus {
+    overflow: visible;
+    height:   auto;
+    cursor:   help;
 }
 
 .highlight {
