@@ -1,10 +1,9 @@
 <?php
 
-namespace Caramel;
+namespace Caramel\Plugin;
 
 
 use Caramel\Models\Node;
-use Caramel\Services\Plugin;
 
 /**
  * Class PluginComment
@@ -34,6 +33,7 @@ class PluginComment extends Plugin
     public function check(Node $node)
     {
         $tag = $node->get("tag.tag");
+
         return ($tag[0] == $this->config->get("comment_symbol") && ($tag[1] == " " || $tag[1] == ""));
     }
 

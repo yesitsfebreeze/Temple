@@ -4,6 +4,7 @@ namespace Caramel\Services;
 
 
 use Caramel\Exceptions\CaramelException;
+use Caramel\Plugin\Plugin;
 
 /**
  * handles the plugin loading
@@ -128,7 +129,7 @@ class Plugins extends Service
             $plugin = $this->createPlugin($class);
             $this->addPlugin($plugin->position(), $plugin);
         } else {
-            $class = str_replace("\\Caramel\\", "", $class);
+            $class = str_replace("\\Caramel\\Plugin\\", "", $class);
             throw new CaramelException("You need to define the Caramel namespaced class '$class'  !", $file);
         }
     }
@@ -147,7 +148,7 @@ class Plugins extends Service
         $class = strrev($class [0]);
         $class = strtoupper($class[0]) . substr($class, 1);
 
-        $class = "Caramel\\Plugin" . $class;
+        $class = "Caramel\\Plugin\\Plugin" . $class;
 
         return $class;
     }

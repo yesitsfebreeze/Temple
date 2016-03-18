@@ -1,10 +1,9 @@
 <?php
 
-namespace Caramel;
+namespace Caramel\Plugin;
 
 
 use Caramel\Models\Node;
-use Caramel\Services\Plugin;
 
 
 /**
