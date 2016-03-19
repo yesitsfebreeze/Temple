@@ -148,7 +148,7 @@ class Plugins extends Service
         $class = strrev($class [0]);
         $class = strtoupper($class[0]) . substr($class, 1);
 
-        $class = "Caramel\\Plugins\\Plugins" . $class;
+        $class = "Caramel\\Plugins\\Plugin" . $class;
 
         return $class;
     }
