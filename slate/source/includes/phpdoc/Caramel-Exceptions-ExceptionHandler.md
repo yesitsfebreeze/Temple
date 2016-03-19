@@ -1,34 +1,33 @@
-Caramel\Exceptions\ExceptionHandler
-===============
+## ExceptionHandler
 
 Class ExceptionHandler
 
 
 
 
-    * Class name: ExceptionHandler
-    * Namespace: Caramel\Exceptions
-                
+* Class name: ExceptionHandler
+* Namespace: Caramel\Exceptions
 
 
 
 
 
 
-    Methods
-    -------
+
+### Methods
 
 
-    ### __construct
+#### __construct
 
     mixed Caramel\Exceptions\ExceptionHandler::__construct()
 
-    adds a global exception handler for caramel exceptions
+adds a global exception handler for caramel exceptions
 ExceptionHandler constructor.
 
 
 
-    * Visibility: **public**
-                
+* Visibility: **public**
+* This method is defined by [ExceptionHandler](#caramelexceptionsexceptionhandler)
 
-    
+
+

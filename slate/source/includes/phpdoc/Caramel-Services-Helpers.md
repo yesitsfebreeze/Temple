@@ -1,364 +1,374 @@
-Caramel\Services\Helpers
-===============
+## Helpers
 
 
 
 
 
 
-    * Class name: Helpers
-    * Namespace: Caramel\Services
-        * Parent class: [Caramel\Services\Service](#Caramel-Services-Service)
-            
+* Class name: Helpers
+* Namespace: Caramel\Services
+* Parent class: [Service](#caramelservicesservice)
 
 
 
 
-    Properties
-    ----------
+
+### Properties
 
 
-    ### $caramel
+#### $caramel
 
     protected \Caramel\Caramel $caramel
 
-    
 
 
 
-    * Visibility: **protected**
-            
 
-    ### $yaml
+* Visibility: **protected**
+* This property is defined by [Helpers](#caramelserviceshelpers)
+
+
+#### $yaml
 
     protected \Symfony\Component\Yaml\Yaml $yaml
 
-    
 
 
 
-    * Visibility: **protected**
-            
 
-    ### $vars
+* Visibility: **protected**
+* This property is defined by [Helpers](#caramelserviceshelpers)
+
+
+#### $vars
 
     protected \Caramel\Models\Vars $vars
 
-    
 
 
 
-    * Visibility: **protected**
-            
 
-    ### $config
+* Visibility: **protected**
+* This property is defined by [Helpers](#caramelserviceshelpers)
+
+
+#### $config
 
     protected \Caramel\Services\Config $config
 
-    
 
 
 
-    * Visibility: **protected**
-            
 
-    ### $directories
+* Visibility: **protected**
+* This property is defined by [Helpers](#caramelserviceshelpers)
+
+
+#### $directories
 
     protected \Caramel\Services\Directories $directories
 
-    
 
 
 
-    * Visibility: **protected**
-            
 
-    ### $helpers
+* Visibility: **protected**
+* This property is defined by [Helpers](#caramelserviceshelpers)
+
+
+#### $helpers
 
     protected \Caramel\Services\Helpers $helpers
 
-    
 
 
 
-    * Visibility: **protected**
-            
 
-    ### $cache
+* Visibility: **protected**
+* This property is defined by [Helpers](#caramelserviceshelpers)
+
+
+#### $cache
 
     protected \Caramel\Services\Cache $cache
 
-    
 
 
 
-    * Visibility: **protected**
-            
 
-    ### $plugins
+* Visibility: **protected**
+* This property is defined by [Helpers](#caramelserviceshelpers)
+
+
+#### $plugins
 
     protected \Caramel\Services\Plugins $plugins
 
-    
 
 
 
-    * Visibility: **protected**
-            
 
-    ### $lexer
+* Visibility: **protected**
+* This property is defined by [Helpers](#caramelserviceshelpers)
+
+
+#### $lexer
 
     protected \Caramel\Services\Lexer $lexer
 
-    
 
 
 
-    * Visibility: **protected**
-            
 
-    ### $parser
+* Visibility: **protected**
+* This property is defined by [Helpers](#caramelserviceshelpers)
+
+
+#### $parser
 
     protected \Caramel\Services\Parser $parser
 
-    
 
 
 
-    * Visibility: **protected**
-            
 
-    ### $template
+* Visibility: **protected**
+* This property is defined by [Helpers](#caramelserviceshelpers)
+
+
+#### $template
 
     protected \Caramel\Services\Template $template
 
-    
 
 
 
-    * Visibility: **protected**
-            
 
-    Methods
-    -------
+* Visibility: **protected**
+* This property is defined by [Helpers](#caramelserviceshelpers)
 
 
-    ### str_find
+### Methods
+
+
+#### str_find
 
     boolean Caramel\Services\Helpers::str_find(string $string, string $needle)
 
-    searches a string for the needle and returns true if found
+searches a string for the needle and returns true if found
 
 
 
-    * Visibility: **public**
-                
+* Visibility: **public**
+* This method is defined by [Helpers](#caramelserviceshelpers)
 
-            #### Arguments
-                    * $string **string**
-                    * $needle **string**
-        
-    
 
-    ### templates
+##### Arguments
+* $string **string**
+* $needle **string**
+
+
+
+#### templates
 
     array Caramel\Services\Helpers::templates(string $file)
 
-    returns all found template files for the given abbreviation
+returns all found template files for the given abbreviation
 
 
 
-    * Visibility: **public**
-                
+* Visibility: **public**
+* This method is defined by [Helpers](#caramelserviceshelpers)
 
-            #### Arguments
-                    * $file **string**
-        
-    
 
-    ### setCaramel
+##### Arguments
+* $file **string**
+
+
+
+#### setCaramel
 
     mixed Caramel\Services\Service::setCaramel(\Caramel\Caramel $Caramel)
 
-    sets $this->caramel
+sets $this->caramel
 
 
 
-    * Visibility: **public**
-                * This method is defined by [Caramel\Services\Service](#Caramel-Services-Service)
-    
+* Visibility: **public**
+* This method is defined by [Service](#caramelservicesservice)
 
-            #### Arguments
-                    * $Caramel **Caramel\Caramel**
-        
-    
 
-    ### setYaml
+##### Arguments
+* $Caramel **[Caramel](#caramelcaramel)**
+
+
+
+#### setYaml
 
     mixed Caramel\Services\Service::setYaml(\Symfony\Component\Yaml\Yaml $Yaml)
 
-    sets $this->yaml
+sets $this->yaml
 
 
 
-    * Visibility: **public**
-                * This method is defined by [Caramel\Services\Service](#Caramel-Services-Service)
-    
+* Visibility: **public**
+* This method is defined by [Service](#caramelservicesservice)
 
-            #### Arguments
-                    * $Yaml **Symfony\Component\Yaml\Yaml**
-        
-    
 
-    ### setVars
+##### Arguments
+* $Yaml **Yaml**
+
+
+
+#### setVars
 
     mixed Caramel\Services\Service::setVars(\Caramel\Models\Vars $Vars)
 
-    sets $this->vars
+sets $this->vars
 
 
 
-    * Visibility: **public**
-                * This method is defined by [Caramel\Services\Service](#Caramel-Services-Service)
-    
+* Visibility: **public**
+* This method is defined by [Service](#caramelservicesservice)
 
-            #### Arguments
-                    * $Vars **[Caramel\Models\Vars](#Caramel-Models-Vars)**
-        
-    
 
-    ### setConfig
+##### Arguments
+* $Vars **[Vars](#caramelmodelsvars)**
+
+
+
+#### setConfig
 
     mixed Caramel\Services\Service::setConfig(\Caramel\Services\Config $Config)
 
-    sets $this->config
+sets $this->config
 
 
 
-    * Visibility: **public**
-                * This method is defined by [Caramel\Services\Service](#Caramel-Services-Service)
-    
+* Visibility: **public**
+* This method is defined by [Service](#caramelservicesservice)
 
-            #### Arguments
-                    * $Config **[Caramel\Services\Config](#Caramel-Services-Config)**
-        
-    
 
-    ### setDirectories
+##### Arguments
+* $Config **[Config](#caramelservicesconfig)**
+
+
+
+#### setDirectories
 
     mixed Caramel\Services\Service::setDirectories(\Caramel\Services\Directories $Directories)
 
-    sets $this->directories
+sets $this->directories
 
 
 
-    * Visibility: **public**
-                * This method is defined by [Caramel\Services\Service](#Caramel-Services-Service)
-    
+* Visibility: **public**
+* This method is defined by [Service](#caramelservicesservice)
 
-            #### Arguments
-                    * $Directories **[Caramel\Services\Directories](#Caramel-Services-Directories)**
-        
-    
 
-    ### setHelpers
+##### Arguments
+* $Directories **[Directories](#caramelservicesdirectories)**
+
+
+
+#### setHelpers
 
     mixed Caramel\Services\Service::setHelpers(\Caramel\Services\Helpers $Helpers)
 
-    sets $this->helpers
+sets $this->helpers
 
 
 
-    * Visibility: **public**
-                * This method is defined by [Caramel\Services\Service](#Caramel-Services-Service)
-    
+* Visibility: **public**
+* This method is defined by [Service](#caramelservicesservice)
 
-            #### Arguments
-                    * $Helpers **[Caramel\Services\Helpers](#Caramel-Services-Helpers)**
-        
-    
 
-    ### setCache
+##### Arguments
+* $Helpers **[Helpers](#caramelserviceshelpers)**
+
+
+
+#### setCache
 
     mixed Caramel\Services\Service::setCache(\Caramel\Services\Cache $Cache)
 
-    sets $this->cache
+sets $this->cache
 
 
 
-    * Visibility: **public**
-                * This method is defined by [Caramel\Services\Service](#Caramel-Services-Service)
-    
+* Visibility: **public**
+* This method is defined by [Service](#caramelservicesservice)
 
-            #### Arguments
-                    * $Cache **[Caramel\Services\Cache](#Caramel-Services-Cache)**
-        
-    
 
-    ### setPlugins
+##### Arguments
+* $Cache **[Cache](#caramelservicescache)**
+
+
+
+#### setPlugins
 
     mixed Caramel\Services\Service::setPlugins(\Caramel\Services\Plugins $Plugins)
 
-    sets $this->plugins
+sets $this->plugins
 
 
 
-    * Visibility: **public**
-                * This method is defined by [Caramel\Services\Service](#Caramel-Services-Service)
-    
+* Visibility: **public**
+* This method is defined by [Service](#caramelservicesservice)
 
-            #### Arguments
-                    * $Plugins **[Caramel\Services\Plugins](#Caramel-Services-Plugins)**
-        
-    
 
-    ### setLexer
+##### Arguments
+* $Plugins **[Plugins](#caramelservicesplugins)**
+
+
+
+#### setLexer
 
     mixed Caramel\Services\Service::setLexer(\Caramel\Services\Lexer $Lexer)
 
-    sets $this->lexer
+sets $this->lexer
 
 
 
-    * Visibility: **public**
-                * This method is defined by [Caramel\Services\Service](#Caramel-Services-Service)
-    
+* Visibility: **public**
+* This method is defined by [Service](#caramelservicesservice)
 
-            #### Arguments
-                    * $Lexer **[Caramel\Services\Lexer](#Caramel-Services-Lexer)**
-        
-    
 
-    ### setParser
+##### Arguments
+* $Lexer **[Lexer](#caramelserviceslexer)**
+
+
+
+#### setParser
 
     mixed Caramel\Services\Service::setParser(\Caramel\Services\Parser $Parser)
 
-    sets $this->parser
+sets $this->parser
 
 
 
-    * Visibility: **public**
-                * This method is defined by [Caramel\Services\Service](#Caramel-Services-Service)
-    
+* Visibility: **public**
+* This method is defined by [Service](#caramelservicesservice)
 
-            #### Arguments
-                    * $Parser **[Caramel\Services\Parser](#Caramel-Services-Parser)**
-        
-    
 
-    ### setTemplate
+##### Arguments
+* $Parser **[Parser](#caramelservicesparser)**
+
+
+
+#### setTemplate
 
     mixed Caramel\Services\Service::setTemplate(\Caramel\Services\Template $Template)
 
-    sets $this->template
+sets $this->template
 
 
 
-    * Visibility: **public**
-                * This method is defined by [Caramel\Services\Service](#Caramel-Services-Service)
-    
+* Visibility: **public**
+* This method is defined by [Service](#caramelservicesservice)
 
-            #### Arguments
-                    * $Template **[Caramel\Services\Template](#Caramel-Services-Template)**
-        
-    
+
+##### Arguments
+* $Template **[Template](#caramelservicestemplate)**
+
+

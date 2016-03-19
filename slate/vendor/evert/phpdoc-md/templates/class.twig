@@ -1,5 +1,4 @@
-{{ className }}
-===============
+## {{ className }}
 
 {{ description }}
 
@@ -38,7 +37,7 @@ Constants
 
 {% for constant in constants %}
 
-### {{ constant.name }}
+#### {{ constant.name }}
 
     {{ constant.signature|raw }}
 
@@ -50,13 +49,12 @@ Constants
 {% endfor %}
 
 {% if properties %}
-Properties
-----------
+### Properties
 {% endif %}
 
 {% for property in properties %}
 
-### {{ property.name }}
+#### {{ property.name }}
 
     {{ property.signature|raw }}
 
@@ -73,13 +71,12 @@ Properties
 {% endfor %}
 
 {% if methods %}
-Methods
--------
+### Methods
 {% endif %}
 
 {% for method in methods %}
 
-### {{ method.name }}
+#### {{ method.name }}
 
     {{ method.signature|raw }}
 
@@ -97,7 +94,7 @@ Methods
 
 
 {% if method.arguments %}
-#### Arguments
+##### Arguments
 {% for argument in method.arguments %}
 * {{ argument.name }} **{% if argument.type %}{{ argument.type|classLink }}{% else %}mixed{% endif %}**{% if argument.description %} - {{ argument.description }}{% endif %}
 

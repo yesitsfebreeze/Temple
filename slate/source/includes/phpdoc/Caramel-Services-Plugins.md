@@ -1,5 +1,4 @@
-Caramel\Services\Plugins
-===============
+## Plugins
 
 handles the plugin loading
 Class PluginLoader
@@ -7,506 +6,527 @@ Class PluginLoader
 
 
 
-    * Class name: Plugins
-    * Namespace: Caramel\Services
-        * Parent class: [Caramel\Services\Service](#Caramel-Services-Service)
-            
+* Class name: Plugins
+* Namespace: Caramel\Services
+* Parent class: [Service](#caramelservicesservice)
 
 
 
 
-    Properties
-    ----------
+
+### Properties
 
 
-    ### $list
+#### $list
 
     private array $list = array()
 
-    
 
 
 
-    * Visibility: **private**
-            
 
-    ### $caramel
+* Visibility: **private**
+* This property is defined by [Plugins](#caramelservicesplugins)
+
+
+#### $caramel
 
     protected \Caramel\Caramel $caramel
 
-    
 
 
 
-    * Visibility: **protected**
-            
 
-    ### $yaml
+* Visibility: **protected**
+* This property is defined by [Plugins](#caramelservicesplugins)
+
+
+#### $yaml
 
     protected \Symfony\Component\Yaml\Yaml $yaml
 
-    
 
 
 
-    * Visibility: **protected**
-            
 
-    ### $vars
+* Visibility: **protected**
+* This property is defined by [Plugins](#caramelservicesplugins)
+
+
+#### $vars
 
     protected \Caramel\Models\Vars $vars
 
-    
 
 
 
-    * Visibility: **protected**
-            
 
-    ### $config
+* Visibility: **protected**
+* This property is defined by [Plugins](#caramelservicesplugins)
+
+
+#### $config
 
     protected \Caramel\Services\Config $config
 
-    
 
 
 
-    * Visibility: **protected**
-            
 
-    ### $directories
+* Visibility: **protected**
+* This property is defined by [Plugins](#caramelservicesplugins)
+
+
+#### $directories
 
     protected \Caramel\Services\Directories $directories
 
-    
 
 
 
-    * Visibility: **protected**
-            
 
-    ### $helpers
+* Visibility: **protected**
+* This property is defined by [Plugins](#caramelservicesplugins)
+
+
+#### $helpers
 
     protected \Caramel\Services\Helpers $helpers
 
-    
 
 
 
-    * Visibility: **protected**
-            
 
-    ### $cache
+* Visibility: **protected**
+* This property is defined by [Plugins](#caramelservicesplugins)
+
+
+#### $cache
 
     protected \Caramel\Services\Cache $cache
 
-    
 
 
 
-    * Visibility: **protected**
-            
 
-    ### $plugins
+* Visibility: **protected**
+* This property is defined by [Plugins](#caramelservicesplugins)
+
+
+#### $plugins
 
     protected \Caramel\Services\Plugins $plugins
 
-    
 
 
 
-    * Visibility: **protected**
-            
 
-    ### $lexer
+* Visibility: **protected**
+* This property is defined by [Plugins](#caramelservicesplugins)
+
+
+#### $lexer
 
     protected \Caramel\Services\Lexer $lexer
 
-    
 
 
 
-    * Visibility: **protected**
-            
 
-    ### $parser
+* Visibility: **protected**
+* This property is defined by [Plugins](#caramelservicesplugins)
+
+
+#### $parser
 
     protected \Caramel\Services\Parser $parser
 
-    
 
 
 
-    * Visibility: **protected**
-            
 
-    ### $template
+* Visibility: **protected**
+* This property is defined by [Plugins](#caramelservicesplugins)
+
+
+#### $template
 
     protected \Caramel\Services\Template $template
 
-    
 
 
 
-    * Visibility: **protected**
-            
 
-    Methods
-    -------
+* Visibility: **protected**
+* This property is defined by [Plugins](#caramelservicesplugins)
 
 
-    ### init
+### Methods
+
+
+#### init
 
     mixed Caramel\Services\Plugins::init()
 
-    initiates the plugins
+initiates the plugins
 
 
 
-    * Visibility: **public**
-                
+* Visibility: **public**
+* This method is defined by [Plugins](#caramelservicesplugins)
 
-    
 
-    ### add
+
+
+#### add
 
     string Caramel\Services\Plugins::add($dir)
 
-    adds a plugin directory
+adds a plugin directory
 
 
 
-    * Visibility: **public**
-                
+* Visibility: **public**
+* This method is defined by [Plugins](#caramelservicesplugins)
 
-            #### Arguments
-                    * $dir **mixed**
-        
-    
 
-    ### remove
+##### Arguments
+* $dir **mixed**
+
+
+
+#### remove
 
     string Caramel\Services\Plugins::remove(integer $pos)
 
-    removes a plugin dir
+removes a plugin dir
 
 
 
-    * Visibility: **public**
-                
+* Visibility: **public**
+* This method is defined by [Plugins](#caramelservicesplugins)
 
-            #### Arguments
-                    * $pos **integer**
-        
-    
 
-    ### dirs
+##### Arguments
+* $pos **integer**
+
+
+
+#### dirs
 
     array Caramel\Services\Plugins::dirs()
 
-    returns all plugin dirs
+returns all plugin dirs
 
 
 
-    * Visibility: **public**
-                
+* Visibility: **public**
+* This method is defined by [Plugins](#caramelservicesplugins)
 
-    
 
-    ### container
+
+
+#### container
 
     mixed Caramel\Services\Plugins::container($name, $plugins)
 
-    adds a new container to the plugins configuration
+adds a new container to the plugins configuration
 
 
 
-    * Visibility: **public**
-                
+* Visibility: **public**
+* This method is defined by [Plugins](#caramelservicesplugins)
 
-            #### Arguments
-                    * $name **mixed**
-                    * $plugins **mixed**
-        
-    
 
-    ### getPlugins
+##### Arguments
+* $name **mixed**
+* $plugins **mixed**
+
+
+
+#### getPlugins
 
     mixed Caramel\Services\Plugins::getPlugins()
 
-    gets all registered plugins
+gets all registered plugins
 
 
 
-    * Visibility: **private**
-                
+* Visibility: **private**
+* This method is defined by [Plugins](#caramelservicesplugins)
 
-    
 
-    ### loadPlugins
+
+
+#### loadPlugins
 
     mixed Caramel\Services\Plugins::loadPlugins($pluginFile)
 
-    
 
 
 
-    * Visibility: **private**
-                
 
-            #### Arguments
-                    * $pluginFile **mixed**
-        
-    
+* Visibility: **private**
+* This method is defined by [Plugins](#caramelservicesplugins)
 
-    ### loadPlugin
+
+##### Arguments
+* $pluginFile **mixed**
+
+
+
+#### loadPlugin
 
     mixed Caramel\Services\Plugins::loadPlugin(string $file)
 
-    loads all plugins
+loads all plugins
 
 
 
-    * Visibility: **private**
-                
+* Visibility: **private**
+* This method is defined by [Plugins](#caramelservicesplugins)
 
-            #### Arguments
-                    * $file **string**
-        
-    
 
-    ### getPluginName
+##### Arguments
+* $file **string**
+
+
+
+#### getPluginName
 
     string Caramel\Services\Plugins::getPluginName(string $file)
 
-    extracts the plugin name
+extracts the plugin name
 
 
 
-    * Visibility: **private**
-                
+* Visibility: **private**
+* This method is defined by [Plugins](#caramelservicesplugins)
 
-            #### Arguments
-                    * $file **string**
-        
-    
 
-    ### createPlugin
+##### Arguments
+* $file **string**
+
+
+
+#### createPlugin
 
     \Caramel\Plugin\Plugin Caramel\Services\Plugins::createPlugin(string $class)
 
-    creates a new plugin instance with the given class
+creates a new plugin instance with the given class
 
 
 
-    * Visibility: **private**
-                
+* Visibility: **private**
+* This method is defined by [Plugins](#caramelservicesplugins)
 
-            #### Arguments
-                    * $class **string**
-        
-    
 
-    ### addPlugin
+##### Arguments
+* $class **string**
+
+
+
+#### addPlugin
 
     array Caramel\Services\Plugins::addPlugin($position, $plugin)
 
-    
 
 
 
-    * Visibility: **private**
-                
 
-            #### Arguments
-                    * $position **mixed**
-                    * $plugin **mixed**
-        
-    
+* Visibility: **private**
+* This method is defined by [Plugins](#caramelservicesplugins)
 
-    ### setCaramel
+
+##### Arguments
+* $position **mixed**
+* $plugin **mixed**
+
+
+
+#### setCaramel
 
     mixed Caramel\Services\Service::setCaramel(\Caramel\Caramel $Caramel)
 
-    sets $this->caramel
+sets $this->caramel
 
 
 
-    * Visibility: **public**
-                * This method is defined by [Caramel\Services\Service](#Caramel-Services-Service)
-    
+* Visibility: **public**
+* This method is defined by [Service](#caramelservicesservice)
 
-            #### Arguments
-                    * $Caramel **Caramel\Caramel**
-        
-    
 
-    ### setYaml
+##### Arguments
+* $Caramel **[Caramel](#caramelcaramel)**
+
+
+
+#### setYaml
 
     mixed Caramel\Services\Service::setYaml(\Symfony\Component\Yaml\Yaml $Yaml)
 
-    sets $this->yaml
+sets $this->yaml
 
 
 
-    * Visibility: **public**
-                * This method is defined by [Caramel\Services\Service](#Caramel-Services-Service)
-    
+* Visibility: **public**
+* This method is defined by [Service](#caramelservicesservice)
 
-            #### Arguments
-                    * $Yaml **Symfony\Component\Yaml\Yaml**
-        
-    
 
-    ### setVars
+##### Arguments
+* $Yaml **Yaml**
+
+
+
+#### setVars
 
     mixed Caramel\Services\Service::setVars(\Caramel\Models\Vars $Vars)
 
-    sets $this->vars
+sets $this->vars
 
 
 
-    * Visibility: **public**
-                * This method is defined by [Caramel\Services\Service](#Caramel-Services-Service)
-    
+* Visibility: **public**
+* This method is defined by [Service](#caramelservicesservice)
 
-            #### Arguments
-                    * $Vars **[Caramel\Models\Vars](#Caramel-Models-Vars)**
-        
-    
 
-    ### setConfig
+##### Arguments
+* $Vars **[Vars](#caramelmodelsvars)**
+
+
+
+#### setConfig
 
     mixed Caramel\Services\Service::setConfig(\Caramel\Services\Config $Config)
 
-    sets $this->config
+sets $this->config
 
 
 
-    * Visibility: **public**
-                * This method is defined by [Caramel\Services\Service](#Caramel-Services-Service)
-    
+* Visibility: **public**
+* This method is defined by [Service](#caramelservicesservice)
 
-            #### Arguments
-                    * $Config **[Caramel\Services\Config](#Caramel-Services-Config)**
-        
-    
 
-    ### setDirectories
+##### Arguments
+* $Config **[Config](#caramelservicesconfig)**
+
+
+
+#### setDirectories
 
     mixed Caramel\Services\Service::setDirectories(\Caramel\Services\Directories $Directories)
 
-    sets $this->directories
+sets $this->directories
 
 
 
-    * Visibility: **public**
-                * This method is defined by [Caramel\Services\Service](#Caramel-Services-Service)
-    
+* Visibility: **public**
+* This method is defined by [Service](#caramelservicesservice)
 
-            #### Arguments
-                    * $Directories **[Caramel\Services\Directories](#Caramel-Services-Directories)**
-        
-    
 
-    ### setHelpers
+##### Arguments
+* $Directories **[Directories](#caramelservicesdirectories)**
+
+
+
+#### setHelpers
 
     mixed Caramel\Services\Service::setHelpers(\Caramel\Services\Helpers $Helpers)
 
-    sets $this->helpers
+sets $this->helpers
 
 
 
-    * Visibility: **public**
-                * This method is defined by [Caramel\Services\Service](#Caramel-Services-Service)
-    
+* Visibility: **public**
+* This method is defined by [Service](#caramelservicesservice)
 
-            #### Arguments
-                    * $Helpers **[Caramel\Services\Helpers](#Caramel-Services-Helpers)**
-        
-    
 
-    ### setCache
+##### Arguments
+* $Helpers **[Helpers](#caramelserviceshelpers)**
+
+
+
+#### setCache
 
     mixed Caramel\Services\Service::setCache(\Caramel\Services\Cache $Cache)
 
-    sets $this->cache
+sets $this->cache
 
 
 
-    * Visibility: **public**
-                * This method is defined by [Caramel\Services\Service](#Caramel-Services-Service)
-    
+* Visibility: **public**
+* This method is defined by [Service](#caramelservicesservice)
 
-            #### Arguments
-                    * $Cache **[Caramel\Services\Cache](#Caramel-Services-Cache)**
-        
-    
 
-    ### setPlugins
+##### Arguments
+* $Cache **[Cache](#caramelservicescache)**
+
+
+
+#### setPlugins
 
     mixed Caramel\Services\Service::setPlugins(\Caramel\Services\Plugins $Plugins)
 
-    sets $this->plugins
+sets $this->plugins
 
 
 
-    * Visibility: **public**
-                * This method is defined by [Caramel\Services\Service](#Caramel-Services-Service)
-    
+* Visibility: **public**
+* This method is defined by [Service](#caramelservicesservice)
 
-            #### Arguments
-                    * $Plugins **[Caramel\Services\Plugins](#Caramel-Services-Plugins)**
-        
-    
 
-    ### setLexer
+##### Arguments
+* $Plugins **[Plugins](#caramelservicesplugins)**
+
+
+
+#### setLexer
 
     mixed Caramel\Services\Service::setLexer(\Caramel\Services\Lexer $Lexer)
 
-    sets $this->lexer
+sets $this->lexer
 
 
 
-    * Visibility: **public**
-                * This method is defined by [Caramel\Services\Service](#Caramel-Services-Service)
-    
+* Visibility: **public**
+* This method is defined by [Service](#caramelservicesservice)
 
-            #### Arguments
-                    * $Lexer **[Caramel\Services\Lexer](#Caramel-Services-Lexer)**
-        
-    
 
-    ### setParser
+##### Arguments
+* $Lexer **[Lexer](#caramelserviceslexer)**
+
+
+
+#### setParser
 
     mixed Caramel\Services\Service::setParser(\Caramel\Services\Parser $Parser)
 
-    sets $this->parser
+sets $this->parser
 
 
 
-    * Visibility: **public**
-                * This method is defined by [Caramel\Services\Service](#Caramel-Services-Service)
-    
+* Visibility: **public**
+* This method is defined by [Service](#caramelservicesservice)
 
-            #### Arguments
-                    * $Parser **[Caramel\Services\Parser](#Caramel-Services-Parser)**
-        
-    
 
-    ### setTemplate
+##### Arguments
+* $Parser **[Parser](#caramelservicesparser)**
+
+
+
+#### setTemplate
 
     mixed Caramel\Services\Service::setTemplate(\Caramel\Services\Template $Template)
 
-    sets $this->template
+sets $this->template
 
 
 
-    * Visibility: **public**
-                * This method is defined by [Caramel\Services\Service](#Caramel-Services-Service)
-    
+* Visibility: **public**
+* This method is defined by [Service](#caramelservicesservice)
 
-            #### Arguments
-                    * $Template **[Caramel\Services\Template](#Caramel-Services-Template)**
-        
-    
+
+##### Arguments
+* $Template **[Template](#caramelservicestemplate)**
+
+

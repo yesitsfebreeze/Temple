@@ -1,127 +1,131 @@
-Caramel\Exceptions\CaramelException
-===============
+## CaramelException
 
 Class CaramelException
 
 
 
 
-    * Class name: CaramelException
-    * Namespace: Caramel\Exceptions
-        * Parent class: Exception
-            
+* Class name: CaramelException
+* Namespace: Caramel\Exceptions
+* Parent class: Exception
 
 
 
 
-    Properties
-    ----------
+
+### Properties
 
 
-    ### $caramelFile
+#### $caramelFile
 
     private boolean $caramelFile
 
-    
 
 
 
-    * Visibility: **private**
-            
 
-    ### $caramelLine
+* Visibility: **private**
+* This property is defined by [CaramelException](#caramelexceptionscaramelexception)
+
+
+#### $caramelLine
 
     private integer $caramelLine
 
-    
 
 
 
-    * Visibility: **private**
-            
 
-    Methods
-    -------
+* Visibility: **private**
+* This property is defined by [CaramelException](#caramelexceptionscaramelexception)
 
 
-    ### __construct
+### Methods
+
+
+#### __construct
 
     mixed Caramel\Exceptions\CaramelException::__construct($message, $file, $line, $code, \Exception $previous)
 
-    
 
 
 
-    * Visibility: **public**
-                
 
-            #### Arguments
-                    * $message **mixed**
-                    * $file **mixed**
-                    * $line **mixed**
-                    * $code **mixed**
-                    * $previous **Exception**
-        
-    
+* Visibility: **public**
+* This method is defined by [CaramelException](#caramelexceptionscaramelexception)
 
-    ### getCaramelFile
+
+##### Arguments
+* $message **mixed**
+* $file **mixed**
+* $line **mixed**
+* $code **mixed**
+* $previous **Exception**
+
+
+
+#### getCaramelFile
 
     boolean|string Caramel\Exceptions\CaramelException::getCaramelFile()
 
-    returns the caramel file
+returns the caramel file
 
 
 
-    * Visibility: **public**
-                
+* Visibility: **public**
+* This method is defined by [CaramelException](#caramelexceptionscaramelexception)
 
-    
 
-    ### getCaramelLine
+
+
+#### getCaramelLine
 
     boolean|integer|string Caramel\Exceptions\CaramelException::getCaramelLine()
 
-    returns the caramel line
+returns the caramel line
 
 
 
-    * Visibility: **public**
-                
+* Visibility: **public**
+* This method is defined by [CaramelException](#caramelexceptionscaramelexception)
 
-    
 
-    ### splitFile
+
+
+#### splitFile
 
     array Caramel\Exceptions\CaramelException::splitFile($file, $root)
 
-    splits file into name and path
+splits file into name and path
 
 
 
-    * Visibility: **private**
-                
+* Visibility: **private**
+* This method is defined by [CaramelException](#caramelexceptionscaramelexception)
 
-            #### Arguments
-                    * $file **mixed**
-                    * $root **mixed**
-        
-    
 
-    ### displayCaramelErrorFile
+##### Arguments
+* $file **mixed**
+* $root **mixed**
+
+
+
+#### displayCaramelErrorFile
 
     mixed Caramel\Exceptions\CaramelException::displayCaramelErrorFile($root, $file, $line, $function)
 
-    displays an exception file
+displays an exception file
 
 
 
-    * Visibility: **public**
-                
+* Visibility: **public**
+* This method is defined by [CaramelException](#caramelexceptionscaramelexception)
 
-            #### Arguments
-                    * $root **mixed**
-                    * $file **mixed**
-                    * $line **mixed**
-                    * $function **mixed**
-        
-    
+
+##### Arguments
+* $root **mixed**
+* $file **mixed**
+* $line **mixed**
+* $function **mixed**
+
+

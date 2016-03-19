@@ -1,624 +1,650 @@
-Caramel\Services\Lexer
-===============
+## Lexer
 
 Class Lexer
 
 
 
 
-    * Class name: Lexer
-    * Namespace: Caramel\Services
-        * Parent class: [Caramel\Services\Service](#Caramel-Services-Service)
-            
+* Class name: Lexer
+* Namespace: Caramel\Services
+* Parent class: [Service](#caramelservicesservice)
 
 
 
 
-    Properties
-    ----------
+
+### Properties
 
 
-    ### $dom
+#### $dom
 
     private \Caramel\Models\Dom $dom
 
-    
 
 
 
-    * Visibility: **private**
-            
 
-    ### $caramel
+* Visibility: **private**
+* This property is defined by [Lexer](#caramelserviceslexer)
+
+
+#### $caramel
 
     protected \Caramel\Caramel $caramel
 
-    
 
 
 
-    * Visibility: **protected**
-            
 
-    ### $yaml
+* Visibility: **protected**
+* This property is defined by [Lexer](#caramelserviceslexer)
+
+
+#### $yaml
 
     protected \Symfony\Component\Yaml\Yaml $yaml
 
-    
 
 
 
-    * Visibility: **protected**
-            
 
-    ### $vars
+* Visibility: **protected**
+* This property is defined by [Lexer](#caramelserviceslexer)
+
+
+#### $vars
 
     protected \Caramel\Models\Vars $vars
 
-    
 
 
 
-    * Visibility: **protected**
-            
 
-    ### $config
+* Visibility: **protected**
+* This property is defined by [Lexer](#caramelserviceslexer)
+
+
+#### $config
 
     protected \Caramel\Services\Config $config
 
-    
 
 
 
-    * Visibility: **protected**
-            
 
-    ### $directories
+* Visibility: **protected**
+* This property is defined by [Lexer](#caramelserviceslexer)
+
+
+#### $directories
 
     protected \Caramel\Services\Directories $directories
 
-    
 
 
 
-    * Visibility: **protected**
-            
 
-    ### $helpers
+* Visibility: **protected**
+* This property is defined by [Lexer](#caramelserviceslexer)
+
+
+#### $helpers
 
     protected \Caramel\Services\Helpers $helpers
 
-    
 
 
 
-    * Visibility: **protected**
-            
 
-    ### $cache
+* Visibility: **protected**
+* This property is defined by [Lexer](#caramelserviceslexer)
+
+
+#### $cache
 
     protected \Caramel\Services\Cache $cache
 
-    
 
 
 
-    * Visibility: **protected**
-            
 
-    ### $plugins
+* Visibility: **protected**
+* This property is defined by [Lexer](#caramelserviceslexer)
+
+
+#### $plugins
 
     protected \Caramel\Services\Plugins $plugins
 
-    
 
 
 
-    * Visibility: **protected**
-            
 
-    ### $lexer
+* Visibility: **protected**
+* This property is defined by [Lexer](#caramelserviceslexer)
+
+
+#### $lexer
 
     protected \Caramel\Services\Lexer $lexer
 
-    
 
 
 
-    * Visibility: **protected**
-            
 
-    ### $parser
+* Visibility: **protected**
+* This property is defined by [Lexer](#caramelserviceslexer)
+
+
+#### $parser
 
     protected \Caramel\Services\Parser $parser
 
-    
 
 
 
-    * Visibility: **protected**
-            
 
-    ### $template
+* Visibility: **protected**
+* This property is defined by [Lexer](#caramelserviceslexer)
+
+
+#### $template
 
     protected \Caramel\Services\Template $template
 
-    
 
 
 
-    * Visibility: **protected**
-            
 
-    Methods
-    -------
+* Visibility: **protected**
+* This property is defined by [Lexer](#caramelserviceslexer)
 
 
-    ### lex
+### Methods
+
+
+#### lex
 
     array Caramel\Services\Lexer::lex(string $file, integer|boolean $level)
 
-    returns Dom object
+returns Dom object
 
 
 
-    * Visibility: **public**
-                
+* Visibility: **public**
+* This method is defined by [Lexer](#caramelserviceslexer)
 
-            #### Arguments
-                    * $file **string**
-                    * $level **integer|boolean**
-        
-    
 
-    ### prepare
+##### Arguments
+* $file **string**
+* $level **integer|boolean**
+
+
+
+#### prepare
 
     mixed Caramel\Services\Lexer::prepare(string $file, integer $level)
 
-    set the default values for our dom
+set the default values for our dom
 
 
 
-    * Visibility: **private**
-                
+* Visibility: **private**
+* This method is defined by [Lexer](#caramelserviceslexer)
 
-            #### Arguments
-                    * $file **string**
-                    * $level **integer**
-        
-    
 
-    ### template
+##### Arguments
+* $file **string**
+* $level **integer**
+
+
+
+#### template
 
     \Caramel\Models\Storage Caramel\Services\Lexer::template($file, $level)
 
-    returns the matching file template
+returns the matching file template
 
 
 
-    * Visibility: **private**
-                
+* Visibility: **private**
+* This method is defined by [Lexer](#caramelserviceslexer)
 
-            #### Arguments
-                    * $file **mixed**
-                    * $level **mixed**
-        
-    
 
-    ### process
+##### Arguments
+* $file **mixed**
+* $level **mixed**
+
+
+
+#### process
 
     mixed Caramel\Services\Lexer::process()
 
-    creates a dom for the current file
+creates a dom for the current file
 
 
 
-    * Visibility: **private**
-                
+* Visibility: **private**
+* This method is defined by [Lexer](#caramelserviceslexer)
 
-    
 
-    ### info
+
+
+#### info
 
     \Caramel\Models\Storage Caramel\Services\Lexer::info($line)
 
-    returns an array with information about the current node
+returns an array with information about the current node
 
 
 
-    * Visibility: **private**
-                
+* Visibility: **private**
+* This method is defined by [Lexer](#caramelserviceslexer)
 
-            #### Arguments
-                    * $line **mixed**
-        
-    
 
-    ### indent
+##### Arguments
+* $line **mixed**
+
+
+
+#### indent
 
     float|integer Caramel\Services\Lexer::indent($line)
 
-    returns the indent of the current line
+returns the indent of the current line
 also initially sets the indent character and amount
 
 
 
-    * Visibility: **private**
-                
+* Visibility: **private**
+* This method is defined by [Lexer](#caramelserviceslexer)
 
-            #### Arguments
-                    * $line **mixed**
-        
-    
 
-    ### tag
+##### Arguments
+* $line **mixed**
+
+
+
+#### tag
 
     string Caramel\Services\Lexer::tag(string $line)
 
-    returns the tag for the current line
+returns the tag for the current line
 
 
 
-    * Visibility: **private**
-                
+* Visibility: **private**
+* This method is defined by [Lexer](#caramelserviceslexer)
 
-            #### Arguments
-                    * $line **string**
-        
-    
 
-    ### attributes
+##### Arguments
+* $line **string**
+
+
+
+#### attributes
 
     string Caramel\Services\Lexer::attributes(string $line, \Caramel\Models\Storage $info)
 
-    returns the attributes for the current line
+returns the attributes for the current line
 
 
 
-    * Visibility: **private**
-                
+* Visibility: **private**
+* This method is defined by [Lexer](#caramelserviceslexer)
 
-            #### Arguments
-                    * $line **string**
-                    * $info **[Caramel\Models\Storage](#Caramel-Models-Storage)**
-        
-    
 
-    ### content
+##### Arguments
+* $line **string**
+* $info **[Storage](#caramelmodelsstorage)**
+
+
+
+#### content
 
     string Caramel\Services\Lexer::content(string $line, \Caramel\Models\Storage $info)
 
-    returns the content for the current line
+returns the content for the current line
 
 
 
-    * Visibility: **private**
-                
+* Visibility: **private**
+* This method is defined by [Lexer](#caramelserviceslexer)
 
-            #### Arguments
-                    * $line **string**
-                    * $info **[Caramel\Models\Storage](#Caramel-Models-Storage)**
-        
-    
 
-    ### selfclosing
+##### Arguments
+* $line **string**
+* $info **[Storage](#caramelmodelsstorage)**
+
+
+
+#### selfclosing
 
     string Caramel\Services\Lexer::selfclosing(\Caramel\Models\Storage $info)
 
-    returns if the current line has a self closing tag
+returns if the current line has a self closing tag
 
 
 
-    * Visibility: **private**
-                
+* Visibility: **private**
+* This method is defined by [Lexer](#caramelserviceslexer)
 
-            #### Arguments
-                    * $info **[Caramel\Models\Storage](#Caramel-Models-Storage)**
-        
-    
 
-    ### node
+##### Arguments
+* $info **[Storage](#caramelmodelsstorage)**
+
+
+
+#### node
 
     \Caramel\Models\Node Caramel\Services\Lexer::node(string $line, \Caramel\Models\Storage $info)
 
-    creates a new node from a line
+creates a new node from a line
 
 
 
-    * Visibility: **private**
-                
+* Visibility: **private**
+* This method is defined by [Lexer](#caramelserviceslexer)
 
-            #### Arguments
-                    * $line **string**
-                    * $info **[Caramel\Models\Storage](#Caramel-Models-Storage)**
-        
-    
 
-    ### add
+##### Arguments
+* $line **string**
+* $info **[Storage](#caramelmodelsstorage)**
+
+
+
+#### add
 
     mixed Caramel\Services\Lexer::add(\Caramel\Models\Node $node)
 
-    adds the node to the dom
+adds the node to the dom
 parent/child logic is handled here
 
 
 
-    * Visibility: **private**
-                
+* Visibility: **private**
+* This method is defined by [Lexer](#caramelserviceslexer)
 
-            #### Arguments
-                    * $node **[Caramel\Models\Node](#Caramel-Models-Node)**
-        
-    
 
-    ### deeper
+##### Arguments
+* $node **[Node](#caramelmodelsnode)**
+
+
+
+#### deeper
 
     mixed Caramel\Services\Lexer::deeper(\Caramel\Models\Node $node)
 
-    adds a node to the dom if has a deeper level
+adds a node to the dom if has a deeper level
 than the previous node
 
 
 
-    * Visibility: **private**
-                
+* Visibility: **private**
+* This method is defined by [Lexer](#caramelserviceslexer)
 
-            #### Arguments
-                    * $node **[Caramel\Models\Node](#Caramel-Models-Node)**
-        
-    
 
-    ### higher
+##### Arguments
+* $node **[Node](#caramelmodelsnode)**
+
+
+
+#### higher
 
     mixed Caramel\Services\Lexer::higher(\Caramel\Models\Node $node)
 
-    adds a node to the dom if has a higher level
+adds a node to the dom if has a higher level
 than the previous node
 
 
 
-    * Visibility: **private**
-                
+* Visibility: **private**
+* This method is defined by [Lexer](#caramelserviceslexer)
 
-            #### Arguments
-                    * $node **[Caramel\Models\Node](#Caramel-Models-Node)**
-        
-    
 
-    ### same
+##### Arguments
+* $node **[Node](#caramelmodelsnode)**
+
+
+
+#### same
 
     mixed Caramel\Services\Lexer::same(\Caramel\Models\Node $node)
 
-    adds a node to the dom if has the same  level
+adds a node to the dom if has the same  level
 than the previous node
 
 
 
-    * Visibility: **private**
-                
+* Visibility: **private**
+* This method is defined by [Lexer](#caramelserviceslexer)
 
-            #### Arguments
-                    * $node **[Caramel\Models\Node](#Caramel-Models-Node)**
-        
-    
 
-    ### children
+##### Arguments
+* $node **[Node](#caramelmodelsnode)**
+
+
+
+#### children
 
     mixed Caramel\Services\Lexer::children(\Caramel\Models\Node $target, \Caramel\Models\Node $node)
 
-    adds the passed node to children
+adds the passed node to children
 
 
 
-    * Visibility: **private**
-                
+* Visibility: **private**
+* This method is defined by [Lexer](#caramelserviceslexer)
 
-            #### Arguments
-                    * $target **[Caramel\Models\Node](#Caramel-Models-Node)**
-                    * $node **[Caramel\Models\Node](#Caramel-Models-Node)**
-        
-    
 
-    ### parent
+##### Arguments
+* $target **[Node](#caramelmodelsnode)**
+* $node **[Node](#caramelmodelsnode)**
+
+
+
+#### parent
 
     \Caramel\Models\Node Caramel\Services\Lexer::parent(\Caramel\Models\Node $node, boolean|\Caramel\Models\Node $parent)
 
-    returns the parent of the passed node
+returns the parent of the passed node
 
 
 
-    * Visibility: **private**
-                
+* Visibility: **private**
+* This method is defined by [Lexer](#caramelserviceslexer)
 
-            #### Arguments
-                    * $node **[Caramel\Models\Node](#Caramel-Models-Node)**
-                    * $parent **boolean|[boolean](#Caramel-Models-Node)**
-        
-    
 
-    ### setCaramel
+##### Arguments
+* $node **[Node](#caramelmodelsnode)**
+* $parent **boolean|[Node](#caramelmodelsnode)**
+
+
+
+#### setCaramel
 
     mixed Caramel\Services\Service::setCaramel(\Caramel\Caramel $Caramel)
 
-    sets $this->caramel
+sets $this->caramel
 
 
 
-    * Visibility: **public**
-                * This method is defined by [Caramel\Services\Service](#Caramel-Services-Service)
-    
+* Visibility: **public**
+* This method is defined by [Service](#caramelservicesservice)
 
-            #### Arguments
-                    * $Caramel **Caramel\Caramel**
-        
-    
 
-    ### setYaml
+##### Arguments
+* $Caramel **[Caramel](#caramelcaramel)**
+
+
+
+#### setYaml
 
     mixed Caramel\Services\Service::setYaml(\Symfony\Component\Yaml\Yaml $Yaml)
 
-    sets $this->yaml
+sets $this->yaml
 
 
 
-    * Visibility: **public**
-                * This method is defined by [Caramel\Services\Service](#Caramel-Services-Service)
-    
+* Visibility: **public**
+* This method is defined by [Service](#caramelservicesservice)
 
-            #### Arguments
-                    * $Yaml **Symfony\Component\Yaml\Yaml**
-        
-    
 
-    ### setVars
+##### Arguments
+* $Yaml **Yaml**
+
+
+
+#### setVars
 
     mixed Caramel\Services\Service::setVars(\Caramel\Models\Vars $Vars)
 
-    sets $this->vars
+sets $this->vars
 
 
 
-    * Visibility: **public**
-                * This method is defined by [Caramel\Services\Service](#Caramel-Services-Service)
-    
+* Visibility: **public**
+* This method is defined by [Service](#caramelservicesservice)
 
-            #### Arguments
-                    * $Vars **[Caramel\Models\Vars](#Caramel-Models-Vars)**
-        
-    
 
-    ### setConfig
+##### Arguments
+* $Vars **[Vars](#caramelmodelsvars)**
+
+
+
+#### setConfig
 
     mixed Caramel\Services\Service::setConfig(\Caramel\Services\Config $Config)
 
-    sets $this->config
+sets $this->config
 
 
 
-    * Visibility: **public**
-                * This method is defined by [Caramel\Services\Service](#Caramel-Services-Service)
-    
+* Visibility: **public**
+* This method is defined by [Service](#caramelservicesservice)
 
-            #### Arguments
-                    * $Config **[Caramel\Services\Config](#Caramel-Services-Config)**
-        
-    
 
-    ### setDirectories
+##### Arguments
+* $Config **[Config](#caramelservicesconfig)**
+
+
+
+#### setDirectories
 
     mixed Caramel\Services\Service::setDirectories(\Caramel\Services\Directories $Directories)
 
-    sets $this->directories
+sets $this->directories
 
 
 
-    * Visibility: **public**
-                * This method is defined by [Caramel\Services\Service](#Caramel-Services-Service)
-    
+* Visibility: **public**
+* This method is defined by [Service](#caramelservicesservice)
 
-            #### Arguments
-                    * $Directories **[Caramel\Services\Directories](#Caramel-Services-Directories)**
-        
-    
 
-    ### setHelpers
+##### Arguments
+* $Directories **[Directories](#caramelservicesdirectories)**
+
+
+
+#### setHelpers
 
     mixed Caramel\Services\Service::setHelpers(\Caramel\Services\Helpers $Helpers)
 
-    sets $this->helpers
+sets $this->helpers
 
 
 
-    * Visibility: **public**
-                * This method is defined by [Caramel\Services\Service](#Caramel-Services-Service)
-    
+* Visibility: **public**
+* This method is defined by [Service](#caramelservicesservice)
 
-            #### Arguments
-                    * $Helpers **[Caramel\Services\Helpers](#Caramel-Services-Helpers)**
-        
-    
 
-    ### setCache
+##### Arguments
+* $Helpers **[Helpers](#caramelserviceshelpers)**
+
+
+
+#### setCache
 
     mixed Caramel\Services\Service::setCache(\Caramel\Services\Cache $Cache)
 
-    sets $this->cache
+sets $this->cache
 
 
 
-    * Visibility: **public**
-                * This method is defined by [Caramel\Services\Service](#Caramel-Services-Service)
-    
+* Visibility: **public**
+* This method is defined by [Service](#caramelservicesservice)
 
-            #### Arguments
-                    * $Cache **[Caramel\Services\Cache](#Caramel-Services-Cache)**
-        
-    
 
-    ### setPlugins
+##### Arguments
+* $Cache **[Cache](#caramelservicescache)**
+
+
+
+#### setPlugins
 
     mixed Caramel\Services\Service::setPlugins(\Caramel\Services\Plugins $Plugins)
 
-    sets $this->plugins
+sets $this->plugins
 
 
 
-    * Visibility: **public**
-                * This method is defined by [Caramel\Services\Service](#Caramel-Services-Service)
-    
+* Visibility: **public**
+* This method is defined by [Service](#caramelservicesservice)
 
-            #### Arguments
-                    * $Plugins **[Caramel\Services\Plugins](#Caramel-Services-Plugins)**
-        
-    
 
-    ### setLexer
+##### Arguments
+* $Plugins **[Plugins](#caramelservicesplugins)**
+
+
+
+#### setLexer
 
     mixed Caramel\Services\Service::setLexer(\Caramel\Services\Lexer $Lexer)
 
-    sets $this->lexer
+sets $this->lexer
 
 
 
-    * Visibility: **public**
-                * This method is defined by [Caramel\Services\Service](#Caramel-Services-Service)
-    
+* Visibility: **public**
+* This method is defined by [Service](#caramelservicesservice)
 
-            #### Arguments
-                    * $Lexer **[Caramel\Services\Lexer](#Caramel-Services-Lexer)**
-        
-    
 
-    ### setParser
+##### Arguments
+* $Lexer **[Lexer](#caramelserviceslexer)**
+
+
+
+#### setParser
 
     mixed Caramel\Services\Service::setParser(\Caramel\Services\Parser $Parser)
 
-    sets $this->parser
+sets $this->parser
 
 
 
-    * Visibility: **public**
-                * This method is defined by [Caramel\Services\Service](#Caramel-Services-Service)
-    
+* Visibility: **public**
+* This method is defined by [Service](#caramelservicesservice)
 
-            #### Arguments
-                    * $Parser **[Caramel\Services\Parser](#Caramel-Services-Parser)**
-        
-    
 
-    ### setTemplate
+##### Arguments
+* $Parser **[Parser](#caramelservicesparser)**
+
+
+
+#### setTemplate
 
     mixed Caramel\Services\Service::setTemplate(\Caramel\Services\Template $Template)
 
-    sets $this->template
+sets $this->template
 
 
 
-    * Visibility: **public**
-                * This method is defined by [Caramel\Services\Service](#Caramel-Services-Service)
-    
+* Visibility: **public**
+* This method is defined by [Service](#caramelservicesservice)
 
-            #### Arguments
-                    * $Template **[Caramel\Services\Template](#Caramel-Services-Template)**
-        
-    
+
+##### Arguments
+* $Template **[Template](#caramelservicestemplate)**
+
+

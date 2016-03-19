@@ -209,19 +209,41 @@ a {
 
   // Subheaders are the submenus that slide open
   // in the table of contents.
-  .tocify-subheader {
+
+  @mixin subheader($fz,$opac,$level) {
+
     display:          none; // tocify will override this when needed
-    background-color: $nav-subitem-bg;
+    border-left: 3px solid rgba($nav-subitem-bg, $opac);
     font-weight:      500;
     .tocify-item > a {
-      padding-left: $nav-padding + $nav-indent;
-      font-size:    12px;
+      padding-left: $nav-padding + ($nav-indent * $level);
+      font-size:    $fz;
     }
 
     // for embossed look:
     @include embossed-bg;
     & > li:last-child {
       box-shadow: none; // otherwise it'll overflow out of the subheader
+    }
+
+  }
+
+  .tocify-subheader {
+    @include subheader(1em, 0, 0);
+    .tocify-subheader {
+      @include subheader(1em, .2, 1);
+      .tocify-subheader {
+        @include subheader(1em, .4, 2);
+        .tocify-subheader {
+          @include subheader(1em, .6, 3);
+          .tocify-subheader {
+            @include subheader(1em, .8, 4);
+            .tocify-subheader {
+              @include subheader(1em, 1, 5);
+            }
+          }
+        }
+      }
     }
   }
 

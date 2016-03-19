@@ -108,40 +108,51 @@ Each new line represents a new tag or function.</p>
           <h1 id="api-docs">API Docs</h1>
 
 <ul>
-<li>Caramel
+<li>caramel
 
 <ul>
-<li>Caramel\Exceptions
+<li><a href="#caramel-autoloader">autoloader</a></li>
+<li><a href="#caramel-caramel">caramel</a></li>
+<li>caramel\exceptions
 
 <ul>
-<li><a href="#Caramel-Exceptions-CaramelException">CaramelException</a></li>
-<li><a href="#Caramel-Exceptions-ExceptionHandler">ExceptionHandler</a></li>
+<li><a href="#caramel-exceptions-caramelexception">caramelexception</a></li>
+<li><a href="#caramel-exceptions-exceptionhandler">exceptionhandler</a></li>
 </ul></li>
-<li>Caramel\Models
+<li>caramel\models
 
 <ul>
-<li><a href="#Caramel-Models-Dom">Dom</a></li>
-<li><a href="#Caramel-Models-Node">Node</a></li>
-<li><a href="#Caramel-Models-Storage">Storage</a></li>
-<li><a href="#Caramel-Models-Vars">Vars</a></li>
+<li><a href="#caramel-models-dom">dom</a></li>
+<li><a href="#caramel-models-node">node</a></li>
+<li><a href="#caramel-models-storage">storage</a></li>
+<li><a href="#caramel-models-vars">vars</a></li>
 </ul></li>
-<li>Caramel\Plugin
+<li>caramel\plugin
 
 <ul>
-<li><a href="#Caramel-Plugin-Plugin">Plugin</a></li>
+<li><a href="#caramel-plugin-plugin">plugin</a></li>
+<li><a href="#caramel-plugin-pluginclasses">pluginclasses</a></li>
+<li><a href="#caramel-plugin-plugincleanup">plugincleanup</a></li>
+<li><a href="#caramel-plugin-plugincomment">plugincomment</a></li>
+<li><a href="#caramel-plugin-pluginextend">pluginextend</a></li>
+<li><a href="#caramel-plugin-pluginids">pluginids</a></li>
+<li><a href="#caramel-plugin-pluginimport">pluginimport</a></li>
+<li><a href="#caramel-plugin-pluginphp">pluginphp</a></li>
+<li><a href="#caramel-plugin-pluginplain">pluginplain</a></li>
+<li><a href="#caramel-plugin-pluginvariable">pluginvariable</a></li>
 </ul></li>
-<li>Caramel\Services
+<li>caramel\services
 
 <ul>
-<li><a href="#Caramel-Services-Cache">Cache</a></li>
-<li><a href="#Caramel-Services-Config">Config</a></li>
-<li><a href="#Caramel-Services-Directories">Directories</a></li>
-<li><a href="#Caramel-Services-Helpers">Helpers</a></li>
-<li><a href="#Caramel-Services-Lexer">Lexer</a></li>
-<li><a href="#Caramel-Services-Parser">Parser</a></li>
-<li><a href="#Caramel-Services-Plugins">Plugins</a></li>
-<li><a href="#Caramel-Services-Service">Service</a></li>
-<li><a href="#Caramel-Services-Template">Template</a></li>
+<li><a href="#caramel-services-cache">cache</a></li>
+<li><a href="#caramel-services-config">config</a></li>
+<li><a href="#caramel-services-directories">directories</a></li>
+<li><a href="#caramel-services-helpers">helpers</a></li>
+<li><a href="#caramel-services-lexer">lexer</a></li>
+<li><a href="#caramel-services-parser">parser</a></li>
+<li><a href="#caramel-services-plugins">plugins</a></li>
+<li><a href="#caramel-services-service">service</a></li>
+<li><a href="#caramel-services-template">template</a></li>
 </ul></li>
 </ul></li>
 </ul>
@@ -150,201 +161,261 @@ Each new line represents a new tag or function.</p>
 
 <p>Class CaramelException</p>
 
-<p>* Class name: CaramelException
-    * Namespace: Caramel\Exceptions
-        * Parent class: Exception</p>
+<ul>
+<li>Class name: CaramelException</li>
+<li>Namespace: Caramel\Exceptions</li>
+<li>Parent class: exception</li>
+</ul>
 
-<p>Properties
-    &mdash;&mdash;&mdash;-</p>
+<h2 id="properties">Properties</h2>
 
-<p>### $caramelFile</p>
+<h3 id="caramelfile">$caramelFile</h3>
 
 <p>private boolean $caramelFile</p>
 
-<p>* Visibility: <strong>private</strong></p>
+<ul>
+<li>Visibility: <strong>private</strong></li>
+</ul>
 
-<p>### $caramelLine</p>
+<h3 id="caramelline">$caramelLine</h3>
 
 <p>private integer $caramelLine</p>
 
-<p>* Visibility: <strong>private</strong></p>
+<ul>
+<li>Visibility: <strong>private</strong></li>
+</ul>
 
-<p>Methods
-    &mdash;&mdash;-</p>
+<h2 id="methods">Methods</h2>
 
-<p>### __construct</p>
+<h3 id="__construct">__construct</h3>
 
 <p>mixed Caramel\Exceptions\CaramelException::__construct($message, $file, $line, $code, \Exception $previous)</p>
 
-<p>* Visibility: <strong>public</strong></p>
+<ul>
+<li>Visibility: <strong>public</strong></li>
+</ul>
 
-<p>#### Arguments
-                    * $message <strong>mixed</strong>
-                    * $file <strong>mixed</strong>
-                    * $line <strong>mixed</strong>
-                    * $code <strong>mixed</strong>
-                    * $previous <strong>Exception</strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### getCaramelFile</p>
+<ul>
+<li>$message <strong>mixed</strong></li>
+<li>$file <strong>mixed</strong></li>
+<li>$line <strong>mixed</strong></li>
+<li>$code <strong>mixed</strong></li>
+<li>$previous <strong>exception</strong></li>
+</ul>
+
+<h3 id="getcaramelfile">getCaramelFile</h3>
 
 <p>boolean|string Caramel\Exceptions\CaramelException::getCaramelFile()</p>
 
 <p>returns the caramel file</p>
 
-<p>* Visibility: <strong>public</strong></p>
+<ul>
+<li>Visibility: <strong>public</strong></li>
+</ul>
 
-<p>### getCaramelLine</p>
+<h3 id="getcaramelline">getCaramelLine</h3>
 
 <p>boolean|integer|string Caramel\Exceptions\CaramelException::getCaramelLine()</p>
 
 <p>returns the caramel line</p>
 
-<p>* Visibility: <strong>public</strong></p>
+<ul>
+<li>Visibility: <strong>public</strong></li>
+</ul>
 
-<p>### splitFile</p>
+<h3 id="splitfile">splitFile</h3>
 
 <p>array Caramel\Exceptions\CaramelException::splitFile($file, $root)</p>
 
 <p>splits file into name and path</p>
 
-<p>* Visibility: <strong>private</strong></p>
+<ul>
+<li>Visibility: <strong>private</strong></li>
+</ul>
 
-<p>#### Arguments
-                    * $file <strong>mixed</strong>
-                    * $root <strong>mixed</strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### displayCaramelErrorFile</p>
+<ul>
+<li>$file <strong>mixed</strong></li>
+<li>$root <strong>mixed</strong></li>
+</ul>
+
+<h3 id="displaycaramelerrorfile">displayCaramelErrorFile</h3>
 
 <p>mixed Caramel\Exceptions\CaramelException::displayCaramelErrorFile($root, $file, $line, $function)</p>
 
 <p>displays an exception file</p>
 
-<p>* Visibility: <strong>public</strong></p>
+<ul>
+<li>Visibility: <strong>public</strong></li>
+</ul>
 
-<p>#### Arguments
-                    * $root <strong>mixed</strong>
-                    * $file <strong>mixed</strong>
-                    * $line <strong>mixed</strong>
-                    * $function <strong>mixed</strong></p>
+<h4 id="arguments">Arguments</h4>
+
+<ul>
+<li>$root <strong>mixed</strong></li>
+<li>$file <strong>mixed</strong></li>
+<li>$line <strong>mixed</strong></li>
+<li>$function <strong>mixed</strong></li>
+</ul>
 
           <h1 id="caramel-exceptions-exceptionhandler">Caramel\Exceptions\ExceptionHandler</h1>
 
 <p>Class ExceptionHandler</p>
 
-<p>* Class name: ExceptionHandler
-    * Namespace: Caramel\Exceptions</p>
+<ul>
+<li>Class name: ExceptionHandler</li>
+<li>Namespace: Caramel\Exceptions</li>
+</ul>
 
-<p>Methods
-    &mdash;&mdash;-</p>
+<h2 id="methods">Methods</h2>
 
-<p>### __construct</p>
+<h3 id="__construct">__construct</h3>
 
 <p>mixed Caramel\Exceptions\ExceptionHandler::__construct()</p>
 
 <p>adds a global exception handler for caramel exceptions
 ExceptionHandler constructor.</p>
 
-<p>* Visibility: <strong>public</strong></p>
+<ul>
+<li>Visibility: <strong>public</strong></li>
+</ul>
 
           <h1 id="caramel-models-dom">Caramel\Models\Dom</h1>
 
 <p>Class Dom</p>
 
-<p>* Class name: Dom
-    * Namespace: Caramel\Models
-        * Parent class: <a href="#Caramel-Models-Storage">Caramel\Models\Storage</a></p>
+<ul>
+<li>Class name: Dom</li>
+<li>Namespace: Caramel\Models</li>
+<li>Parent class: <a href="#caramel-models-storage">caramel\models\storage</a></li>
+</ul>
 
-<p>Properties
-    &mdash;&mdash;&mdash;-</p>
+<h2 id="properties">Properties</h2>
 
-<p>### $storage</p>
+<h3 id="storage">$storage</h3>
 
 <p>private array $storage</p>
 
-<p>* Visibility: <strong>private</strong></p>
+<ul>
+<li>Visibility: <strong>private</strong></li>
+</ul>
 
-<p>Methods
-    &mdash;&mdash;-</p>
+<h2 id="methods">Methods</h2>
 
-<p>### __construct</p>
+<h3 id="__construct">__construct</h3>
 
 <p>mixed Caramel\Models\Dom::__construct()</p>
 
 <p>Dom constructor.</p>
 
-<p>* Visibility: <strong>public</strong></p>
+<ul>
+<li>Visibility: <strong>public</strong></li>
+</ul>
 
-<p>### set</p>
+<h3 id="set">set</h3>
 
 <p>boolean Caramel\Models\Storage::set($path, $value)</p>
 
-<p>* Visibility: <strong>public</strong>
-                * This method is defined by <a href="#Caramel-Models-Storage">Caramel\Models\Storage</a></p>
+<ul>
+<li>Visibility: <strong>public</strong></li>
+<li>This method is defined by <a href="#caramel-models-storage">caramel\models\storage</a></li>
+</ul>
 
-<p>#### Arguments
-                    * $path <strong>mixed</strong>
-                    * $value <strong>mixed</strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### get</p>
+<ul>
+<li>$path <strong>mixed</strong></li>
+<li>$value <strong>mixed</strong></li>
+</ul>
+
+<h3 id="get">get</h3>
 
 <p>mixed Caramel\Models\Storage::get(string $path)</p>
 
 <p>returns a value from the storage</p>
 
-<p>* Visibility: <strong>public</strong>
-                * This method is defined by <a href="#Caramel-Models-Storage">Caramel\Models\Storage</a></p>
+<ul>
+<li>Visibility: <strong>public</strong></li>
+<li>This method is defined by <a href="#caramel-models-storage">caramel\models\storage</a></li>
+</ul>
 
-<p>#### Arguments
-                    * $path <strong>string</strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### merge</p>
+<ul>
+<li>$path <strong>string</strong></li>
+</ul>
+
+<h3 id="merge">merge</h3>
 
 <p>mixed Caramel\Models\Storage::merge(array $array)</p>
 
 <p>merge an array into the storage</p>
 
-<p>* Visibility: <strong>public</strong>
-                * This method is defined by <a href="#Caramel-Models-Storage">Caramel\Models\Storage</a></p>
+<ul>
+<li>Visibility: <strong>public</strong></li>
+<li>This method is defined by <a href="#caramel-models-storage">caramel\models\storage</a></li>
+</ul>
 
-<p>#### Arguments
-                    * $array <strong>array</strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### extend</p>
+<ul>
+<li>$array <strong>array</strong></li>
+</ul>
+
+<h3 id="extend">extend</h3>
 
 <p>array Caramel\Models\Storage::extend(string $path, array|string $value)</p>
 
 <p>extends an array in the storage</p>
 
-<p>* Visibility: <strong>public</strong>
-                * This method is defined by <a href="#Caramel-Models-Storage">Caramel\Models\Storage</a></p>
+<ul>
+<li>Visibility: <strong>public</strong></li>
+<li>This method is defined by <a href="#caramel-models-storage">caramel\models\storage</a></li>
+</ul>
 
-<p>#### Arguments
-                    * $path <strong>string</strong>
-                    * $value <strong>array|string</strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### has</p>
+<ul>
+<li>$path <strong>string</strong></li>
+<li>$value <strong>array|string</strong></li>
+</ul>
+
+<h3 id="has">has</h3>
 
 <p>array Caramel\Models\Storage::has(string $path)</p>
 
 <p>returns if the storage has the passed value</p>
 
-<p>* Visibility: <strong>public</strong>
-                * This method is defined by <a href="#Caramel-Models-Storage">Caramel\Models\Storage</a></p>
+<ul>
+<li>Visibility: <strong>public</strong></li>
+<li>This method is defined by <a href="#caramel-models-storage">caramel\models\storage</a></li>
+</ul>
 
-<p>#### Arguments
-                    * $path <strong>string</strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### delete</p>
+<ul>
+<li>$path <strong>string</strong></li>
+</ul>
+
+<h3 id="delete">delete</h3>
 
 <p>boolean Caramel\Models\Storage::delete($path)</p>
 
-<p>* Visibility: <strong>public</strong>
-                * This method is defined by <a href="#Caramel-Models-Storage">Caramel\Models\Storage</a></p>
+<ul>
+<li>Visibility: <strong>public</strong></li>
+<li>This method is defined by <a href="#caramel-models-storage">caramel\models\storage</a></li>
+</ul>
 
-<p>#### Arguments
-                    * $path <strong>mixed</strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### find</p>
+<ul>
+<li>$path <strong>mixed</strong></li>
+</ul>
+
+<h3 id="find">find</h3>
 
 <p>array Caramel\Models\Storage::find(array|string $attrs, string $value, \Caramel\Models\Storage $item)</p>
 
@@ -352,164 +423,223 @@ ExceptionHandler constructor.</p>
 if we pass an array it has the same behaviour
 iterates over the array values recursively</p>
 
-<p>* Visibility: <strong>public</strong>
-                * This method is defined by <a href="#Caramel-Models-Storage">Caramel\Models\Storage</a></p>
+<ul>
+<li>Visibility: <strong>public</strong></li>
+<li>This method is defined by <a href="#caramel-models-storage">caramel\models\storage</a></li>
+</ul>
 
-<p>#### Arguments
-                    * $attrs <strong>array|string</strong>
-                    * $value <strong>string</strong>
-                    * $item <strong><a href="#Caramel-Models-Storage">Caramel\Models\Storage</a></strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### findHelper</p>
+<ul>
+<li>$attrs <strong>array|string</strong></li>
+<li>$value <strong>string</strong></li>
+<li>$item <strong><a href="#caramel-models-storage">caramel\models\storage</a></strong></li>
+</ul>
+
+<h3 id="findhelper">findHelper</h3>
 
 <p>array Caramel\Models\Storage::findHelper(array $found, \Caramel\Models\Storage $item, array|string $attrs, string $value)</p>
 
 <p>outsourcing the repeating find process</p>
 
-<p>* Visibility: <strong>private</strong>
-                * This method is defined by <a href="#Caramel-Models-Storage">Caramel\Models\Storage</a></p>
+<ul>
+<li>Visibility: <strong>private</strong></li>
+<li>This method is defined by <a href="#caramel-models-storage">caramel\models\storage</a></li>
+</ul>
 
-<p>#### Arguments
-                    * $found <strong>array</strong>
-                    * $item <strong><a href="#Caramel-Models-Storage">Caramel\Models\Storage</a></strong>
-                    * $attrs <strong>array|string</strong>
-                    * $value <strong>string</strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### getter</p>
+<ul>
+<li>$found <strong>array</strong></li>
+<li>$item <strong><a href="#caramel-models-storage">caramel\models\storage</a></strong></li>
+<li>$attrs <strong>array|string</strong></li>
+<li>$value <strong>string</strong></li>
+</ul>
+
+<h3 id="getter">getter</h3>
 
 <p>array Caramel\Models\Storage::getter($path)</p>
 
 <p>the method to set data</p>
 
-<p>* Visibility: <strong>private</strong>
-                * This method is defined by <a href="#Caramel-Models-Storage">Caramel\Models\Storage</a></p>
+<ul>
+<li>Visibility: <strong>private</strong></li>
+<li>This method is defined by <a href="#caramel-models-storage">caramel\models\storage</a></li>
+</ul>
 
-<p>#### Arguments
-                    * $path <strong>mixed</strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### setter</p>
+<ul>
+<li>$path <strong>mixed</strong></li>
+</ul>
+
+<h3 id="setter">setter</h3>
 
 <p>boolean Caramel\Models\Storage::setter($path, $value)</p>
 
-<p>* Visibility: <strong>private</strong>
-                * This method is defined by <a href="#Caramel-Models-Storage">Caramel\Models\Storage</a></p>
+<ul>
+<li>Visibility: <strong>private</strong></li>
+<li>This method is defined by <a href="#caramel-models-storage">caramel\models\storage</a></li>
+</ul>
 
-<p>#### Arguments
-                    * $path <strong>mixed</strong>
-                    * $value <strong>mixed</strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### createPath</p>
+<ul>
+<li>$path <strong>mixed</strong></li>
+<li>$value <strong>mixed</strong></li>
+</ul>
+
+<h3 id="createpath">createPath</h3>
 
 <p>array|mixed Caramel\Models\Storage::createPath($path)</p>
 
 <p>returns the path as an array</p>
 
-<p>* Visibility: <strong>private</strong>
-                * This method is defined by <a href="#Caramel-Models-Storage">Caramel\Models\Storage</a></p>
+<ul>
+<li>Visibility: <strong>private</strong></li>
+<li>This method is defined by <a href="#caramel-models-storage">caramel\models\storage</a></li>
+</ul>
 
-<p>#### Arguments
-                    * $path <strong>mixed</strong></p>
+<h4 id="arguments">Arguments</h4>
+
+<ul>
+<li>$path <strong>mixed</strong></li>
+</ul>
 
           <h1 id="caramel-models-node">Caramel\Models\Node</h1>
 
 <p>all Node defaults are set here
 Class Node</p>
 
-<p>* Class name: Node
-    * Namespace: Caramel\Models
-        * Parent class: <a href="#Caramel-Models-Storage">Caramel\Models\Storage</a></p>
+<ul>
+<li>Class name: Node</li>
+<li>Namespace: Caramel\Models</li>
+<li>Parent class: <a href="#caramel-models-storage">caramel\models\storage</a></li>
+</ul>
 
-<p>Properties
-    &mdash;&mdash;&mdash;-</p>
+<h2 id="properties">Properties</h2>
 
-<p>### $storage</p>
+<h3 id="storage">$storage</h3>
 
 <p>private array $storage</p>
 
-<p>* Visibility: <strong>private</strong></p>
+<ul>
+<li>Visibility: <strong>private</strong></li>
+</ul>
 
-<p>Methods
-    &mdash;&mdash;-</p>
+<h2 id="methods">Methods</h2>
 
-<p>### __construct</p>
+<h3 id="__construct">__construct</h3>
 
 <p>mixed Caramel\Models\Node::__construct()</p>
 
 <p>Node constructor.</p>
 
-<p>* Visibility: <strong>public</strong></p>
+<ul>
+<li>Visibility: <strong>public</strong></li>
+</ul>
 
-<p>### set</p>
+<h3 id="set">set</h3>
 
 <p>boolean Caramel\Models\Storage::set($path, $value)</p>
 
-<p>* Visibility: <strong>public</strong>
-                * This method is defined by <a href="#Caramel-Models-Storage">Caramel\Models\Storage</a></p>
+<ul>
+<li>Visibility: <strong>public</strong></li>
+<li>This method is defined by <a href="#caramel-models-storage">caramel\models\storage</a></li>
+</ul>
 
-<p>#### Arguments
-                    * $path <strong>mixed</strong>
-                    * $value <strong>mixed</strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### get</p>
+<ul>
+<li>$path <strong>mixed</strong></li>
+<li>$value <strong>mixed</strong></li>
+</ul>
+
+<h3 id="get">get</h3>
 
 <p>mixed Caramel\Models\Storage::get(string $path)</p>
 
 <p>returns a value from the storage</p>
 
-<p>* Visibility: <strong>public</strong>
-                * This method is defined by <a href="#Caramel-Models-Storage">Caramel\Models\Storage</a></p>
+<ul>
+<li>Visibility: <strong>public</strong></li>
+<li>This method is defined by <a href="#caramel-models-storage">caramel\models\storage</a></li>
+</ul>
 
-<p>#### Arguments
-                    * $path <strong>string</strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### merge</p>
+<ul>
+<li>$path <strong>string</strong></li>
+</ul>
+
+<h3 id="merge">merge</h3>
 
 <p>mixed Caramel\Models\Storage::merge(array $array)</p>
 
 <p>merge an array into the storage</p>
 
-<p>* Visibility: <strong>public</strong>
-                * This method is defined by <a href="#Caramel-Models-Storage">Caramel\Models\Storage</a></p>
+<ul>
+<li>Visibility: <strong>public</strong></li>
+<li>This method is defined by <a href="#caramel-models-storage">caramel\models\storage</a></li>
+</ul>
 
-<p>#### Arguments
-                    * $array <strong>array</strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### extend</p>
+<ul>
+<li>$array <strong>array</strong></li>
+</ul>
+
+<h3 id="extend">extend</h3>
 
 <p>array Caramel\Models\Storage::extend(string $path, array|string $value)</p>
 
 <p>extends an array in the storage</p>
 
-<p>* Visibility: <strong>public</strong>
-                * This method is defined by <a href="#Caramel-Models-Storage">Caramel\Models\Storage</a></p>
+<ul>
+<li>Visibility: <strong>public</strong></li>
+<li>This method is defined by <a href="#caramel-models-storage">caramel\models\storage</a></li>
+</ul>
 
-<p>#### Arguments
-                    * $path <strong>string</strong>
-                    * $value <strong>array|string</strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### has</p>
+<ul>
+<li>$path <strong>string</strong></li>
+<li>$value <strong>array|string</strong></li>
+</ul>
+
+<h3 id="has">has</h3>
 
 <p>array Caramel\Models\Storage::has(string $path)</p>
 
 <p>returns if the storage has the passed value</p>
 
-<p>* Visibility: <strong>public</strong>
-                * This method is defined by <a href="#Caramel-Models-Storage">Caramel\Models\Storage</a></p>
+<ul>
+<li>Visibility: <strong>public</strong></li>
+<li>This method is defined by <a href="#caramel-models-storage">caramel\models\storage</a></li>
+</ul>
 
-<p>#### Arguments
-                    * $path <strong>string</strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### delete</p>
+<ul>
+<li>$path <strong>string</strong></li>
+</ul>
+
+<h3 id="delete">delete</h3>
 
 <p>boolean Caramel\Models\Storage::delete($path)</p>
 
-<p>* Visibility: <strong>public</strong>
-                * This method is defined by <a href="#Caramel-Models-Storage">Caramel\Models\Storage</a></p>
+<ul>
+<li>Visibility: <strong>public</strong></li>
+<li>This method is defined by <a href="#caramel-models-storage">caramel\models\storage</a></li>
+</ul>
 
-<p>#### Arguments
-                    * $path <strong>mixed</strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### find</p>
+<ul>
+<li>$path <strong>mixed</strong></li>
+</ul>
+
+<h3 id="find">find</h3>
 
 <p>array Caramel\Models\Storage::find(array|string $attrs, string $value, \Caramel\Models\Storage $item)</p>
 
@@ -517,63 +647,88 @@ Class Node</p>
 if we pass an array it has the same behaviour
 iterates over the array values recursively</p>
 
-<p>* Visibility: <strong>public</strong>
-                * This method is defined by <a href="#Caramel-Models-Storage">Caramel\Models\Storage</a></p>
+<ul>
+<li>Visibility: <strong>public</strong></li>
+<li>This method is defined by <a href="#caramel-models-storage">caramel\models\storage</a></li>
+</ul>
 
-<p>#### Arguments
-                    * $attrs <strong>array|string</strong>
-                    * $value <strong>string</strong>
-                    * $item <strong><a href="#Caramel-Models-Storage">Caramel\Models\Storage</a></strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### findHelper</p>
+<ul>
+<li>$attrs <strong>array|string</strong></li>
+<li>$value <strong>string</strong></li>
+<li>$item <strong><a href="#caramel-models-storage">caramel\models\storage</a></strong></li>
+</ul>
+
+<h3 id="findhelper">findHelper</h3>
 
 <p>array Caramel\Models\Storage::findHelper(array $found, \Caramel\Models\Storage $item, array|string $attrs, string $value)</p>
 
 <p>outsourcing the repeating find process</p>
 
-<p>* Visibility: <strong>private</strong>
-                * This method is defined by <a href="#Caramel-Models-Storage">Caramel\Models\Storage</a></p>
+<ul>
+<li>Visibility: <strong>private</strong></li>
+<li>This method is defined by <a href="#caramel-models-storage">caramel\models\storage</a></li>
+</ul>
 
-<p>#### Arguments
-                    * $found <strong>array</strong>
-                    * $item <strong><a href="#Caramel-Models-Storage">Caramel\Models\Storage</a></strong>
-                    * $attrs <strong>array|string</strong>
-                    * $value <strong>string</strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### getter</p>
+<ul>
+<li>$found <strong>array</strong></li>
+<li>$item <strong><a href="#caramel-models-storage">caramel\models\storage</a></strong></li>
+<li>$attrs <strong>array|string</strong></li>
+<li>$value <strong>string</strong></li>
+</ul>
+
+<h3 id="getter">getter</h3>
 
 <p>array Caramel\Models\Storage::getter($path)</p>
 
 <p>the method to set data</p>
 
-<p>* Visibility: <strong>private</strong>
-                * This method is defined by <a href="#Caramel-Models-Storage">Caramel\Models\Storage</a></p>
+<ul>
+<li>Visibility: <strong>private</strong></li>
+<li>This method is defined by <a href="#caramel-models-storage">caramel\models\storage</a></li>
+</ul>
 
-<p>#### Arguments
-                    * $path <strong>mixed</strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### setter</p>
+<ul>
+<li>$path <strong>mixed</strong></li>
+</ul>
+
+<h3 id="setter">setter</h3>
 
 <p>boolean Caramel\Models\Storage::setter($path, $value)</p>
 
-<p>* Visibility: <strong>private</strong>
-                * This method is defined by <a href="#Caramel-Models-Storage">Caramel\Models\Storage</a></p>
+<ul>
+<li>Visibility: <strong>private</strong></li>
+<li>This method is defined by <a href="#caramel-models-storage">caramel\models\storage</a></li>
+</ul>
 
-<p>#### Arguments
-                    * $path <strong>mixed</strong>
-                    * $value <strong>mixed</strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### createPath</p>
+<ul>
+<li>$path <strong>mixed</strong></li>
+<li>$value <strong>mixed</strong></li>
+</ul>
+
+<h3 id="createpath">createPath</h3>
 
 <p>array|mixed Caramel\Models\Storage::createPath($path)</p>
 
 <p>returns the path as an array</p>
 
-<p>* Visibility: <strong>private</strong>
-                * This method is defined by <a href="#Caramel-Models-Storage">Caramel\Models\Storage</a></p>
+<ul>
+<li>Visibility: <strong>private</strong></li>
+<li>This method is defined by <a href="#caramel-models-storage">caramel\models\storage</a></li>
+</ul>
 
-<p>#### Arguments
-                    * $path <strong>mixed</strong></p>
+<h4 id="arguments">Arguments</h4>
+
+<ul>
+<li>$path <strong>mixed</strong></li>
+</ul>
 
           <h1 id="caramel-models-storage">Caramel\Models\Storage</h1>
 
@@ -581,86 +736,118 @@ iterates over the array values recursively</p>
 deep array setters and getters are separated by &ldquo;.&rdquo;
 Class Storage</p>
 
-<p>* Class name: Storage
-    * Namespace: Caramel\Models</p>
+<ul>
+<li>Class name: Storage</li>
+<li>Namespace: Caramel\Models</li>
+</ul>
 
-<p>Properties
-    &mdash;&mdash;&mdash;-</p>
+<h2 id="properties">Properties</h2>
 
-<p>### $storage</p>
+<h3 id="storage">$storage</h3>
 
 <p>private array $storage</p>
 
-<p>* Visibility: <strong>private</strong></p>
+<ul>
+<li>Visibility: <strong>private</strong></li>
+</ul>
 
-<p>Methods
-    &mdash;&mdash;-</p>
+<h2 id="methods">Methods</h2>
 
-<p>### set</p>
+<h3 id="set">set</h3>
 
 <p>boolean Caramel\Models\Storage::set($path, $value)</p>
 
-<p>* Visibility: <strong>public</strong></p>
+<ul>
+<li>Visibility: <strong>public</strong></li>
+</ul>
 
-<p>#### Arguments
-                    * $path <strong>mixed</strong>
-                    * $value <strong>mixed</strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### get</p>
+<ul>
+<li>$path <strong>mixed</strong></li>
+<li>$value <strong>mixed</strong></li>
+</ul>
+
+<h3 id="get">get</h3>
 
 <p>mixed Caramel\Models\Storage::get(string $path)</p>
 
 <p>returns a value from the storage</p>
 
-<p>* Visibility: <strong>public</strong></p>
+<ul>
+<li>Visibility: <strong>public</strong></li>
+</ul>
 
-<p>#### Arguments
-                    * $path <strong>string</strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### merge</p>
+<ul>
+<li>$path <strong>string</strong></li>
+</ul>
+
+<h3 id="merge">merge</h3>
 
 <p>mixed Caramel\Models\Storage::merge(array $array)</p>
 
 <p>merge an array into the storage</p>
 
-<p>* Visibility: <strong>public</strong></p>
+<ul>
+<li>Visibility: <strong>public</strong></li>
+</ul>
 
-<p>#### Arguments
-                    * $array <strong>array</strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### extend</p>
+<ul>
+<li>$array <strong>array</strong></li>
+</ul>
+
+<h3 id="extend">extend</h3>
 
 <p>array Caramel\Models\Storage::extend(string $path, array|string $value)</p>
 
 <p>extends an array in the storage</p>
 
-<p>* Visibility: <strong>public</strong></p>
+<ul>
+<li>Visibility: <strong>public</strong></li>
+</ul>
 
-<p>#### Arguments
-                    * $path <strong>string</strong>
-                    * $value <strong>array|string</strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### has</p>
+<ul>
+<li>$path <strong>string</strong></li>
+<li>$value <strong>array|string</strong></li>
+</ul>
+
+<h3 id="has">has</h3>
 
 <p>array Caramel\Models\Storage::has(string $path)</p>
 
 <p>returns if the storage has the passed value</p>
 
-<p>* Visibility: <strong>public</strong></p>
+<ul>
+<li>Visibility: <strong>public</strong></li>
+</ul>
 
-<p>#### Arguments
-                    * $path <strong>string</strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### delete</p>
+<ul>
+<li>$path <strong>string</strong></li>
+</ul>
+
+<h3 id="delete">delete</h3>
 
 <p>boolean Caramel\Models\Storage::delete($path)</p>
 
-<p>* Visibility: <strong>public</strong></p>
+<ul>
+<li>Visibility: <strong>public</strong></li>
+</ul>
 
-<p>#### Arguments
-                    * $path <strong>mixed</strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### find</p>
+<ul>
+<li>$path <strong>mixed</strong></li>
+</ul>
+
+<h3 id="find">find</h3>
 
 <p>array Caramel\Models\Storage::find(array|string $attrs, string $value, \Caramel\Models\Storage $item)</p>
 
@@ -668,150 +855,207 @@ Class Storage</p>
 if we pass an array it has the same behaviour
 iterates over the array values recursively</p>
 
-<p>* Visibility: <strong>public</strong></p>
+<ul>
+<li>Visibility: <strong>public</strong></li>
+</ul>
 
-<p>#### Arguments
-                    * $attrs <strong>array|string</strong>
-                    * $value <strong>string</strong>
-                    * $item <strong><a href="#Caramel-Models-Storage">Caramel\Models\Storage</a></strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### findHelper</p>
+<ul>
+<li>$attrs <strong>array|string</strong></li>
+<li>$value <strong>string</strong></li>
+<li>$item <strong><a href="#caramel-models-storage">caramel\models\storage</a></strong></li>
+</ul>
+
+<h3 id="findhelper">findHelper</h3>
 
 <p>array Caramel\Models\Storage::findHelper(array $found, \Caramel\Models\Storage $item, array|string $attrs, string $value)</p>
 
 <p>outsourcing the repeating find process</p>
 
-<p>* Visibility: <strong>private</strong></p>
+<ul>
+<li>Visibility: <strong>private</strong></li>
+</ul>
 
-<p>#### Arguments
-                    * $found <strong>array</strong>
-                    * $item <strong><a href="#Caramel-Models-Storage">Caramel\Models\Storage</a></strong>
-                    * $attrs <strong>array|string</strong>
-                    * $value <strong>string</strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### getter</p>
+<ul>
+<li>$found <strong>array</strong></li>
+<li>$item <strong><a href="#caramel-models-storage">caramel\models\storage</a></strong></li>
+<li>$attrs <strong>array|string</strong></li>
+<li>$value <strong>string</strong></li>
+</ul>
+
+<h3 id="getter">getter</h3>
 
 <p>array Caramel\Models\Storage::getter($path)</p>
 
 <p>the method to set data</p>
 
-<p>* Visibility: <strong>private</strong></p>
+<ul>
+<li>Visibility: <strong>private</strong></li>
+</ul>
 
-<p>#### Arguments
-                    * $path <strong>mixed</strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### setter</p>
+<ul>
+<li>$path <strong>mixed</strong></li>
+</ul>
+
+<h3 id="setter">setter</h3>
 
 <p>boolean Caramel\Models\Storage::setter($path, $value)</p>
 
-<p>* Visibility: <strong>private</strong></p>
+<ul>
+<li>Visibility: <strong>private</strong></li>
+</ul>
 
-<p>#### Arguments
-                    * $path <strong>mixed</strong>
-                    * $value <strong>mixed</strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### createPath</p>
+<ul>
+<li>$path <strong>mixed</strong></li>
+<li>$value <strong>mixed</strong></li>
+</ul>
+
+<h3 id="createpath">createPath</h3>
 
 <p>array|mixed Caramel\Models\Storage::createPath($path)</p>
 
 <p>returns the path as an array</p>
 
-<p>* Visibility: <strong>private</strong></p>
+<ul>
+<li>Visibility: <strong>private</strong></li>
+</ul>
 
-<p>#### Arguments
-                    * $path <strong>mixed</strong></p>
+<h4 id="arguments">Arguments</h4>
+
+<ul>
+<li>$path <strong>mixed</strong></li>
+</ul>
 
           <h1 id="caramel-models-vars">Caramel\Models\Vars</h1>
 
 <p>Class Vars</p>
 
-<p>* Class name: Vars
-    * Namespace: Caramel\Models
-        * Parent class: <a href="#Caramel-Models-Storage">Caramel\Models\Storage</a></p>
+<ul>
+<li>Class name: Vars</li>
+<li>Namespace: Caramel\Models</li>
+<li>Parent class: <a href="#caramel-models-storage">caramel\models\storage</a></li>
+</ul>
 
-<p>Properties
-    &mdash;&mdash;&mdash;-</p>
+<h2 id="properties">Properties</h2>
 
-<p>### $storage</p>
+<h3 id="storage">$storage</h3>
 
 <p>private array $storage</p>
 
-<p>* Visibility: <strong>private</strong></p>
+<ul>
+<li>Visibility: <strong>private</strong></li>
+</ul>
 
-<p>Methods
-    &mdash;&mdash;-</p>
+<h2 id="methods">Methods</h2>
 
-<p>### set</p>
+<h3 id="set">set</h3>
 
 <p>boolean Caramel\Models\Storage::set($path, $value)</p>
 
-<p>* Visibility: <strong>public</strong>
-                * This method is defined by <a href="#Caramel-Models-Storage">Caramel\Models\Storage</a></p>
+<ul>
+<li>Visibility: <strong>public</strong></li>
+<li>This method is defined by <a href="#caramel-models-storage">caramel\models\storage</a></li>
+</ul>
 
-<p>#### Arguments
-                    * $path <strong>mixed</strong>
-                    * $value <strong>mixed</strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### get</p>
+<ul>
+<li>$path <strong>mixed</strong></li>
+<li>$value <strong>mixed</strong></li>
+</ul>
+
+<h3 id="get">get</h3>
 
 <p>mixed Caramel\Models\Storage::get(string $path)</p>
 
 <p>returns a value from the storage</p>
 
-<p>* Visibility: <strong>public</strong>
-                * This method is defined by <a href="#Caramel-Models-Storage">Caramel\Models\Storage</a></p>
+<ul>
+<li>Visibility: <strong>public</strong></li>
+<li>This method is defined by <a href="#caramel-models-storage">caramel\models\storage</a></li>
+</ul>
 
-<p>#### Arguments
-                    * $path <strong>string</strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### merge</p>
+<ul>
+<li>$path <strong>string</strong></li>
+</ul>
+
+<h3 id="merge">merge</h3>
 
 <p>mixed Caramel\Models\Storage::merge(array $array)</p>
 
 <p>merge an array into the storage</p>
 
-<p>* Visibility: <strong>public</strong>
-                * This method is defined by <a href="#Caramel-Models-Storage">Caramel\Models\Storage</a></p>
+<ul>
+<li>Visibility: <strong>public</strong></li>
+<li>This method is defined by <a href="#caramel-models-storage">caramel\models\storage</a></li>
+</ul>
 
-<p>#### Arguments
-                    * $array <strong>array</strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### extend</p>
+<ul>
+<li>$array <strong>array</strong></li>
+</ul>
+
+<h3 id="extend">extend</h3>
 
 <p>array Caramel\Models\Storage::extend(string $path, array|string $value)</p>
 
 <p>extends an array in the storage</p>
 
-<p>* Visibility: <strong>public</strong>
-                * This method is defined by <a href="#Caramel-Models-Storage">Caramel\Models\Storage</a></p>
+<ul>
+<li>Visibility: <strong>public</strong></li>
+<li>This method is defined by <a href="#caramel-models-storage">caramel\models\storage</a></li>
+</ul>
 
-<p>#### Arguments
-                    * $path <strong>string</strong>
-                    * $value <strong>array|string</strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### has</p>
+<ul>
+<li>$path <strong>string</strong></li>
+<li>$value <strong>array|string</strong></li>
+</ul>
+
+<h3 id="has">has</h3>
 
 <p>array Caramel\Models\Storage::has(string $path)</p>
 
 <p>returns if the storage has the passed value</p>
 
-<p>* Visibility: <strong>public</strong>
-                * This method is defined by <a href="#Caramel-Models-Storage">Caramel\Models\Storage</a></p>
+<ul>
+<li>Visibility: <strong>public</strong></li>
+<li>This method is defined by <a href="#caramel-models-storage">caramel\models\storage</a></li>
+</ul>
 
-<p>#### Arguments
-                    * $path <strong>string</strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### delete</p>
+<ul>
+<li>$path <strong>string</strong></li>
+</ul>
+
+<h3 id="delete">delete</h3>
 
 <p>boolean Caramel\Models\Storage::delete($path)</p>
 
-<p>* Visibility: <strong>public</strong>
-                * This method is defined by <a href="#Caramel-Models-Storage">Caramel\Models\Storage</a></p>
+<ul>
+<li>Visibility: <strong>public</strong></li>
+<li>This method is defined by <a href="#caramel-models-storage">caramel\models\storage</a></li>
+</ul>
 
-<p>#### Arguments
-                    * $path <strong>mixed</strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### find</p>
+<ul>
+<li>$path <strong>mixed</strong></li>
+</ul>
+
+<h3 id="find">find</h3>
 
 <p>array Caramel\Models\Storage::find(array|string $attrs, string $value, \Caramel\Models\Storage $item)</p>
 
@@ -819,849 +1063,1172 @@ iterates over the array values recursively</p>
 if we pass an array it has the same behaviour
 iterates over the array values recursively</p>
 
-<p>* Visibility: <strong>public</strong>
-                * This method is defined by <a href="#Caramel-Models-Storage">Caramel\Models\Storage</a></p>
+<ul>
+<li>Visibility: <strong>public</strong></li>
+<li>This method is defined by <a href="#caramel-models-storage">caramel\models\storage</a></li>
+</ul>
 
-<p>#### Arguments
-                    * $attrs <strong>array|string</strong>
-                    * $value <strong>string</strong>
-                    * $item <strong><a href="#Caramel-Models-Storage">Caramel\Models\Storage</a></strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### findHelper</p>
+<ul>
+<li>$attrs <strong>array|string</strong></li>
+<li>$value <strong>string</strong></li>
+<li>$item <strong><a href="#caramel-models-storage">caramel\models\storage</a></strong></li>
+</ul>
+
+<h3 id="findhelper">findHelper</h3>
 
 <p>array Caramel\Models\Storage::findHelper(array $found, \Caramel\Models\Storage $item, array|string $attrs, string $value)</p>
 
 <p>outsourcing the repeating find process</p>
 
-<p>* Visibility: <strong>private</strong>
-                * This method is defined by <a href="#Caramel-Models-Storage">Caramel\Models\Storage</a></p>
+<ul>
+<li>Visibility: <strong>private</strong></li>
+<li>This method is defined by <a href="#caramel-models-storage">caramel\models\storage</a></li>
+</ul>
 
-<p>#### Arguments
-                    * $found <strong>array</strong>
-                    * $item <strong><a href="#Caramel-Models-Storage">Caramel\Models\Storage</a></strong>
-                    * $attrs <strong>array|string</strong>
-                    * $value <strong>string</strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### getter</p>
+<ul>
+<li>$found <strong>array</strong></li>
+<li>$item <strong><a href="#caramel-models-storage">caramel\models\storage</a></strong></li>
+<li>$attrs <strong>array|string</strong></li>
+<li>$value <strong>string</strong></li>
+</ul>
+
+<h3 id="getter">getter</h3>
 
 <p>array Caramel\Models\Storage::getter($path)</p>
 
 <p>the method to set data</p>
 
-<p>* Visibility: <strong>private</strong>
-                * This method is defined by <a href="#Caramel-Models-Storage">Caramel\Models\Storage</a></p>
+<ul>
+<li>Visibility: <strong>private</strong></li>
+<li>This method is defined by <a href="#caramel-models-storage">caramel\models\storage</a></li>
+</ul>
 
-<p>#### Arguments
-                    * $path <strong>mixed</strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### setter</p>
+<ul>
+<li>$path <strong>mixed</strong></li>
+</ul>
+
+<h3 id="setter">setter</h3>
 
 <p>boolean Caramel\Models\Storage::setter($path, $value)</p>
 
-<p>* Visibility: <strong>private</strong>
-                * This method is defined by <a href="#Caramel-Models-Storage">Caramel\Models\Storage</a></p>
+<ul>
+<li>Visibility: <strong>private</strong></li>
+<li>This method is defined by <a href="#caramel-models-storage">caramel\models\storage</a></li>
+</ul>
 
-<p>#### Arguments
-                    * $path <strong>mixed</strong>
-                    * $value <strong>mixed</strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### createPath</p>
+<ul>
+<li>$path <strong>mixed</strong></li>
+<li>$value <strong>mixed</strong></li>
+</ul>
+
+<h3 id="createpath">createPath</h3>
 
 <p>array|mixed Caramel\Models\Storage::createPath($path)</p>
 
 <p>returns the path as an array</p>
 
-<p>* Visibility: <strong>private</strong>
-                * This method is defined by <a href="#Caramel-Models-Storage">Caramel\Models\Storage</a></p>
+<ul>
+<li>Visibility: <strong>private</strong></li>
+<li>This method is defined by <a href="#caramel-models-storage">caramel\models\storage</a></li>
+</ul>
 
-<p>#### Arguments
-                    * $path <strong>mixed</strong></p>
+<h4 id="arguments">Arguments</h4>
+
+<ul>
+<li>$path <strong>mixed</strong></li>
+</ul>
 
           <h1 id="caramel-plugin-plugin">Caramel\Plugin\Plugin</h1>
 
 <p>Class Plugin</p>
 
-<p>* Class name: Plugin
-    * Namespace: Caramel\Plugin
-    * This is an <strong>abstract</strong> class
-        * Parent class: <a href="#Caramel-Services-Service">Caramel\Services\Service</a></p>
+<ul>
+<li>Class name: Plugin</li>
+<li>Namespace: Caramel\Plugin</li>
+<li>This is an <strong>abstract</strong> class</li>
+<li>Parent class: <a href="#caramel-services-service">caramel\services\service</a></li>
+</ul>
 
-<p>Properties
-    &mdash;&mdash;&mdash;-</p>
+<h2 id="properties">Properties</h2>
 
-<p>### $caramel</p>
+<h3 id="caramel">$caramel</h3>
 
 <p>protected \Caramel\Caramel $caramel</p>
 
-<p>* Visibility: <strong>protected</strong></p>
+<ul>
+<li>Visibility: <strong>protected</strong></li>
+</ul>
 
-<p>### $yaml</p>
+<h3 id="yaml">$yaml</h3>
 
 <p>protected \Symfony\Component\Yaml\Yaml $yaml</p>
 
-<p>* Visibility: <strong>protected</strong></p>
+<ul>
+<li>Visibility: <strong>protected</strong></li>
+</ul>
 
-<p>### $vars</p>
+<h3 id="vars">$vars</h3>
 
 <p>protected \Caramel\Models\Vars $vars</p>
 
-<p>* Visibility: <strong>protected</strong></p>
+<ul>
+<li>Visibility: <strong>protected</strong></li>
+</ul>
 
-<p>### $config</p>
+<h3 id="config">$config</h3>
 
 <p>protected \Caramel\Services\Config $config</p>
 
-<p>* Visibility: <strong>protected</strong></p>
+<ul>
+<li>Visibility: <strong>protected</strong></li>
+</ul>
 
-<p>### $directories</p>
+<h3 id="directories">$directories</h3>
 
 <p>protected \Caramel\Services\Directories $directories</p>
 
-<p>* Visibility: <strong>protected</strong></p>
+<ul>
+<li>Visibility: <strong>protected</strong></li>
+</ul>
 
-<p>### $helpers</p>
+<h3 id="helpers">$helpers</h3>
 
 <p>protected \Caramel\Services\Helpers $helpers</p>
 
-<p>* Visibility: <strong>protected</strong></p>
+<ul>
+<li>Visibility: <strong>protected</strong></li>
+</ul>
 
-<p>### $cache</p>
+<h3 id="cache">$cache</h3>
 
 <p>protected \Caramel\Services\Cache $cache</p>
 
-<p>* Visibility: <strong>protected</strong></p>
+<ul>
+<li>Visibility: <strong>protected</strong></li>
+</ul>
 
-<p>### $plugins</p>
+<h3 id="plugins">$plugins</h3>
 
 <p>protected \Caramel\Services\Plugins $plugins</p>
 
-<p>* Visibility: <strong>protected</strong></p>
+<ul>
+<li>Visibility: <strong>protected</strong></li>
+</ul>
 
-<p>### $lexer</p>
+<h3 id="lexer">$lexer</h3>
 
 <p>protected \Caramel\Services\Lexer $lexer</p>
 
-<p>* Visibility: <strong>protected</strong></p>
+<ul>
+<li>Visibility: <strong>protected</strong></li>
+</ul>
 
-<p>### $parser</p>
+<h3 id="parser">$parser</h3>
 
 <p>protected \Caramel\Services\Parser $parser</p>
 
-<p>* Visibility: <strong>protected</strong></p>
+<ul>
+<li>Visibility: <strong>protected</strong></li>
+</ul>
 
-<p>### $template</p>
+<h3 id="template">$template</h3>
 
 <p>protected \Caramel\Services\Template $template</p>
 
-<p>* Visibility: <strong>protected</strong></p>
+<ul>
+<li>Visibility: <strong>protected</strong></li>
+</ul>
 
-<p>Methods
-    &mdash;&mdash;-</p>
+<h2 id="methods">Methods</h2>
 
-<p>### position</p>
+<h3 id="position">position</h3>
 
 <p>integer Caramel\Plugin\Plugin::position()</p>
 
-<p>* Visibility: <strong>public</strong>
-    * This method is <strong>abstract</strong>.</p>
+<ul>
+<li>Visibility: <strong>public</strong></li>
+<li>This method is <strong>abstract</strong>.</li>
+</ul>
 
-<p>### getName</p>
+<h3 id="getname">getName</h3>
 
 <p>string Caramel\Plugin\Plugin::getName()</p>
 
-<p>* Visibility: <strong>public</strong></p>
+<ul>
+<li>Visibility: <strong>public</strong></li>
+</ul>
 
-<p>### preProcess</p>
+<h3 id="preprocess">preProcess</h3>
 
 <p>\Caramel\Models\Dom Caramel\Plugin\Plugin::preProcess(\Caramel\Models\Dom $dom)</p>
 
 <p>this is called before we even touch a node
 so we can add stuff to our config etc</p>
 
-<p>* Visibility: <strong>public</strong></p>
+<ul>
+<li>Visibility: <strong>public</strong></li>
+</ul>
 
-<p>#### Arguments
-                    * $dom <strong><a href="#Caramel-Models-Dom">Caramel\Models\Dom</a></strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### process</p>
+<ul>
+<li>$dom <strong><a href="#caramel-models-dom">caramel\models\dom</a></strong></li>
+</ul>
+
+<h3 id="process">process</h3>
 
 <p>\Caramel\Models\Node Caramel\Plugin\Plugin::process(\Caramel\Models\Node $node)</p>
 
 <p>the function we should use for processing a node</p>
 
-<p>* Visibility: <strong>public</strong></p>
+<ul>
+<li>Visibility: <strong>public</strong></li>
+</ul>
 
-<p>#### Arguments
-                    * $node <strong><a href="#Caramel-Models-Node">Caramel\Models\Node</a></strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### check</p>
+<ul>
+<li>$node <strong><a href="#caramel-models-node">caramel\models\node</a></strong></li>
+</ul>
+
+<h3 id="check">check</h3>
 
 <p>boolean Caramel\Plugin\Plugin::check($node)</p>
 
 <p>the function to check if we want to
 modify a node</p>
 
-<p>* Visibility: <strong>public</strong></p>
+<ul>
+<li>Visibility: <strong>public</strong></li>
+</ul>
 
-<p>#### Arguments
-                    * $node <strong>mixed</strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### realProcess</p>
+<ul>
+<li>$node <strong>mixed</strong></li>
+</ul>
+
+<h3 id="realprocess">realProcess</h3>
 
 <p>\Caramel\Models\Node Caramel\Plugin\Plugin::realProcess(\Caramel\Models\Node $node)</p>
 
 <p>processes the actual node
 if all requirements are met</p>
 
-<p>* Visibility: <strong>public</strong></p>
+<ul>
+<li>Visibility: <strong>public</strong></li>
+</ul>
 
-<p>#### Arguments
-                    * $node <strong><a href="#Caramel-Models-Node">Caramel\Models\Node</a></strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### postProcess</p>
+<ul>
+<li>$node <strong><a href="#caramel-models-node">caramel\models\node</a></strong></li>
+</ul>
+
+<h3 id="postprocess">postProcess</h3>
 
 <p>\Caramel\Models\Dom Caramel\Plugin\Plugin::postProcess(\Caramel\Models\Dom $dom)</p>
 
 <p>this is called after the plugins processed
 all nodes</p>
 
-<p>* Visibility: <strong>public</strong></p>
+<ul>
+<li>Visibility: <strong>public</strong></li>
+</ul>
 
-<p>#### Arguments
-                    * $dom <strong><a href="#Caramel-Models-Dom">Caramel\Models\Dom</a></strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### processOutput</p>
+<ul>
+<li>$dom <strong><a href="#caramel-models-dom">caramel\models\dom</a></strong></li>
+</ul>
+
+<h3 id="processoutput">processOutput</h3>
 
 <p>string Caramel\Plugin\Plugin::processOutput($output)</p>
 
 <p>this is called after the plugins processed
 all nodes and converted it into a html string</p>
 
-<p>* Visibility: <strong>public</strong></p>
+<ul>
+<li>Visibility: <strong>public</strong></li>
+</ul>
 
-<p>#### Arguments
-                    * $output <strong>mixed</strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### setCaramel</p>
+<ul>
+<li>$output <strong>mixed</strong></li>
+</ul>
+
+<h3 id="setcaramel">setCaramel</h3>
 
 <p>mixed Caramel\Services\Service::setCaramel(\Caramel\Caramel $Caramel)</p>
 
 <p>sets $this-&gt;caramel</p>
 
-<p>* Visibility: <strong>public</strong>
-                * This method is defined by <a href="#Caramel-Services-Service">Caramel\Services\Service</a></p>
+<ul>
+<li>Visibility: <strong>public</strong></li>
+<li>This method is defined by <a href="#caramel-services-service">caramel\services\service</a></li>
+</ul>
 
-<p>#### Arguments
-                    * $Caramel <strong>Caramel\Caramel</strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### setYaml</p>
+<ul>
+<li>$Caramel <strong><a href="#caramel-caramel">caramel\caramel</a></strong></li>
+</ul>
+
+<h3 id="setyaml">setYaml</h3>
 
 <p>mixed Caramel\Services\Service::setYaml(\Symfony\Component\Yaml\Yaml $Yaml)</p>
 
 <p>sets $this-&gt;yaml</p>
 
-<p>* Visibility: <strong>public</strong>
-                * This method is defined by <a href="#Caramel-Services-Service">Caramel\Services\Service</a></p>
+<ul>
+<li>Visibility: <strong>public</strong></li>
+<li>This method is defined by <a href="#caramel-services-service">caramel\services\service</a></li>
+</ul>
 
-<p>#### Arguments
-                    * $Yaml <strong>Symfony\Component\Yaml\Yaml</strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### setVars</p>
+<ul>
+<li>$Yaml <strong>symfony\component\yaml\yaml</strong></li>
+</ul>
+
+<h3 id="setvars">setVars</h3>
 
 <p>mixed Caramel\Services\Service::setVars(\Caramel\Models\Vars $Vars)</p>
 
 <p>sets $this-&gt;vars</p>
 
-<p>* Visibility: <strong>public</strong>
-                * This method is defined by <a href="#Caramel-Services-Service">Caramel\Services\Service</a></p>
+<ul>
+<li>Visibility: <strong>public</strong></li>
+<li>This method is defined by <a href="#caramel-services-service">caramel\services\service</a></li>
+</ul>
 
-<p>#### Arguments
-                    * $Vars <strong><a href="#Caramel-Models-Vars">Caramel\Models\Vars</a></strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### setConfig</p>
+<ul>
+<li>$Vars <strong><a href="#caramel-models-vars">caramel\models\vars</a></strong></li>
+</ul>
+
+<h3 id="setconfig">setConfig</h3>
 
 <p>mixed Caramel\Services\Service::setConfig(\Caramel\Services\Config $Config)</p>
 
 <p>sets $this-&gt;config</p>
 
-<p>* Visibility: <strong>public</strong>
-                * This method is defined by <a href="#Caramel-Services-Service">Caramel\Services\Service</a></p>
+<ul>
+<li>Visibility: <strong>public</strong></li>
+<li>This method is defined by <a href="#caramel-services-service">caramel\services\service</a></li>
+</ul>
 
-<p>#### Arguments
-                    * $Config <strong><a href="#Caramel-Services-Config">Caramel\Services\Config</a></strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### setDirectories</p>
+<ul>
+<li>$Config <strong><a href="#caramel-services-config">caramel\services\config</a></strong></li>
+</ul>
+
+<h3 id="setdirectories">setDirectories</h3>
 
 <p>mixed Caramel\Services\Service::setDirectories(\Caramel\Services\Directories $Directories)</p>
 
 <p>sets $this-&gt;directories</p>
 
-<p>* Visibility: <strong>public</strong>
-                * This method is defined by <a href="#Caramel-Services-Service">Caramel\Services\Service</a></p>
+<ul>
+<li>Visibility: <strong>public</strong></li>
+<li>This method is defined by <a href="#caramel-services-service">caramel\services\service</a></li>
+</ul>
 
-<p>#### Arguments
-                    * $Directories <strong><a href="#Caramel-Services-Directories">Caramel\Services\Directories</a></strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### setHelpers</p>
+<ul>
+<li>$Directories <strong><a href="#caramel-services-directories">caramel\services\directories</a></strong></li>
+</ul>
+
+<h3 id="sethelpers">setHelpers</h3>
 
 <p>mixed Caramel\Services\Service::setHelpers(\Caramel\Services\Helpers $Helpers)</p>
 
 <p>sets $this-&gt;helpers</p>
 
-<p>* Visibility: <strong>public</strong>
-                * This method is defined by <a href="#Caramel-Services-Service">Caramel\Services\Service</a></p>
+<ul>
+<li>Visibility: <strong>public</strong></li>
+<li>This method is defined by <a href="#caramel-services-service">caramel\services\service</a></li>
+</ul>
 
-<p>#### Arguments
-                    * $Helpers <strong><a href="#Caramel-Services-Helpers">Caramel\Services\Helpers</a></strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### setCache</p>
+<ul>
+<li>$Helpers <strong><a href="#caramel-services-helpers">caramel\services\helpers</a></strong></li>
+</ul>
+
+<h3 id="setcache">setCache</h3>
 
 <p>mixed Caramel\Services\Service::setCache(\Caramel\Services\Cache $Cache)</p>
 
 <p>sets $this-&gt;cache</p>
 
-<p>* Visibility: <strong>public</strong>
-                * This method is defined by <a href="#Caramel-Services-Service">Caramel\Services\Service</a></p>
+<ul>
+<li>Visibility: <strong>public</strong></li>
+<li>This method is defined by <a href="#caramel-services-service">caramel\services\service</a></li>
+</ul>
 
-<p>#### Arguments
-                    * $Cache <strong><a href="#Caramel-Services-Cache">Caramel\Services\Cache</a></strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### setPlugins</p>
+<ul>
+<li>$Cache <strong><a href="#caramel-services-cache">caramel\services\cache</a></strong></li>
+</ul>
+
+<h3 id="setplugins">setPlugins</h3>
 
 <p>mixed Caramel\Services\Service::setPlugins(\Caramel\Services\Plugins $Plugins)</p>
 
 <p>sets $this-&gt;plugins</p>
 
-<p>* Visibility: <strong>public</strong>
-                * This method is defined by <a href="#Caramel-Services-Service">Caramel\Services\Service</a></p>
+<ul>
+<li>Visibility: <strong>public</strong></li>
+<li>This method is defined by <a href="#caramel-services-service">caramel\services\service</a></li>
+</ul>
 
-<p>#### Arguments
-                    * $Plugins <strong><a href="#Caramel-Services-Plugins">Caramel\Services\Plugins</a></strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### setLexer</p>
+<ul>
+<li>$Plugins <strong><a href="#caramel-services-plugins">caramel\services\plugins</a></strong></li>
+</ul>
+
+<h3 id="setlexer">setLexer</h3>
 
 <p>mixed Caramel\Services\Service::setLexer(\Caramel\Services\Lexer $Lexer)</p>
 
 <p>sets $this-&gt;lexer</p>
 
-<p>* Visibility: <strong>public</strong>
-                * This method is defined by <a href="#Caramel-Services-Service">Caramel\Services\Service</a></p>
+<ul>
+<li>Visibility: <strong>public</strong></li>
+<li>This method is defined by <a href="#caramel-services-service">caramel\services\service</a></li>
+</ul>
 
-<p>#### Arguments
-                    * $Lexer <strong><a href="#Caramel-Services-Lexer">Caramel\Services\Lexer</a></strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### setParser</p>
+<ul>
+<li>$Lexer <strong><a href="#caramel-services-lexer">caramel\services\lexer</a></strong></li>
+</ul>
+
+<h3 id="setparser">setParser</h3>
 
 <p>mixed Caramel\Services\Service::setParser(\Caramel\Services\Parser $Parser)</p>
 
 <p>sets $this-&gt;parser</p>
 
-<p>* Visibility: <strong>public</strong>
-                * This method is defined by <a href="#Caramel-Services-Service">Caramel\Services\Service</a></p>
+<ul>
+<li>Visibility: <strong>public</strong></li>
+<li>This method is defined by <a href="#caramel-services-service">caramel\services\service</a></li>
+</ul>
 
-<p>#### Arguments
-                    * $Parser <strong><a href="#Caramel-Services-Parser">Caramel\Services\Parser</a></strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### setTemplate</p>
+<ul>
+<li>$Parser <strong><a href="#caramel-services-parser">caramel\services\parser</a></strong></li>
+</ul>
+
+<h3 id="settemplate">setTemplate</h3>
 
 <p>mixed Caramel\Services\Service::setTemplate(\Caramel\Services\Template $Template)</p>
 
 <p>sets $this-&gt;template</p>
 
-<p>* Visibility: <strong>public</strong>
-                * This method is defined by <a href="#Caramel-Services-Service">Caramel\Services\Service</a></p>
+<ul>
+<li>Visibility: <strong>public</strong></li>
+<li>This method is defined by <a href="#caramel-services-service">caramel\services\service</a></li>
+</ul>
 
-<p>#### Arguments
-                    * $Template <strong><a href="#Caramel-Services-Template">Caramel\Services\Template</a></strong></p>
+<h4 id="arguments">Arguments</h4>
+
+<ul>
+<li>$Template <strong><a href="#caramel-services-template">caramel\services\template</a></strong></li>
+</ul>
 
           <h1 id="caramel-services-cache">Caramel\Services\Cache</h1>
 
 <p>Class Cache</p>
 
-<p>* Class name: Cache
-    * Namespace: Caramel\Services
-        * Parent class: <a href="#Caramel-Services-Service">Caramel\Services\Service</a></p>
+<ul>
+<li>Class name: Cache</li>
+<li>Namespace: Caramel\Services</li>
+<li>Parent class: <a href="#caramel-services-service">caramel\services\service</a></li>
+</ul>
 
-<p>Properties
-    &mdash;&mdash;&mdash;-</p>
+<h2 id="properties">Properties</h2>
 
-<p>### $cacheFile</p>
+<h3 id="cachefile">$cacheFile</h3>
 
 <p>private string $cacheFile = &ldquo;__cache.php&rdquo;</p>
 
-<p>* Visibility: <strong>private</strong></p>
+<ul>
+<li>Visibility: <strong>private</strong></li>
+</ul>
 
-<p>### $caramel</p>
+<h3 id="caramel">$caramel</h3>
 
 <p>protected \Caramel\Caramel $caramel</p>
 
-<p>* Visibility: <strong>protected</strong></p>
+<ul>
+<li>Visibility: <strong>protected</strong></li>
+</ul>
 
-<p>### $yaml</p>
+<h3 id="yaml">$yaml</h3>
 
 <p>protected \Symfony\Component\Yaml\Yaml $yaml</p>
 
-<p>* Visibility: <strong>protected</strong></p>
+<ul>
+<li>Visibility: <strong>protected</strong></li>
+</ul>
 
-<p>### $vars</p>
+<h3 id="vars">$vars</h3>
 
 <p>protected \Caramel\Models\Vars $vars</p>
 
-<p>* Visibility: <strong>protected</strong></p>
+<ul>
+<li>Visibility: <strong>protected</strong></li>
+</ul>
 
-<p>### $config</p>
+<h3 id="config">$config</h3>
 
 <p>protected \Caramel\Services\Config $config</p>
 
-<p>* Visibility: <strong>protected</strong></p>
+<ul>
+<li>Visibility: <strong>protected</strong></li>
+</ul>
 
-<p>### $directories</p>
+<h3 id="directories">$directories</h3>
 
 <p>protected \Caramel\Services\Directories $directories</p>
 
-<p>* Visibility: <strong>protected</strong></p>
+<ul>
+<li>Visibility: <strong>protected</strong></li>
+</ul>
 
-<p>### $helpers</p>
+<h3 id="helpers">$helpers</h3>
 
 <p>protected \Caramel\Services\Helpers $helpers</p>
 
-<p>* Visibility: <strong>protected</strong></p>
+<ul>
+<li>Visibility: <strong>protected</strong></li>
+</ul>
 
-<p>### $cache</p>
+<h3 id="cache">$cache</h3>
 
 <p>protected \Caramel\Services\Cache $cache</p>
 
-<p>* Visibility: <strong>protected</strong></p>
+<ul>
+<li>Visibility: <strong>protected</strong></li>
+</ul>
 
-<p>### $plugins</p>
+<h3 id="plugins">$plugins</h3>
 
 <p>protected \Caramel\Services\Plugins $plugins</p>
 
-<p>* Visibility: <strong>protected</strong></p>
+<ul>
+<li>Visibility: <strong>protected</strong></li>
+</ul>
 
-<p>### $lexer</p>
+<h3 id="lexer">$lexer</h3>
 
 <p>protected \Caramel\Services\Lexer $lexer</p>
 
-<p>* Visibility: <strong>protected</strong></p>
+<ul>
+<li>Visibility: <strong>protected</strong></li>
+</ul>
 
-<p>### $parser</p>
+<h3 id="parser">$parser</h3>
 
 <p>protected \Caramel\Services\Parser $parser</p>
 
-<p>* Visibility: <strong>protected</strong></p>
+<ul>
+<li>Visibility: <strong>protected</strong></li>
+</ul>
 
-<p>### $template</p>
+<h3 id="template">$template</h3>
 
 <p>protected \Caramel\Services\Template $template</p>
 
-<p>* Visibility: <strong>protected</strong></p>
+<ul>
+<li>Visibility: <strong>protected</strong></li>
+</ul>
 
-<p>Methods
-    &mdash;&mdash;-</p>
+<h2 id="methods">Methods</h2>
 
-<p>### set</p>
+<h3 id="set">set</h3>
 
 <p>string Caramel\Services\Cache::set(string $dir)</p>
 
 <p>sets the cache directory</p>
 
-<p>* Visibility: <strong>public</strong></p>
+<ul>
+<li>Visibility: <strong>public</strong></li>
+</ul>
 
-<p>#### Arguments
-                    * $dir <strong>string</strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### save</p>
+<ul>
+<li>$dir <strong>string</strong></li>
+</ul>
+
+<h3 id="save">save</h3>
 
 <p>string Caramel\Services\Cache::save($file, $content)</p>
 
 <p>saves a file to the cache</p>
 
-<p>* Visibility: <strong>public</strong></p>
+<ul>
+<li>Visibility: <strong>public</strong></li>
+</ul>
 
-<p>#### Arguments
-                    * $file <strong>mixed</strong>
-                    * $content <strong>mixed</strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### modified</p>
+<ul>
+<li>$file <strong>mixed</strong></li>
+<li>$content <strong>mixed</strong></li>
+</ul>
+
+<h3 id="modified">modified</h3>
 
 <p>boolean Caramel\Services\Cache::modified($file)</p>
 
 <p>returns if a file is modified</p>
 
-<p>* Visibility: <strong>public</strong></p>
+<ul>
+<li>Visibility: <strong>public</strong></li>
+</ul>
 
-<p>#### Arguments
-                    * $file <strong>mixed</strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### dependency</p>
+<ul>
+<li>$file <strong>mixed</strong></li>
+</ul>
+
+<h3 id="dependency">dependency</h3>
 
 <p>boolean Caramel\Services\Cache::dependency(string $parent, string $file)</p>
 
 <p>adds a dependency to the cache</p>
 
-<p>* Visibility: <strong>public</strong></p>
+<ul>
+<li>Visibility: <strong>public</strong></li>
+</ul>
 
-<p>#### Arguments
-                    * $parent <strong>string</strong>
-                    * $file <strong>string</strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### setTime</p>
+<ul>
+<li>$parent <strong>string</strong></li>
+<li>$file <strong>string</strong></li>
+</ul>
+
+<h3 id="settime">setTime</h3>
 
 <p>boolean Caramel\Services\Cache::setTime($file)</p>
 
 <p>writes the modify times for the current template
 into our cache file</p>
 
-<p>* Visibility: <strong>private</strong></p>
+<ul>
+<li>Visibility: <strong>private</strong></li>
+</ul>
 
-<p>#### Arguments
-                    * $file <strong>mixed</strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### getCache</p>
+<ul>
+<li>$file <strong>mixed</strong></li>
+</ul>
+
+<h3 id="getcache">getCache</h3>
 
 <p>array Caramel\Services\Cache::getCache()</p>
 
 <p>returns the cache array</p>
 
-<p>* Visibility: <strong>private</strong></p>
+<ul>
+<li>Visibility: <strong>private</strong></li>
+</ul>
 
-<p>### saveCache</p>
+<h3 id="savecache">saveCache</h3>
 
 <p>boolean Caramel\Services\Cache::saveCache(array $cache)</p>
 
 <p>saves the array to the cache</p>
 
-<p>* Visibility: <strong>private</strong></p>
+<ul>
+<li>Visibility: <strong>private</strong></li>
+</ul>
 
-<p>#### Arguments
-                    * $cache <strong>array</strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### getPath</p>
+<ul>
+<li>$cache <strong>array</strong></li>
+</ul>
+
+<h3 id="getpath">getPath</h3>
 
 <p>string Caramel\Services\Cache::getPath($file)</p>
 
 <p>returns the cache path for the given file</p>
 
-<p>* Visibility: <strong>public</strong></p>
+<ul>
+<li>Visibility: <strong>public</strong></li>
+</ul>
 
-<p>#### Arguments
-                    * $file <strong>mixed</strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### extension</p>
+<ul>
+<li>$file <strong>mixed</strong></li>
+</ul>
+
+<h3 id="extension">extension</h3>
 
 <p>mixed|string Caramel\Services\Cache::extension($file)</p>
 
 <p>adds a php extension to the files path</p>
 
-<p>* Visibility: <strong>private</strong></p>
+<ul>
+<li>Visibility: <strong>private</strong></li>
+</ul>
 
-<p>#### Arguments
-                    * $file <strong>mixed</strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### createFile</p>
+<ul>
+<li>$file <strong>mixed</strong></li>
+</ul>
+
+<h3 id="createfile">createFile</h3>
 
 <p>mixed|string Caramel\Services\Cache::createFile($file)</p>
 
 <p>creates the file if its not already there</p>
 
-<p>* Visibility: <strong>private</strong></p>
+<ul>
+<li>Visibility: <strong>private</strong></li>
+</ul>
 
-<p>#### Arguments
-                    * $file <strong>mixed</strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### clear</p>
+<ul>
+<li>$file <strong>mixed</strong></li>
+</ul>
+
+<h3 id="clear">clear</h3>
 
 <p>boolean|\Caramel\Services\Error Caramel\Services\Cache::clear(boolean $dir)</p>
 
 <p>empties the cache directory</p>
 
-<p>* Visibility: <strong>public</strong></p>
+<ul>
+<li>Visibility: <strong>public</strong></li>
+</ul>
 
-<p>#### Arguments
-                    * $dir <strong>boolean</strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### clean</p>
+<ul>
+<li>$dir <strong>boolean</strong></li>
+</ul>
+
+<h3 id="clean">clean</h3>
 
 <p>string Caramel\Services\Cache::clean($file)</p>
 
 <p>removes the template dirs and the extension form a file path</p>
 
-<p>* Visibility: <strong>private</strong></p>
+<ul>
+<li>Visibility: <strong>private</strong></li>
+</ul>
 
-<p>#### Arguments
-                    * $file <strong>mixed</strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### updateCacheDir</p>
+<ul>
+<li>$file <strong>mixed</strong></li>
+</ul>
+
+<h3 id="updatecachedir">updateCacheDir</h3>
 
 <p>string Caramel\Services\Cache::updateCacheDir()</p>
 
 <p>updates the cache directory if we changed it via php</p>
 
-<p>* Visibility: <strong>private</strong></p>
+<ul>
+<li>Visibility: <strong>private</strong></li>
+</ul>
 
-<p>### setCaramel</p>
+<h3 id="setcaramel">setCaramel</h3>
 
 <p>mixed Caramel\Services\Service::setCaramel(\Caramel\Caramel $Caramel)</p>
 
 <p>sets $this-&gt;caramel</p>
 
-<p>* Visibility: <strong>public</strong>
-                * This method is defined by <a href="#Caramel-Services-Service">Caramel\Services\Service</a></p>
+<ul>
+<li>Visibility: <strong>public</strong></li>
+<li>This method is defined by <a href="#caramel-services-service">caramel\services\service</a></li>
+</ul>
 
-<p>#### Arguments
-                    * $Caramel <strong>Caramel\Caramel</strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### setYaml</p>
+<ul>
+<li>$Caramel <strong><a href="#caramel-caramel">caramel\caramel</a></strong></li>
+</ul>
+
+<h3 id="setyaml">setYaml</h3>
 
 <p>mixed Caramel\Services\Service::setYaml(\Symfony\Component\Yaml\Yaml $Yaml)</p>
 
 <p>sets $this-&gt;yaml</p>
 
-<p>* Visibility: <strong>public</strong>
-                * This method is defined by <a href="#Caramel-Services-Service">Caramel\Services\Service</a></p>
+<ul>
+<li>Visibility: <strong>public</strong></li>
+<li>This method is defined by <a href="#caramel-services-service">caramel\services\service</a></li>
+</ul>
 
-<p>#### Arguments
-                    * $Yaml <strong>Symfony\Component\Yaml\Yaml</strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### setVars</p>
+<ul>
+<li>$Yaml <strong>symfony\component\yaml\yaml</strong></li>
+</ul>
+
+<h3 id="setvars">setVars</h3>
 
 <p>mixed Caramel\Services\Service::setVars(\Caramel\Models\Vars $Vars)</p>
 
 <p>sets $this-&gt;vars</p>
 
-<p>* Visibility: <strong>public</strong>
-                * This method is defined by <a href="#Caramel-Services-Service">Caramel\Services\Service</a></p>
+<ul>
+<li>Visibility: <strong>public</strong></li>
+<li>This method is defined by <a href="#caramel-services-service">caramel\services\service</a></li>
+</ul>
 
-<p>#### Arguments
-                    * $Vars <strong><a href="#Caramel-Models-Vars">Caramel\Models\Vars</a></strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### setConfig</p>
+<ul>
+<li>$Vars <strong><a href="#caramel-models-vars">caramel\models\vars</a></strong></li>
+</ul>
+
+<h3 id="setconfig">setConfig</h3>
 
 <p>mixed Caramel\Services\Service::setConfig(\Caramel\Services\Config $Config)</p>
 
 <p>sets $this-&gt;config</p>
 
-<p>* Visibility: <strong>public</strong>
-                * This method is defined by <a href="#Caramel-Services-Service">Caramel\Services\Service</a></p>
+<ul>
+<li>Visibility: <strong>public</strong></li>
+<li>This method is defined by <a href="#caramel-services-service">caramel\services\service</a></li>
+</ul>
 
-<p>#### Arguments
-                    * $Config <strong><a href="#Caramel-Services-Config">Caramel\Services\Config</a></strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### setDirectories</p>
+<ul>
+<li>$Config <strong><a href="#caramel-services-config">caramel\services\config</a></strong></li>
+</ul>
+
+<h3 id="setdirectories">setDirectories</h3>
 
 <p>mixed Caramel\Services\Service::setDirectories(\Caramel\Services\Directories $Directories)</p>
 
 <p>sets $this-&gt;directories</p>
 
-<p>* Visibility: <strong>public</strong>
-                * This method is defined by <a href="#Caramel-Services-Service">Caramel\Services\Service</a></p>
+<ul>
+<li>Visibility: <strong>public</strong></li>
+<li>This method is defined by <a href="#caramel-services-service">caramel\services\service</a></li>
+</ul>
 
-<p>#### Arguments
-                    * $Directories <strong><a href="#Caramel-Services-Directories">Caramel\Services\Directories</a></strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### setHelpers</p>
+<ul>
+<li>$Directories <strong><a href="#caramel-services-directories">caramel\services\directories</a></strong></li>
+</ul>
+
+<h3 id="sethelpers">setHelpers</h3>
 
 <p>mixed Caramel\Services\Service::setHelpers(\Caramel\Services\Helpers $Helpers)</p>
 
 <p>sets $this-&gt;helpers</p>
 
-<p>* Visibility: <strong>public</strong>
-                * This method is defined by <a href="#Caramel-Services-Service">Caramel\Services\Service</a></p>
+<ul>
+<li>Visibility: <strong>public</strong></li>
+<li>This method is defined by <a href="#caramel-services-service">caramel\services\service</a></li>
+</ul>
 
-<p>#### Arguments
-                    * $Helpers <strong><a href="#Caramel-Services-Helpers">Caramel\Services\Helpers</a></strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### setCache</p>
+<ul>
+<li>$Helpers <strong><a href="#caramel-services-helpers">caramel\services\helpers</a></strong></li>
+</ul>
+
+<h3 id="setcache">setCache</h3>
 
 <p>mixed Caramel\Services\Service::setCache(\Caramel\Services\Cache $Cache)</p>
 
 <p>sets $this-&gt;cache</p>
 
-<p>* Visibility: <strong>public</strong>
-                * This method is defined by <a href="#Caramel-Services-Service">Caramel\Services\Service</a></p>
+<ul>
+<li>Visibility: <strong>public</strong></li>
+<li>This method is defined by <a href="#caramel-services-service">caramel\services\service</a></li>
+</ul>
 
-<p>#### Arguments
-                    * $Cache <strong><a href="#Caramel-Services-Cache">Caramel\Services\Cache</a></strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### setPlugins</p>
+<ul>
+<li>$Cache <strong><a href="#caramel-services-cache">caramel\services\cache</a></strong></li>
+</ul>
+
+<h3 id="setplugins">setPlugins</h3>
 
 <p>mixed Caramel\Services\Service::setPlugins(\Caramel\Services\Plugins $Plugins)</p>
 
 <p>sets $this-&gt;plugins</p>
 
-<p>* Visibility: <strong>public</strong>
-                * This method is defined by <a href="#Caramel-Services-Service">Caramel\Services\Service</a></p>
+<ul>
+<li>Visibility: <strong>public</strong></li>
+<li>This method is defined by <a href="#caramel-services-service">caramel\services\service</a></li>
+</ul>
 
-<p>#### Arguments
-                    * $Plugins <strong><a href="#Caramel-Services-Plugins">Caramel\Services\Plugins</a></strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### setLexer</p>
+<ul>
+<li>$Plugins <strong><a href="#caramel-services-plugins">caramel\services\plugins</a></strong></li>
+</ul>
+
+<h3 id="setlexer">setLexer</h3>
 
 <p>mixed Caramel\Services\Service::setLexer(\Caramel\Services\Lexer $Lexer)</p>
 
 <p>sets $this-&gt;lexer</p>
 
-<p>* Visibility: <strong>public</strong>
-                * This method is defined by <a href="#Caramel-Services-Service">Caramel\Services\Service</a></p>
+<ul>
+<li>Visibility: <strong>public</strong></li>
+<li>This method is defined by <a href="#caramel-services-service">caramel\services\service</a></li>
+</ul>
 
-<p>#### Arguments
-                    * $Lexer <strong><a href="#Caramel-Services-Lexer">Caramel\Services\Lexer</a></strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### setParser</p>
+<ul>
+<li>$Lexer <strong><a href="#caramel-services-lexer">caramel\services\lexer</a></strong></li>
+</ul>
+
+<h3 id="setparser">setParser</h3>
 
 <p>mixed Caramel\Services\Service::setParser(\Caramel\Services\Parser $Parser)</p>
 
 <p>sets $this-&gt;parser</p>
 
-<p>* Visibility: <strong>public</strong>
-                * This method is defined by <a href="#Caramel-Services-Service">Caramel\Services\Service</a></p>
+<ul>
+<li>Visibility: <strong>public</strong></li>
+<li>This method is defined by <a href="#caramel-services-service">caramel\services\service</a></li>
+</ul>
 
-<p>#### Arguments
-                    * $Parser <strong><a href="#Caramel-Services-Parser">Caramel\Services\Parser</a></strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### setTemplate</p>
+<ul>
+<li>$Parser <strong><a href="#caramel-services-parser">caramel\services\parser</a></strong></li>
+</ul>
+
+<h3 id="settemplate">setTemplate</h3>
 
 <p>mixed Caramel\Services\Service::setTemplate(\Caramel\Services\Template $Template)</p>
 
 <p>sets $this-&gt;template</p>
 
-<p>* Visibility: <strong>public</strong>
-                * This method is defined by <a href="#Caramel-Services-Service">Caramel\Services\Service</a></p>
+<ul>
+<li>Visibility: <strong>public</strong></li>
+<li>This method is defined by <a href="#caramel-services-service">caramel\services\service</a></li>
+</ul>
 
-<p>#### Arguments
-                    * $Template <strong><a href="#Caramel-Services-Template">Caramel\Services\Template</a></strong></p>
+<h4 id="arguments">Arguments</h4>
+
+<ul>
+<li>$Template <strong><a href="#caramel-services-template">caramel\services\template</a></strong></li>
+</ul>
 
           <h1 id="caramel-services-config">Caramel\Services\Config</h1>
 
 <p>Class CaramelConfig</p>
 
-<p>* Class name: Config
-    * Namespace: Caramel\Services
-        * Parent class: <a href="#Caramel-Models-Storage">Caramel\Models\Storage</a></p>
+<ul>
+<li>Class name: Config</li>
+<li>Namespace: Caramel\Services</li>
+<li>Parent class: <a href="#caramel-models-storage">caramel\models\storage</a></li>
+</ul>
 
-<p>Properties
-    &mdash;&mdash;&mdash;-</p>
+<h2 id="properties">Properties</h2>
 
-<p>### $yaml</p>
+<h3 id="yaml">$yaml</h3>
 
 <p>private \Symfony\Component\Yaml\Yaml $yaml</p>
 
-<p>* Visibility: <strong>private</strong></p>
+<ul>
+<li>Visibility: <strong>private</strong></li>
+</ul>
 
-<p>### $storage</p>
+<h3 id="storage">$storage</h3>
 
 <p>private array $storage</p>
 
-<p>* Visibility: <strong>private</strong></p>
+<ul>
+<li>Visibility: <strong>private</strong></li>
+</ul>
 
-<p>Methods
-    &mdash;&mdash;-</p>
+<h2 id="methods">Methods</h2>
 
-<p>### addConfigFile</p>
+<h3 id="addconfigfile">addConfigFile</h3>
 
 <p>mixed Caramel\Services\Config::addConfigFile($file)</p>
 
 <p>merges a new config file into our current config</p>
 
-<p>* Visibility: <strong>public</strong></p>
+<ul>
+<li>Visibility: <strong>public</strong></li>
+</ul>
 
-<p>#### Arguments
-                    * $file <strong>mixed</strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### setDefaults</p>
+<ul>
+<li>$file <strong>mixed</strong></li>
+</ul>
+
+<h3 id="setdefaults">setDefaults</h3>
 
 <p>mixed Caramel\Services\Config::setDefaults(string $root)</p>
 
 <p>initially sets the required settings</p>
 
-<p>* Visibility: <strong>public</strong></p>
+<ul>
+<li>Visibility: <strong>public</strong></li>
+</ul>
 
-<p>#### Arguments
-                    * $root <strong>string</strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### setYaml</p>
+<ul>
+<li>$root <strong>string</strong></li>
+</ul>
+
+<h3 id="setyaml">setYaml</h3>
 
 <p>mixed Caramel\Services\Config::setYaml(\Symfony\Component\Yaml\Yaml $Yaml)</p>
 
 <p>sets $this-&gt;yaml</p>
 
-<p>* Visibility: <strong>public</strong></p>
+<ul>
+<li>Visibility: <strong>public</strong></li>
+</ul>
 
-<p>#### Arguments
-                    * $Yaml <strong>Symfony\Component\Yaml\Yaml</strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### set</p>
+<ul>
+<li>$Yaml <strong>symfony\component\yaml\yaml</strong></li>
+</ul>
+
+<h3 id="set">set</h3>
 
 <p>boolean Caramel\Models\Storage::set($path, $value)</p>
 
-<p>* Visibility: <strong>public</strong>
-                * This method is defined by <a href="#Caramel-Models-Storage">Caramel\Models\Storage</a></p>
+<ul>
+<li>Visibility: <strong>public</strong></li>
+<li>This method is defined by <a href="#caramel-models-storage">caramel\models\storage</a></li>
+</ul>
 
-<p>#### Arguments
-                    * $path <strong>mixed</strong>
-                    * $value <strong>mixed</strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### get</p>
+<ul>
+<li>$path <strong>mixed</strong></li>
+<li>$value <strong>mixed</strong></li>
+</ul>
+
+<h3 id="get">get</h3>
 
 <p>mixed Caramel\Models\Storage::get(string $path)</p>
 
 <p>returns a value from the storage</p>
 
-<p>* Visibility: <strong>public</strong>
-                * This method is defined by <a href="#Caramel-Models-Storage">Caramel\Models\Storage</a></p>
+<ul>
+<li>Visibility: <strong>public</strong></li>
+<li>This method is defined by <a href="#caramel-models-storage">caramel\models\storage</a></li>
+</ul>
 
-<p>#### Arguments
-                    * $path <strong>string</strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### merge</p>
+<ul>
+<li>$path <strong>string</strong></li>
+</ul>
+
+<h3 id="merge">merge</h3>
 
 <p>mixed Caramel\Models\Storage::merge(array $array)</p>
 
 <p>merge an array into the storage</p>
 
-<p>* Visibility: <strong>public</strong>
-                * This method is defined by <a href="#Caramel-Models-Storage">Caramel\Models\Storage</a></p>
+<ul>
+<li>Visibility: <strong>public</strong></li>
+<li>This method is defined by <a href="#caramel-models-storage">caramel\models\storage</a></li>
+</ul>
 
-<p>#### Arguments
-                    * $array <strong>array</strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### extend</p>
+<ul>
+<li>$array <strong>array</strong></li>
+</ul>
+
+<h3 id="extend">extend</h3>
 
 <p>array Caramel\Models\Storage::extend(string $path, array|string $value)</p>
 
 <p>extends an array in the storage</p>
 
-<p>* Visibility: <strong>public</strong>
-                * This method is defined by <a href="#Caramel-Models-Storage">Caramel\Models\Storage</a></p>
+<ul>
+<li>Visibility: <strong>public</strong></li>
+<li>This method is defined by <a href="#caramel-models-storage">caramel\models\storage</a></li>
+</ul>
 
-<p>#### Arguments
-                    * $path <strong>string</strong>
-                    * $value <strong>array|string</strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### has</p>
+<ul>
+<li>$path <strong>string</strong></li>
+<li>$value <strong>array|string</strong></li>
+</ul>
+
+<h3 id="has">has</h3>
 
 <p>array Caramel\Models\Storage::has(string $path)</p>
 
 <p>returns if the storage has the passed value</p>
 
-<p>* Visibility: <strong>public</strong>
-                * This method is defined by <a href="#Caramel-Models-Storage">Caramel\Models\Storage</a></p>
+<ul>
+<li>Visibility: <strong>public</strong></li>
+<li>This method is defined by <a href="#caramel-models-storage">caramel\models\storage</a></li>
+</ul>
 
-<p>#### Arguments
-                    * $path <strong>string</strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### delete</p>
+<ul>
+<li>$path <strong>string</strong></li>
+</ul>
+
+<h3 id="delete">delete</h3>
 
 <p>boolean Caramel\Models\Storage::delete($path)</p>
 
-<p>* Visibility: <strong>public</strong>
-                * This method is defined by <a href="#Caramel-Models-Storage">Caramel\Models\Storage</a></p>
+<ul>
+<li>Visibility: <strong>public</strong></li>
+<li>This method is defined by <a href="#caramel-models-storage">caramel\models\storage</a></li>
+</ul>
 
-<p>#### Arguments
-                    * $path <strong>mixed</strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### find</p>
+<ul>
+<li>$path <strong>mixed</strong></li>
+</ul>
+
+<h3 id="find">find</h3>
 
 <p>array Caramel\Models\Storage::find(array|string $attrs, string $value, \Caramel\Models\Storage $item)</p>
 
@@ -1669,146 +2236,193 @@ into our cache file</p>
 if we pass an array it has the same behaviour
 iterates over the array values recursively</p>
 
-<p>* Visibility: <strong>public</strong>
-                * This method is defined by <a href="#Caramel-Models-Storage">Caramel\Models\Storage</a></p>
+<ul>
+<li>Visibility: <strong>public</strong></li>
+<li>This method is defined by <a href="#caramel-models-storage">caramel\models\storage</a></li>
+</ul>
 
-<p>#### Arguments
-                    * $attrs <strong>array|string</strong>
-                    * $value <strong>string</strong>
-                    * $item <strong><a href="#Caramel-Models-Storage">Caramel\Models\Storage</a></strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### findHelper</p>
+<ul>
+<li>$attrs <strong>array|string</strong></li>
+<li>$value <strong>string</strong></li>
+<li>$item <strong><a href="#caramel-models-storage">caramel\models\storage</a></strong></li>
+</ul>
+
+<h3 id="findhelper">findHelper</h3>
 
 <p>array Caramel\Models\Storage::findHelper(array $found, \Caramel\Models\Storage $item, array|string $attrs, string $value)</p>
 
 <p>outsourcing the repeating find process</p>
 
-<p>* Visibility: <strong>private</strong>
-                * This method is defined by <a href="#Caramel-Models-Storage">Caramel\Models\Storage</a></p>
+<ul>
+<li>Visibility: <strong>private</strong></li>
+<li>This method is defined by <a href="#caramel-models-storage">caramel\models\storage</a></li>
+</ul>
 
-<p>#### Arguments
-                    * $found <strong>array</strong>
-                    * $item <strong><a href="#Caramel-Models-Storage">Caramel\Models\Storage</a></strong>
-                    * $attrs <strong>array|string</strong>
-                    * $value <strong>string</strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### getter</p>
+<ul>
+<li>$found <strong>array</strong></li>
+<li>$item <strong><a href="#caramel-models-storage">caramel\models\storage</a></strong></li>
+<li>$attrs <strong>array|string</strong></li>
+<li>$value <strong>string</strong></li>
+</ul>
+
+<h3 id="getter">getter</h3>
 
 <p>array Caramel\Models\Storage::getter($path)</p>
 
 <p>the method to set data</p>
 
-<p>* Visibility: <strong>private</strong>
-                * This method is defined by <a href="#Caramel-Models-Storage">Caramel\Models\Storage</a></p>
+<ul>
+<li>Visibility: <strong>private</strong></li>
+<li>This method is defined by <a href="#caramel-models-storage">caramel\models\storage</a></li>
+</ul>
 
-<p>#### Arguments
-                    * $path <strong>mixed</strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### setter</p>
+<ul>
+<li>$path <strong>mixed</strong></li>
+</ul>
+
+<h3 id="setter">setter</h3>
 
 <p>boolean Caramel\Models\Storage::setter($path, $value)</p>
 
-<p>* Visibility: <strong>private</strong>
-                * This method is defined by <a href="#Caramel-Models-Storage">Caramel\Models\Storage</a></p>
+<ul>
+<li>Visibility: <strong>private</strong></li>
+<li>This method is defined by <a href="#caramel-models-storage">caramel\models\storage</a></li>
+</ul>
 
-<p>#### Arguments
-                    * $path <strong>mixed</strong>
-                    * $value <strong>mixed</strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### createPath</p>
+<ul>
+<li>$path <strong>mixed</strong></li>
+<li>$value <strong>mixed</strong></li>
+</ul>
+
+<h3 id="createpath">createPath</h3>
 
 <p>array|mixed Caramel\Models\Storage::createPath($path)</p>
 
 <p>returns the path as an array</p>
 
-<p>* Visibility: <strong>private</strong>
-                * This method is defined by <a href="#Caramel-Models-Storage">Caramel\Models\Storage</a></p>
+<ul>
+<li>Visibility: <strong>private</strong></li>
+<li>This method is defined by <a href="#caramel-models-storage">caramel\models\storage</a></li>
+</ul>
 
-<p>#### Arguments
-                    * $path <strong>mixed</strong></p>
+<h4 id="arguments">Arguments</h4>
+
+<ul>
+<li>$path <strong>mixed</strong></li>
+</ul>
 
           <h1 id="caramel-services-directories">Caramel\Services\Directories</h1>
 
 <p>handles the directory creation
 Class Directories</p>
 
-<p>* Class name: Directories
-    * Namespace: Caramel\Services
-        * Parent class: <a href="#Caramel-Services-Service">Caramel\Services\Service</a></p>
+<ul>
+<li>Class name: Directories</li>
+<li>Namespace: Caramel\Services</li>
+<li>Parent class: <a href="#caramel-services-service">caramel\services\service</a></li>
+</ul>
 
-<p>Properties
-    &mdash;&mdash;&mdash;-</p>
+<h2 id="properties">Properties</h2>
 
-<p>### $caramel</p>
+<h3 id="caramel">$caramel</h3>
 
 <p>protected \Caramel\Caramel $caramel</p>
 
-<p>* Visibility: <strong>protected</strong></p>
+<ul>
+<li>Visibility: <strong>protected</strong></li>
+</ul>
 
-<p>### $yaml</p>
+<h3 id="yaml">$yaml</h3>
 
 <p>protected \Symfony\Component\Yaml\Yaml $yaml</p>
 
-<p>* Visibility: <strong>protected</strong></p>
+<ul>
+<li>Visibility: <strong>protected</strong></li>
+</ul>
 
-<p>### $vars</p>
+<h3 id="vars">$vars</h3>
 
 <p>protected \Caramel\Models\Vars $vars</p>
 
-<p>* Visibility: <strong>protected</strong></p>
+<ul>
+<li>Visibility: <strong>protected</strong></li>
+</ul>
 
-<p>### $config</p>
+<h3 id="config">$config</h3>
 
 <p>protected \Caramel\Services\Config $config</p>
 
-<p>* Visibility: <strong>protected</strong></p>
+<ul>
+<li>Visibility: <strong>protected</strong></li>
+</ul>
 
-<p>### $directories</p>
+<h3 id="directories">$directories</h3>
 
 <p>protected \Caramel\Services\Directories $directories</p>
 
-<p>* Visibility: <strong>protected</strong></p>
+<ul>
+<li>Visibility: <strong>protected</strong></li>
+</ul>
 
-<p>### $helpers</p>
+<h3 id="helpers">$helpers</h3>
 
 <p>protected \Caramel\Services\Helpers $helpers</p>
 
-<p>* Visibility: <strong>protected</strong></p>
+<ul>
+<li>Visibility: <strong>protected</strong></li>
+</ul>
 
-<p>### $cache</p>
+<h3 id="cache">$cache</h3>
 
 <p>protected \Caramel\Services\Cache $cache</p>
 
-<p>* Visibility: <strong>protected</strong></p>
+<ul>
+<li>Visibility: <strong>protected</strong></li>
+</ul>
 
-<p>### $plugins</p>
+<h3 id="plugins">$plugins</h3>
 
 <p>protected \Caramel\Services\Plugins $plugins</p>
 
-<p>* Visibility: <strong>protected</strong></p>
+<ul>
+<li>Visibility: <strong>protected</strong></li>
+</ul>
 
-<p>### $lexer</p>
+<h3 id="lexer">$lexer</h3>
 
 <p>protected \Caramel\Services\Lexer $lexer</p>
 
-<p>* Visibility: <strong>protected</strong></p>
+<ul>
+<li>Visibility: <strong>protected</strong></li>
+</ul>
 
-<p>### $parser</p>
+<h3 id="parser">$parser</h3>
 
 <p>protected \Caramel\Services\Parser $parser</p>
 
-<p>* Visibility: <strong>protected</strong></p>
+<ul>
+<li>Visibility: <strong>protected</strong></li>
+</ul>
 
-<p>### $template</p>
+<h3 id="template">$template</h3>
 
 <p>protected \Caramel\Services\Template $template</p>
 
-<p>* Visibility: <strong>protected</strong></p>
+<ul>
+<li>Visibility: <strong>protected</strong></li>
+</ul>
 
-<p>Methods
-    &mdash;&mdash;-</p>
+<h2 id="methods">Methods</h2>
 
-<p>### add</p>
+<h3 id="add">add</h3>
 
 <p>boolean Caramel\Services\Directories::add(string $dir, string $name, boolean $create)</p>
 
@@ -1818,2004 +2432,2779 @@ the $single variable will create a simple string instead of an array
 note: the directories will be added top down,
 so the last added item will be indexed with 0</p>
 
-<p>* Visibility: <strong>public</strong></p>
+<ul>
+<li>Visibility: <strong>public</strong></li>
+</ul>
 
-<p>#### Arguments
-                    * $dir <strong>string</strong>
-                    * $name <strong>string</strong>
-                    * $create <strong>boolean</strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### get</p>
+<ul>
+<li>$dir <strong>string</strong></li>
+<li>$name <strong>string</strong></li>
+<li>$create <strong>boolean</strong></li>
+</ul>
+
+<h3 id="get">get</h3>
 
 <p>array|boolean Caramel\Services\Directories::get($name)</p>
 
 <p>returns the selected directory/ies</p>
 
-<p>* Visibility: <strong>public</strong></p>
+<ul>
+<li>Visibility: <strong>public</strong></li>
+</ul>
 
-<p>#### Arguments
-                    * $name <strong>mixed</strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### remove</p>
+<ul>
+<li>$name <strong>mixed</strong></li>
+</ul>
+
+<h3 id="remove">remove</h3>
 
 <p>boolean Caramel\Services\Directories::remove(integer $pos, string $name)</p>
 
-<p>* Visibility: <strong>public</strong></p>
+<ul>
+<li>Visibility: <strong>public</strong></li>
+</ul>
 
-<p>#### Arguments
-                    * $pos <strong>integer</strong>
-                    * $name <strong>string</strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### forArray</p>
+<ul>
+<li>$pos <strong>integer</strong></li>
+<li>$name <strong>string</strong></li>
+</ul>
+
+<h3 id="forarray">forArray</h3>
 
 <p>boolean|string Caramel\Services\Directories::forArray($name, $dirs, $dir, $create)</p>
 
-<p>* Visibility: <strong>private</strong></p>
+<ul>
+<li>Visibility: <strong>private</strong></li>
+</ul>
 
-<p>#### Arguments
-                    * $name <strong>mixed</strong>
-                    * $dirs <strong>mixed</strong>
-                    * $dir <strong>mixed</strong>
-                    * $create <strong>mixed</strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### forString</p>
+<ul>
+<li>$name <strong>mixed</strong></li>
+<li>$dirs <strong>mixed</strong></li>
+<li>$dir <strong>mixed</strong></li>
+<li>$create <strong>mixed</strong></li>
+</ul>
+
+<h3 id="forstring">forString</h3>
 
 <p>mixed Caramel\Services\Directories::forString($name, $dirs, $dir, $create)</p>
 
-<p>* Visibility: <strong>private</strong></p>
+<ul>
+<li>Visibility: <strong>private</strong></li>
+</ul>
 
-<p>#### Arguments
-                    * $name <strong>mixed</strong>
-                    * $dirs <strong>mixed</strong>
-                    * $dir <strong>mixed</strong>
-                    * $create <strong>mixed</strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### create</p>
+<ul>
+<li>$name <strong>mixed</strong></li>
+<li>$dirs <strong>mixed</strong></li>
+<li>$dir <strong>mixed</strong></li>
+<li>$create <strong>mixed</strong></li>
+</ul>
+
+<h3 id="create">create</h3>
 
 <p>mixed Caramel\Services\Directories::create(boolean $create, string $dir)</p>
 
-<p>* Visibility: <strong>private</strong></p>
+<ul>
+<li>Visibility: <strong>private</strong></li>
+</ul>
 
-<p>#### Arguments
-                    * $create <strong>boolean</strong>
-                    * $dir <strong>string</strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### path</p>
+<ul>
+<li>$create <strong>boolean</strong></li>
+<li>$dir <strong>string</strong></li>
+</ul>
+
+<h3 id="path">path</h3>
 
 <p>string Caramel\Services\Directories::path($dir)</p>
 
 <p>checks if we have a relative or an absolute directory
 and returns the adjusted directory</p>
 
-<p>* Visibility: <strong>private</strong></p>
+<ul>
+<li>Visibility: <strong>private</strong></li>
+</ul>
 
-<p>#### Arguments
-                    * $dir <strong>mixed</strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### validate</p>
+<ul>
+<li>$dir <strong>mixed</strong></li>
+</ul>
+
+<h3 id="validate">validate</h3>
 
 <p>string Caramel\Services\Directories::validate($dir)</p>
 
 <p>checks if the passed directory exists</p>
 
-<p>* Visibility: <strong>private</strong></p>
+<ul>
+<li>Visibility: <strong>private</strong></li>
+</ul>
 
-<p>#### Arguments
-                    * $dir <strong>mixed</strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### root</p>
+<ul>
+<li>$dir <strong>mixed</strong></li>
+</ul>
+
+<h3 id="root">root</h3>
 
 <p>string Caramel\Services\Directories::root()</p>
 
 <p>gets the current document root</p>
 
-<p>* Visibility: <strong>private</strong></p>
+<ul>
+<li>Visibility: <strong>private</strong></li>
+</ul>
 
-<p>### framework</p>
+<h3 id="framework">framework</h3>
 
 <p>array|string Caramel\Services\Directories::framework()</p>
 
 <p>Returns the Caramel Directory</p>
 
-<p>* Visibility: <strong>private</strong></p>
+<ul>
+<li>Visibility: <strong>private</strong></li>
+</ul>
 
-<p>### setCaramel</p>
+<h3 id="setcaramel">setCaramel</h3>
 
 <p>mixed Caramel\Services\Service::setCaramel(\Caramel\Caramel $Caramel)</p>
 
 <p>sets $this-&gt;caramel</p>
 
-<p>* Visibility: <strong>public</strong>
-                * This method is defined by <a href="#Caramel-Services-Service">Caramel\Services\Service</a></p>
+<ul>
+<li>Visibility: <strong>public</strong></li>
+<li>This method is defined by <a href="#caramel-services-service">caramel\services\service</a></li>
+</ul>
 
-<p>#### Arguments
-                    * $Caramel <strong>Caramel\Caramel</strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### setYaml</p>
+<ul>
+<li>$Caramel <strong><a href="#caramel-caramel">caramel\caramel</a></strong></li>
+</ul>
+
+<h3 id="setyaml">setYaml</h3>
 
 <p>mixed Caramel\Services\Service::setYaml(\Symfony\Component\Yaml\Yaml $Yaml)</p>
 
 <p>sets $this-&gt;yaml</p>
 
-<p>* Visibility: <strong>public</strong>
-                * This method is defined by <a href="#Caramel-Services-Service">Caramel\Services\Service</a></p>
+<ul>
+<li>Visibility: <strong>public</strong></li>
+<li>This method is defined by <a href="#caramel-services-service">caramel\services\service</a></li>
+</ul>
 
-<p>#### Arguments
-                    * $Yaml <strong>Symfony\Component\Yaml\Yaml</strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### setVars</p>
+<ul>
+<li>$Yaml <strong>symfony\component\yaml\yaml</strong></li>
+</ul>
+
+<h3 id="setvars">setVars</h3>
 
 <p>mixed Caramel\Services\Service::setVars(\Caramel\Models\Vars $Vars)</p>
 
 <p>sets $this-&gt;vars</p>
 
-<p>* Visibility: <strong>public</strong>
-                * This method is defined by <a href="#Caramel-Services-Service">Caramel\Services\Service</a></p>
+<ul>
+<li>Visibility: <strong>public</strong></li>
+<li>This method is defined by <a href="#caramel-services-service">caramel\services\service</a></li>
+</ul>
 
-<p>#### Arguments
-                    * $Vars <strong><a href="#Caramel-Models-Vars">Caramel\Models\Vars</a></strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### setConfig</p>
+<ul>
+<li>$Vars <strong><a href="#caramel-models-vars">caramel\models\vars</a></strong></li>
+</ul>
+
+<h3 id="setconfig">setConfig</h3>
 
 <p>mixed Caramel\Services\Service::setConfig(\Caramel\Services\Config $Config)</p>
 
 <p>sets $this-&gt;config</p>
 
-<p>* Visibility: <strong>public</strong>
-                * This method is defined by <a href="#Caramel-Services-Service">Caramel\Services\Service</a></p>
+<ul>
+<li>Visibility: <strong>public</strong></li>
+<li>This method is defined by <a href="#caramel-services-service">caramel\services\service</a></li>
+</ul>
 
-<p>#### Arguments
-                    * $Config <strong><a href="#Caramel-Services-Config">Caramel\Services\Config</a></strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### setDirectories</p>
+<ul>
+<li>$Config <strong><a href="#caramel-services-config">caramel\services\config</a></strong></li>
+</ul>
+
+<h3 id="setdirectories">setDirectories</h3>
 
 <p>mixed Caramel\Services\Service::setDirectories(\Caramel\Services\Directories $Directories)</p>
 
 <p>sets $this-&gt;directories</p>
 
-<p>* Visibility: <strong>public</strong>
-                * This method is defined by <a href="#Caramel-Services-Service">Caramel\Services\Service</a></p>
+<ul>
+<li>Visibility: <strong>public</strong></li>
+<li>This method is defined by <a href="#caramel-services-service">caramel\services\service</a></li>
+</ul>
 
-<p>#### Arguments
-                    * $Directories <strong><a href="#Caramel-Services-Directories">Caramel\Services\Directories</a></strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### setHelpers</p>
+<ul>
+<li>$Directories <strong><a href="#caramel-services-directories">caramel\services\directories</a></strong></li>
+</ul>
+
+<h3 id="sethelpers">setHelpers</h3>
 
 <p>mixed Caramel\Services\Service::setHelpers(\Caramel\Services\Helpers $Helpers)</p>
 
 <p>sets $this-&gt;helpers</p>
 
-<p>* Visibility: <strong>public</strong>
-                * This method is defined by <a href="#Caramel-Services-Service">Caramel\Services\Service</a></p>
+<ul>
+<li>Visibility: <strong>public</strong></li>
+<li>This method is defined by <a href="#caramel-services-service">caramel\services\service</a></li>
+</ul>
 
-<p>#### Arguments
-                    * $Helpers <strong><a href="#Caramel-Services-Helpers">Caramel\Services\Helpers</a></strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### setCache</p>
+<ul>
+<li>$Helpers <strong><a href="#caramel-services-helpers">caramel\services\helpers</a></strong></li>
+</ul>
+
+<h3 id="setcache">setCache</h3>
 
 <p>mixed Caramel\Services\Service::setCache(\Caramel\Services\Cache $Cache)</p>
 
 <p>sets $this-&gt;cache</p>
 
-<p>* Visibility: <strong>public</strong>
-                * This method is defined by <a href="#Caramel-Services-Service">Caramel\Services\Service</a></p>
+<ul>
+<li>Visibility: <strong>public</strong></li>
+<li>This method is defined by <a href="#caramel-services-service">caramel\services\service</a></li>
+</ul>
 
-<p>#### Arguments
-                    * $Cache <strong><a href="#Caramel-Services-Cache">Caramel\Services\Cache</a></strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### setPlugins</p>
+<ul>
+<li>$Cache <strong><a href="#caramel-services-cache">caramel\services\cache</a></strong></li>
+</ul>
+
+<h3 id="setplugins">setPlugins</h3>
 
 <p>mixed Caramel\Services\Service::setPlugins(\Caramel\Services\Plugins $Plugins)</p>
 
 <p>sets $this-&gt;plugins</p>
 
-<p>* Visibility: <strong>public</strong>
-                * This method is defined by <a href="#Caramel-Services-Service">Caramel\Services\Service</a></p>
+<ul>
+<li>Visibility: <strong>public</strong></li>
+<li>This method is defined by <a href="#caramel-services-service">caramel\services\service</a></li>
+</ul>
 
-<p>#### Arguments
-                    * $Plugins <strong><a href="#Caramel-Services-Plugins">Caramel\Services\Plugins</a></strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### setLexer</p>
+<ul>
+<li>$Plugins <strong><a href="#caramel-services-plugins">caramel\services\plugins</a></strong></li>
+</ul>
+
+<h3 id="setlexer">setLexer</h3>
 
 <p>mixed Caramel\Services\Service::setLexer(\Caramel\Services\Lexer $Lexer)</p>
 
 <p>sets $this-&gt;lexer</p>
 
-<p>* Visibility: <strong>public</strong>
-                * This method is defined by <a href="#Caramel-Services-Service">Caramel\Services\Service</a></p>
+<ul>
+<li>Visibility: <strong>public</strong></li>
+<li>This method is defined by <a href="#caramel-services-service">caramel\services\service</a></li>
+</ul>
 
-<p>#### Arguments
-                    * $Lexer <strong><a href="#Caramel-Services-Lexer">Caramel\Services\Lexer</a></strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### setParser</p>
+<ul>
+<li>$Lexer <strong><a href="#caramel-services-lexer">caramel\services\lexer</a></strong></li>
+</ul>
+
+<h3 id="setparser">setParser</h3>
 
 <p>mixed Caramel\Services\Service::setParser(\Caramel\Services\Parser $Parser)</p>
 
 <p>sets $this-&gt;parser</p>
 
-<p>* Visibility: <strong>public</strong>
-                * This method is defined by <a href="#Caramel-Services-Service">Caramel\Services\Service</a></p>
+<ul>
+<li>Visibility: <strong>public</strong></li>
+<li>This method is defined by <a href="#caramel-services-service">caramel\services\service</a></li>
+</ul>
 
-<p>#### Arguments
-                    * $Parser <strong><a href="#Caramel-Services-Parser">Caramel\Services\Parser</a></strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### setTemplate</p>
+<ul>
+<li>$Parser <strong><a href="#caramel-services-parser">caramel\services\parser</a></strong></li>
+</ul>
+
+<h3 id="settemplate">setTemplate</h3>
 
 <p>mixed Caramel\Services\Service::setTemplate(\Caramel\Services\Template $Template)</p>
 
 <p>sets $this-&gt;template</p>
 
-<p>* Visibility: <strong>public</strong>
-                * This method is defined by <a href="#Caramel-Services-Service">Caramel\Services\Service</a></p>
+<ul>
+<li>Visibility: <strong>public</strong></li>
+<li>This method is defined by <a href="#caramel-services-service">caramel\services\service</a></li>
+</ul>
 
-<p>#### Arguments
-                    * $Template <strong><a href="#Caramel-Services-Template">Caramel\Services\Template</a></strong></p>
+<h4 id="arguments">Arguments</h4>
+
+<ul>
+<li>$Template <strong><a href="#caramel-services-template">caramel\services\template</a></strong></li>
+</ul>
 
           <h1 id="caramel-services-helpers">Caramel\Services\Helpers</h1>
 
-<p>* Class name: Helpers
-    * Namespace: Caramel\Services
-        * Parent class: <a href="#Caramel-Services-Service">Caramel\Services\Service</a></p>
+<ul>
+<li>Class name: Helpers</li>
+<li>Namespace: Caramel\Services</li>
+<li>Parent class: <a href="#caramel-services-service">caramel\services\service</a></li>
+</ul>
 
-<p>Properties
-    &mdash;&mdash;&mdash;-</p>
+<h2 id="properties">Properties</h2>
 
-<p>### $caramel</p>
+<h3 id="caramel">$caramel</h3>
 
 <p>protected \Caramel\Caramel $caramel</p>
 
-<p>* Visibility: <strong>protected</strong></p>
+<ul>
+<li>Visibility: <strong>protected</strong></li>
+</ul>
 
-<p>### $yaml</p>
+<h3 id="yaml">$yaml</h3>
 
 <p>protected \Symfony\Component\Yaml\Yaml $yaml</p>
 
-<p>* Visibility: <strong>protected</strong></p>
+<ul>
+<li>Visibility: <strong>protected</strong></li>
+</ul>
 
-<p>### $vars</p>
+<h3 id="vars">$vars</h3>
 
 <p>protected \Caramel\Models\Vars $vars</p>
 
-<p>* Visibility: <strong>protected</strong></p>
+<ul>
+<li>Visibility: <strong>protected</strong></li>
+</ul>
 
-<p>### $config</p>
+<h3 id="config">$config</h3>
 
 <p>protected \Caramel\Services\Config $config</p>
 
-<p>* Visibility: <strong>protected</strong></p>
+<ul>
+<li>Visibility: <strong>protected</strong></li>
+</ul>
 
-<p>### $directories</p>
+<h3 id="directories">$directories</h3>
 
 <p>protected \Caramel\Services\Directories $directories</p>
 
-<p>* Visibility: <strong>protected</strong></p>
+<ul>
+<li>Visibility: <strong>protected</strong></li>
+</ul>
 
-<p>### $helpers</p>
+<h3 id="helpers">$helpers</h3>
 
 <p>protected \Caramel\Services\Helpers $helpers</p>
 
-<p>* Visibility: <strong>protected</strong></p>
+<ul>
+<li>Visibility: <strong>protected</strong></li>
+</ul>
 
-<p>### $cache</p>
+<h3 id="cache">$cache</h3>
 
 <p>protected \Caramel\Services\Cache $cache</p>
 
-<p>* Visibility: <strong>protected</strong></p>
+<ul>
+<li>Visibility: <strong>protected</strong></li>
+</ul>
 
-<p>### $plugins</p>
+<h3 id="plugins">$plugins</h3>
 
 <p>protected \Caramel\Services\Plugins $plugins</p>
 
-<p>* Visibility: <strong>protected</strong></p>
+<ul>
+<li>Visibility: <strong>protected</strong></li>
+</ul>
 
-<p>### $lexer</p>
+<h3 id="lexer">$lexer</h3>
 
 <p>protected \Caramel\Services\Lexer $lexer</p>
 
-<p>* Visibility: <strong>protected</strong></p>
+<ul>
+<li>Visibility: <strong>protected</strong></li>
+</ul>
 
-<p>### $parser</p>
+<h3 id="parser">$parser</h3>
 
 <p>protected \Caramel\Services\Parser $parser</p>
 
-<p>* Visibility: <strong>protected</strong></p>
+<ul>
+<li>Visibility: <strong>protected</strong></li>
+</ul>
 
-<p>### $template</p>
+<h3 id="template">$template</h3>
 
 <p>protected \Caramel\Services\Template $template</p>
 
-<p>* Visibility: <strong>protected</strong></p>
+<ul>
+<li>Visibility: <strong>protected</strong></li>
+</ul>
 
-<p>Methods
-    &mdash;&mdash;-</p>
+<h2 id="methods">Methods</h2>
 
-<p>### str_find</p>
+<h3 id="str_find">str_find</h3>
 
 <p>boolean Caramel\Services\Helpers::str_find(string $string, string $needle)</p>
 
 <p>searches a string for the needle and returns true if found</p>
 
-<p>* Visibility: <strong>public</strong></p>
+<ul>
+<li>Visibility: <strong>public</strong></li>
+</ul>
 
-<p>#### Arguments
-                    * $string <strong>string</strong>
-                    * $needle <strong>string</strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### templates</p>
+<ul>
+<li>$string <strong>string</strong></li>
+<li>$needle <strong>string</strong></li>
+</ul>
+
+<h3 id="templates">templates</h3>
 
 <p>array Caramel\Services\Helpers::templates(string $file)</p>
 
 <p>returns all found template files for the given abbreviation</p>
 
-<p>* Visibility: <strong>public</strong></p>
+<ul>
+<li>Visibility: <strong>public</strong></li>
+</ul>
 
-<p>#### Arguments
-                    * $file <strong>string</strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### setCaramel</p>
+<ul>
+<li>$file <strong>string</strong></li>
+</ul>
+
+<h3 id="setcaramel">setCaramel</h3>
 
 <p>mixed Caramel\Services\Service::setCaramel(\Caramel\Caramel $Caramel)</p>
 
 <p>sets $this-&gt;caramel</p>
 
-<p>* Visibility: <strong>public</strong>
-                * This method is defined by <a href="#Caramel-Services-Service">Caramel\Services\Service</a></p>
+<ul>
+<li>Visibility: <strong>public</strong></li>
+<li>This method is defined by <a href="#caramel-services-service">caramel\services\service</a></li>
+</ul>
 
-<p>#### Arguments
-                    * $Caramel <strong>Caramel\Caramel</strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### setYaml</p>
+<ul>
+<li>$Caramel <strong><a href="#caramel-caramel">caramel\caramel</a></strong></li>
+</ul>
+
+<h3 id="setyaml">setYaml</h3>
 
 <p>mixed Caramel\Services\Service::setYaml(\Symfony\Component\Yaml\Yaml $Yaml)</p>
 
 <p>sets $this-&gt;yaml</p>
 
-<p>* Visibility: <strong>public</strong>
-                * This method is defined by <a href="#Caramel-Services-Service">Caramel\Services\Service</a></p>
+<ul>
+<li>Visibility: <strong>public</strong></li>
+<li>This method is defined by <a href="#caramel-services-service">caramel\services\service</a></li>
+</ul>
 
-<p>#### Arguments
-                    * $Yaml <strong>Symfony\Component\Yaml\Yaml</strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### setVars</p>
+<ul>
+<li>$Yaml <strong>symfony\component\yaml\yaml</strong></li>
+</ul>
+
+<h3 id="setvars">setVars</h3>
 
 <p>mixed Caramel\Services\Service::setVars(\Caramel\Models\Vars $Vars)</p>
 
 <p>sets $this-&gt;vars</p>
 
-<p>* Visibility: <strong>public</strong>
-                * This method is defined by <a href="#Caramel-Services-Service">Caramel\Services\Service</a></p>
+<ul>
+<li>Visibility: <strong>public</strong></li>
+<li>This method is defined by <a href="#caramel-services-service">caramel\services\service</a></li>
+</ul>
 
-<p>#### Arguments
-                    * $Vars <strong><a href="#Caramel-Models-Vars">Caramel\Models\Vars</a></strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### setConfig</p>
+<ul>
+<li>$Vars <strong><a href="#caramel-models-vars">caramel\models\vars</a></strong></li>
+</ul>
+
+<h3 id="setconfig">setConfig</h3>
 
 <p>mixed Caramel\Services\Service::setConfig(\Caramel\Services\Config $Config)</p>
 
 <p>sets $this-&gt;config</p>
 
-<p>* Visibility: <strong>public</strong>
-                * This method is defined by <a href="#Caramel-Services-Service">Caramel\Services\Service</a></p>
+<ul>
+<li>Visibility: <strong>public</strong></li>
+<li>This method is defined by <a href="#caramel-services-service">caramel\services\service</a></li>
+</ul>
 
-<p>#### Arguments
-                    * $Config <strong><a href="#Caramel-Services-Config">Caramel\Services\Config</a></strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### setDirectories</p>
+<ul>
+<li>$Config <strong><a href="#caramel-services-config">caramel\services\config</a></strong></li>
+</ul>
+
+<h3 id="setdirectories">setDirectories</h3>
 
 <p>mixed Caramel\Services\Service::setDirectories(\Caramel\Services\Directories $Directories)</p>
 
 <p>sets $this-&gt;directories</p>
 
-<p>* Visibility: <strong>public</strong>
-                * This method is defined by <a href="#Caramel-Services-Service">Caramel\Services\Service</a></p>
+<ul>
+<li>Visibility: <strong>public</strong></li>
+<li>This method is defined by <a href="#caramel-services-service">caramel\services\service</a></li>
+</ul>
 
-<p>#### Arguments
-                    * $Directories <strong><a href="#Caramel-Services-Directories">Caramel\Services\Directories</a></strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### setHelpers</p>
+<ul>
+<li>$Directories <strong><a href="#caramel-services-directories">caramel\services\directories</a></strong></li>
+</ul>
+
+<h3 id="sethelpers">setHelpers</h3>
 
 <p>mixed Caramel\Services\Service::setHelpers(\Caramel\Services\Helpers $Helpers)</p>
 
 <p>sets $this-&gt;helpers</p>
 
-<p>* Visibility: <strong>public</strong>
-                * This method is defined by <a href="#Caramel-Services-Service">Caramel\Services\Service</a></p>
+<ul>
+<li>Visibility: <strong>public</strong></li>
+<li>This method is defined by <a href="#caramel-services-service">caramel\services\service</a></li>
+</ul>
 
-<p>#### Arguments
-                    * $Helpers <strong><a href="#Caramel-Services-Helpers">Caramel\Services\Helpers</a></strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### setCache</p>
+<ul>
+<li>$Helpers <strong><a href="#caramel-services-helpers">caramel\services\helpers</a></strong></li>
+</ul>
+
+<h3 id="setcache">setCache</h3>
 
 <p>mixed Caramel\Services\Service::setCache(\Caramel\Services\Cache $Cache)</p>
 
 <p>sets $this-&gt;cache</p>
 
-<p>* Visibility: <strong>public</strong>
-                * This method is defined by <a href="#Caramel-Services-Service">Caramel\Services\Service</a></p>
+<ul>
+<li>Visibility: <strong>public</strong></li>
+<li>This method is defined by <a href="#caramel-services-service">caramel\services\service</a></li>
+</ul>
 
-<p>#### Arguments
-                    * $Cache <strong><a href="#Caramel-Services-Cache">Caramel\Services\Cache</a></strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### setPlugins</p>
+<ul>
+<li>$Cache <strong><a href="#caramel-services-cache">caramel\services\cache</a></strong></li>
+</ul>
+
+<h3 id="setplugins">setPlugins</h3>
 
 <p>mixed Caramel\Services\Service::setPlugins(\Caramel\Services\Plugins $Plugins)</p>
 
 <p>sets $this-&gt;plugins</p>
 
-<p>* Visibility: <strong>public</strong>
-                * This method is defined by <a href="#Caramel-Services-Service">Caramel\Services\Service</a></p>
+<ul>
+<li>Visibility: <strong>public</strong></li>
+<li>This method is defined by <a href="#caramel-services-service">caramel\services\service</a></li>
+</ul>
 
-<p>#### Arguments
-                    * $Plugins <strong><a href="#Caramel-Services-Plugins">Caramel\Services\Plugins</a></strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### setLexer</p>
+<ul>
+<li>$Plugins <strong><a href="#caramel-services-plugins">caramel\services\plugins</a></strong></li>
+</ul>
+
+<h3 id="setlexer">setLexer</h3>
 
 <p>mixed Caramel\Services\Service::setLexer(\Caramel\Services\Lexer $Lexer)</p>
 
 <p>sets $this-&gt;lexer</p>
 
-<p>* Visibility: <strong>public</strong>
-                * This method is defined by <a href="#Caramel-Services-Service">Caramel\Services\Service</a></p>
+<ul>
+<li>Visibility: <strong>public</strong></li>
+<li>This method is defined by <a href="#caramel-services-service">caramel\services\service</a></li>
+</ul>
 
-<p>#### Arguments
-                    * $Lexer <strong><a href="#Caramel-Services-Lexer">Caramel\Services\Lexer</a></strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### setParser</p>
+<ul>
+<li>$Lexer <strong><a href="#caramel-services-lexer">caramel\services\lexer</a></strong></li>
+</ul>
+
+<h3 id="setparser">setParser</h3>
 
 <p>mixed Caramel\Services\Service::setParser(\Caramel\Services\Parser $Parser)</p>
 
 <p>sets $this-&gt;parser</p>
 
-<p>* Visibility: <strong>public</strong>
-                * This method is defined by <a href="#Caramel-Services-Service">Caramel\Services\Service</a></p>
+<ul>
+<li>Visibility: <strong>public</strong></li>
+<li>This method is defined by <a href="#caramel-services-service">caramel\services\service</a></li>
+</ul>
 
-<p>#### Arguments
-                    * $Parser <strong><a href="#Caramel-Services-Parser">Caramel\Services\Parser</a></strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### setTemplate</p>
+<ul>
+<li>$Parser <strong><a href="#caramel-services-parser">caramel\services\parser</a></strong></li>
+</ul>
+
+<h3 id="settemplate">setTemplate</h3>
 
 <p>mixed Caramel\Services\Service::setTemplate(\Caramel\Services\Template $Template)</p>
 
 <p>sets $this-&gt;template</p>
 
-<p>* Visibility: <strong>public</strong>
-                * This method is defined by <a href="#Caramel-Services-Service">Caramel\Services\Service</a></p>
+<ul>
+<li>Visibility: <strong>public</strong></li>
+<li>This method is defined by <a href="#caramel-services-service">caramel\services\service</a></li>
+</ul>
 
-<p>#### Arguments
-                    * $Template <strong><a href="#Caramel-Services-Template">Caramel\Services\Template</a></strong></p>
+<h4 id="arguments">Arguments</h4>
+
+<ul>
+<li>$Template <strong><a href="#caramel-services-template">caramel\services\template</a></strong></li>
+</ul>
 
           <h1 id="caramel-services-lexer">Caramel\Services\Lexer</h1>
 
 <p>Class Lexer</p>
 
-<p>* Class name: Lexer
-    * Namespace: Caramel\Services
-        * Parent class: <a href="#Caramel-Services-Service">Caramel\Services\Service</a></p>
+<ul>
+<li>Class name: Lexer</li>
+<li>Namespace: Caramel\Services</li>
+<li>Parent class: <a href="#caramel-services-service">caramel\services\service</a></li>
+</ul>
 
-<p>Properties
-    &mdash;&mdash;&mdash;-</p>
+<h2 id="properties">Properties</h2>
 
-<p>### $dom</p>
+<h3 id="dom">$dom</h3>
 
 <p>private \Caramel\Models\Dom $dom</p>
 
-<p>* Visibility: <strong>private</strong></p>
+<ul>
+<li>Visibility: <strong>private</strong></li>
+</ul>
 
-<p>### $caramel</p>
+<h3 id="caramel">$caramel</h3>
 
 <p>protected \Caramel\Caramel $caramel</p>
 
-<p>* Visibility: <strong>protected</strong></p>
+<ul>
+<li>Visibility: <strong>protected</strong></li>
+</ul>
 
-<p>### $yaml</p>
+<h3 id="yaml">$yaml</h3>
 
 <p>protected \Symfony\Component\Yaml\Yaml $yaml</p>
 
-<p>* Visibility: <strong>protected</strong></p>
+<ul>
+<li>Visibility: <strong>protected</strong></li>
+</ul>
 
-<p>### $vars</p>
+<h3 id="vars">$vars</h3>
 
 <p>protected \Caramel\Models\Vars $vars</p>
 
-<p>* Visibility: <strong>protected</strong></p>
+<ul>
+<li>Visibility: <strong>protected</strong></li>
+</ul>
 
-<p>### $config</p>
+<h3 id="config">$config</h3>
 
 <p>protected \Caramel\Services\Config $config</p>
 
-<p>* Visibility: <strong>protected</strong></p>
+<ul>
+<li>Visibility: <strong>protected</strong></li>
+</ul>
 
-<p>### $directories</p>
+<h3 id="directories">$directories</h3>
 
 <p>protected \Caramel\Services\Directories $directories</p>
 
-<p>* Visibility: <strong>protected</strong></p>
+<ul>
+<li>Visibility: <strong>protected</strong></li>
+</ul>
 
-<p>### $helpers</p>
+<h3 id="helpers">$helpers</h3>
 
 <p>protected \Caramel\Services\Helpers $helpers</p>
 
-<p>* Visibility: <strong>protected</strong></p>
+<ul>
+<li>Visibility: <strong>protected</strong></li>
+</ul>
 
-<p>### $cache</p>
+<h3 id="cache">$cache</h3>
 
 <p>protected \Caramel\Services\Cache $cache</p>
 
-<p>* Visibility: <strong>protected</strong></p>
+<ul>
+<li>Visibility: <strong>protected</strong></li>
+</ul>
 
-<p>### $plugins</p>
+<h3 id="plugins">$plugins</h3>
 
 <p>protected \Caramel\Services\Plugins $plugins</p>
 
-<p>* Visibility: <strong>protected</strong></p>
+<ul>
+<li>Visibility: <strong>protected</strong></li>
+</ul>
 
-<p>### $lexer</p>
+<h3 id="lexer">$lexer</h3>
 
 <p>protected \Caramel\Services\Lexer $lexer</p>
 
-<p>* Visibility: <strong>protected</strong></p>
+<ul>
+<li>Visibility: <strong>protected</strong></li>
+</ul>
 
-<p>### $parser</p>
+<h3 id="parser">$parser</h3>
 
 <p>protected \Caramel\Services\Parser $parser</p>
 
-<p>* Visibility: <strong>protected</strong></p>
+<ul>
+<li>Visibility: <strong>protected</strong></li>
+</ul>
 
-<p>### $template</p>
+<h3 id="template">$template</h3>
 
 <p>protected \Caramel\Services\Template $template</p>
 
-<p>* Visibility: <strong>protected</strong></p>
+<ul>
+<li>Visibility: <strong>protected</strong></li>
+</ul>
 
-<p>Methods
-    &mdash;&mdash;-</p>
+<h2 id="methods">Methods</h2>
 
-<p>### lex</p>
+<h3 id="lex">lex</h3>
 
 <p>array Caramel\Services\Lexer::lex(string $file, integer|boolean $level)</p>
 
 <p>returns Dom object</p>
 
-<p>* Visibility: <strong>public</strong></p>
+<ul>
+<li>Visibility: <strong>public</strong></li>
+</ul>
 
-<p>#### Arguments
-                    * $file <strong>string</strong>
-                    * $level <strong>integer|boolean</strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### prepare</p>
+<ul>
+<li>$file <strong>string</strong></li>
+<li>$level <strong>integer|boolean</strong></li>
+</ul>
+
+<h3 id="prepare">prepare</h3>
 
 <p>mixed Caramel\Services\Lexer::prepare(string $file, integer $level)</p>
 
 <p>set the default values for our dom</p>
 
-<p>* Visibility: <strong>private</strong></p>
+<ul>
+<li>Visibility: <strong>private</strong></li>
+</ul>
 
-<p>#### Arguments
-                    * $file <strong>string</strong>
-                    * $level <strong>integer</strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### template</p>
+<ul>
+<li>$file <strong>string</strong></li>
+<li>$level <strong>integer</strong></li>
+</ul>
+
+<h3 id="template">template</h3>
 
 <p>\Caramel\Models\Storage Caramel\Services\Lexer::template($file, $level)</p>
 
 <p>returns the matching file template</p>
 
-<p>* Visibility: <strong>private</strong></p>
+<ul>
+<li>Visibility: <strong>private</strong></li>
+</ul>
 
-<p>#### Arguments
-                    * $file <strong>mixed</strong>
-                    * $level <strong>mixed</strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### process</p>
+<ul>
+<li>$file <strong>mixed</strong></li>
+<li>$level <strong>mixed</strong></li>
+</ul>
+
+<h3 id="process">process</h3>
 
 <p>mixed Caramel\Services\Lexer::process()</p>
 
 <p>creates a dom for the current file</p>
 
-<p>* Visibility: <strong>private</strong></p>
+<ul>
+<li>Visibility: <strong>private</strong></li>
+</ul>
 
-<p>### info</p>
+<h3 id="info">info</h3>
 
 <p>\Caramel\Models\Storage Caramel\Services\Lexer::info($line)</p>
 
 <p>returns an array with information about the current node</p>
 
-<p>* Visibility: <strong>private</strong></p>
+<ul>
+<li>Visibility: <strong>private</strong></li>
+</ul>
 
-<p>#### Arguments
-                    * $line <strong>mixed</strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### indent</p>
+<ul>
+<li>$line <strong>mixed</strong></li>
+</ul>
+
+<h3 id="indent">indent</h3>
 
 <p>float|integer Caramel\Services\Lexer::indent($line)</p>
 
 <p>returns the indent of the current line
 also initially sets the indent character and amount</p>
 
-<p>* Visibility: <strong>private</strong></p>
+<ul>
+<li>Visibility: <strong>private</strong></li>
+</ul>
 
-<p>#### Arguments
-                    * $line <strong>mixed</strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### tag</p>
+<ul>
+<li>$line <strong>mixed</strong></li>
+</ul>
+
+<h3 id="tag">tag</h3>
 
 <p>string Caramel\Services\Lexer::tag(string $line)</p>
 
 <p>returns the tag for the current line</p>
 
-<p>* Visibility: <strong>private</strong></p>
+<ul>
+<li>Visibility: <strong>private</strong></li>
+</ul>
 
-<p>#### Arguments
-                    * $line <strong>string</strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### attributes</p>
+<ul>
+<li>$line <strong>string</strong></li>
+</ul>
+
+<h3 id="attributes">attributes</h3>
 
 <p>string Caramel\Services\Lexer::attributes(string $line, \Caramel\Models\Storage $info)</p>
 
 <p>returns the attributes for the current line</p>
 
-<p>* Visibility: <strong>private</strong></p>
+<ul>
+<li>Visibility: <strong>private</strong></li>
+</ul>
 
-<p>#### Arguments
-                    * $line <strong>string</strong>
-                    * $info <strong><a href="#Caramel-Models-Storage">Caramel\Models\Storage</a></strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### content</p>
+<ul>
+<li>$line <strong>string</strong></li>
+<li>$info <strong><a href="#caramel-models-storage">caramel\models\storage</a></strong></li>
+</ul>
+
+<h3 id="content">content</h3>
 
 <p>string Caramel\Services\Lexer::content(string $line, \Caramel\Models\Storage $info)</p>
 
 <p>returns the content for the current line</p>
 
-<p>* Visibility: <strong>private</strong></p>
+<ul>
+<li>Visibility: <strong>private</strong></li>
+</ul>
 
-<p>#### Arguments
-                    * $line <strong>string</strong>
-                    * $info <strong><a href="#Caramel-Models-Storage">Caramel\Models\Storage</a></strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### selfclosing</p>
+<ul>
+<li>$line <strong>string</strong></li>
+<li>$info <strong><a href="#caramel-models-storage">caramel\models\storage</a></strong></li>
+</ul>
+
+<h3 id="selfclosing">selfclosing</h3>
 
 <p>string Caramel\Services\Lexer::selfclosing(\Caramel\Models\Storage $info)</p>
 
 <p>returns if the current line has a self closing tag</p>
 
-<p>* Visibility: <strong>private</strong></p>
+<ul>
+<li>Visibility: <strong>private</strong></li>
+</ul>
 
-<p>#### Arguments
-                    * $info <strong><a href="#Caramel-Models-Storage">Caramel\Models\Storage</a></strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### node</p>
+<ul>
+<li>$info <strong><a href="#caramel-models-storage">caramel\models\storage</a></strong></li>
+</ul>
+
+<h3 id="node">node</h3>
 
 <p>\Caramel\Models\Node Caramel\Services\Lexer::node(string $line, \Caramel\Models\Storage $info)</p>
 
 <p>creates a new node from a line</p>
 
-<p>* Visibility: <strong>private</strong></p>
+<ul>
+<li>Visibility: <strong>private</strong></li>
+</ul>
 
-<p>#### Arguments
-                    * $line <strong>string</strong>
-                    * $info <strong><a href="#Caramel-Models-Storage">Caramel\Models\Storage</a></strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### add</p>
+<ul>
+<li>$line <strong>string</strong></li>
+<li>$info <strong><a href="#caramel-models-storage">caramel\models\storage</a></strong></li>
+</ul>
+
+<h3 id="add">add</h3>
 
 <p>mixed Caramel\Services\Lexer::add(\Caramel\Models\Node $node)</p>
 
 <p>adds the node to the dom
 parent/child logic is handled here</p>
 
-<p>* Visibility: <strong>private</strong></p>
+<ul>
+<li>Visibility: <strong>private</strong></li>
+</ul>
 
-<p>#### Arguments
-                    * $node <strong><a href="#Caramel-Models-Node">Caramel\Models\Node</a></strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### deeper</p>
+<ul>
+<li>$node <strong><a href="#caramel-models-node">caramel\models\node</a></strong></li>
+</ul>
+
+<h3 id="deeper">deeper</h3>
 
 <p>mixed Caramel\Services\Lexer::deeper(\Caramel\Models\Node $node)</p>
 
 <p>adds a node to the dom if has a deeper level
 than the previous node</p>
 
-<p>* Visibility: <strong>private</strong></p>
+<ul>
+<li>Visibility: <strong>private</strong></li>
+</ul>
 
-<p>#### Arguments
-                    * $node <strong><a href="#Caramel-Models-Node">Caramel\Models\Node</a></strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### higher</p>
+<ul>
+<li>$node <strong><a href="#caramel-models-node">caramel\models\node</a></strong></li>
+</ul>
+
+<h3 id="higher">higher</h3>
 
 <p>mixed Caramel\Services\Lexer::higher(\Caramel\Models\Node $node)</p>
 
 <p>adds a node to the dom if has a higher level
 than the previous node</p>
 
-<p>* Visibility: <strong>private</strong></p>
+<ul>
+<li>Visibility: <strong>private</strong></li>
+</ul>
 
-<p>#### Arguments
-                    * $node <strong><a href="#Caramel-Models-Node">Caramel\Models\Node</a></strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### same</p>
+<ul>
+<li>$node <strong><a href="#caramel-models-node">caramel\models\node</a></strong></li>
+</ul>
+
+<h3 id="same">same</h3>
 
 <p>mixed Caramel\Services\Lexer::same(\Caramel\Models\Node $node)</p>
 
 <p>adds a node to the dom if has the same  level
 than the previous node</p>
 
-<p>* Visibility: <strong>private</strong></p>
+<ul>
+<li>Visibility: <strong>private</strong></li>
+</ul>
 
-<p>#### Arguments
-                    * $node <strong><a href="#Caramel-Models-Node">Caramel\Models\Node</a></strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### children</p>
+<ul>
+<li>$node <strong><a href="#caramel-models-node">caramel\models\node</a></strong></li>
+</ul>
+
+<h3 id="children">children</h3>
 
 <p>mixed Caramel\Services\Lexer::children(\Caramel\Models\Node $target, \Caramel\Models\Node $node)</p>
 
 <p>adds the passed node to children</p>
 
-<p>* Visibility: <strong>private</strong></p>
+<ul>
+<li>Visibility: <strong>private</strong></li>
+</ul>
 
-<p>#### Arguments
-                    * $target <strong><a href="#Caramel-Models-Node">Caramel\Models\Node</a></strong>
-                    * $node <strong><a href="#Caramel-Models-Node">Caramel\Models\Node</a></strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### parent</p>
+<ul>
+<li>$target <strong><a href="#caramel-models-node">caramel\models\node</a></strong></li>
+<li>$node <strong><a href="#caramel-models-node">caramel\models\node</a></strong></li>
+</ul>
+
+<h3 id="parent">parent</h3>
 
 <p>\Caramel\Models\Node Caramel\Services\Lexer::parent(\Caramel\Models\Node $node, boolean|\Caramel\Models\Node $parent)</p>
 
 <p>returns the parent of the passed node</p>
 
-<p>* Visibility: <strong>private</strong></p>
+<ul>
+<li>Visibility: <strong>private</strong></li>
+</ul>
 
-<p>#### Arguments
-                    * $node <strong><a href="#Caramel-Models-Node">Caramel\Models\Node</a></strong>
-                    * $parent <strong>boolean|<a href="#Caramel-Models-Node">boolean</a></strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### setCaramel</p>
+<ul>
+<li>$node <strong><a href="#caramel-models-node">caramel\models\node</a></strong></li>
+<li>$parent <strong>boolean|<a href="#caramel-models-node">boolean</a></strong></li>
+</ul>
+
+<h3 id="setcaramel">setCaramel</h3>
 
 <p>mixed Caramel\Services\Service::setCaramel(\Caramel\Caramel $Caramel)</p>
 
 <p>sets $this-&gt;caramel</p>
 
-<p>* Visibility: <strong>public</strong>
-                * This method is defined by <a href="#Caramel-Services-Service">Caramel\Services\Service</a></p>
+<ul>
+<li>Visibility: <strong>public</strong></li>
+<li>This method is defined by <a href="#caramel-services-service">caramel\services\service</a></li>
+</ul>
 
-<p>#### Arguments
-                    * $Caramel <strong>Caramel\Caramel</strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### setYaml</p>
+<ul>
+<li>$Caramel <strong><a href="#caramel-caramel">caramel\caramel</a></strong></li>
+</ul>
+
+<h3 id="setyaml">setYaml</h3>
 
 <p>mixed Caramel\Services\Service::setYaml(\Symfony\Component\Yaml\Yaml $Yaml)</p>
 
 <p>sets $this-&gt;yaml</p>
 
-<p>* Visibility: <strong>public</strong>
-                * This method is defined by <a href="#Caramel-Services-Service">Caramel\Services\Service</a></p>
+<ul>
+<li>Visibility: <strong>public</strong></li>
+<li>This method is defined by <a href="#caramel-services-service">caramel\services\service</a></li>
+</ul>
 
-<p>#### Arguments
-                    * $Yaml <strong>Symfony\Component\Yaml\Yaml</strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### setVars</p>
+<ul>
+<li>$Yaml <strong>symfony\component\yaml\yaml</strong></li>
+</ul>
+
+<h3 id="setvars">setVars</h3>
 
 <p>mixed Caramel\Services\Service::setVars(\Caramel\Models\Vars $Vars)</p>
 
 <p>sets $this-&gt;vars</p>
 
-<p>* Visibility: <strong>public</strong>
-                * This method is defined by <a href="#Caramel-Services-Service">Caramel\Services\Service</a></p>
+<ul>
+<li>Visibility: <strong>public</strong></li>
+<li>This method is defined by <a href="#caramel-services-service">caramel\services\service</a></li>
+</ul>
 
-<p>#### Arguments
-                    * $Vars <strong><a href="#Caramel-Models-Vars">Caramel\Models\Vars</a></strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### setConfig</p>
+<ul>
+<li>$Vars <strong><a href="#caramel-models-vars">caramel\models\vars</a></strong></li>
+</ul>
+
+<h3 id="setconfig">setConfig</h3>
 
 <p>mixed Caramel\Services\Service::setConfig(\Caramel\Services\Config $Config)</p>
 
 <p>sets $this-&gt;config</p>
 
-<p>* Visibility: <strong>public</strong>
-                * This method is defined by <a href="#Caramel-Services-Service">Caramel\Services\Service</a></p>
+<ul>
+<li>Visibility: <strong>public</strong></li>
+<li>This method is defined by <a href="#caramel-services-service">caramel\services\service</a></li>
+</ul>
 
-<p>#### Arguments
-                    * $Config <strong><a href="#Caramel-Services-Config">Caramel\Services\Config</a></strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### setDirectories</p>
+<ul>
+<li>$Config <strong><a href="#caramel-services-config">caramel\services\config</a></strong></li>
+</ul>
+
+<h3 id="setdirectories">setDirectories</h3>
 
 <p>mixed Caramel\Services\Service::setDirectories(\Caramel\Services\Directories $Directories)</p>
 
 <p>sets $this-&gt;directories</p>
 
-<p>* Visibility: <strong>public</strong>
-                * This method is defined by <a href="#Caramel-Services-Service">Caramel\Services\Service</a></p>
+<ul>
+<li>Visibility: <strong>public</strong></li>
+<li>This method is defined by <a href="#caramel-services-service">caramel\services\service</a></li>
+</ul>
 
-<p>#### Arguments
-                    * $Directories <strong><a href="#Caramel-Services-Directories">Caramel\Services\Directories</a></strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### setHelpers</p>
+<ul>
+<li>$Directories <strong><a href="#caramel-services-directories">caramel\services\directories</a></strong></li>
+</ul>
+
+<h3 id="sethelpers">setHelpers</h3>
 
 <p>mixed Caramel\Services\Service::setHelpers(\Caramel\Services\Helpers $Helpers)</p>
 
 <p>sets $this-&gt;helpers</p>
 
-<p>* Visibility: <strong>public</strong>
-                * This method is defined by <a href="#Caramel-Services-Service">Caramel\Services\Service</a></p>
+<ul>
+<li>Visibility: <strong>public</strong></li>
+<li>This method is defined by <a href="#caramel-services-service">caramel\services\service</a></li>
+</ul>
 
-<p>#### Arguments
-                    * $Helpers <strong><a href="#Caramel-Services-Helpers">Caramel\Services\Helpers</a></strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### setCache</p>
+<ul>
+<li>$Helpers <strong><a href="#caramel-services-helpers">caramel\services\helpers</a></strong></li>
+</ul>
+
+<h3 id="setcache">setCache</h3>
 
 <p>mixed Caramel\Services\Service::setCache(\Caramel\Services\Cache $Cache)</p>
 
 <p>sets $this-&gt;cache</p>
 
-<p>* Visibility: <strong>public</strong>
-                * This method is defined by <a href="#Caramel-Services-Service">Caramel\Services\Service</a></p>
+<ul>
+<li>Visibility: <strong>public</strong></li>
+<li>This method is defined by <a href="#caramel-services-service">caramel\services\service</a></li>
+</ul>
 
-<p>#### Arguments
-                    * $Cache <strong><a href="#Caramel-Services-Cache">Caramel\Services\Cache</a></strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### setPlugins</p>
+<ul>
+<li>$Cache <strong><a href="#caramel-services-cache">caramel\services\cache</a></strong></li>
+</ul>
+
+<h3 id="setplugins">setPlugins</h3>
 
 <p>mixed Caramel\Services\Service::setPlugins(\Caramel\Services\Plugins $Plugins)</p>
 
 <p>sets $this-&gt;plugins</p>
 
-<p>* Visibility: <strong>public</strong>
-                * This method is defined by <a href="#Caramel-Services-Service">Caramel\Services\Service</a></p>
+<ul>
+<li>Visibility: <strong>public</strong></li>
+<li>This method is defined by <a href="#caramel-services-service">caramel\services\service</a></li>
+</ul>
 
-<p>#### Arguments
-                    * $Plugins <strong><a href="#Caramel-Services-Plugins">Caramel\Services\Plugins</a></strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### setLexer</p>
+<ul>
+<li>$Plugins <strong><a href="#caramel-services-plugins">caramel\services\plugins</a></strong></li>
+</ul>
+
+<h3 id="setlexer">setLexer</h3>
 
 <p>mixed Caramel\Services\Service::setLexer(\Caramel\Services\Lexer $Lexer)</p>
 
 <p>sets $this-&gt;lexer</p>
 
-<p>* Visibility: <strong>public</strong>
-                * This method is defined by <a href="#Caramel-Services-Service">Caramel\Services\Service</a></p>
+<ul>
+<li>Visibility: <strong>public</strong></li>
+<li>This method is defined by <a href="#caramel-services-service">caramel\services\service</a></li>
+</ul>
 
-<p>#### Arguments
-                    * $Lexer <strong><a href="#Caramel-Services-Lexer">Caramel\Services\Lexer</a></strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### setParser</p>
+<ul>
+<li>$Lexer <strong><a href="#caramel-services-lexer">caramel\services\lexer</a></strong></li>
+</ul>
+
+<h3 id="setparser">setParser</h3>
 
 <p>mixed Caramel\Services\Service::setParser(\Caramel\Services\Parser $Parser)</p>
 
 <p>sets $this-&gt;parser</p>
 
-<p>* Visibility: <strong>public</strong>
-                * This method is defined by <a href="#Caramel-Services-Service">Caramel\Services\Service</a></p>
+<ul>
+<li>Visibility: <strong>public</strong></li>
+<li>This method is defined by <a href="#caramel-services-service">caramel\services\service</a></li>
+</ul>
 
-<p>#### Arguments
-                    * $Parser <strong><a href="#Caramel-Services-Parser">Caramel\Services\Parser</a></strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### setTemplate</p>
+<ul>
+<li>$Parser <strong><a href="#caramel-services-parser">caramel\services\parser</a></strong></li>
+</ul>
+
+<h3 id="settemplate">setTemplate</h3>
 
 <p>mixed Caramel\Services\Service::setTemplate(\Caramel\Services\Template $Template)</p>
 
 <p>sets $this-&gt;template</p>
 
-<p>* Visibility: <strong>public</strong>
-                * This method is defined by <a href="#Caramel-Services-Service">Caramel\Services\Service</a></p>
+<ul>
+<li>Visibility: <strong>public</strong></li>
+<li>This method is defined by <a href="#caramel-services-service">caramel\services\service</a></li>
+</ul>
 
-<p>#### Arguments
-                    * $Template <strong><a href="#Caramel-Services-Template">Caramel\Services\Template</a></strong></p>
+<h4 id="arguments">Arguments</h4>
+
+<ul>
+<li>$Template <strong><a href="#caramel-services-template">caramel\services\template</a></strong></li>
+</ul>
 
           <h1 id="caramel-services-parser">Caramel\Services\Parser</h1>
 
 <p>Class Parser</p>
 
-<p>* Class name: Parser
-    * Namespace: Caramel\Services
-        * Parent class: <a href="#Caramel-Services-Service">Caramel\Services\Service</a></p>
+<ul>
+<li>Class name: Parser</li>
+<li>Namespace: Caramel\Services</li>
+<li>Parent class: <a href="#caramel-services-service">caramel\services\service</a></li>
+</ul>
 
-<p>Properties
-    &mdash;&mdash;&mdash;-</p>
+<h2 id="properties">Properties</h2>
 
-<p>### $caramel</p>
+<h3 id="caramel">$caramel</h3>
 
 <p>protected \Caramel\Caramel $caramel</p>
 
-<p>* Visibility: <strong>protected</strong></p>
+<ul>
+<li>Visibility: <strong>protected</strong></li>
+</ul>
 
-<p>### $yaml</p>
+<h3 id="yaml">$yaml</h3>
 
 <p>protected \Symfony\Component\Yaml\Yaml $yaml</p>
 
-<p>* Visibility: <strong>protected</strong></p>
+<ul>
+<li>Visibility: <strong>protected</strong></li>
+</ul>
 
-<p>### $vars</p>
+<h3 id="vars">$vars</h3>
 
 <p>protected \Caramel\Models\Vars $vars</p>
 
-<p>* Visibility: <strong>protected</strong></p>
+<ul>
+<li>Visibility: <strong>protected</strong></li>
+</ul>
 
-<p>### $config</p>
+<h3 id="config">$config</h3>
 
 <p>protected \Caramel\Services\Config $config</p>
 
-<p>* Visibility: <strong>protected</strong></p>
+<ul>
+<li>Visibility: <strong>protected</strong></li>
+</ul>
 
-<p>### $directories</p>
+<h3 id="directories">$directories</h3>
 
 <p>protected \Caramel\Services\Directories $directories</p>
 
-<p>* Visibility: <strong>protected</strong></p>
+<ul>
+<li>Visibility: <strong>protected</strong></li>
+</ul>
 
-<p>### $helpers</p>
+<h3 id="helpers">$helpers</h3>
 
 <p>protected \Caramel\Services\Helpers $helpers</p>
 
-<p>* Visibility: <strong>protected</strong></p>
+<ul>
+<li>Visibility: <strong>protected</strong></li>
+</ul>
 
-<p>### $cache</p>
+<h3 id="cache">$cache</h3>
 
 <p>protected \Caramel\Services\Cache $cache</p>
 
-<p>* Visibility: <strong>protected</strong></p>
+<ul>
+<li>Visibility: <strong>protected</strong></li>
+</ul>
 
-<p>### $plugins</p>
+<h3 id="plugins">$plugins</h3>
 
 <p>protected \Caramel\Services\Plugins $plugins</p>
 
-<p>* Visibility: <strong>protected</strong></p>
+<ul>
+<li>Visibility: <strong>protected</strong></li>
+</ul>
 
-<p>### $lexer</p>
+<h3 id="lexer">$lexer</h3>
 
 <p>protected \Caramel\Services\Lexer $lexer</p>
 
-<p>* Visibility: <strong>protected</strong></p>
+<ul>
+<li>Visibility: <strong>protected</strong></li>
+</ul>
 
-<p>### $parser</p>
+<h3 id="parser">$parser</h3>
 
 <p>protected \Caramel\Services\Parser $parser</p>
 
-<p>* Visibility: <strong>protected</strong></p>
+<ul>
+<li>Visibility: <strong>protected</strong></li>
+</ul>
 
-<p>### $template</p>
+<h3 id="template">$template</h3>
 
 <p>protected \Caramel\Services\Template $template</p>
 
-<p>* Visibility: <strong>protected</strong></p>
+<ul>
+<li>Visibility: <strong>protected</strong></li>
+</ul>
 
-<p>Methods
-    &mdash;&mdash;-</p>
+<h2 id="methods">Methods</h2>
 
-<p>### parse</p>
+<h3 id="parse">parse</h3>
 
 <p>boolean Caramel\Services\Parser::parse(\Caramel\Models\Dom $dom)</p>
 
-<p>* Visibility: <strong>public</strong></p>
+<ul>
+<li>Visibility: <strong>public</strong></li>
+</ul>
 
-<p>#### Arguments
-                    * $dom <strong><a href="#Caramel-Models-Dom">Caramel\Models\Dom</a></strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### check</p>
+<ul>
+<li>$dom <strong><a href="#caramel-models-dom">caramel\models\dom</a></strong></li>
+</ul>
+
+<h3 id="check">check</h3>
 
 <p>boolean Caramel\Services\Parser::check(\Caramel\Models\Dom $dom)</p>
 
 <p>checks if we have a valid dom object</p>
 
-<p>* Visibility: <strong>private</strong></p>
+<ul>
+<li>Visibility: <strong>private</strong></li>
+</ul>
 
-<p>#### Arguments
-                    * $dom <strong><a href="#Caramel-Models-Dom">Caramel\Models\Dom</a></strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### output</p>
+<ul>
+<li>$dom <strong><a href="#caramel-models-dom">caramel\models\dom</a></strong></li>
+</ul>
+
+<h3 id="output">output</h3>
 
 <p>string Caramel\Services\Parser::output(\Caramel\Models\Dom|mixed $dom)</p>
 
 <p>merges the nodes to a string</p>
 
-<p>* Visibility: <strong>private</strong></p>
+<ul>
+<li>Visibility: <strong>private</strong></li>
+</ul>
 
-<p>#### Arguments
-                    * $dom <strong><a href="#Caramel-Models-Dom">Caramel\Models\Dom</a>|mixed</strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### preProcessPlugins</p>
+<ul>
+<li>$dom <strong><a href="#caramel-models-dom">caramel\models\dom</a>|mixed</strong></li>
+</ul>
+
+<h3 id="preprocessplugins">preProcessPlugins</h3>
 
 <p>mixed Caramel\Services\Parser::preProcessPlugins(\Caramel\Models\Dom $dom)</p>
 
 <p>execute the plugins before we do anything else</p>
 
-<p>* Visibility: <strong>private</strong></p>
+<ul>
+<li>Visibility: <strong>private</strong></li>
+</ul>
 
-<p>#### Arguments
-                    * $dom <strong><a href="#Caramel-Models-Dom">Caramel\Models\Dom</a></strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### processPlugins</p>
+<ul>
+<li>$dom <strong><a href="#caramel-models-dom">caramel\models\dom</a></strong></li>
+</ul>
+
+<h3 id="processplugins">processPlugins</h3>
 
 <p>mixed Caramel\Services\Parser::processPlugins(\Caramel\Models\Dom|array $dom, array $nodes)</p>
 
 <p>execute the plugins on each individual node
 children will parsed first</p>
 
-<p>* Visibility: <strong>private</strong></p>
+<ul>
+<li>Visibility: <strong>private</strong></li>
+</ul>
 
-<p>#### Arguments
-                    * $dom <strong><a href="#Caramel-Models-Dom">Caramel\Models\Dom</a>|array</strong>
-                    * $nodes <strong>array</strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### postProcessPlugins</p>
+<ul>
+<li>$dom <strong><a href="#caramel-models-dom">caramel\models\dom</a>|array</strong></li>
+<li>$nodes <strong>array</strong></li>
+</ul>
+
+<h3 id="postprocessplugins">postProcessPlugins</h3>
 
 <p>mixed Caramel\Services\Parser::postProcessPlugins(\Caramel\Models\Dom $dom)</p>
 
 <p>process the plugins after the main plugin process</p>
 
-<p>* Visibility: <strong>private</strong></p>
+<ul>
+<li>Visibility: <strong>private</strong></li>
+</ul>
 
-<p>#### Arguments
-                    * $dom <strong><a href="#Caramel-Models-Dom">Caramel\Models\Dom</a></strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### processOutputPlugins</p>
+<ul>
+<li>$dom <strong><a href="#caramel-models-dom">caramel\models\dom</a></strong></li>
+</ul>
+
+<h3 id="processoutputplugins">processOutputPlugins</h3>
 
 <p>mixed Caramel\Services\Parser::processOutputPlugins(string $output)</p>
 
 <p>process the plugins after rendering is complete</p>
 
-<p>* Visibility: <strong>private</strong></p>
+<ul>
+<li>Visibility: <strong>private</strong></li>
+</ul>
 
-<p>#### Arguments
-                    * $output <strong>string</strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### executePlugins</p>
+<ul>
+<li>$output <strong>string</strong></li>
+</ul>
+
+<h3 id="executeplugins">executePlugins</h3>
 
 <p>mixed Caramel\Services\Parser::executePlugins(\Caramel\Models\Dom|\Caramel\Models\Node|string $element, string $type)</p>
 
 <p>processes all plugins depending on the passed type</p>
 
-<p>* Visibility: <strong>private</strong></p>
+<ul>
+<li>Visibility: <strong>private</strong></li>
+</ul>
 
-<p>#### Arguments
-                    * $element <strong><a href="#Caramel-Models-Dom">Caramel\Models\Dom</a>|<a href="#Caramel-Models-Node">Caramel\Models\Dom</a>|string</strong>
-                    * $type <strong>string</strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### PluginError</p>
+<ul>
+<li>$element <strong><a href="#caramel-models-dom">caramel\models\dom</a>|<a href="#caramel-models-node">caramel\models\dom</a>|string</strong></li>
+<li>$type <strong>string</strong></li>
+</ul>
+
+<h3 id="pluginerror">PluginError</h3>
 
 <p>mixed Caramel\Services\Parser::PluginError($element, $plugin, $method, $variable)</p>
 
 <p>helper method for plugin return errors</p>
 
-<p>* Visibility: <strong>private</strong></p>
+<ul>
+<li>Visibility: <strong>private</strong></li>
+</ul>
 
-<p>#### Arguments
-                    * $element <strong>mixed</strong>
-                    * $plugin <strong>mixed</strong>
-                    * $method <strong>mixed</strong>
-                    * $variable <strong>mixed</strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### setCaramel</p>
+<ul>
+<li>$element <strong>mixed</strong></li>
+<li>$plugin <strong>mixed</strong></li>
+<li>$method <strong>mixed</strong></li>
+<li>$variable <strong>mixed</strong></li>
+</ul>
+
+<h3 id="setcaramel">setCaramel</h3>
 
 <p>mixed Caramel\Services\Service::setCaramel(\Caramel\Caramel $Caramel)</p>
 
 <p>sets $this-&gt;caramel</p>
 
-<p>* Visibility: <strong>public</strong>
-                * This method is defined by <a href="#Caramel-Services-Service">Caramel\Services\Service</a></p>
+<ul>
+<li>Visibility: <strong>public</strong></li>
+<li>This method is defined by <a href="#caramel-services-service">caramel\services\service</a></li>
+</ul>
 
-<p>#### Arguments
-                    * $Caramel <strong>Caramel\Caramel</strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### setYaml</p>
+<ul>
+<li>$Caramel <strong><a href="#caramel-caramel">caramel\caramel</a></strong></li>
+</ul>
+
+<h3 id="setyaml">setYaml</h3>
 
 <p>mixed Caramel\Services\Service::setYaml(\Symfony\Component\Yaml\Yaml $Yaml)</p>
 
 <p>sets $this-&gt;yaml</p>
 
-<p>* Visibility: <strong>public</strong>
-                * This method is defined by <a href="#Caramel-Services-Service">Caramel\Services\Service</a></p>
+<ul>
+<li>Visibility: <strong>public</strong></li>
+<li>This method is defined by <a href="#caramel-services-service">caramel\services\service</a></li>
+</ul>
 
-<p>#### Arguments
-                    * $Yaml <strong>Symfony\Component\Yaml\Yaml</strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### setVars</p>
+<ul>
+<li>$Yaml <strong>symfony\component\yaml\yaml</strong></li>
+</ul>
+
+<h3 id="setvars">setVars</h3>
 
 <p>mixed Caramel\Services\Service::setVars(\Caramel\Models\Vars $Vars)</p>
 
 <p>sets $this-&gt;vars</p>
 
-<p>* Visibility: <strong>public</strong>
-                * This method is defined by <a href="#Caramel-Services-Service">Caramel\Services\Service</a></p>
+<ul>
+<li>Visibility: <strong>public</strong></li>
+<li>This method is defined by <a href="#caramel-services-service">caramel\services\service</a></li>
+</ul>
 
-<p>#### Arguments
-                    * $Vars <strong><a href="#Caramel-Models-Vars">Caramel\Models\Vars</a></strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### setConfig</p>
+<ul>
+<li>$Vars <strong><a href="#caramel-models-vars">caramel\models\vars</a></strong></li>
+</ul>
+
+<h3 id="setconfig">setConfig</h3>
 
 <p>mixed Caramel\Services\Service::setConfig(\Caramel\Services\Config $Config)</p>
 
 <p>sets $this-&gt;config</p>
 
-<p>* Visibility: <strong>public</strong>
-                * This method is defined by <a href="#Caramel-Services-Service">Caramel\Services\Service</a></p>
+<ul>
+<li>Visibility: <strong>public</strong></li>
+<li>This method is defined by <a href="#caramel-services-service">caramel\services\service</a></li>
+</ul>
 
-<p>#### Arguments
-                    * $Config <strong><a href="#Caramel-Services-Config">Caramel\Services\Config</a></strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### setDirectories</p>
+<ul>
+<li>$Config <strong><a href="#caramel-services-config">caramel\services\config</a></strong></li>
+</ul>
+
+<h3 id="setdirectories">setDirectories</h3>
 
 <p>mixed Caramel\Services\Service::setDirectories(\Caramel\Services\Directories $Directories)</p>
 
 <p>sets $this-&gt;directories</p>
 
-<p>* Visibility: <strong>public</strong>
-                * This method is defined by <a href="#Caramel-Services-Service">Caramel\Services\Service</a></p>
+<ul>
+<li>Visibility: <strong>public</strong></li>
+<li>This method is defined by <a href="#caramel-services-service">caramel\services\service</a></li>
+</ul>
 
-<p>#### Arguments
-                    * $Directories <strong><a href="#Caramel-Services-Directories">Caramel\Services\Directories</a></strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### setHelpers</p>
+<ul>
+<li>$Directories <strong><a href="#caramel-services-directories">caramel\services\directories</a></strong></li>
+</ul>
+
+<h3 id="sethelpers">setHelpers</h3>
 
 <p>mixed Caramel\Services\Service::setHelpers(\Caramel\Services\Helpers $Helpers)</p>
 
 <p>sets $this-&gt;helpers</p>
 
-<p>* Visibility: <strong>public</strong>
-                * This method is defined by <a href="#Caramel-Services-Service">Caramel\Services\Service</a></p>
+<ul>
+<li>Visibility: <strong>public</strong></li>
+<li>This method is defined by <a href="#caramel-services-service">caramel\services\service</a></li>
+</ul>
 
-<p>#### Arguments
-                    * $Helpers <strong><a href="#Caramel-Services-Helpers">Caramel\Services\Helpers</a></strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### setCache</p>
+<ul>
+<li>$Helpers <strong><a href="#caramel-services-helpers">caramel\services\helpers</a></strong></li>
+</ul>
+
+<h3 id="setcache">setCache</h3>
 
 <p>mixed Caramel\Services\Service::setCache(\Caramel\Services\Cache $Cache)</p>
 
 <p>sets $this-&gt;cache</p>
 
-<p>* Visibility: <strong>public</strong>
-                * This method is defined by <a href="#Caramel-Services-Service">Caramel\Services\Service</a></p>
+<ul>
+<li>Visibility: <strong>public</strong></li>
+<li>This method is defined by <a href="#caramel-services-service">caramel\services\service</a></li>
+</ul>
 
-<p>#### Arguments
-                    * $Cache <strong><a href="#Caramel-Services-Cache">Caramel\Services\Cache</a></strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### setPlugins</p>
+<ul>
+<li>$Cache <strong><a href="#caramel-services-cache">caramel\services\cache</a></strong></li>
+</ul>
+
+<h3 id="setplugins">setPlugins</h3>
 
 <p>mixed Caramel\Services\Service::setPlugins(\Caramel\Services\Plugins $Plugins)</p>
 
 <p>sets $this-&gt;plugins</p>
 
-<p>* Visibility: <strong>public</strong>
-                * This method is defined by <a href="#Caramel-Services-Service">Caramel\Services\Service</a></p>
+<ul>
+<li>Visibility: <strong>public</strong></li>
+<li>This method is defined by <a href="#caramel-services-service">caramel\services\service</a></li>
+</ul>
 
-<p>#### Arguments
-                    * $Plugins <strong><a href="#Caramel-Services-Plugins">Caramel\Services\Plugins</a></strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### setLexer</p>
+<ul>
+<li>$Plugins <strong><a href="#caramel-services-plugins">caramel\services\plugins</a></strong></li>
+</ul>
+
+<h3 id="setlexer">setLexer</h3>
 
 <p>mixed Caramel\Services\Service::setLexer(\Caramel\Services\Lexer $Lexer)</p>
 
 <p>sets $this-&gt;lexer</p>
 
-<p>* Visibility: <strong>public</strong>
-                * This method is defined by <a href="#Caramel-Services-Service">Caramel\Services\Service</a></p>
+<ul>
+<li>Visibility: <strong>public</strong></li>
+<li>This method is defined by <a href="#caramel-services-service">caramel\services\service</a></li>
+</ul>
 
-<p>#### Arguments
-                    * $Lexer <strong><a href="#Caramel-Services-Lexer">Caramel\Services\Lexer</a></strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### setParser</p>
+<ul>
+<li>$Lexer <strong><a href="#caramel-services-lexer">caramel\services\lexer</a></strong></li>
+</ul>
+
+<h3 id="setparser">setParser</h3>
 
 <p>mixed Caramel\Services\Service::setParser(\Caramel\Services\Parser $Parser)</p>
 
 <p>sets $this-&gt;parser</p>
 
-<p>* Visibility: <strong>public</strong>
-                * This method is defined by <a href="#Caramel-Services-Service">Caramel\Services\Service</a></p>
+<ul>
+<li>Visibility: <strong>public</strong></li>
+<li>This method is defined by <a href="#caramel-services-service">caramel\services\service</a></li>
+</ul>
 
-<p>#### Arguments
-                    * $Parser <strong><a href="#Caramel-Services-Parser">Caramel\Services\Parser</a></strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### setTemplate</p>
+<ul>
+<li>$Parser <strong><a href="#caramel-services-parser">caramel\services\parser</a></strong></li>
+</ul>
+
+<h3 id="settemplate">setTemplate</h3>
 
 <p>mixed Caramel\Services\Service::setTemplate(\Caramel\Services\Template $Template)</p>
 
 <p>sets $this-&gt;template</p>
 
-<p>* Visibility: <strong>public</strong>
-                * This method is defined by <a href="#Caramel-Services-Service">Caramel\Services\Service</a></p>
+<ul>
+<li>Visibility: <strong>public</strong></li>
+<li>This method is defined by <a href="#caramel-services-service">caramel\services\service</a></li>
+</ul>
 
-<p>#### Arguments
-                    * $Template <strong><a href="#Caramel-Services-Template">Caramel\Services\Template</a></strong></p>
+<h4 id="arguments">Arguments</h4>
+
+<ul>
+<li>$Template <strong><a href="#caramel-services-template">caramel\services\template</a></strong></li>
+</ul>
 
           <h1 id="caramel-services-plugins">Caramel\Services\Plugins</h1>
 
 <p>handles the plugin loading
 Class PluginLoader</p>
 
-<p>* Class name: Plugins
-    * Namespace: Caramel\Services
-        * Parent class: <a href="#Caramel-Services-Service">Caramel\Services\Service</a></p>
+<ul>
+<li>Class name: Plugins</li>
+<li>Namespace: Caramel\Services</li>
+<li>Parent class: <a href="#caramel-services-service">caramel\services\service</a></li>
+</ul>
 
-<p>Properties
-    &mdash;&mdash;&mdash;-</p>
+<h2 id="properties">Properties</h2>
 
-<p>### $list</p>
+<h3 id="list">$list</h3>
 
 <p>private array $list = array()</p>
 
-<p>* Visibility: <strong>private</strong></p>
+<ul>
+<li>Visibility: <strong>private</strong></li>
+</ul>
 
-<p>### $caramel</p>
+<h3 id="caramel">$caramel</h3>
 
 <p>protected \Caramel\Caramel $caramel</p>
 
-<p>* Visibility: <strong>protected</strong></p>
+<ul>
+<li>Visibility: <strong>protected</strong></li>
+</ul>
 
-<p>### $yaml</p>
+<h3 id="yaml">$yaml</h3>
 
 <p>protected \Symfony\Component\Yaml\Yaml $yaml</p>
 
-<p>* Visibility: <strong>protected</strong></p>
+<ul>
+<li>Visibility: <strong>protected</strong></li>
+</ul>
 
-<p>### $vars</p>
+<h3 id="vars">$vars</h3>
 
 <p>protected \Caramel\Models\Vars $vars</p>
 
-<p>* Visibility: <strong>protected</strong></p>
+<ul>
+<li>Visibility: <strong>protected</strong></li>
+</ul>
 
-<p>### $config</p>
+<h3 id="config">$config</h3>
 
 <p>protected \Caramel\Services\Config $config</p>
 
-<p>* Visibility: <strong>protected</strong></p>
+<ul>
+<li>Visibility: <strong>protected</strong></li>
+</ul>
 
-<p>### $directories</p>
+<h3 id="directories">$directories</h3>
 
 <p>protected \Caramel\Services\Directories $directories</p>
 
-<p>* Visibility: <strong>protected</strong></p>
+<ul>
+<li>Visibility: <strong>protected</strong></li>
+</ul>
 
-<p>### $helpers</p>
+<h3 id="helpers">$helpers</h3>
 
 <p>protected \Caramel\Services\Helpers $helpers</p>
 
-<p>* Visibility: <strong>protected</strong></p>
+<ul>
+<li>Visibility: <strong>protected</strong></li>
+</ul>
 
-<p>### $cache</p>
+<h3 id="cache">$cache</h3>
 
 <p>protected \Caramel\Services\Cache $cache</p>
 
-<p>* Visibility: <strong>protected</strong></p>
+<ul>
+<li>Visibility: <strong>protected</strong></li>
+</ul>
 
-<p>### $plugins</p>
+<h3 id="plugins">$plugins</h3>
 
 <p>protected \Caramel\Services\Plugins $plugins</p>
 
-<p>* Visibility: <strong>protected</strong></p>
+<ul>
+<li>Visibility: <strong>protected</strong></li>
+</ul>
 
-<p>### $lexer</p>
+<h3 id="lexer">$lexer</h3>
 
 <p>protected \Caramel\Services\Lexer $lexer</p>
 
-<p>* Visibility: <strong>protected</strong></p>
+<ul>
+<li>Visibility: <strong>protected</strong></li>
+</ul>
 
-<p>### $parser</p>
+<h3 id="parser">$parser</h3>
 
 <p>protected \Caramel\Services\Parser $parser</p>
 
-<p>* Visibility: <strong>protected</strong></p>
+<ul>
+<li>Visibility: <strong>protected</strong></li>
+</ul>
 
-<p>### $template</p>
+<h3 id="template">$template</h3>
 
 <p>protected \Caramel\Services\Template $template</p>
 
-<p>* Visibility: <strong>protected</strong></p>
+<ul>
+<li>Visibility: <strong>protected</strong></li>
+</ul>
 
-<p>Methods
-    &mdash;&mdash;-</p>
+<h2 id="methods">Methods</h2>
 
-<p>### init</p>
+<h3 id="init">init</h3>
 
 <p>mixed Caramel\Services\Plugins::init()</p>
 
 <p>initiates the plugins</p>
 
-<p>* Visibility: <strong>public</strong></p>
+<ul>
+<li>Visibility: <strong>public</strong></li>
+</ul>
 
-<p>### add</p>
+<h3 id="add">add</h3>
 
 <p>string Caramel\Services\Plugins::add($dir)</p>
 
 <p>adds a plugin directory</p>
 
-<p>* Visibility: <strong>public</strong></p>
+<ul>
+<li>Visibility: <strong>public</strong></li>
+</ul>
 
-<p>#### Arguments
-                    * $dir <strong>mixed</strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### remove</p>
+<ul>
+<li>$dir <strong>mixed</strong></li>
+</ul>
+
+<h3 id="remove">remove</h3>
 
 <p>string Caramel\Services\Plugins::remove(integer $pos)</p>
 
 <p>removes a plugin dir</p>
 
-<p>* Visibility: <strong>public</strong></p>
+<ul>
+<li>Visibility: <strong>public</strong></li>
+</ul>
 
-<p>#### Arguments
-                    * $pos <strong>integer</strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### dirs</p>
+<ul>
+<li>$pos <strong>integer</strong></li>
+</ul>
+
+<h3 id="dirs">dirs</h3>
 
 <p>array Caramel\Services\Plugins::dirs()</p>
 
 <p>returns all plugin dirs</p>
 
-<p>* Visibility: <strong>public</strong></p>
+<ul>
+<li>Visibility: <strong>public</strong></li>
+</ul>
 
-<p>### container</p>
+<h3 id="container">container</h3>
 
 <p>mixed Caramel\Services\Plugins::container($name, $plugins)</p>
 
 <p>adds a new container to the plugins configuration</p>
 
-<p>* Visibility: <strong>public</strong></p>
+<ul>
+<li>Visibility: <strong>public</strong></li>
+</ul>
 
-<p>#### Arguments
-                    * $name <strong>mixed</strong>
-                    * $plugins <strong>mixed</strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### getPlugins</p>
+<ul>
+<li>$name <strong>mixed</strong></li>
+<li>$plugins <strong>mixed</strong></li>
+</ul>
+
+<h3 id="getplugins">getPlugins</h3>
 
 <p>mixed Caramel\Services\Plugins::getPlugins()</p>
 
 <p>gets all registered plugins</p>
 
-<p>* Visibility: <strong>private</strong></p>
+<ul>
+<li>Visibility: <strong>private</strong></li>
+</ul>
 
-<p>### loadPlugins</p>
+<h3 id="loadplugins">loadPlugins</h3>
 
 <p>mixed Caramel\Services\Plugins::loadPlugins($pluginFile)</p>
 
-<p>* Visibility: <strong>private</strong></p>
+<ul>
+<li>Visibility: <strong>private</strong></li>
+</ul>
 
-<p>#### Arguments
-                    * $pluginFile <strong>mixed</strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### loadPlugin</p>
+<ul>
+<li>$pluginFile <strong>mixed</strong></li>
+</ul>
+
+<h3 id="loadplugin">loadPlugin</h3>
 
 <p>mixed Caramel\Services\Plugins::loadPlugin(string $file)</p>
 
 <p>loads all plugins</p>
 
-<p>* Visibility: <strong>private</strong></p>
+<ul>
+<li>Visibility: <strong>private</strong></li>
+</ul>
 
-<p>#### Arguments
-                    * $file <strong>string</strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### getPluginName</p>
+<ul>
+<li>$file <strong>string</strong></li>
+</ul>
+
+<h3 id="getpluginname">getPluginName</h3>
 
 <p>string Caramel\Services\Plugins::getPluginName(string $file)</p>
 
 <p>extracts the plugin name</p>
 
-<p>* Visibility: <strong>private</strong></p>
+<ul>
+<li>Visibility: <strong>private</strong></li>
+</ul>
 
-<p>#### Arguments
-                    * $file <strong>string</strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### createPlugin</p>
+<ul>
+<li>$file <strong>string</strong></li>
+</ul>
+
+<h3 id="createplugin">createPlugin</h3>
 
 <p>\Caramel\Plugin\Plugin Caramel\Services\Plugins::createPlugin(string $class)</p>
 
 <p>creates a new plugin instance with the given class</p>
 
-<p>* Visibility: <strong>private</strong></p>
+<ul>
+<li>Visibility: <strong>private</strong></li>
+</ul>
 
-<p>#### Arguments
-                    * $class <strong>string</strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### addPlugin</p>
+<ul>
+<li>$class <strong>string</strong></li>
+</ul>
+
+<h3 id="addplugin">addPlugin</h3>
 
 <p>array Caramel\Services\Plugins::addPlugin($position, $plugin)</p>
 
-<p>* Visibility: <strong>private</strong></p>
+<ul>
+<li>Visibility: <strong>private</strong></li>
+</ul>
 
-<p>#### Arguments
-                    * $position <strong>mixed</strong>
-                    * $plugin <strong>mixed</strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### setCaramel</p>
+<ul>
+<li>$position <strong>mixed</strong></li>
+<li>$plugin <strong>mixed</strong></li>
+</ul>
+
+<h3 id="setcaramel">setCaramel</h3>
 
 <p>mixed Caramel\Services\Service::setCaramel(\Caramel\Caramel $Caramel)</p>
 
 <p>sets $this-&gt;caramel</p>
 
-<p>* Visibility: <strong>public</strong>
-                * This method is defined by <a href="#Caramel-Services-Service">Caramel\Services\Service</a></p>
+<ul>
+<li>Visibility: <strong>public</strong></li>
+<li>This method is defined by <a href="#caramel-services-service">caramel\services\service</a></li>
+</ul>
 
-<p>#### Arguments
-                    * $Caramel <strong>Caramel\Caramel</strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### setYaml</p>
+<ul>
+<li>$Caramel <strong><a href="#caramel-caramel">caramel\caramel</a></strong></li>
+</ul>
+
+<h3 id="setyaml">setYaml</h3>
 
 <p>mixed Caramel\Services\Service::setYaml(\Symfony\Component\Yaml\Yaml $Yaml)</p>
 
 <p>sets $this-&gt;yaml</p>
 
-<p>* Visibility: <strong>public</strong>
-                * This method is defined by <a href="#Caramel-Services-Service">Caramel\Services\Service</a></p>
+<ul>
+<li>Visibility: <strong>public</strong></li>
+<li>This method is defined by <a href="#caramel-services-service">caramel\services\service</a></li>
+</ul>
 
-<p>#### Arguments
-                    * $Yaml <strong>Symfony\Component\Yaml\Yaml</strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### setVars</p>
+<ul>
+<li>$Yaml <strong>symfony\component\yaml\yaml</strong></li>
+</ul>
+
+<h3 id="setvars">setVars</h3>
 
 <p>mixed Caramel\Services\Service::setVars(\Caramel\Models\Vars $Vars)</p>
 
 <p>sets $this-&gt;vars</p>
 
-<p>* Visibility: <strong>public</strong>
-                * This method is defined by <a href="#Caramel-Services-Service">Caramel\Services\Service</a></p>
+<ul>
+<li>Visibility: <strong>public</strong></li>
+<li>This method is defined by <a href="#caramel-services-service">caramel\services\service</a></li>
+</ul>
 
-<p>#### Arguments
-                    * $Vars <strong><a href="#Caramel-Models-Vars">Caramel\Models\Vars</a></strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### setConfig</p>
+<ul>
+<li>$Vars <strong><a href="#caramel-models-vars">caramel\models\vars</a></strong></li>
+</ul>
+
+<h3 id="setconfig">setConfig</h3>
 
 <p>mixed Caramel\Services\Service::setConfig(\Caramel\Services\Config $Config)</p>
 
 <p>sets $this-&gt;config</p>
 
-<p>* Visibility: <strong>public</strong>
-                * This method is defined by <a href="#Caramel-Services-Service">Caramel\Services\Service</a></p>
+<ul>
+<li>Visibility: <strong>public</strong></li>
+<li>This method is defined by <a href="#caramel-services-service">caramel\services\service</a></li>
+</ul>
 
-<p>#### Arguments
-                    * $Config <strong><a href="#Caramel-Services-Config">Caramel\Services\Config</a></strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### setDirectories</p>
+<ul>
+<li>$Config <strong><a href="#caramel-services-config">caramel\services\config</a></strong></li>
+</ul>
+
+<h3 id="setdirectories">setDirectories</h3>
 
 <p>mixed Caramel\Services\Service::setDirectories(\Caramel\Services\Directories $Directories)</p>
 
 <p>sets $this-&gt;directories</p>
 
-<p>* Visibility: <strong>public</strong>
-                * This method is defined by <a href="#Caramel-Services-Service">Caramel\Services\Service</a></p>
+<ul>
+<li>Visibility: <strong>public</strong></li>
+<li>This method is defined by <a href="#caramel-services-service">caramel\services\service</a></li>
+</ul>
 
-<p>#### Arguments
-                    * $Directories <strong><a href="#Caramel-Services-Directories">Caramel\Services\Directories</a></strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### setHelpers</p>
+<ul>
+<li>$Directories <strong><a href="#caramel-services-directories">caramel\services\directories</a></strong></li>
+</ul>
+
+<h3 id="sethelpers">setHelpers</h3>
 
 <p>mixed Caramel\Services\Service::setHelpers(\Caramel\Services\Helpers $Helpers)</p>
 
 <p>sets $this-&gt;helpers</p>
 
-<p>* Visibility: <strong>public</strong>
-                * This method is defined by <a href="#Caramel-Services-Service">Caramel\Services\Service</a></p>
+<ul>
+<li>Visibility: <strong>public</strong></li>
+<li>This method is defined by <a href="#caramel-services-service">caramel\services\service</a></li>
+</ul>
 
-<p>#### Arguments
-                    * $Helpers <strong><a href="#Caramel-Services-Helpers">Caramel\Services\Helpers</a></strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### setCache</p>
+<ul>
+<li>$Helpers <strong><a href="#caramel-services-helpers">caramel\services\helpers</a></strong></li>
+</ul>
+
+<h3 id="setcache">setCache</h3>
 
 <p>mixed Caramel\Services\Service::setCache(\Caramel\Services\Cache $Cache)</p>
 
 <p>sets $this-&gt;cache</p>
 
-<p>* Visibility: <strong>public</strong>
-                * This method is defined by <a href="#Caramel-Services-Service">Caramel\Services\Service</a></p>
+<ul>
+<li>Visibility: <strong>public</strong></li>
+<li>This method is defined by <a href="#caramel-services-service">caramel\services\service</a></li>
+</ul>
 
-<p>#### Arguments
-                    * $Cache <strong><a href="#Caramel-Services-Cache">Caramel\Services\Cache</a></strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### setPlugins</p>
+<ul>
+<li>$Cache <strong><a href="#caramel-services-cache">caramel\services\cache</a></strong></li>
+</ul>
+
+<h3 id="setplugins">setPlugins</h3>
 
 <p>mixed Caramel\Services\Service::setPlugins(\Caramel\Services\Plugins $Plugins)</p>
 
 <p>sets $this-&gt;plugins</p>
 
-<p>* Visibility: <strong>public</strong>
-                * This method is defined by <a href="#Caramel-Services-Service">Caramel\Services\Service</a></p>
+<ul>
+<li>Visibility: <strong>public</strong></li>
+<li>This method is defined by <a href="#caramel-services-service">caramel\services\service</a></li>
+</ul>
 
-<p>#### Arguments
-                    * $Plugins <strong><a href="#Caramel-Services-Plugins">Caramel\Services\Plugins</a></strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### setLexer</p>
+<ul>
+<li>$Plugins <strong><a href="#caramel-services-plugins">caramel\services\plugins</a></strong></li>
+</ul>
+
+<h3 id="setlexer">setLexer</h3>
 
 <p>mixed Caramel\Services\Service::setLexer(\Caramel\Services\Lexer $Lexer)</p>
 
 <p>sets $this-&gt;lexer</p>
 
-<p>* Visibility: <strong>public</strong>
-                * This method is defined by <a href="#Caramel-Services-Service">Caramel\Services\Service</a></p>
+<ul>
+<li>Visibility: <strong>public</strong></li>
+<li>This method is defined by <a href="#caramel-services-service">caramel\services\service</a></li>
+</ul>
 
-<p>#### Arguments
-                    * $Lexer <strong><a href="#Caramel-Services-Lexer">Caramel\Services\Lexer</a></strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### setParser</p>
+<ul>
+<li>$Lexer <strong><a href="#caramel-services-lexer">caramel\services\lexer</a></strong></li>
+</ul>
+
+<h3 id="setparser">setParser</h3>
 
 <p>mixed Caramel\Services\Service::setParser(\Caramel\Services\Parser $Parser)</p>
 
 <p>sets $this-&gt;parser</p>
 
-<p>* Visibility: <strong>public</strong>
-                * This method is defined by <a href="#Caramel-Services-Service">Caramel\Services\Service</a></p>
+<ul>
+<li>Visibility: <strong>public</strong></li>
+<li>This method is defined by <a href="#caramel-services-service">caramel\services\service</a></li>
+</ul>
 
-<p>#### Arguments
-                    * $Parser <strong><a href="#Caramel-Services-Parser">Caramel\Services\Parser</a></strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### setTemplate</p>
+<ul>
+<li>$Parser <strong><a href="#caramel-services-parser">caramel\services\parser</a></strong></li>
+</ul>
+
+<h3 id="settemplate">setTemplate</h3>
 
 <p>mixed Caramel\Services\Service::setTemplate(\Caramel\Services\Template $Template)</p>
 
 <p>sets $this-&gt;template</p>
 
-<p>* Visibility: <strong>public</strong>
-                * This method is defined by <a href="#Caramel-Services-Service">Caramel\Services\Service</a></p>
+<ul>
+<li>Visibility: <strong>public</strong></li>
+<li>This method is defined by <a href="#caramel-services-service">caramel\services\service</a></li>
+</ul>
 
-<p>#### Arguments
-                    * $Template <strong><a href="#Caramel-Services-Template">Caramel\Services\Template</a></strong></p>
+<h4 id="arguments">Arguments</h4>
+
+<ul>
+<li>$Template <strong><a href="#caramel-services-template">caramel\services\template</a></strong></li>
+</ul>
 
           <h1 id="caramel-services-service">Caramel\Services\Service</h1>
 
-<p>* Class name: Service
-    * Namespace: Caramel\Services
-    * This is an <strong>abstract</strong> class</p>
+<ul>
+<li>Class name: Service</li>
+<li>Namespace: Caramel\Services</li>
+<li>This is an <strong>abstract</strong> class</li>
+</ul>
 
-<p>Properties
-    &mdash;&mdash;&mdash;-</p>
+<h2 id="properties">Properties</h2>
 
-<p>### $caramel</p>
+<h3 id="caramel">$caramel</h3>
 
 <p>protected \Caramel\Caramel $caramel</p>
 
-<p>* Visibility: <strong>protected</strong></p>
+<ul>
+<li>Visibility: <strong>protected</strong></li>
+</ul>
 
-<p>### $yaml</p>
+<h3 id="yaml">$yaml</h3>
 
 <p>protected \Symfony\Component\Yaml\Yaml $yaml</p>
 
-<p>* Visibility: <strong>protected</strong></p>
+<ul>
+<li>Visibility: <strong>protected</strong></li>
+</ul>
 
-<p>### $vars</p>
+<h3 id="vars">$vars</h3>
 
 <p>protected \Caramel\Models\Vars $vars</p>
 
-<p>* Visibility: <strong>protected</strong></p>
+<ul>
+<li>Visibility: <strong>protected</strong></li>
+</ul>
 
-<p>### $config</p>
+<h3 id="config">$config</h3>
 
 <p>protected \Caramel\Services\Config $config</p>
 
-<p>* Visibility: <strong>protected</strong></p>
+<ul>
+<li>Visibility: <strong>protected</strong></li>
+</ul>
 
-<p>### $directories</p>
+<h3 id="directories">$directories</h3>
 
 <p>protected \Caramel\Services\Directories $directories</p>
 
-<p>* Visibility: <strong>protected</strong></p>
+<ul>
+<li>Visibility: <strong>protected</strong></li>
+</ul>
 
-<p>### $helpers</p>
+<h3 id="helpers">$helpers</h3>
 
 <p>protected \Caramel\Services\Helpers $helpers</p>
 
-<p>* Visibility: <strong>protected</strong></p>
+<ul>
+<li>Visibility: <strong>protected</strong></li>
+</ul>
 
-<p>### $cache</p>
+<h3 id="cache">$cache</h3>
 
 <p>protected \Caramel\Services\Cache $cache</p>
 
-<p>* Visibility: <strong>protected</strong></p>
+<ul>
+<li>Visibility: <strong>protected</strong></li>
+</ul>
 
-<p>### $plugins</p>
+<h3 id="plugins">$plugins</h3>
 
 <p>protected \Caramel\Services\Plugins $plugins</p>
 
-<p>* Visibility: <strong>protected</strong></p>
+<ul>
+<li>Visibility: <strong>protected</strong></li>
+</ul>
 
-<p>### $lexer</p>
+<h3 id="lexer">$lexer</h3>
 
 <p>protected \Caramel\Services\Lexer $lexer</p>
 
-<p>* Visibility: <strong>protected</strong></p>
+<ul>
+<li>Visibility: <strong>protected</strong></li>
+</ul>
 
-<p>### $parser</p>
+<h3 id="parser">$parser</h3>
 
 <p>protected \Caramel\Services\Parser $parser</p>
 
-<p>* Visibility: <strong>protected</strong></p>
+<ul>
+<li>Visibility: <strong>protected</strong></li>
+</ul>
 
-<p>### $template</p>
+<h3 id="template">$template</h3>
 
 <p>protected \Caramel\Services\Template $template</p>
 
-<p>* Visibility: <strong>protected</strong></p>
+<ul>
+<li>Visibility: <strong>protected</strong></li>
+</ul>
 
-<p>Methods
-    &mdash;&mdash;-</p>
+<h2 id="methods">Methods</h2>
 
-<p>### setCaramel</p>
+<h3 id="setcaramel">setCaramel</h3>
 
 <p>mixed Caramel\Services\Service::setCaramel(\Caramel\Caramel $Caramel)</p>
 
 <p>sets $this-&gt;caramel</p>
 
-<p>* Visibility: <strong>public</strong></p>
+<ul>
+<li>Visibility: <strong>public</strong></li>
+</ul>
 
-<p>#### Arguments
-                    * $Caramel <strong>Caramel\Caramel</strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### setYaml</p>
+<ul>
+<li>$Caramel <strong><a href="#caramel-caramel">caramel\caramel</a></strong></li>
+</ul>
+
+<h3 id="setyaml">setYaml</h3>
 
 <p>mixed Caramel\Services\Service::setYaml(\Symfony\Component\Yaml\Yaml $Yaml)</p>
 
 <p>sets $this-&gt;yaml</p>
 
-<p>* Visibility: <strong>public</strong></p>
+<ul>
+<li>Visibility: <strong>public</strong></li>
+</ul>
 
-<p>#### Arguments
-                    * $Yaml <strong>Symfony\Component\Yaml\Yaml</strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### setVars</p>
+<ul>
+<li>$Yaml <strong>symfony\component\yaml\yaml</strong></li>
+</ul>
+
+<h3 id="setvars">setVars</h3>
 
 <p>mixed Caramel\Services\Service::setVars(\Caramel\Models\Vars $Vars)</p>
 
 <p>sets $this-&gt;vars</p>
 
-<p>* Visibility: <strong>public</strong></p>
+<ul>
+<li>Visibility: <strong>public</strong></li>
+</ul>
 
-<p>#### Arguments
-                    * $Vars <strong><a href="#Caramel-Models-Vars">Caramel\Models\Vars</a></strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### setConfig</p>
+<ul>
+<li>$Vars <strong><a href="#caramel-models-vars">caramel\models\vars</a></strong></li>
+</ul>
+
+<h3 id="setconfig">setConfig</h3>
 
 <p>mixed Caramel\Services\Service::setConfig(\Caramel\Services\Config $Config)</p>
 
 <p>sets $this-&gt;config</p>
 
-<p>* Visibility: <strong>public</strong></p>
+<ul>
+<li>Visibility: <strong>public</strong></li>
+</ul>
 
-<p>#### Arguments
-                    * $Config <strong><a href="#Caramel-Services-Config">Caramel\Services\Config</a></strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### setDirectories</p>
+<ul>
+<li>$Config <strong><a href="#caramel-services-config">caramel\services\config</a></strong></li>
+</ul>
+
+<h3 id="setdirectories">setDirectories</h3>
 
 <p>mixed Caramel\Services\Service::setDirectories(\Caramel\Services\Directories $Directories)</p>
 
 <p>sets $this-&gt;directories</p>
 
-<p>* Visibility: <strong>public</strong></p>
+<ul>
+<li>Visibility: <strong>public</strong></li>
+</ul>
 
-<p>#### Arguments
-                    * $Directories <strong><a href="#Caramel-Services-Directories">Caramel\Services\Directories</a></strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### setHelpers</p>
+<ul>
+<li>$Directories <strong><a href="#caramel-services-directories">caramel\services\directories</a></strong></li>
+</ul>
+
+<h3 id="sethelpers">setHelpers</h3>
 
 <p>mixed Caramel\Services\Service::setHelpers(\Caramel\Services\Helpers $Helpers)</p>
 
 <p>sets $this-&gt;helpers</p>
 
-<p>* Visibility: <strong>public</strong></p>
+<ul>
+<li>Visibility: <strong>public</strong></li>
+</ul>
 
-<p>#### Arguments
-                    * $Helpers <strong><a href="#Caramel-Services-Helpers">Caramel\Services\Helpers</a></strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### setCache</p>
+<ul>
+<li>$Helpers <strong><a href="#caramel-services-helpers">caramel\services\helpers</a></strong></li>
+</ul>
+
+<h3 id="setcache">setCache</h3>
 
 <p>mixed Caramel\Services\Service::setCache(\Caramel\Services\Cache $Cache)</p>
 
 <p>sets $this-&gt;cache</p>
 
-<p>* Visibility: <strong>public</strong></p>
+<ul>
+<li>Visibility: <strong>public</strong></li>
+</ul>
 
-<p>#### Arguments
-                    * $Cache <strong><a href="#Caramel-Services-Cache">Caramel\Services\Cache</a></strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### setPlugins</p>
+<ul>
+<li>$Cache <strong><a href="#caramel-services-cache">caramel\services\cache</a></strong></li>
+</ul>
+
+<h3 id="setplugins">setPlugins</h3>
 
 <p>mixed Caramel\Services\Service::setPlugins(\Caramel\Services\Plugins $Plugins)</p>
 
 <p>sets $this-&gt;plugins</p>
 
-<p>* Visibility: <strong>public</strong></p>
+<ul>
+<li>Visibility: <strong>public</strong></li>
+</ul>
 
-<p>#### Arguments
-                    * $Plugins <strong><a href="#Caramel-Services-Plugins">Caramel\Services\Plugins</a></strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### setLexer</p>
+<ul>
+<li>$Plugins <strong><a href="#caramel-services-plugins">caramel\services\plugins</a></strong></li>
+</ul>
+
+<h3 id="setlexer">setLexer</h3>
 
 <p>mixed Caramel\Services\Service::setLexer(\Caramel\Services\Lexer $Lexer)</p>
 
 <p>sets $this-&gt;lexer</p>
 
-<p>* Visibility: <strong>public</strong></p>
+<ul>
+<li>Visibility: <strong>public</strong></li>
+</ul>
 
-<p>#### Arguments
-                    * $Lexer <strong><a href="#Caramel-Services-Lexer">Caramel\Services\Lexer</a></strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### setParser</p>
+<ul>
+<li>$Lexer <strong><a href="#caramel-services-lexer">caramel\services\lexer</a></strong></li>
+</ul>
+
+<h3 id="setparser">setParser</h3>
 
 <p>mixed Caramel\Services\Service::setParser(\Caramel\Services\Parser $Parser)</p>
 
 <p>sets $this-&gt;parser</p>
 
-<p>* Visibility: <strong>public</strong></p>
+<ul>
+<li>Visibility: <strong>public</strong></li>
+</ul>
 
-<p>#### Arguments
-                    * $Parser <strong><a href="#Caramel-Services-Parser">Caramel\Services\Parser</a></strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### setTemplate</p>
+<ul>
+<li>$Parser <strong><a href="#caramel-services-parser">caramel\services\parser</a></strong></li>
+</ul>
+
+<h3 id="settemplate">setTemplate</h3>
 
 <p>mixed Caramel\Services\Service::setTemplate(\Caramel\Services\Template $Template)</p>
 
 <p>sets $this-&gt;template</p>
 
-<p>* Visibility: <strong>public</strong></p>
+<ul>
+<li>Visibility: <strong>public</strong></li>
+</ul>
 
-<p>#### Arguments
-                    * $Template <strong><a href="#Caramel-Services-Template">Caramel\Services\Template</a></strong></p>
+<h4 id="arguments">Arguments</h4>
+
+<ul>
+<li>$Template <strong><a href="#caramel-services-template">caramel\services\template</a></strong></li>
+</ul>
 
           <h1 id="caramel-services-template">Caramel\Services\Template</h1>
 
 <p>Class Template</p>
 
-<p>* Class name: Template
-    * Namespace: Caramel\Services
-        * Parent class: <a href="#Caramel-Services-Service">Caramel\Services\Service</a></p>
+<ul>
+<li>Class name: Template</li>
+<li>Namespace: Caramel\Services</li>
+<li>Parent class: <a href="#caramel-services-service">caramel\services\service</a></li>
+</ul>
 
-<p>Properties
-    &mdash;&mdash;&mdash;-</p>
+<h2 id="properties">Properties</h2>
 
-<p>### $caramel</p>
+<h3 id="caramel">$caramel</h3>
 
 <p>protected \Caramel\Caramel $caramel</p>
 
-<p>* Visibility: <strong>protected</strong></p>
+<ul>
+<li>Visibility: <strong>protected</strong></li>
+</ul>
 
-<p>### $yaml</p>
+<h3 id="yaml">$yaml</h3>
 
 <p>protected \Symfony\Component\Yaml\Yaml $yaml</p>
 
-<p>* Visibility: <strong>protected</strong></p>
+<ul>
+<li>Visibility: <strong>protected</strong></li>
+</ul>
 
-<p>### $vars</p>
+<h3 id="vars">$vars</h3>
 
 <p>protected \Caramel\Models\Vars $vars</p>
 
-<p>* Visibility: <strong>protected</strong></p>
+<ul>
+<li>Visibility: <strong>protected</strong></li>
+</ul>
 
-<p>### $config</p>
+<h3 id="config">$config</h3>
 
 <p>protected \Caramel\Services\Config $config</p>
 
-<p>* Visibility: <strong>protected</strong></p>
+<ul>
+<li>Visibility: <strong>protected</strong></li>
+</ul>
 
-<p>### $directories</p>
+<h3 id="directories">$directories</h3>
 
 <p>protected \Caramel\Services\Directories $directories</p>
 
-<p>* Visibility: <strong>protected</strong></p>
+<ul>
+<li>Visibility: <strong>protected</strong></li>
+</ul>
 
-<p>### $helpers</p>
+<h3 id="helpers">$helpers</h3>
 
 <p>protected \Caramel\Services\Helpers $helpers</p>
 
-<p>* Visibility: <strong>protected</strong></p>
+<ul>
+<li>Visibility: <strong>protected</strong></li>
+</ul>
 
-<p>### $cache</p>
+<h3 id="cache">$cache</h3>
 
 <p>protected \Caramel\Services\Cache $cache</p>
 
-<p>* Visibility: <strong>protected</strong></p>
+<ul>
+<li>Visibility: <strong>protected</strong></li>
+</ul>
 
-<p>### $plugins</p>
+<h3 id="plugins">$plugins</h3>
 
 <p>protected \Caramel\Services\Plugins $plugins</p>
 
-<p>* Visibility: <strong>protected</strong></p>
+<ul>
+<li>Visibility: <strong>protected</strong></li>
+</ul>
 
-<p>### $lexer</p>
+<h3 id="lexer">$lexer</h3>
 
 <p>protected \Caramel\Services\Lexer $lexer</p>
 
-<p>* Visibility: <strong>protected</strong></p>
+<ul>
+<li>Visibility: <strong>protected</strong></li>
+</ul>
 
-<p>### $parser</p>
+<h3 id="parser">$parser</h3>
 
 <p>protected \Caramel\Services\Parser $parser</p>
 
-<p>* Visibility: <strong>protected</strong></p>
+<ul>
+<li>Visibility: <strong>protected</strong></li>
+</ul>
 
-<p>### $template</p>
+<h3 id="template">$template</h3>
 
 <p>protected \Caramel\Services\Template $template</p>
 
-<p>* Visibility: <strong>protected</strong></p>
+<ul>
+<li>Visibility: <strong>protected</strong></li>
+</ul>
 
-<p>Methods
-    &mdash;&mdash;-</p>
+<h2 id="methods">Methods</h2>
 
-<p>### show</p>
+<h3 id="show">show</h3>
 
 <p>mixed Caramel\Services\Template::show($file)</p>
 
 <p>Renders and includes the passed file</p>
 
-<p>* Visibility: <strong>public</strong></p>
+<ul>
+<li>Visibility: <strong>public</strong></li>
+</ul>
 
-<p>#### Arguments
-                    * $file <strong>mixed</strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### add</p>
+<ul>
+<li>$file <strong>mixed</strong></li>
+</ul>
+
+<h3 id="add">add</h3>
 
 <p>string Caramel\Services\Template::add($dir)</p>
 
 <p>adds a template directory</p>
 
-<p>* Visibility: <strong>public</strong></p>
+<ul>
+<li>Visibility: <strong>public</strong></li>
+</ul>
 
-<p>#### Arguments
-                    * $dir <strong>mixed</strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### remove</p>
+<ul>
+<li>$dir <strong>mixed</strong></li>
+</ul>
+
+<h3 id="remove">remove</h3>
 
 <p>string Caramel\Services\Template::remove(integer $pos)</p>
 
 <p>removes a template directory</p>
 
-<p>* Visibility: <strong>public</strong></p>
+<ul>
+<li>Visibility: <strong>public</strong></li>
+</ul>
 
-<p>#### Arguments
-                    * $pos <strong>integer</strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### dirs</p>
+<ul>
+<li>$pos <strong>integer</strong></li>
+</ul>
+
+<h3 id="dirs">dirs</h3>
 
 <p>array Caramel\Services\Template::dirs()</p>
 
 <p>returns all template directories</p>
 
-<p>* Visibility: <strong>public</strong></p>
+<ul>
+<li>Visibility: <strong>public</strong></li>
+</ul>
 
-<p>### fetch</p>
+<h3 id="fetch">fetch</h3>
 
 <p>string Caramel\Services\Template::fetch($file)</p>
 
 <p>Renders and returns the passed dom</p>
 
-<p>* Visibility: <strong>public</strong></p>
+<ul>
+<li>Visibility: <strong>public</strong></li>
+</ul>
 
-<p>#### Arguments
-                    * $file <strong>mixed</strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### parse</p>
+<ul>
+<li>$file <strong>mixed</strong></li>
+</ul>
+
+<h3 id="parse">parse</h3>
 
 <p>mixed|string Caramel\Services\Template::parse($file)</p>
 
 <p>parsed a template file</p>
 
-<p>* Visibility: <strong>public</strong></p>
+<ul>
+<li>Visibility: <strong>public</strong></li>
+</ul>
 
-<p>#### Arguments
-                    * $file <strong>mixed</strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### setCaramel</p>
+<ul>
+<li>$file <strong>mixed</strong></li>
+</ul>
+
+<h3 id="setcaramel">setCaramel</h3>
 
 <p>mixed Caramel\Services\Service::setCaramel(\Caramel\Caramel $Caramel)</p>
 
 <p>sets $this-&gt;caramel</p>
 
-<p>* Visibility: <strong>public</strong>
-                * This method is defined by <a href="#Caramel-Services-Service">Caramel\Services\Service</a></p>
+<ul>
+<li>Visibility: <strong>public</strong></li>
+<li>This method is defined by <a href="#caramel-services-service">caramel\services\service</a></li>
+</ul>
 
-<p>#### Arguments
-                    * $Caramel <strong>Caramel\Caramel</strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### setYaml</p>
+<ul>
+<li>$Caramel <strong><a href="#caramel-caramel">caramel\caramel</a></strong></li>
+</ul>
+
+<h3 id="setyaml">setYaml</h3>
 
 <p>mixed Caramel\Services\Service::setYaml(\Symfony\Component\Yaml\Yaml $Yaml)</p>
 
 <p>sets $this-&gt;yaml</p>
 
-<p>* Visibility: <strong>public</strong>
-                * This method is defined by <a href="#Caramel-Services-Service">Caramel\Services\Service</a></p>
+<ul>
+<li>Visibility: <strong>public</strong></li>
+<li>This method is defined by <a href="#caramel-services-service">caramel\services\service</a></li>
+</ul>
 
-<p>#### Arguments
-                    * $Yaml <strong>Symfony\Component\Yaml\Yaml</strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### setVars</p>
+<ul>
+<li>$Yaml <strong>symfony\component\yaml\yaml</strong></li>
+</ul>
+
+<h3 id="setvars">setVars</h3>
 
 <p>mixed Caramel\Services\Service::setVars(\Caramel\Models\Vars $Vars)</p>
 
 <p>sets $this-&gt;vars</p>
 
-<p>* Visibility: <strong>public</strong>
-                * This method is defined by <a href="#Caramel-Services-Service">Caramel\Services\Service</a></p>
+<ul>
+<li>Visibility: <strong>public</strong></li>
+<li>This method is defined by <a href="#caramel-services-service">caramel\services\service</a></li>
+</ul>
 
-<p>#### Arguments
-                    * $Vars <strong><a href="#Caramel-Models-Vars">Caramel\Models\Vars</a></strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### setConfig</p>
+<ul>
+<li>$Vars <strong><a href="#caramel-models-vars">caramel\models\vars</a></strong></li>
+</ul>
+
+<h3 id="setconfig">setConfig</h3>
 
 <p>mixed Caramel\Services\Service::setConfig(\Caramel\Services\Config $Config)</p>
 
 <p>sets $this-&gt;config</p>
 
-<p>* Visibility: <strong>public</strong>
-                * This method is defined by <a href="#Caramel-Services-Service">Caramel\Services\Service</a></p>
+<ul>
+<li>Visibility: <strong>public</strong></li>
+<li>This method is defined by <a href="#caramel-services-service">caramel\services\service</a></li>
+</ul>
 
-<p>#### Arguments
-                    * $Config <strong><a href="#Caramel-Services-Config">Caramel\Services\Config</a></strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### setDirectories</p>
+<ul>
+<li>$Config <strong><a href="#caramel-services-config">caramel\services\config</a></strong></li>
+</ul>
+
+<h3 id="setdirectories">setDirectories</h3>
 
 <p>mixed Caramel\Services\Service::setDirectories(\Caramel\Services\Directories $Directories)</p>
 
 <p>sets $this-&gt;directories</p>
 
-<p>* Visibility: <strong>public</strong>
-                * This method is defined by <a href="#Caramel-Services-Service">Caramel\Services\Service</a></p>
+<ul>
+<li>Visibility: <strong>public</strong></li>
+<li>This method is defined by <a href="#caramel-services-service">caramel\services\service</a></li>
+</ul>
 
-<p>#### Arguments
-                    * $Directories <strong><a href="#Caramel-Services-Directories">Caramel\Services\Directories</a></strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### setHelpers</p>
+<ul>
+<li>$Directories <strong><a href="#caramel-services-directories">caramel\services\directories</a></strong></li>
+</ul>
+
+<h3 id="sethelpers">setHelpers</h3>
 
 <p>mixed Caramel\Services\Service::setHelpers(\Caramel\Services\Helpers $Helpers)</p>
 
 <p>sets $this-&gt;helpers</p>
 
-<p>* Visibility: <strong>public</strong>
-                * This method is defined by <a href="#Caramel-Services-Service">Caramel\Services\Service</a></p>
+<ul>
+<li>Visibility: <strong>public</strong></li>
+<li>This method is defined by <a href="#caramel-services-service">caramel\services\service</a></li>
+</ul>
 
-<p>#### Arguments
-                    * $Helpers <strong><a href="#Caramel-Services-Helpers">Caramel\Services\Helpers</a></strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### setCache</p>
+<ul>
+<li>$Helpers <strong><a href="#caramel-services-helpers">caramel\services\helpers</a></strong></li>
+</ul>
+
+<h3 id="setcache">setCache</h3>
 
 <p>mixed Caramel\Services\Service::setCache(\Caramel\Services\Cache $Cache)</p>
 
 <p>sets $this-&gt;cache</p>
 
-<p>* Visibility: <strong>public</strong>
-                * This method is defined by <a href="#Caramel-Services-Service">Caramel\Services\Service</a></p>
+<ul>
+<li>Visibility: <strong>public</strong></li>
+<li>This method is defined by <a href="#caramel-services-service">caramel\services\service</a></li>
+</ul>
 
-<p>#### Arguments
-                    * $Cache <strong><a href="#Caramel-Services-Cache">Caramel\Services\Cache</a></strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### setPlugins</p>
+<ul>
+<li>$Cache <strong><a href="#caramel-services-cache">caramel\services\cache</a></strong></li>
+</ul>
+
+<h3 id="setplugins">setPlugins</h3>
 
 <p>mixed Caramel\Services\Service::setPlugins(\Caramel\Services\Plugins $Plugins)</p>
 
 <p>sets $this-&gt;plugins</p>
 
-<p>* Visibility: <strong>public</strong>
-                * This method is defined by <a href="#Caramel-Services-Service">Caramel\Services\Service</a></p>
+<ul>
+<li>Visibility: <strong>public</strong></li>
+<li>This method is defined by <a href="#caramel-services-service">caramel\services\service</a></li>
+</ul>
 
-<p>#### Arguments
-                    * $Plugins <strong><a href="#Caramel-Services-Plugins">Caramel\Services\Plugins</a></strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### setLexer</p>
+<ul>
+<li>$Plugins <strong><a href="#caramel-services-plugins">caramel\services\plugins</a></strong></li>
+</ul>
+
+<h3 id="setlexer">setLexer</h3>
 
 <p>mixed Caramel\Services\Service::setLexer(\Caramel\Services\Lexer $Lexer)</p>
 
 <p>sets $this-&gt;lexer</p>
 
-<p>* Visibility: <strong>public</strong>
-                * This method is defined by <a href="#Caramel-Services-Service">Caramel\Services\Service</a></p>
+<ul>
+<li>Visibility: <strong>public</strong></li>
+<li>This method is defined by <a href="#caramel-services-service">caramel\services\service</a></li>
+</ul>
 
-<p>#### Arguments
-                    * $Lexer <strong><a href="#Caramel-Services-Lexer">Caramel\Services\Lexer</a></strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### setParser</p>
+<ul>
+<li>$Lexer <strong><a href="#caramel-services-lexer">caramel\services\lexer</a></strong></li>
+</ul>
+
+<h3 id="setparser">setParser</h3>
 
 <p>mixed Caramel\Services\Service::setParser(\Caramel\Services\Parser $Parser)</p>
 
 <p>sets $this-&gt;parser</p>
 
-<p>* Visibility: <strong>public</strong>
-                * This method is defined by <a href="#Caramel-Services-Service">Caramel\Services\Service</a></p>
+<ul>
+<li>Visibility: <strong>public</strong></li>
+<li>This method is defined by <a href="#caramel-services-service">caramel\services\service</a></li>
+</ul>
 
-<p>#### Arguments
-                    * $Parser <strong><a href="#Caramel-Services-Parser">Caramel\Services\Parser</a></strong></p>
+<h4 id="arguments">Arguments</h4>
 
-<p>### setTemplate</p>
+<ul>
+<li>$Parser <strong><a href="#caramel-services-parser">caramel\services\parser</a></strong></li>
+</ul>
+
+<h3 id="settemplate">setTemplate</h3>
 
 <p>mixed Caramel\Services\Service::setTemplate(\Caramel\Services\Template $Template)</p>
 
 <p>sets $this-&gt;template</p>
 
-<p>* Visibility: <strong>public</strong>
-                * This method is defined by <a href="#Caramel-Services-Service">Caramel\Services\Service</a></p>
+<ul>
+<li>Visibility: <strong>public</strong></li>
+<li>This method is defined by <a href="#caramel-services-service">caramel\services\service</a></li>
+</ul>
 
-<p>#### Arguments
-                    * $Template <strong><a href="#Caramel-Services-Template">Caramel\Services\Template</a></strong></p>
+<h4 id="arguments">Arguments</h4>
+
+<ul>
+<li>$Template <strong><a href="#caramel-services-template">caramel\services\template</a></strong></li>
+</ul>
 
       </div>
       <div class="dark-box">

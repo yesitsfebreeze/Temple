@@ -1,5 +1,4 @@
-Caramel\Models\Node
-===============
+## Node
 
 all Node defaults are set here
 Class Node
@@ -7,239 +6,239 @@ Class Node
 
 
 
-    * Class name: Node
-    * Namespace: Caramel\Models
-        * Parent class: [Caramel\Models\Storage](#Caramel-Models-Storage)
-            
+* Class name: Node
+* Namespace: Caramel\Models
+* Parent class: [Storage](#caramelmodelsstorage)
 
 
 
 
-    Properties
-    ----------
+
+### Properties
 
 
-    ### $storage
+#### $storage
 
     private array $storage
 
-    
 
 
 
-    * Visibility: **private**
-            
 
-    Methods
-    -------
+* Visibility: **private**
+* This property is defined by [Node](#caramelmodelsnode)
 
 
-    ### __construct
+### Methods
+
+
+#### __construct
 
     mixed Caramel\Models\Node::__construct()
 
-    Node constructor.
+Node constructor.
 
 
 
-    * Visibility: **public**
-                
+* Visibility: **public**
+* This method is defined by [Node](#caramelmodelsnode)
 
-    
 
-    ### set
+
+
+#### set
 
     boolean Caramel\Models\Storage::set($path, $value)
 
-    
 
 
 
-    * Visibility: **public**
-                * This method is defined by [Caramel\Models\Storage](#Caramel-Models-Storage)
-    
 
-            #### Arguments
-                    * $path **mixed**
-                    * $value **mixed**
-        
-    
+* Visibility: **public**
+* This method is defined by [Storage](#caramelmodelsstorage)
 
-    ### get
+
+##### Arguments
+* $path **mixed**
+* $value **mixed**
+
+
+
+#### get
 
     mixed Caramel\Models\Storage::get(string $path)
 
-    returns a value from the storage
+returns a value from the storage
 
 
 
-    * Visibility: **public**
-                * This method is defined by [Caramel\Models\Storage](#Caramel-Models-Storage)
-    
+* Visibility: **public**
+* This method is defined by [Storage](#caramelmodelsstorage)
 
-            #### Arguments
-                    * $path **string**
-        
-    
 
-    ### merge
+##### Arguments
+* $path **string**
+
+
+
+#### merge
 
     mixed Caramel\Models\Storage::merge(array $array)
 
-    merge an array into the storage
+merge an array into the storage
 
 
 
-    * Visibility: **public**
-                * This method is defined by [Caramel\Models\Storage](#Caramel-Models-Storage)
-    
+* Visibility: **public**
+* This method is defined by [Storage](#caramelmodelsstorage)
 
-            #### Arguments
-                    * $array **array**
-        
-    
 
-    ### extend
+##### Arguments
+* $array **array**
+
+
+
+#### extend
 
     array Caramel\Models\Storage::extend(string $path, array|string $value)
 
-    extends an array in the storage
+extends an array in the storage
 
 
 
-    * Visibility: **public**
-                * This method is defined by [Caramel\Models\Storage](#Caramel-Models-Storage)
-    
+* Visibility: **public**
+* This method is defined by [Storage](#caramelmodelsstorage)
 
-            #### Arguments
-                    * $path **string**
-                    * $value **array|string**
-        
-    
 
-    ### has
+##### Arguments
+* $path **string**
+* $value **array|string**
+
+
+
+#### has
 
     array Caramel\Models\Storage::has(string $path)
 
-    returns if the storage has the passed value
+returns if the storage has the passed value
 
 
 
-    * Visibility: **public**
-                * This method is defined by [Caramel\Models\Storage](#Caramel-Models-Storage)
-    
+* Visibility: **public**
+* This method is defined by [Storage](#caramelmodelsstorage)
 
-            #### Arguments
-                    * $path **string**
-        
-    
 
-    ### delete
+##### Arguments
+* $path **string**
+
+
+
+#### delete
 
     boolean Caramel\Models\Storage::delete($path)
 
-    
 
 
 
-    * Visibility: **public**
-                * This method is defined by [Caramel\Models\Storage](#Caramel-Models-Storage)
-    
 
-            #### Arguments
-                    * $path **mixed**
-        
-    
+* Visibility: **public**
+* This method is defined by [Storage](#caramelmodelsstorage)
 
-    ### find
+
+##### Arguments
+* $path **mixed**
+
+
+
+#### find
 
     array Caramel\Models\Storage::find(array|string $attrs, string $value, \Caramel\Models\Storage $item)
 
-    searches for an item in the current tree
+searches for an item in the current tree
 if we pass an array it has the same behaviour
 iterates over the array values recursively
 
 
 
-    * Visibility: **public**
-                * This method is defined by [Caramel\Models\Storage](#Caramel-Models-Storage)
-    
+* Visibility: **public**
+* This method is defined by [Storage](#caramelmodelsstorage)
 
-            #### Arguments
-                    * $attrs **array|string**
-                    * $value **string**
-                    * $item **[Caramel\Models\Storage](#Caramel-Models-Storage)**
-        
-    
 
-    ### findHelper
+##### Arguments
+* $attrs **array|string**
+* $value **string**
+* $item **[Storage](#caramelmodelsstorage)**
+
+
+
+#### findHelper
 
     array Caramel\Models\Storage::findHelper(array $found, \Caramel\Models\Storage $item, array|string $attrs, string $value)
 
-    outsourcing the repeating find process
+outsourcing the repeating find process
 
 
 
-    * Visibility: **private**
-                * This method is defined by [Caramel\Models\Storage](#Caramel-Models-Storage)
-    
+* Visibility: **private**
+* This method is defined by [Storage](#caramelmodelsstorage)
 
-            #### Arguments
-                    * $found **array**
-                    * $item **[Caramel\Models\Storage](#Caramel-Models-Storage)**
-                    * $attrs **array|string**
-                    * $value **string**
-        
-    
 
-    ### getter
+##### Arguments
+* $found **array**
+* $item **[Storage](#caramelmodelsstorage)**
+* $attrs **array|string**
+* $value **string**
+
+
+
+#### getter
 
     array Caramel\Models\Storage::getter($path)
 
-    the method to set data
+the method to set data
 
 
 
-    * Visibility: **private**
-                * This method is defined by [Caramel\Models\Storage](#Caramel-Models-Storage)
-    
+* Visibility: **private**
+* This method is defined by [Storage](#caramelmodelsstorage)
 
-            #### Arguments
-                    * $path **mixed**
-        
-    
 
-    ### setter
+##### Arguments
+* $path **mixed**
+
+
+
+#### setter
 
     boolean Caramel\Models\Storage::setter($path, $value)
 
-    
 
 
 
-    * Visibility: **private**
-                * This method is defined by [Caramel\Models\Storage](#Caramel-Models-Storage)
-    
 
-            #### Arguments
-                    * $path **mixed**
-                    * $value **mixed**
-        
-    
+* Visibility: **private**
+* This method is defined by [Storage](#caramelmodelsstorage)
 
-    ### createPath
+
+##### Arguments
+* $path **mixed**
+* $value **mixed**
+
+
+
+#### createPath
 
     array|mixed Caramel\Models\Storage::createPath($path)
 
-    returns the path as an array
+returns the path as an array
 
 
 
-    * Visibility: **private**
-                * This method is defined by [Caramel\Models\Storage](#Caramel-Models-Storage)
-    
+* Visibility: **private**
+* This method is defined by [Storage](#caramelmodelsstorage)
 
-            #### Arguments
-                    * $path **mixed**
-        
-    
+
+##### Arguments
+* $path **mixed**
+
+
