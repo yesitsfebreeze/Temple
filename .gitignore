@@ -1,5 +1,5 @@
 /cache
 /node_modules
-/slate/build
+/slate
 /vendor
-
+composer.lock
