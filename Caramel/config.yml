@@ -1,0 +1,13 @@
+use_cache:        false
+show_comments:    false
+block_comments:   false
+use_exception_handler: true
+
+extension:        "crml"
+cache_dir:        "../Cache"
+comment_symbol:   "#"
+variable_symbol:  "$"
+left_delimiter:   "{"
+right_delimiter:  "}"
+file_header:      "Caramel template engine."
+

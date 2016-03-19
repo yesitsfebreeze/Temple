@@ -1,0 +1,6 @@
+{
+    "require": {
+        "phpdocumentor/phpdocumentor": "2.*",
+        "evert/phpdoc-md" : "~0.2.0"
+    }
+}

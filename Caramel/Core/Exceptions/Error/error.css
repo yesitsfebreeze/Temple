@@ -1,0 +1,46 @@
+@import url(https://fonts.googleapis.com/css?family=Cabin:400,700);
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Cabin', serif;
+    font-weight: 400;
+}
+
+body {
+    font-family: 'Cabin', serif;
+    color:       #737373;
+    background:  #262833;
+    margin:      0;
+}
+
+main {
+    margin: 4% 20%;
+}
+
+h1 {
+    color:       #E8A746;
+    padding-top: 120px;
+}
+
+
+footer small {
+    font-size: 0.8em;
+}
+
+.traces {
+    list-style: none;
+    padding:    0;
+    height:     47px;
+    overflow:   hidden;
+    display:    inline-block;
+}
+
+.traces:hover, .traces:active, .traces:focus {
+    overflow: visible;
+    height:   auto;
+    cursor:   help;
+}
+
+.highlight {
+    color:       #E8A746;
+    font-weight: 700;
+}
