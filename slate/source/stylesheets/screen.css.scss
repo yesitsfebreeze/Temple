@@ -213,7 +213,6 @@ a {
   @mixin subheader($fz,$opac,$level) {
 
     display:          none; // tocify will override this when needed
-    border-left: 3px solid rgba($nav-subitem-bg, $opac);
     font-weight:      500;
     .tocify-item > a {
       padding-left: $nav-padding + ($nav-indent * $level);

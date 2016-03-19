@@ -89,8 +89,8 @@ class Generator
         $twig->addFilter($filter);
 
         foreach ($this->classDefinitions as $className => $data) {
-            $data["className"] = array_reverse(explode("\\",$data["className"]))[0];
-            $output = $twig->render('class.twig', $data);
+            $data["className"] = array_reverse(explode("\\", $data["className"]))[0];
+            $output            = $twig->render('class.twig', $data);
 
             file_put_contents($this->outputDir . '/' . $data['fileName'], $output);
         }
@@ -147,9 +147,13 @@ class Generator
                     $fullName = $fullString . '\\' . $name;
                 }
 
-                $linker = str_repeat(' ', $depth * 4) . '* ' . Generator::classLink($fullName, $name) . "\n";
-                $output .= $linker;
-                $output .= $treeOutput($subItems, $fullName, $depth + 1);
+                if ($depth != 0) {
+                    $linker = str_repeat(' ', ($depth - 1) * 4) . '* ' . Generator::classLink($fullName, $name) . "\n";
+                    $output .= $linker;
+                    $output .= $treeOutput($subItems, $fullName, $depth + 1);
+                } else {
+                    $output .= $treeOutput($subItems, $fullName, $depth + 1);
+                }
             }
 
             return $output;
@@ -180,7 +184,7 @@ class Generator
 
         foreach (explode('|', $className) as $oneClass) {
             $oneClass = trim($oneClass, '\\ ');
-            $name = array_reverse(explode("\\",$oneClass))[0];
+            $name     = array_reverse(explode("\\", $oneClass))[0];
             if (!$label) {
                 $label = $oneClass;
             }
@@ -195,7 +199,6 @@ class Generator
                 $returnedClasses[] = sprintf("[%s](%s)", $name, $link);
             }
         }
-
 
 
         $output = implode('|', $returnedClasses);

@@ -253,8 +253,8 @@ class Parser extends Service
         if ($variable == '$output' && gettype($element) != "string") $error = true;
 
         if ($error) {
-            $pluginName = str_replace("Caramel\\Plugin", "", get_class($plugin));
-            throw new CaramelException("You need to return the variable: {$variable} </br></br>Plugin: {$pluginName} </br>Method: {$method} </br></br>");
+            $pluginName = str_replace("Caramel\\Plugins", "", get_class($plugin));
+            throw new CaramelException("You need to return the variable: {$variable} </br></br>Plugins: {$pluginName} </br>Method: {$method} </br></br>");
         }
     }
 

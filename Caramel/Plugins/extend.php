@@ -1,6 +1,6 @@
 <?php
 
-namespace Caramel\Plugin;
+namespace Caramel\Plugins;
 
 
 use Caramel\Exceptions\CaramelException;

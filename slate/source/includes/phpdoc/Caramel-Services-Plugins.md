@@ -311,7 +311,7 @@ extracts the plugin name
 
 #### createPlugin
 
-    \Caramel\Plugin\Plugin Caramel\Services\Plugins::createPlugin(string $class)
+    \Caramel\Plugins\Plugin Caramel\Services\Plugins::createPlugin(string $class)
 
 creates a new plugin instance with the given class
 
