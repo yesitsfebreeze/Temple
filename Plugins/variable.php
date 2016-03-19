@@ -1,6 +1,6 @@
 <?php
 
-namespace Caramel\Plugin;
+namespace Caramel\Plugins;
 
 
 use Caramel\Models\Node;
@@ -9,7 +9,7 @@ use Caramel\Models\Node;
 /**
  * to implement a plugin, you have to follow a name convention.
  * The File name represents the plugin class name.
- * Each Plugin class has to be prefixed with with Caramel(Type)
+ * Each Plugins class has to be prefixed with with Caramel(Type)
  * Example given:
  *      filename = MyPlugin.php
  *      classname = Caramel_Plugin_MyPlugin
