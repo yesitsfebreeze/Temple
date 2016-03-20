@@ -1,6 +1,9 @@
 <?php
 
-namespace Caramel\Plugins;
+namespace Caramel\Plugins\Core;
+
+
+use Caramel\Plugins\Plugin;
 
 
 /**

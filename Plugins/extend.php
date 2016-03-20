@@ -1,11 +1,12 @@
 <?php
 
-namespace Caramel\Plugins;
+namespace Caramel\Plugins\Core;
 
 
 use Caramel\Exceptions\CaramelException;
 use Caramel\Models\Dom;
 use Caramel\Models\Node;
+use phpDocumentor\Plugin\Plugin;
 
 
 /**

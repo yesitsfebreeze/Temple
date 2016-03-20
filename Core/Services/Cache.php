@@ -231,7 +231,7 @@ class Cache extends Service
      * empties the cache directory
      *
      * @param bool $dir
-     * @return bool|Error
+     * @return bool
      */
     public function clear($dir = NULL)
     {
