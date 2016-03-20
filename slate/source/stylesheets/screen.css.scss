@@ -212,8 +212,8 @@ a {
 
   @mixin subheader($fz,$opac,$level) {
 
-    display:          none; // tocify will override this when needed
-    font-weight:      500;
+    display:     none; // tocify will override this when needed
+    font-weight: 500;
     .tocify-item > a {
       padding-left: $nav-padding + ($nav-indent * $level);
       font-size:    $fz;
@@ -228,17 +228,17 @@ a {
   }
 
   .tocify-subheader {
-    @include subheader(1em, 0, 0);
+    @include subheader(1em, 0, 1);
     .tocify-subheader {
-      @include subheader(1em, .2, 1);
+      @include subheader(.9em, .2, 2);
       .tocify-subheader {
-        @include subheader(1em, .4, 2);
+        @include subheader(.8em, .4, 3);
         .tocify-subheader {
-          @include subheader(1em, .6, 3);
+          @include subheader(.7em, .6, 4);
           .tocify-subheader {
-            @include subheader(1em, .8, 4);
+            @include subheader(.6em, .8, 5);
             .tocify-subheader {
-              @include subheader(1em, 1, 5);
+              @include subheader(.5em, 1, 6);
             }
           }
         }
@@ -413,7 +413,7 @@ a {
     clear:   both;
   }
 
-  & > h1, & > h2, & > h3, & > h4, & > h5, & > h6, & > p, & > table, & > ul, & > ol, & > aside, & > dl {
+  & > h1, & > h2, & > h3, & > h4, & > h5, & > h6, & > p, & > table, & > ul, & > ol, & > aside, & > dl, & .class {
     margin-right: $examples-width;
     padding:      0 $main-padding;
     box-sizing:   border-box;
@@ -438,16 +438,7 @@ a {
     margin-bottom:  $h1-margin-bottom;
     margin-top:     1em;
     position:       relative;
-    &:after {
-      content:          '';
-      position:         absolute;
-      background-color: $highlight;
-      width:            10%;
-      height:           3px;
-      left:             0;
-      bottom:           0;
-      margin:           0 $main-padding;
-    }
+    border-left:    5px solid $highlight;
   }
 
   h1:first-child, div:first-child + h1 {
@@ -717,4 +708,84 @@ a {
 
 .highlight, .highlight .w {
   background-color: $code-bg;
+}
+
+.section aside {
+  margin:  0 (0 -$main-padding);
+  padding: ($main-padding/2) $main-padding;
+}
+
+.class {
+  .class-heading {
+    font-size:      40px !important;
+    margin-top:     1em !important;
+    margin-bottom:  0 !important;
+    padding-top:    1.2em !important;
+    padding-bottom: 1.2em !important;
+    position:       relative !important;
+    &:after {
+      content:          '';
+      position:         absolute;
+      background-color: $highlight;
+      width:            10%;
+      height:           3px;
+      left:             0;
+      bottom:           0;
+    }
+  }
+  .class-namespace {
+    position:  relative;
+    top:       -52px;
+    opacity:   0.5;
+    font-size: 20px;
+  }
+}
+
+.description-heading, .methods-heading, .arguments-heading {
+  font-size:     26px !important;
+  margin-top:    2.5em !important;
+  margin-bottom: 0.8em !important;
+  font-weight:   bold;
+  position:      relative;
+  display:       inline-block;
+  &:after {
+    content:          '';
+    position:         absolute;
+    background-color: $highlight;
+    width:            100%;
+    height:           2px;
+    left:             0;
+    bottom:           0;
+  }
+}
+
+.sup-heading {
+  font-size:     22px !important;
+  margin-top:    2.5em !important;
+  margin-bottom: 0.8em !important;
+  font-weight:   bold;
+  color:         $highlight;
+}
+
+.sub-heading {
+  font-size:     16px !important;
+  margin-top:    2.5em !important;
+  margin-bottom: 0.8em !important;
+  font-weight:   bold;
+  opacity:       0.7;
+}
+
+.method-signature {
+  opacity: 0.5;
+}
+
+h1 {
+  font-size:      45px !important;
+  margin-top:     3em !important;
+  padding-top:    0 !important;
+  padding-bottom: 0 !important;
+}
+
+.method {
+  padding-bottom: 75px;
 }

@@ -1,18 +1,4 @@
----
-title: caramel Documentation
-
-language_tabs:
-
-toc_footers:
-    - <a href='https://github.com/hvlmnns/Caramel'>download caramel</a>
-    - <a href='https://github.com/hvlmnns/Caramel/fork'>fork caramel</a>
-
-includes:
-    - intro
-    - setup
-    - syntax
-    - api
-    - phpdoc/Caramel/Autoloader.md
+<p>- phpdoc/Caramel/Autoloader.md
     - phpdoc/Caramel/Caramel.md
     - phpdoc/Caramel/Exceptions.md
     - phpdoc/Caramel/Exceptions/CaramelException.md
@@ -43,8 +29,4 @@ includes:
     - phpdoc/Caramel/Services/Parser.md
     - phpdoc/Caramel/Services/Plugins.md
     - phpdoc/Caramel/Services/Service.md
-    - phpdoc/Caramel/Services/Template.md
-
-  
-search: true
-------------
+    - phpdoc/Caramel/Services/Template.md</p>

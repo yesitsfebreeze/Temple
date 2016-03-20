@@ -52,6 +52,16 @@ class Generator
      */
     protected $apiIndexFile;
 
+    /**
+     * @var array $nameSpaces
+     */
+    protected $nameSpaces = array();
+    /**
+     * @var array $registeredClasses
+     */
+    protected $registeredClasses = array();
+    private $paths = array();
+
 
     /**
      * @param array  $classDefinitions
@@ -75,6 +85,21 @@ class Generator
      */
     function run()
     {
+
+        $twig = $this->getTwig();
+        $this->getNameSpaces();
+        $GLOBALS['PHPDocMD_registeredClasses'] = $this->registeredClasses;
+        $this->createClasses($twig);
+        $this->createIncludeFile();
+        $this->mergeOutoutFile();
+    }
+
+
+    /**
+     * @return Twig_Environment
+     */
+    private function getTwig()
+    {
         $loader = new Twig_Loader_Filesystem($this->templateDir, [
             'cache' => false,
             'debug' => true,
@@ -88,80 +113,118 @@ class Generator
         $filter = new Twig_SimpleFilter('classLink', ['PHPDocMd\\Generator', 'classLink']);
         $twig->addFilter($filter);
 
-        foreach ($this->classDefinitions as $className => $data) {
-            $data["className"] = array_reverse(explode("\\", $data["className"]))[0];
-            $output            = $twig->render('class.twig', $data);
-
-            file_put_contents($this->outputDir . '/' . $data['fileName'], $output);
-        }
-
-        $index = $this->createIndex();
-
-        $index = $twig->render('index.twig',
-            [
-                'index' => $index,
-                'classDefinitions' => $this->classDefinitions,
-            ]
-        );
-
-        file_put_contents($this->outputDir . '/' . $this->apiIndexFile, $index);
+        return $twig;
     }
 
 
     /**
-     * Creates an index of classes and namespaces.
-     * I'm generating the actual markdown output here, which isn't great...But it will have to do.
-     * If I don't want to make things too complicated.
      *
-     * @return array
      */
-    protected function createIndex()
+    private function getNameSpaces()
     {
-        $tree = [];
+        foreach ($this->classDefinitions as $name => $data) {
+            $class                             = array_reverse(explode("\\", $name))[0];
+            $space                             = str_replace("\\", "/", $name);
+            $space                             = preg_replace("/\/" . $class . "$/", "", $space);
+            $this->registeredClasses[ $class ] = $name;
+            $dir                               = $this->outputDir . '/' . $space;
+            if (!isset($this->nameSpaces[ $space ])) {
+                $this->nameSpaces[ $space ] = $dir;
 
-        foreach ($this->classDefinitions as $className => $classInfo) {
-            $current = &$tree;
-
-            foreach (explode('\\', $className) as $part) {
-                if (!isset($current[ $part ])) {
-                    $current[ $part ] = [];
-                }
-                $current = &$current[ $part ];
             }
         }
+    }
 
-        /**
-         * This will be a reference to the $treeOutput closure, so that it can be invoked
-         * recursively. A string is used to trick static analysers into thinking this might be
-         * callable.
-         */
-        $treeOutput = '';
 
-        $treeOutput = function ($item, $fullString = '', $depth = 0) use (&$treeOutput) {
-            $output = '';
-
-            foreach ($item as $name => $subItems) {
-                $fullName = $name;
-
-                if ($fullString) {
-                    $fullName = $fullString . '\\' . $name;
-                }
-
-                if ($depth != 0) {
-                    $linker = str_repeat(' ', ($depth - 1) * 4) . '* ' . Generator::classLink($fullName, $name) . "\n";
-                    $output .= $linker;
-                    $output .= $treeOutput($subItems, $fullName, $depth + 1);
-                } else {
-                    $output .= $treeOutput($subItems, $fullName, $depth + 1);
+    /**
+     * @param Twig_Environment $twig
+     */
+    private function createClasses($twig)
+    {
+        $keys = array_map('strlen', array_keys($this->nameSpaces));
+        array_multisort($keys, SORT_DESC, $this->nameSpaces);
+        $this->nameSpaces = array_reverse($this->nameSpaces);
+        foreach ($this->classDefinitions as $className => $data) {
+            $data["id"] = strtolower(str_replace("\\", "-", $className));
+            $dir        = false;
+            foreach ($this->nameSpaces as $nameSpace => $path) {
+                if (strpos($className, str_replace("/", "\\", $nameSpace)) !== false) {
+                    $data["nameSpaceid"] = strtolower(str_replace("\\", "-", $nameSpace));
+                    $dir                 = $this->nameSpaces[ $nameSpace ];
                 }
             }
+            $data["level"] = sizeof(explode("-", $data["id"])) - 1;
+            if (!is_dir($dir)) {
+                mkdir($dir, 0777, true);
+            }
+            if (!file_exists($dir . ".md")) {
+                $name            = array_reverse(explode("/", $dir))[0];
+                $data["section"] = $name;
+                $nameSpaceOutput = $twig->render('namespace.twig', $data);
+                file_put_contents($dir . ".md", $nameSpaceOutput);
+            }
 
-            return $output;
-        };
+            $data["level"] = $data["level"] + 1;
+            $output        = $twig->render('class.twig', $data);
+            file_put_contents($dir . "/" . $data['shortClass'] . ".md", $output);
+        }
+    }
 
-        $output = $treeOutput($tree);
 
-        return $output;
+    /**
+     * creates the include file for slate
+     */
+    private function createIncludeFile()
+    {
+        $outputFile = $this->outputDir . "/../../phpdoc.md";
+        $file       = "";
+        $namespaces = array();
+        $paths      = $this->sortPaths();
+
+        foreach ($paths as $class) {
+            $class     = str_replace("\\", "/", $class);
+            $namespace = strrev(preg_replace("!^.*?\/!", "", strrev($class)));
+            if (!isset($namespaces[ $namespace ]) && strpos($namespace, '/') !== false) {
+                $namespaces[ $namespace ] = "set";
+                $file .= "    - phpdoc/" . $namespace . ".md\n";
+            }
+            $file .= "    - phpdoc/" . $class . ".md\n";
+        }
+        unlink($outputFile);
+        file_put_contents($outputFile, $file);
+    }
+
+
+    private function sortPaths()
+    {
+        $paths = $this->registeredClasses;
+        sort($paths);
+        return $paths;
+    }
+
+
+    private function subsort($paths)
+    {
+        
+    }
+
+
+    /**
+     *
+     */
+    private function mergeOutoutFile()
+    {
+        $outputPath = $this->outputDir . "/../../";
+        $outputFile = $outputPath . "index.html.md";
+
+        $output      = file_get_contents($outputPath . "index.md");
+        $handwritten = file_get_contents($outputPath . "handwritten.md");
+        $phpdoc      = file_get_contents($outputPath . "phpdoc.md");
+        $content     = $handwritten . "\n" . $phpdoc;
+        $output      = preg_replace("!%%content%%!m", $content, $output);
+        touch($outputFile);
+        var_dump($output);
+        file_put_contents($outputFile, $output);
     }
 
 
@@ -171,39 +234,20 @@ class Generator
      * Due to the unfortunate way twig works, this must be static, and we must use a global to
      * achieve our goal.
      *
-     * @param string      $className
-     * @param null|string $label
+     * @param string $className
      * @return string
      */
-    static function classLink($className, $label = NULL)
+    static function classLink($className)
     {
-        $classDefinitions = $GLOBALS['PHPDocMD_classDefinitions'];
-        $linkTemplate     = $GLOBALS['PHPDocMD_linkTemplate'];
+        $class = $GLOBALS['PHPDocMD_registeredClasses'][ $className ];
+        if (isset($class)) {
+            $name   = array_reverse(explode("\\", $className))[0];
+            $link   = strtolower(str_replace("\\", "-", $class));
+            $output = "<a href='#{$link}' title='{$name}'>{$name}</a>";
 
-        $returnedClasses = [];
-
-        foreach (explode('|', $className) as $oneClass) {
-            $oneClass = trim($oneClass, '\\ ');
-            $name     = array_reverse(explode("\\", $oneClass))[0];
-            if (!$label) {
-                $label = $oneClass;
-            }
-
-            if (!isset($classDefinitions[ $oneClass ])) {
-                $returnedClasses[] = $name;
-            } else {
-                $link = strtolower($oneClass);
-                $link = str_replace('\\', '', $link);
-                $link = strtr($linkTemplate, ['%c' => $link]);
-
-                $returnedClasses[] = sprintf("[%s](%s)", $name, $link);
-            }
+            return $output;
+        } else {
+            return $className;
         }
-
-
-        $output = implode('|', $returnedClasses);
-
-        return $output;
-
     }
 }
