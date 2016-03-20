@@ -1,8 +1,11 @@
 #!/bin/bash
 
-API_PATH="../Caramel"
+API_PATH="../../Caramel"
 DIR=${PWD}
 cd "$DIR"
+
+rm -R slate/source/stylesheets
+cp -rf ../slate/source/stylesheets slate/source/stylesheets
 
 rm -R slate/source/includes/phpdoc
 mkdir slate/source/includes/phpdoc
@@ -24,7 +27,3 @@ mv $DIR/slate/build/* $DIR
 rm -R "$DIR/includes"
 rm -R "$DIR/slate/build"
 rm -R "$DIR/slate/phpdoc"
-
-cd "$DIR"
-cd "ApiDocs"
-sh "./deploy.sh"

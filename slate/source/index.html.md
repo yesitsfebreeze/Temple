@@ -1,9 +1,8 @@
 ---
-title: caramel Documentation
-
-language_tabs:
+title: Caramel Documentation
 
 toc_footers:
+    - <a href='ApiDocs'>Api Documentation</a>
     - <a href='https://github.com/hvlmnns/Caramel'>download caramel</a>
     - <a href='https://github.com/hvlmnns/Caramel/fork'>fork caramel</a>
 
@@ -11,40 +10,6 @@ includes:
     - intro
     - setup
     - syntax
-    - api
-    - phpdoc/Caramel/Autoloader.md
-    - phpdoc/Caramel/Caramel.md
-    - phpdoc/Caramel/Exceptions.md
-    - phpdoc/Caramel/Exceptions/CaramelException.md
-    - phpdoc/Caramel/Exceptions/ExceptionHandler.md
-    - phpdoc/Caramel/Models.md
-    - phpdoc/Caramel/Models/Dom.md
-    - phpdoc/Caramel/Models/Node.md
-    - phpdoc/Caramel/Models/Storage.md
-    - phpdoc/Caramel/Models/Vars.md
-    - phpdoc/Caramel/Plugins.md
-    - phpdoc/Caramel/Plugins/Plugin.md
-    - phpdoc/Caramel/Plugins/Core.md
-    - phpdoc/Caramel/Plugins/Core/PluginClasses.md
-    - phpdoc/Caramel/Plugins/Core/PluginCleanup.md
-    - phpdoc/Caramel/Plugins/Core/PluginComment.md
-    - phpdoc/Caramel/Plugins/Core/PluginExtend.md
-    - phpdoc/Caramel/Plugins/Core/PluginIds.md
-    - phpdoc/Caramel/Plugins/Core/PluginImport.md
-    - phpdoc/Caramel/Plugins/Core/PluginPhp.md
-    - phpdoc/Caramel/Plugins/Core/PluginPlain.md
-    - phpdoc/Caramel/Plugins/Core/PluginVariable.md
-    - phpdoc/Caramel/Services.md
-    - phpdoc/Caramel/Services/Cache.md
-    - phpdoc/Caramel/Services/Config.md
-    - phpdoc/Caramel/Services/Directories.md
-    - phpdoc/Caramel/Services/Helpers.md
-    - phpdoc/Caramel/Services/Lexer.md
-    - phpdoc/Caramel/Services/Parser.md
-    - phpdoc/Caramel/Services/Plugins.md
-    - phpdoc/Caramel/Services/Service.md
-    - phpdoc/Caramel/Services/Template.md
 
-  
 search: true
-------------
+---
