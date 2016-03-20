@@ -8,6 +8,8 @@
     - phpdoc/Caramel/Models/Node.md
     - phpdoc/Caramel/Models/Storage.md
     - phpdoc/Caramel/Models/Vars.md
+    - phpdoc/Caramel/Plugins.md
+    - phpdoc/Caramel/Plugins/Plugin.md
     - phpdoc/Caramel/Plugins/Core.md
     - phpdoc/Caramel/Plugins/Core/PluginClasses.md
     - phpdoc/Caramel/Plugins/Core/PluginCleanup.md
@@ -18,8 +20,6 @@
     - phpdoc/Caramel/Plugins/Core/PluginPhp.md
     - phpdoc/Caramel/Plugins/Core/PluginPlain.md
     - phpdoc/Caramel/Plugins/Core/PluginVariable.md
-    - phpdoc/Caramel/Plugins.md
-    - phpdoc/Caramel/Plugins/Plugin.md
     - phpdoc/Caramel/Services.md
     - phpdoc/Caramel/Services/Cache.md
     - phpdoc/Caramel/Services/Config.md

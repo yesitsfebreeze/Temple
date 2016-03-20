@@ -23,7 +23,7 @@ use Composer\Autoload\ClassLoader;
  *
  *     $app = Bootstap::createInstance()->initialize();
  *
- * This will setup the autoloader and application, including Service Container, and return an instance of the
+ * This wil     l setup the autoloader and application, including Service Container, and return an instance of the
  * application ready to be ran using the `run` command.
  *
  * If you need more control you can do some of the steps manually:

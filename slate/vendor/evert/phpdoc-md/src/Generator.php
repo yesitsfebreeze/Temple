@@ -7,6 +7,8 @@ use Twig_Environment;
 use Twig_Loader_Filesystem;
 use Twig_SimpleFilter;
 
+require_once "DirectoryGetter.php";
+
 /**
  * This class takes the output from 'parser', and generate the markdown
  * templates.
@@ -60,7 +62,9 @@ class Generator
      * @var array $registeredClasses
      */
     protected $registeredClasses = array();
-    private $paths = array();
+
+    /** @var  \DirectoryGetter $directoryGetter */
+    private $directoryGetter;
 
 
     /**
@@ -77,6 +81,7 @@ class Generator
         $this->templateDir      = $templateDir;
         $this->linkTemplate     = $linkTemplate;
         $this->apiIndexFile     = $apiIndexFile;
+        $this->directoryGetter  = new \DirectoryGetter($this->outputDir . "/Caramel");
     }
 
 
@@ -177,35 +182,28 @@ class Generator
     private function createIncludeFile()
     {
         $outputFile = $this->outputDir . "/../../phpdoc.md";
-        $file       = "";
-        $namespaces = array();
-        $paths      = $this->sortPaths();
-
-        foreach ($paths as $class) {
-            $class     = str_replace("\\", "/", $class);
-            $namespace = strrev(preg_replace("!^.*?\/!", "", strrev($class)));
-            if (!isset($namespaces[ $namespace ]) && strpos($namespace, '/') !== false) {
-                $namespaces[ $namespace ] = "set";
-                $file .= "    - phpdoc/" . $namespace . ".md\n";
+        $dirs       = $this->directoryGetter->getDirs($this->outputDir . "/Caramel");
+        $mainFiles  = $this->directoryGetter->getMainFiles($this->outputDir . "/Caramel");
+        var_dump($mainFiles);
+        $output = "";
+        foreach ($mainFiles as $mainFile) {
+            $output .= "    - phpdoc/Caramel/" . $mainFile . "\n";
+        }
+        foreach ($dirs as $index => $dir) {
+            $string = "    - phpdoc/Caramel" . $dir;
+            $name   = array_reverse(explode("/", $dirs[ $index + 1 ]))[0];
+            $output .= $string . ".md\n";
+            $subfiles = scandir($this->outputDir . "/Caramel" . $dir);
+            foreach ($subfiles as $subfile) {
+                if (strrev(substr(strrev($subfile), 0, 3)) == ".md") {
+                    if ($subfile != $name . ".md")
+                        $output .= $string . "/" . $subfile . "\n";
+                }
             }
-            $file .= "    - phpdoc/" . $class . ".md\n";
+
         }
         unlink($outputFile);
-        file_put_contents($outputFile, $file);
-    }
-
-
-    private function sortPaths()
-    {
-        $paths = $this->registeredClasses;
-        sort($paths);
-        return $paths;
-    }
-
-
-    private function subsort($paths)
-    {
-        
+        file_put_contents($outputFile, $output);
     }
 
 
