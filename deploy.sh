@@ -3,10 +3,6 @@
 # removing compiling directories
 rm -rf markdown
 rm -rf source
-rm -rf output
-
-# create output directory
-mkdir output
 
 #composer stuff
 composer dumpautoload -o

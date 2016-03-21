@@ -9,9 +9,15 @@ class parseTwig
     {
         $dir = $dir . '/../templates';
         \Twig_Autoloader::register();
-        $loader = new \Twig_Loader_Filesystem($dir);
-        $twig   = new \Twig_Environment($loader, array('cache' => $dir . "/cache",));
-        $full   = $twig->render('index.twig');
-        file_put_contents($dir . "/../index.html", $full);
+        $loader     = new \Twig_Loader_Filesystem($dir);
+        $twig       = new \Twig_Environment($loader, array('cache' => $dir . "/cache",));
+        $twig->clearCacheFiles();
+        $full       = $twig->render('index.twig');
+        $outputFile = $dir . "/../index.html";
+        if (file_exists($outputFile)) {
+            unlink($outputFile);
+        }
+        touch($outputFile);
+        file_put_contents($outputFile, $full);
     }
 }

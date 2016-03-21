@@ -1,6 +1,5 @@
 /vendor
 /source
 /markdown
-/output
 /templates/cache
-output/api.html
+/templates/output

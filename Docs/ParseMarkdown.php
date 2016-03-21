@@ -14,7 +14,7 @@ class ParseMarkdown
             $content .= $markdown;
         }
 
-        $outputFile = $dir . "/../output/api.html";
+        $outputFile = $dir . "/../tempaltes/generated/api.html";
         if (is_file($outputFile)) {
             unlink($outputFile);
         }
