@@ -1,27 +1,41 @@
 #!/usr/bin/env bash
 
+# removing compiling directories
+rm -rf markdown
+rm -rf source
+rm -rf output
+
+# create output directory
+mkdir output
+
 #composer stuff
 composer dumpautoload -o
 composer update
 
-# removing compiling directories
-rm -rf markdown
-rm -rf source
-
+# make git directory
 mkdir source
 cp -rf .git source/.git
 cp -rf .gitignore source/.gitignore
+
+# pull master to source
 cd source
 git checkout master
 git subtree pull --prefix / origin master
+
+# remove the git folders to prevent bugs
 rm -rf .git
 rm -rf .gitignore
+
+# dump the docs
 cd ../vendor/bin
 php phpdoc  -d ../../source -t ../../markdown/xml --template="xml"
-php phpdocmd ../../markdown/xml/structure.xml ../../markdown
+mkdir ../../markdown/parsed
+php phpdocmd ../../markdown/xml/structure.xml ../../markdown/parsed
+
+# deploy docs
 cd ../../Docs
 php deploy.php
 
 # cleanup
-#rm -rf markdown
-#rm -rf source
+# rm -rf markdown
+# rm -rf source
