@@ -1,0 +1,712 @@
+<div class="section class">
+    <h3 id="caramel-services-template" class="class-heading">
+        Template
+    </h3>
+        <div class="class-namespace">
+        <small>Caramel\Services\Template</small>
+    </div>
+
+<p><div class="description-heading">
+        Description
+    </div>
+    <p class="class-description">
+        Class Template</p>
+
+<p></p></p>
+
+<p><ul>
+                                        <li>
+                    Parent class: Caramel\Services\Service
+                </li>
+                                </ul></p>
+
+<p><div class="methods">
+            <h4 id="methods" class="methods-heading">
+                Methods
+            </h4></p>
+
+<p><div class="method">
+                    <h5 id="show" class="sup-heading">
+                        show
+                    </h5></p>
+
+<p><div class="method-signature">
+                        mixed Caramel\Services\Template::show($file)
+                    </div></p>
+
+<p><ul>
+                        <li>
+                            Visibility: <b>public</b>
+                        </li>
+                                                                                            </ul></p>
+
+<p><div class="method-description">
+                            <h6 id="show-description" class="sub-heading">
+                                Description
+                            </h6>
+                        </div>
+                        <div class="sub-description">
+                            Renders and includes the passed file</p>
+
+<p></div></p>
+
+<p><div class="method-arguments">
+                            <h6 id="show-arguments" class="sub-heading">
+                                Arguments
+                            </h6>
+                        </div>
+                        <ul></p>
+
+<p><li>
+                                    mixed                                    <b>$file</b>
+                                                                    </li></p>
+
+<p></ul></p>
+
+<p></div>
+                            <div class="method">
+                    <h5 id="add" class="sup-heading">
+                        add
+                    </h5></p>
+
+<p><div class="method-signature">
+                        string Caramel\Services\Template::add($dir)
+                    </div></p>
+
+<p><ul>
+                        <li>
+                            Visibility: <b>public</b>
+                        </li>
+                                                                                            </ul></p>
+
+<p><div class="method-description">
+                            <h6 id="add-description" class="sub-heading">
+                                Description
+                            </h6>
+                        </div>
+                        <div class="sub-description">
+                            adds a template directory</p>
+
+<p></div></p>
+
+<p><div class="method-arguments">
+                            <h6 id="add-arguments" class="sub-heading">
+                                Arguments
+                            </h6>
+                        </div>
+                        <ul></p>
+
+<p><li>
+                                    mixed                                    <b>$dir</b>
+                                                                    </li></p>
+
+<p></ul></p>
+
+<p></div>
+                            <div class="method">
+                    <h5 id="remove" class="sup-heading">
+                        remove
+                    </h5></p>
+
+<p><div class="method-signature">
+                        string Caramel\Services\Template::remove(integer $pos)
+                    </div></p>
+
+<p><ul>
+                        <li>
+                            Visibility: <b>public</b>
+                        </li>
+                                                                                            </ul></p>
+
+<p><div class="method-description">
+                            <h6 id="remove-description" class="sub-heading">
+                                Description
+                            </h6>
+                        </div>
+                        <div class="sub-description">
+                            removes a template directory</p>
+
+<p></div></p>
+
+<p><div class="method-arguments">
+                            <h6 id="remove-arguments" class="sub-heading">
+                                Arguments
+                            </h6>
+                        </div>
+                        <ul></p>
+
+<p><li>
+                                    integer                                    <b>$pos</b>
+                                                                    </li></p>
+
+<p></ul></p>
+
+<p></div>
+                            <div class="method">
+                    <h5 id="dirs" class="sup-heading">
+                        dirs
+                    </h5></p>
+
+<p><div class="method-signature">
+                        array Caramel\Services\Template::dirs()
+                    </div></p>
+
+<p><ul>
+                        <li>
+                            Visibility: <b>public</b>
+                        </li>
+                                                                                            </ul></p>
+
+<p><div class="method-description">
+                            <h6 id="dirs-description" class="sub-heading">
+                                Description
+                            </h6>
+                        </div>
+                        <div class="sub-description">
+                            returns all template directories</p>
+
+<p></div></p>
+
+<p></div>
+                            <div class="method">
+                    <h5 id="fetch" class="sup-heading">
+                        fetch
+                    </h5></p>
+
+<p><div class="method-signature">
+                        string Caramel\Services\Template::fetch($file)
+                    </div></p>
+
+<p><ul>
+                        <li>
+                            Visibility: <b>public</b>
+                        </li>
+                                                                                            </ul></p>
+
+<p><div class="method-description">
+                            <h6 id="fetch-description" class="sub-heading">
+                                Description
+                            </h6>
+                        </div>
+                        <div class="sub-description">
+                            Renders and returns the passed dom</p>
+
+<p></div></p>
+
+<p><div class="method-arguments">
+                            <h6 id="fetch-arguments" class="sub-heading">
+                                Arguments
+                            </h6>
+                        </div>
+                        <ul></p>
+
+<p><li>
+                                    mixed                                    <b>$file</b>
+                                                                    </li></p>
+
+<p></ul></p>
+
+<p></div>
+                            <div class="method">
+                    <h5 id="parse" class="sup-heading">
+                        parse
+                    </h5></p>
+
+<p><div class="method-signature">
+                        mixed|string Caramel\Services\Template::parse($file)
+                    </div></p>
+
+<p><ul>
+                        <li>
+                            Visibility: <b>public</b>
+                        </li>
+                                                                                            </ul></p>
+
+<p><div class="method-description">
+                            <h6 id="parse-description" class="sub-heading">
+                                Description
+                            </h6>
+                        </div>
+                        <div class="sub-description">
+                            parsed a template file</p>
+
+<p></div></p>
+
+<p><div class="method-arguments">
+                            <h6 id="parse-arguments" class="sub-heading">
+                                Arguments
+                            </h6>
+                        </div>
+                        <ul></p>
+
+<p><li>
+                                    mixed                                    <b>$file</b>
+                                                                    </li></p>
+
+<p></ul></p>
+
+<p></div>
+                            <div class="method">
+                    <h5 id="setcaramel" class="sup-heading">
+                        setCaramel
+                    </h5></p>
+
+<p><div class="method-signature">
+                        mixed Caramel\Services\Service::setCaramel(\Caramel\Caramel $Caramel)
+                    </div></p>
+
+<p><ul>
+                        <li>
+                            Visibility: <b>public</b>
+                        </li>
+                                                                                                    <li>
+                                This method is defined by: <b>Caramel\Services\Service</b>
+                            </li>
+                                            </ul></p>
+
+<p><div class="method-description">
+                            <h6 id="setcaramel-description" class="sub-heading">
+                                Description
+                            </h6>
+                        </div>
+                        <div class="sub-description">
+                            sets $this-&gt;caramel</p>
+
+<p></div></p>
+
+<p><div class="method-arguments">
+                            <h6 id="setcaramel-arguments" class="sub-heading">
+                                Arguments
+                            </h6>
+                        </div>
+                        <ul></p>
+
+<p><li>
+                                    \Caramel\Caramel                                    <b>$Caramel</b>
+                                                                    </li></p>
+
+<p></ul></p>
+
+<p></div>
+                            <div class="method">
+                    <h5 id="setyaml" class="sup-heading">
+                        setYaml
+                    </h5></p>
+
+<p><div class="method-signature">
+                        mixed Caramel\Services\Service::setYaml(\Symfony\Component\Yaml\Yaml $Yaml)
+                    </div></p>
+
+<p><ul>
+                        <li>
+                            Visibility: <b>public</b>
+                        </li>
+                                                                                                    <li>
+                                This method is defined by: <b>Caramel\Services\Service</b>
+                            </li>
+                                            </ul></p>
+
+<p><div class="method-description">
+                            <h6 id="setyaml-description" class="sub-heading">
+                                Description
+                            </h6>
+                        </div>
+                        <div class="sub-description">
+                            sets $this-&gt;yaml</p>
+
+<p></div></p>
+
+<p><div class="method-arguments">
+                            <h6 id="setyaml-arguments" class="sub-heading">
+                                Arguments
+                            </h6>
+                        </div>
+                        <ul></p>
+
+<p><li>
+                                    \Symfony\Component\Yaml\Yaml                                    <b>$Yaml</b>
+                                                                    </li></p>
+
+<p></ul></p>
+
+<p></div>
+                            <div class="method">
+                    <h5 id="setvars" class="sup-heading">
+                        setVars
+                    </h5></p>
+
+<p><div class="method-signature">
+                        mixed Caramel\Services\Service::setVars(\Caramel\Models\Vars $Vars)
+                    </div></p>
+
+<p><ul>
+                        <li>
+                            Visibility: <b>public</b>
+                        </li>
+                                                                                                    <li>
+                                This method is defined by: <b>Caramel\Services\Service</b>
+                            </li>
+                                            </ul></p>
+
+<p><div class="method-description">
+                            <h6 id="setvars-description" class="sub-heading">
+                                Description
+                            </h6>
+                        </div>
+                        <div class="sub-description">
+                            sets $this-&gt;vars</p>
+
+<p></div></p>
+
+<p><div class="method-arguments">
+                            <h6 id="setvars-arguments" class="sub-heading">
+                                Arguments
+                            </h6>
+                        </div>
+                        <ul></p>
+
+<p><li>
+                                    \Caramel\Models\Vars                                    <b>$Vars</b>
+                                                                    </li></p>
+
+<p></ul></p>
+
+<p></div>
+                            <div class="method">
+                    <h5 id="setconfig" class="sup-heading">
+                        setConfig
+                    </h5></p>
+
+<p><div class="method-signature">
+                        mixed Caramel\Services\Service::setConfig(\Caramel\Services\Config $Config)
+                    </div></p>
+
+<p><ul>
+                        <li>
+                            Visibility: <b>public</b>
+                        </li>
+                                                                                                    <li>
+                                This method is defined by: <b>Caramel\Services\Service</b>
+                            </li>
+                                            </ul></p>
+
+<p><div class="method-description">
+                            <h6 id="setconfig-description" class="sub-heading">
+                                Description
+                            </h6>
+                        </div>
+                        <div class="sub-description">
+                            sets $this-&gt;config</p>
+
+<p></div></p>
+
+<p><div class="method-arguments">
+                            <h6 id="setconfig-arguments" class="sub-heading">
+                                Arguments
+                            </h6>
+                        </div>
+                        <ul></p>
+
+<p><li>
+                                    \Caramel\Services\Config                                    <b>$Config</b>
+                                                                    </li></p>
+
+<p></ul></p>
+
+<p></div>
+                            <div class="method">
+                    <h5 id="setdirectories" class="sup-heading">
+                        setDirectories
+                    </h5></p>
+
+<p><div class="method-signature">
+                        mixed Caramel\Services\Service::setDirectories(\Caramel\Services\Directories $Directories)
+                    </div></p>
+
+<p><ul>
+                        <li>
+                            Visibility: <b>public</b>
+                        </li>
+                                                                                                    <li>
+                                This method is defined by: <b>Caramel\Services\Service</b>
+                            </li>
+                                            </ul></p>
+
+<p><div class="method-description">
+                            <h6 id="setdirectories-description" class="sub-heading">
+                                Description
+                            </h6>
+                        </div>
+                        <div class="sub-description">
+                            sets $this-&gt;directories</p>
+
+<p></div></p>
+
+<p><div class="method-arguments">
+                            <h6 id="setdirectories-arguments" class="sub-heading">
+                                Arguments
+                            </h6>
+                        </div>
+                        <ul></p>
+
+<p><li>
+                                    \Caramel\Services\Directories                                    <b>$Directories</b>
+                                                                    </li></p>
+
+<p></ul></p>
+
+<p></div>
+                            <div class="method">
+                    <h5 id="sethelpers" class="sup-heading">
+                        setHelpers
+                    </h5></p>
+
+<p><div class="method-signature">
+                        mixed Caramel\Services\Service::setHelpers(\Caramel\Services\Helpers $Helpers)
+                    </div></p>
+
+<p><ul>
+                        <li>
+                            Visibility: <b>public</b>
+                        </li>
+                                                                                                    <li>
+                                This method is defined by: <b>Caramel\Services\Service</b>
+                            </li>
+                                            </ul></p>
+
+<p><div class="method-description">
+                            <h6 id="sethelpers-description" class="sub-heading">
+                                Description
+                            </h6>
+                        </div>
+                        <div class="sub-description">
+                            sets $this-&gt;helpers</p>
+
+<p></div></p>
+
+<p><div class="method-arguments">
+                            <h6 id="sethelpers-arguments" class="sub-heading">
+                                Arguments
+                            </h6>
+                        </div>
+                        <ul></p>
+
+<p><li>
+                                    \Caramel\Services\Helpers                                    <b>$Helpers</b>
+                                                                    </li></p>
+
+<p></ul></p>
+
+<p></div>
+                            <div class="method">
+                    <h5 id="setcache" class="sup-heading">
+                        setCache
+                    </h5></p>
+
+<p><div class="method-signature">
+                        mixed Caramel\Services\Service::setCache(\Caramel\Services\Cache $Cache)
+                    </div></p>
+
+<p><ul>
+                        <li>
+                            Visibility: <b>public</b>
+                        </li>
+                                                                                                    <li>
+                                This method is defined by: <b>Caramel\Services\Service</b>
+                            </li>
+                                            </ul></p>
+
+<p><div class="method-description">
+                            <h6 id="setcache-description" class="sub-heading">
+                                Description
+                            </h6>
+                        </div>
+                        <div class="sub-description">
+                            sets $this-&gt;cache</p>
+
+<p></div></p>
+
+<p><div class="method-arguments">
+                            <h6 id="setcache-arguments" class="sub-heading">
+                                Arguments
+                            </h6>
+                        </div>
+                        <ul></p>
+
+<p><li>
+                                    \Caramel\Services\Cache                                    <b>$Cache</b>
+                                                                    </li></p>
+
+<p></ul></p>
+
+<p></div>
+                            <div class="method">
+                    <h5 id="setplugins" class="sup-heading">
+                        setPlugins
+                    </h5></p>
+
+<p><div class="method-signature">
+                        mixed Caramel\Services\Service::setPlugins(\Caramel\Services\Plugins $Plugins)
+                    </div></p>
+
+<p><ul>
+                        <li>
+                            Visibility: <b>public</b>
+                        </li>
+                                                                                                    <li>
+                                This method is defined by: <b>Caramel\Services\Service</b>
+                            </li>
+                                            </ul></p>
+
+<p><div class="method-description">
+                            <h6 id="setplugins-description" class="sub-heading">
+                                Description
+                            </h6>
+                        </div>
+                        <div class="sub-description">
+                            sets $this-&gt;plugins</p>
+
+<p></div></p>
+
+<p><div class="method-arguments">
+                            <h6 id="setplugins-arguments" class="sub-heading">
+                                Arguments
+                            </h6>
+                        </div>
+                        <ul></p>
+
+<p><li>
+                                    \Caramel\Services\Plugins                                    <b>$Plugins</b>
+                                                                    </li></p>
+
+<p></ul></p>
+
+<p></div>
+                            <div class="method">
+                    <h5 id="setlexer" class="sup-heading">
+                        setLexer
+                    </h5></p>
+
+<p><div class="method-signature">
+                        mixed Caramel\Services\Service::setLexer(\Caramel\Services\Lexer $Lexer)
+                    </div></p>
+
+<p><ul>
+                        <li>
+                            Visibility: <b>public</b>
+                        </li>
+                                                                                                    <li>
+                                This method is defined by: <b>Caramel\Services\Service</b>
+                            </li>
+                                            </ul></p>
+
+<p><div class="method-description">
+                            <h6 id="setlexer-description" class="sub-heading">
+                                Description
+                            </h6>
+                        </div>
+                        <div class="sub-description">
+                            sets $this-&gt;lexer</p>
+
+<p></div></p>
+
+<p><div class="method-arguments">
+                            <h6 id="setlexer-arguments" class="sub-heading">
+                                Arguments
+                            </h6>
+                        </div>
+                        <ul></p>
+
+<p><li>
+                                    \Caramel\Services\Lexer                                    <b>$Lexer</b>
+                                                                    </li></p>
+
+<p></ul></p>
+
+<p></div>
+                            <div class="method">
+                    <h5 id="setparser" class="sup-heading">
+                        setParser
+                    </h5></p>
+
+<p><div class="method-signature">
+                        mixed Caramel\Services\Service::setParser(\Caramel\Services\Parser $Parser)
+                    </div></p>
+
+<p><ul>
+                        <li>
+                            Visibility: <b>public</b>
+                        </li>
+                                                                                                    <li>
+                                This method is defined by: <b>Caramel\Services\Service</b>
+                            </li>
+                                            </ul></p>
+
+<p><div class="method-description">
+                            <h6 id="setparser-description" class="sub-heading">
+                                Description
+                            </h6>
+                        </div>
+                        <div class="sub-description">
+                            sets $this-&gt;parser</p>
+
+<p></div></p>
+
+<p><div class="method-arguments">
+                            <h6 id="setparser-arguments" class="sub-heading">
+                                Arguments
+                            </h6>
+                        </div>
+                        <ul></p>
+
+<p><li>
+                                    \Caramel\Services\Parser                                    <b>$Parser</b>
+                                                                    </li></p>
+
+<p></ul></p>
+
+<p></div>
+                            <div class="method">
+                    <h5 id="settemplate" class="sup-heading">
+                        setTemplate
+                    </h5></p>
+
+<p><div class="method-signature">
+                        mixed Caramel\Services\Service::setTemplate(\Caramel\Services\Template $Template)
+                    </div></p>
+
+<p><ul>
+                        <li>
+                            Visibility: <b>public</b>
+                        </li>
+                                                                                                    <li>
+                                This method is defined by: <b>Caramel\Services\Service</b>
+                            </li>
+                                            </ul></p>
+
+<p><div class="method-description">
+                            <h6 id="settemplate-description" class="sub-heading">
+                                Description
+                            </h6>
+                        </div>
+                        <div class="sub-description">
+                            sets $this-&gt;template</p>
+
+<p></div></p>
+
+<p><div class="method-arguments">
+                            <h6 id="settemplate-arguments" class="sub-heading">
+                                Arguments
+                            </h6>
+                        </div>
+                        <ul></p>
+
+<p><li>
+                                    \Caramel\Services\Template                                    <b>$Template</b>
+                                                                    </li></p>
+
+<p></ul></p>
+
+<p></div>
+                    </div>
+    </div></p>

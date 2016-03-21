@@ -1,0 +1,362 @@
+<div class="section class">
+    <h2 id="caramel-caramel" class="class-heading">
+        Caramel
+    </h2>
+        <div class="class-namespace">
+        <small>Caramel\Caramel</small>
+    </div>
+
+<p><div class="description-heading">
+        Description
+    </div>
+    <p class="class-description">
+        the main class for the caramel template engine
+Class Caramel</p>
+
+<p></p></p>
+
+<p><ul>
+                                            </ul></p>
+
+<p><div class="methods">
+            <h3 id="methods" class="methods-heading">
+                Methods
+            </h3></p>
+
+<p><div class="method">
+                    <h4 id="__construct" class="sup-heading">
+                        __construct
+                    </h4></p>
+
+<p><div class="method-signature">
+                        mixed Caramel\Caramel::__construct()
+                    </div></p>
+
+<p><ul>
+                        <li>
+                            Visibility: <b>public</b>
+                        </li>
+                                                                                            </ul></p>
+
+<p><div class="method-description">
+                            <h5 id="__construct-description" class="sub-heading">
+                                Description
+                            </h5>
+                        </div>
+                        <div class="sub-description">
+                            Caramel constructor.</p>
+
+<p></div></p>
+
+<p></div>
+                            <div class="method">
+                    <h4 id="template" class="sup-heading">
+                        template
+                    </h4></p>
+
+<p><div class="method-signature">
+                        \Caramel\Services\Template Caramel\Caramel::template()
+                    </div></p>
+
+<p><ul>
+                        <li>
+                            Visibility: <b>public</b>
+                        </li>
+                                                                                            </ul></p>
+
+<p><div class="method-description">
+                            <h5 id="template-description" class="sub-heading">
+                                Description
+                            </h5>
+                        </div>
+                        <div class="sub-description"></p>
+
+<p></div></p>
+
+<p></div>
+                            <div class="method">
+                    <h4 id="vars" class="sup-heading">
+                        vars
+                    </h4></p>
+
+<p><div class="method-signature">
+                        \Caramel\Models\Vars Caramel\Caramel::vars()
+                    </div></p>
+
+<p><ul>
+                        <li>
+                            Visibility: <b>public</b>
+                        </li>
+                                                                                            </ul></p>
+
+<p><div class="method-description">
+                            <h5 id="vars-description" class="sub-heading">
+                                Description
+                            </h5>
+                        </div>
+                        <div class="sub-description"></p>
+
+<p></div></p>
+
+<p></div>
+                            <div class="method">
+                    <h4 id="config" class="sup-heading">
+                        config
+                    </h4></p>
+
+<p><div class="method-signature">
+                        \Caramel\Services\Config Caramel\Caramel::config()
+                    </div></p>
+
+<p><ul>
+                        <li>
+                            Visibility: <b>public</b>
+                        </li>
+                                                                                            </ul></p>
+
+<p><div class="method-description">
+                            <h5 id="config-description" class="sub-heading">
+                                Description
+                            </h5>
+                        </div>
+                        <div class="sub-description"></p>
+
+<p></div></p>
+
+<p></div>
+                            <div class="method">
+                    <h4 id="init" class="sup-heading">
+                        init
+                    </h4></p>
+
+<p><div class="method-signature">
+                        mixed Caramel\Caramel::init()
+                    </div></p>
+
+<p><ul>
+                        <li>
+                            Visibility: <b>private</b>
+                        </li>
+                                                                                            </ul></p>
+
+<p><div class="method-description">
+                            <h5 id="init-description" class="sub-heading">
+                                Description
+                            </h5>
+                        </div>
+                        <div class="sub-description">
+                            initiates Caramel</p>
+
+<p></div></p>
+
+<p></div>
+                            <div class="method">
+                    <h4 id="initconfig" class="sup-heading">
+                        initConfig
+                    </h4></p>
+
+<p><div class="method-signature">
+                        mixed Caramel\Caramel::initConfig()
+                    </div></p>
+
+<p><ul>
+                        <li>
+                            Visibility: <b>private</b>
+                        </li>
+                                                                                            </ul></p>
+
+<p><div class="method-description">
+                            <h5 id="initconfig-description" class="sub-heading">
+                                Description
+                            </h5>
+                        </div>
+                        <div class="sub-description">
+                            initiates the Caramel Config</p>
+
+<p></div></p>
+
+<p></div>
+                            <div class="method">
+                    <h4 id="inithelpers" class="sup-heading">
+                        initHelpers
+                    </h4></p>
+
+<p><div class="method-signature">
+                        mixed Caramel\Caramel::initHelpers()
+                    </div></p>
+
+<p><ul>
+                        <li>
+                            Visibility: <b>private</b>
+                        </li>
+                                                                                            </ul></p>
+
+<p><div class="method-description">
+                            <h5 id="inithelpers-description" class="sub-heading">
+                                Description
+                            </h5>
+                        </div>
+                        <div class="sub-description">
+                            initiates the Caramel Helpers</p>
+
+<p></div></p>
+
+<p></div>
+                            <div class="method">
+                    <h4 id="initdirectories" class="sup-heading">
+                        initDirectories
+                    </h4></p>
+
+<p><div class="method-signature">
+                        mixed Caramel\Caramel::initDirectories()
+                    </div></p>
+
+<p><ul>
+                        <li>
+                            Visibility: <b>private</b>
+                        </li>
+                                                                                            </ul></p>
+
+<p><div class="method-description">
+                            <h5 id="initdirectories-description" class="sub-heading">
+                                Description
+                            </h5>
+                        </div>
+                        <div class="sub-description">
+                            initiates the Caramel Directories</p>
+
+<p></div></p>
+
+<p></div>
+                            <div class="method">
+                    <h4 id="initcache" class="sup-heading">
+                        initCache
+                    </h4></p>
+
+<p><div class="method-signature">
+                        mixed Caramel\Caramel::initCache()
+                    </div></p>
+
+<p><ul>
+                        <li>
+                            Visibility: <b>private</b>
+                        </li>
+                                                                                            </ul></p>
+
+<p><div class="method-description">
+                            <h5 id="initcache-description" class="sub-heading">
+                                Description
+                            </h5>
+                        </div>
+                        <div class="sub-description">
+                            initiates the Caramel Cache</p>
+
+<p></div></p>
+
+<p></div>
+                            <div class="method">
+                    <h4 id="initlexer" class="sup-heading">
+                        initLexer
+                    </h4></p>
+
+<p><div class="method-signature">
+                        mixed Caramel\Caramel::initLexer()
+                    </div></p>
+
+<p><ul>
+                        <li>
+                            Visibility: <b>private</b>
+                        </li>
+                                                                                            </ul></p>
+
+<p><div class="method-description">
+                            <h5 id="initlexer-description" class="sub-heading">
+                                Description
+                            </h5>
+                        </div>
+                        <div class="sub-description">
+                            initiates the Caramel Lexer</p>
+
+<p></div></p>
+
+<p></div>
+                            <div class="method">
+                    <h4 id="initplugins" class="sup-heading">
+                        initPlugins
+                    </h4></p>
+
+<p><div class="method-signature">
+                        mixed Caramel\Caramel::initPlugins()
+                    </div></p>
+
+<p><ul>
+                        <li>
+                            Visibility: <b>private</b>
+                        </li>
+                                                                                            </ul></p>
+
+<p><div class="method-description">
+                            <h5 id="initplugins-description" class="sub-heading">
+                                Description
+                            </h5>
+                        </div>
+                        <div class="sub-description">
+                            initiates the Caramel Plugins</p>
+
+<p></div></p>
+
+<p></div>
+                            <div class="method">
+                    <h4 id="initparser" class="sup-heading">
+                        initParser
+                    </h4></p>
+
+<p><div class="method-signature">
+                        mixed Caramel\Caramel::initParser()
+                    </div></p>
+
+<p><ul>
+                        <li>
+                            Visibility: <b>private</b>
+                        </li>
+                                                                                            </ul></p>
+
+<p><div class="method-description">
+                            <h5 id="initparser-description" class="sub-heading">
+                                Description
+                            </h5>
+                        </div>
+                        <div class="sub-description">
+                            initiates the Caramel Parser</p>
+
+<p></div></p>
+
+<p></div>
+                            <div class="method">
+                    <h4 id="inittemplate" class="sup-heading">
+                        initTemplate
+                    </h4></p>
+
+<p><div class="method-signature">
+                        mixed Caramel\Caramel::initTemplate()
+                    </div></p>
+
+<p><ul>
+                        <li>
+                            Visibility: <b>private</b>
+                        </li>
+                                                                                            </ul></p>
+
+<p><div class="method-description">
+                            <h5 id="inittemplate-description" class="sub-heading">
+                                Description
+                            </h5>
+                        </div>
+                        <div class="sub-description">
+                            initiates the Caramel Template</p>
+
+<p></div></p>
+
+<p></div>
+                    </div>
+    </div></p>

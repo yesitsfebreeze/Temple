@@ -1,0 +1,488 @@
+<div class="section class">
+    <h3 id="caramel-models-storage" class="class-heading">
+        Storage
+    </h3>
+        <div class="class-namespace">
+        <small>Caramel\Models\Storage</small>
+    </div>
+
+<p><div class="description-heading">
+        Description
+    </div>
+    <p class="class-description">
+        this class handles all data storage
+deep array setters and getters are separated by &ldquo;.&rdquo;
+Class Storage</p>
+
+<p></p></p>
+
+<p><ul>
+                                            </ul></p>
+
+<p><div class="methods">
+            <h4 id="methods" class="methods-heading">
+                Methods
+            </h4></p>
+
+<p><div class="method">
+                    <h5 id="set" class="sup-heading">
+                        set
+                    </h5></p>
+
+<p><div class="method-signature">
+                        boolean Caramel\Models\Storage::set($path, $value)
+                    </div></p>
+
+<p><ul>
+                        <li>
+                            Visibility: <b>public</b>
+                        </li>
+                                                                                            </ul></p>
+
+<p><div class="method-description">
+                            <h6 id="set-description" class="sub-heading">
+                                Description
+                            </h6>
+                        </div>
+                        <div class="sub-description"></p>
+
+<p></div></p>
+
+<p><div class="method-arguments">
+                            <h6 id="set-arguments" class="sub-heading">
+                                Arguments
+                            </h6>
+                        </div>
+                        <ul></p>
+
+<p><li>
+                                    mixed                                    <b>$path</b>
+                                                                    </li></p>
+
+<p><li>
+                                    mixed                                    <b>$value</b>
+                                                                    </li></p>
+
+<p></ul></p>
+
+<p></div>
+                            <div class="method">
+                    <h5 id="get" class="sup-heading">
+                        get
+                    </h5></p>
+
+<p><div class="method-signature">
+                        mixed Caramel\Models\Storage::get(string $path)
+                    </div></p>
+
+<p><ul>
+                        <li>
+                            Visibility: <b>public</b>
+                        </li>
+                                                                                            </ul></p>
+
+<p><div class="method-description">
+                            <h6 id="get-description" class="sub-heading">
+                                Description
+                            </h6>
+                        </div>
+                        <div class="sub-description">
+                            returns a value from the storage</p>
+
+<p></div></p>
+
+<p><div class="method-arguments">
+                            <h6 id="get-arguments" class="sub-heading">
+                                Arguments
+                            </h6>
+                        </div>
+                        <ul></p>
+
+<p><li>
+                                    string                                    <b>$path</b>
+                                                                    </li></p>
+
+<p></ul></p>
+
+<p></div>
+                            <div class="method">
+                    <h5 id="merge" class="sup-heading">
+                        merge
+                    </h5></p>
+
+<p><div class="method-signature">
+                        mixed Caramel\Models\Storage::merge(array $array)
+                    </div></p>
+
+<p><ul>
+                        <li>
+                            Visibility: <b>public</b>
+                        </li>
+                                                                                            </ul></p>
+
+<p><div class="method-description">
+                            <h6 id="merge-description" class="sub-heading">
+                                Description
+                            </h6>
+                        </div>
+                        <div class="sub-description">
+                            merge an array into the storage</p>
+
+<p></div></p>
+
+<p><div class="method-arguments">
+                            <h6 id="merge-arguments" class="sub-heading">
+                                Arguments
+                            </h6>
+                        </div>
+                        <ul></p>
+
+<p><li>
+                                    array                                    <b>$array</b>
+                                                                    </li></p>
+
+<p></ul></p>
+
+<p></div>
+                            <div class="method">
+                    <h5 id="extend" class="sup-heading">
+                        extend
+                    </h5></p>
+
+<p><div class="method-signature">
+                        array Caramel\Models\Storage::extend(string $path, array|string $value)
+                    </div></p>
+
+<p><ul>
+                        <li>
+                            Visibility: <b>public</b>
+                        </li>
+                                                                                            </ul></p>
+
+<p><div class="method-description">
+                            <h6 id="extend-description" class="sub-heading">
+                                Description
+                            </h6>
+                        </div>
+                        <div class="sub-description">
+                            extends an array in the storage</p>
+
+<p></div></p>
+
+<p><div class="method-arguments">
+                            <h6 id="extend-arguments" class="sub-heading">
+                                Arguments
+                            </h6>
+                        </div>
+                        <ul></p>
+
+<p><li>
+                                    string                                    <b>$path</b>
+                                                                    </li></p>
+
+<p><li>
+                                    array|string                                    <b>$value</b>
+                                                                    </li></p>
+
+<p></ul></p>
+
+<p></div>
+                            <div class="method">
+                    <h5 id="has" class="sup-heading">
+                        has
+                    </h5></p>
+
+<p><div class="method-signature">
+                        array Caramel\Models\Storage::has(string $path)
+                    </div></p>
+
+<p><ul>
+                        <li>
+                            Visibility: <b>public</b>
+                        </li>
+                                                                                            </ul></p>
+
+<p><div class="method-description">
+                            <h6 id="has-description" class="sub-heading">
+                                Description
+                            </h6>
+                        </div>
+                        <div class="sub-description">
+                            returns if the storage has the passed value</p>
+
+<p></div></p>
+
+<p><div class="method-arguments">
+                            <h6 id="has-arguments" class="sub-heading">
+                                Arguments
+                            </h6>
+                        </div>
+                        <ul></p>
+
+<p><li>
+                                    string                                    <b>$path</b>
+                                                                    </li></p>
+
+<p></ul></p>
+
+<p></div>
+                            <div class="method">
+                    <h5 id="delete" class="sup-heading">
+                        delete
+                    </h5></p>
+
+<p><div class="method-signature">
+                        boolean Caramel\Models\Storage::delete($path)
+                    </div></p>
+
+<p><ul>
+                        <li>
+                            Visibility: <b>public</b>
+                        </li>
+                                                                                            </ul></p>
+
+<p><div class="method-description">
+                            <h6 id="delete-description" class="sub-heading">
+                                Description
+                            </h6>
+                        </div>
+                        <div class="sub-description"></p>
+
+<p></div></p>
+
+<p><div class="method-arguments">
+                            <h6 id="delete-arguments" class="sub-heading">
+                                Arguments
+                            </h6>
+                        </div>
+                        <ul></p>
+
+<p><li>
+                                    mixed                                    <b>$path</b>
+                                                                    </li></p>
+
+<p></ul></p>
+
+<p></div>
+                            <div class="method">
+                    <h5 id="find" class="sup-heading">
+                        find
+                    </h5></p>
+
+<p><div class="method-signature">
+                        array Caramel\Models\Storage::find(array|string $attrs, string $value, \Caramel\Models\Storage $item)
+                    </div></p>
+
+<p><ul>
+                        <li>
+                            Visibility: <b>public</b>
+                        </li>
+                                                                                            </ul></p>
+
+<p><div class="method-description">
+                            <h6 id="find-description" class="sub-heading">
+                                Description
+                            </h6>
+                        </div>
+                        <div class="sub-description">
+                            searches for an item in the current tree
+if we pass an array it has the same behaviour
+iterates over the array values recursively</p>
+
+<p></div></p>
+
+<p><div class="method-arguments">
+                            <h6 id="find-arguments" class="sub-heading">
+                                Arguments
+                            </h6>
+                        </div>
+                        <ul></p>
+
+<p><li>
+                                    array|string                                    <b>$attrs</b>
+                                                                    </li></p>
+
+<p><li>
+                                    string                                    <b>$value</b>
+                                                                    </li></p>
+
+<p><li>
+                                    \Caramel\Models\Storage                                    <b>$item</b>
+                                                                    </li></p>
+
+<p></ul></p>
+
+<p></div>
+                            <div class="method">
+                    <h5 id="findhelper" class="sup-heading">
+                        findHelper
+                    </h5></p>
+
+<p><div class="method-signature">
+                        array Caramel\Models\Storage::findHelper(array $found, \Caramel\Models\Storage $item, array|string $attrs, string $value)
+                    </div></p>
+
+<p><ul>
+                        <li>
+                            Visibility: <b>private</b>
+                        </li>
+                                                                                            </ul></p>
+
+<p><div class="method-description">
+                            <h6 id="findhelper-description" class="sub-heading">
+                                Description
+                            </h6>
+                        </div>
+                        <div class="sub-description">
+                            outsourcing the repeating find process</p>
+
+<p></div></p>
+
+<p><div class="method-arguments">
+                            <h6 id="findhelper-arguments" class="sub-heading">
+                                Arguments
+                            </h6>
+                        </div>
+                        <ul></p>
+
+<p><li>
+                                    array                                    <b>$found</b>
+                                                                    </li></p>
+
+<p><li>
+                                    \Caramel\Models\Storage                                    <b>$item</b>
+                                                                    </li></p>
+
+<p><li>
+                                    array|string                                    <b>$attrs</b>
+                                                                    </li></p>
+
+<p><li>
+                                    string                                    <b>$value</b>
+                                                                    </li></p>
+
+<p></ul></p>
+
+<p></div>
+                            <div class="method">
+                    <h5 id="getter" class="sup-heading">
+                        getter
+                    </h5></p>
+
+<p><div class="method-signature">
+                        array Caramel\Models\Storage::getter($path)
+                    </div></p>
+
+<p><ul>
+                        <li>
+                            Visibility: <b>private</b>
+                        </li>
+                                                                                            </ul></p>
+
+<p><div class="method-description">
+                            <h6 id="getter-description" class="sub-heading">
+                                Description
+                            </h6>
+                        </div>
+                        <div class="sub-description">
+                            the method to set data</p>
+
+<p></div></p>
+
+<p><div class="method-arguments">
+                            <h6 id="getter-arguments" class="sub-heading">
+                                Arguments
+                            </h6>
+                        </div>
+                        <ul></p>
+
+<p><li>
+                                    mixed                                    <b>$path</b>
+                                                                    </li></p>
+
+<p></ul></p>
+
+<p></div>
+                            <div class="method">
+                    <h5 id="setter" class="sup-heading">
+                        setter
+                    </h5></p>
+
+<p><div class="method-signature">
+                        boolean Caramel\Models\Storage::setter($path, $value)
+                    </div></p>
+
+<p><ul>
+                        <li>
+                            Visibility: <b>private</b>
+                        </li>
+                                                                                            </ul></p>
+
+<p><div class="method-description">
+                            <h6 id="setter-description" class="sub-heading">
+                                Description
+                            </h6>
+                        </div>
+                        <div class="sub-description"></p>
+
+<p></div></p>
+
+<p><div class="method-arguments">
+                            <h6 id="setter-arguments" class="sub-heading">
+                                Arguments
+                            </h6>
+                        </div>
+                        <ul></p>
+
+<p><li>
+                                    mixed                                    <b>$path</b>
+                                                                    </li></p>
+
+<p><li>
+                                    mixed                                    <b>$value</b>
+                                                                    </li></p>
+
+<p></ul></p>
+
+<p></div>
+                            <div class="method">
+                    <h5 id="createpath" class="sup-heading">
+                        createPath
+                    </h5></p>
+
+<p><div class="method-signature">
+                        array|mixed Caramel\Models\Storage::createPath($path)
+                    </div></p>
+
+<p><ul>
+                        <li>
+                            Visibility: <b>private</b>
+                        </li>
+                                                                                            </ul></p>
+
+<p><div class="method-description">
+                            <h6 id="createpath-description" class="sub-heading">
+                                Description
+                            </h6>
+                        </div>
+                        <div class="sub-description">
+                            returns the path as an array</p>
+
+<p></div></p>
+
+<p><div class="method-arguments">
+                            <h6 id="createpath-arguments" class="sub-heading">
+                                Arguments
+                            </h6>
+                        </div>
+                        <ul></p>
+
+<p><li>
+                                    mixed                                    <b>$path</b>
+                                                                    </li></p>
+
+<p></ul></p>
+
+<p></div>
+                    </div>
+    </div></p>

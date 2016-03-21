@@ -1,0 +1,1178 @@
+<div class="section class">
+    <h3 id="caramel-services-lexer" class="class-heading">
+        Lexer
+    </h3>
+        <div class="class-namespace">
+        <small>Caramel\Services\Lexer</small>
+    </div>
+
+<p><div class="description-heading">
+        Description
+    </div>
+    <p class="class-description">
+        Class Lexer</p>
+
+<p></p></p>
+
+<p><ul>
+                                        <li>
+                    Parent class: Caramel\Services\Service
+                </li>
+                                </ul></p>
+
+<p><div class="methods">
+            <h4 id="methods" class="methods-heading">
+                Methods
+            </h4></p>
+
+<p><div class="method">
+                    <h5 id="lex" class="sup-heading">
+                        lex
+                    </h5></p>
+
+<p><div class="method-signature">
+                        array Caramel\Services\Lexer::lex(string $file, integer|boolean $level)
+                    </div></p>
+
+<p><ul>
+                        <li>
+                            Visibility: <b>public</b>
+                        </li>
+                                                                                            </ul></p>
+
+<p><div class="method-description">
+                            <h6 id="lex-description" class="sub-heading">
+                                Description
+                            </h6>
+                        </div>
+                        <div class="sub-description">
+                            returns Dom object</p>
+
+<p></div></p>
+
+<p><div class="method-arguments">
+                            <h6 id="lex-arguments" class="sub-heading">
+                                Arguments
+                            </h6>
+                        </div>
+                        <ul></p>
+
+<p><li>
+                                    string                                    <b>$file</b>
+                                                                    </li></p>
+
+<p><li>
+                                    integer|boolean                                    <b>$level</b>
+                                                                    </li></p>
+
+<p></ul></p>
+
+<p></div>
+                            <div class="method">
+                    <h5 id="prepare" class="sup-heading">
+                        prepare
+                    </h5></p>
+
+<p><div class="method-signature">
+                        mixed Caramel\Services\Lexer::prepare(string $file, integer $level)
+                    </div></p>
+
+<p><ul>
+                        <li>
+                            Visibility: <b>private</b>
+                        </li>
+                                                                                            </ul></p>
+
+<p><div class="method-description">
+                            <h6 id="prepare-description" class="sub-heading">
+                                Description
+                            </h6>
+                        </div>
+                        <div class="sub-description">
+                            set the default values for our dom</p>
+
+<p></div></p>
+
+<p><div class="method-arguments">
+                            <h6 id="prepare-arguments" class="sub-heading">
+                                Arguments
+                            </h6>
+                        </div>
+                        <ul></p>
+
+<p><li>
+                                    string                                    <b>$file</b>
+                                                                    </li></p>
+
+<p><li>
+                                    integer                                    <b>$level</b>
+                                                                    </li></p>
+
+<p></ul></p>
+
+<p></div>
+                            <div class="method">
+                    <h5 id="template" class="sup-heading">
+                        template
+                    </h5></p>
+
+<p><div class="method-signature">
+                        \Caramel\Models\Storage Caramel\Services\Lexer::template($file, $level)
+                    </div></p>
+
+<p><ul>
+                        <li>
+                            Visibility: <b>private</b>
+                        </li>
+                                                                                            </ul></p>
+
+<p><div class="method-description">
+                            <h6 id="template-description" class="sub-heading">
+                                Description
+                            </h6>
+                        </div>
+                        <div class="sub-description">
+                            returns the matching file template</p>
+
+<p></div></p>
+
+<p><div class="method-arguments">
+                            <h6 id="template-arguments" class="sub-heading">
+                                Arguments
+                            </h6>
+                        </div>
+                        <ul></p>
+
+<p><li>
+                                    mixed                                    <b>$file</b>
+                                                                    </li></p>
+
+<p><li>
+                                    mixed                                    <b>$level</b>
+                                                                    </li></p>
+
+<p></ul></p>
+
+<p></div>
+                            <div class="method">
+                    <h5 id="process" class="sup-heading">
+                        process
+                    </h5></p>
+
+<p><div class="method-signature">
+                        mixed Caramel\Services\Lexer::process()
+                    </div></p>
+
+<p><ul>
+                        <li>
+                            Visibility: <b>private</b>
+                        </li>
+                                                                                            </ul></p>
+
+<p><div class="method-description">
+                            <h6 id="process-description" class="sub-heading">
+                                Description
+                            </h6>
+                        </div>
+                        <div class="sub-description">
+                            creates a dom for the current file</p>
+
+<p></div></p>
+
+<p></div>
+                            <div class="method">
+                    <h5 id="info" class="sup-heading">
+                        info
+                    </h5></p>
+
+<p><div class="method-signature">
+                        \Caramel\Models\Storage Caramel\Services\Lexer::info($line)
+                    </div></p>
+
+<p><ul>
+                        <li>
+                            Visibility: <b>private</b>
+                        </li>
+                                                                                            </ul></p>
+
+<p><div class="method-description">
+                            <h6 id="info-description" class="sub-heading">
+                                Description
+                            </h6>
+                        </div>
+                        <div class="sub-description">
+                            returns an array with information about the current node</p>
+
+<p></div></p>
+
+<p><div class="method-arguments">
+                            <h6 id="info-arguments" class="sub-heading">
+                                Arguments
+                            </h6>
+                        </div>
+                        <ul></p>
+
+<p><li>
+                                    mixed                                    <b>$line</b>
+                                                                    </li></p>
+
+<p></ul></p>
+
+<p></div>
+                            <div class="method">
+                    <h5 id="indent" class="sup-heading">
+                        indent
+                    </h5></p>
+
+<p><div class="method-signature">
+                        float|integer Caramel\Services\Lexer::indent($line)
+                    </div></p>
+
+<p><ul>
+                        <li>
+                            Visibility: <b>private</b>
+                        </li>
+                                                                                            </ul></p>
+
+<p><div class="method-description">
+                            <h6 id="indent-description" class="sub-heading">
+                                Description
+                            </h6>
+                        </div>
+                        <div class="sub-description">
+                            returns the indent of the current line
+also initially sets the indent character and amount</p>
+
+<p></div></p>
+
+<p><div class="method-arguments">
+                            <h6 id="indent-arguments" class="sub-heading">
+                                Arguments
+                            </h6>
+                        </div>
+                        <ul></p>
+
+<p><li>
+                                    mixed                                    <b>$line</b>
+                                                                    </li></p>
+
+<p></ul></p>
+
+<p></div>
+                            <div class="method">
+                    <h5 id="tag" class="sup-heading">
+                        tag
+                    </h5></p>
+
+<p><div class="method-signature">
+                        string Caramel\Services\Lexer::tag(string $line)
+                    </div></p>
+
+<p><ul>
+                        <li>
+                            Visibility: <b>private</b>
+                        </li>
+                                                                                            </ul></p>
+
+<p><div class="method-description">
+                            <h6 id="tag-description" class="sub-heading">
+                                Description
+                            </h6>
+                        </div>
+                        <div class="sub-description">
+                            returns the tag for the current line</p>
+
+<p></div></p>
+
+<p><div class="method-arguments">
+                            <h6 id="tag-arguments" class="sub-heading">
+                                Arguments
+                            </h6>
+                        </div>
+                        <ul></p>
+
+<p><li>
+                                    string                                    <b>$line</b>
+                                                                    </li></p>
+
+<p></ul></p>
+
+<p></div>
+                            <div class="method">
+                    <h5 id="attributes" class="sup-heading">
+                        attributes
+                    </h5></p>
+
+<p><div class="method-signature">
+                        string Caramel\Services\Lexer::attributes(string $line, \Caramel\Models\Storage $info)
+                    </div></p>
+
+<p><ul>
+                        <li>
+                            Visibility: <b>private</b>
+                        </li>
+                                                                                            </ul></p>
+
+<p><div class="method-description">
+                            <h6 id="attributes-description" class="sub-heading">
+                                Description
+                            </h6>
+                        </div>
+                        <div class="sub-description">
+                            returns the attributes for the current line</p>
+
+<p></div></p>
+
+<p><div class="method-arguments">
+                            <h6 id="attributes-arguments" class="sub-heading">
+                                Arguments
+                            </h6>
+                        </div>
+                        <ul></p>
+
+<p><li>
+                                    string                                    <b>$line</b>
+                                                                    </li></p>
+
+<p><li>
+                                    \Caramel\Models\Storage                                    <b>$info</b>
+                                                                    </li></p>
+
+<p></ul></p>
+
+<p></div>
+                            <div class="method">
+                    <h5 id="content" class="sup-heading">
+                        content
+                    </h5></p>
+
+<p><div class="method-signature">
+                        string Caramel\Services\Lexer::content(string $line, \Caramel\Models\Storage $info)
+                    </div></p>
+
+<p><ul>
+                        <li>
+                            Visibility: <b>private</b>
+                        </li>
+                                                                                            </ul></p>
+
+<p><div class="method-description">
+                            <h6 id="content-description" class="sub-heading">
+                                Description
+                            </h6>
+                        </div>
+                        <div class="sub-description">
+                            returns the content for the current line</p>
+
+<p></div></p>
+
+<p><div class="method-arguments">
+                            <h6 id="content-arguments" class="sub-heading">
+                                Arguments
+                            </h6>
+                        </div>
+                        <ul></p>
+
+<p><li>
+                                    string                                    <b>$line</b>
+                                                                    </li></p>
+
+<p><li>
+                                    \Caramel\Models\Storage                                    <b>$info</b>
+                                                                    </li></p>
+
+<p></ul></p>
+
+<p></div>
+                            <div class="method">
+                    <h5 id="selfclosing" class="sup-heading">
+                        selfclosing
+                    </h5></p>
+
+<p><div class="method-signature">
+                        string Caramel\Services\Lexer::selfclosing(\Caramel\Models\Storage $info)
+                    </div></p>
+
+<p><ul>
+                        <li>
+                            Visibility: <b>private</b>
+                        </li>
+                                                                                            </ul></p>
+
+<p><div class="method-description">
+                            <h6 id="selfclosing-description" class="sub-heading">
+                                Description
+                            </h6>
+                        </div>
+                        <div class="sub-description">
+                            returns if the current line has a self closing tag</p>
+
+<p></div></p>
+
+<p><div class="method-arguments">
+                            <h6 id="selfclosing-arguments" class="sub-heading">
+                                Arguments
+                            </h6>
+                        </div>
+                        <ul></p>
+
+<p><li>
+                                    \Caramel\Models\Storage                                    <b>$info</b>
+                                                                    </li></p>
+
+<p></ul></p>
+
+<p></div>
+                            <div class="method">
+                    <h5 id="node" class="sup-heading">
+                        node
+                    </h5></p>
+
+<p><div class="method-signature">
+                        \Caramel\Models\Node Caramel\Services\Lexer::node(string $line, \Caramel\Models\Storage $info)
+                    </div></p>
+
+<p><ul>
+                        <li>
+                            Visibility: <b>private</b>
+                        </li>
+                                                                                            </ul></p>
+
+<p><div class="method-description">
+                            <h6 id="node-description" class="sub-heading">
+                                Description
+                            </h6>
+                        </div>
+                        <div class="sub-description">
+                            creates a new node from a line</p>
+
+<p></div></p>
+
+<p><div class="method-arguments">
+                            <h6 id="node-arguments" class="sub-heading">
+                                Arguments
+                            </h6>
+                        </div>
+                        <ul></p>
+
+<p><li>
+                                    string                                    <b>$line</b>
+                                                                    </li></p>
+
+<p><li>
+                                    \Caramel\Models\Storage                                    <b>$info</b>
+                                                                    </li></p>
+
+<p></ul></p>
+
+<p></div>
+                            <div class="method">
+                    <h5 id="add" class="sup-heading">
+                        add
+                    </h5></p>
+
+<p><div class="method-signature">
+                        mixed Caramel\Services\Lexer::add(\Caramel\Models\Node $node)
+                    </div></p>
+
+<p><ul>
+                        <li>
+                            Visibility: <b>private</b>
+                        </li>
+                                                                                            </ul></p>
+
+<p><div class="method-description">
+                            <h6 id="add-description" class="sub-heading">
+                                Description
+                            </h6>
+                        </div>
+                        <div class="sub-description">
+                            adds the node to the dom
+parent/child logic is handled here</p>
+
+<p></div></p>
+
+<p><div class="method-arguments">
+                            <h6 id="add-arguments" class="sub-heading">
+                                Arguments
+                            </h6>
+                        </div>
+                        <ul></p>
+
+<p><li>
+                                    \Caramel\Models\Node                                    <b>$node</b>
+                                                                    </li></p>
+
+<p></ul></p>
+
+<p></div>
+                            <div class="method">
+                    <h5 id="deeper" class="sup-heading">
+                        deeper
+                    </h5></p>
+
+<p><div class="method-signature">
+                        mixed Caramel\Services\Lexer::deeper(\Caramel\Models\Node $node)
+                    </div></p>
+
+<p><ul>
+                        <li>
+                            Visibility: <b>private</b>
+                        </li>
+                                                                                            </ul></p>
+
+<p><div class="method-description">
+                            <h6 id="deeper-description" class="sub-heading">
+                                Description
+                            </h6>
+                        </div>
+                        <div class="sub-description">
+                            adds a node to the dom if has a deeper level
+than the previous node</p>
+
+<p></div></p>
+
+<p><div class="method-arguments">
+                            <h6 id="deeper-arguments" class="sub-heading">
+                                Arguments
+                            </h6>
+                        </div>
+                        <ul></p>
+
+<p><li>
+                                    \Caramel\Models\Node                                    <b>$node</b>
+                                                                    </li></p>
+
+<p></ul></p>
+
+<p></div>
+                            <div class="method">
+                    <h5 id="higher" class="sup-heading">
+                        higher
+                    </h5></p>
+
+<p><div class="method-signature">
+                        mixed Caramel\Services\Lexer::higher(\Caramel\Models\Node $node)
+                    </div></p>
+
+<p><ul>
+                        <li>
+                            Visibility: <b>private</b>
+                        </li>
+                                                                                            </ul></p>
+
+<p><div class="method-description">
+                            <h6 id="higher-description" class="sub-heading">
+                                Description
+                            </h6>
+                        </div>
+                        <div class="sub-description">
+                            adds a node to the dom if has a higher level
+than the previous node</p>
+
+<p></div></p>
+
+<p><div class="method-arguments">
+                            <h6 id="higher-arguments" class="sub-heading">
+                                Arguments
+                            </h6>
+                        </div>
+                        <ul></p>
+
+<p><li>
+                                    \Caramel\Models\Node                                    <b>$node</b>
+                                                                    </li></p>
+
+<p></ul></p>
+
+<p></div>
+                            <div class="method">
+                    <h5 id="same" class="sup-heading">
+                        same
+                    </h5></p>
+
+<p><div class="method-signature">
+                        mixed Caramel\Services\Lexer::same(\Caramel\Models\Node $node)
+                    </div></p>
+
+<p><ul>
+                        <li>
+                            Visibility: <b>private</b>
+                        </li>
+                                                                                            </ul></p>
+
+<p><div class="method-description">
+                            <h6 id="same-description" class="sub-heading">
+                                Description
+                            </h6>
+                        </div>
+                        <div class="sub-description">
+                            adds a node to the dom if has the same  level
+than the previous node</p>
+
+<p></div></p>
+
+<p><div class="method-arguments">
+                            <h6 id="same-arguments" class="sub-heading">
+                                Arguments
+                            </h6>
+                        </div>
+                        <ul></p>
+
+<p><li>
+                                    \Caramel\Models\Node                                    <b>$node</b>
+                                                                    </li></p>
+
+<p></ul></p>
+
+<p></div>
+                            <div class="method">
+                    <h5 id="children" class="sup-heading">
+                        children
+                    </h5></p>
+
+<p><div class="method-signature">
+                        mixed Caramel\Services\Lexer::children(\Caramel\Models\Node $target, \Caramel\Models\Node $node)
+                    </div></p>
+
+<p><ul>
+                        <li>
+                            Visibility: <b>private</b>
+                        </li>
+                                                                                            </ul></p>
+
+<p><div class="method-description">
+                            <h6 id="children-description" class="sub-heading">
+                                Description
+                            </h6>
+                        </div>
+                        <div class="sub-description">
+                            adds the passed node to children</p>
+
+<p></div></p>
+
+<p><div class="method-arguments">
+                            <h6 id="children-arguments" class="sub-heading">
+                                Arguments
+                            </h6>
+                        </div>
+                        <ul></p>
+
+<p><li>
+                                    \Caramel\Models\Node                                    <b>$target</b>
+                                                                    </li></p>
+
+<p><li>
+                                    \Caramel\Models\Node                                    <b>$node</b>
+                                                                    </li></p>
+
+<p></ul></p>
+
+<p></div>
+                            <div class="method">
+                    <h5 id="parent" class="sup-heading">
+                        parent
+                    </h5></p>
+
+<p><div class="method-signature">
+                        \Caramel\Models\Node Caramel\Services\Lexer::parent(\Caramel\Models\Node $node, boolean|\Caramel\Models\Node $parent)
+                    </div></p>
+
+<p><ul>
+                        <li>
+                            Visibility: <b>private</b>
+                        </li>
+                                                                                            </ul></p>
+
+<p><div class="method-description">
+                            <h6 id="parent-description" class="sub-heading">
+                                Description
+                            </h6>
+                        </div>
+                        <div class="sub-description">
+                            returns the parent of the passed node</p>
+
+<p></div></p>
+
+<p><div class="method-arguments">
+                            <h6 id="parent-arguments" class="sub-heading">
+                                Arguments
+                            </h6>
+                        </div>
+                        <ul></p>
+
+<p><li>
+                                    \Caramel\Models\Node                                    <b>$node</b>
+                                                                    </li></p>
+
+<p><li>
+                                    boolean|\Caramel\Models\Node                                    <b>$parent</b>
+                                                                    </li></p>
+
+<p></ul></p>
+
+<p></div>
+                            <div class="method">
+                    <h5 id="setcaramel" class="sup-heading">
+                        setCaramel
+                    </h5></p>
+
+<p><div class="method-signature">
+                        mixed Caramel\Services\Service::setCaramel(\Caramel\Caramel $Caramel)
+                    </div></p>
+
+<p><ul>
+                        <li>
+                            Visibility: <b>public</b>
+                        </li>
+                                                                                                    <li>
+                                This method is defined by: <b>Caramel\Services\Service</b>
+                            </li>
+                                            </ul></p>
+
+<p><div class="method-description">
+                            <h6 id="setcaramel-description" class="sub-heading">
+                                Description
+                            </h6>
+                        </div>
+                        <div class="sub-description">
+                            sets $this-&gt;caramel</p>
+
+<p></div></p>
+
+<p><div class="method-arguments">
+                            <h6 id="setcaramel-arguments" class="sub-heading">
+                                Arguments
+                            </h6>
+                        </div>
+                        <ul></p>
+
+<p><li>
+                                    \Caramel\Caramel                                    <b>$Caramel</b>
+                                                                    </li></p>
+
+<p></ul></p>
+
+<p></div>
+                            <div class="method">
+                    <h5 id="setyaml" class="sup-heading">
+                        setYaml
+                    </h5></p>
+
+<p><div class="method-signature">
+                        mixed Caramel\Services\Service::setYaml(\Symfony\Component\Yaml\Yaml $Yaml)
+                    </div></p>
+
+<p><ul>
+                        <li>
+                            Visibility: <b>public</b>
+                        </li>
+                                                                                                    <li>
+                                This method is defined by: <b>Caramel\Services\Service</b>
+                            </li>
+                                            </ul></p>
+
+<p><div class="method-description">
+                            <h6 id="setyaml-description" class="sub-heading">
+                                Description
+                            </h6>
+                        </div>
+                        <div class="sub-description">
+                            sets $this-&gt;yaml</p>
+
+<p></div></p>
+
+<p><div class="method-arguments">
+                            <h6 id="setyaml-arguments" class="sub-heading">
+                                Arguments
+                            </h6>
+                        </div>
+                        <ul></p>
+
+<p><li>
+                                    \Symfony\Component\Yaml\Yaml                                    <b>$Yaml</b>
+                                                                    </li></p>
+
+<p></ul></p>
+
+<p></div>
+                            <div class="method">
+                    <h5 id="setvars" class="sup-heading">
+                        setVars
+                    </h5></p>
+
+<p><div class="method-signature">
+                        mixed Caramel\Services\Service::setVars(\Caramel\Models\Vars $Vars)
+                    </div></p>
+
+<p><ul>
+                        <li>
+                            Visibility: <b>public</b>
+                        </li>
+                                                                                                    <li>
+                                This method is defined by: <b>Caramel\Services\Service</b>
+                            </li>
+                                            </ul></p>
+
+<p><div class="method-description">
+                            <h6 id="setvars-description" class="sub-heading">
+                                Description
+                            </h6>
+                        </div>
+                        <div class="sub-description">
+                            sets $this-&gt;vars</p>
+
+<p></div></p>
+
+<p><div class="method-arguments">
+                            <h6 id="setvars-arguments" class="sub-heading">
+                                Arguments
+                            </h6>
+                        </div>
+                        <ul></p>
+
+<p><li>
+                                    \Caramel\Models\Vars                                    <b>$Vars</b>
+                                                                    </li></p>
+
+<p></ul></p>
+
+<p></div>
+                            <div class="method">
+                    <h5 id="setconfig" class="sup-heading">
+                        setConfig
+                    </h5></p>
+
+<p><div class="method-signature">
+                        mixed Caramel\Services\Service::setConfig(\Caramel\Services\Config $Config)
+                    </div></p>
+
+<p><ul>
+                        <li>
+                            Visibility: <b>public</b>
+                        </li>
+                                                                                                    <li>
+                                This method is defined by: <b>Caramel\Services\Service</b>
+                            </li>
+                                            </ul></p>
+
+<p><div class="method-description">
+                            <h6 id="setconfig-description" class="sub-heading">
+                                Description
+                            </h6>
+                        </div>
+                        <div class="sub-description">
+                            sets $this-&gt;config</p>
+
+<p></div></p>
+
+<p><div class="method-arguments">
+                            <h6 id="setconfig-arguments" class="sub-heading">
+                                Arguments
+                            </h6>
+                        </div>
+                        <ul></p>
+
+<p><li>
+                                    \Caramel\Services\Config                                    <b>$Config</b>
+                                                                    </li></p>
+
+<p></ul></p>
+
+<p></div>
+                            <div class="method">
+                    <h5 id="setdirectories" class="sup-heading">
+                        setDirectories
+                    </h5></p>
+
+<p><div class="method-signature">
+                        mixed Caramel\Services\Service::setDirectories(\Caramel\Services\Directories $Directories)
+                    </div></p>
+
+<p><ul>
+                        <li>
+                            Visibility: <b>public</b>
+                        </li>
+                                                                                                    <li>
+                                This method is defined by: <b>Caramel\Services\Service</b>
+                            </li>
+                                            </ul></p>
+
+<p><div class="method-description">
+                            <h6 id="setdirectories-description" class="sub-heading">
+                                Description
+                            </h6>
+                        </div>
+                        <div class="sub-description">
+                            sets $this-&gt;directories</p>
+
+<p></div></p>
+
+<p><div class="method-arguments">
+                            <h6 id="setdirectories-arguments" class="sub-heading">
+                                Arguments
+                            </h6>
+                        </div>
+                        <ul></p>
+
+<p><li>
+                                    \Caramel\Services\Directories                                    <b>$Directories</b>
+                                                                    </li></p>
+
+<p></ul></p>
+
+<p></div>
+                            <div class="method">
+                    <h5 id="sethelpers" class="sup-heading">
+                        setHelpers
+                    </h5></p>
+
+<p><div class="method-signature">
+                        mixed Caramel\Services\Service::setHelpers(\Caramel\Services\Helpers $Helpers)
+                    </div></p>
+
+<p><ul>
+                        <li>
+                            Visibility: <b>public</b>
+                        </li>
+                                                                                                    <li>
+                                This method is defined by: <b>Caramel\Services\Service</b>
+                            </li>
+                                            </ul></p>
+
+<p><div class="method-description">
+                            <h6 id="sethelpers-description" class="sub-heading">
+                                Description
+                            </h6>
+                        </div>
+                        <div class="sub-description">
+                            sets $this-&gt;helpers</p>
+
+<p></div></p>
+
+<p><div class="method-arguments">
+                            <h6 id="sethelpers-arguments" class="sub-heading">
+                                Arguments
+                            </h6>
+                        </div>
+                        <ul></p>
+
+<p><li>
+                                    \Caramel\Services\Helpers                                    <b>$Helpers</b>
+                                                                    </li></p>
+
+<p></ul></p>
+
+<p></div>
+                            <div class="method">
+                    <h5 id="setcache" class="sup-heading">
+                        setCache
+                    </h5></p>
+
+<p><div class="method-signature">
+                        mixed Caramel\Services\Service::setCache(\Caramel\Services\Cache $Cache)
+                    </div></p>
+
+<p><ul>
+                        <li>
+                            Visibility: <b>public</b>
+                        </li>
+                                                                                                    <li>
+                                This method is defined by: <b>Caramel\Services\Service</b>
+                            </li>
+                                            </ul></p>
+
+<p><div class="method-description">
+                            <h6 id="setcache-description" class="sub-heading">
+                                Description
+                            </h6>
+                        </div>
+                        <div class="sub-description">
+                            sets $this-&gt;cache</p>
+
+<p></div></p>
+
+<p><div class="method-arguments">
+                            <h6 id="setcache-arguments" class="sub-heading">
+                                Arguments
+                            </h6>
+                        </div>
+                        <ul></p>
+
+<p><li>
+                                    \Caramel\Services\Cache                                    <b>$Cache</b>
+                                                                    </li></p>
+
+<p></ul></p>
+
+<p></div>
+                            <div class="method">
+                    <h5 id="setplugins" class="sup-heading">
+                        setPlugins
+                    </h5></p>
+
+<p><div class="method-signature">
+                        mixed Caramel\Services\Service::setPlugins(\Caramel\Services\Plugins $Plugins)
+                    </div></p>
+
+<p><ul>
+                        <li>
+                            Visibility: <b>public</b>
+                        </li>
+                                                                                                    <li>
+                                This method is defined by: <b>Caramel\Services\Service</b>
+                            </li>
+                                            </ul></p>
+
+<p><div class="method-description">
+                            <h6 id="setplugins-description" class="sub-heading">
+                                Description
+                            </h6>
+                        </div>
+                        <div class="sub-description">
+                            sets $this-&gt;plugins</p>
+
+<p></div></p>
+
+<p><div class="method-arguments">
+                            <h6 id="setplugins-arguments" class="sub-heading">
+                                Arguments
+                            </h6>
+                        </div>
+                        <ul></p>
+
+<p><li>
+                                    \Caramel\Services\Plugins                                    <b>$Plugins</b>
+                                                                    </li></p>
+
+<p></ul></p>
+
+<p></div>
+                            <div class="method">
+                    <h5 id="setlexer" class="sup-heading">
+                        setLexer
+                    </h5></p>
+
+<p><div class="method-signature">
+                        mixed Caramel\Services\Service::setLexer(\Caramel\Services\Lexer $Lexer)
+                    </div></p>
+
+<p><ul>
+                        <li>
+                            Visibility: <b>public</b>
+                        </li>
+                                                                                                    <li>
+                                This method is defined by: <b>Caramel\Services\Service</b>
+                            </li>
+                                            </ul></p>
+
+<p><div class="method-description">
+                            <h6 id="setlexer-description" class="sub-heading">
+                                Description
+                            </h6>
+                        </div>
+                        <div class="sub-description">
+                            sets $this-&gt;lexer</p>
+
+<p></div></p>
+
+<p><div class="method-arguments">
+                            <h6 id="setlexer-arguments" class="sub-heading">
+                                Arguments
+                            </h6>
+                        </div>
+                        <ul></p>
+
+<p><li>
+                                    \Caramel\Services\Lexer                                    <b>$Lexer</b>
+                                                                    </li></p>
+
+<p></ul></p>
+
+<p></div>
+                            <div class="method">
+                    <h5 id="setparser" class="sup-heading">
+                        setParser
+                    </h5></p>
+
+<p><div class="method-signature">
+                        mixed Caramel\Services\Service::setParser(\Caramel\Services\Parser $Parser)
+                    </div></p>
+
+<p><ul>
+                        <li>
+                            Visibility: <b>public</b>
+                        </li>
+                                                                                                    <li>
+                                This method is defined by: <b>Caramel\Services\Service</b>
+                            </li>
+                                            </ul></p>
+
+<p><div class="method-description">
+                            <h6 id="setparser-description" class="sub-heading">
+                                Description
+                            </h6>
+                        </div>
+                        <div class="sub-description">
+                            sets $this-&gt;parser</p>
+
+<p></div></p>
+
+<p><div class="method-arguments">
+                            <h6 id="setparser-arguments" class="sub-heading">
+                                Arguments
+                            </h6>
+                        </div>
+                        <ul></p>
+
+<p><li>
+                                    \Caramel\Services\Parser                                    <b>$Parser</b>
+                                                                    </li></p>
+
+<p></ul></p>
+
+<p></div>
+                            <div class="method">
+                    <h5 id="settemplate" class="sup-heading">
+                        setTemplate
+                    </h5></p>
+
+<p><div class="method-signature">
+                        mixed Caramel\Services\Service::setTemplate(\Caramel\Services\Template $Template)
+                    </div></p>
+
+<p><ul>
+                        <li>
+                            Visibility: <b>public</b>
+                        </li>
+                                                                                                    <li>
+                                This method is defined by: <b>Caramel\Services\Service</b>
+                            </li>
+                                            </ul></p>
+
+<p><div class="method-description">
+                            <h6 id="settemplate-description" class="sub-heading">
+                                Description
+                            </h6>
+                        </div>
+                        <div class="sub-description">
+                            sets $this-&gt;template</p>
+
+<p></div></p>
+
+<p><div class="method-arguments">
+                            <h6 id="settemplate-arguments" class="sub-heading">
+                                Arguments
+                            </h6>
+                        </div>
+                        <ul></p>
+
+<p><li>
+                                    \Caramel\Services\Template                                    <b>$Template</b>
+                                                                    </li></p>
+
+<p></ul></p>
+
+<p></div>
+                    </div>
+    </div></p>
