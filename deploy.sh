@@ -12,7 +12,7 @@ mkdir output
 composer dumpautoload -o
 composer update
 
-cp -rf templates/class.twig vendor/evert/phpdoc-md/templates/class.twig
+cp -rf templates/phpclass.twig vendor/evert/phpdoc-md/templates/class.twig
 
 # make git directory
 mkdir source

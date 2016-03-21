@@ -5,6 +5,7 @@ require_once "../vendor/autoload.php";
 $tree = new \Docs\MarkDownTree();
 $tree = $tree->getTree();
 
-$parseDown = new Parsedown();
+$parsedown = new Parsedown();
 
-new \Docs\ParseMarkdown($tree, __DIR__, $parseDown);
+new \Docs\ParseMarkdown($tree, __DIR__, $parsedown);
+new \Docs\parseTwig(__DIR__);
