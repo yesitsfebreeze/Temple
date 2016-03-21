@@ -2,6 +2,7 @@
 
 composer dumpautoload -o
 composer update
+rm -rf markdown
 rm -rf source
 mkdir source
 cp -rf .git source/.git
