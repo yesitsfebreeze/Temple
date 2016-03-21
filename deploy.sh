@@ -1,9 +1,13 @@
 #!/usr/bin/env bash
 
+#composer stuff
 composer dumpautoload -o
 composer update
+
+# removing compiling directories
 rm -rf markdown
 rm -rf source
+
 mkdir source
 cp -rf .git source/.git
 cp -rf .gitignore source/.gitignore
@@ -15,6 +19,9 @@ rm -rf .gitignore
 cd ../vendor/bin
 php phpdoc  -d ../../source -t ../../markdown/xml --template="xml"
 php phpdocmd ../../markdown/xml/structure.xml ../../markdown
-cd ../../
+cd ../../Docs
 php deploy.php
-#git add source
+
+# cleanup
+#rm -rf markdown
+#rm -rf source
