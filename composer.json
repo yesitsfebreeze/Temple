@@ -8,6 +8,9 @@
         }
     ],
     "require":  {
+        "evert/phpdoc-md":  "~0.2.0",
+        "erusev/parsedown": "^1.6",
+        "phpdocumentor/phpdocumentor": "^2.8"
     },
     "autoload": {
         "psr-4": {
