@@ -1,0 +1,17 @@
+{
+    "authors":  [
+        {
+            "name":     "Stefan Hövelmanns",
+            "email":    "sayhello@hvlmnns.de",
+            "homepage": "https://github.com/hvlmnns",
+            "role":     "Developer"
+        }
+    ],
+    "require":  {
+    },
+    "autoload": {
+        "psr-4": {
+            "Docs\\": "Docs/"
+        }
+    }
+}
