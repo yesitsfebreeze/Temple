@@ -12,6 +12,8 @@ mkdir output
 composer dumpautoload -o
 composer update
 
+cp -rf templates/class.twig vendor/evert/phpdoc-md/templates/class.twig
+
 # make git directory
 mkdir source
 cp -rf .git source/.git
@@ -35,7 +37,8 @@ php phpdocmd ../../markdown/xml/structure.xml ../../markdown/parsed
 # deploy docs
 cd ../../Docs
 php deploy.php
-
+cd ../
 # cleanup
-# rm -rf markdown
-# rm -rf source
+rm -rf markdown
+rm -rf source
+#rm -rf vendor

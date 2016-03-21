@@ -103,7 +103,7 @@ class MarkDownTree
             $class        = array_reverse(explode("/", rtrim($dir, "/")))[0];
             $file         = rtrim($dir, "/") . ".md";
             $this->tree[] = array("level" => $subCount, "file" => $file);
-            file_put_contents($file, "## " . $class);
+            file_put_contents($file, "<div data-level='%%level%%'>" . $class . "</div>");
             $mds = scandir($dir);
             foreach ($mds as $md) {
                 if (pathinfo($md, PATHINFO_EXTENSION) == "md") {
