@@ -1,7 +1,10 @@
 #!/usr/bin/env bash
 
 composer dumpautoload -o
+rm -rf source
 mkdir source
-git add source
-git subtree pull master origin
-git subtree push --prefix source origin master
+cp -rf .git source/.git
+cp -rf .gitignore source/.gitignore
+cd source
+git subtree add --prefix origin master
+#git add source
