@@ -20,7 +20,10 @@ class parseTwig
         $loader = new \Twig_Autoloader();
         $loader->register($dir . "/../templates");
         $loader = new \Twig_Loader_Filesystem($dir . "/../templates");
-        $twig   = new \Twig_Environment($loader, array('cache' => $dir . "/../cache",));
+        if (!is_dir($dir . "/../cache")) {
+            mkdir($dir . "/../cache", 0777, true);
+        }
+        $twig = new \Twig_Environment($loader, array('cache' => $dir . "/../cache",));
         $twig->clearCacheFiles();
 
         $this->render("docs", "index", $dir, $yaml, $parsedown, $twig);
@@ -49,10 +52,10 @@ class parseTwig
 
         $dir = $dir . '/../templates/' . $type;
         if ($file == "index") {
-            $outputFile = $dir . "/../../../" . $file . ".html";
+            $outputFile       = $dir . "/../../../" . $file . ".html";
             $config["assets"] = "docs/assets/prod/";
         } else {
-            $outputFile = $dir . "/../../../" . $file . "/index.html";
+            $outputFile       = $dir . "/../../../" . $file . "/index.html";
             $config["assets"] = "../docs/assets/prod/";
         }
         $full = $twig->render($type . '/index.twig', $config);
