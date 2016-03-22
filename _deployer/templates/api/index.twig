@@ -17,9 +17,10 @@
                 </nav>
             </div>
         </header>
-        .code {
-
-        }
-        {% include includes["index"] %}
+        <div class="content">
+            {% include includes["index"] %}
+            {% include "api/generated/api.html" %}
+        </div>
+        <div class="code"></div>
     </body>
 </html>

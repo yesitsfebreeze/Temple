@@ -1,4 +1,4 @@
-<div data-level="%%level%%">
+<div data-level="{{ %%level%% + 1}}">
     {{ className }}
 </div>
 
@@ -81,7 +81,10 @@ Methods
 
 {% for method in methods %}
 
-### {{ method.name }}
+<h{{ %%level%% + 2}}>
+    {{ method.name }}
+</h{{ %%level%% + 2}}>
+
 
     {{ method.signature|raw }}
 

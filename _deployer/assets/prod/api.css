@@ -15,7 +15,6 @@
 body,
 html {
   background-color: #f1f1f1;
-  padding: 0;
   margin: 0;
   position: absolute;
   width: 100%;
@@ -110,6 +109,20 @@ code {
 .hug {
   margin-top: 0;
 }
+a {
+  color: #5CB9FC;
+  text-decoration: none;
+}
+a:hover,
+a:active,
+a:focus,
+a:visited {
+  text-decoration: underline;
+  color: #5CB9FC;
+}
+body {
+  padding-top: 70px;
+}
 header {
   width: 100%;
   position: fixed;
@@ -131,6 +144,7 @@ header .hh {
 }
 body {
   padding-left: 22%;
+  padding-top: 0;
 }
 .sidebar {
   position: fixed;
@@ -139,4 +153,18 @@ body {
   top: 0;
   bottom: 0;
   height: 100%;
+  background-color: #474F5F;
+}
+.content {
+  width: 50%;
+  padding: 0 25px;
+}
+.code {
+  position: fixed;
+  right: 0;
+  width: 39%;
+  top: 0;
+  bottom: 0;
+  height: 100%;
+  background-color: #9DA2AC;
 }

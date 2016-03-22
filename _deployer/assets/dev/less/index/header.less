@@ -1,9 +1,13 @@
+body {
+    padding-top: @header-height;
+}
+
 header {
     width:            100%;
     position:         fixed;
     top:              0;
-    height:           70px;
-    background-color: @seconday;
+    height:           @header-height;
+    background-color: @header-bg;
     color:            @white;
     font-weight:      bold;
     vertical-align:   bottom;
@@ -14,6 +18,6 @@ header {
         height:   100%;
     }
     .hh {
-        height: 25px;
+        height: ceil(@header-height * .35);
     }
 }

@@ -72,7 +72,6 @@ h6 {
     font-size: 0.3535rem;
 }
 
-/* Tables */
 table {
     margin-top:      1.5rem;
     border-spacing:  0;
@@ -87,12 +86,19 @@ code {
     vertical-align: bottom;
 }
 
-/* Leading paragraph text */
 .lead {
     font-size: 1.414rem;
 }
 
-/* Hug the block above you */
 .hug {
     margin-top: 0;
+}
+
+a {
+    color:           @primary;
+    text-decoration: none;
+    &:hover, &:active, &:focus, &:visited {
+        text-decoration: underline;
+        color:           @primary;
+    }
 }

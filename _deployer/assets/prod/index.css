@@ -15,7 +15,6 @@
 body,
 html {
   background-color: #f1f1f1;
-  padding: 0;
   margin: 0;
   position: absolute;
   width: 100%;
@@ -109,6 +108,20 @@ code {
 }
 .hug {
   margin-top: 0;
+}
+a {
+  color: #5CB9FC;
+  text-decoration: none;
+}
+a:hover,
+a:active,
+a:focus,
+a:visited {
+  text-decoration: underline;
+  color: #5CB9FC;
+}
+body {
+  padding-top: 70px;
 }
 header {
   width: 100%;
