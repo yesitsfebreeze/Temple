@@ -1,6 +1,6 @@
-/vendor
-/source
-/markdown
-/templates/cache
-/templates/output
-composer.lock
+docs/vendor
+docs/source
+docs/markdown
+docs/templates/cache
+docs/templates/output
+docs/composer.lock

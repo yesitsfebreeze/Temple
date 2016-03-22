@@ -1,6 +1,6 @@
 <?php
 
-namespace Docs;
+namespace Deploy;
 
 
 use Symfony\Component\Yaml\Yaml;

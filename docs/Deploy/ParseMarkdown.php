@@ -1,6 +1,6 @@
 <?php
 
-namespace Docs;
+namespace Deploy;
 
 
 class ParseMarkdown
