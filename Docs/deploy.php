@@ -10,4 +10,4 @@ $parsedown = new Parsedown();
 $yaml      = new \Symfony\Component\Yaml\Yaml();
 
 new \Docs\ParseMarkdown($tree, __DIR__, $parsedown);
-new \Docs\parseTwig(__DIR__, $yaml);
+new \Docs\parseTwig(__DIR__, $yaml, $parsedown);

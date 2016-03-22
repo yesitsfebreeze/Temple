@@ -1,1 +1,5 @@
-{{ include('generated/api.html') }}
+{% for file in includes %}
+    {% include file %}
+{% endfor %}
+
+{% include 'generated/api.html' %}
