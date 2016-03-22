@@ -5,7 +5,7 @@ namespace Deploy;
 
 use Symfony\Component\Yaml\Yaml;
 
-class parseTwig
+class ParseTwig
 {
     /**
      * parseTwig constructor.

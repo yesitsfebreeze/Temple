@@ -8,10 +8,9 @@ $tree = $tree->getTree();
 
 $parsedown = new Parsedown();
 $yaml      = new \Symfony\Component\Yaml\Yaml();
-$less      = new lessc();
 
 new \Deploy\ParseMarkdown($tree, __DIR__, $parsedown);
-new \Deploy\parseTwig(__DIR__, $yaml, $parsedown);
-new \Deploy\parseAssets(__DIR__, $less);
+new \Deploy\ParseTwig(__DIR__, $yaml, $parsedown);
+new \Deploy\ParseAssets(__DIR__);
 
 echo "... deployed assets & page\n";

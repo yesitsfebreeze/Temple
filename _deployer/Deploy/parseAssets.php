@@ -8,19 +8,28 @@ namespace Deploy;
  *
  * @package Deploy
  */
-class parseAssets
+class ParseAssets
 {
 
-    /*
-     *
-     */
-    public function __construct($dir, \lessc $less)
+    public function __construct($dir)
     {
         $assets = $dir . "/../assets/";
-        $less->compileFile($assets . "dev/less/main.less", $assets . "prod/style.css");
+        $this->parseLess($assets);
         $this->copyImageDir($assets);
     }
 
+
+    /**
+     * @param $assets
+     * @throws \Exception
+     */
+    private function parseLess($assets)
+    {
+        $less = new \lessc();
+        $less->compileFile($assets . "dev/less/index.less", $assets . "prod/index.css");
+        $less = new \lessc();
+        $less->compileFile($assets . "dev/less/api.less", $assets . "prod/api.css");
+    }
 
     /**
      * @param $assets

@@ -3,11 +3,11 @@
         <title>
             {{ title }}
         </title>
-        <link rel="stylesheet" href="{{ assets }}style.css">
+        <link rel="stylesheet" href="{{ assets }}api.css">
     </head>
-    <body>
+    <body class="is-api">
 
-        <header>
+        <header class="sidebar">
             <div class="logo">
                 {{ title }}
             </div>
@@ -17,6 +17,9 @@
                 </nav>
             </div>
         </header>
+        .code {
+
+        }
         {% include includes["index"] %}
     </body>
 </html>
