@@ -1,4 +1,2 @@
-## test
-
-
-this is some text
+# Welcome to Caramel
+### A dom driven template engine

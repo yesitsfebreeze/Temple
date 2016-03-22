@@ -1,6 +1,6 @@
 docs/vendor
 docs/source
 docs/markdown
-docs/templates/cache
+docs/cache
 docs/templates/generated
 docs/composer.lock

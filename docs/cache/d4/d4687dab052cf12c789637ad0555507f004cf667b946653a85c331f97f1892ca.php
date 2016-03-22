@@ -1,6 +1,6 @@
 <?php
 
-/* index.twig */
+/* api/index.twig */
 class __TwigTemplate_a0c326ceaf48c1cd195b299e6decb9ab224f9984e110aa349afebe277640e9ab extends Twig_Template
 {
     public function __construct(Twig_Environment $env)
@@ -27,17 +27,32 @@ class __TwigTemplate_a0c326ceaf48c1cd195b299e6decb9ab224f9984e110aa349afebe27764
         <link rel=\"stylesheet\" href=\"docs/assets/prod/style.css\">
     </head>
     <body>
-        <header>
 
+        <header>
+            <div class=\"logo\">
+                ";
+        // line 12
+        echo twig_escape_filter($this->env, (isset($context["title"]) ? $context["title"] : null), "html", null, true);
+        echo "
+            </div>
+            <div class=\"menu\">
+                <nav>
+
+                </nav>
+            </div>
         </header>
-    </body>
+        ";
+        // line 20
+        $this->loadTemplate($this->getAttribute((isset($context["includes"]) ? $context["includes"] : null), "index", array(), "array"), "api/index.twig", 20)->display($context);
+        // line 21
+        echo "    </body>
 </html>
 ";
     }
 
     public function getTemplateName()
     {
-        return "index.twig";
+        return "api/index.twig";
     }
 
     public function isTraitable()
@@ -47,7 +62,7 @@ class __TwigTemplate_a0c326ceaf48c1cd195b299e6decb9ab224f9984e110aa349afebe27764
 
     public function getDebugInfo()
     {
-        return array (  24 => 4,  19 => 1,);
+        return array (  48 => 21,  46 => 20,  35 => 12,  24 => 4,  19 => 1,);
     }
 }
 /* <html>*/
@@ -58,9 +73,18 @@ class __TwigTemplate_a0c326ceaf48c1cd195b299e6decb9ab224f9984e110aa349afebe27764
 /*         <link rel="stylesheet" href="docs/assets/prod/style.css">*/
 /*     </head>*/
 /*     <body>*/
-/*         <header>*/
 /* */
+/*         <header>*/
+/*             <div class="logo">*/
+/*                 {{ title }}*/
+/*             </div>*/
+/*             <div class="menu">*/
+/*                 <nav>*/
+/* */
+/*                 </nav>*/
+/*             </div>*/
 /*         </header>*/
+/*         {% include includes["index"] %}*/
 /*     </body>*/
 /* </html>*/
 /* */

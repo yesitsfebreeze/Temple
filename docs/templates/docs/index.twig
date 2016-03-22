@@ -8,16 +8,20 @@
     <body>
 
         <header>
-            <div class="logo">
-                {{ title }}
-            </div>
-            <div class="menu">
-                <nav>
-
-                </nav>
+            <div class="head-container">
+                <div class="hh"></div>
+                <div class="logo left">
+                    {{ title }}
+                </div>
+                <div class="menu right">
+                    <nav>
+                        test
+                    </nav>
+                </div>
+                <div class="clear"></div>
             </div>
         </header>
-        {% for file in docs_includes %}
+        {% for file in includes %}
             <section>
                 {% include file %}
             </section>
