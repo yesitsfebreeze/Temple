@@ -1,13 +1,13 @@
 #!/usr/bin/env bash
 
-cd docs
+cd _deployer
 
 # removing compiling directories
 rm -rf markdown
 rm -rf source
 rm -rf assets/prod
 rm -rf cache
-rm -rf tempaltes/docs/generated
+rm -rf tempaltes/_deployer/generated
 rm -rf tempaltes/api/generated
 
 # create needed folders

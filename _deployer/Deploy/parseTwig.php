@@ -53,10 +53,10 @@ class parseTwig
         $dir = $dir . '/../templates/' . $type;
         if ($file == "index") {
             $outputFile       = $dir . "/../../../" . $file . ".html";
-            $config["assets"] = "docs/assets/prod/";
+            $config["assets"] = "_deployer/assets/prod/";
         } else {
             $outputFile       = $dir . "/../../../" . $file . "/index.html";
-            $config["assets"] = "../docs/assets/prod/";
+            $config["assets"] = "../_deployer/assets/prod/";
         }
         $full = $twig->render($type . '/index.twig', $config);
 

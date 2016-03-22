@@ -1,6 +1,6 @@
-docs/vendor
-docs/source
-docs/markdown
-docs/cache
-docs/templates/generated
-docs/composer.lock
+_deployer/vendor
+_deployer/source
+_deployer/markdown
+_deployer/cache
+_deployer/templates/generated
+_deployer/composer.lock

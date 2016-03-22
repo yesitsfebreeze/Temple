@@ -3,7 +3,7 @@
 rm -rf index.html
 rm -rf api.html
 
-cd docs
+cd _deployer
 
 # removing compiling directories
 rm -rf markdown
