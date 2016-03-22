@@ -1,8 +1,14 @@
 #!/usr/bin/env bash
 
+sudo chmod -R 777 assets
+
 # removing compiling directories
 rm -rf markdown
 rm -rf source
+rm -rf templates/cache
+rm -rf assets/production
+mkdir templates/cache
+mkdir assets/production
 
 #composer stuff
 composer dumpautoload -o

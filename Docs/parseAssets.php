@@ -5,12 +5,9 @@ namespace Docs;
 
 class parseAssets
 {
-    public function __construct($dir, \scssc $scss)
+    public function __construct($dir, \SassCompiler $sass)
     {
         $assets = $dir . "/../assets/";
-        $scss->setImportPaths($assets . "sass");
-        $style = $scss->compile('@import "main.scss"');
-        file_put_contents($assets . "production/style.css", $style);
-
+        $sass->run($assets . "sass/", $assets . "production/");
     }
 }
