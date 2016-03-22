@@ -40,15 +40,27 @@ class parseTwig
     /**
      * @param                   $dir
      * @param                   $type
-     * @param                   $output
+     * @param                   $file
      * @param                   $config
      * @param \Twig_Environment $twig
      */
-    private function createTwig($dir, $type, $output, $config, \Twig_Environment $twig)
+    private function createTwig($dir, $type, $file, $config, \Twig_Environment $twig)
     {
-        $dir        = $dir . '/../templates/' . $type;
-        $full       = $twig->render($type . '/index.twig', $config);
-        $outputFile = $dir . "/../../../" . $output . ".html";
+
+        $dir = $dir . '/../templates/' . $type;
+        if ($file == "index") {
+            $outputFile = $dir . "/../../../" . $file . ".html";
+            $config["assets"] = "docs/assets/prod/";
+        } else {
+            $outputFile = $dir . "/../../../" . $file . "/index.html";
+            $config["assets"] = "../docs/assets/prod/";
+        }
+        $full = $twig->render($type . '/index.twig', $config);
+
+        $dir = dirname($outputFile);
+        if (!is_dir($dir)) {
+            mkdir($dir, 0777, true);
+        }
         if (file_exists($outputFile)) {
             unlink($outputFile);
         }
