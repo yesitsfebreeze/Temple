@@ -14,9 +14,11 @@ class ParseMarkdown
             $content .= $markdown;
         }
 
-        $outputFile = $dir . "/../tempaltes/generated/api.html";
-        if (is_file($outputFile)) {
+        $outputFile = $dir . "/../templates/generated/api.html";
+        if (file_exists($outputFile)) {
             unlink($outputFile);
+        } else {
+            mkdir(dirname($outputFile), 0777, true);
         }
         touch($outputFile);
         file_put_contents($outputFile, $content);
