@@ -20,29 +20,24 @@ composer update
 
 cp -rf ../.git source/.git
 cp -rf ../.gitignore source/.gitignore
+cp -rf ./templates/phpclass.twig ./vendor/evert/phpdoc-md/templates/class.twig
+cp -rf ./Deploy/Generator.php ./vendor/evert/phpdoc-md/src/Generator.php
 
 # pull master to source
 cd source
 git checkout master
 git subtree pull --prefix / origin master
 
-## remove the git folders to prevent bugs
-#rm -rf .git
-#rm -rf .gitignore
-#
-## dump the docs
-#cd ../vendor/bin
-#php phpdoc  -d ../../source -t ../../markdown/xml --template="xml"
-#mkdir ../../markdown/parsed
-#php phpdocmd ../../markdown/xml/structure.xml ../../markdown/parsed
-#
+# remove the git folders to prevent bugs
+rm -rf .git
+rm -rf .gitignore
 
-## deploy docs
-#cp -rf templates/phpclass.twig vendor/evert/phpdoc-md/templates/class.twig
-#cd ../../Deploy
-#php deploy.php
-#cd ../
-## cleanup
-#rm -rf markdown
-#rm -rf source
-##rm -rf vendor
+# dump the docs
+cd ../vendor/bin
+php phpdoc  -d ../../source -t ../../markdown/xml --template="xml"
+mkdir ../../markdown/parsed
+php phpdocmd ../../markdown/xml/structure.xml ../../markdown/parsed
+
+
+# deploy docs
+php  ../../Deploy/deploy.php

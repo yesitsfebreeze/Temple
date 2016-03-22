@@ -1,7 +1,7 @@
 <?php
 
 
-require_once "../vendor/autoload.php";
+require_once __DIR__ . "/../vendor/autoload.php";
 
 $tree = new \Deploy\MarkDownTree();
 $tree = $tree->getTree();

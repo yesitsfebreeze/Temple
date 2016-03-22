@@ -29,7 +29,7 @@ class parseTwig
         $twig   = new \Twig_Environment($loader, array('cache' => $dir . "/cache",));
         $twig->clearCacheFiles();
         $full       = $twig->render('index.twig', $config);
-        $outputFile = $dir . "/../index.html";
+        $outputFile = $dir . "/../../index.html";
         if (file_exists($outputFile)) {
             unlink($outputFile);
         }

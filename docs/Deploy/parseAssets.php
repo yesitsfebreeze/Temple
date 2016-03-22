@@ -8,6 +8,6 @@ class parseAssets
     public function __construct($dir, \lessc $less)
     {
         $assets = $dir . "/../assets/";
-        $less->checkedCompile($assets . "less/main.less", $assets . "prod/");
+        $less->checkedCompile($assets . "dev/less/main.less", $assets . "prod/style.css");
     }
 }

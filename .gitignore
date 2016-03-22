@@ -2,5 +2,5 @@ docs/vendor
 docs/source
 docs/markdown
 docs/templates/cache
-docs/templates/output
+docs/templates/generated
 docs/composer.lock
