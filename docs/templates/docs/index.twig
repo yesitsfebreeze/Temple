@@ -17,10 +17,10 @@
                 </nav>
             </div>
         </header>
-        {#{% for file in docs_includes %}#}
-            {#<section>#}
-                {#{% include file %}#}
-            {#</section>#}
-        {#{% endfor %}#}
+        {% for file in docs_includes %}
+            <section>
+                {% include file %}
+            </section>
+        {% endfor %}
     </body>
 </html>

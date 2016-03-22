@@ -16,35 +16,18 @@ class parseTwig
      */
     public function __construct($dir, Yaml $yaml, \Parsedown $parsedown)
     {
-        $config = $dir . "/../../config.yml";
+
+        $this->render("docs", "index", $dir, $yaml, $parsedown);
+        $this->render("api", "api", $dir, $yaml, $parsedown);
+    }
+
+
+    private function render($type, $file, $dir, Yaml $yaml, \Parsedown $parsedown)
+    {
+        $config = $dir . "/../../" . $type . "_config.yml";
         $config = $yaml->parse(file_get_contents($config));
-
-        $this->renderDocs($dir, $config, $parsedown);
-        $this->renderAPI($dir, $config, $parsedown);
-    }
-
-
-    /**
-     * @param            $dir
-     * @param            $config
-     * @param \Parsedown $parsedown
-     */
-    private function renderDocs($dir, $config, \Parsedown $parsedown)
-    {
-        $this->getIncludes($config, $parsedown, $dir, "docs");
-        $this->createTwig($dir, "docs", "index", $config);
-    }
-
-
-    /**
-     * @param            $dir
-     * @param            $config
-     * @param \Parsedown $parsedown
-     */
-    private function renderAPI($dir, $config, \Parsedown $parsedown)
-    {
-        $this->getIncludes($config, $parsedown, $dir, "api");
-        $this->createTwig($dir, "docs", "api", $config);
+        $this->getIncludes($config, $parsedown, $dir, $type);
+        $this->createTwig($dir, $type, $file, $config);
     }
 
 
@@ -56,8 +39,9 @@ class parseTwig
      */
     private function createTwig($dir, $template, $output, $config)
     {
-        $dir = $dir . '/../templates/' . $template;
-        \Twig_Autoloader::register();
+        $dir    = $dir . '/../templates/' . $template;
+        $loader = new \Twig_Autoloader();
+        $loader->register($dir);
         $loader = new \Twig_Loader_Filesystem($dir);
         $twig   = new \Twig_Environment($loader, array('cache' => $dir . "/../../cache",));
         $twig->clearCacheFiles();
@@ -79,11 +63,11 @@ class parseTwig
     {
 
         $includes = array();
-        foreach ($config[ $which . "_includes" ] as $include) {
+        foreach ($config["includes"] as $include) {
             if (pathinfo($include, PATHINFO_EXTENSION) == "md") {
                 $md         = $parsedown->parse(file_get_contents($dir . '/../pages/' . $which . "/" . $include));
                 $outputFile = $dir . '/../templates/' . $which . '/generated/' . str_replace(".md", ".html", $include);
-                $includes[] = str_replace($dir . '/../templates/' . $which, "", $outputFile);
+                $includes[] = str_replace($dir . '/../templates/' . $which . "/", "", $outputFile);
                 $dir        = dirname($outputFile);
                 if (!is_dir($dir)) {
                     mkdir($dir, 0777, true);
@@ -91,6 +75,6 @@ class parseTwig
                 file_put_contents($outputFile, $md);
             }
         }
-        $config[ $which . "_includes" ] = $includes;
+        $config["includes"] = $includes;
     }
 }
