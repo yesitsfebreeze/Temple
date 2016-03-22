@@ -1,5 +1,16 @@
-{% for file in includes %}
-    {% include file %}
-{% endfor %}
+<html>
+    <head>
+        <title>
+            {{ title }}
+        </title>
+        <link rel="stylesheet" href="../assets/production/style.css">
+    </head>
+    <body>
+        {% for file in includes %}
+            {% include file %}
+        {% endfor %}
 
-{% include 'generated/api.html' %}
+        {% include 'generated/api.html' %}
+
+    </body>
+</html>

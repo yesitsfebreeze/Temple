@@ -8,10 +8,11 @@
         }
     ],
     "require":  {
-        "evert/phpdoc-md":  "~0.2.0",
-        "erusev/parsedown": "^1.6",
+        "evert/phpdoc-md":             "~0.2.0",
+        "erusev/parsedown":            "^1.6",
         "phpdocumentor/phpdocumentor": "^2.8",
-        "symfony/yaml": "^3.0"
+        "symfony/yaml":                "^3.0",
+        "leafo/scssphp":               "0.0.12"
     },
     "autoload": {
         "psr-4": {

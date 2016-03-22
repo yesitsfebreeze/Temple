@@ -3,3 +3,4 @@
 /markdown
 /templates/cache
 /templates/output
+composer.lock

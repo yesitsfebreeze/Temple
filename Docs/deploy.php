@@ -8,6 +8,8 @@ $tree = $tree->getTree();
 
 $parsedown = new Parsedown();
 $yaml      = new \Symfony\Component\Yaml\Yaml();
+$scss      = new scssc();
 
 new \Docs\ParseMarkdown($tree, __DIR__, $parsedown);
 new \Docs\parseTwig(__DIR__, $yaml, $parsedown);
+new \Docs\parseAssets(__DIR__, $scss);
