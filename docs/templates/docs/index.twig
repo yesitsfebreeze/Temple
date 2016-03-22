@@ -1,7 +1,7 @@
 <html>
     <head>
         <title>
-            Caramel
+            {{ title }}
         </title>
         <link rel="stylesheet" href="docs/assets/prod/style.css">
     </head>
@@ -9,7 +9,7 @@
 
         <header>
             <div class="logo">
-                Caramel
+                {{ title }}
             </div>
             <div class="menu">
                 <nav>
@@ -17,5 +17,10 @@
                 </nav>
             </div>
         </header>
-                                                            </body>
+        {#{% for file in docs_includes %}#}
+            {#<section>#}
+                {#{% include file %}#}
+            {#</section>#}
+        {#{% endfor %}#}
+    </body>
 </html>

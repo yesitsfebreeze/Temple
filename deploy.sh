@@ -6,11 +6,12 @@ cd docs
 rm -rf markdown
 rm -rf source
 rm -rf assets/prod
-rm -rf templates/cache
-rm -rf assets/prod
+rm -rf cache
+rm -rf tempaltes/docs/generated
+rm -rf tempaltes/api/generated
 
 # create needed folders
-mkdir templates/cache
+mkdir cache
 mkdir assets/prod
 mkdir source
 
@@ -20,7 +21,7 @@ composer update
 
 cp -rf ../.git source/.git
 cp -rf ../.gitignore source/.gitignore
-cp -rf ./templates/phpclass.twig ./vendor/evert/phpdoc-md/templates/class.twig
+cp -rf ./templates/api/phpclass.twig ./vendor/evert/phpdoc-md/templates/class.twig
 cp -rf ./Deploy/Generator.php ./vendor/evert/phpdoc-md/src/Generator.php
 
 # pull master to source
@@ -41,3 +42,4 @@ php phpdocmd ../../markdown/xml/structure.xml ../../markdown/parsed
 
 # deploy docs
 php  ../../Deploy/deploy.php
+php  ../../Deploy/deploy_assets.php
