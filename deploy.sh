@@ -3,6 +3,8 @@
 # removing compiling directories
 rm -rf markdown
 rm -rf source
+rm -rf templates/cache
+mkdir templates/cache
 
 #composer stuff
 composer dumpautoload -o
