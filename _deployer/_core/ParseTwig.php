@@ -1,12 +1,14 @@
 <?php
 
-namespace Deploy;
+namespace Deployer;
 
 
 use Symfony\Component\Yaml\Yaml;
 
 class ParseTwig
 {
+
+
     /**
      * parseTwig constructor.
      *
@@ -14,17 +16,8 @@ class ParseTwig
      * @param Yaml       $yaml
      * @param \Parsedown $parsedown
      */
-    public function __construct($dir, Yaml $yaml, \Parsedown $parsedown)
+    public function __construct($dir, Yaml $yaml, \Parsedown $parsedown, \Twig_Environment $twig)
     {
-
-        $loader = new \Twig_Autoloader();
-        $loader->register($dir . "/../templates");
-        $loader = new \Twig_Loader_Filesystem($dir . "/../templates");
-        if (!is_dir($dir . "/../cache")) {
-            mkdir($dir . "/../cache", 0777, true);
-        }
-        $twig = new \Twig_Environment($loader, array('cache' => $dir . "/../cache",));
-        $twig->clearCacheFiles();
 
         $this->render("docs", "index", $dir, $yaml, $parsedown, $twig);
         $this->render("api", "api", $dir, $yaml, $parsedown, $twig);

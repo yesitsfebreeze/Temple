@@ -41,4 +41,4 @@ php phpdocmd ../../markdown/xml/structure.xml ../../markdown/parsed
 
 
 # deploy docs
-php  ../../Deploy/deploy.php
+php  ../../_core/deploy.php

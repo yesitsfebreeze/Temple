@@ -16,7 +16,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Deploy\\": "Deploy/"
+            "Deployer\\": "_core/"
         }
     }
 }

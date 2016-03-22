@@ -1,12 +1,12 @@
 <?php
 
-namespace Deploy;
+namespace Deployer;
 
 
 /**
  * Class parseAssets
  *
- * @package Deploy
+ * @package Deployer
  */
 class ParseAssets
 {
@@ -14,6 +14,7 @@ class ParseAssets
     public function __construct($dir)
     {
         $assets = $dir . "/../assets/";
+
         $this->parseLess($assets);
         $this->copyImageDir($assets);
     }

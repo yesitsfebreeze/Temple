@@ -1,12 +1,12 @@
 <?php
 
-namespace Deploy;
+namespace Deployer;
 
 
 /**
- * Class Docs
+ * Class Deployer
  *
- * @package Docs
+ * @package Deployer
  */
 class MarkDownTree
 {
@@ -22,12 +22,17 @@ class MarkDownTree
     /** @var array $dirs */
     private $tree = array();
 
+    /** @var \Twig_Environment $twig */
+    private $twig;
 
     /**
-     * Docs constructor.
+     * MarkDownTree constructor.
+     *
+     * @param \Twig_Environment $twig
      */
-    public function __construct()
+    public function __construct(\Twig_Environment $twig)
     {
+        $this->twig = $twig;
         $this->dir = __DIR__ . "/" . $this->dir;
         $files     = scandir($this->dir . "/parsed");
         foreach ($files as $file) {
@@ -103,6 +108,11 @@ class MarkDownTree
             $class        = array_reverse(explode("/", rtrim($dir, "/")))[0];
             $file         = rtrim($dir, "/") . ".md";
             $this->tree[] = array("level" => $subCount, "file" => $file);
+
+
+            // TODO: adjsut generator to pass level
+
+            $this->twig->render(,["level" = 0]);
             file_put_contents($file, "<div data-level='%%level%%'>" . $class . "</div>");
             $mds = scandir($dir);
             foreach ($mds as $md) {

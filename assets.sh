@@ -2,4 +2,4 @@
 
 
 # deploy docs
-php  _deployer/Deploy/deploy.php
+php  _deployer/_core/deploy.php

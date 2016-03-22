@@ -1,6 +1,6 @@
 <?php
 
-namespace Deploy;
+namespace Deployer;
 
 
 class ParseMarkdown
