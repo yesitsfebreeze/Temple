@@ -266,7 +266,6 @@ class Generator
 
         $strings = explode("|", $string);
         foreach ($strings as $string) {
-            $contained = false;
             $namespace = $GLOBALS['PHPDocMD_namespaces'][0];
             if (strpos($string, $namespace) !== false) {
                 $class    = strrev(explode("\\", strrev($string))[0]);

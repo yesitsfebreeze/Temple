@@ -27,9 +27,9 @@ class ParseAssets
     private function parseLess($assets)
     {
         $less = new \lessc();
-        $less->compileFile($assets . "dev/less/index.less", $assets . "prod/index.css");
+        $less->compileFile($assets . "less/index.less", $assets . "../../index.css");
         $less = new \lessc();
-        $less->compileFile($assets . "dev/less/api.less", $assets . "prod/api.css");
+        $less->compileFile($assets . "less/api.less", $assets . "../../api.css");
     }
 
     /**
@@ -37,8 +37,8 @@ class ParseAssets
      */
     private function copyImageDir($assets)
     {
-        $source = $assets . "dev/img";
-        $dest   = $assets . "prod/img";
+        $source = $assets . "img";
+        $dest   = $assets . "../../img";
 
         exec("rm -rf " . escapeshellarg($dest));
         if (!is_dir($dest)) {

@@ -1,6 +1,6 @@
 title: Caramel API Docs
 
-site_url: http://hlmnns.github.io/Caramel
+site_url: Caramel
 
 includes:
   - index.md

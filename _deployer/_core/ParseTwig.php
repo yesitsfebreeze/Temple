@@ -26,8 +26,12 @@ class ParseTwig
 
     private function render($type, $file, $dir, Yaml $yaml, \Parsedown $parsedown, \Twig_Environment $twig)
     {
-        $config = $dir . "/../../" . $type . "_config.yml";
-        $config = $yaml->parse(file_get_contents($config));
+        $mainConfig = $dir . "/../../" . $type . "_config.yml";
+        $mainConfig = $yaml->parse(file_get_contents($mainConfig));
+        $config     = $dir . "/../../" . "main_config.yml";
+        $config     = $yaml->parse(file_get_contents($config));
+        $config     = array_merge_recursive($mainConfig, $config);
+
         $this->getIncludes($config, $parsedown, $dir, $type);
         $this->createTwig($dir, $type, $file, $config, $twig);
     }
