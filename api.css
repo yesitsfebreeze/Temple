@@ -115,7 +115,7 @@ code {
   margin-top: 0;
 }
 a {
-  color: #5CB9FC;
+  color: #b16741;
   text-decoration: none;
 }
 a:hover,
@@ -123,7 +123,7 @@ a:active,
 a:focus,
 a:visited {
   text-decoration: underline;
-  color: #5CB9FC;
+  color: #b16741;
 }
 body {
   padding-top: 70px;
@@ -193,7 +193,7 @@ body {
 .namespace-heading {
   font-size: 75px;
   padding-top: 200px;
-  border-bottom: 3px solid #5CB9FC;
+  border-bottom: 3px solid #b16741;
 }
 .class-model ul {
   padding-left: 0;
