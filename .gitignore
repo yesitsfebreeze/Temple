@@ -2,5 +2,7 @@ _deployer/vendor
 _deployer/source
 _deployer/markdown
 _deployer/cache
-_deployer/templates/generated
+_deployer/templates/api/generated
+_deployer/templates/docs/generated
 _deployer/composer.lock
+_deployer/api_list.json

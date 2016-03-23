@@ -3,16 +3,13 @@
 cd _deployer
 
 # removing compiling directories
-rm -rf markdown
 rm -rf source
 rm -rf assets/prod
-rm -rf cache
-rm -rf tempaltes/_deployer/generated
 rm -rf tempaltes/api/generated
+rm -rf tempaltes/docs/generated
 clear
 
 # create needed folders
-mkdir cache
 mkdir assets/prod
 mkdir source
 clear
@@ -24,9 +21,7 @@ clear
 
 cp -rf ../.git source/.git
 cp -rf ../.gitignore source/.gitignore
-cp -rf ./templates/api/phpclass.twig ./vendor/evert/phpdoc-md/templates/class.twig
-cp -rf ./_deployer/_core/api_generator.php ./vendor/evert/phpdoc-md/src/Generator.php
-clear
+cp -rf ./_core/api_generator.php ./vendor/evert/phpdoc-md/src/Generator.php
 
 # pull master to source
 cd source
@@ -37,15 +32,17 @@ clear
 # remove the git folders to prevent bugs
 rm -rf .git
 rm -rf .gitignore
-clear
 
 # dump the docs
 cd ../vendor/bin
-php phpdoc  -d ../../source -t ../../markdown/xml --template="xml"
-mkdir ../../markdown/parsed
-php phpdocmd ../../markdown/xml/structure.xml ../../markdown/parsed
-clear
+php phpdoc  -d ../../source -t ../../source/phpdocs --template="xml"
+php phpdocmd ../../source/phpdocs/structure.xml
+
 
 # deploy docs
 php  ../../_core/deploy.php
-clear
+
+
+#cp -rf _deployer/_core/api_generator.php _deployer/vendor/evert/phpdoc-md/src/Generator.php
+#cd _deployer/vendor/bin
+#php phpdocmd ../../markdown/xml/structure.xml ../../markdown/parsed

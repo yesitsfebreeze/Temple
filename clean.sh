@@ -2,6 +2,7 @@
 
 rm -rf index.html
 rm -rf api/index.html
+rm -rf api
 
 cd _deployer
 

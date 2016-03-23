@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
-
 # deploy docs
-php  _deployer/_core/deploy.php
+cd _deployer/vendor/bin/
+php phpdocmd ../../source/phpdocs/structure.xml
+
+cd ../../
+php  _core/deploy.php

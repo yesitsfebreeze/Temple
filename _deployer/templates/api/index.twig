@@ -19,7 +19,9 @@
         </header>
         <div class="content">
             {% include includes["index"] %}
-            {% include "api/generated/api.html" %}
+            {% for class in api %}
+                {% include class %}
+            {% endfor %}
         </div>
         <div class="code"></div>
     </body>

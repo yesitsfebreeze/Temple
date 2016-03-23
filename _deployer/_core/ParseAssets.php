@@ -44,6 +44,9 @@ class ParseAssets
         if (!is_dir($dest)) {
             mkdir($dest, 0755);
         }
+        if (!is_dir($source)) {
+            mkdir($source, 0755);
+        }
         $source = $iterator = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($source, \RecursiveDirectoryIterator::SKIP_DOTS), \RecursiveIteratorIterator::SELF_FIRST);
         foreach ($source as $item) {
             if ($item->isDir()) {

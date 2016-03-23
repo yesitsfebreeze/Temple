@@ -13,7 +13,7 @@ class ParseTwig
      * parseTwig constructor.
      *
      * @param            $dir
-     * @param Yaml       $yaml
+     * @param Yaml $yaml
      * @param \Parsedown $parsedown
      */
     public function __construct($dir, Yaml $yaml, \Parsedown $parsedown, \Twig_Environment $twig)
@@ -51,6 +51,15 @@ class ParseTwig
             $outputFile       = $dir . "/../../../" . $file . "/index.html";
             $config["assets"] = "../_deployer/assets/prod/";
         }
+
+        if ($file == "api") {
+            $apiList = __DIR__ . "/../api_list.json";
+            if (file_exists($apiList)) {
+                $api           = json_decode(file_get_contents($apiList), true);
+                $config["api"] = $api;
+            }
+        }
+
         $full = $twig->render($type . '/index.twig', $config);
 
         $dir = dirname($outputFile);
