@@ -1,0 +1,18 @@
+{% set parent = parent|lower ~ name|lower ~ "-" %}
+
+{% if parent == "-" %}
+    {% set parent = "" %}
+{% endif %}
+
+{% for name,items in menu|sort %}
+    <li>
+        <a href="#{{ parent }}{{ name|lower }}">
+            {{ name }}
+        </a>
+    </li>
+    {% if items %}
+        <ul>
+            {% include "api/menu.twig" with {'menu': items, 'parent': parent} %}
+        </ul>
+    {% endif %}
+{% endfor %}

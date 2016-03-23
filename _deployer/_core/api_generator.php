@@ -72,6 +72,13 @@ class Generator
      */
     protected $fileList;
 
+    /**
+     * a list of parsed files.
+     *
+     * @var array
+     */
+    protected $fileMenu = array();
+
 
     /**
      * @param array $classDefinitions
@@ -123,7 +130,8 @@ class Generator
     private function parseTwig()
     {
 
-        $GLOBALS['PHPDocMD_classes'] = $this->classes;
+        $GLOBALS['PHPDocMD_classes']    = $this->classes;
+        $GLOBALS['PHPDocMD_namespaces'] = $this->namespaces;
 
         $twig = $this->setuptwigEnviroment();
 
@@ -134,6 +142,7 @@ class Generator
             $level             = substr_count($namespace, "\\");
             $data["level"]     = $level;
             $data["name"]      = $namespaceName;
+            $data["id"]        = strtolower(str_replace("\\", "-", preg_replace("/^.*?\\\/", "", $namespace)));
             $data["namespace"] = $namespace;
             $this->parseTwigFile($twig, "namespace", $namespaceName, $filename, $data);
             foreach ($this->classes as $name => $class) {
@@ -141,6 +150,8 @@ class Generator
                 if (substr_count($checkname, "\\") === 0) {
                     $level          = substr_count($namespace, "\\");
                     $class["level"] = $level;
+                    $class["id"]    = strtolower(str_replace("\\", "-", preg_replace("/^.*?\\\/", "", $name)));
+                    $class["name"]  = $checkname;
                     $filename       = $namespace . "\\" . $checkname;
                     $this->parseTwigFile($twig, "class", $checkname, $filename, $class);
                 }
@@ -156,6 +167,18 @@ class Generator
             touch($fileListFile);
         }
         file_put_contents($fileListFile, $fileList);
+
+        $this->createMenu($this->fileMenu);
+        $this->fileMenu = reset($this->fileMenu);
+        $fileMenu       = json_encode($this->fileMenu, JSON_PRETTY_PRINT);
+        $fileMenuFile   = $this->templateDir . "/../../../api_menu.json";
+
+        if (file_exists($fileMenuFile)) {
+            unlink($fileMenuFile);
+            touch($fileMenuFile);
+        }
+        file_put_contents($fileMenuFile, $fileMenu);
+
 
         return $twig;
     }
@@ -195,10 +218,32 @@ class Generator
         $loader = new Twig_Loader_Filesystem($this->templateDir, ['cache' => false, 'debug' => true,]);
         $twig   = new Twig_Environment($loader);
 
-        $filter = new Twig_SimpleFilter('classlink', ['PHPDocMd\\Generator', 'classLink']);
+        $filter = new Twig_SimpleFilter('classlink', ['PHPDocMd\\Generator', 'classLink'], array('is_safe' => array('html')));
+        $twig->addFilter($filter);
+        $filter = new Twig_SimpleFilter('dump', ['PHPDocMd\\Generator', 'dump'], array('is_safe' => array('html')));
+        $twig->addFilter($filter);
+        $filter = new Twig_SimpleFilter('instance', ['PHPDocMd\\Generator', 'instance'], array('is_safe' => array('html')));
         $twig->addFilter($filter);
 
         return $twig;
+    }
+
+    /**
+     * creates the menu
+     *
+     * @return mixed
+     */
+    private function createMenu()
+    {
+        foreach ($this->classDefinitions as $className => $classInfo) {
+            $current = &$this->fileMenu;
+            foreach (explode('\\', $className) as $part) {
+                if (!isset($current[ $part ])) {
+                    $current[ $part ] = [];
+                }
+                $current = &$current[ $part ];
+            }
+        }
     }
 
 
@@ -211,39 +256,61 @@ class Generator
      * achieve our goal.
      *
      * @param string $className
-     * @param null|string $label
      *
      * @return string
      */
-    static function classLink($className, $label = NULL)
+    static function classLink($string)
     {
 
-        //TODO: classlink
+        $temp = array();
 
-//
-//        $classDefinitions = $GLOBALS['PHPDocMD_classes'];
-//
-//        $returnedClasses = [];
-//
-//        foreach (explode('|', $className) as $oneClass) {
-//            $oneClass = trim($oneClass, '\\ ');
-//
-//            if (!$label) {
-//                $label = $oneClass;
-//            }
-//
-//            if (!isset($classDefinitions[ $oneClass ])) {
-//                $returnedClasses[] = $oneClass;
-//            } else {
-//                $link = str_replace('\\', '-', $oneClass);
-//                $link = strtr($linkTemplate, ['%c' => $link]);
-//
-//                $returnedClasses[] = sprintf("[%s](%s)", $label, $link);
-//            }
-//        }
-//
-//        return implode('|', $returnedClasses);
-        return "link";
+        $strings = explode("|", $string);
+        foreach ($strings as $string) {
+            $contained = false;
+            $namespace = $GLOBALS['PHPDocMD_namespaces'][0];
+            if (strpos($string, $namespace) !== false) {
+                $class    = strrev(explode("\\", strrev($string))[0]);
+                $link     = "#" . strtolower(str_replace("\\", "-", trim(str_replace($namespace, "", $string), "\\")));
+                $template = "<a href='" . $link . "' title='" . $class . "'>" . $class . "</a>";
+                $temp[]   = $template;
+            } else {
+                $temp[] = $string;
+            }
+        }
+
+        $temp = implode("|", $temp);
+
+        return $temp;
+    }
+
+
+    /**
+     * This is a twig template function.
+     *
+     * This function dumps a variable
+     *
+     * @param string $var
+     *
+     * @return string
+     */
+    static function dump($var)
+    {
+        return '<code><pre>' . print_r($var, true) . '</pre></code><br>';
+    }
+
+
+    /**
+     * This is a twig template function.
+     *
+     * thiw function returns the instance of the passed variable.
+     *
+     * @param mixed $var
+     *
+     * @return string
+     */
+    static function instance($var)
+    {
+        return get_class($var);
     }
 
 }

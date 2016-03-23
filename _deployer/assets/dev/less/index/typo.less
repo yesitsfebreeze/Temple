@@ -1,12 +1,10 @@
 html {
-    /* Change default typefaces here */
     font-family:            @font-family;
-    font-size:              1em;
+    font-size:              @font-size;
+    font-weight:            @font-weight;
     -webkit-font-smoothing: antialiased;
-    letter-spacing:         -0.07em;
 }
 
-/* Copy & Lists */
 p {
     line-height:   1.5rem;
     margin-top:    1.5rem;
@@ -16,6 +14,7 @@ p {
 ul, ol {
     margin-top:    1.5rem;
     margin-bottom: 1.5rem;
+    padding-left:  15px;
 }
 
 ul ol {
@@ -31,6 +30,10 @@ ol, ul {
     }
 }
 
+li {
+    list-style-type: none;
+}
+
 blockquote {
     line-height:   1.5rem;
     margin-top:    1.5rem;
@@ -42,6 +45,7 @@ h1, h2, h3, h4, h5, h6 {
     margin-top:    1.5rem;
     margin-bottom: 0;
     line-height:   1.5rem;
+    font-weight:   300;
 }
 
 h1 {

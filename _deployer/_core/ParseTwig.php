@@ -58,6 +58,11 @@ class ParseTwig
                 $api           = json_decode(file_get_contents($apiList), true);
                 $config["api"] = $api;
             }
+            $menu = __DIR__ . "/../api_menu.json";
+            if (file_exists($apiList)) {
+                $menu           = json_decode(file_get_contents($menu), true);
+                $config["menu"] = $menu;
+            }
         }
 
         $full = $twig->render($type . '/index.twig', $config);

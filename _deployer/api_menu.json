@@ -1,0 +1,39 @@
+{
+    "Autoloader": [],
+    "Caramel": [],
+    "Exceptions": {
+        "CaramelException": [],
+        "ExceptionHandler": []
+    },
+    "Models": {
+        "Dom": [],
+        "Node": [],
+        "Storage": [],
+        "Vars": []
+    },
+    "Plugins": {
+        "Plugin": [],
+        "Core": {
+            "PluginClasses": [],
+            "PluginCleanup": [],
+            "PluginComment": [],
+            "PluginExtend": [],
+            "PluginIds": [],
+            "PluginImport": [],
+            "PluginPhp": [],
+            "PluginPlain": [],
+            "PluginVariable": []
+        }
+    },
+    "Services": {
+        "Cache": [],
+        "Config": [],
+        "Directories": [],
+        "Helpers": [],
+        "Lexer": [],
+        "Parser": [],
+        "Plugins": [],
+        "Service": [],
+        "Template": []
+    }
+}

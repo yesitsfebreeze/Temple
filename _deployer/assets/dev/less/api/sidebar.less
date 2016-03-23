@@ -1,9 +1,24 @@
 .sidebar {
-    position: fixed;
-    left:     0;
-    width:    @sidebar-width;
-    top:      0;
-    bottom:   0;
-    height:   100%;
+    color:            @seconday;
+    position:         fixed;
+    left:             0;
+    width:            @sidebar-width;
+    top:              0;
+    bottom:           0;
+    height:           100%;
     background-color: @sidebar-bg;
+    .logo {
+        font-weight:  @font-weight;
+        line-height:  100px;
+        padding-left: 25px;
+    }
+    .api-sidebar {
+        display:      block;
+        padding-left: 25px;
+        &, * {
+            font-weight: @font-weight;
+            line-height: 24px;
+            font-size:   13px;
+        }
+    }
 }

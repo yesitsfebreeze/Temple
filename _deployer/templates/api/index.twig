@@ -13,7 +13,9 @@
             </div>
             <div class="menu">
                 <nav>
-
+                    <ul class="api-sidebar">
+                        {% include "api/menu.twig" with {'menu':menu} only %}
+                    </ul>
                 </nav>
             </div>
         </header>
