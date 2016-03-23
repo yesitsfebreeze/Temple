@@ -11,6 +11,9 @@
   visibility: hidden;
   height: 0;
 }
+.list-inline li {
+  display: inline-block;
+}
 body,
 html {
   background-color: #fff;
@@ -115,7 +118,7 @@ code {
   margin-top: 0;
 }
 a {
-  color: #b16741;
+  color: #59A9E2;
   text-decoration: none;
 }
 a:hover,
@@ -123,7 +126,7 @@ a:active,
 a:focus,
 a:visited {
   text-decoration: underline;
-  color: #b16741;
+  color: #59A9E2;
 }
 body {
   padding-top: 70px;
@@ -193,7 +196,7 @@ body {
 .namespace-heading {
   font-size: 75px;
   padding-top: 200px;
-  border-bottom: 3px solid #b16741;
+  border-bottom: 3px solid #59A9E2;
 }
 .class-model ul {
   padding-left: 0;
@@ -209,7 +212,27 @@ body {
 }
 .class-model .methods-heading,
 .class-model .properties-heading {
-  font-size: 20px;
+  font-size: 35px;
   padding-bottom: 10px;
   padding-top: 30px;
+}
+.class-model .property-heading {
+  font-size: 18px;
+  padding-bottom: 3px;
+}
+.class-model .method {
+  padding-bottom: 20px;
+}
+.class-model .method-heading {
+  font-size: 18px;
+  padding-top: 20px;
+}
+.class-model .method-description {
+  font-size: 110%;
+  padding-top: 10px;
+  padding-bottom: 0px;
+}
+.class-model .method-signature {
+  opacity: 0.5;
+  font-size: 13px;
 }

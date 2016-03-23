@@ -15,10 +15,10 @@
     {% if isClass %}
         <ul>
             <li>
-                Class name: {{ shortClass }}
+                Class name: <b>{{ shortClass }}</b>
             </li>
             <li>
-                Namespace: {{ namespace }}
+                Namespace: <b>{{ namespace }}</b>
             </li>
             {% if abstract %}
                 <li>
@@ -86,7 +86,7 @@
 
         {{ constant.signature|raw }}
 
-        {{ property.description|raw }}
+        {{ property.description|trim|raw }}
 
         {% if constant.deprecated %}* **Warning:** this constant is **deprecated**. This means that this constant will likely be removed in a future version.
         {% endif %}
@@ -100,33 +100,38 @@
     {% endif %}
 
     {% for property in properties %}
+        <div class="property">
+            <div class="property-heading">
+                <span class="property-visiblity">{{ property.visibility }}</span>
+                <span>{% if property.type %}{{ property.type|classlink }}{% else %}mixed{% endif %}</span>
+                <b>{{ property.name }}</b>
+                {% if property.definedBy != className %}get property link to parent class
+                    <span> defined by {{ property.definedBy|classlink }}</span>
+                {% endif %}
+            </div>
 
-        <div class="property-heading">
-            <span class="property-signature">{{ property.visibility }}</span>
-            <span>{% if property.type %}{{ property.type|classlink }}{% else %}mixed{% endif %}</span>
-            <b>{{ property.name }}</b>
-            {% if property.definedBy != className %}
-                get property link to parent class
-                <span> defined by {{ property.definedBy|classlink }}</span>
+            {% if property.description|trim|raw != "" %}
+                <div class="property-description description">
+                    {{ property.description|trim|raw }}
+                </div>
+            {% endif %}
+
+            {% if property.definedBy == className %}
+                {% if property.deprecated or property.static %}
+                    <ul>
+                        {% if property.deprecated %}
+                            <li>
+                                <b>Warning:</b> this property is
+                                <b>deprecated</b>. This means that this property will likely be removed in a future version.
+                            </li>
+                        {% endif %}
+                        {% if property.static %}
+                            This property is <b>static</b>.
+                        {% endif %}
+                    </ul>
+                {% endif %}
             {% endif %}
         </div>
-
-        {% if property.definedBy == className %}
-
-            {{ property.signature|raw }}
-
-            {{ property.description|raw }}
-
-            {% if property.deprecated %}* **Warning:** this property is **deprecated**. This means that this property will likely be removed in a future version.
-            {% endif %}
-            {% if property.static %}* This property is **static**.
-            {% endif %}
-            {% if property.definedBy != className %}* This property is defined by {{ property.definedBy|classlink }}
-            {% endif %}
-        {% endif %}
-
-
-
     {% endfor %}
 
     {% if methods %}
@@ -136,58 +141,59 @@
     {% endif %}
 
     {% for method in methods %}
-        <div class="method-heading">
-            <span class="method-signature">{{ method.visibility }}</span>
-            <b>{{ method.name }}</b>
-            {% if method.definedBy != className %}
-                get method link to parent class
-                <span> defined by {{ method.definedBy|classlink }}</span>
-            {% endif %}
-        </div>
-        <div class="method-description">
-            {{ method.description|raw }}
-        </div>
-        <div class="method-signature">
-            {{ method.signature|raw }}
-        </div>
+        <div class="method">
+            <div class="method-heading">
+                <span class="method-visiblity">{{ method.visibility }}</span>
+                <b>{{ method.name }}</b>
+                {% if method.definedBy != className %}
+                    {#get method link to parent class#}
+                    <span> defined by {{ method.definedBy|classlink }}</span>
+                {% endif %}
+            </div>
 
-        {% if method.definedBy == className %}
 
-            {% if method.arguments %}
-                <div class="method-arguments-heading">
-                    Arguments:
+            {% if method.description|trim|raw != "" %}
+                <div class="method-description description">
+                    {{ method.description|trim|raw }}
                 </div>
-                <div class="method-arguments">
-                    <ul>
-                        {% for argument in method.arguments %}
-                            <li>
-                                {% if argument.type %}{{ argument.type|classlink }}{% else %}mixed{% endif %}
-                                <b>{{ argument.name }}</b>
-                                <span class="method-argument-description description">
-                                    {% if argument.description %} - {{ argument.description }}{% endif %}
-                                </span>
+            {% endif %}
+
+            {% if method.definedBy == className %}
+
+                {% if method.arguments %}
+                    <div class="method-arguments">
+
+                        <ul class="list-inline">
+                            <li class="method-arguments-heading">
+                                Arguments:
                             </li>
-                        {% endfor %}
-                    </ul>
-                </div>
+                            {% for argument in method.arguments %}
+                                <li>
+                                    {% if argument.type %}{{ argument.type|classlink }}{% else %}mixed{% endif %}
+                                    <b>{{ argument.name }}</b>{% if not loop.last %}, {% endif %}
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                {% endif %}
+
+
+                <ul>
+                    {% if method.abstract %}
+                        This method is <b>abstract</b>.
+                    {% endif %}
+                    {% if method.static %}
+                        <li>
+                            This method is <b>static</b>.
+                        </li>
+                    {% endif %}
+                    {% if method.deprecated %}
+                        <li>
+                            <b>Warning:</b> this method is **deprecated**. This means that this method will likely be removed in a future version.
+                        </li>
+                    {% endif %}
+                </ul>
             {% endif %}
-
-
-            <ul>
-                {% if method.abstract %}
-                    This method is <b>abstract</b>.
-                {% endif %}
-                {% if method.static %}
-                    <li>
-                        This method is <b>static</b>.
-                    </li>
-                {% endif %}
-                {% if method.deprecated %}
-                    <li>
-                        <b>Warning:</b> this method is **deprecated**. This means that this method will likely be removed in a future version.
-                    </li>
-                {% endif %}
-            </ul>
-        {% endif %}
+        </div>
     {% endfor %}
 </div>

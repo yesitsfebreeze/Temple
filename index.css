@@ -11,6 +11,9 @@
   visibility: hidden;
   height: 0;
 }
+.list-inline li {
+  display: inline-block;
+}
 body,
 html {
   background-color: #fff;
@@ -115,7 +118,7 @@ code {
   margin-top: 0;
 }
 a {
-  color: #b16741;
+  color: #59A9E2;
   text-decoration: none;
 }
 a:hover,
@@ -123,7 +126,7 @@ a:active,
 a:focus,
 a:visited {
   text-decoration: underline;
-  color: #b16741;
+  color: #59A9E2;
 }
 body {
   padding-top: 70px;
