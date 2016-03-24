@@ -23,6 +23,7 @@ class Template extends Service
      */
     public function show($file)
     {
+        $this->plugins->init();
         $templateFile = $this->parse($file);
 
         # add the file header if wanted
@@ -32,9 +33,11 @@ class Template extends Service
         }
 
         # scoped Caramel
+        /** @noinspection PhpUnusedLocalVariableInspection */
         $_crml = $this->caramel;
 
         if (file_exists($templateFile)) {
+            /** @noinspection PhpIncludeInspection */
             include $templateFile;
         } else {
             throw new CaramelException("Can't include $file.crml");
