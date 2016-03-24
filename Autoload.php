@@ -33,11 +33,16 @@ class Autoloader
     {
 
         $namespace = $this->namespace;
-        $dir  = $this->dir;
-        spl_autoload_register(function ($class) use ($namespace,$dir) {
+        $dir       = $this->dir;
+        spl_autoload_register(function ($class) use ($namespace, $dir) {
             $class = substr($class, strlen($namespace . "\\"));
             $file  = __DIR__ . "/" . $dir . "/" . str_replace('\\', '/', $class) . '.php';
-            if (file_exists($file)) require $file;
+
+            if (file_exists($file)) {
+                /** @noinspection PhpIncludeInspection */
+                require $file;
+            }
+
         });
     }
 }
