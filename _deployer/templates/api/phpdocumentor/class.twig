@@ -144,7 +144,7 @@
         <div class="method">
             <div class="method-heading">
                 <span class="method-visiblity">{{ method.visibility }}</span>
-                <b>{{ method.name }}</b>
+                <b>{{ method.name }}()</b>
                 {% if method.definedBy != className %}
                     {#get method link to parent class#}
                     <span> defined by {{ method.definedBy|classlink }}</span>

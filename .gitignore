@@ -6,3 +6,5 @@ _deployer/templates/api/generated
 _deployer/templates/docs/generated
 _deployer/composer.lock
 _deployer/api_list.json
+
+_deployer/api_menu.json
