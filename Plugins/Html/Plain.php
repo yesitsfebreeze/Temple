@@ -1,6 +1,6 @@
 <?php
 
-namespace Caramel\Plugins\Core;
+namespace Caramel\Plugins\Html;
 
 
 use Caramel\Models\Node;
@@ -19,6 +19,10 @@ use Caramel\Models\Plugin;
 class Plain extends Plugin
 {
 
+    /** @var string $symbol */
+    private $symbol = ":";
+
+
     /**
      * @return int;
      */
@@ -35,7 +39,7 @@ class Plain extends Plugin
     public function check(Node $node)
     {
         $tag = $node->get("tag.tag");
-        return ($tag[0] == ">");
+        return ($tag[0] == $this->symbol);
     }
 
 
@@ -49,7 +53,7 @@ class Plain extends Plugin
 
         $trailing = true;
         # if we have a double minus we don't use the trailing space
-        if ($node->get("tag.tag") == ">>") $trailing = false;
+        if ($node->get("tag.tag") == $this->symbol . $this->symbol) $trailing = false;
 
         # create the plain node
         $node = $this->createPlain($node, $trailing);
@@ -80,7 +84,7 @@ class Plain extends Plugin
         /** @var Node $child */
         foreach ($children as $child) {
             $child = $this->createPlain($child, $trailing, true);
-            if ($child->get("tag.tag") == ">" && $child->get("attributes") == "") {
+            if ($child->get("tag.tag") == $this->symbol && $child->get("attributes") == "") {
                 $child->set("content", "</br>");
             }
 

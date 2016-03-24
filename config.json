@@ -12,6 +12,7 @@
     "file_header":           "Caramel template engine.",
     "plugin_containers":     [
         "global",
-        "core"
+        "core",
+        "html"
     ]
 }

@@ -2,4 +2,6 @@
 /node_modules
 /slate
 /vendor
+/_deployer
+/img
 composer.lock

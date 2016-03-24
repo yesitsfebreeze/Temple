@@ -1,6 +1,6 @@
 <?php
 
-namespace Caramel\Plugins\Core;
+namespace Caramel\Plugins\Html;
 
 
 use Caramel\Models\Node;

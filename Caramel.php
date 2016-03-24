@@ -6,6 +6,7 @@ namespace Caramel;
 use Caramel\Models\Vars;
 use Caramel\Services\Cache;
 use Caramel\Services\Config;
+use Caramel\Services\Containers;
 use Caramel\Services\Directories;
 use Caramel\Services\Helpers;
 use Caramel\Services\Lexer;
@@ -63,6 +64,7 @@ class Caramel
         $this->directories = new Directories();
         $this->helpers     = new Helpers();
         $this->cache       = new Cache();
+        $this->containers   = new Containers();
         $this->plugins     = new Plugins();
         $this->lexer       = new Lexer();
         $this->parser      = new Parser();
@@ -99,11 +101,11 @@ class Caramel
 
 
     /**
-     * @return Plugins
+     * @return Containers
      */
-    public function Plugins()
+    public function Containers()
     {
-        return $this->plugins;
+        return $this->containers;
     }
 
 
@@ -116,6 +118,7 @@ class Caramel
         $this->initHelpers();
         $this->initDirectories();
         $this->initCache();
+        $this->initContainer();
         $this->initPlugins();
         $this->initLexer();
         $this->initParser();
@@ -161,6 +164,15 @@ class Caramel
         $this->cache->setTemplate($this->template);
         $this->cache->setDirectories($this->directories);
         $this->cache->setHelpers($this->helpers);
+    }
+
+
+    /**
+     * initiates the Caramel Container
+     */
+    private function initContainer()
+    {
+        $this->containers->setConfig($this->config);
     }
 
 
