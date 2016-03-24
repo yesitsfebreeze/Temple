@@ -5,16 +5,12 @@ namespace Caramel\Services;
 
 use Caramel\Caramel;
 use Caramel\Models\Vars;
-use Symfony\Component\Yaml\Yaml;
 
 abstract class Service
 {
 
     /** @var  Caramel $caramel */
     protected $caramel;
-
-    /** @var  Yaml $yaml */
-    protected $yaml;
 
     /** @var Vars $vars */
     protected $vars;
@@ -52,17 +48,6 @@ abstract class Service
     public function setCaramel(Caramel $Caramel)
     {
         $this->caramel = $Caramel;
-    }
-
-
-    /**
-     * sets $this->yaml
-     *
-     * @param Yaml $Yaml
-     */
-    public function setYaml(Yaml $Yaml)
-    {
-        $this->yaml = $Yaml;
     }
 
     /**
