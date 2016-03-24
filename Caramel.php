@@ -3,7 +3,6 @@
 namespace Caramel;
 
 
-use Caramel\Exceptions\ExceptionHandler;
 use Caramel\Models\Vars;
 use Caramel\Services\Cache;
 use Caramel\Services\Config;
@@ -13,10 +12,6 @@ use Caramel\Services\Lexer;
 use Caramel\Services\Parser;
 use Caramel\Services\Plugins;
 use Caramel\Services\Template;
-use Symfony\Component\Yaml\Yaml;
-
-// composer modules
-require_once "vendor/autoload.php";
 
 // Caramel loader
 require_once "Autoload.php";
@@ -31,31 +26,31 @@ new Autoloader("Core", "Caramel");
 class Caramel
 {
     /** @var Vars $Vars */
-    private $Vars;
+    private $vars;
 
     /** @var Config $Config */
-    private $Config;
+    private $config;
 
     /** @var Directories $Directories */
-    private $Directories;
+    private $directories;
 
     /** @var Helpers $Helpers */
-    private $Helpers;
+    private $helpers;
 
     /** @var Cache $Cache */
-    private $Cache;
+    private $cache;
 
     /** @var Plugins $Plugins */
-    private $Plugins;
+    private $plugins;
 
     /** @var Lexer $Lexer */
-    private $Lexer;
+    private $lexer;
 
     /** @var Parser $Parser */
-    private $Parser;
+    private $parser;
 
     /** @var Template $Template */
-    private $Template;
+    private $template;
 
 
     /**
@@ -63,16 +58,15 @@ class Caramel
      */
     function __construct()
     {
-        $this->Yaml        = new Yaml();
-        $this->Vars        = new Vars();
-        $this->Config      = new Config();
-        $this->Directories = new Directories();
-        $this->Helpers     = new Helpers();
-        $this->Cache       = new Cache();
-        $this->Plugins     = new Plugins();
-        $this->Lexer       = new Lexer();
-        $this->Parser      = new Parser();
-        $this->Template    = new Template();
+        $this->vars        = new Vars();
+        $this->config      = new Config();
+        $this->directories = new Directories();
+        $this->helpers     = new Helpers();
+        $this->cache       = new Cache();
+        $this->plugins     = new Plugins();
+        $this->lexer       = new Lexer();
+        $this->parser      = new Parser();
+        $this->template    = new Template();
         $this->init();
     }
 
@@ -80,27 +74,36 @@ class Caramel
     /**
      * @return Template
      */
-    public function template()
+    public function Template()
     {
-        return $this->Template;
+        return $this->template;
     }
 
 
     /**
      * @return Vars
      */
-    public function vars()
+    public function Vars()
     {
-        return $this->Vars;
+        return $this->vars;
     }
 
 
     /**
      * @return Config
      */
-    public function config()
+    public function Config()
     {
-        return $this->Config;
+        return $this->config;
+    }
+
+
+    /**
+     * @return Plugins
+     */
+    public function Plugins()
+    {
+        return $this->plugins;
     }
 
 
@@ -125,9 +128,8 @@ class Caramel
      */
     private function initConfig()
     {
-        $this->Config->setYaml($this->Yaml);
-        $this->Config->addConfigFile(__DIR__ . "/config.yml");
-        $this->Config->setDefaults(__DIR__);
+        $this->config->addConfigFile(__DIR__ . "/config.json");
+        $this->config->setDefaults(__DIR__);
     }
 
 
@@ -136,8 +138,8 @@ class Caramel
      */
     private function initHelpers()
     {
-        $this->Helpers->setTemplate($this->Template);
-        $this->Helpers->setConfig($this->Config);
+        $this->helpers->setTemplate($this->template);
+        $this->helpers->setConfig($this->config);
     }
 
 
@@ -146,7 +148,7 @@ class Caramel
      */
     private function initDirectories()
     {
-        $this->Directories->setConfig($this->Config);
+        $this->directories->setConfig($this->config);
     }
 
 
@@ -155,10 +157,10 @@ class Caramel
      */
     private function initCache()
     {
-        $this->Cache->setConfig($this->Config);
-        $this->Cache->setTemplate($this->Template);
-        $this->Cache->setDirectories($this->Directories);
-        $this->Cache->setHelpers($this->Helpers);
+        $this->cache->setConfig($this->config);
+        $this->cache->setTemplate($this->template);
+        $this->cache->setDirectories($this->directories);
+        $this->cache->setHelpers($this->helpers);
     }
 
 
@@ -167,8 +169,8 @@ class Caramel
      */
     private function initLexer()
     {
-        $this->Lexer->setConfig($this->Config);
-        $this->Lexer->setHelpers($this->Helpers);
+        $this->lexer->setConfig($this->config);
+        $this->lexer->setHelpers($this->helpers);
     }
 
 
@@ -177,16 +179,16 @@ class Caramel
      */
     private function initPlugins()
     {
-        $this->Plugins->setYaml($this->Yaml);
-        $this->Plugins->setVars($this->Vars);
-        $this->Plugins->setConfig($this->Config);
-        $this->Plugins->setDirectories($this->Directories);
-        $this->Plugins->setHelpers($this->Helpers);
-        $this->Plugins->setCache($this->Cache);
-        $this->Plugins->setLexer($this->Lexer);
-        $this->Plugins->setParser($this->Parser);
-        $this->Plugins->setTemplate($this->Template);
-        $this->Plugins->init();
+        $this->plugins->setVars($this->vars);
+        $this->plugins->setConfig($this->config);
+        $this->plugins->setDirectories($this->directories);
+        $this->plugins->setHelpers($this->helpers);
+        $this->plugins->setCache($this->cache);
+        $this->plugins->setLexer($this->lexer);
+        $this->plugins->setParser($this->parser);
+        $this->plugins->setTemplate($this->template);
+        $pluginDir = $this->config->get("framework_dir") . "../Plugins";
+        $this->plugins->addPluginDir($pluginDir);
     }
 
 
@@ -195,8 +197,8 @@ class Caramel
      */
     private function initParser()
     {
-        $this->Parser->setConfig($this->Config);
-        $this->Parser->setCache($this->Cache);
+        $this->parser->setConfig($this->config);
+        $this->parser->setCache($this->cache);
     }
 
 
@@ -205,11 +207,12 @@ class Caramel
      */
     private function initTemplate()
     {
-        $this->Template->setConfig($this->Config);
-        $this->Template->setCache($this->Cache);
-        $this->Template->setDirectories($this->Directories);
-        $this->Template->setLexer($this->Lexer);
-        $this->Template->setParser($this->Parser);
-        $this->Template->setCaramel($this);
+        $this->template->setConfig($this->config);
+        $this->template->setCache($this->cache);
+        $this->template->setDirectories($this->directories);
+        $this->template->setLexer($this->lexer);
+        $this->template->setParser($this->parser);
+        $this->template->setCaramel($this);
+        $this->template->setPlugins($this->plugins);
     }
 }
