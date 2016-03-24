@@ -4,7 +4,7 @@ namespace Caramel\Plugins\Core;
 
 
 use Caramel\Models\Node;
-use phpDocumentor\Plugin\Plugin;
+use Caramel\Plugin\Plugin;
 
 
 /**
@@ -18,11 +18,11 @@ use phpDocumentor\Plugin\Plugin;
  *          <?php
  *          die("works");
  *          ?>
- * @autor   : Stefan Hövelmanns - hvlmnns.de
+ * @author   : Stefan Hövelmanns - hvlmnns.de
  * @License : MIT
  * @package Caramel
  */
-class PluginPhp extends Plugin
+class Php extends Plugin
 {
 
     /**

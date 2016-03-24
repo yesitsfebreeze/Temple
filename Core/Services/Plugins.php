@@ -4,7 +4,7 @@ namespace Caramel\Services;
 
 
 use Caramel\Exceptions\CaramelException;
-use Caramel\Plugins\Plugin;
+use Caramel\Plugin\Plugin;
 
 /**
  * handles the plugin loading
@@ -18,6 +18,9 @@ class Plugins extends Service
     /** @var  array $list */
     private $list = array();
 
+    /** @var array $containers */
+    private $containers;
+
 
     /**
      * initiates the plugins
@@ -25,8 +28,7 @@ class Plugins extends Service
     public function init()
     {
         # add the default plugin dir
-        $pluginDir = $this->config->get("framework_dir") . "../Plugins";
-        $this->add($pluginDir);
+        $this->containers = $this->config->get("plugin_containers");
 
         $registeredPlugins = $this->getPlugins();
         $this->config->set("plugins.registered", $registeredPlugins);
@@ -39,7 +41,7 @@ class Plugins extends Service
      * @param $dir
      * @return string
      */
-    public function add($dir)
+    public function addPluginDir($dir)
     {
         return $this->directories->add($dir, "plugins.dirs");
     }
@@ -51,7 +53,7 @@ class Plugins extends Service
      * @param integer $pos
      * @return string
      */
-    public function remove($pos)
+    public function removePluginDir($pos)
     {
         return $this->directories->remove($pos, "plugins.dirs");
     }
@@ -62,7 +64,7 @@ class Plugins extends Service
      *
      * @return array
      */
-    public function dirs()
+    public function getPluginDirs()
     {
         return $this->directories->get("plugins.dirs");
     }
@@ -71,12 +73,73 @@ class Plugins extends Service
     /**
      * adds a new container to the plugins configuration
      *
-     * @param $name
-     * @param $plugins
+     * @param array|string $containers
+     * @throws CaramelException
      */
-    public function container($name, $plugins)
+    public function addContainers($containers)
     {
-        # TODO: implement this
+        $this->containers = $this->config->get("plugin_containers");
+        if (is_string($containers)) {
+            $this->containers[] = $containers;
+        } elseif (is_array($containers)) {
+            foreach ($containers as $container) {
+                $this->containers[] = $container;
+            }
+        } else {
+            throw new CaramelException("Only arrays and strings are accepted");
+        }
+
+        $this->config->set("plugin_containers", $this->containers);
+    }
+
+
+    /**
+     * removes a new container to the plugins configuration
+     *
+     * @param array|string $containers
+     * @throws CaramelException
+     */
+    public function removeContainers($containers)
+    {
+        $this->containers = $this->config->get("plugin_containers");
+        if (is_string($containers)) {
+            $temp = array_flip($this->containers);
+            $temp = $temp[ $containers ];
+            unset($this->containers[ $temp ]);
+        } elseif (is_array($containers)) {
+            foreach ($containers as $container) {
+                $temp = array_flip($this->containers);
+                $temp = $temp[ $container ];
+                unset($this->containers[ $temp ]);
+            }
+        } else {
+            throw new CaramelException("Only arrays and strings are accepted");
+        }
+        $this->config->set("plugin_containers", $this->containers);
+    }
+
+
+    /**
+     * empties the plugin containers
+     *
+     * @return bool
+     */
+    public function flushContainers()
+    {
+        $this->containers = array();
+
+        return $this->config->set("plugin_containers", $this->containers);
+    }
+
+
+    /**
+     * returns the plugin containers
+     *
+     * @return array
+     */
+    public function getContainers()
+    {
+        return $this->config->get("plugin_containers");
     }
 
 
@@ -85,7 +148,7 @@ class Plugins extends Service
      */
     private function getPlugins()
     {
-        $dirs = $this->dirs();
+        $dirs = $this->getPluginDirs();
         # iterate all plugin directories
         foreach ($dirs as $dir) {
             # search the directory recursively to get all plugins
@@ -95,6 +158,8 @@ class Plugins extends Service
                 $this->loadPlugins($pluginFile);
             }
         }
+
+        $this->installPlugins();
 
         return $this->list;
     }
@@ -112,45 +177,43 @@ class Plugins extends Service
             $pluginFile = $pluginFile . '';
             $this->loadPlugin($pluginFile);
         }
+
     }
 
 
     /**
-     * loads all plugins
+     * loads all plugins per require_once
      *
      * @param string $file
      * @throws CaramelException
      */
     private function loadPlugin($file)
     {
-        require_once $file;
-        $class = $this->getPluginName($file);
-        if (class_exists($class)) {
-            $plugin = $this->createPlugin($class);
-            $this->addPlugin($plugin->position(), $plugin);
-        } else {
-            $class = str_replace("\\Caramel\\Plugins\\", "", $class);
-            throw new CaramelException("You need to define the Caramel namespaced class '$class'  !", $file);
+        if (file_exists($file)) {
+            /** @noinspection PhpIncludeInspection */
+            require_once $file;
         }
+
     }
 
 
     /**
-     * extracts the plugin name
-     *
-     * @param string $file
-     * @return string
+     * install the plugins and register them in caramel
      */
-    private function getPluginName($file)
+    private function installPlugins()
     {
-        # get the plugin name without the extension and convert first letter to uppercase
-        $class = explode("/", strrev(str_replace(".php", "", $file)));
-        $class = strrev($class [0]);
-        $class = strtoupper($class[0]) . substr($class, 1);
-
-        $class = "Caramel\\Plugins\\Plugin" . $class;
-
-        return $class;
+        if (!array_key_exists("global", $this->containers)) {
+            $this->containers[] = "global";
+        }
+        $plugins = $this->getNamespacedPlugins();
+        foreach ($this->containers as $container) {
+            foreach ($plugins as $plugin) {
+                if (strtolower($plugin["container"]) == strtolower($container)) {
+                    $plugin = $this->installPlugin($plugin["class"]);
+                    $this->addPlugin($plugin->position(), $plugin);
+                }
+            }
+        }
     }
 
 
@@ -160,14 +223,13 @@ class Plugins extends Service
      * @param string $class
      * @return Plugin
      */
-    private function createPlugin($class)
+    private function installPlugin($class)
     {
         /** @var Plugin $plugin */
         # create a new instance of the plugin
         $plugin = new $class();
 
 
-        $plugin->setYaml($this->yaml);
         $plugin->setVars($this->vars);
         $plugin->setConfig($this->config);
         $plugin->setDirectories($this->directories);
@@ -200,4 +262,30 @@ class Plugins extends Service
     }
 
 
+    /**
+     * returns all Plugins within the Caramel\Plugin namespace
+     */
+    private function getNamespacedPlugins()
+    {
+        $namespace = "Caramel\\Plugins";
+        $plugins   = array();
+        $classes   = get_declared_classes();
+        foreach ($classes as $class) {
+            if (strpos($class, $namespace) !== false) {
+                $plugin              = array();
+                $plugin["class"]     = $class;
+                $temp                = explode("\\", trim(str_replace($namespace, "", $class), "\\"));
+                $plugin["container"] = $temp[0];
+                $plugin["name"]      = $temp[1];
+                if ($plugin["name"] == "") {
+                    $plugin["name"]      = $plugin["container"];
+                    $plugin["container"] = "global";
+                }
+
+                $plugins[] = $plugin;
+            }
+        }
+
+        return $plugins;
+    }
 }

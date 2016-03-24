@@ -3,8 +3,9 @@
 namespace Caramel\Plugins\Core;
 
 
+use Caramel\Exceptions\CaramelException;
 use Caramel\Models\Node;
-use Caramel\Plugins\Plugin;
+use Caramel\Plugin\Plugin;
 
 
 /**
@@ -18,11 +19,11 @@ use Caramel\Plugins\Plugin;
  *
  * @purpose : explains how to use plugins
  * @usage   : none
- * @autor   : Stefan Hövelmanns
+ * @author   : Stefan Hövelmanns
  * @License : MIT
  * @package Caramel
  */
-class PluginVariable extends Plugin
+class Variables extends Plugin
 {
 
     /** @var  string $sign */
@@ -41,7 +42,7 @@ class PluginVariable extends Plugin
     /**
      * @param Node $node
      * @return bool
-     * @throws Exceptions\CaramelException
+     * @throws CaramelException
      */
     public function check(Node $node)
     {

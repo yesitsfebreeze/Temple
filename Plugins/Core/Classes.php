@@ -4,19 +4,19 @@ namespace Caramel\Plugins\Core;
 
 
 use Caramel\Models\Node;
-use Caramel\Plugins\Plugin;
+use Caramel\Plugin\Plugin;
 
 
 /**
  * Class PluginClasses
  *
- * @purpose : converts emmet inspired class definition to actual classes
- * @usage   : div.myclass.myotherclass results in <div class="myclass myotherclass"></div>
- * @autor   : Stefan Hövelmanns - hvlmnns.de
- * @License : MIT
- * @package Caramel
+ * @purpose  : converts emmet inspired class definition to actual classes
+ * @usage    : div.myclass.myotherclass results in <div class="myclass myotherclass"></div>
+ * @author   : Stefan Hövelmanns - hvlmnns.de
+ * @License  : MIT
+ * @package  Caramel
  */
-class PluginClasses extends Plugin
+class Classes extends Plugin
 {
 
 
@@ -51,7 +51,7 @@ class PluginClasses extends Plugin
 
     /**
      * @param string $tag
-     * @param array $classes
+     * @param array  $classes
      * @return string
      */
     private function getClasses($tag, $classes)
@@ -73,9 +73,9 @@ class PluginClasses extends Plugin
 
 
     /**
-     * @param Node $node
+     * @param Node   $node
      * @param string $tag
-     * @param array $classes
+     * @param array  $classes
      * @return mixed
      */
     private function updateTag(Node $node, $tag, $classes)
@@ -97,7 +97,7 @@ class PluginClasses extends Plugin
 
 
     /**
-     * @param Node $node
+     * @param Node  $node
      * @param array $classes
      * @return Node
      * @throws \Exception

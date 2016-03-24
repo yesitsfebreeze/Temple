@@ -6,7 +6,7 @@ namespace Caramel\Plugins\Core;
 use Caramel\Exceptions\CaramelException;
 use Caramel\Models\Dom;
 use Caramel\Models\Node;
-use phpDocumentor\Plugin\Plugin;
+use Caramel\Plugin\Plugin;
 
 
 /**
@@ -18,7 +18,7 @@ use phpDocumentor\Plugin\Plugin;
  * @author      Stefan Hövelmanns
  * @License     MIT
  */
-class PluginExtend extends Plugin
+class Extend extends Plugin
 {
 
     /**

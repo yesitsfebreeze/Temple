@@ -3,7 +3,7 @@
 namespace Caramel\Plugins\Core;
 
 
-use Caramel\Plugins\Plugin;
+use Caramel\Plugin\Plugin;
 
 
 /**
@@ -11,11 +11,11 @@ use Caramel\Plugins\Plugin;
  *
  * @purpose : replaces all nested php tags
  * @usage   : automatic
- * @autor   : Stefan Hövelmanns - hvlmnns.de
+ * @author   : Stefan Hövelmanns - hvlmnns.de
  * @License : MIT
  * @package Caramel
  */
-class PluginCleanup extends Plugin
+class Cleanup extends Plugin
 {
 
 

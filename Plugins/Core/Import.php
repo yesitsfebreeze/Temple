@@ -5,7 +5,7 @@ namespace Caramel\Plugins\Core;
 
 use Caramel\Exceptions\CaramelException;
 use Caramel\Models\Node;
-use Caramel\Plugins\Plugin;
+use Caramel\Plugin\Plugin;
 
 
 /**
@@ -17,7 +17,7 @@ use Caramel\Plugins\Plugin;
  * @author      Stefan Hövelmanns
  * @License     MIT
  */
-class PluginImport extends Plugin
+class Import extends Plugin
 {
 
     /**

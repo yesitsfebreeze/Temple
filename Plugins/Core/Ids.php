@@ -4,7 +4,7 @@ namespace Caramel\Plugins\Core;
 
 
 use Caramel\Models\Node;
-use phpDocumentor\Plugin\Plugin;
+use Caramel\Plugin\Plugin;
 
 
 /**
@@ -12,11 +12,11 @@ use phpDocumentor\Plugin\Plugin;
  *
  * @purpose : converts emmet inspired id definition to actual ids
  * @usage   : div#myid#myotherid id="default"
- * @autor   : Stefan Hövelmanns - hvlmnns.de
+ * @author   : Stefan Hövelmanns - hvlmnns.de
  * @License : MIT
  * @package Caramel
  */
-class PluginIds extends Plugin
+class Ids extends Plugin
 {
 
     /**

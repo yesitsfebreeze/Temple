@@ -4,7 +4,7 @@ namespace Caramel\Plugins\Core;
 
 
 use Caramel\Models\Node;
-use Caramel\Plugins\Plugin;
+use Caramel\Plugin\Plugin;
 
 
 /**
@@ -16,7 +16,7 @@ use Caramel\Plugins\Plugin;
  * @author      Stefan Hövelmanns
  * @License     MIT
  */
-class PluginPlain extends Plugin
+class Plain extends Plugin
 {
 
     /**

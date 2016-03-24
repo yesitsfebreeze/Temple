@@ -4,18 +4,18 @@ namespace Caramel\Plugins\Core;
 
 
 use Caramel\Models\Node;
-use Caramel\Plugins\Plugin;
+use Caramel\Plugin\Plugin;
 
 /**
  * Class PluginComment
  *
  * @purpose : converts line to comment with all of its children
  * @usage   : # at linestart
- * @autor   : Stefan Hövelmanns - hvlmnns.de
+ * @author   : Stefan Hövelmanns - hvlmnns.de
  * @License : MIT
  * @package Caramel
  */
-class PluginComment extends Plugin
+class Comment extends Plugin
 {
 
     /**
