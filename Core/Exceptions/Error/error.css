@@ -1,15 +1,18 @@
-@import url(https://fonts.googleapis.com/css?family=Cabin:400,700);
-
-h1, h2, h3, h4, h5, h6 {
-    font-family: 'Cabin', serif;
-    font-weight: 400;
-}
 
 body {
-    font-family: 'Cabin', serif;
-    color:       #737373;
-    background:  #262833;
+    font-family: 'Helvetica Neue', Helvetica, sans-serif;
+    color:       #898A8E;
+    background:  #f1f1f1;
     margin:      0;
+    font-weight: 200;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-weight: 200;
+}
+
+b {
+    font-weight: 400;
 }
 
 main {
@@ -17,10 +20,9 @@ main {
 }
 
 h1 {
-    color:       #E8A746;
+    color:       #5CB9FC;
     padding-top: 120px;
 }
-
 
 footer small {
     font-size: 0.8em;
@@ -40,7 +42,7 @@ footer small {
     cursor:   help;
 }
 
-.highlight {
-    color:       #E8A746;
-    font-weight: 700;
+b {
+    color:       #5CB9FC;
+    font-weight: 300;
 }

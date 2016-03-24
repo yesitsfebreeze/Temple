@@ -100,13 +100,13 @@ class CaramelException extends Exception
     {
 
         $file = $this->splitFile($file, $root);
-        echo $file["path"] . "<span class='highlight'>" . $file["name"] . "</span>";
+        echo $file["path"] . "<b>" . $file["name"] . "</b>";
 
         if ($line) {
-            echo " in line " . "<span class='highlight'>" . $line . "</span>";
+            echo " in line " . "<b>" . $line . "</b>";
         }
         if ($function) {
-            echo " in function " . "<span class='highlight'>" . $function . "</span>";
+            echo " in function " . "<b>" . $function . "</b>";
         }
     }
 
