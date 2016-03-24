@@ -3,7 +3,7 @@
 namespace Caramel\Plugins\Core;
 
 
-use Caramel\Plugin\Plugin;
+use Caramel\Models\Plugin;
 
 
 /**

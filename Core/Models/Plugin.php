@@ -1,6 +1,6 @@
 <?php
 
-namespace Caramel\Plugin;
+namespace Caramel\Models;
 
 
 use Caramel\Models\Dom;

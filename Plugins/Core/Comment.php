@@ -4,7 +4,7 @@ namespace Caramel\Plugins\Core;
 
 
 use Caramel\Models\Node;
-use Caramel\Plugin\Plugin;
+use Caramel\Models\Plugin;
 
 /**
  * Class PluginComment

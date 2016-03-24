@@ -4,7 +4,7 @@ namespace Caramel\Services;
 
 
 use Caramel\Exceptions\CaramelException;
-use Caramel\Plugin\Plugin;
+use Caramel\Models\Plugin;
 
 /**
  * handles the plugin loading
