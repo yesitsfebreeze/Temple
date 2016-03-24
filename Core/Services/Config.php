@@ -6,7 +6,6 @@ namespace Caramel\Services;
 use Caramel\Exceptions\CaramelException;
 use Caramel\Exceptions\ExceptionHandler;
 use Caramel\Models\Storage;
-use Symfony\Component\Yaml\Yaml;
 
 /**
  * Class CaramelConfig
@@ -15,9 +14,6 @@ use Symfony\Component\Yaml\Yaml;
  */
 class Config extends Storage
 {
-
-    /** @var  Yaml $yaml */
-    private $yaml;
 
 
     /**
@@ -30,7 +26,7 @@ class Config extends Storage
     {
         if (file_exists($file)) {
             $content = file_get_contents($file);
-            $config  = $this->yaml->parse($content);
+            $config  = json_decode($content, true);
             if (sizeof($config) > 0) {
                 $this->merge($config);
             }
@@ -64,17 +60,6 @@ class Config extends Storage
             $this->set("exception_handler", new ExceptionHandler());
         }
 
-    }
-
-
-    /**
-     * sets $this->yaml
-     *
-     * @param Yaml $Yaml
-     */
-    public function setYaml(Yaml $Yaml)
-    {
-        $this->yaml = $Yaml;
     }
 
 }
