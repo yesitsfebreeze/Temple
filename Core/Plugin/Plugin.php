@@ -1,6 +1,6 @@
 <?php
 
-namespace Caramel\Plugins;
+namespace Caramel\Plugin;
 
 
 use Caramel\Models\Dom;
@@ -27,7 +27,7 @@ abstract class Plugin extends Service
      */
     public function getName()
     {
-        return str_replace('Caramel\Plugin', "", get_class($this));
+        return strrev(explode("\\", strrev(get_class($this))));
     }
 
 
@@ -65,6 +65,8 @@ abstract class Plugin extends Service
      */
     public function check(Node $node)
     {
+        if ($node) ;
+
         return false;
     }
 
