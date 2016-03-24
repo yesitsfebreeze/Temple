@@ -99,7 +99,7 @@ class Parser extends Service
 
             if ($node->has("content")) {
                 $content = $node->get("content");
-                if (gettype($content) == "string") {
+                if (is_string($content)) {
                     $output .= $content;
                 }
             }
@@ -207,7 +207,7 @@ class Parser extends Service
      */
     private function executePlugins($element, $type)
     {
-        $plugins = $this->config->get("plugins.registered");
+        $plugins = $this->plugins->getPlugins();
         foreach ($plugins as $key => $position) {
             /** @var Plugin $plugin */
             foreach ($position as $plugin) {
@@ -251,7 +251,7 @@ class Parser extends Service
         $error = false;
         if ($variable == '$dom' && get_class($element) != "Caramel\\Models\\Dom") $error = true;
         if ($variable == '$node' && get_class($element) != "Caramel\\Models\\Node") $error = true;
-        if ($variable == '$output' && gettype($element) != "string") $error = true;
+        if ($variable == '$output' && !is_string($element)) $error = true;
 
         if ($error) {
             $pluginName = str_replace("Caramel\\Plugins", "", get_class($plugin));

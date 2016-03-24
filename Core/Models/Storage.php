@@ -61,7 +61,7 @@ class Storage
      */
     public function merge($array)
     {
-        if (gettype($array) == "array") {
+        if (is_array($array)) {
             foreach ($array as $key => $val) {
                 # this overrides all set keys in the config
                 # with the ones from the array
@@ -89,8 +89,8 @@ class Storage
         } else {
             $temp = array();
         }
-        if (gettype($temp) == "array") {
-            if (gettype($value) == "array") {
+        if (is_array($temp)) {
+            if (is_array($value)) {
                 $value = array_merge($temp, $value);
             } else {
                 $value = array_merge($temp, array($value));
@@ -115,7 +115,7 @@ class Storage
         try {
             $value = $this->getter($path);
 
-            if (gettype($value) == "array") {
+            if (is_array($value)) {
                 if (sizeof($value) == 0) {
                     return false;
                 }
@@ -186,7 +186,7 @@ class Storage
      */
     private function findHelper(&$found, &$item, $attrs, $value = NULL)
     {
-        if (gettype($attrs) == "array") {
+        if (is_array($attrs)) {
             foreach ($attrs as $attr => $value) {
                 if ($item->has($attr)) {
                     if ($item->get($attr) == $value) {
@@ -249,7 +249,7 @@ class Storage
         $name    = false;
         # recursively adds the value to the array
         foreach ($paths as $position => $name) {
-            if (!isset($storage[ $name ]) || "array" != gettype($storage[ $name ])) {
+            if (!isset($storage[ $name ]) || !is_array($storage[ $name ])) {
                 # creates array if the key doesn't exist
                 $storage[ $name ] = array();
             }

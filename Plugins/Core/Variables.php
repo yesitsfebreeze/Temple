@@ -109,7 +109,7 @@ class Variables extends Plugin
     private function parseValue($value)
     {
 
-        if (gettype($value) == "string") {
+        if (is_string($value)) {
             $value = trim($value);
         }
 
@@ -181,7 +181,7 @@ class Variables extends Plugin
             $matchPattern,
             function ($hits) {
                 $var = $this->vars->get($hits[1]);
-                if (gettype($var) == "array") {
+                if (is_array($var)) {
                     $array = "[";
                     foreach ($var as $key => $value) {
                         $array .= "'" . $key . "' => '" . $value . "',";
@@ -191,7 +191,7 @@ class Variables extends Plugin
 
                     return $array;
                 }
-                if (gettype($var) == "string") {
+                if (is_string($var)) {
 
                     if ($var == "!false" || $var == "true" || $var == "!!") {
                         return "true";

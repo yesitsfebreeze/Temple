@@ -163,7 +163,7 @@ class Lexer extends Service
             $indent = substr_count($whitespace, $this->dom->get("template.indent.char"));
             $indent = $indent / $this->dom->get("template.indent.amount");
             # if we have a non decimal number return how many times we indented
-            if ("integer" == gettype($indent)) return $indent;
+            if (is_int($indent)) return $indent;
 
             # else throw an error since the amount of characters doesn't match
             throw new CaramelException("Indent isn't matching!", $this->dom->get("template.file"), $this->dom->get("template.line"));

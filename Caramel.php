@@ -211,6 +211,7 @@ class Caramel
     {
         $this->parser->setConfig($this->config);
         $this->parser->setCache($this->cache);
+        $this->parser->setPlugins($this->plugins);
     }
 
 

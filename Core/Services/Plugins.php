@@ -3,7 +3,6 @@
 namespace Caramel\Services;
 
 
-use Caramel\Exceptions\CaramelException;
 use Caramel\Models\Plugin;
 
 /**
@@ -15,8 +14,8 @@ use Caramel\Models\Plugin;
 class Plugins extends Service
 {
 
-    /** @var  array $list */
-    private $list = array();
+    /** @var array $plugins */
+    private $list;
 
     /** @var array $containers */
     private $containers;
@@ -29,9 +28,7 @@ class Plugins extends Service
     {
         # add the default plugin dir
         $this->containers = $this->config->get("plugin_containers");
-
-        $registeredPlugins = $this->getPlugins();
-        $this->config->set("plugins.registered", $registeredPlugins);
+        $this->list = $this->loadPlugins();
     }
 
 
@@ -71,9 +68,20 @@ class Plugins extends Service
 
 
     /**
+     * returns all plugin dirs
+     *
+     * @return array
+     */
+    public function getPlugins()
+    {
+        return $this->list;
+    }
+
+
+    /**
      * gets all registered plugins
      */
-    private function getPlugins()
+    private function loadPlugins()
     {
         $dirs = $this->getPluginDirs();
         # iterate all plugin directories
@@ -82,7 +90,7 @@ class Plugins extends Service
             $dir   = new \RecursiveDirectoryIterator($dir);
             $files = new \RecursiveIteratorIterator($dir, \RecursiveIteratorIterator::SELF_FIRST);
             foreach ($files as $pluginFile) {
-                $this->loadPlugins($pluginFile);
+                $this->requirePlugin($pluginFile);
             }
         }
 
@@ -93,32 +101,21 @@ class Plugins extends Service
 
 
     /**
+     * loads a plugin via requires_one
+     *
      * @param $pluginFile
      * @return mixed
      */
-    private function loadPlugins($pluginFile)
+    private function requirePlugin($pluginFile)
     {
         # only process the file if it has a php extension
         if (strrev(substr(strrev($pluginFile), 0, 4)) == ".php") {
             # add a string to the file name to ensure we have a string
             $pluginFile = $pluginFile . '';
-            $this->loadPlugin($pluginFile);
-        }
-
-    }
-
-
-    /**
-     * loads all plugins per require_once
-     *
-     * @param string $file
-     * @throws CaramelException
-     */
-    private function loadPlugin($file)
-    {
-        if (file_exists($file)) {
-            /** @noinspection PhpIncludeInspection */
-            require_once $file;
+            if (file_exists($pluginFile)) {
+                /** @noinspection PhpIncludeInspection */
+                require_once $pluginFile;
+            }
         }
 
     }

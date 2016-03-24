@@ -45,6 +45,7 @@ class Config extends Storage
     {
         $this->set("templates.dirs", array());
         $this->set("plugins.dirs", array());
+        $this->set("caramel_dir", $root . "/");
         $this->set("framework_dir", $root . "/Core/");
         $this->set("cache_dir", $this->get("cache_dir"));
 

@@ -37,7 +37,7 @@ class Directories extends Service
 
         $dirs = $this->config->get($name);
 
-        if (gettype($dirs) == "array") {
+        if (is_array($dirs)) {
             $dirs = $this->forArray($name, $dirs, $dir, $create);
 
         } else {
