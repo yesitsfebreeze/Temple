@@ -1,6 +1,6 @@
 <?php
 
-namespace Caramel;
+namespace Caramel\Services;
 
 
 /**
@@ -14,26 +14,13 @@ class Autoloader
 
     /**
      * Autoloader constructor.
-     *
-     * @param string $dir
-     * @param string $namespace
+     * s
      */
-    public function __construct($dir, $namespace)
+    public function __construct()
     {
-        $this->dir       = $dir;
-        $this->namespace = $namespace;
-        $this->load();
-    }
+        $dir       = "../";
+        $namespace = "Caramel";
 
-
-    /**
-     * loads the classes
-     */
-    public function load()
-    {
-
-        $namespace = $this->namespace;
-        $dir       = $this->dir;
         spl_autoload_register(function ($class) use ($namespace, $dir) {
             $class = substr($class, strlen($namespace . "\\"));
             $file  = __DIR__ . "/" . $dir . "/" . str_replace('\\', '/', $class) . '.php';
