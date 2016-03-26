@@ -71,20 +71,7 @@ class Caramel
         $this->lexer       = new Lexer();
         $this->parser      = new Parser();
         $this->template    = new Template();
-
-        new Initializer(
-            $this,
-            $this->vars,
-            $this->config,
-            $this->directories,
-            $this->helpers,
-            $this->cache,
-            $this->containers,
-            $this->plugins,
-            $this->lexer,
-            $this->parser,
-            $this->template
-        );
+        $this->init();
     }
 
 
@@ -121,6 +108,24 @@ class Caramel
     public function Containers()
     {
         return $this->containers;
+    }
+
+
+    /**
+     * initiates^ the caramel services
+     */
+    private function init()
+    {
+        $initializer = new Initializer();
+        $initializer->initConfig($this->config, __DIR__);
+        $initializer->initHelpers($this->helpers, $this->template, $this->config);
+        $initializer->initDirectories($this->directories, $this->config);
+        $initializer->initCache($this->cache, $this->config, $this->template, $this->directories, $this->helpers);
+        $initializer->initContainers($this->containers, $this->config);
+        $initializer->initPlugins($this->plugins, $this->vars, $this->config, $this->directories, $this->helpers, $this->cache, $this->lexer, $this->parser, $this->template);
+        $initializer->initLexer($this->lexer, $this->config, $this->helpers);
+        $initializer->initParser($this->parser, $this->config, $this->cache, $this->plugins);
+        $initializer->initTemplate($this->template, $this->config, $this->cache, $this->directories, $this->lexer, $this->parser, $this, $this->plugins);
     }
 
 }
