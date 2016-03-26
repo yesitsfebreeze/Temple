@@ -5,6 +5,13 @@ namespace Caramel\Services;
 
 use Caramel\Exceptions\CaramelException;
 
+/**
+ * Class Containers
+ *
+ * TODO: multidiminesional positions
+ *
+ * @package Caramel\Services
+ */
 class Containers extends Service
 {
 

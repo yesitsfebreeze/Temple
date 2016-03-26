@@ -72,7 +72,19 @@ class Caramel
         $this->parser      = new Parser();
         $this->template    = new Template();
 
-        new Initializer($this, $this->vars, $this->config, $this->directories, $this->helpers, $this->cache, $this->containers, $this->plugins, $this->lexer, $this->parser, $this->template);
+        new Initializer(
+            $this,
+            $this->vars,
+            $this->config,
+            $this->directories,
+            $this->helpers,
+            $this->cache,
+            $this->containers,
+            $this->plugins,
+            $this->lexer,
+            $this->parser,
+            $this->template
+        );
     }
 
 
