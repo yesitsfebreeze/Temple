@@ -11,6 +11,37 @@ class Debug extends Plugin
     /** @var string $type */
     private $type = "vars";
 
+    /** @var string $search */
+    private $search = false;
+
+    /**
+     * @var string $style
+     */
+    private $style = "<style>
+            body {
+                font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif;
+                padding: 100px 50px;
+                font-weight: 200;
+                color: #3C4754;
+                background-color: #f1f1f1;
+            }
+            body > .item {padding: 15px 0;}
+            body > .item > span {font-size:18px;}
+            .item span {font-size:14px;}
+            .item > .item {padding-left: 30px}
+            .delimiter {opacity:0.5}
+            .type {opacity:0.3}
+            .name {color:#59A9E2}
+            .equals {opacity:0.6}
+            h1 {font-weight:100}
+            h1 {font-size:30px}
+            h1 {padding:30px 0}
+            h2 {font-weight:200}
+            h2 {font-size:25px}
+            h2 {padding:20px 0}
+            .name {color:#59A9E2}
+    </style>";
+
 
     /*** @inheritdoc */
     public function position()
@@ -34,8 +65,11 @@ class Debug extends Plugin
         $node->set("display", false);
         $this->config->set("debug_enabled", true);
         $type = explode(" ", $node->get("attributes"))[0];
-        if ($type != "") {
+        if ($type == "config" || $type == "vars" || $type == "infos") {
             $this->type = $type;
+        } elseif ($type[0] == $this->config->get("variable_symbol")) {
+            $this->type   = "vars";
+            $this->search = substr($type, 1);
         }
 
         return $node;
@@ -52,37 +86,25 @@ class Debug extends Plugin
             $window .= "<title>";
             $window .= "caramel.debug";
             $window .= "</title>";
-            $window .= "<style>";
-            $window .= "
-            body {font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif}
-            body {padding: 100px 50px;}
-            body {font-weight: 200}
-            body {color: #3C4754}
-            body {background-color: #f1f1f1}
-            body > .item {padding: 15px 0px;}
-            .item span {font-size:14px;}
-            body > .item > span {font-size:18px;}
-            .item > .item {padding-left: 30px}
-            .delimiter {opacity:0.5}
-            .type {opacity:0.3}
-            .name {color:#59A9E2}
-            .equals {opacity:0.6}
-            h1 {font-weight:100}
-            h1 {font-size:30px}
-            h1 {padding:30px 0}
-            h2 {font-weight:200}
-            h2 {font-size:25px}
-            h2 {padding:20px 0}
-            .name {color:#59A9E2}
-        ";
-            $window .= "</style>";
+            $window .= $this->style;
             $window .= "</head>";
             $window .= "<body>";
             if ($this->type == "vars") {
+
                 $vars = $this->vars->get();
                 if (!empty($vars)) {
-                    foreach ($vars as $name => $var) {
-                        $window .= $this->parseVar($name, $var, $this->config->get("variable_symbol"));
+                    if ($this->search) {
+                        // TODO: FIND
+                        $vars = $this->vars->get($this->search);
+                    } else {
+                        $vars = $this->vars->get();
+                    }
+                    if (is_array($vars)) {
+                        foreach ($vars as $name => $var) {
+                            $window .= $this->parseVar($name, $var, $this->config->get("variable_symbol"));
+                        }
+                    } else {
+                        $window .= $this->parseVar($this->search, $vars, $this->config->get("variable_symbol"));
                     }
                 } else {
                     $window .= "<h1>";
@@ -167,7 +189,7 @@ class Debug extends Plugin
      */
     private function markup($type, $name, $value, $symbol = "", \Closure $callback = NULL)
     {
-        $markup = "<div class='item $type' " . $tabindex . ">";
+        $markup = "<div class='item $type'>";
         $markup .= "<span class='type'>" . $type . "</span>";
         $markup .= "<span class='delimiter'>:</span>";
         $markup .= "<span class='name'>" . $symbol . $name . "</span>";
@@ -196,7 +218,6 @@ class Debug extends Plugin
         $randomString = substr(str_shuffle("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, 5);
 
         ob_start();
-        # php end!!!
         ?>
         <a id="cdbl<?php echo $randomString; ?>">
             <script type="text/javascript">
@@ -211,7 +232,6 @@ class Debug extends Plugin
             </script>
         </a>
         <?php
-        # php start!!!
         $window = ob_get_contents();
         ob_end_clean();
 
