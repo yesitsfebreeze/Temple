@@ -8,7 +8,7 @@ use Caramel\Exceptions\CaramelException;
 /**
  * Class Containers
  *
- * TODO: multidiminesional positions
+ * TODO: multidimensional array for the containers hence the order
  *
  * @package Caramel\Services
  */

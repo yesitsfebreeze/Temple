@@ -8,13 +8,13 @@ use Caramel\Models\Plugin;
 
 
 /**
- * Class PluginClasses
+ * Classes Plugin
  *
- * @purpose  : converts emmet inspired class definition to actual classes
- * @usage    : div.myclass.myotherclass results in <div class="myclass myotherclass"></div>
- * @author   : Stefan Hövelmanns - hvlmnns.de
- * @License  : MIT
- * @package  Caramel
+ * @description  :converts emmet inspired class definition to actual classes
+ * @usage        : div.myclass.myotherclass results in <div class="myclass myotherclass"></div>
+ * @author       : Stefan Hövelmanns - hvlmnns.de
+ * @License      : MIT
+ * @package      Caramel
  */
 class Classes extends Plugin
 {
