@@ -3,7 +3,6 @@
 namespace Caramel\Models;
 
 
-use Caramel\Services\Service;
 
 
 /**

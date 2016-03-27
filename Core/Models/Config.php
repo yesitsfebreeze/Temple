@@ -1,11 +1,10 @@
 <?php
 
-namespace Caramel\Services;
+namespace Caramel\Models;
 
 
 use Caramel\Exceptions\CaramelException;
 use Caramel\Exceptions\ExceptionHandler;
-use Caramel\Models\Storage;
 
 /**
  * Class CaramelConfig

@@ -6,7 +6,7 @@ namespace Caramel;
 use Caramel\Models\Vars;
 use Caramel\Services\Autoloader;
 use Caramel\Services\Cache;
-use Caramel\Services\Config;
+use Caramel\Models\Config;
 use Caramel\Services\Containers;
 use Caramel\Services\Directories;
 use Caramel\Services\Initializer;

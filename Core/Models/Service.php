@@ -4,9 +4,7 @@ namespace Caramel\Models;
 
 
 use Caramel\Caramel;
-use Caramel\Models\Vars;
 use Caramel\Services\Cache;
-use Caramel\Services\Config;
 use Caramel\Services\Directories;
 use Caramel\Services\Lexer;
 use Caramel\Services\Parser;

@@ -4,6 +4,7 @@ namespace Caramel\Services;
 
 
 use Caramel\Caramel;
+use Caramel\Models\Config;
 use Caramel\Models\Vars;
 
 class Initializer
@@ -66,10 +67,11 @@ class Initializer
     /**
      * initiates the Caramel Lexer
      *
-     * @param Lexer   $lexer
-     * @param Config  $config
+     * @param Lexer    $lexer
+     * @param Config   $config
+     * @param Template $template
      */
-    public function initLexer(Lexer $lexer, Config $config,Template $template)
+    public function initLexer(Lexer $lexer, Config $config, Template $template)
     {
         $lexer->setConfig($config);
         $lexer->setTemplate($template);
