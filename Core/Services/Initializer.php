@@ -24,20 +24,6 @@ class Initializer
 
 
     /**
-     * initiates the Caramel Helpers
-     *
-     * @param Helpers  $helpers
-     * @param Template $template
-     * @param Config   $config
-     */
-    public function initHelpers(Helpers $helpers, Template $template, Config $config)
-    {
-        $helpers->setTemplate($template);
-        $helpers->setConfig($config);
-    }
-
-
-    /**
      * initiates the Caramel Directories
      *
      * @param Directories $directories
@@ -56,14 +42,12 @@ class Initializer
      * @param Config      $config
      * @param Template    $template
      * @param Directories $directories
-     * @param Helpers     $helpers
      */
-    public function initCache(Cache $cache, Config $config, Template $template, Directories $directories, Helpers $helpers)
+    public function initCache(Cache $cache, Config $config, Template $template, Directories $directories)
     {
         $cache->setConfig($config);
         $cache->setTemplate($template);
         $cache->setDirectories($directories);
-        $cache->setHelpers($helpers);
     }
 
 
@@ -84,12 +68,10 @@ class Initializer
      *
      * @param Lexer   $lexer
      * @param Config  $config
-     * @param Helpers $helpers
      */
-    public function initLexer(Lexer $lexer, Config $config, Helpers $helpers)
+    public function initLexer(Lexer $lexer, Config $config)
     {
         $lexer->setConfig($config);
-        $lexer->setHelpers($helpers);
     }
 
 
@@ -100,19 +82,17 @@ class Initializer
      * @param Vars        $vars
      * @param Config      $config
      * @param Directories $directories
-     * @param Helpers     $helpers
      * @param Cache       $cache
      * @param Lexer       $lexer
      * @param Parser      $parser
      * @param Template    $template
      * @throws \Caramel\Exceptions\CaramelException
      */
-    public function initPlugins(Plugins $plugins,Vars $vars,Config $config,Directories $directories,Helpers $helpers,Cache $cache,Lexer $lexer,Parser $parser,Template $template)
+    public function initPlugins(Plugins $plugins, Vars $vars, Config $config, Directories $directories, Cache $cache, Lexer $lexer, Parser $parser, Template $template)
     {
         $plugins->setVars($vars);
         $plugins->setConfig($config);
         $plugins->setDirectories($directories);
-        $plugins->setHelpers($helpers);
         $plugins->setCache($cache);
         $plugins->setLexer($lexer);
         $plugins->setParser($parser);
@@ -130,7 +110,7 @@ class Initializer
      * @param Cache   $cache
      * @param Plugins $plugins
      */
-    public function initParser(Parser $parser,Config $config,Cache $cache,Plugins $plugins)
+    public function initParser(Parser $parser, Config $config, Cache $cache, Plugins $plugins)
     {
         $parser->setConfig($config);
         $parser->setCache($cache);
@@ -150,7 +130,7 @@ class Initializer
      * @param Caramel     $caramel
      * @param Plugins     $plugins
      */
-    public function initTemplate(Template $template,Config $config,Cache $cache,Directories $directories,Lexer $lexer,Parser $parser,Caramel $caramel,Plugins $plugins)
+    public function initTemplate(Template $template, Config $config, Cache $cache, Directories $directories, Lexer $lexer, Parser $parser, Caramel $caramel, Plugins $plugins)
     {
         $template->setConfig($config);
         $template->setCache($cache);

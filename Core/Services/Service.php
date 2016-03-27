@@ -21,9 +21,6 @@ abstract class Service
     /** @var Directories $directories */
     protected $directories;
 
-    /** @var  Helpers $helpers */
-    protected $helpers;
-
     /** @var Cache $cache */
     protected $cache;
 
@@ -82,16 +79,6 @@ abstract class Service
         $this->directories = $Directories;
     }
 
-
-    /**
-     * sets $this->helpers
-     *
-     * @param Helpers $Helpers
-     */
-    public function setHelpers(Helpers $Helpers)
-    {
-        $this->helpers = $Helpers;
-    }
 
 
     /**

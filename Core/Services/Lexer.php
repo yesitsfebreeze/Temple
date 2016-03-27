@@ -71,7 +71,7 @@ class Lexer extends Service
     {
 
         $template  = new Storage();
-        $templates = $this->helpers->templates($file);
+        $templates = $this->template->findTemplates($file);
 
         if ($level !== false) {
             if (isset($templates[ $level ])) {
@@ -218,7 +218,7 @@ class Lexer extends Service
     {
         # replace the tag from the beginning of the line and then trim the string
         $tag = $info->get("tag");
-        if ($this->helpers->str_find(substr($line, 1), ">")) {
+        if (strpos(">", substr($line, 1)) !== false) {
             $content = trim(preg_replace("/^$tag.*?>/", "", $line));
             $content = trim($content) . " ";
         } else {

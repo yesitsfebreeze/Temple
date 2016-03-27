@@ -74,7 +74,7 @@ class Cache extends Service
         } else {
             $times = $cache["times"];
             foreach ($dependencies as $dependency) {
-                $templates = $this->helpers->templates($dependency);
+                $templates = $this->template->findTemplates($dependency);
                 foreach ($templates as $template) {
                     $cacheTime   = $times[ $dependency ][ md5($template) ];
                     $currentTime = filemtime($template);
@@ -128,7 +128,7 @@ class Cache extends Service
     {
         $file      = $this->clean($file);
         $cache     = $this->getCache();
-        $templates = $this->helpers->templates($file);
+        $templates = $this->template->findTemplates($file);
         foreach ($templates as $template) {
             $cache["times"][ $file ][ md5($template) ] = filemtime($template);
         }

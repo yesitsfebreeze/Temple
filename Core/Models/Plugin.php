@@ -3,8 +3,6 @@
 namespace Caramel\Models;
 
 
-use Caramel\Models\Dom;
-use Caramel\Models\Node;
 use Caramel\Services\Service;
 
 

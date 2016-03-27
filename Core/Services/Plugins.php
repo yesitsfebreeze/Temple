@@ -157,7 +157,6 @@ class Plugins extends Service
         $plugin->setVars($this->vars);
         $plugin->setConfig($this->config);
         $plugin->setDirectories($this->directories);
-        $plugin->setHelpers($this->helpers);
         $plugin->setCache($this->cache);
         $plugin->setLexer($this->lexer);
         $plugin->setParser($this->parser);

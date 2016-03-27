@@ -64,7 +64,8 @@ class Cleanup extends Plugin
      */
     private function bufferPhp($output)
     {
-        if ($this->helpers->str_find($output, "<?php") && $this->helpers->str_find($output, "?>")) {
+
+        if (strpos("<?php",$output) !== false && strpos("?>",$output) !== false) {
             $end     = strpos($output, "?>") + 2;
             $start   = strpos($output, "?>") - strpos(strrev(substr($output, 0, $end)), "php?<") - 3;
             $length  = $end - $start;

@@ -126,7 +126,7 @@ class Debug extends Plugin
                 $window .= "<a href='https://github.com/hvlmnns/caramel' title='gitHub' target='_blank'>gitHub</a>";
                 $window .= "</div>";
                 $window .= "<div>";
-                $window .= "<a href='http://hvlmnns.github.io/Caramel/' title='Doku' target='_blank'>Dokumentation</a>";
+                $window .= "<a href='http://hvlmnns.github.io/Caramel/' title='Documentation' target='_blank'>Documentation</a>";
                 $window .= "</div>";
             }
 

@@ -9,7 +9,6 @@ use Caramel\Services\Cache;
 use Caramel\Services\Config;
 use Caramel\Services\Containers;
 use Caramel\Services\Directories;
-use Caramel\Services\Helpers;
 use Caramel\Services\Initializer;
 use Caramel\Services\Lexer;
 use Caramel\Services\Parser;
@@ -37,9 +36,6 @@ class Caramel
     /** @var Directories $Directories */
     private $directories;
 
-    /** @var Helpers $Helpers */
-    private $helpers;
-
     /** @var Cache $Cache */
     private $cache;
 
@@ -64,7 +60,6 @@ class Caramel
         $this->vars        = new Vars();
         $this->config      = new Config();
         $this->directories = new Directories();
-        $this->helpers     = new Helpers();
         $this->cache       = new Cache();
         $this->containers  = new Containers();
         $this->plugins     = new Plugins();
@@ -118,12 +113,11 @@ class Caramel
     {
         $initializer = new Initializer();
         $initializer->initConfig($this->config, __DIR__);
-        $initializer->initHelpers($this->helpers, $this->template, $this->config);
         $initializer->initDirectories($this->directories, $this->config);
-        $initializer->initCache($this->cache, $this->config, $this->template, $this->directories, $this->helpers);
+        $initializer->initCache($this->cache, $this->config, $this->template, $this->directories);
         $initializer->initContainers($this->containers, $this->config);
-        $initializer->initPlugins($this->plugins, $this->vars, $this->config, $this->directories, $this->helpers, $this->cache, $this->lexer, $this->parser, $this->template);
-        $initializer->initLexer($this->lexer, $this->config, $this->helpers);
+        $initializer->initPlugins($this->plugins, $this->vars, $this->config, $this->directories, $this->cache, $this->lexer, $this->parser, $this->template);
+        $initializer->initLexer($this->lexer, $this->config);
         $initializer->initParser($this->parser, $this->config, $this->cache, $this->plugins);
         $initializer->initTemplate($this->template, $this->config, $this->cache, $this->directories, $this->lexer, $this->parser, $this, $this->plugins);
     }
