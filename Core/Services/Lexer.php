@@ -6,6 +6,7 @@ namespace Caramel\Services;
 use Caramel\Exceptions\CaramelException;
 use Caramel\Models\Dom;
 use Caramel\Models\Node;
+use Caramel\Models\Service;
 use Caramel\Models\Storage;
 
 

@@ -4,6 +4,7 @@ namespace Caramel\Services;
 
 
 use Caramel\Models\Plugin;
+use Caramel\Models\Service;
 
 /**
  * handles the plugin loading

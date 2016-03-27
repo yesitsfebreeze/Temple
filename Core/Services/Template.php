@@ -5,6 +5,7 @@ namespace Caramel\Services;
 
 use Caramel\Exceptions\CaramelException;
 use Caramel\Models\Dom;
+use Caramel\Models\Service;
 
 
 /**

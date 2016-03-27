@@ -4,6 +4,7 @@ namespace Caramel\Services;
 
 
 use Caramel\Exceptions\CaramelException;
+use Caramel\Models\Service;
 
 /**
  * Class Containers

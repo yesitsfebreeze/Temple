@@ -7,6 +7,7 @@ use Caramel\Exceptions\CaramelException;
 use Caramel\Models\Dom;
 use Caramel\Models\Node;
 use Caramel\Models\Plugin;
+use Caramel\Models\Service;
 
 
 /**
