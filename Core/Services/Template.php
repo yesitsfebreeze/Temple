@@ -112,7 +112,7 @@ class Template extends Service
         if ($ext != $configExt) $file = $file . $configExt;
 
         $files = array();
-        foreach ($this->template->dirs() as $level => $templateDir) {
+        foreach ($this->dirs() as $level => $templateDir) {
             # concat all template directories
             # with he passed file path
             $template = $templateDir . $file;

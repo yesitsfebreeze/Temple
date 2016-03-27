@@ -69,9 +69,10 @@ class Initializer
      * @param Lexer   $lexer
      * @param Config  $config
      */
-    public function initLexer(Lexer $lexer, Config $config)
+    public function initLexer(Lexer $lexer, Config $config,Template $template)
     {
         $lexer->setConfig($config);
+        $lexer->setTemplate($template);
     }
 
 

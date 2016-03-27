@@ -117,7 +117,7 @@ class Caramel
         $initializer->initCache($this->cache, $this->config, $this->template, $this->directories);
         $initializer->initContainers($this->containers, $this->config);
         $initializer->initPlugins($this->plugins, $this->vars, $this->config, $this->directories, $this->cache, $this->lexer, $this->parser, $this->template);
-        $initializer->initLexer($this->lexer, $this->config);
+        $initializer->initLexer($this->lexer, $this->config, $this->template);
         $initializer->initParser($this->parser, $this->config, $this->cache, $this->plugins);
         $initializer->initTemplate($this->template, $this->config, $this->cache, $this->directories, $this->lexer, $this->parser, $this, $this->plugins);
     }
