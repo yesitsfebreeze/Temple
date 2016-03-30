@@ -2,6 +2,8 @@
 
 namespace Caramel\Models;
 
+// todoo: split attributes
+// todoo: add find method, maybe even to storage
 
 /**
  * all Node defaults are set here

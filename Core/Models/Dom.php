@@ -2,6 +2,8 @@
 
 namespace Caramel\Models;
 
+// todoo: add local variable space
+// todoo: add find method
 
 /**
  * Class Dom

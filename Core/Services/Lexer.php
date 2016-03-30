@@ -254,6 +254,7 @@ class Lexer extends Service
      */
     private function node($line, $info)
     {
+        // todoo: add function node
         # create a new storage for the node
         $node = new Node();
 
