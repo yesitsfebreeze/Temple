@@ -151,8 +151,10 @@ class Lexer extends Service
 
         # initially set the indent variables
         if ($this->dom->get("template.indent.amount") == 0) {
-            $this->dom->set("template.indent.amount", strlen($whitespace));
-            $this->dom->set("template.indent.char", $whitespace[0]);
+            if (strlen($whitespace) > 0) {
+                $this->dom->set("template.indent.amount", strlen($whitespace));
+                $this->dom->set("template.indent.char", $whitespace[0]);
+            }
         }
 
         # if the indent variables are set
