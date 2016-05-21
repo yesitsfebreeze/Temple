@@ -3,8 +3,8 @@
 namespace Caramel\Services;
 
 
-use Caramel\Exceptions\CaramelException;
-use Caramel\Models\Service;
+use Caramel\Exception\CaramelException;
+use Caramel\Models\ServiceModel;
 
 
 /**
@@ -13,7 +13,7 @@ use Caramel\Models\Service;
  *
  * @package Caramel
  */
-class Directories extends Service
+class DirectoryService extends ServiceModel
 {
 
     /**

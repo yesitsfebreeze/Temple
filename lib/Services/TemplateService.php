@@ -3,18 +3,12 @@
 namespace Caramel\Services;
 
 
-use Caramel\Exceptions\CaramelException;
-use Caramel\Models\Dom;
-use Caramel\Models\Service;
+use Caramel\Exception\CaramelException;
+use Caramel\Models\ServiceModel;
 
-
-/**
- * Class Template
- *
- * @package Caramel
- */
-class Template extends Service
+class TemplateService extends ServiceModel
 {
+
 
     /**
      * Renders and includes the passed file
@@ -24,7 +18,6 @@ class Template extends Service
      */
     public function show($file)
     {
-        $this->plugins->init();
         $templateFile = $this->parse($file);
 
         # add the file header if wanted
@@ -35,7 +28,7 @@ class Template extends Service
 
         # scoped Caramel
         /** @noinspection PhpUnusedLocalVariableInspection */
-        $_crml = $this->caramel;
+        $_crml = $this;
 
         if (file_exists($templateFile)) {
             /** @noinspection PhpIncludeInspection */
@@ -97,6 +90,7 @@ class Template extends Service
         return $return;
     }
 
+
     /**
      * returns all found template files for the given abbreviation
      *
@@ -126,7 +120,6 @@ class Template extends Service
         # otherwise throw an error
         throw new CaramelException("Can't find template file.", $file);
     }
-
 
 
     /**

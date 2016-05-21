@@ -3,10 +3,10 @@
 namespace Caramel\Plugins\Core;
 
 
-use Caramel\Exceptions\CaramelException;
-use Caramel\Models\Dom;
-use Caramel\Models\Node;
-use Caramel\Models\Plugin;
+use Caramel\Exception\CaramelException;
+use Caramel\Models\DomModel;
+use Caramel\Models\NodeModel;
+use Caramel\Models\PluginModel;
 
 
 /**
@@ -18,7 +18,7 @@ use Caramel\Models\Plugin;
  * @author      Stefan Hövelmanns
  * @License     MIT
  */
-class Extend extends Plugin
+class Extend extends PluginModel
 {
 
     /**
@@ -43,10 +43,10 @@ class Extend extends Plugin
 
 
     /**
-     * @param Node $node
+     * @param NodeModel $node
      * @return bool
      */
-    public function check(Node $node)
+    public function check(NodeModel $node)
     {
         return ($node->get("tag.tag") == "block");
     }
@@ -55,11 +55,12 @@ class Extend extends Plugin
     /**
      * converts the blocks to comments or completely removes them
      * depending on configuration
-     *
-     * @param Node $node
-     * @return Node $node
+
+*
+*@param NodeModel $node
+     * @return NodeModel $node
      */
-    public function process(Node $node)
+    public function process(NodeModel $node)
     {
         if ($this->config->get("block_comments")) {
             # hide parent blocks
@@ -84,12 +85,13 @@ class Extend extends Plugin
 
     /**
      * handles the extending of templates
+
      *
-     * @param Dom $dom
+*@param DomModel $dom
      * @return array
      * @throws \Exception
      */
-    public function preProcess(Dom $dom)
+    public function preProcess(DomModel $dom)
     {
         $this->config->extend("self_closing","extend");
         # get the first node from the dom
@@ -100,7 +102,7 @@ class Extend extends Plugin
             $this->extend($dom, $node);
 
             # return a empty array to stop the current parsing process
-            return new Dom();
+            return new DomModel();
         }
         $this->rootFile = false;
 
@@ -110,12 +112,13 @@ class Extend extends Plugin
 
     /**
      * checks if the file has an valid extend tag
+
      *
-     * @param Node $node
+*@param NodeModel $node
      * @return bool|mixed
      * @throws CaramelException
      */
-    private function extending(Node $node)
+    private function extending(NodeModel $node)
     {
 
         # check if node hast extend tag
@@ -149,13 +152,14 @@ class Extend extends Plugin
     /**
      * extends the current file and replaces all blocks
      * this will restart the parsing process
-     *
-     * @param Dom  $dom
-     * @param Node $node
+
+*
+*@param DomModel        $dom
+     * @param NodeModel $node
      * @return array
      * @throws CaramelException
      */
-    private function extend(Dom $dom, Node $node)
+    private function extend(DomModel $dom, NodeModel $node)
     {
         $this->getRootFile($node);
         $this->getBlocks($dom);
@@ -183,9 +187,9 @@ class Extend extends Plugin
 
 
     /**
-     * @param Node $node
+     * @param NodeModel $node
      */
-    protected function getRootFile(Node $node)
+    protected function getRootFile(NodeModel $node)
     {
         # just set the file if it's set to false
         # this way we can keep track of our root file
@@ -199,14 +203,15 @@ class Extend extends Plugin
 
     /**
      * get all extending blocks from our current dom
+
      *
-     * @param Dom $dom
+*@param DomModel $dom
      * @return array
      * @throws \Exception
      */
-    private function getBlocks(Dom $dom)
+    private function getBlocks(DomModel $dom)
     {
-        /** @var Node $node */
+        /** @var NodeModel $node */
         $nodes = $dom->get("nodes");
         foreach ($nodes as $node) {
             if ($node->get("tag.tag") == "block") {
@@ -222,15 +227,16 @@ class Extend extends Plugin
 
     /**
      * returns the dom of the file which got extended
-     *
-     * @param Node $node
-     * @return Dom
+
+*
+*@param NodeModel $node
+     * @return DomModel
      * @throws CaramelException
      */
-    private function getDom(Node $node)
+    private function getDom(NodeModel $node)
     {
         $dom = false;
-        /** @var Node $node */
+        /** @var NodeModel $node */
         $path = trim($node->get("attributes"));
         if ($path != "") {
             $path = str_replace("." . $this->config->get("extension"), "", $path);
@@ -267,21 +273,22 @@ class Extend extends Plugin
 
     /**
      * extend all blocks in the current dom
+
      *
-     * @param Dom   $dom
+*@param DomModel    $dom
      * @param array $blocks
      * @return mixed
      * @throws \Exception
      */
-    private function blocks(Dom $dom, $blocks)
+    private function blocks(DomModel $dom, $blocks)
     {
 
-        /** @var Node $node */
+        /** @var NodeModel $node */
         $nodes = $dom->get("nodes");
         foreach ($nodes as &$node) {
             # process children blocks first
             if ($node->has("children")) {
-                $children = new Dom();
+                $children = new DomModel();
                 $children->set("nodes", $node->get("children"));
                 $node->set("children", $this->blocks($children, $blocks)->get("nodes"));
 
@@ -308,12 +315,13 @@ class Extend extends Plugin
     /**
      * inserts the node into "block parent" if available
      * and then replaces the node with the block
-     *
-     * @param Node $node
-     * @param Node $block
-     * @return Node
+
+*
+*@param NodeModel $node
+     * @param NodeModel $block
+     * @return NodeModel
      */
-    private function block(Node $node, $block)
+    private function block(NodeModel $node, $block)
     {
         $block = $this->parent($node, $block);
         $node  = $block;
@@ -323,15 +331,15 @@ class Extend extends Plugin
 
 
     /**
-     * @param Node $node
-     * @param Node $block
+     * @param NodeModel $node
+     * @param NodeModel $block
      * @return mixed
      */
-    private function parent(Node $node, $block)
+    private function parent(NodeModel $node, $block)
     {
         if ($block->has("children")) {
             foreach ($block->get("children") as $item) {
-                /** @var Node $item */
+                /** @var NodeModel $item */
                 $this->parent($node, $item);
                 if ($item->get("tag.tag") == "block" && $item->get("attributes") == "parent") {
                     $item->set("children", array($node));

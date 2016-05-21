@@ -6,12 +6,12 @@ namespace Caramel\Models;
 // todoo: add find method, maybe even to storage
 
 /**
- * all Node defaults are set here
- * Class Node
+ * all NodeModel defaults are set here
+ * Class NodeModel
  *
  * @package Caramel
  */
-class FunctionNode extends Node
+class FunctionNodeModel extends NodeModel
 {
 
     public function params()

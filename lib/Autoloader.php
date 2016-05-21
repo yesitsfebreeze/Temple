@@ -1,6 +1,6 @@
 <?php
 
-namespace Caramel\Services;
+namespace Caramel;
 
 
 /**
@@ -18,12 +18,12 @@ class Autoloader
      */
     public function __construct()
     {
-        $dir       = "../";
+        $dir       = __DIR__;
         $namespace = "Caramel";
 
         spl_autoload_register(function ($class) use ($namespace, $dir) {
             $class = substr($class, strlen($namespace . "\\"));
-            $file  = __DIR__ . "/" . $dir . "/" . str_replace('\\', '/', $class) . '.php';
+            $file  = $dir . "/" . str_replace('\\', '/', $class) . '.php';
 
             if (file_exists($file)) {
                 /** @noinspection PhpIncludeInspection */

@@ -4,18 +4,19 @@ namespace Caramel\Models;
 
 // todoo: split attributes
 // todoo: add find method, maybe even to storage
+use Caramel\Repositories\StorageRepository;
 
 /**
- * all Node defaults are set here
- * Class Node
+ * all NodeModel defaults are set here
+ * Class NodeModel
  *
  * @package Caramel
  */
-class Node extends Storage
+class NodeModel extends StorageRepository
 {
 
     /**
-     * Node constructor.
+     * NodeModel constructor.
      */
     public function __construct()
     {
@@ -184,7 +185,7 @@ class Node extends Storage
         /**
          * the current dom of the node
          *
-         * @var Dom
+         * @var DomModel
          */
         $this->set("dom", NULL);
 

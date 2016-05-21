@@ -1,22 +1,24 @@
 <?php
 
-namespace Caramel\Models;
+namespace Caramel\Repositories;
 
 
-use Caramel\Exceptions\CaramelException;
+use Caramel\Exception\CaramelException;
 
 /**
  * this class handles all data storage
- * deep array setters and getters are separated by "."
  * Class Storage
  *
  * @package Caramel
  */
-class Storage
+class StorageRepository
 {
 
     /** @var array $storage */
     private $storage;
+
+    /** @var string $separator */
+    private $separator = ".";
 
 
     /**
@@ -143,8 +145,9 @@ class Storage
      * searches for an item in the current tree
      * if we pass an array it has the same behaviour
      * iterates over the array values recursively
-     *
-     * @param Storage      $item
+
+*
+*@param Storage            $item
      * @param array|string $attrs
      * @param string       $value
      * @return array
@@ -177,8 +180,9 @@ class Storage
 
     /**
      * outsourcing the repeating find process
-     *
-     * @param array        $found
+
+*
+*@param array              $found
      * @param Storage      $item
      * @param array|string $attrs
      * @param string       $value
@@ -276,9 +280,9 @@ class Storage
     private function createPath($path)
     {
         # remove last / if existent
-        $path = preg_replace('/\.$/', '', $path);
+        $path = preg_replace('/' . preg_quote($this->separator) . '$/', '', $path);
         # get path array
-        $path = explode(".", $path);
+        $path = explode($this->separator, $path);
 
         return $path;
     }

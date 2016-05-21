@@ -3,11 +3,12 @@
 namespace Caramel\Services;
 
 
-use Caramel\Exceptions\CaramelException;
-use Caramel\Models\Dom;
-use Caramel\Models\Node;
+use Caramel\Exception\CaramelException;
+use Caramel\Models\DomModel;
+use Caramel\Models\NodeModel;
 use Caramel\Models\Plugin;
-use Caramel\Models\Service;
+use Caramel\Models\PluginModel;
+use Caramel\Models\ServiceModel;
 
 
 /**
@@ -15,11 +16,11 @@ use Caramel\Models\Service;
  *
  * @package Caramel
  */
-class Parser extends Service
+class ParserService extends ServiceModel
 {
 
     /**
-     * @param Dom $dom
+     * @param DomModel $dom
      * @return bool
      */
     public function parse($dom)
@@ -54,8 +55,9 @@ class Parser extends Service
 
     /**
      * checks if we have a valid dom object
+
      *
-     * @param Dom $dom
+*@param DomModel $dom
      * @return bool
      */
     private function check($dom)
@@ -72,8 +74,9 @@ class Parser extends Service
 
     /**
      * merges the nodes to a string
+
      *
-     * @param Dom|mixed $dom
+*@param DomModel|mixed $dom
      * @return string
      * @throws CaramelException
      */
@@ -83,7 +86,7 @@ class Parser extends Service
         $output = '';
         $nodes  = $dom->get("nodes");
         foreach ($nodes as $node) {
-            /** @var Node $node */
+            /** @var NodeModel $node */
 
             # open the tag
             if ($node->get("tag.display")) {
@@ -108,7 +111,7 @@ class Parser extends Service
             # recursively iterate over the children
             if ($node->has("children")) {
                 if (!$node->get("selfclosing")) {
-                    $children = new Dom();
+                    $children = new DomModel();
                     $children->set("nodes", $node->get("children"));
                     $output .= $this->output($children);
                 } else {
@@ -136,8 +139,9 @@ class Parser extends Service
 
     /**
      * execute the plugins before we do anything else
+
      *
-     * @param Dom $dom
+*@param DomModel $dom
      * @return mixed
      */
     private function preProcessPlugins($dom)
@@ -149,9 +153,10 @@ class Parser extends Service
     /**
      * execute the plugins on each individual node
      * children will parsed first
+
      *
-     * @param Dom|array $dom
-     * @param array     $nodes
+*@param DomModel|array $dom
+     * @param array    $nodes
      * @return mixed
      */
     private function processPlugins($dom, $nodes = NULL)
@@ -160,7 +165,7 @@ class Parser extends Service
             $nodes = $dom->get("nodes");
         }
 
-        /** @var Node $node */
+        /** @var NodeModel $node */
         foreach ($nodes as &$node) {
             $node = $this->executePlugins($node, "plugins");
 
@@ -176,8 +181,9 @@ class Parser extends Service
 
     /**
      * process the plugins after the main plugin process
+
      *
-     * @param Dom $dom
+*@param DomModel $dom
      * @return mixed
      */
     private function postProcessPlugins($dom)
@@ -200,9 +206,10 @@ class Parser extends Service
 
     /**
      * processes all plugins depending on the passed type
-     *
-     * @param Dom|Node|string $element
-     * @param string          $type
+
+*
+*@param DomModel|NodeModel|string $element
+     * @param string              $type
      * @return mixed
      * @throws CaramelException
      */
@@ -210,7 +217,7 @@ class Parser extends Service
     {
         $plugins = $this->plugins->getPlugins();
         foreach ($plugins as $key => $position) {
-            /** @var Plugin $plugin */
+            /** @var PluginModel $plugin */
             foreach ($position as $plugin) {
                 if ($type == "pre") {
                     $element = $plugin->preProcess($element);
@@ -250,8 +257,8 @@ class Parser extends Service
     private function PluginError($element, $plugin, $method, $variable)
     {
         $error = false;
-        if ($variable == '$dom' && get_class($element) != "Caramel\\Models\\Dom") $error = true;
-        if ($variable == '$node' && get_class($element) != "Caramel\\Models\\Node") $error = true;
+        if ($variable == '$dom' && get_class($element) != "Caramel\\Models\\DomModel") $error = true;
+        if ($variable == '$node' && get_class($element) != "Caramel\\Models\\NodeModel") $error = true;
         if ($variable == '$output' && !is_string($element)) $error = true;
 
         if ($error) {

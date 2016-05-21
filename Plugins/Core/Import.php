@@ -3,9 +3,9 @@
 namespace Caramel\Plugins\Core;
 
 
-use Caramel\Exceptions\CaramelException;
-use Caramel\Models\Node;
-use Caramel\Models\Plugin;
+use Caramel\Exception\CaramelException;
+use Caramel\Models\NodeModel;
+use Caramel\Models\PluginModel;
 
 
 /**
@@ -17,7 +17,7 @@ use Caramel\Models\Plugin;
  * @author      Stefan Hövelmanns
  * @License     MIT
  */
-class Import extends Plugin
+class Import extends PluginModel
 {
 
     /**
@@ -30,10 +30,10 @@ class Import extends Plugin
 
 
     /**
-     * @param Node $node
+     * @param NodeModel $node
      * @return bool
      */
-    public function check(Node $node)
+    public function check(NodeModel $node)
     {
         $this->config->extend("self_closing","import");
         return ($node->get("tag.tag") == "import");
@@ -41,11 +41,11 @@ class Import extends Plugin
 
 
     /**
-     * @param Node $node
-     * @return Node $node
+     * @param NodeModel $node
+     * @return NodeModel $node
      * @throws CaramelException
      */
-    public function process(Node $node)
+    public function process(NodeModel $node)
     {
         $node->set("tag.display", false);
 
@@ -66,11 +66,12 @@ class Import extends Plugin
 
     /**
      * searches for a template file and returns the correct path
+
      *
-     * @param Node $node
+*@param NodeModel $node
      * @return string $file
      */
-    private function getPath(Node $node)
+    private function getPath(NodeModel $node)
     {
         # if the file has an absolute path
         $path     = $node->get("attributes");
@@ -86,11 +87,12 @@ class Import extends Plugin
 
     /**
      * returns the template path to the file which is importing
+
      *
-     * @param Node $node
+*@param NodeModel $node
      * @return mixed
      */
-    private function getParentPath(Node $node)
+    private function getParentPath(NodeModel $node)
     {
         $templates = $this->template->dirs();
         $path      = explode("/", $node->get("file"));

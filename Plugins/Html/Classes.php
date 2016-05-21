@@ -3,8 +3,8 @@
 namespace Caramel\Plugins\Html;
 
 
-use Caramel\Models\Node;
-use Caramel\Models\Plugin;
+use Caramel\Models\NodeModel;
+use Caramel\Models\PluginModel;
 
 
 /**
@@ -16,7 +16,7 @@ use Caramel\Models\Plugin;
  * @License      : MIT
  * @package      Caramel
  */
-class Classes extends Plugin
+class Classes extends PluginModel
 {
 
 
@@ -30,11 +30,11 @@ class Classes extends Plugin
 
 
     /**
-     * @param Node $node
-     * @return Node
+     * @param NodeModel $node
+     * @return NodeModel
      * @throws \Exception
      */
-    public function process(Node $node)
+    public function process(NodeModel $node)
     {
         $tag     = $node->get("tag.tag");
         $classes = explode(".", $tag);
@@ -73,12 +73,12 @@ class Classes extends Plugin
 
 
     /**
-     * @param Node   $node
-     * @param string $tag
-     * @param array  $classes
+     * @param NodeModel $node
+     * @param string    $tag
+     * @param array     $classes
      * @return mixed
      */
-    private function updateTag(Node $node, $tag, $classes)
+    private function updateTag(NodeModel $node, $tag, $classes)
     {
         foreach (explode(" ", $classes) as $class) {
             $tag = str_replace('.' . $class, "", $tag);
@@ -97,14 +97,14 @@ class Classes extends Plugin
 
 
     /**
-     * @param Node  $node
-     * @param array $classes
-     * @return Node
+     * @param NodeModel $node
+     * @param array     $classes
+     * @return NodeModel
      * @throws \Exception
      */
-    private function setAttribute(Node $node, $classes)
+    private function setAttribute(NodeModel $node, $classes)
     {
-        /** @var Node $node */
+        /** @var NodeModel $node */
         $attributes = $node->get("attributes");
         if ($attributes == "") {
             $attributes = " class='" . $classes . "'";
@@ -128,11 +128,11 @@ class Classes extends Plugin
 
 
     /**
-     * @param Node $node
+     * @param NodeModel $node
      * @return string
      * @throws \Exception
      */
-    private function createNewTag(Node $node)
+    private function createNewTag(NodeModel $node)
     {
         # check if tag is empty now
         # if so create div or span,

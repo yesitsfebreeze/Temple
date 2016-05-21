@@ -3,8 +3,8 @@
 namespace Caramel\Plugins\Core;
 
 
-use Caramel\Models\Node;
-use Caramel\Models\Plugin;
+use Caramel\Models\NodeModel;
+use Caramel\Models\PluginModel;
 
 /**
  * Class PluginComment
@@ -15,7 +15,7 @@ use Caramel\Models\Plugin;
  * @License : MIT
  * @package Caramel
  */
-class Comment extends Plugin
+class Comment extends PluginModel
 {
 
     /**
@@ -28,10 +28,10 @@ class Comment extends Plugin
 
 
     /**
-     * @param Node $node
+     * @param NodeModel $node
      * @return bool
      */
-    public function check(Node $node)
+    public function check(NodeModel $node)
     {
         $tag = $node->get("tag.tag");
 
@@ -40,11 +40,11 @@ class Comment extends Plugin
 
 
     /**
-     * @param Node $node
-     * @return Node
+     * @param NodeModel $node
+     * @return NodeModel
      * @throws \Exception
      */
-    public function process(Node $node)
+    public function process(NodeModel $node)
     {
 
         # create the comment
@@ -65,11 +65,12 @@ class Comment extends Plugin
 
     /**
      * creates the comment from the current node
+
      *
-     * @param Node $node
+*@param NodeModel $node
      * @return mixed
      */
-    private function createComment(Node $node)
+    private function createComment(NodeModel $node)
     {
         $node->set("tag.opening.prefix", "<!-- ");
         $node->set("tag.opening.tag", "");
@@ -86,10 +87,11 @@ class Comment extends Plugin
     /**
      * recursively iterates over our children and
      * adjust them for the comment
+
      *
-     * @param Node $node
+*@param NodeModel $node
      */
-    private function processChildren(Node $node)
+    private function processChildren(NodeModel $node)
     {
         $children = $node->get("children");
         foreach ($children as $child) {
@@ -103,11 +105,12 @@ class Comment extends Plugin
 
     /**
      * removes the pre/postfixes and the closing tag
+
      *
-     * @param Node $node
+*@param NodeModel $node
      * @return mixed
      */
-    private function createCommentChild(Node $node)
+    private function createCommentChild(NodeModel $node)
     {
         $node->set("tag.opening.prefix", "\r\n");
         $node->set("tag.opening.postfix", "");
@@ -123,11 +126,12 @@ class Comment extends Plugin
 
     /**
      * adds the template indent to the comment
-     *
-     * @param Node $node
-     * @return Node
+
+*
+*@param NodeModel $node
+     * @return NodeModel
      */
-    private function addIndent(Node $node)
+    private function addIndent(NodeModel $node)
     {
         $replaceItem = "tag.opening.prefix";
         $indent      = str_repeat($node->get("dom")->get("template.indent.char"), $node->get("dom")->get("template.indent.amount"));

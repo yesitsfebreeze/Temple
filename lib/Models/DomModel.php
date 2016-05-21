@@ -4,17 +4,18 @@ namespace Caramel\Models;
 
 // todoo: add local variable space
 // todoo: add find method
+use Caramel\Repositories\StorageRepository;
 
 /**
- * Class Dom
+ * Class DomModel
  *
  * @package Caramel
  */
-class Dom extends Storage
+class DomModel extends StorageRepository
 {
 
     /**
-     * Dom constructor.
+     * DomModel constructor.
      */
     public function __construct()
     {

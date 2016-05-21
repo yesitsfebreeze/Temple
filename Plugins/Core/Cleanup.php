@@ -3,7 +3,7 @@
 namespace Caramel\Plugins\Core;
 
 
-use Caramel\Models\Plugin;
+use Caramel\Models\PluginModel;
 
 
 /**
@@ -15,7 +15,7 @@ use Caramel\Models\Plugin;
  * @License : MIT
  * @package Caramel
  */
-class Cleanup extends Plugin
+class Cleanup extends PluginModel
 {
 
 

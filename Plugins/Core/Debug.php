@@ -3,9 +3,9 @@
 namespace Caramel\Plugins\Core;
 
 
-use Caramel\Models\Plugin;
+use Caramel\Models\PluginModel;
 
-class Debug extends Plugin
+class Debug extends PluginModel
 {
 
     /** @var string $type */

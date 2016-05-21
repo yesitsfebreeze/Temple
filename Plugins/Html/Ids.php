@@ -3,8 +3,8 @@
 namespace Caramel\Plugins\Html;
 
 
-use Caramel\Models\Node;
-use Caramel\Models\Plugin;
+use Caramel\Models\NodeModel;
+use Caramel\Models\PluginModel;
 
 
 /**
@@ -16,7 +16,7 @@ use Caramel\Models\Plugin;
  * @License : MIT
  * @package Caramel
  */
-class Ids extends Plugin
+class Ids extends PluginModel
 {
 
     /**
@@ -29,11 +29,11 @@ class Ids extends Plugin
 
 
     /**
-     * @param Node $node
-     * @return Node
+     * @param NodeModel $node
+     * @return NodeModel
      * @throws \Exception
      */
-    public function process(Node $node)
+    public function process(NodeModel $node)
     {
         $tag = $node->get("tag.tag");
         $ids = explode("#", $tag);
@@ -71,12 +71,12 @@ class Ids extends Plugin
 
 
     /**
-     * @param Node   $node
-     * @param string $tag
-     * @param array  $ids
+     * @param NodeModel $node
+     * @param string    $tag
+     * @param array     $ids
      * @return mixed
      */
-    private function updateTag(Node $node, $tag, $ids)
+    private function updateTag(NodeModel $node, $tag, $ids)
     {
         foreach (explode(" ", $ids) as $id) {
             $tag = str_replace('#' . $id, "", $tag);
@@ -95,12 +95,12 @@ class Ids extends Plugin
 
 
     /**
-     * @param Node  $node
-     * @param array $ids
-     * @return Node
+     * @param NodeModel $node
+     * @param array     $ids
+     * @return NodeModel
      * @throws \Exception
      */
-    private function setAttribute(Node $node, $ids)
+    private function setAttribute(NodeModel $node, $ids)
     {
         $attributes = $node->get("attributes");
         if ($attributes == "") {
@@ -125,11 +125,11 @@ class Ids extends Plugin
 
 
     /**
-     * @param Node $node
+     * @param NodeModel $node
      * @return string
      * @throws \Exception
      */
-    private function createNewTag(Node $node)
+    private function createNewTag(NodeModel $node)
     {
         # check if tag is empty now
         # if so create div or span,

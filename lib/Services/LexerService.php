@@ -3,11 +3,11 @@
 namespace Caramel\Services;
 
 
-use Caramel\Exceptions\CaramelException;
-use Caramel\Models\Dom;
-use Caramel\Models\Node;
-use Caramel\Models\Service;
-use Caramel\Models\Storage;
+use Caramel\Exception\CaramelException;
+use Caramel\Models\DomModel;
+use Caramel\Models\NodeModel;
+use Caramel\Models\ServiceModel;
+use Caramel\Repositories\StorageRepository;
 
 
 /**
@@ -15,15 +15,15 @@ use Caramel\Models\Storage;
  *
  * @package Caramel
  */
-class Lexer extends Service
+class LexerService extends ServiceModel
 {
 
-    /** @var Dom $dom */
+    /** @var DomModel $dom */
     private $dom;
 
 
     /**
-     * returns Dom object
+     * returns DomModel object
      *
      * @param string   $file
      * @param int|bool $level
@@ -31,7 +31,7 @@ class Lexer extends Service
      */
     public function lex($file, $level = false)
     {
-        $this->dom = new Dom();
+        $this->dom = new DomModel();
         $this->prepare($file, $level);
         $this->process();
         $this->dom->delete("temp");
@@ -65,13 +65,13 @@ class Lexer extends Service
      *
      * @param $file
      * @param $level
-     * @return Storage
+     * @return StorageRepository
      * @throws CaramelException
      */
     private function template($file, $level)
     {
 
-        $template  = new Storage();
+        $template  = new StorageRepository();
         $templates = $this->template->findTemplates($file);
 
         if ($level !== false) {
@@ -119,12 +119,12 @@ class Lexer extends Service
      * returns an array with information about the current node
      *
      * @param     $line
-     * @return Storage
+     * @return StorageRepository
      */
     private function info($line)
     {
 
-        $info = new Storage();
+        $info = new StorageRepository();
         $info->set("indent", $this->indent($line));
         $line = trim($line);
         $info->set("tag", $this->tag($line));
@@ -195,8 +195,8 @@ class Lexer extends Service
     /**
      * returns the attributes for the current line
      *
-     * @param string  $line
-     * @param Storage $info
+     * @param string            $line
+     * @param StorageRepository $info
      * @return string
      */
     private function attributes($line, $info)
@@ -213,8 +213,8 @@ class Lexer extends Service
     /**
      * returns the content for the current line
      *
-     * @param string  $line
-     * @param Storage $info
+     * @param string            $line
+     * @param StorageRepository $info
      * @return string
      */
     private function content($line, $info)
@@ -235,7 +235,7 @@ class Lexer extends Service
     /**
      * returns if the current line has a self closing tag
      *
-     * @param Storage $info
+     * @param StorageRepository $info
      * @return string
      */
     private function selfclosing($info)
@@ -250,15 +250,15 @@ class Lexer extends Service
     /**
      * creates a new node from a line
      *
-     * @param string  $line
-     * @param Storage $info
-     * @return Node $node
+     * @param string            $line
+     * @param StorageRepository $info
+     * @return NodeModel $node
      */
     private function node($line, $info)
     {
         // todoo: add function node
         # create a new storage for the node
-        $node = new Node();
+        $node = new NodeModel();
 
         # add everything we need to our node
         $node->set("tag.tag", $info->get("tag"));
@@ -293,7 +293,7 @@ class Lexer extends Service
      * adds the node to the dom
      * parent/child logic is handled here
      *
-     * @param Node $node
+     * @param NodeModel $node
      */
     private function add($node)
     {
@@ -317,7 +317,7 @@ class Lexer extends Service
      * adds a node to the dom if has a deeper level
      * than the previous node
      *
-     * @param Node $node
+     * @param NodeModel $node
      * @throws CaramelException
      */
     private function deeper($node)
@@ -336,7 +336,7 @@ class Lexer extends Service
      * adds a node to the dom if has a higher level
      * than the previous node
      *
-     * @param Node $node
+     * @param NodeModel $node
      */
     private function higher($node)
     {
@@ -350,7 +350,7 @@ class Lexer extends Service
      * adds a node to the dom if has the same  level
      * than the previous node
      *
-     * @param Node $node
+     * @param NodeModel $node
      */
     private function same($node)
     {
@@ -363,8 +363,8 @@ class Lexer extends Service
     /**
      * adds the passed node to children
      *
-     * @param Node $target
-     * @param Node $node
+     * @param NodeModel $target
+     * @param NodeModel $node
      * @throws \Exception
      */
     private function children($target, $node)
@@ -378,9 +378,9 @@ class Lexer extends Service
     /**
      * returns the parent of the passed node
      *
-     * @param Node      $node
-     * @param bool|Node $parent
-     * @return Node
+     * @param NodeModel      $node
+     * @param bool|NodeModel $parent
+     * @return NodeModel
      */
     private function parent($node, $parent = false)
     {

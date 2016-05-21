@@ -1,6 +1,7 @@
 <?php
 
-namespace Caramel\Exceptions;
+namespace Caramel\Exception;
+
 
 
 /**
@@ -12,7 +13,7 @@ class ExceptionHandler
 {
 
     /**
-     * adds a global exception handler for caramel exceptions
+     * adds a global exception handler for Caramel exceptions
      * ExceptionHandler constructor.
      */
     public function __construct()
@@ -23,8 +24,11 @@ class ExceptionHandler
 
         set_exception_handler(function ($Exception) use (&$originalHandler) {
             if ($Exception instanceof CaramelException) {
-                # include the error template
-                die(include_once "Error/Error.php");
+
+
+                # display exception stuff here
+                echo "<div><b>" .$Exception->getMessage() . "</b></div>";
+                die("exception");
 
             } elseif (is_callable($originalHandler)) {
                 return call_user_func_array($originalHandler, [$Exception]);

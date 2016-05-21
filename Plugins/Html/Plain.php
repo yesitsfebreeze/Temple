@@ -3,8 +3,8 @@
 namespace Caramel\Plugins\Html;
 
 
-use Caramel\Models\Node;
-use Caramel\Models\Plugin;
+use Caramel\Models\NodeModel;
+use Caramel\Models\PluginModel;
 
 
 /**
@@ -16,11 +16,11 @@ use Caramel\Models\Plugin;
  * @author      Stefan Hövelmanns
  * @License     MIT
  */
-class Plain extends Plugin
+class Plain extends PluginModel
 {
 
     /** @var string $symbol */
-    private $symbol = ":";
+    private $symbol = "-";
 
 
     /**
@@ -33,30 +33,27 @@ class Plain extends Plugin
 
 
     /**
-     * @param Node $node
+     * @param NodeModel $node
      * @return bool
      */
-    public function check(Node $node)
+    public function check(NodeModel $node)
     {
         $tag = $node->get("tag.tag");
+
         return ($tag[0] == $this->symbol);
     }
 
 
     /**
-     * @param Node $node
-     * @return Node
+     * @param NodeModel $node
+     * @return NodeModel
      * @throws \Exception
      */
-    public function process(Node $node)
+    public function process(NodeModel $node)
     {
 
-        $trailing = true;
-        # if we have a double minus we don't use the trailing space
-        if ($node->get("tag.tag") == $this->symbol . $this->symbol) $trailing = false;
-
         # create the plain node
-        $node = $this->createPlain($node, $trailing);
+        $node = $this->createPlain($node);
 
         if ($node->has("children")) {
             # if we have children add a linebreak to the comment
@@ -64,7 +61,8 @@ class Plain extends Plugin
             $node->set("tag.opening.prefix", "");
             $node->set("tag.closing.postfix", "");
             # recursively process all children
-            $this->processChildren($node, $trailing);
+            $this->processChildren($node);
+
         }
 
         return $node;
@@ -75,21 +73,20 @@ class Plain extends Plugin
      * recursively iterates over our children and
      * adjust them for the comment
      *
-     * @param Node    $node
-     * @param boolean $trailing
+     * @param NodeModel $node
      */
-    private function processChildren(Node $node, $trailing)
+    private function processChildren(NodeModel $node)
     {
         $children = $node->get("children");
-        /** @var Node $child */
+        /** @var NodeModel $child */
         foreach ($children as $child) {
-            $child = $this->createPlain($child, $trailing, true);
+            $child = $this->createPlain($child, true);
             if ($child->get("tag.tag") == $this->symbol && $child->get("attributes") == "") {
                 $child->set("content", "</br>");
             }
 
             if ($child->has("children")) {
-                $this->processChildren($child, $trailing);
+                $this->processChildren($child);
             }
         }
     }
@@ -98,22 +95,19 @@ class Plain extends Plugin
     /**
      * creates the comment from the current node
      *
-     * @param Node    $node
-     * @param boolean $trailing
-     * @param boolean $child
+     * @param NodeModel $node
+     * @param boolean   $child
      * @return mixed
      */
-    private function createPlain(Node $node, $trailing, $child = false)
+    private function createPlain(NodeModel $node, $child = false)
     {
         $node->set("tag.opening.display", false);
         $node->set("tag.closing.display", false);
         $node->set("plugins", false);
         $node->set("content", $node->get("attributes"));
-        if ($trailing) {
-            $node->set("content", $node->get("content") . " ");
-        }
+        $node->set("content", $node->get("content"));
         if ($child) {
-            $node->set("content", $node->get("tag.opening.tag") . " " . $node->get("content"));
+            $node->set("content", " " .$node->get("tag.opening.tag") . " " . $node->get("content"));
         }
 
         # replace all php tags for security reasons

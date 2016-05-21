@@ -3,17 +3,12 @@
 namespace Caramel\Services;
 
 
-use Caramel\Exceptions\CaramelException;
-use Caramel\Models\Service;
+use Caramel\Exception\CaramelException;
+use Caramel\Models\ServiceModel;
 
-
-/**
- * Class Cache
- *
- * @package Caramel
- */
-class Cache extends Service
+class CacheService extends ServiceModel
 {
+
 
     /** @var string $cacheFile */
     private $cacheFile = "__cache.php";
@@ -284,5 +279,6 @@ class Cache extends Service
 
         return $this->config->get("cache_dir");
     }
+
 
 }

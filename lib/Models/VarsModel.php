@@ -3,12 +3,15 @@
 namespace Caramel\Models;
 
 
+use Caramel\Repositories\StorageRepository;
+
+
 /**
  * Class Vars
  *
  * @package Caramel
  */
-class Vars extends Storage
+class Vars extends StorageRepository
 {
     public function set($path,$value,$cached = false)
     {

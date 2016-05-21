@@ -1,31 +1,28 @@
 <?php
 
-namespace Caramel\Exceptions;
-
-
-use Exception as Exception;
+namespace Caramel\Exception;
 
 /**
  * Class CaramelException
  *
  * @package Caramel
  */
-class CaramelException extends Exception
+class CaramelException extends \Exception
 {
 
-    /** @var bool|string $caramelFile */
-    private $caramelFile;
+    /** @var bool|string $CaramelFile */
+    private $CaramelFile;
 
-    /** @var integer|string $caramelLine */
-    private $caramelLine;
+    /** @var integer|string $CaramelLine */
+    private $CaramelLine;
 
 
-    public function __construct($message = "", $file = false, $line = false, $code = 0, Exception $previous = NULL)
+    public function __construct($message = "", $file = false, $line = false, $code = 0, \Exception $previous = NULL)
     {
 
         # if we'v passed an exception, translate its values to the new one
-        if ($message instanceof Exception) {
-            /** @var Exception $exception */
+        if ($message instanceof \Exception) {
+            /** @var \Exception $exception */
             $exception = $message;
             $message   = $exception->getMessage();
             $code      = $exception->getCode();
@@ -34,11 +31,11 @@ class CaramelException extends Exception
 
 
         if ($file) {
-            $this->caramelFile = $file;
+            $this->CaramelFile = $file;
         }
 
         if ($line) {
-            $this->caramelLine = $line;
+            $this->CaramelLine = $line;
         }
 
         # execute the default exception after that
@@ -48,24 +45,24 @@ class CaramelException extends Exception
 
 
     /**
-     * returns the caramel file
+     * returns the Caramel file
      *
      * @return bool|string
      */
     public function getCaramelFile()
     {
-        return $this->caramelFile;
+        return $this->CaramelFile;
     }
 
 
     /**
-     * returns the caramel line
+     * returns the Caramel line
      *
      * @return bool|int|string
      */
     public function getCaramelLine()
     {
-        return $this->caramelLine;
+        return $this->CaramelLine;
     }
 
 

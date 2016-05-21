@@ -3,9 +3,9 @@
 namespace Caramel\Plugins\Core;
 
 
-use Caramel\Exceptions\CaramelException;
-use Caramel\Models\Node;
-use Caramel\Models\Plugin;
+use Caramel\Exception\CaramelException;
+use Caramel\Models\NodeModel;
+use Caramel\Models\PluginModel;
 
 
 /**
@@ -23,7 +23,7 @@ use Caramel\Models\Plugin;
  * @License : MIT
  * @package Caramel
  */
-class Variables extends Plugin
+class Variables extends PluginModel
 {
 
     /** @var  string $sign */
@@ -40,11 +40,11 @@ class Variables extends Plugin
 
 
     /**
-     * @param Node $node
+     * @param NodeModel $node
      * @return bool
      * @throws CaramelException
      */
-    public function check(Node $node)
+    public function check(NodeModel $node)
     {
         $this->sign = $this->config->get("variable_symbol");
         $tag        = $node->get("tag.tag");
@@ -53,11 +53,11 @@ class Variables extends Plugin
     }
 
     /**
-     * @var Node $node
-     * @return Node $node
+     * @var NodeModel $node
+     * @return NodeModel $node
      * hast to return $node
      */
-    public function process(Node $node)
+    public function process(NodeModel $node)
     {
         # hide it if we have a variable tag
         $node->set("display", false);
@@ -70,10 +70,10 @@ class Variables extends Plugin
 
 
     /**
-     * @param Node $node
+     * @param NodeModel $node
      * @return bool|mixed
      */
-    private function parseVariable(Node $node)
+    private function parseVariable(NodeModel $node)
     {
         $value = preg_replace("/^\s*?=\s*?/", "", $node->get("attributes"));
         if ($node->has("children")) {
@@ -81,7 +81,7 @@ class Variables extends Plugin
 
             $array = array();
 
-            /** @var $child Node */
+            /** @var $child NodeModel */
             foreach ($children as $child) {
                 $name  = $this->getVariableName($child);
                 $name  = $this->parseValue($name);
@@ -147,11 +147,11 @@ class Variables extends Plugin
 
 
     /**
-     * @param Node|bool $node
-     * @param string $name
+     * @param NodeModel|bool $node
+     * @param string         $name
      * @return string
      */
-    private function getVariableName(Node $node, $name = "")
+    private function getVariableName(NodeModel $node, $name = "")
     {
         if ($name == "") $name = $node->get("tag.tag");
         $symbol = preg_quote($this->sign);

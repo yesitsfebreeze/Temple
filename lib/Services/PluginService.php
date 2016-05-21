@@ -3,17 +3,15 @@
 namespace Caramel\Services;
 
 
-use Caramel\Models\Plugin;
-use Caramel\Models\Service;
+use Caramel\Models\PluginModel;
+use Caramel\Models\ServiceModel;
+use Caramel\Repositories\ServiceRepository;
 
-/**
- * handles the plugin loading
- * Class PluginLoader
- *
- * @package Caramel
- */
-class Plugins extends Service
+class PluginService extends ServiceModel
 {
+
+    /** @var ServiceRepository $services */
+    private $services;
 
     /** @var array $plugins */
     private $list;
@@ -23,13 +21,18 @@ class Plugins extends Service
 
 
     /**
-     * initiates the plugins
+     *  initiates the plugins
+
+     *
+     * @param ServiceRepository $services
+     * @throws \Caramel\Exception\CaramelException
      */
-    public function init()
+    public function init(ServiceRepository $services)
     {
         # add the default plugin dir
+        $this->services   = $services;
         $this->containers = $this->config->get("plugin_containers");
-        $this->list = $this->loadPlugins();
+        $this->list       = $this->loadPlugins();
     }
 
 
@@ -41,7 +44,9 @@ class Plugins extends Service
      */
     public function addPluginDir($dir)
     {
-        return $this->directories->add($dir, "plugins.dirs");
+        $returner = $this->directories->add($dir, "plugins.dirs");
+        $this->init($this->services);
+        return $returner;
     }
 
 
@@ -87,6 +92,7 @@ class Plugins extends Service
         $dirs = $this->getPluginDirs();
         # iterate all plugin directories
         foreach ($dirs as $dir) {
+
             # search the directory recursively to get all plugins
             $dir   = new \RecursiveDirectoryIterator($dir);
             $files = new \RecursiveIteratorIterator($dir, \RecursiveIteratorIterator::SELF_FIRST);
@@ -146,22 +152,13 @@ class Plugins extends Service
      * creates a new plugin instance with the given class
      *
      * @param string $class
-     * @return Plugin
+     * @return PluginModel
      */
     private function installPlugin($class)
     {
-        /** @var Plugin $plugin */
+        /** @var PluginModel $plugin */
         # create a new instance of the plugin
-        $plugin = new $class();
-
-
-        $plugin->setVars($this->vars);
-        $plugin->setConfig($this->config);
-        $plugin->setDirectories($this->directories);
-        $plugin->setCache($this->cache);
-        $plugin->setLexer($this->lexer);
-        $plugin->setParser($this->parser);
-        $plugin->setTemplate($this->template);
+        $plugin = new $class($this->services);
 
         return $plugin;
     }
@@ -212,4 +209,5 @@ class Plugins extends Service
 
         return $plugins;
     }
+
 }
