@@ -4,6 +4,7 @@ namespace Caramel\Services;
 
 
 use Caramel\Exception\CaramelException;
+use Caramel\Models\DomModel;
 use Caramel\Models\ServiceModel;
 
 class TemplateService extends ServiceModel
@@ -19,13 +20,6 @@ class TemplateService extends ServiceModel
     public function show($file)
     {
         $templateFile = $this->parse($file);
-
-        # add the file header if wanted
-        $fileHeader = $this->config->get("file_header");
-        if ($fileHeader) {
-            echo "<!-- " . $fileHeader . " -->";
-        }
-
         # scoped Caramel
         /** @noinspection PhpUnusedLocalVariableInspection */
         $_crml = $this;
@@ -47,7 +41,7 @@ class TemplateService extends ServiceModel
      */
     public function add($dir)
     {
-        return $this->directories->add($dir, "templates.dirs");
+        return $this->dirs->add($dir, "templates");
     }
 
 
@@ -59,7 +53,7 @@ class TemplateService extends ServiceModel
      */
     public function remove($pos)
     {
-        return $this->directories->remove($pos, "templates.dirs");
+        return $this->dirs->remove($pos, "templates");
     }
 
 
@@ -68,9 +62,9 @@ class TemplateService extends ServiceModel
      *
      * @return array
      */
-    public function dirs()
+    public function getDirs()
     {
-        return $this->directories->get("templates.dirs");
+        return $this->dirs->get("templates");
     }
 
 
@@ -103,11 +97,11 @@ class TemplateService extends ServiceModel
         # get the file extension
         # add add the config extension if it doesn't exist
         $ext       = strrev(substr(strrev($file), 0, 4));
-        $configExt = '.' . $this->config->get("extension");
+        $configExt = '.' . $this->config->get("template.extension");
         if ($ext != $configExt) $file = $file . $configExt;
 
         $files = array();
-        foreach ($this->dirs() as $level => $templateDir) {
+        foreach ($this->getDirs() as $level => $templateDir) {
             # concat all template directories
             # with he passed file path
             $template = $templateDir . $file;
@@ -131,7 +125,7 @@ class TemplateService extends ServiceModel
     public function parse($file)
     {
         if ($this->cache->modified($file)) {
-            /** @var Dom $dom */
+            /** @var DomModel $dom */
             $dom = $this->lexer->lex($file);
             $this->parser->parse($dom);
         }

@@ -11,7 +11,7 @@ class CacheService extends ServiceModel
 
 
     /** @var string $cacheFile */
-    private $cacheFile = "__cache.php";
+    private $cacheFile = ".cache";
 
 
     /**
@@ -20,15 +20,20 @@ class CacheService extends ServiceModel
      * @param string $dir
      * @return string
      */
-    public function set($dir)
+    public function setDir($dir)
     {
-        $dir  = preg_replace("/\/$/", "", $dir);
-        $temp = array_reverse(explode("/", $dir));
-        if ($temp[0] != "Caramel") $dir = preg_replace("/\/$/", "", $dir) . "/Caramel";
-        $dir = $dir . "/";
-        $this->config->set("cache_dir", $dir);
+        return $this->dirs->set("cache", $dir);
+    }
 
-        return $this->updateCacheDir();
+
+    /**
+     * returns the cache directory
+     *
+     * @return string
+     */
+    public function getDir()
+    {
+        return $this->dirs->get("cache");
     }
 
 
@@ -57,27 +62,42 @@ class CacheService extends ServiceModel
      */
     public function modified($file)
     {
-        if (!$this->config->get("use_cache")) {
+
+
+        if (!$this->config->get("cache.enable")) {
+            return true;
+        }
+
+        $cache = $this->getCache();
+        if (is_bool($cache)) {
             return true;
         }
 
         $modified = false;
 
-        $cache        = $this->getCache();
-        $dependencies = $cache["dependencies"][ $file ];
-        if (!$dependencies) {
-            $modified = true;
-        } else {
-            $times = $cache["times"];
-            foreach ($dependencies as $dependency) {
-                $templates = $this->template->findTemplates($dependency);
-                foreach ($templates as $template) {
-                    $cacheTime   = $times[ $dependency ][ md5($template) ];
-                    $currentTime = filemtime($template);
-                    if ($cacheTime != $currentTime) {
-                        $modified = true;
-                    }
+        $times     = $cache["times"];
+        $templates = array();
+        if (isset($cache["dependencies"])) {
+            $dependencies = $cache["dependencies"][ $file ];
+            if ($dependencies) {
+                foreach ($dependencies as $dependency) {
+                    $templates = array_merge($templates, $this->template->findTemplates($dependency));
                 }
+            }
+        }
+
+        $file      = str_replace("." . $this->config->get("template.extension"), "", $file);
+        $templates = array_merge($templates, $this->template->findTemplates($file));
+        foreach ($templates as $template) {
+            $templatePath = $template;
+            foreach ($this->template->getDirs() as $dir) {
+                $template = str_replace($dir, "", $templatePath);
+            }
+            $template = str_replace("." . $this->config->get("template.extension"), "", $template);
+            $cacheTime = $times[ $template ][ md5($templatePath) ];
+            $currentTime = filemtime($templatePath);
+            if ($cacheTime != $currentTime) {
+                $modified = true;
             }
         }
 
@@ -98,8 +118,8 @@ class CacheService extends ServiceModel
         if (!$file || $file == "") throw new CaramelException("Please set a file for your dependency");
         if (!$parent || $parent == "") throw new CaramelException("Please set a parent file for your dependency");
 
-        $file   = $this->clean($file);
-        $parent = $this->clean($parent);
+        $file   = $this->cleanFile($file);
+        $parent = $this->cleanFile($parent);
 
         $cache = $this->getCache();
         if (is_null($cache["dependencies"][ $parent ])) {
@@ -122,7 +142,7 @@ class CacheService extends ServiceModel
      */
     private function setTime($file)
     {
-        $file      = $this->clean($file);
+        $file      = $this->cleanFile($file);
         $cache     = $this->getCache();
         $templates = $this->template->findTemplates($file);
         foreach ($templates as $template) {
@@ -169,9 +189,8 @@ class CacheService extends ServiceModel
      */
     public function getPath($file)
     {
-        $this->updateCacheDir();
         # remove the template dir
-        foreach ($this->template->dirs() as $dir) {
+        foreach ($this->template->getDirs() as $dir) {
             $file = str_replace($dir, "", $file);
         }
 
@@ -179,10 +198,8 @@ class CacheService extends ServiceModel
         $file = $this->extension($file);
 
         # replace slashes with an dot
-        $file = str_replace("/", '.', $file);
-
-        # add cache directory and escape the slashes with an underscore
-        $file = $this->updateCacheDir() . $file;
+        $file = str_replace(DIRECTORY_SEPARATOR, '.', $file);
+        $file = $this->getDir() . DIRECTORY_SEPARATOR . $file;
 
         return $file;
     }
@@ -196,7 +213,7 @@ class CacheService extends ServiceModel
      */
     private function extension($file)
     {
-        $file             = str_replace("." . $this->config->get("extension"), ".php", $file);
+        $file             = str_replace("." . $this->config->get("template.extension"), ".php", $file);
         $currentExtension = array_reverse(explode(".", $file));
         $currentExtension = $currentExtension[0];
         if ($currentExtension != "php") {
@@ -231,8 +248,8 @@ class CacheService extends ServiceModel
      */
     public function clear($dir = NULL)
     {
-        if (is_null($dir)) {
-            $dir = $this->updateCacheDir();
+        if ($dir == NULL) {
+            $dir = $this->getDir();
         }
         foreach (scandir($dir) as $item) {
             if ($item != '..' && $item != '.') {
@@ -255,29 +272,15 @@ class CacheService extends ServiceModel
      * @param $file
      * @return string
      */
-    private function clean($file)
+    private function cleanFile($file)
     {
-        foreach ($this->template->dirs() as $templateDir) {
+        foreach ($this->template->getDirs() as $templateDir) {
             $file = str_replace($templateDir, "", $file);
         }
 
-        $file = str_replace("." . $this->config->get("extension"), "", $file);
+        $file = str_replace("." . $this->config->get("template.extension"), "", $file);
 
         return $file;
-    }
-
-
-    /**
-     * updates the cache directory if we changed it via php
-     *
-     * @return string
-     */
-    private function updateCacheDir()
-    {
-        $dir = $this->config->get("cache_dir");
-        $this->directories->add($dir, "cache_dir", true);
-
-        return $this->config->get("cache_dir");
     }
 
 

@@ -5,7 +5,9 @@ namespace Caramel\Services;
 
 use Caramel\Exception\CaramelException;
 use Caramel\Models\DomModel;
-use Caramel\Models\NodeModel;
+use Caramel\Models\Nodes\FunctionNodeModel;
+use Caramel\Models\Nodes\HtmlNodeModel;
+use Caramel\Models\Nodes\NodeModel;
 use Caramel\Models\ServiceModel;
 use Caramel\Repositories\StorageRepository;
 
@@ -25,72 +27,56 @@ class LexerService extends ServiceModel
     /**
      * returns DomModel object
      *
-     * @param string   $file
+     * @param string   $filename
      * @param int|bool $level
      * @return array
      */
-    public function lex($file, $level = false)
+    public function lex($filename, $level = false)
     {
+
+        # create a new dom model
         $this->dom = new DomModel();
-        $this->prepare($file, $level);
+        $filename  = str_replace("." . $this->config->get("template.extension"), "", $filename);
+        $this->dom->set("info.namespace", $filename);
+        $this->dom->set("info.line", 1);
+        $this->dom->set("info.indent.amount", 0);
+        $this->dom->set("info.indent.char", "");
+        $this->dom->set("info.templates", $this->template->findTemplates($filename));
+        $this->dom->set("info.level", $level);
+        $this->dom->set("info.file", $this->getFile($level, $filename));
+        $this->dom->set("nodes", array());
+
+        # and then process the file
         $this->process();
-        $this->dom->delete("temp");
+
 
         return $this->dom;
     }
 
 
     /**
-     * set the default values for our dom
+     * returns the matching file
      *
-     * @param string  $file
-     * @param integer $level
-     */
-    private function prepare($file, $level)
-    {
-        $namespace = str_replace("." . $this->config->get("extension"), "", $file);
-        $this->dom->set("namespace", $namespace);
-        $this->dom->set("nodes", array());
-        $file = $this->template($file, $level);
-        $this->dom->set("template.level", $file->get("level"));
-        $this->dom->set("template.file", $file->get("file"));
-        $this->dom->set("template.line", 1);
-        $this->dom->set("template.indent.amount", 0);
-        $this->dom->set("template.indent.char", "");
-    }
-
-
-    /**
-     * returns the matching file template
-     *
-     * @param $file
-     * @param $level
+     * @param int|null $level
+     * @param string   $filename
      * @return StorageRepository
      * @throws CaramelException
      */
-    private function template($file, $level)
+    private function getFile($level, $filename)
     {
 
-        $template  = new StorageRepository();
-        $templates = $this->template->findTemplates($file);
+        $templates = $this->dom->get("info.templates");
 
-        if ($level !== false) {
-            if (isset($templates[ $level ])) {
-                $template->set("level", $level);
-                $template->set("file", $templates[ $level ]);
-            } else {
-                throw new CaramelException("Can't find template file for '" . $file . "' on template level " . $level);
-            }
-        } else {
-            foreach ($templates as $level => $file) {
-                $template->set("level", $level);
-                $template->set("file", $file);
-
-                return $template;
-            }
+        if (is_null($level)) {
+            return reset($templates);
         }
 
-        return $template;
+        if (isset($templates[ $level ])) {
+            return $templates[ $level ];
+        }
+
+        throw new CaramelException("Can't find template file for '" . $filename . "' on template level " . $level);
+
     }
 
 
@@ -101,189 +87,47 @@ class LexerService extends ServiceModel
      */
     private function process()
     {
-        $handle = fopen($this->dom->get("template.file"), "r");
+        $handle = fopen($this->dom->get("info.file"), "r");
         while (($line = fgets($handle)) !== false) {
             if (trim($line) != '') {
-                $info = $this->info($line);
-                $node = $this->node($line, $info);
-                $this->add($node);
-                $this->dom->set("template.prev", $node);
+                $node = $this->createNode($line);
+                $this->addNode($node);
+                $this->dom->set("tmp.prev", $node);
             }
-            $this->dom->set("template.line", $this->dom->get("template.line") + 1);
+            $this->dom->set("info.line", $this->dom->get("info.line") + 1);
         }
         fclose($handle);
+        $this->dom->delete("tmp");
     }
 
 
     /**
-     * returns an array with information about the current node
+     * creates a node matching to the criteria
      *
-     * @param     $line
-     * @return StorageRepository
-     */
-    private function info($line)
-    {
-
-        $info = new StorageRepository();
-        $info->set("indent", $this->indent($line));
-        $line = trim($line);
-        $info->set("tag", $this->tag($line));
-        $info->set("attributes", $this->attributes($line, $info));
-        $info->set("content", $this->content($line, $info));
-        $info->set("selfclosing", $this->selfclosing($info));
-
-        return $info;
-    }
-
-
-    /**
-     * returns the indent of the current line
-     * also initially sets the indent character and amount
-     *
-     * @param     $line
-     * @return float|int
+     * @param $line
+     * @return NodeModel
      * @throws CaramelException
      */
-    private function indent($line)
+    private function createNode($line)
     {
-        # get tab or space whitespace form the line start
-        $whitespace = substr($line, 0, strlen($line) - strlen(ltrim($line)));
-
-        # initially set the indent variables
-        if ($this->dom->get("template.indent.amount") == 0) {
-            if (strlen($whitespace) > 0) {
-                $this->dom->set("template.indent.amount", strlen($whitespace));
-                $this->dom->set("template.indent.char", $whitespace[0]);
-            }
-        }
-
-        # if the indent variables are set
-        if ($this->dom->get("template.indent.char") != "" && $this->dom->get("template.indent.amount") != 0) {
-
-            # divide our counted characters trough the amount
-            # we used to indent in the first line
-            # this should be a non decimal number
-            $indent = substr_count($whitespace, $this->dom->get("template.indent.char"));
-            $indent = $indent / $this->dom->get("template.indent.amount");
-            # if we have a non decimal number return how many times we indented
-            if (is_int($indent)) return $indent;
-
-            # else throw an error since the amount of characters doesn't match
-            throw new CaramelException("Indent isn't matching!", $this->dom->get("template.file"), $this->dom->get("template.line"));
-        }
-
-        return 0;
-    }
-
-
-    /**
-     * returns the tag for the current line
-     *
-     * @param string $line
-     * @return string
-     */
-    private function tag($line)
-    {
-        # match all characters until a word boundary or space or end of the string
-        preg_match("/^(.*?)(?:$| )/", $line, $tag);
-        $tag = trim($tag[0]);
-
-        return $tag;
-    }
-
-
-    /**
-     * returns the attributes for the current line
-     *
-     * @param string            $line
-     * @param StorageRepository $info
-     * @return string
-     */
-    private function attributes($line, $info)
-    {
-        # replace the tag from the beginning of the line and then trim the string
-        $tag        = preg_quote($info->get("tag"));
-        $attributes = trim(preg_replace("/^$tag/", "", $line));
-        $attributes = explode(">", $attributes);
-
-        return $attributes[0];
-    }
-
-
-    /**
-     * returns the content for the current line
-     *
-     * @param string            $line
-     * @param StorageRepository $info
-     * @return string
-     */
-    private function content($line, $info)
-    {
-        # replace the tag from the beginning of the line and then trim the string
-        $tag = $info->get("tag");
-        if (strpos(">", substr($line, 1)) !== false) {
-            $content = trim(preg_replace("/^$tag.*?>/", "", $line));
-            $content = trim($content) . " ";
+        $identifier = trim($line)[0];
+        if ($identifier == "+") {
+            $node = new FunctionNodeModel($this->config);
         } else {
-            $content = "";
+            $node = new HtmlNodeModel($this->config);
         }
 
-        return $content;
-    }
+        $node->createNode($line);
 
+        $node->set("info.namespace", $this->dom->get("info.namespace"));
+        $node->set("info.level", $this->dom->get("info.level"));
+        $node->set("info.line", $this->dom->get("info.line"));
+        $node->set("info.file", $this->dom->get("info.file"));
+        $node->set("info.parent", "test");
 
-    /**
-     * returns if the current line has a self closing tag
-     *
-     * @param StorageRepository $info
-     * @return string
-     */
-    private function selfclosing($info)
-    {
-        # check if our tag is in the self closing array set in the config
-        if (in_array($info->get("tag"), $this->config->get("self_closing"))) return true;
-
-        return false;
-    }
-
-
-    /**
-     * creates a new node from a line
-     *
-     * @param string            $line
-     * @param StorageRepository $info
-     * @return NodeModel $node
-     */
-    private function node($line, $info)
-    {
-        // todoo: add function node
-        # create a new storage for the node
-        $node = new NodeModel();
-
-        # add everything we need to our node
-        $node->set("tag.tag", $info->get("tag"));
-        $node->set("tag.display", true);
-        $node->set("tag.opening.display", true);
-        $node->set("tag.opening.prefix", "<");
-        $node->set("tag.opening.tag", $info->get("tag"));
-        $node->set("tag.opening.postfix", ">");
-        $node->set("tag.closing.display", true);
-        $node->set("tag.closing.prefix", "</");
-        $node->set("tag.closing.tag", $info->get("tag"));
-        $node->set("tag.closing.postfix", ">");
-        $node->set("namespace", $this->dom->get("namespace"));
-        $node->set("level", $this->dom->get("template.level"));
-        $node->set("line", $this->dom->get("template.line"));
-        $node->set("plain", $line);
-        $node->set("indent", $info->get("indent"));
-        $node->set("attributes", $info->get("attributes"));
-        $node->set("content", $info->get("content"));
-        $node->set("display", true);
-        $node->set("plugins", true);
-        $node->set("selfclosing", $info->get("selfclosing"));
-        $node->set("children", array());
-        $node->set("file", $this->dom->get("template.file"));
-        $node->set("dom", $this->dom);
+        if (!$node->has("tag.tag")) {
+            throw new CaramelException("Node models must have a tag!", $this->dom->get("info.file"), $this->dom->get("info.line"));
+        }
 
         return $node;
     }
@@ -295,19 +139,28 @@ class LexerService extends ServiceModel
      *
      * @param NodeModel $node
      */
-    private function add($node)
+    private function addNode($node)
     {
         # root nodes
-        if ($node->get("indent") == 0 || $node->get("line") == 1) {
-            $node->delete("parent");
-            $this->dom->set("nodes." . $this->dom->get("template.line"), $node);
+        if ($node->get("info.indent") == 0 || $node->get("info.line") == 1) {
+            $node->set("info.parent", false);
+            $this->dom->set("nodes." . $this->dom->get("info.line"), $node);
         } else {
-            $indent     = $node->get("indent");
-            $prevIndent = $this->dom->get("template.prev")->get("indent");
+            $indent     = $node->get("info.indent");
+            $prevIndent = $this->dom->get("tmp.prev")->get("info.indent");
+
             # node position
-            if ($indent > $prevIndent) $this->deeper($node);
-            if ($indent < $prevIndent) $this->higher($node);
-            if ($indent == $prevIndent) $this->same($node);
+            if ($indent > $prevIndent) {
+                $this->deeper($node);
+            }
+
+            if ($indent < $prevIndent) {
+                $this->higher($node);
+            }
+
+            if ($indent == $prevIndent) {
+                $this->same($node);
+            }
 
         }
     }
@@ -322,12 +175,12 @@ class LexerService extends ServiceModel
      */
     private function deeper($node)
     {
-        $node->set("parent", $this->dom->get("template.prev"));
-        if ($node->get("parent")->get("selfclosing")) {
-            $tag = $node->get("parent")->get("tag.tag");
-            throw new CaramelException("You can't have children in an $tag!", $this->dom->get("template.file"), $this->dom->get("template.line"));
+        $node->set("info.parent", $this->dom->get("tmp.prev"));
+        if ($node->get("info.parent")->get("info.selfclosing")) {
+            $tag = $node->get("info.parent")->get("tag.tag");
+            throw new CaramelException("You can't have children in an $tag!", $this->dom->get("info.file"), $this->dom->get("info.line"));
         } else {
-            $this->children($this->dom->get("template.prev"), $node);
+            $this->children($this->dom->get("tmp.prev"), $node);
         }
     }
 
@@ -341,7 +194,7 @@ class LexerService extends ServiceModel
     private function higher($node)
     {
         $parent = $this->parent($node);
-        $node->set("parent", $parent);
+        $node->set("info.parent", $parent);
         $this->children($parent, $node);
     }
 
@@ -354,8 +207,8 @@ class LexerService extends ServiceModel
      */
     private function same($node)
     {
-        $parent = $this->dom->get("template.prev")->get("parent");
-        $node->set("parent", $parent);
+        $parent = $this->dom->get("tmp.prev")->get("info.parent");
+        $node->set("info.parent", $parent);
         $this->children($parent, $node);
     }
 
@@ -386,12 +239,12 @@ class LexerService extends ServiceModel
     {
 
         if (!$parent) {
-            $temp = $this->dom->get("template.prev")->get("parent");
+            $temp = $this->dom->get("tmp.prev")->get("info.parent");
         } else {
-            $temp = $parent->get("parent");
+            $temp = $parent->get("info.parent");
         }
-        if ($temp->get("indent") == $node->get("indent")) {
-            $temp = $temp->get("parent");
+        if ($temp->get("info.indent") == $node->get("info.indent")) {
+            $temp = $temp->get("info.parent");
 
             return $temp;
         } else {

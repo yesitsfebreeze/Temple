@@ -17,9 +17,6 @@ class StorageRepository
     /** @var array $storage */
     private $storage;
 
-    /** @var string $separator */
-    private $separator = ".";
-
 
     /**
      * @param $path
@@ -145,11 +142,10 @@ class StorageRepository
      * searches for an item in the current tree
      * if we pass an array it has the same behaviour
      * iterates over the array values recursively
-
-*
-*@param Storage            $item
-     * @param array|string $attrs
-     * @param string       $value
+     *
+     * @param StorageRepository $item
+     * @param array|string      $attrs
+     * @param string            $value
      * @return array
      */
     public function find($attrs, $value = NULL, &$item = NULL)
@@ -167,7 +163,7 @@ class StorageRepository
             }
         }
         if ($children) {
-            /** @var Storage $child */
+            /** @var StorageRepository $child */
             foreach ($children as &$child) {
                 $this->find($attrs, $value, $child);
                 $this->findHelper($found, $child, $attrs, $value);
@@ -180,12 +176,11 @@ class StorageRepository
 
     /**
      * outsourcing the repeating find process
-
-*
-*@param array              $found
-     * @param Storage      $item
-     * @param array|string $attrs
-     * @param string       $value
+     *
+     * @param array             $found
+     * @param StorageRepository $item
+     * @param array|string      $attrs
+     * @param string            $value
      * @return array
      */
     private function findHelper(&$found, &$item, $attrs, $value = NULL)
@@ -279,10 +274,11 @@ class StorageRepository
      */
     private function createPath($path)
     {
+        $seperator = ".";
         # remove last / if existent
-        $path = preg_replace('/' . preg_quote($this->separator) . '$/', '', $path);
+        $path = preg_replace('/' . preg_quote($seperator) . '$/', '', $path);
         # get path array
-        $path = explode($this->separator, $path);
+        $path = explode($seperator, $path);
 
         return $path;
     }

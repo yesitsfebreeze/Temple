@@ -4,7 +4,11 @@ namespace Caramel;
 
 
 use Caramel\Repositories\ServiceRepository;
+use Caramel\Services\CacheService;
+use Caramel\Services\ConfigService;
 use Caramel\Services\InitService;
+use Caramel\Services\PluginService;
+use Caramel\Services\TemplateService;
 
 
 /**
@@ -24,13 +28,13 @@ class Engine
      */
     public function __construct()
     {
-        $initService    = new InitService(__DIR__ . "/../");
+        $initService    = new InitService(__DIR__ . DIRECTORY_SEPARATOR);
         $this->services = $initService->getServices();
     }
 
 
     /**
-     * @return mixed
+     * @return ConfigService
      */
     public function Config()
     {
@@ -39,7 +43,7 @@ class Engine
 
 
     /**
-     * @return mixed
+     * @return TemplateService
      */
     public function Template()
     {
@@ -48,7 +52,7 @@ class Engine
 
 
     /**
-     * @return mixed
+     * @return CacheService
      */
     public function Cache()
     {
@@ -57,7 +61,7 @@ class Engine
 
 
     /**
-     * @return mixed
+     * @return PluginService
      */
     public function Plugins()
     {

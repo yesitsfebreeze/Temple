@@ -1,6 +1,6 @@
 <?php
 
-namespace Caramel;
+namespace Caramel\Services;
 
 
 /**
@@ -9,16 +9,15 @@ namespace Caramel;
  *
  * @package Caramel
  */
-class Autoloader
+class AutoloaderService
 {
 
     /**
      * Autoloader constructor.
-     * s
+     * @param string $dir
      */
-    public function __construct()
+    public function __construct($dir)
     {
-        $dir       = __DIR__;
         $namespace = "Caramel";
 
         spl_autoload_register(function ($class) use ($namespace, $dir) {

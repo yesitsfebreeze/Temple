@@ -7,6 +7,7 @@ use Caramel\Services\CacheService;
 use Caramel\Services\ConfigService;
 use Caramel\Services\DirectoryService;
 use Caramel\Services\LexerService;
+use Caramel\Services\NodeService;
 use Caramel\Services\ParserService;
 use Caramel\Services\PluginService;
 use Caramel\Services\TemplateService;
@@ -20,14 +21,15 @@ class ServiceModel
     /** @var ConfigService $config */
     public $config = NULL;
 
-    /** @var DirectoryService $directories */
-    public $directories = NULL;
+    /** @var DirectoryService $dirs */
+    public $dirs = NULL;
 
     /** @var PluginService $plugins */
     public $plugins = NULL;
 
     /** @var TemplateService $template */
     public $template = NULL;
+
 
     /** @var LexerService $lexer */
     public $lexer = NULL;
@@ -55,11 +57,11 @@ class ServiceModel
 
 
     /**
-     * @param DirectoryService $directories
+     * @param DirectoryService $dirs
      */
-    public function setDirectories($directories)
+    public function setDirectories($dirs)
     {
-        $this->directories = $directories;
+        $this->dirs = $dirs;
     }
 
 

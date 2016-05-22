@@ -17,9 +17,7 @@ class DirectoryService extends ServiceModel
 {
 
     /**
-     * validates and adds a directory to our config
-     * the $name variable will determent the array name
-     * the $single variable will create a simple string instead of an array
+     * validates and adds a directory to and dir array
      * note: the directories will be added top down,
      * so the last added item will be indexed with 0
      *
@@ -28,7 +26,6 @@ class DirectoryService extends ServiceModel
      * @param bool   $create
      * @return bool
      */
-
     public function add($dir, $name, $create = false)
     {
 
@@ -36,17 +33,32 @@ class DirectoryService extends ServiceModel
             $dir = $this->validate($dir);
         }
 
-        $dirs = $this->config->get($name);
-
-        if (is_array($dirs)) {
-            $dirs = $this->forArray($name, $dirs, $dir, $create);
-
-        } else {
-            $dirs = $this->forString($name, $dirs, $dir, $create);
-        }
+        $dirs = $this->get($name);
+        $name = "dirs." . $name;
+        $dirs = $this->addToArray($name, $dirs, $dir, $create);
 
         return $dirs;
 
+    }
+
+
+    /**
+     * overwrites a dir string
+     *
+     * @param string $dir
+     * @param string $name
+     * @param bool   $create
+     * @return bool
+     */
+    public function set($dir, $name, $create = false)
+    {
+        if (!$create) {
+            $dir = $this->validate($dir);
+        }
+        $name = "dirs." . $name;
+        $dir = $this->replaceString($name, $dir, $create);
+
+        return $dir;
     }
 
 
@@ -58,7 +70,28 @@ class DirectoryService extends ServiceModel
      */
     public function get($name)
     {
-        return $dirs = $this->config->get($name);
+        $this->check($name);
+
+        return $this->config->get("dirs." . $name);
+    }
+
+
+    /**
+     * iterates over all directories and checks if they are valid
+     *
+     * @param string $name
+     */
+    private function check($name)
+    {
+        $dirs = $this->config->get("dirs." . $name);
+        if (is_array($dirs)) {
+            $this->config->set("dirs." . $name, array());
+            foreach ($dirs as $dir) {
+                $this->add($dir, $name);
+            }
+        } else {
+            $this->set($dirs, $name, true);
+        }
     }
 
 
@@ -75,7 +108,7 @@ class DirectoryService extends ServiceModel
             unset($dirs[ $pos ]);
         }
 
-        return $this->config->set($name, $dirs);
+        return $this->config->set("dirs." . $name, $dirs);
     }
 
 
@@ -86,7 +119,7 @@ class DirectoryService extends ServiceModel
      * @param $create
      * @return bool|string
      */
-    private function forArray($name, $dirs, $dir, $create)
+    private function addToArray($name, $dirs, $dir, $create)
     {
         if (array_key_exists($dir, array_flip($dirs))) {
             return false;
@@ -108,7 +141,7 @@ class DirectoryService extends ServiceModel
     }
 
 
-    private function forString($name, $dirs, $dir, $create)
+    private function replaceString($name, $dir, $create)
     {
         $dir = $this->path($dir);
         $this->create($create, $dir);
@@ -116,7 +149,7 @@ class DirectoryService extends ServiceModel
         if ($temp[0] != "/") $dir = $dir . "/";
         $this->config->set($name, $dir);
 
-        return $dirs;
+        return $dir;
     }
 
 
@@ -196,14 +229,10 @@ class DirectoryService extends ServiceModel
      */
     private function framework()
     {
-        if ($this->config->has("framework_dir")) {
-            return $this->config->get("framework_dir");
-        } else {
-            $framework = explode("Caramel", __DIR__);
-            $framework = $framework[0] . "Caramel/";
+        $framework = explode("Caramel", __DIR__);
+        $framework = $framework[0] . "Caramel/";
 
-            return $framework;
-        }
+        return $framework;
     }
 
 }

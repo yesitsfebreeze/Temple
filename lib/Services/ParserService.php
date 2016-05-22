@@ -5,9 +5,8 @@ namespace Caramel\Services;
 
 use Caramel\Exception\CaramelException;
 use Caramel\Models\DomModel;
-use Caramel\Models\NodeModel;
+use Caramel\Models\Nodes\NodeModel;
 use Caramel\Models\Plugin;
-use Caramel\Models\PluginModel;
 use Caramel\Models\ServiceModel;
 
 
@@ -26,12 +25,9 @@ class ParserService extends ServiceModel
     public function parse($dom)
     {
 
-
-        $this->cache->save($dom->get("template.file"), "");
+        $this->cache->save($dom->get("info.file"), "");
         if ($this->check($dom)) return false;
-
-        # the returns make sure that the parse process
-        # stops if we have an empty dom
+        # the returns make sure that the parse process stops if we have an empty dom
         # this enables you to parse a modified dom in a plugin or function
         $dom = $this->preProcessPlugins($dom);
         if ($this->check($dom)) return false;
@@ -47,7 +43,8 @@ class ParserService extends ServiceModel
         if (!$output) return false;
 
         $output = $this->processOutputPlugins($output);
-        $this->cache->save($dom->get("template.file"), $output);
+        $this->cache->save($dom->get("info.file"), $output);
+        $this->config;
 
         return $output;
     }
@@ -55,9 +52,8 @@ class ParserService extends ServiceModel
 
     /**
      * checks if we have a valid dom object
-
      *
-*@param DomModel $dom
+     * @param DomModel $dom
      * @return bool
      */
     private function check($dom)
@@ -74,9 +70,8 @@ class ParserService extends ServiceModel
 
     /**
      * merges the nodes to a string
-
      *
-*@param DomModel|mixed $dom
+     * @param DomModel|mixed $dom
      * @return string
      * @throws CaramelException
      */
@@ -87,17 +82,25 @@ class ParserService extends ServiceModel
         $nodes  = $dom->get("nodes");
         foreach ($nodes as $node) {
             /** @var NodeModel $node */
-
             # open the tag
             if ($node->get("tag.display")) {
-                if ($node->get("display") && $node->get("tag.opening.display")) {
-                    $output .= $node->get("tag.opening.prefix");
+                if ($node->get("info.display") && $node->get("tag.opening.display")) {
+                    $output .= $node->get("tag.opening.before");
                     $output .= $node->get("tag.opening.tag");
                     if ($node->get("tag.opening.tag") != "") {
                         $output .= " ";
                     }
-                    $output .= $node->get("attributes");
-                    $output .= $node->get("tag.opening.postfix");
+                    foreach ($node->get("attributes") as $attribute) {
+                        if (isset($attribute["name"])) {
+                            $output .= $attribute["name"];
+                            if (isset($attribute["value"])) {
+                                $output .= "=";
+                                $output .= $attribute["value"];
+                            }
+                            $output .= " ";
+                        }
+                    }
+                    $output .= $node->get("tag.opening.after");
                 }
             }
 
@@ -110,7 +113,7 @@ class ParserService extends ServiceModel
 
             # recursively iterate over the children
             if ($node->has("children")) {
-                if (!$node->get("selfclosing")) {
+                if (!$node->get("info.selfclosing")) {
                     $children = new DomModel();
                     $children->set("nodes", $node->get("children"));
                     $output .= $this->output($children);
@@ -121,11 +124,11 @@ class ParserService extends ServiceModel
 
             # close the tag
             if ($node->get("tag.display")) {
-                if ($node->get("display") && $node->get("tag.closing.display") && $node->get("tag.display")) {
-                    if (!$node->get("selfclosing")) {
-                        $output .= $node->get("tag.closing.prefix");
+                if ($node->get("info.display") && $node->get("tag.closing.display") && $node->get("tag.display")) {
+                    if (!$node->get("info.selfclosing")) {
+                        $output .= $node->get("tag.closing.before");
                         $output .= $node->get("tag.closing.tag");
-                        $output .= $node->get("tag.closing.postfix");
+                        $output .= $node->get("tag.closing.after");
                     }
                 }
             }
@@ -139,9 +142,8 @@ class ParserService extends ServiceModel
 
     /**
      * execute the plugins before we do anything else
-
      *
-*@param DomModel $dom
+     * @param DomModel $dom
      * @return mixed
      */
     private function preProcessPlugins($dom)
@@ -153,10 +155,9 @@ class ParserService extends ServiceModel
     /**
      * execute the plugins on each individual node
      * children will parsed first
-
      *
-*@param DomModel|array $dom
-     * @param array    $nodes
+     * @param DomModel|array $dom
+     * @param array          $nodes
      * @return mixed
      */
     private function processPlugins($dom, $nodes = NULL)
@@ -181,9 +182,8 @@ class ParserService extends ServiceModel
 
     /**
      * process the plugins after the main plugin process
-
      *
-*@param DomModel $dom
+     * @param DomModel $dom
      * @return mixed
      */
     private function postProcessPlugins($dom)
@@ -206,40 +206,40 @@ class ParserService extends ServiceModel
 
     /**
      * processes all plugins depending on the passed type
-
-*
-*@param DomModel|NodeModel|string $element
-     * @param string              $type
+     *
+     * @param DomModel|NodeModel|string $element
+     * @param string                        $type
      * @return mixed
      * @throws CaramelException
      */
     private function executePlugins($element, $type)
     {
-        $plugins = $this->plugins->getPlugins();
-        foreach ($plugins as $key => $position) {
-            /** @var PluginModel $plugin */
-            foreach ($position as $plugin) {
-                if ($type == "pre") {
-                    $element = $plugin->preProcess($element);
-                    $this->PluginError($element, $plugin, "preProcess", '$dom');
-                }
-                if ($type == "plugins") {
-                    # only process if it's not disabled
-                    if ($element->get("plugins")) {
-                        $element = $plugin->realProcess($element);
-                        $this->PluginError($element, $plugin, 'process', '$node');
-                    }
-                }
-                if ($type == "post") {
-                    $element = $plugin->postProcess($element);
-                    $this->PluginError($element, $plugin, 'postProcess', '$dom');
-                }
-                if ($type == "output") {
-                    $element = $plugin->processOutput($element);
-                    $this->PluginError($element, $plugin, 'processOutput', '$output');
-                }
-            }
-        }
+
+//        $plugins = $this->plugins->getPlugins();
+//        foreach ($plugins as $key => $position) {
+//            /** @var PluginModel $plugin */
+//            foreach ($position as $plugin) {
+//                if ($type == "pre") {
+//                    $element = $plugin->preProcess($element);
+//                    $this->PluginError($element, $plugin, "preProcess", '$dom');
+//                }
+//                if ($type == "plugins") {
+//                    # only process if it's not disabled
+//                    if ($element->get("plugins")) {
+//                        $element = $plugin->realProcess($element);
+//                        $this->PluginError($element, $plugin, 'process', '$node');
+//                    }
+//                }
+//                if ($type == "post") {
+//                    $element = $plugin->postProcess($element);
+//                    $this->PluginError($element, $plugin, 'postProcess', '$dom');
+//                }
+//                if ($type == "output") {
+//                    $element = $plugin->processOutput($element);
+//                    $this->PluginError($element, $plugin, 'processOutput', '$output');
+//                }
+//            }
+//        }
 
         return $element;
     }

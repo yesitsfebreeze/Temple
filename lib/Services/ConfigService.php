@@ -24,6 +24,9 @@ class ConfigService extends StorageRepository
             if (isset($config)) {
                 if (sizeof($config) > 0) {
                     $this->merge($config);
+                    if ($this->has("errorhandler") && $this->get("errorhandler")) {
+                        $this->set("errorhandler", new ExceptionHandler());
+                    }
                 }
             } else {
                 throw new CaramelException('You must declare an "$config" array!', $file);
@@ -32,26 +35,5 @@ class ConfigService extends StorageRepository
             throw new CaramelException("Can't find the config file!", $file);
         }
     }
-
-
-    /**
-     * initially sets the required settings
-     *
-     * @param string $rootDir
-     */
-    public function init($rootDir)
-    {
-        $this->set("caramel_dir", $rootDir);
-        $this->set("framework_dir", $rootDir . "lib/");
-        $this->set("cache_dir", $rootDir . "cache/");
-
-        $this->addConfigFile($rootDir . "config.php");
-
-        if (!$this->has("use_exception_handler")) {
-            $this->set("exception_handler", new ExceptionHandler());
-        }
-
-    }
-
 
 }

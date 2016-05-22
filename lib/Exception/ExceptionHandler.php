@@ -3,7 +3,6 @@
 namespace Caramel\Exception;
 
 
-
 /**
  * Class ExceptionHandler
  *
@@ -24,12 +23,7 @@ class ExceptionHandler
 
         set_exception_handler(function ($Exception) use (&$originalHandler) {
             if ($Exception instanceof CaramelException) {
-
-
-                # display exception stuff here
-                echo "<div><b>" .$Exception->getMessage() . "</b></div>";
-                die("exception");
-
+                new ExceptionTemplate($Exception);
             } elseif (is_callable($originalHandler)) {
                 return call_user_func_array($originalHandler, [$Exception]);
             }

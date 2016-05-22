@@ -20,7 +20,7 @@ class InitService
     private $cache = NULL;
 
     /** @var DirectoryService $directories */
-    private $directories = NULL;
+    private $dirs = NULL;
 
     /** @var PluginService $plugins */
     private $plugins = NULL;
@@ -42,30 +42,29 @@ class InitService
      */
     public function __construct($dir)
     {
-        $this->config      = new ConfigService();
-        $this->cache       = new CacheService();
-        $this->directories = new DirectoryService();
-        $this->plugins     = new PluginService();
-        $this->template    = new TemplateService();
-        $this->lexer       = new LexerService();
-        $this->parser      = new ParserService();
+        $this->dirs     = new DirectoryService();
+        $this->config   = new ConfigService($this->dirs);
+        $this->cache    = new CacheService();
+        $this->plugins  = new PluginService();
+        $this->template = new TemplateService();
+        $this->lexer    = new LexerService();
+        $this->parser   = new ParserService();
 
-        $this->cache = $this->initServices($this->cache);
-        $this->directories = $this->initServices($this->directories);
-        $this->plugins = $this->initServices($this->plugins);
+        $this->cache    = $this->initServices($this->cache);
+        $this->dirs     = $this->initServices($this->dirs);
+        $this->plugins  = $this->initServices($this->plugins);
         $this->template = $this->initServices($this->template);
-        $this->lexer = $this->initServices($this->lexer);
-        $this->parser = $this->initServices($this->parser);
+        $this->lexer    = $this->initServices($this->lexer);
+        $this->parser   = $this->initServices($this->parser);
 
-        $this->config->init($dir);
-        $this->directories->add($dir . "plugins", "plugins.dirs");
+        $this->config->addConfigFile($dir . "Config.php");
+        $this->dirs->add($dir . "Plugins", "plugins");
 
         $this->services = new ServiceRepository();
-
         # add everything which should be accessible within a plugin
         $this->services->add("config", $this->config);
         $this->services->add("cache", $this->cache);
-        $this->services->add("directories", $this->directories);
+        $this->services->add("dirs", $this->dirs);
         $this->services->add("plugins", $this->plugins);
         $this->services->add("template", $this->template);
 
@@ -74,11 +73,25 @@ class InitService
 
 
     /**
-     * @return mixed
+     * @return ServiceRepository
      */
     public function getServices()
     {
         return $this->services;
+    }
+
+
+    /**
+     * @return ServiceModel
+     * @param string $service
+     */
+    public function getService($service)
+    {
+        if ($this->$service instanceof ServiceModel) {
+            return $this->$service;
+        }
+
+        return false;
     }
 
 
@@ -92,7 +105,7 @@ class InitService
         $handler->setPlugins($this->plugins);
         $handler->setConfig($this->config);
         $handler->setCache($this->cache);
-        $handler->setDirectories($this->directories);
+        $handler->setDirectories($this->dirs);
         $handler->setTemplate($this->template);
         $handler->setParser($this->parser);
         $handler->setLexer($this->lexer);
