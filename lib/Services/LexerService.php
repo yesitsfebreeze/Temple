@@ -49,7 +49,6 @@ class LexerService extends ServiceModel
         # and then process the file
         $this->process();
 
-
         return $this->dom;
     }
 
@@ -110,13 +109,10 @@ class LexerService extends ServiceModel
      */
     private function createNode($line)
     {
-        $identifier = trim($line)[0];
-        if ($identifier == "+") {
-            $node = new FunctionNodeModel($this->config);
-        } else {
-            $node = new HtmlNodeModel($this->config);
-        }
 
+        $this->nodeFactory->addConfig($this->config);
+
+        $node = $this->nodeFactory->create($line);
         $node->createNode($line);
 
         $node->set("info.namespace", $this->dom->get("info.namespace"));

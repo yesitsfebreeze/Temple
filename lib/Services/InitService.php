@@ -4,6 +4,8 @@
 namespace Caramel\Services;
 
 
+use Caramel\Factories\NodeFactory;
+use Caramel\Factories\PluginFactory;
 use Caramel\Models\ServiceModel;
 use Caramel\Repositories\ServiceRepository;
 
@@ -42,20 +44,22 @@ class InitService
      */
     public function __construct($dir)
     {
-        $this->dirs     = new DirectoryService();
-        $this->config   = new ConfigService($this->dirs);
-        $this->cache    = new CacheService();
-        $this->plugins  = new PluginService();
+        $this->dirs = new DirectoryService();
+        $this->config = new ConfigService($this->dirs);
+        $this->cache = new CacheService();
+        $this->pluginFactory = new PluginFactory();
+        $this->plugins = new PluginService();
+        $this->nodeFactory = new NodeFactory();
         $this->template = new TemplateService();
-        $this->lexer    = new LexerService();
-        $this->parser   = new ParserService();
+        $this->lexer = new LexerService();
+        $this->parser = new ParserService();
 
-        $this->cache    = $this->initServices($this->cache);
-        $this->dirs     = $this->initServices($this->dirs);
-        $this->plugins  = $this->initServices($this->plugins);
+        $this->cache = $this->initServices($this->cache);
+        $this->dirs = $this->initServices($this->dirs);
+        $this->plugins = $this->initServices($this->plugins);
         $this->template = $this->initServices($this->template);
-        $this->lexer    = $this->initServices($this->lexer);
-        $this->parser   = $this->initServices($this->parser);
+        $this->lexer = $this->initServices($this->lexer);
+        $this->parser = $this->initServices($this->parser);
 
         $this->config->addConfigFile($dir . "Config.php");
         $this->dirs->add($dir . "Plugins", "plugins");
@@ -109,6 +113,8 @@ class InitService
         $handler->setTemplate($this->template);
         $handler->setParser($this->parser);
         $handler->setLexer($this->lexer);
+        $handler->setPluginFactory($this->pluginFactory);
+        $handler->setNodeFactory($this->nodeFactory);
 
         return $handler;
     }

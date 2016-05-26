@@ -3,6 +3,8 @@
 namespace Caramel\Models;
 
 
+use Caramel\Factories\NodeFactory;
+use Caramel\Factories\PluginFactory;
 use Caramel\Services\CacheService;
 use Caramel\Services\ConfigService;
 use Caramel\Services\DirectoryService;
@@ -24,12 +26,17 @@ class ServiceModel
     /** @var DirectoryService $dirs */
     public $dirs = NULL;
 
+    /** @var PluginFactory $pluginFactory */
+    public $pluginFactory = NULL;
+
     /** @var PluginService $plugins */
     public $plugins = NULL;
 
+    /** @var NodeFactory $nodeFactory */
+    public $nodeFactory = NULL;
+
     /** @var TemplateService $template */
     public $template = NULL;
-
 
     /** @var LexerService $lexer */
     public $lexer = NULL;
@@ -71,6 +78,24 @@ class ServiceModel
     public function setPlugins($plugins)
     {
         $this->plugins = $plugins;
+    }
+
+
+    /**
+     * @param PluginFactory $pluginFactory
+     */
+    public function setPluginFactory($pluginFactory)
+    {
+        $this->pluginFactory = $pluginFactory;
+    }
+
+
+    /**
+     * @param NodeFactory $nodeFactory
+     */
+    public function setNodeFactory($nodeFactory)
+    {
+        $this->nodeFactory = $nodeFactory;
     }
 
 
