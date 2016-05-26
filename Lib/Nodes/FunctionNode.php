@@ -1,6 +1,6 @@
 <?php
 
-namespace Caramel\Models\Nodes;
+namespace Caramel\Nodes;
 
 // todoo: split attributes
 // todoo: add find method, maybe even to storage

@@ -5,7 +5,7 @@ namespace Caramel\Services;
 
 use Caramel\Exception\CaramelException;
 use Caramel\Models\DomModel;
-use Caramel\Models\Nodes\NodeModel;
+use Caramel\Nodes\NodeModel;
 use Caramel\Models\Plugin;
 use Caramel\Models\ServiceModel;
 

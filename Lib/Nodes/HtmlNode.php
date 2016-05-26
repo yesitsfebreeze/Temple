@@ -1,6 +1,6 @@
 <?php
 
-namespace Caramel\Models\Nodes;
+namespace Caramel\Nodes;
 
 
 // todoo: split attributes

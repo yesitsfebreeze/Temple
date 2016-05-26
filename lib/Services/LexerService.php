@@ -5,9 +5,9 @@ namespace Caramel\Services;
 
 use Caramel\Exception\CaramelException;
 use Caramel\Models\DomModel;
-use Caramel\Models\Nodes\FunctionNodeModel;
-use Caramel\Models\Nodes\HtmlNodeModel;
-use Caramel\Models\Nodes\NodeModel;
+use Caramel\Nodes\FunctionNodeModel;
+use Caramel\Nodes\HtmlNodeModel;
+use Caramel\Nodes\NodeModel;
 use Caramel\Models\ServiceModel;
 use Caramel\Repositories\StorageRepository;
 
