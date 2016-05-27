@@ -7,7 +7,7 @@ use Caramel\Repositories\ServiceRepository;
 use Caramel\Services\CacheService;
 use Caramel\Services\ConfigService;
 use Caramel\Services\InitService;
-use Caramel\Services\PluginService;
+use Caramel\Services\PluginInitService;
 use Caramel\Services\TemplateService;
 
 
@@ -38,7 +38,7 @@ class Engine
      */
     public function Config()
     {
-        return $this->services->get("config");
+        return $this->services->get("configService");
     }
 
 
@@ -47,7 +47,7 @@ class Engine
      */
     public function Template()
     {
-        return $this->services->get("template");
+        return $this->services->get("templateService");
     }
 
 
@@ -56,16 +56,16 @@ class Engine
      */
     public function Cache()
     {
-        return $this->services->get("cache");
+        return $this->services->get("cacheService");
     }
 
 
     /**
-     * @return PluginService
+     * @return PluginInitService
      */
     public function Plugins()
     {
-        return $this->services->get("plugins");
+        return $this->services->get("pluginInitService");
     }
 
 }

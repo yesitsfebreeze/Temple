@@ -41,7 +41,7 @@ class TemplateService extends ServiceModel
      */
     public function add($dir)
     {
-        return $this->dirs->add($dir, "templates");
+        return $this->directoryService->add($dir, "templates");
     }
 
 
@@ -53,7 +53,7 @@ class TemplateService extends ServiceModel
      */
     public function remove($pos)
     {
-        return $this->dirs->remove($pos, "templates");
+        return $this->directoryService->remove($pos, "templates");
     }
 
 
@@ -64,7 +64,7 @@ class TemplateService extends ServiceModel
      */
     public function getDirs()
     {
-        return $this->dirs->get("templates");
+        return $this->directoryService->get("templates");
     }
 
 
@@ -97,7 +97,7 @@ class TemplateService extends ServiceModel
         # get the file extension
         # add add the config extension if it doesn't exist
         $ext       = strrev(substr(strrev($file), 0, 4));
-        $configExt = '.' . $this->config->get("template.extension");
+        $configExt = '.' . $this->configService->get("template.extension");
         if ($ext != $configExt) $file = $file . $configExt;
 
         $files = array();
@@ -124,13 +124,13 @@ class TemplateService extends ServiceModel
      */
     public function parse($file)
     {
-        if ($this->cache->modified($file)) {
+        if ($this->cacheService->modified($file)) {
             /** @var DomModel $dom */
-            $dom = $this->lexer->lex($file);
-            $this->parser->parse($dom);
+            $dom = $this->lexerService->lex($file);
+            $this->parserService->parse($dom);
         }
 
-        return $this->cache->getPath($file);
+        return $this->cacheService->getPath($file);
     }
 
 }

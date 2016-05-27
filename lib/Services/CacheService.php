@@ -22,7 +22,7 @@ class CacheService extends ServiceModel
      */
     public function setDir($dir)
     {
-        return $this->dirs->set("cache", $dir);
+        return $this->directoryService->set("cache", $dir);
     }
 
 
@@ -33,7 +33,7 @@ class CacheService extends ServiceModel
      */
     public function getDir()
     {
-        return $this->dirs->get("cache");
+        return $this->directoryService->get("cache");
     }
 
 
@@ -64,7 +64,7 @@ class CacheService extends ServiceModel
     {
 
 
-        if (!$this->config->get("cache.enable")) {
+        if (!$this->configService->get("cache.enable")) {
             return true;
         }
 
@@ -81,19 +81,19 @@ class CacheService extends ServiceModel
             $dependencies = $cache["dependencies"][ $file ];
             if ($dependencies) {
                 foreach ($dependencies as $dependency) {
-                    $templates = array_merge($templates, $this->template->findTemplates($dependency));
+                    $templates = array_merge($templates, $this->templateService->findTemplates($dependency));
                 }
             }
         }
 
-        $file      = str_replace("." . $this->config->get("template.extension"), "", $file);
-        $templates = array_merge($templates, $this->template->findTemplates($file));
+        $file      = str_replace("." . $this->configService->get("template.extension"), "", $file);
+        $templates = array_merge($templates, $this->templateService->findTemplates($file));
         foreach ($templates as $template) {
             $templatePath = $template;
-            foreach ($this->template->getDirs() as $dir) {
+            foreach ($this->templateService->getDirs() as $dir) {
                 $template = str_replace($dir, "", $templatePath);
             }
-            $template = str_replace("." . $this->config->get("template.extension"), "", $template);
+            $template = str_replace("." . $this->configService->get("template.extension"), "", $template);
             $cacheTime = $times[ $template ][ md5($templatePath) ];
             $currentTime = filemtime($templatePath);
             if ($cacheTime != $currentTime) {
@@ -144,7 +144,7 @@ class CacheService extends ServiceModel
     {
         $file      = $this->cleanFile($file);
         $cache     = $this->getCache();
-        $templates = $this->template->findTemplates($file);
+        $templates = $this->templateService->findTemplates($file);
         foreach ($templates as $template) {
             $cache["times"][ $file ][ md5($template) ] = filemtime($template);
         }
@@ -190,7 +190,7 @@ class CacheService extends ServiceModel
     public function getPath($file)
     {
         # remove the template dir
-        foreach ($this->template->getDirs() as $dir) {
+        foreach ($this->templateService->getDirs() as $dir) {
             $file = str_replace($dir, "", $file);
         }
 
@@ -213,7 +213,7 @@ class CacheService extends ServiceModel
      */
     private function extension($file)
     {
-        $file             = str_replace("." . $this->config->get("template.extension"), ".php", $file);
+        $file             = str_replace("." . $this->configService->get("template.extension"), ".php", $file);
         $currentExtension = array_reverse(explode(".", $file));
         $currentExtension = $currentExtension[0];
         if ($currentExtension != "php") {
@@ -274,11 +274,11 @@ class CacheService extends ServiceModel
      */
     private function cleanFile($file)
     {
-        foreach ($this->template->getDirs() as $templateDir) {
+        foreach ($this->templateService->getDirs() as $templateDir) {
             $file = str_replace($templateDir, "", $file);
         }
 
-        $file = str_replace("." . $this->config->get("template.extension"), "", $file);
+        $file = str_replace("." . $this->configService->get("template.extension"), "", $file);
 
         return $file;
     }

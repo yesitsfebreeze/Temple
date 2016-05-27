@@ -137,7 +137,7 @@ class Ids extends PluginModel
         $inline = false;
         if ($node->has("parent")) {
             $parentTag = $node->get("parent")->get("tag.tag");
-            $inline    = in_array($parentTag, $this->config->get("inline_elements"));
+            $inline    = in_array($parentTag, $this->configService->get("inline_elements"));
         }
         if ($inline) {
             $tag = "span";

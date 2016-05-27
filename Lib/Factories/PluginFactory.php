@@ -1,6 +1,7 @@
 <?php
 
 namespace Caramel\Factories;
+use Caramel\Nodes\BaseNode;
 
 /**
  * Class configFactory
@@ -19,6 +20,22 @@ class PluginFactory extends Factory
 //        } else {
 //            return null;
 //        }
+    }
+
+
+    /**
+     * @param BaseNode $node
+     * @return array
+     */
+    public function getForNode(BaseNode $node)
+    {
+        $plugins = array();
+        $tag = $node->get("tag.tag");
+        $name = $node->getName();
+        echo '<code><pre>'.print_r($name,true).'</pre></code><br>';
+        echo '<code><pre>'.print_r($tag,true).'</pre></code><br>';
+        die();
+        return array();
     }
 
 }

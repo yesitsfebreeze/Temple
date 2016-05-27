@@ -11,73 +11,73 @@ use Caramel\Services\DirectoryService;
 use Caramel\Services\LexerService;
 use Caramel\Services\NodeService;
 use Caramel\Services\ParserService;
-use Caramel\Services\PluginService;
+use Caramel\Services\PluginInitService;
 use Caramel\Services\TemplateService;
 
 class ServiceModel
 {
 
-    /** @var CacheService $cache */
-    public $cache = NULL;
+    /** @var CacheService $cacheService */
+    public $cacheService = NULL;
 
-    /** @var ConfigService $config */
-    public $config = NULL;
+    /** @var ConfigService $configService */
+    public $configService = NULL;
 
-    /** @var DirectoryService $dirs */
-    public $dirs = NULL;
+    /** @var DirectoryService $directoryService */
+    public $directoryService = NULL;
 
     /** @var PluginFactory $pluginFactory */
     public $pluginFactory = NULL;
 
-    /** @var PluginService $plugins */
-    public $plugins = NULL;
+    /** @var PluginInitService $pluginInitService */
+    public $pluginInitService = NULL;
 
     /** @var NodeFactory $nodeFactory */
     public $nodeFactory = NULL;
 
-    /** @var TemplateService $template */
-    public $template = NULL;
+    /** @var TemplateService $templateService */
+    public $templateService = NULL;
 
-    /** @var LexerService $lexer */
-    public $lexer = NULL;
+    /** @var LexerService $lexerService */
+    public $lexerService = NULL;
 
-    /** @var ParserService $parser */
-    public $parser = NULL;
+    /** @var ParserService $parserService */
+    public $parserService = NULL;
 
 
     /**
-     * @param CacheService $cache
+     * @param CacheService $cacheService
      */
-    public function setCache($cache)
+    public function setCacheService($cacheService)
     {
-        $this->cache = $cache;
+        $this->cacheService = $cacheService;
     }
 
 
     /**
-     * @param ConfigService $config
+     * @param ConfigService $configService
      */
-    public function setConfig($config)
+    public function setConfigService($configService)
     {
-        $this->config = $config;
+        $this->configService = $configService;
     }
 
 
     /**
-     * @param DirectoryService $dirs
+     * @param DirectoryService $directoryService
      */
-    public function setDirectories($dirs)
+    public function setDirectoryService($directoryService)
     {
-        $this->dirs = $dirs;
+        $this->directoryService = $directoryService;
     }
 
 
     /**
-     * @param PluginService $plugins
+     * @param PluginInitService $pluginInitService
      */
-    public function setPlugins($plugins)
+    public function setPluginInitService($pluginInitService)
     {
-        $this->plugins = $plugins;
+        $this->pluginInitService = $pluginInitService;
     }
 
 
@@ -100,29 +100,29 @@ class ServiceModel
 
 
     /**
-     * @param TemplateService $template
+     * @param TemplateService $templateService
      */
-    public function setTemplate($template)
+    public function setTemplateService($templateService)
     {
-        $this->template = $template;
+        $this->templateService = $templateService;
     }
 
 
     /**
-     * @param LexerService $lexer
+     * @param LexerService $lexerService
      */
-    public function setLexer($lexer)
+    public function setLexerService($lexerService)
     {
-        $this->lexer = $lexer;
+        $this->lexerService = $lexerService;
     }
 
 
     /**
-     * @param ParserService $parser
+     * @param ParserService $parserService
      */
-    public function setParser($parser)
+    public function setParserService($parserService)
     {
-        $this->parser = $parser;
+        $this->parserService = $parserService;
     }
 
 

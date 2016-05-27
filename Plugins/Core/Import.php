@@ -35,7 +35,7 @@ class Import extends PluginModel
      */
     public function check(NodeModel $node)
     {
-        $this->config->extend("self_closing","import");
+        $this->configService->extend("self_closing","import");
         return ($node->get("tag.tag") == "import");
     }
 
@@ -53,10 +53,10 @@ class Import extends PluginModel
         if ($file == $node->get("namespace")) {
             throw new CaramelException("Recursive imports are not allowed!", $node->get("file"), $node->get("line"));
         }
-        $cachePath = $this->template->parse($file);
+        $cachePath = $this->templateService->parse($file);
 
         # add the dependency
-        $this->cache->dependency($node->get("file"), $file);
+        $this->cacheService->dependency($node->get("file"), $file);
 
         $node->set("content", "<?php include '" . $cachePath . "' ?>");
 
@@ -94,7 +94,7 @@ class Import extends PluginModel
      */
     private function getParentPath(NodeModel $node)
     {
-        $templates = $this->template->dirs();
+        $templates = $this->templateService->dirs();
         $path      = explode("/", $node->get("file"));
         array_pop($path);
         $path = implode("/", $path) . "/";

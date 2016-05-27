@@ -19,13 +19,24 @@ class BaseNode extends StorageRepository
 {
 
 
-    /** @var ConfigService $config */
-    private $config;
+    /** @var ConfigService $configService */
+    private $configService;
 
 
-    public function __construct(ConfigService $config)
+    public function __construct(ConfigService $configService)
     {
-        $this->config = $config;
+        $this->configService = $configService;
+    }
+
+
+    /**
+     * returns the node name
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        return strtolower(str_replace("Node", "", array_reverse(explode("\\", get_class($this)))[0]));
     }
 
 
@@ -75,8 +86,8 @@ class BaseNode extends StorageRepository
         # divide our counted characters trough the amount
         # we used to indent in the first line
         # this should be a non decimal number
-        $indent = substr_count($whitespace, $this->config->get("template.indent.character"));
-        $indent = $indent / $this->config->get("template.indent.amount");
+        $indent = substr_count($whitespace, $this->configService->get("template.indent.character"));
+        $indent = $indent / $this->configService->get("template.indent.amount");
         # if we have a non decimal number return how many times we indented
         if (is_int($indent)) return $indent;
 
@@ -100,19 +111,19 @@ class BaseNode extends StorageRepository
         preg_match("/^(.*?)(?:$| )/", trim($line), $tagname);
         $tagname = trim($tagname[0]);
 
-        $tag["tag"]                = $tagname;
-        $tag["display"]            = true;
-        $tag["opening"]            = array();
+        $tag["tag"] = $tagname;
+        $tag["display"] = true;
+        $tag["opening"] = array();
 
         $tag["opening"]["display"] = true;
-        $tag["opening"]["before"]  = $this->config->get("template.tag.opening.before");
-        $tag["opening"]["tag"]     = $tagname;
-        $tag["opening"]["after"]   = $this->config->get("template.tag.opening.after");
+        $tag["opening"]["before"] = $this->configService->get("template.tag.opening.before");
+        $tag["opening"]["tag"] = $tagname;
+        $tag["opening"]["after"] = $this->configService->get("template.tag.opening.after");
 
         $tag["closing"]["display"] = true;
-        $tag["closing"]["before"]  = $this->config->get("template.tag.closing.before");
-        $tag["closing"]["tag"]     = $tagname;
-        $tag["closing"]["after"]   = $this->config->get("template.tag.closing.after");
+        $tag["closing"]["before"] = $this->configService->get("template.tag.closing.before");
+        $tag["closing"]["tag"] = $tagname;
+        $tag["closing"]["after"] = $this->configService->get("template.tag.closing.after");
 
         return $tag;
     }
@@ -127,13 +138,13 @@ class BaseNode extends StorageRepository
     private function attributes($line)
     {
         # replace the tag from the beginning of the line and then trim the string
-        $tag        = preg_quote($this->get("tag.tag"));
+        $tag = preg_quote($this->get("tag.tag"));
         $attributes = trim(preg_replace("/^" . $tag . "/", "", trim($line)));
         $attributes = explode(">", $attributes);
         $attributes = explode(" ", $attributes[0]);
         $attributes = array_filter($attributes);
         foreach ($attributes as &$attribute) {
-            $arr   = array();
+            $arr = array();
             $attrs = explode("=", $attribute);
             if (isset($attrs[0])) {
                 $arr["name"] = $attrs[0];
@@ -156,7 +167,7 @@ class BaseNode extends StorageRepository
     private function selfclosing()
     {
         # check if our tag is in the self closing array set in the config
-        if (in_array($this->get("tag.tag"), $this->config->get("parser.self closing"))) return true;
+        if (in_array($this->get("tag.tag"), $this->configService->get("parser.self closing"))) return true;
 
         return false;
     }

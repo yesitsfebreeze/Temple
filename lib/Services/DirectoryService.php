@@ -72,7 +72,7 @@ class DirectoryService extends ServiceModel
     {
         $this->check($name);
 
-        return $this->config->get("dirs." . $name);
+        return $this->configService->get("dirs." . $name);
     }
 
 
@@ -83,9 +83,9 @@ class DirectoryService extends ServiceModel
      */
     private function check($name)
     {
-        $dirs = $this->config->get("dirs." . $name);
+        $dirs = $this->configService->get("dirs." . $name);
         if (is_array($dirs)) {
-            $this->config->set("dirs." . $name, array());
+            $this->configService->set("dirs." . $name, array());
             foreach ($dirs as $dir) {
                 $this->add($dir, $name);
             }
@@ -103,12 +103,12 @@ class DirectoryService extends ServiceModel
 
     public function remove($pos, $name)
     {
-        $dirs = $this->config->get($name);
+        $dirs = $this->configService->get($name);
         if (array_key_exists($pos, $dirs)) {
             unset($dirs[ $pos ]);
         }
 
-        return $this->config->set("dirs." . $name, $dirs);
+        return $this->configService->set("dirs." . $name, $dirs);
     }
 
 
@@ -131,7 +131,7 @@ class DirectoryService extends ServiceModel
                 $temp = strrev($dir);
                 if ($temp[0] != "/") $dir = $dir . "/";
                 array_unshift($dirs, $dir);
-                $this->config->set($name, $dirs);
+                $this->configService->set($name, $dirs);
 
                 return $dir;
             } else {
@@ -147,7 +147,7 @@ class DirectoryService extends ServiceModel
         $this->create($create, $dir);
         $temp = strrev($dir);
         if ($temp[0] != "/") $dir = $dir . "/";
-        $this->config->set($name, $dir);
+        $this->configService->set($name, $dir);
 
         return $dir;
     }

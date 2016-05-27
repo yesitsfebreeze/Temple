@@ -9,7 +9,7 @@ use Caramel\Services\ConfigService;
 use Caramel\Services\DirectoryService;
 use Caramel\Services\LexerService;
 use Caramel\Services\ParserService;
-use Caramel\Services\PluginService;
+use Caramel\Services\PluginInitService;
 use Caramel\Services\TemplateService;
 
 
@@ -30,7 +30,7 @@ abstract class PluginModel
     /** @var DirectoryService $directories */
     public $directories;
 
-    /** @var PluginService $plugins */
+    /** @var PluginInitService $plugins */
     public $plugins;
 
     /** @var TemplateService $template */

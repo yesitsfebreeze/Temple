@@ -36,12 +36,12 @@ class LexerService extends ServiceModel
 
         # create a new dom model
         $this->dom = new DomModel();
-        $filename  = str_replace("." . $this->config->get("template.extension"), "", $filename);
+        $filename  = str_replace("." . $this->configService->get("template.extension"), "", $filename);
         $this->dom->set("info.namespace", $filename);
         $this->dom->set("info.line", 1);
         $this->dom->set("info.indent.amount", 0);
         $this->dom->set("info.indent.char", "");
-        $this->dom->set("info.templates", $this->template->findTemplates($filename));
+        $this->dom->set("info.templates", $this->templateService->findTemplates($filename));
         $this->dom->set("info.level", $level);
         $this->dom->set("info.file", $this->getFile($level, $filename));
         $this->dom->set("nodes", array());
@@ -110,7 +110,7 @@ class LexerService extends ServiceModel
     private function createNode($line)
     {
 
-        $this->nodeFactory->addConfig($this->config);
+        $this->nodeFactory->addConfig($this->configService);
 
         $node = $this->nodeFactory->create($line);
         $node->createNode($line);

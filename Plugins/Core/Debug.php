@@ -63,11 +63,11 @@ class Debug extends PluginModel
     public function process($node)
     {
         $node->set("display", false);
-        $this->config->set("debug_enabled", true);
+        $this->configService->set("debug_enabled", true);
         $type = explode(" ", $node->get("attributes"))[0];
         if ($type == "config" || $type == "vars" || $type == "infos") {
             $this->type = $type;
-        } elseif ($type[0] == $this->config->get("variable_symbol")) {
+        } elseif ($type[0] == $this->configService->get("variable_symbol")) {
             $this->type   = "vars";
             $this->search = substr($type, 1);
         }
@@ -80,7 +80,7 @@ class Debug extends PluginModel
     public function processOutput($output)
     {
 
-        if ($this->config->has("debug_enabled")) {
+        if ($this->configService->has("debug_enabled")) {
             $window = "<html>";
             $window .= "<head>";
             $window .= "<title>";
@@ -101,10 +101,10 @@ class Debug extends PluginModel
                     }
                     if (is_array($vars)) {
                         foreach ($vars as $name => $var) {
-                            $window .= $this->parseVar($name, $var, $this->config->get("variable_symbol"));
+                            $window .= $this->parseVar($name, $var, $this->configService->get("variable_symbol"));
                         }
                     } else {
-                        $window .= $this->parseVar($this->search, $vars, $this->config->get("variable_symbol"));
+                        $window .= $this->parseVar($this->search, $vars, $this->configService->get("variable_symbol"));
                     }
                 } else {
                     $window .= "<h1>";
@@ -112,7 +112,7 @@ class Debug extends PluginModel
                     $window .= "</h1>";
                 }
             } elseif ($this->type == "config") {
-                foreach ($this->config->get() as $name => $var) {
+                foreach ($this->configService->get() as $name => $var) {
                     $window .= $this->parseVar($name, $var, "");
                 }
             } elseif ($this->type == "info") {

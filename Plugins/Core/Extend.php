@@ -62,7 +62,7 @@ class Extend extends PluginModel
      */
     public function process(NodeModel $node)
     {
-        if ($this->config->get("block_comments")) {
+        if ($this->configService->get("block_comments")) {
             # hide parent blocks
             if ($node->get("attributes") == "parent") {
                 $node->set("tag.display", false);
@@ -93,7 +93,7 @@ class Extend extends PluginModel
      */
     public function preProcess(DomModel $dom)
     {
-        $this->config->extend("self_closing","extend");
+        $this->configService->extend("self_closing","extend");
         # get the first node from the dom
         $nodes = $dom->get("nodes");
         $node  = reset($nodes);
@@ -131,7 +131,7 @@ class Extend extends PluginModel
                 throw new CaramelException("'extend' hast to be the first statement!", $node->get("file"), $node->get("line"));
             }
 
-            $isRootLevel   = $node->get("level") >= sizeof($this->template->dirs()) - 1;
+            $isRootLevel   = $node->get("level") >= sizeof($this->templateService->dirs()) - 1;
             $hasAttributes = $node->get("attributes") != "";
 
             # level must be smaller than our amount of template directories
@@ -173,7 +173,7 @@ class Extend extends PluginModel
 
         $dom = $this->blocks($dom, $this->blockStash);
 
-        $this->cache->dependency($this->rootFile, reset($dom->get("nodes"))->get("file"));
+        $this->cacheService->dependency($this->rootFile, reset($dom->get("nodes"))->get("file"));
 
         # reset the variables
         $this->topLevel = false;
@@ -182,7 +182,7 @@ class Extend extends PluginModel
         # with the new dom to check for other extends
         $dom->set("template.file", $this->rootFile);
 
-        return $this->parser->parse($dom);
+        return $this->parserService->parse($dom);
     }
 
 
@@ -239,10 +239,10 @@ class Extend extends PluginModel
         /** @var NodeModel $node */
         $path = trim($node->get("attributes"));
         if ($path != "") {
-            $path = str_replace("." . $this->config->get("extension"), "", $path);
+            $path = str_replace("." . $this->configService->get("extension"), "", $path);
             # absolute extend
             if ($path[0] == "/") {
-                $dom = $this->lexer->lex($path);
+                $dom = $this->lexerService->lex($path);
                 $dom = $dom["dom"];
             }
             # relative extend
@@ -254,11 +254,11 @@ class Extend extends PluginModel
                 $folder = strrev(implode("/", $folder));
                 # concat folder and path to get full file path
                 $path = $folder . "/" . $path;
-                $dom  = $this->lexer->lex($path);
+                $dom  = $this->lexerService->lex($path);
             }
         } else {
             # get parent file with level and names space
-            $dom = $this->lexer->lex($node->get("namespace"), $node->get("level") + 1);
+            $dom = $this->lexerService->lex($node->get("namespace"), $node->get("level") + 1);
         }
 
         # in case we still fail somehow, at least give the user an error.

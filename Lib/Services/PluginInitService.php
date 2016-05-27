@@ -7,8 +7,11 @@ use Caramel\Models\PluginModel;
 use Caramel\Models\ServiceModel;
 use Caramel\Repositories\ServiceRepository;
 
-class PluginService extends ServiceModel
+class PluginInitService extends ServiceModel
 {
+
+//     todoo: get all plugins sorted by type and tags and order
+
 
     /** @var ServiceRepository $services */
     private $services;

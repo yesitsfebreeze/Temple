@@ -12,29 +12,29 @@ use Caramel\Repositories\ServiceRepository;
 class InitService
 {
 
-    /** @var ServiceRepository $services */
-    private $services;
+    /** @var ServiceRepository $serviceRepository */
+    private $serviceRepository;
 
-    /** @var ConfigService $config */
-    private $config = NULL;
+    /** @var ConfigService $configService */
+    private $configService = NULL;
 
-    /** @var CacheService $cache */
-    private $cache = NULL;
+    /** @var CacheService $cacheService */
+    private $cacheService = NULL;
 
-    /** @var DirectoryService $directories */
-    private $dirs = NULL;
+    /** @var DirectoryService $directoryService */
+    private $directoryService = NULL;
 
-    /** @var PluginService $plugins */
-    private $plugins = NULL;
+    /** @var PluginInitService $pluginInitService */
+    private $pluginInitService = NULL;
 
-    /** @var TemplateService $template */
-    private $template = NULL;
+    /** @var TemplateService $templateService */
+    private $templateService = NULL;
 
-    /** @var LexerService $lexer */
-    private $lexer = NULL;
+    /** @var LexerService $lexerService */
+    private $lexerService = NULL;
 
-    /** @var ParserService $parser */
-    private $parser = NULL;
+    /** @var ParserService $parserService */
+    private $parserService = NULL;
 
 
     /**
@@ -44,35 +44,35 @@ class InitService
      */
     public function __construct($dir)
     {
-        $this->dirs = new DirectoryService();
-        $this->config = new ConfigService($this->dirs);
-        $this->cache = new CacheService();
+        $this->directoryService = new DirectoryService();
+        $this->configService = new ConfigService($this->directoryService);
+        $this->cacheService = new CacheService();
         $this->pluginFactory = new PluginFactory();
-        $this->plugins = new PluginService();
+        $this->pluginInitService = new PluginInitService();
         $this->nodeFactory = new NodeFactory();
-        $this->template = new TemplateService();
-        $this->lexer = new LexerService();
-        $this->parser = new ParserService();
+        $this->templateService = new TemplateService();
+        $this->lexerService = new LexerService();
+        $this->parserService = new ParserService();
 
-        $this->cache = $this->initServices($this->cache);
-        $this->dirs = $this->initServices($this->dirs);
-        $this->plugins = $this->initServices($this->plugins);
-        $this->template = $this->initServices($this->template);
-        $this->lexer = $this->initServices($this->lexer);
-        $this->parser = $this->initServices($this->parser);
+        $this->cacheService = $this->initServices($this->cacheService);
+        $this->directoryService = $this->initServices($this->directoryService);
+        $this->pluginInitService = $this->initServices($this->pluginInitService);
+        $this->templateService = $this->initServices($this->templateService);
+        $this->lexerService = $this->initServices($this->lexerService);
+        $this->parserService = $this->initServices($this->parserService);
 
-        $this->config->addConfigFile($dir . "Config.php");
-        $this->dirs->add($dir . "Plugins", "plugins");
+        $this->configService->addConfigFile($dir . "Config.php");
+        $this->directoryService->add($dir . "Plugins", "plugins");
 
-        $this->services = new ServiceRepository();
+        $this->serviceRepository = new ServiceRepository();
         # add everything which should be accessible within a plugin
-        $this->services->add("config", $this->config);
-        $this->services->add("cache", $this->cache);
-        $this->services->add("dirs", $this->dirs);
-        $this->services->add("plugins", $this->plugins);
-        $this->services->add("template", $this->template);
+        $this->serviceRepository->add("configService", $this->configService);
+        $this->serviceRepository->add("cacheService", $this->cacheService);
+        $this->serviceRepository->add("directoryService", $this->directoryService);
+        $this->serviceRepository->add("pluginInitService", $this->pluginInitService);
+        $this->serviceRepository->add("templateService", $this->templateService);
 
-        $this->plugins->init($this->services);
+        $this->pluginInitService->init($this->serviceRepository);
     }
 
 
@@ -81,7 +81,7 @@ class InitService
      */
     public function getServices()
     {
-        return $this->services;
+        return $this->serviceRepository;
     }
 
 
@@ -103,16 +103,16 @@ class InitService
      * @param ServiceModel $handler
      * @return mixed
      */
-    private function initServices($handler)
+    private function initServices(ServiceModel $handler)
     {
 
-        $handler->setPlugins($this->plugins);
-        $handler->setConfig($this->config);
-        $handler->setCache($this->cache);
-        $handler->setDirectories($this->dirs);
-        $handler->setTemplate($this->template);
-        $handler->setParser($this->parser);
-        $handler->setLexer($this->lexer);
+        $handler->setPluginInitService($this->pluginInitService);
+        $handler->setConfigService($this->configService);
+        $handler->setCacheService($this->cacheService);
+        $handler->setDirectoryService($this->directoryService);
+        $handler->setTemplateService($this->templateService);
+        $handler->setParserService($this->parserService);
+        $handler->setLexerService($this->lexerService);
         $handler->setPluginFactory($this->pluginFactory);
         $handler->setNodeFactory($this->nodeFactory);
 

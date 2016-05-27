@@ -46,7 +46,7 @@ class Variables extends PluginModel
      */
     public function check(NodeModel $node)
     {
-        $this->sign = $this->config->get("variable_symbol");
+        $this->sign = $this->configService->get("variable_symbol");
         $tag        = $node->get("tag.tag");
 
         return $tag[0] == $this->sign;
@@ -164,10 +164,10 @@ class Variables extends PluginModel
     private function getMatchPattern()
     {
         $matchPattern = "/";
-        $matchPattern .= preg_quote($this->config->get("variable_symbol"));
-        $matchPattern .= preg_quote($this->config->get("left_delimiter"));
+        $matchPattern .= preg_quote($this->configService->get("variable_symbol"));
+        $matchPattern .= preg_quote($this->configService->get("left_delimiter"));
         $matchPattern .= "(.*?)";
-        $matchPattern .= preg_quote($this->config->get("right_delimiter"));
+        $matchPattern .= preg_quote($this->configService->get("right_delimiter"));
         $matchPattern .= "/";
         return $matchPattern;
     }

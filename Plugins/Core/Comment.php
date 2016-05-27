@@ -35,7 +35,7 @@ class Comment extends PluginModel
     {
         $tag = $node->get("tag.tag");
 
-        return ($tag[0] == $this->config->get("comment_symbol") && ($tag[1] == " " || $tag[1] == ""));
+        return ($tag[0] == $this->configService->get("comment_symbol") && ($tag[1] == " " || $tag[1] == ""));
     }
 
 
