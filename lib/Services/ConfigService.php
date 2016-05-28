@@ -1,11 +1,11 @@
 <?php
 
-namespace Caramel\Services;
+namespace Temple\Services;
 
 
-use Caramel\Exception\CaramelException;
-use Caramel\Exception\ExceptionHandler;
-use Caramel\Repositories\StorageRepository;
+use Temple\Exception\TempleException;
+use Temple\Exception\ExceptionHandler;
+use Temple\Repositories\StorageRepository;
 
 class ConfigService extends StorageRepository
 {
@@ -14,7 +14,7 @@ class ConfigService extends StorageRepository
      * merges a new config file into our current config
      *
      * @param $file
-     * @throws CaramelException
+     * @throws TempleException
      */
     public function addConfigFile($file)
     {
@@ -29,10 +29,10 @@ class ConfigService extends StorageRepository
                     }
                 }
             } else {
-                throw new CaramelException('You must declare an "$config" array!', $file);
+                throw new TempleException('You must declare an "$config" array!', $file);
             }
         } else {
-            throw new CaramelException("Can't find the config file!", $file);
+            throw new TempleException("Can't find the config file!", $file);
         }
     }
 

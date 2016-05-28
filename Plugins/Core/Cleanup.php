@@ -1,9 +1,9 @@
 <?php
 
-namespace Caramel\Plugins\Core;
+namespace Temple\Plugins\Core;
 
 
-use Caramel\Models\PluginModel;
+use Temple\Models\PluginModel;
 
 
 /**
@@ -13,7 +13,7 @@ use Caramel\Models\PluginModel;
  * @usage   : automatic
  * @author   : Stefan Hövelmanns - hvlmnns.de
  * @License : MIT
- * @package Caramel
+ * @package Temple
  */
 class Cleanup extends PluginModel
 {

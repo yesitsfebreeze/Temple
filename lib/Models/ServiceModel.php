@@ -1,18 +1,18 @@
 <?php
 
-namespace Caramel\Models;
+namespace Temple\Models;
 
 
-use Caramel\Factories\NodeFactory;
-use Caramel\Factories\PluginFactory;
-use Caramel\Services\CacheService;
-use Caramel\Services\ConfigService;
-use Caramel\Services\DirectoryService;
-use Caramel\Services\LexerService;
-use Caramel\Services\NodeService;
-use Caramel\Services\ParserService;
-use Caramel\Services\PluginInitService;
-use Caramel\Services\TemplateService;
+use Temple\Factories\NodeFactory;
+use Temple\Factories\PluginFactory;
+use Temple\Services\CacheService;
+use Temple\Services\ConfigService;
+use Temple\Services\DirectoryService;
+use Temple\Services\LexerService;
+use Temple\Services\NodeService;
+use Temple\Services\ParserService;
+use Temple\Services\PluginInitService;
+use Temple\Services\TemplateService;
 
 class ServiceModel
 {

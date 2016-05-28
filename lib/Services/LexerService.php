@@ -1,21 +1,21 @@
 <?php
 
-namespace Caramel\Services;
+namespace Temple\Services;
 
 
-use Caramel\Exception\CaramelException;
-use Caramel\Models\DomModel;
-use Caramel\Nodes\FunctionNodeModel;
-use Caramel\Nodes\HtmlNodeModel;
-use Caramel\Nodes\NodeModel;
-use Caramel\Models\ServiceModel;
-use Caramel\Repositories\StorageRepository;
+use Temple\Exception\TempleException;
+use Temple\Models\DomModel;
+use Temple\Nodes\FunctionNodeModel;
+use Temple\Nodes\HtmlNodeModel;
+use Temple\Nodes\NodeModel;
+use Temple\Models\ServiceModel;
+use Temple\Repositories\StorageRepository;
 
 
 /**
  * Class Lexer
  *
- * @package Caramel
+ * @package Temple
  */
 class LexerService extends ServiceModel
 {
@@ -59,7 +59,7 @@ class LexerService extends ServiceModel
      * @param int|null $level
      * @param string   $filename
      * @return StorageRepository
-     * @throws CaramelException
+     * @throws TempleException
      */
     private function getFile($level, $filename)
     {
@@ -74,7 +74,7 @@ class LexerService extends ServiceModel
             return $templates[ $level ];
         }
 
-        throw new CaramelException("Can't find template file for '" . $filename . "' on template level " . $level);
+        throw new TempleException("Can't find template file for '" . $filename . "' on template level " . $level);
 
     }
 
@@ -105,7 +105,7 @@ class LexerService extends ServiceModel
      *
      * @param $line
      * @return NodeModel
-     * @throws CaramelException
+     * @throws TempleException
      */
     private function createNode($line)
     {
@@ -122,7 +122,7 @@ class LexerService extends ServiceModel
         $node->set("info.parent", "test");
 
         if (!$node->has("tag.tag")) {
-            throw new CaramelException("Node models must have a tag!", $this->dom->get("info.file"), $this->dom->get("info.line"));
+            throw new TempleException("Node models must have a tag!", $this->dom->get("info.file"), $this->dom->get("info.line"));
         }
 
         return $node;
@@ -167,14 +167,14 @@ class LexerService extends ServiceModel
      * than the previous node
      *
      * @param NodeModel $node
-     * @throws CaramelException
+     * @throws TempleException
      */
     private function deeper($node)
     {
         $node->set("info.parent", $this->dom->get("tmp.prev"));
         if ($node->get("info.parent")->get("info.selfclosing")) {
             $tag = $node->get("info.parent")->get("tag.tag");
-            throw new CaramelException("You can't have children in an $tag!", $this->dom->get("info.file"), $this->dom->get("info.line"));
+            throw new TempleException("You can't have children in an $tag!", $this->dom->get("info.file"), $this->dom->get("info.line"));
         } else {
             $this->children($this->dom->get("tmp.prev"), $node);
         }

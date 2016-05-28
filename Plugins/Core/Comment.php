@@ -1,10 +1,10 @@
 <?php
 
-namespace Caramel\Plugins\Core;
+namespace Temple\Plugins\Core;
 
 
-use Caramel\Models\NodeModel;
-use Caramel\Models\PluginModel;
+use Temple\Models\NodeModel;
+use Temple\Models\PluginModel;
 
 /**
  * Class PluginComment
@@ -13,7 +13,7 @@ use Caramel\Models\PluginModel;
  * @usage   : # at linestart
  * @author   : Stefan Hövelmanns - hvlmnns.de
  * @License : MIT
- * @package Caramel
+ * @package Temple
  */
 class Comment extends PluginModel
 {

@@ -1,20 +1,20 @@
 <?php
 
-namespace Caramel\Exception;
+namespace Temple\Exception;
 
 /**
- * Class CaramelException
+ * Class TempleException
  *
- * @package Caramel
+ * @package Temple
  */
-class CaramelException extends \Exception
+class TempleException extends \Exception
 {
 
-    /** @var bool|string $CaramelFile */
-    private $CaramelFile;
+    /** @var bool|string $TempleFile */
+    private $TempleFile;
 
-    /** @var integer|string $CaramelLine */
-    private $CaramelLine;
+    /** @var integer|string $TempleLine */
+    private $TempleLine;
 
 
     public function __construct($message = "", $file = false, $line = false, $code = 0, \Exception $previous = NULL)
@@ -31,11 +31,11 @@ class CaramelException extends \Exception
 
 
         if ($file) {
-            $this->CaramelFile = $file;
+            $this->TempleFile = $file;
         }
 
         if ($line) {
-            $this->CaramelLine = $line;
+            $this->TempleLine = $line;
         }
 
         # execute the default exception after that
@@ -45,24 +45,24 @@ class CaramelException extends \Exception
 
 
     /**
-     * returns the Caramel file
+     * returns the Temple file
      *
      * @return bool|string
      */
-    public function getCaramelFile()
+    public function getTempleFile()
     {
-        return $this->CaramelFile;
+        return $this->TempleFile;
     }
 
 
     /**
-     * returns the Caramel line
+     * returns the Temple line
      *
      * @return bool|int|string
      */
-    public function getCaramelLine()
+    public function getTempleLine()
     {
-        return $this->CaramelLine;
+        return $this->TempleLine;
     }
 
 
@@ -93,7 +93,7 @@ class CaramelException extends \Exception
      * @param $line
      * @param $function
      */
-    function displayCaramelErrorFile($root, $file, $line = false, $function = false)
+    function displayTempleErrorFile($root, $file, $line = false, $function = false)
     {
 
         $file = $this->splitFile($file, $root);

@@ -1,15 +1,15 @@
 <?php
 
-namespace Caramel\Repositories;
+namespace Temple\Repositories;
 
 
-use Caramel\Exception\CaramelException;
+use Temple\Exception\TempleException;
 
 /**
  * this class handles all data storage
  * Class Storage
  *
- * @package Caramel
+ * @package Temple
  */
 class StorageRepository
 {
@@ -40,14 +40,14 @@ class StorageRepository
      *
      * @param string $path
      * @return mixed
-     * @throws CaramelException
+     * @throws TempleException
      */
     public function get($path = NULL)
     {
         try {
             return $this->getter($path);
         } catch (\Exception $e) {
-            throw new CaramelException($e);
+            throw new TempleException($e);
         }
     }
 
@@ -56,7 +56,7 @@ class StorageRepository
      * merge an array into the storage
      *
      * @param array $array
-     * @throws CaramelException
+     * @throws TempleException
      */
     public function merge($array)
     {
@@ -67,7 +67,7 @@ class StorageRepository
                 $this->storage[ $key ] = $val;
             }
         } else {
-            throw new CaramelException("Only arrays are allowed to merge!");
+            throw new TempleException("Only arrays are allowed to merge!");
         }
     }
 
@@ -78,7 +78,7 @@ class StorageRepository
      * @param string       $path
      * @param array|string $value
      * @return array
-     * @throws CaramelException
+     * @throws TempleException
      */
     public function extend($path, $value)
     {
@@ -96,7 +96,7 @@ class StorageRepository
             }
             $this->set($path, $value);
         } else {
-            throw new CaramelException("Can't extend an non array value!");
+            throw new TempleException("Can't extend an non array value!");
         }
 
         return $value;

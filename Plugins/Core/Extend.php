@@ -1,18 +1,18 @@
 <?php
 
-namespace Caramel\Plugins\Core;
+namespace Temple\Plugins\Core;
 
 
-use Caramel\Exception\CaramelException;
-use Caramel\Models\DomModel;
-use Caramel\Models\NodeModel;
-use Caramel\Models\PluginModel;
+use Temple\Exception\TempleException;
+use Temple\Models\DomModel;
+use Temple\Models\NodeModel;
+use Temple\Models\PluginModel;
 
 
 /**
  * Class PluginExtend
  *
- * @package     Caramel
+ * @package     Temple
  * @description handles the extending of files and blocks
  * @position    1
  * @author      Stefan Hövelmanns
@@ -116,7 +116,7 @@ class Extend extends PluginModel
      *
 *@param NodeModel $node
      * @return bool|mixed
-     * @throws CaramelException
+     * @throws TempleException
      */
     private function extending(NodeModel $node)
     {
@@ -128,7 +128,7 @@ class Extend extends PluginModel
 
             # extend has to be first statement
             if ($node->get("line") != 1) {
-                throw new CaramelException("'extend' hast to be the first statement!", $node->get("file"), $node->get("line"));
+                throw new TempleException("'extend' hast to be the first statement!", $node->get("file"), $node->get("line"));
             }
 
             $isRootLevel   = $node->get("level") >= sizeof($this->templateService->dirs()) - 1;
@@ -137,7 +137,7 @@ class Extend extends PluginModel
             # level must be smaller than our amount of template directories
             # if we want to extend the parent directory
             if (!$hasAttributes && $isRootLevel) {
-                throw new CaramelException("You'r trying to extend a file without a parent template!", $node->get("file"), $node->get("line"));
+                throw new TempleException("You'r trying to extend a file without a parent template!", $node->get("file"), $node->get("line"));
             }
 
             # passed all testing
@@ -157,7 +157,7 @@ class Extend extends PluginModel
 *@param DomModel        $dom
      * @param NodeModel $node
      * @return array
-     * @throws CaramelException
+     * @throws TempleException
      */
     private function extend(DomModel $dom, NodeModel $node)
     {
@@ -168,7 +168,7 @@ class Extend extends PluginModel
         # if the current extend file is the same as our root file,
         # we would run into an recursion so we have to throw an error
         if (!$this->topLevel && $node->get("file") == $this->rootFile) {
-            throw new CaramelException("Recursive extends are not allowed!", $this->rootFile, 1);
+            throw new TempleException("Recursive extends are not allowed!", $this->rootFile, 1);
         }
 
         $dom = $this->blocks($dom, $this->blockStash);
@@ -231,7 +231,7 @@ class Extend extends PluginModel
 *
 *@param NodeModel $node
      * @return DomModel
-     * @throws CaramelException
+     * @throws TempleException
      */
     private function getDom(NodeModel $node)
     {
@@ -263,7 +263,7 @@ class Extend extends PluginModel
 
         # in case we still fail somehow, at least give the user an error.
         if (!$dom) {
-            throw new CaramelException("Seems like the parser crashed!", $node->get("file"), $node->get("line"));
+            throw new TempleException("Seems like the parser crashed!", $node->get("file"), $node->get("line"));
         }
 
         return $dom;

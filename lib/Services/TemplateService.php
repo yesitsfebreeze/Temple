@@ -1,11 +1,11 @@
 <?php
 
-namespace Caramel\Services;
+namespace Temple\Services;
 
 
-use Caramel\Exception\CaramelException;
-use Caramel\Models\DomModel;
-use Caramel\Models\ServiceModel;
+use Temple\Exception\TempleException;
+use Temple\Models\DomModel;
+use Temple\Models\ServiceModel;
 
 class TemplateService extends ServiceModel
 {
@@ -15,12 +15,12 @@ class TemplateService extends ServiceModel
      * Renders and includes the passed file
      *
      * @param $file
-     * @throws CaramelException
+     * @throws TempleException
      */
     public function show($file)
     {
         $templateFile = $this->parse($file);
-        # scoped Caramel
+        # scoped Temple
         /** @noinspection PhpUnusedLocalVariableInspection */
         $_crml = $this;
 
@@ -28,7 +28,7 @@ class TemplateService extends ServiceModel
             /** @noinspection PhpIncludeInspection */
             include $templateFile;
         } else {
-            throw new CaramelException("Can't include $file.crml");
+            throw new TempleException("Can't include $file.crml");
         }
     }
 
@@ -90,7 +90,7 @@ class TemplateService extends ServiceModel
      *
      * @param string $file
      * @return array
-     * @throws CaramelException
+     * @throws TempleException
      */
     public function findTemplates($file)
     {
@@ -112,7 +112,7 @@ class TemplateService extends ServiceModel
         if (sizeof($files) > 0) return $files;
 
         # otherwise throw an error
-        throw new CaramelException("Can't find template file.", $file);
+        throw new TempleException("Can't find template file.", $file);
     }
 
 

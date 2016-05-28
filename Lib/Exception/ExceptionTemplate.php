@@ -1,17 +1,17 @@
 <?php
 
-namespace Caramel\Exception;
+namespace Temple\Exception;
 
 
 /**
- * Class CaramelTemplate
+ * Class TempleTemplate
  *
- * @package Caramel\Exception
+ * @package Temple\Exception
  */
 class ExceptionTemplate
 {
 
-    /** @var CaramelException $exception */
+    /** @var TempleException $exception */
     private $exception;
 
     /** @var string $template */
@@ -21,9 +21,9 @@ class ExceptionTemplate
     /**
      * ExceptionTemplate constructor.
      *
-     * @param CaramelException $exception
+     * @param TempleException $exception
      */
-    public function __construct(CaramelException $exception)
+    public function __construct(TempleException $exception)
     {
         $this->exception = $exception;
         $this->template  = $this->getTemplate();
@@ -59,9 +59,9 @@ class ExceptionTemplate
      */
     private function displayFile()
     {
-        $file = $this->colorFilePath($this->exception->getCaramelFile());
-        if ($this->exception->getCaramelLine()) {
-            $file .= " on line<span class='colored'>" . $this->exception->getCaramelLine() . "</span>";
+        $file = $this->colorFilePath($this->exception->getTempleFile());
+        if ($this->exception->getTempleLine()) {
+            $file .= " on line<span class='colored'>" . $this->exception->getTempleLine() . "</span>";
         }
         $this->template = str_replace("%file%", $file, $this->template);
     }

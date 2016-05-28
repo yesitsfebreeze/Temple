@@ -1,18 +1,18 @@
 <?php
 
-namespace Caramel\Exception;
+namespace Temple\Exception;
 
 
 /**
  * Class ExceptionHandler
  *
- * @package Caramel\Exceptions
+ * @package Temple\Exceptions
  */
 class ExceptionHandler
 {
 
     /**
-     * adds a global exception handler for Caramel exceptions
+     * adds a global exception handler for Temple exceptions
      * ExceptionHandler constructor.
      */
     public function __construct()
@@ -22,7 +22,7 @@ class ExceptionHandler
         $originalHandler = set_exception_handler(NULL);
 
         set_exception_handler(function ($Exception) use (&$originalHandler) {
-            if ($Exception instanceof CaramelException) {
+            if ($Exception instanceof TempleException) {
                 new ExceptionTemplate($Exception);
             } elseif (is_callable($originalHandler)) {
                 return call_user_func_array($originalHandler, [$Exception]);

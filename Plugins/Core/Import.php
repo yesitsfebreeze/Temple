@@ -1,17 +1,17 @@
 <?php
 
-namespace Caramel\Plugins\Core;
+namespace Temple\Plugins\Core;
 
 
-use Caramel\Exception\CaramelException;
-use Caramel\Models\NodeModel;
-use Caramel\Models\PluginModel;
+use Temple\Exception\TempleException;
+use Temple\Models\NodeModel;
+use Temple\Models\PluginModel;
 
 
 /**
  * Class PluginImport
  *
- * @package     Caramel
+ * @package     Temple
  * @description handles file imports
  * @position    0
  * @author      Stefan Hövelmanns
@@ -43,7 +43,7 @@ class Import extends PluginModel
     /**
      * @param NodeModel $node
      * @return NodeModel $node
-     * @throws CaramelException
+     * @throws TempleException
      */
     public function process(NodeModel $node)
     {
@@ -51,7 +51,7 @@ class Import extends PluginModel
 
         $file = $this->getPath($node);
         if ($file == $node->get("namespace")) {
-            throw new CaramelException("Recursive imports are not allowed!", $node->get("file"), $node->get("line"));
+            throw new TempleException("Recursive imports are not allowed!", $node->get("file"), $node->get("line"));
         }
         $cachePath = $this->templateService->parse($file);
 

@@ -1,15 +1,15 @@
 <?php
 
-namespace Caramel\Models;
+namespace Temple\Models;
 
 // todoo: add local variable space
 // todoo: add find method
-use Caramel\Repositories\StorageRepository;
+use Temple\Repositories\StorageRepository;
 
 /**
  * Class DomModel
  *
- * @package Caramel
+ * @package Temple
  */
 class DomModel extends StorageRepository
 {

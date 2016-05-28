@@ -1,27 +1,27 @@
 <?php
 
-namespace Caramel\Plugins\Core;
+namespace Temple\Plugins\Core;
 
 
-use Caramel\Exception\CaramelException;
-use Caramel\Models\NodeModel;
-use Caramel\Models\PluginModel;
+use Temple\Exception\TempleException;
+use Temple\Models\NodeModel;
+use Temple\Models\PluginModel;
 
 
 /**
  * to implement a plugin, you have to follow a name convention.
  * The File name represents the plugin class name.
- * Each Plugins class has to be prefixed with with Caramel(Type)
+ * Each Plugins class has to be prefixed with with Temple(Type)
  * Example given:
  *      filename = MyPlugin.php
- *      classname = Caramel_Plugin_MyPlugin
- * Class Caramel_Plugin_MyPlugin
+ *      classname = Temple_Plugin_MyPlugin
+ * Class Temple_Plugin_MyPlugin
  *
  * @purpose : explains how to use plugins
  * @usage   : none
  * @author   : Stefan Hövelmanns
  * @License : MIT
- * @package Caramel
+ * @package Temple
  */
 class Variables extends PluginModel
 {
@@ -42,7 +42,7 @@ class Variables extends PluginModel
     /**
      * @param NodeModel $node
      * @return bool
-     * @throws CaramelException
+     * @throws TempleException
      */
     public function check(NodeModel $node)
     {

@@ -1,10 +1,10 @@
 <?php
 
-namespace Caramel\Services;
+namespace Temple\Services;
 
 
-use Caramel\Exception\CaramelException;
-use Caramel\Models\ServiceModel;
+use Temple\Exception\TempleException;
+use Temple\Models\ServiceModel;
 
 class CacheService extends ServiceModel
 {
@@ -111,12 +111,12 @@ class CacheService extends ServiceModel
      * @param string $parent
      * @param string $file
      * @return bool
-     * @throws CaramelException
+     * @throws TempleException
      */
     public function dependency($parent, $file)
     {
-        if (!$file || $file == "") throw new CaramelException("Please set a file for your dependency");
-        if (!$parent || $parent == "") throw new CaramelException("Please set a parent file for your dependency");
+        if (!$file || $file == "") throw new TempleException("Please set a file for your dependency");
+        if (!$parent || $parent == "") throw new TempleException("Please set a parent file for your dependency");
 
         $file   = $this->cleanFile($file);
         $parent = $this->cleanFile($parent);

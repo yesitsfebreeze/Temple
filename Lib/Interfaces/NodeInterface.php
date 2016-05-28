@@ -1,6 +1,6 @@
 <?php
 
-namespace Caramel\Interfaces;
+namespace Temple\Interfaces;
 
 
 class NodeInterface {

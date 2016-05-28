@@ -15,7 +15,7 @@ $config = array(
             "character" => " ",
             "amount" => 2
         ],
-        "extension" => "crml",
+        "extension" => "tmpl",
         "symbols" => [
             "comment" => "#",
             "variable" => "$"

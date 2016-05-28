@@ -1,20 +1,20 @@
 <?php
 
-namespace Caramel;
+namespace Temple;
 
 
-use Caramel\Repositories\ServiceRepository;
-use Caramel\Services\CacheService;
-use Caramel\Services\ConfigService;
-use Caramel\Services\InitService;
-use Caramel\Services\PluginInitService;
-use Caramel\Services\TemplateService;
+use Temple\Repositories\ServiceRepository;
+use Temple\Services\CacheService;
+use Temple\Services\ConfigService;
+use Temple\Services\InitService;
+use Temple\Services\PluginInitService;
+use Temple\Services\TemplateService;
 
 
 /**
  * Class Engine
  *
- * @package Caramel
+ * @package Temple
  */
 class Engine
 {

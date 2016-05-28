@@ -1,16 +1,16 @@
 <?php
 
-namespace Caramel\Plugins\Html;
+namespace Temple\Plugins\Html;
 
 
-use Caramel\Models\NodeModel;
-use Caramel\Models\PluginModel;
+use Temple\Models\NodeModel;
+use Temple\Models\PluginModel;
 
 
 /**
  * Class PluginPlain
  *
- * @package     Caramel
+ * @package     Temple
  * @description converts a node to plain text
  * @position    3
  * @author      Stefan Hövelmanns

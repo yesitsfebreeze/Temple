@@ -1,10 +1,10 @@
 <?php
 
 
-namespace Caramel;
+namespace Temple;
 
 
-use Caramel\Services\AutoloaderService;
+use Temple\Services\AutoloaderService;
 
 require_once __DIR__ . "/lib/Services/AutoloadService.php";
 require_once __DIR__ . "/Engine.php";

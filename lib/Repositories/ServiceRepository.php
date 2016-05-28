@@ -1,15 +1,15 @@
 <?php
 
 
-namespace Caramel\Repositories;
+namespace Temple\Repositories;
 
 
-use Caramel\Models\ServiceModel;
+use Temple\Models\ServiceModel;
 
 /**
  * Class Handler
  *
- * @package Caramel\Repositories
+ * @package Temple\Repositories
  */
 class ServiceRepository
 {

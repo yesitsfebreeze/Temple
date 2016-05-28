@@ -1,11 +1,11 @@
 <?php
 
-namespace Caramel\Services;
+namespace Temple\Services;
 
 
-use Caramel\Models\PluginModel;
-use Caramel\Models\ServiceModel;
-use Caramel\Repositories\ServiceRepository;
+use Temple\Models\PluginModel;
+use Temple\Models\ServiceModel;
+use Temple\Repositories\ServiceRepository;
 
 class PluginInitService extends ServiceModel
 {
@@ -25,7 +25,7 @@ class PluginInitService extends ServiceModel
 
      *
      * @param ServiceRepository $services
-     * @throws \Caramel\Exception\CaramelException
+     * @throws \Temple\Exception\TempleException
      */
     public function init(ServiceRepository $services)
     {
@@ -127,7 +127,7 @@ class PluginInitService extends ServiceModel
 //
 //
 //    /**
-//     * install the plugins and register them in caramel
+//     * install the plugins and register them in Temple
 //     */
 //    private function installPlugins()
 //    {
@@ -182,11 +182,11 @@ class PluginInitService extends ServiceModel
 //
 //
 //    /**
-//     * returns all Plugins within the Caramel\Plugin namespace
+//     * returns all Plugins within the Temple\Plugin namespace
 //     */
 //    private function getNamespacedPlugins()
 //    {
-//        $namespace = "Caramel\\Plugins";
+//        $namespace = "Temple\\Plugins";
 //        $plugins   = array();
 //        $classes   = get_declared_classes();
 //        foreach ($classes as $class) {

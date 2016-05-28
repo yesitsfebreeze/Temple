@@ -1,10 +1,10 @@
 <?php
 
-namespace Caramel\Plugins\Core;
+namespace Temple\Plugins\Core;
 
 
-use Caramel\Models\NodeModel;
-use Caramel\Models\PluginModel;
+use Temple\Models\NodeModel;
+use Temple\Models\PluginModel;
 
 
 /**
@@ -20,7 +20,7 @@ use Caramel\Models\PluginModel;
  *          ?>
  * @author   : Stefan Hövelmanns - hvlmnns.de
  * @License : MIT
- * @package Caramel
+ * @package Temple
  */
 class Php extends PluginModel
 {

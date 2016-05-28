@@ -1,9 +1,9 @@
 <?php
 
-namespace Caramel\Factories;
+namespace Temple\Factories;
 
-use Caramel\Exception\CaramelException;
-use Caramel\Interfaces\FactoryInterface;
+use Temple\Exception\TempleException;
+use Temple\Interfaces\FactoryInterface;
 
 /**
  * Class configFactory

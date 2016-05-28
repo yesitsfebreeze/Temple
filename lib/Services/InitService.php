@@ -1,13 +1,13 @@
 <?php
 
 
-namespace Caramel\Services;
+namespace Temple\Services;
 
 
-use Caramel\Factories\NodeFactory;
-use Caramel\Factories\PluginFactory;
-use Caramel\Models\ServiceModel;
-use Caramel\Repositories\ServiceRepository;
+use Temple\Factories\NodeFactory;
+use Temple\Factories\PluginFactory;
+use Temple\Models\ServiceModel;
+use Temple\Repositories\ServiceRepository;
 
 class InitService
 {

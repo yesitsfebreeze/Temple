@@ -1,15 +1,15 @@
 <?php
 
-namespace Caramel\Models;
+namespace Temple\Models;
 
 
-use Caramel\Repositories\StorageRepository;
+use Temple\Repositories\StorageRepository;
 
 
 /**
  * Class Vars
  *
- * @package Caramel
+ * @package Temple
  */
 class Vars extends StorageRepository
 {

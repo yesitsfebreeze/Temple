@@ -1,11 +1,11 @@
 <?php
 
-namespace Caramel\Nodes;
+namespace Temple\Nodes;
 /**
  * all NodeModel defaults are set here
  * Class NodeModel
  *
- * @package Caramel
+ * @package Temple
  */
 class FunctionNode extends BaseNode
 {

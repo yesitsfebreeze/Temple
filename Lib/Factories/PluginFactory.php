@@ -1,7 +1,7 @@
 <?php
 
-namespace Caramel\Factories;
-use Caramel\Nodes\BaseNode;
+namespace Temple\Factories;
+use Temple\Nodes\BaseNode;
 
 /**
  * Class configFactory
@@ -14,7 +14,7 @@ class PluginFactory extends Factory
     public function check($class)
     {
 //        $this->getClassName($class);
-//        $class = '\\Caramel\\Interfaces\\' . ucfirst($class) . "Interface";
+//        $class = '\\Temple\\Interfaces\\' . ucfirst($class) . "Interface";
 //        if (class_exists($class)) {
 //            return $class;
 //        } else {

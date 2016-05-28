@@ -1,22 +1,22 @@
 <?php
 
-namespace Caramel\Models;
+namespace Temple\Models;
 
 
-use Caramel\Repositories\ServiceRepository;
-use Caramel\Services\CacheService;
-use Caramel\Services\ConfigService;
-use Caramel\Services\DirectoryService;
-use Caramel\Services\LexerService;
-use Caramel\Services\ParserService;
-use Caramel\Services\PluginInitService;
-use Caramel\Services\TemplateService;
+use Temple\Repositories\ServiceRepository;
+use Temple\Services\CacheService;
+use Temple\Services\ConfigService;
+use Temple\Services\DirectoryService;
+use Temple\Services\LexerService;
+use Temple\Services\ParserService;
+use Temple\Services\PluginInitService;
+use Temple\Services\TemplateService;
 
 
 /**
  * Class Plugins
  *
- * @package Caramel
+ * @package Temple
  */
 abstract class PluginModel
 {

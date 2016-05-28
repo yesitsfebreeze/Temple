@@ -1,19 +1,19 @@
 <?php
 
-namespace Caramel\Services;
+namespace Temple\Services;
 
 
-use Caramel\Exception\CaramelException;
-use Caramel\Models\DomModel;
-use Caramel\Nodes\NodeModel;
-use Caramel\Models\Plugin;
-use Caramel\Models\ServiceModel;
+use Temple\Exception\TempleException;
+use Temple\Models\DomModel;
+use Temple\Nodes\NodeModel;
+use Temple\Models\Plugin;
+use Temple\Models\ServiceModel;
 
 
 /**
  * Class Parser
  *
- * @package Caramel
+ * @package Temple
  */
 class ParserService extends ServiceModel
 {
@@ -94,7 +94,7 @@ class ParserService extends ServiceModel
 //     *
 //     * @param DomModel|mixed $dom
 //     * @return string
-//     * @throws CaramelException
+//     * @throws TempleException
 //     */
 //    private function output($dom)
 //    {
@@ -139,7 +139,7 @@ class ParserService extends ServiceModel
 //                    $children->set("nodes", $node->get("children"));
 //                    $output .= $this->output($children);
 //                } else {
-//                    throw new CaramelException("You can't have children in an " . $node->get("tag.tag") . "!", $node->get("file"), $node->get("line"));
+//                    throw new TempleException("You can't have children in an " . $node->get("tag.tag") . "!", $node->get("file"), $node->get("line"));
 //                }
 //            }
 //
@@ -231,7 +231,7 @@ class ParserService extends ServiceModel
 //     * @param DomModel|NodeModel|string $element
 //     * @param string                        $type
 //     * @return mixed
-//     * @throws CaramelException
+//     * @throws TempleException
 //     */
 //    private function executePlugins($element, $type)
 //    {
@@ -273,18 +273,18 @@ class ParserService extends ServiceModel
 //     * @param $plugin
 //     * @param $method
 //     * @param $variable
-//     * @throws CaramelException
+//     * @throws TempleException
 //     */
 //    private function PluginError($element, $plugin, $method, $variable)
 //    {
 //        $error = false;
-//        if ($variable == '$dom' && get_class($element) != "Caramel\\Models\\DomModel") $error = true;
-//        if ($variable == '$node' && get_class($element) != "Caramel\\Models\\NodeModel") $error = true;
+//        if ($variable == '$dom' && get_class($element) != "Temple\\Models\\DomModel") $error = true;
+//        if ($variable == '$node' && get_class($element) != "Temple\\Models\\NodeModel") $error = true;
 //        if ($variable == '$output' && !is_string($element)) $error = true;
 //
 //        if ($error) {
-//            $pluginName = str_replace("Caramel\\Plugins", "", get_class($plugin));
-//            throw new CaramelException("You need to return the variable: {$variable} </br></br>Plugins: {$pluginName} </br>Method: {$method} </br></br>");
+//            $pluginName = str_replace("Temple\\Plugins", "", get_class($plugin));
+//            throw new TempleException("You need to return the variable: {$variable} </br></br>Plugins: {$pluginName} </br>Method: {$method} </br></br>");
 //        }
 //    }
 

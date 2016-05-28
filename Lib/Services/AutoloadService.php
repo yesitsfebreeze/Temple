@@ -1,13 +1,13 @@
 <?php
 
-namespace Caramel\Services;
+namespace Temple\Services;
 
 
 /**
  * Class Autoloader
  * compatible to the psr-4 standard
  *
- * @package Caramel
+ * @package Temple
  */
 class AutoloaderService
 {
@@ -18,7 +18,7 @@ class AutoloaderService
      */
     public function __construct($dir)
     {
-        $namespace = "Caramel";
+        $namespace = "Temple";
 
         spl_autoload_register(function ($class) use ($namespace, $dir) {
             $class = substr($class, strlen($namespace . "\\"));

@@ -1,7 +1,7 @@
 <?php
 
-namespace Caramel\Factories;
-use Caramel\Services\ConfigService;
+namespace Temple\Factories;
+use Temple\Services\ConfigService;
 
 /**
  * Class configFactory
@@ -43,7 +43,7 @@ class NodeFactory extends Factory
         }
 
         $this->getClassName($class);
-        $class = '\\Caramel\\Nodes\\' . ucfirst($class) . "Node";
+        $class = '\\Temple\\Nodes\\' . ucfirst($class) . "Node";
 
         if (class_exists($class)) {
             return $class;

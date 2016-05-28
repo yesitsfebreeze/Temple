@@ -1,19 +1,19 @@
 <?php
 
-namespace Caramel\Nodes;
+namespace Temple\Nodes;
 
 
 // todoo: split attributes
 // todoo: add find method, maybe even to storage
-use Caramel\Exception\CaramelException;
-use Caramel\Repositories\StorageRepository;
-use Caramel\Services\ConfigService;
+use Temple\Exception\TempleException;
+use Temple\Repositories\StorageRepository;
+use Temple\Services\ConfigService;
 
 /**
  * all NodeModel defaults are set here
  * Class NodeModel
  *
- * @package Caramel
+ * @package Temple
  */
 class BaseNode extends StorageRepository
 {
@@ -76,7 +76,7 @@ class BaseNode extends StorageRepository
      *
      * @param     $line
      * @return float|int
-     * @throws CaramelException
+     * @throws TempleException
      */
     private function indent($line)
     {
@@ -92,7 +92,7 @@ class BaseNode extends StorageRepository
         if (is_int($indent)) return $indent;
 
         # else throw an error since the amount of characters doesn't match
-        throw new CaramelException("Indent isn't matching!", $this->dom->get("file"), $this->dom->get("line"));
+        throw new TempleException("Indent isn't matching!", $this->dom->get("file"), $this->dom->get("line"));
 
     }
 

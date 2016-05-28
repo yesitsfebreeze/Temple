@@ -1,9 +1,9 @@
 <?php
 
-namespace Caramel\Plugins\Core;
+namespace Temple\Plugins\Core;
 
 
-use Caramel\Models\PluginModel;
+use Temple\Models\PluginModel;
 
 class Debug extends PluginModel
 {
@@ -84,7 +84,7 @@ class Debug extends PluginModel
             $window = "<html>";
             $window .= "<head>";
             $window .= "<title>";
-            $window .= "caramel.debug";
+            $window .= "Temple.debug";
             $window .= "</title>";
             $window .= $this->style;
             $window .= "</head>";
@@ -123,10 +123,10 @@ class Debug extends PluginModel
                 $window .= "Version: 1.1.0";
                 $window .= "</div>";
                 $window .= "<div>";
-                $window .= "<a href='https://github.com/hvlmnns/caramel' title='gitHub' target='_blank'>gitHub</a>";
+                $window .= "<a href='https://github.com/hvlmnns/Temple' title='gitHub' target='_blank'>gitHub</a>";
                 $window .= "</div>";
                 $window .= "<div>";
-                $window .= "<a href='http://hvlmnns.github.io/Caramel/' title='Documentation' target='_blank'>Documentation</a>";
+                $window .= "<a href='http://hvlmnns.github.io/Temple/' title='Documentation' target='_blank'>Documentation</a>";
                 $window .= "</div>";
             }
 
@@ -222,12 +222,12 @@ class Debug extends PluginModel
         <a id="cdbl<?php echo $randomString; ?>">
             <script type="text/javascript">
                 (function() {
-                    var caramelDebugLink<?php echo $randomString; ?> = document.getElementById('cdbl<?php echo $randomString;?>');
-                    caramelDebugLink<?php echo $randomString; ?>.addEventListener("click", function() {
-                        var debugWindow<?php echo $randomString; ?> = window.open('', "Caramel Debug", '_blank');
+                    var TempleDebugLink<?php echo $randomString; ?> = document.getElementById('cdbl<?php echo $randomString;?>');
+                    TempleDebugLink<?php echo $randomString; ?>.addEventListener("click", function() {
+                        var debugWindow<?php echo $randomString; ?> = window.open('', "Temple Debug", '_blank');
                         debugWindow<?php echo $randomString; ?>.document.body.innerHTML = <?php echo json_encode($vars); ?>;
                     });
-                    caramelDebugLink<?php echo $randomString; ?>.click();
+                    TempleDebugLink<?php echo $randomString; ?>.click();
                 })();
             </script>
         </a>

@@ -1,10 +1,10 @@
 <?php
 
-namespace Caramel\Plugins\Html;
+namespace Temple\Plugins\Html;
 
 
-use Caramel\Models\NodeModel;
-use Caramel\Models\PluginModel;
+use Temple\Models\NodeModel;
+use Temple\Models\PluginModel;
 
 
 /**
@@ -14,7 +14,7 @@ use Caramel\Models\PluginModel;
  * @usage   : div#myid#myotherid id="default"
  * @author   : Stefan Hövelmanns - hvlmnns.de
  * @License : MIT
- * @package Caramel
+ * @package Temple
  */
 class Ids extends PluginModel
 {

@@ -1,17 +1,17 @@
 <?php
 
-namespace Caramel\Services;
+namespace Temple\Services;
 
 
-use Caramel\Exception\CaramelException;
-use Caramel\Models\ServiceModel;
+use Temple\Exception\TempleException;
+use Temple\Models\ServiceModel;
 
 
 /**
  * handles the directory creation
  * Class Directories
  *
- * @package Caramel
+ * @package Temple
  */
 class DirectoryService extends ServiceModel
 {
@@ -156,7 +156,7 @@ class DirectoryService extends ServiceModel
     /**
      * @param boolean $create
      * @param string  $dir
-     * @throws CaramelException
+     * @throws TempleException
      */
     private function create($create, $dir)
     {
@@ -165,7 +165,7 @@ class DirectoryService extends ServiceModel
                 if (is_writable(dirname($dir))) {
                     mkdir($dir, 0777, true);
                 } else {
-                    throw new CaramelException("You don't have the right permissions to write: </br>" . $dir);
+                    throw new TempleException("You don't have the right permissions to write: </br>" . $dir);
                 }
             }
         }
@@ -195,14 +195,14 @@ class DirectoryService extends ServiceModel
      *
      * @param $dir
      * @return string
-     * @throws CaramelException
+     * @throws TempleException
      */
     private function validate($dir)
     {
         if ($dir[0] != "/") $dir = $this->root() . $dir . "/";
         if (is_dir($dir)) return $dir;
 
-        throw new CaramelException("Cannot add directory because it does not exist:", $dir);
+        throw new TempleException("Cannot add directory because it does not exist:", $dir);
     }
 
 
@@ -223,14 +223,14 @@ class DirectoryService extends ServiceModel
 
 
     /**
-     * Returns the Caramel Directory
+     * Returns the Temple Directory
      *
      * @return array|string
      */
     private function framework()
     {
-        $framework = explode("Caramel", __DIR__);
-        $framework = $framework[0] . "Caramel/";
+        $framework = explode("Temple", __DIR__);
+        $framework = $framework[0] . "Temple/";
 
         return $framework;
     }
