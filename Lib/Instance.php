@@ -46,7 +46,7 @@ class Instance
 
 
     /**
-     * @return DependencyManagement\DependencyInterface
+     * @return Dependency\DependencyInterface
      * @throws TempleException
      */
     public function getTemplate()
@@ -56,7 +56,7 @@ class Instance
 
 
     /**
-     * @return DependencyManagement\DependencyInterface
+     * @return Dependency\DependencyInterface
      * @throws TempleException
      */
     public function getConfig()
@@ -66,7 +66,7 @@ class Instance
 
 
     /**
-     * @return DependencyManagement\DependencyInterface
+     * @return Dependency\DependencyInterface
      * @throws TempleException
      */
     public function getPlugins()
@@ -76,7 +76,7 @@ class Instance
 
 
     /**
-     * @return DependencyManagement\DependencyInterface
+     * @return Dependency\DependencyInterface
      * @throws TempleException
      */
     public function getCache()
