@@ -6,7 +6,7 @@ namespace Temple\Utilities;
 use Temple\Dependency\DependencyContainer;
 use Temple\Dependency\DependencyInstance;
 use Temple\Exceptions\ExceptionHandler;
-use Temple\Exceptions\TempleException;
+use Temple\Exception\TempleException;
 
 class Config extends DependencyInstance
 {

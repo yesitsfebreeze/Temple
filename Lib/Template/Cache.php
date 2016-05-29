@@ -3,7 +3,7 @@
 namespace Temple\Template;
 
 use Temple\Dependency\DependencyInstance;
-use Temple\Exceptions\TempleException;
+use Temple\Exception\TempleException;
 use Temple\Utilities\Config;
 use Temple\Utilities\Directories;
 

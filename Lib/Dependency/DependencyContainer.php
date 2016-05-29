@@ -3,7 +3,7 @@
 namespace Temple\Dependency;
 
 
-use Temple\Exceptions\TempleException;
+use Temple\Exception\TempleException;
 
 
 /**

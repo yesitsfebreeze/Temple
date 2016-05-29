@@ -3,7 +3,7 @@
 namespace Temple\Utilities;
 
 
-use Temple\Exceptions\TempleException;
+use Temple\Exception\TempleException;
 
 /**
  * this class handles all data storage

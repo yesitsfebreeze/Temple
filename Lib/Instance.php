@@ -4,7 +4,7 @@ namespace Temple;
 
 
 use Temple\Dependency\DependencyContainer;
-use Temple\Exceptions\TempleException;
+use Temple\Exception\TempleException;
 use Temple\Plugins\Plugins;
 use Temple\Template\Lexer;
 use Temple\Template\Parser;

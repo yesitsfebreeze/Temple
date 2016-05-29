@@ -1,6 +1,6 @@
 <?php
 
-namespace Temple\Exceptions;
+namespace Temple\Exception;
 
 
 /**

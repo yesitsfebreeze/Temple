@@ -4,7 +4,7 @@
 namespace Temple\Dependency;
 
 
-use Temple\Exceptions\TempleException;
+use Temple\Exception\TempleException;
 
 abstract class DependencyInstance implements DependencyInterface
 {
