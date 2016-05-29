@@ -2,12 +2,13 @@
 
 namespace Temple\Template;
 
+
 use Temple\Dependency\DependencyInstance;
-use Temple\Exception\TempleException;
 use Temple\Utilities\Config;
 use Temple\Utilities\Directories;
 
-class Cache extends DependencyInstance {
+class Cache extends DependencyInstance
+{
 
 
     /** @var  Config $Config */
@@ -18,6 +19,7 @@ class Cache extends DependencyInstance {
 
     /** @var  Template $Template */
     protected $Template;
+
 
     public function dependencies()
     {

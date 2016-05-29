@@ -2,6 +2,7 @@
 
 namespace Temple\Exception;
 
+
 /**
  * Class TempleException
  *

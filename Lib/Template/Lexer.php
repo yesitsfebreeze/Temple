@@ -14,7 +14,6 @@ class Lexer extends DependencyInstance
 {
 
 
-
     public function dependencies()
     {
         return array();

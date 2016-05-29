@@ -5,7 +5,7 @@ namespace Temple\Utilities;
 
 use Temple\Dependency\DependencyContainer;
 use Temple\Dependency\DependencyInstance;
-use Temple\Exceptions\ExceptionHandler;
+use Temple\Exception\ExceptionHandler;
 use Temple\Exception\TempleException;
 
 class Config extends DependencyInstance
@@ -77,9 +77,9 @@ class Config extends DependencyInstance
      * @param $value
      * @return bool
      */
-    public function set($path,$value)
+    public function set($path, $value)
     {
-        return $this->config->set($path,$value);
+        return $this->config->set($path, $value);
     }
 
 

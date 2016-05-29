@@ -143,9 +143,9 @@ class Storage
      * if we pass an array it has the same behaviour
      * iterates over the array values recursively
      *
-     * @param Storage $item
-     * @param array|string      $attrs
-     * @param string            $value
+     * @param Storage      $item
+     * @param array|string $attrs
+     * @param string       $value
      * @return array
      */
     public function find($attrs, $value = NULL, &$item = NULL)
@@ -177,10 +177,10 @@ class Storage
     /**
      * outsourcing the repeating find process
      *
-     * @param array             $found
-     * @param Storage $item
-     * @param array|string      $attrs
-     * @param string            $value
+     * @param array        $found
+     * @param Storage      $item
+     * @param array|string $attrs
+     * @param string       $value
      * @return array
      */
     private function findHelper(&$found, &$item, $attrs, $value = NULL)

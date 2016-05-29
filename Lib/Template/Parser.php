@@ -17,6 +17,7 @@ class Parser extends DependencyInstance
     /** @var  Plugins Plugins */
     protected $Plugins;
 
+
     public function dependencies()
     {
         return array(

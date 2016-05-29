@@ -88,7 +88,8 @@ class ExceptionTemplate
         $file     = array_reverse(explode(DIRECTORY_SEPARATOR, $file));
         $filename = array_shift($file);
         $path     = implode("/", array_reverse($file));
-        $output   = "<span class='collapse'><span class='colored'>" . $filename . "</span><span class='mute'>" . $path. "</span></span>";
+        $output   = "<span class='collapse'><span class='colored'>" . $filename . "</span><span class='mute'>" . $path . "</span></span>";
+
         return $output;
     }
 
