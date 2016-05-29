@@ -10,6 +10,7 @@ use Temple\Plugins\Plugins;
 use Temple\Template\Lexer;
 use Temple\Template\Parser;
 use Temple\Template\Template;
+use Temple\Utilities\Directories;
 
 /**
  * Class Instance
@@ -29,22 +30,16 @@ class Instance
     public function __construct()
     {
         $this->dependencyContainer = new DependencyContainer();
-        $this->load();
-    }
 
-
-    /**
-     * create all the sub Instances
-     */
-    private function load()
-    {
         new Config($this->dependencyContainer);
+        new Directories($this->dependencyContainer);
         new Cache($this->dependencyContainer);
         new Plugins($this->dependencyContainer);
         new Parser($this->dependencyContainer);
         new Lexer($this->dependencyContainer);
         new Template($this->dependencyContainer);
     }
+
 
 
     /**
@@ -56,6 +51,7 @@ class Instance
         return $this->dependencyContainer->getInstance("Template");
     }
 
+
     /**
      * @return DependencyManagement\DependencyInterface
      * @throws TempleException
@@ -65,6 +61,7 @@ class Instance
         return $this->dependencyContainer->getInstance("Config");
     }
 
+
     /**
      * @return DependencyManagement\DependencyInterface
      * @throws TempleException
@@ -73,6 +70,7 @@ class Instance
     {
         return $this->dependencyContainer->getInstance("Plugins");
     }
+
 
     /**
      * @return DependencyManagement\DependencyInterface
