@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Temple\DependencyManagement;
+namespace Temple\Dependency;
 
 
 use Temple\Exceptions\TempleException;
@@ -23,8 +23,9 @@ abstract class DependencyInstance implements DependencyInterface
 
     /**
      * has to add an instance to the class
-     *
-     * @param string             $name
+
+*
+*@param string                   $name
      * @param DependencyInstance $instance
      * @throws TempleException
      */

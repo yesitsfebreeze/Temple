@@ -1,11 +1,10 @@
 <?php
 
-namespace Temple\Cache;
+namespace Temple\Template;
 
-use Temple\Config;
-use Temple\DependencyManagement\DependencyInstance;
+use Temple\Dependency\DependencyInstance;
 use Temple\Exceptions\TempleException;
-use Temple\Template\Template;
+use Temple\Utilities\Config;
 use Temple\Utilities\Directories;
 
 class Cache extends DependencyInstance {
@@ -23,9 +22,7 @@ class Cache extends DependencyInstance {
     public function dependencies()
     {
         return array(
-            "Config",
-            "Directories",
-            "Template"
+            "Config"
         );
     }
 

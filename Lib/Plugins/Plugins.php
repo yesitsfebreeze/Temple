@@ -3,8 +3,8 @@
 namespace Temple\Plugins;
 
 
-use Temple\Config;
-use Temple\DependencyManagement\DependencyInstance;
+use Temple\Utilities\Config;
+use Temple\Dependency\DependencyInstance;
 
 class Plugins extends DependencyInstance
 {

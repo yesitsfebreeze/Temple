@@ -3,13 +3,14 @@
 namespace Temple;
 
 
-use Temple\Cache\Cache;
-use Temple\DependencyManagement\DependencyContainer;
+use Temple\Dependency\DependencyContainer;
 use Temple\Exceptions\TempleException;
 use Temple\Plugins\Plugins;
 use Temple\Template\Lexer;
 use Temple\Template\Parser;
+use Temple\Template\Cache;
 use Temple\Template\Template;
+use Temple\Utilities\Config;
 use Temple\Utilities\Directories;
 
 /**
@@ -31,15 +32,17 @@ class Instance
     {
         $this->dependencyContainer = new DependencyContainer();
 
+        # Utilities
         new Config($this->dependencyContainer);
         new Directories($this->dependencyContainer);
-        new Cache($this->dependencyContainer);
+
+        # Template
         new Plugins($this->dependencyContainer);
         new Parser($this->dependencyContainer);
         new Lexer($this->dependencyContainer);
+        new Cache($this->dependencyContainer);
         new Template($this->dependencyContainer);
     }
-
 
 
     /**

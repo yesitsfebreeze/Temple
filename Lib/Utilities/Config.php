@@ -1,13 +1,12 @@
 <?php
 
-namespace Temple;
+namespace Temple\Utilities;
 
 
-use Temple\DependencyManagement\DependencyContainer;
-use Temple\DependencyManagement\DependencyInstance;
+use Temple\Dependency\DependencyContainer;
+use Temple\Dependency\DependencyInstance;
 use Temple\Exceptions\ExceptionHandler;
 use Temple\Exceptions\TempleException;
-use Temple\Repositories\Storage;
 
 class Config extends DependencyInstance
 {

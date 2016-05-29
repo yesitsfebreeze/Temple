@@ -3,8 +3,8 @@
 namespace Temple\Template;
 
 
-use Temple\Cache\Cache;
-use Temple\DependencyManagement\DependencyInstance;
+use Temple\Dependency\DependencyInstance;
+use Temple\Plugins\Plugins;
 
 /**
  * Class Parser
@@ -14,14 +14,13 @@ use Temple\DependencyManagement\DependencyInstance;
 class Parser extends DependencyInstance
 {
 
-    /** @var  Cache $Cache */
-    protected $Cache;
-
+    /** @var  Plugins Plugins */
+    protected $Plugins;
 
     public function dependencies()
     {
         return array(
-            "Cache"
+            "Plugins"
         );
     }
 

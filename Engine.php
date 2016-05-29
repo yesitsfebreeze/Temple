@@ -4,7 +4,9 @@ namespace Temple;
 
 
 use Temple\Plugins\Plugins;
+use Temple\Template\Cache;
 use Temple\Template\Template;
+use Temple\Utilities\Config;
 
 
 /**

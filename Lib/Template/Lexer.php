@@ -3,7 +3,7 @@
 namespace Temple\Template;
 
 
-use Temple\DependencyManagement\DependencyInstance;
+use Temple\Dependency\DependencyInstance;
 
 /**
  * Class Lexer

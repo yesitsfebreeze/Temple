@@ -3,7 +3,7 @@
 namespace Temple\Utilities;
 
 
-use Temple\DependencyManagement\DependencyInstance;
+use Temple\Dependency\DependencyInstance;
 
 /**
  * Class Parser

@@ -1,6 +1,6 @@
 <?php
 
-namespace Temple\DependencyManagement;
+namespace Temple\Dependency;
 
 
 /**
@@ -23,8 +23,9 @@ interface DependencyInterface
 
     /**
      * has to add an instance to the class
-     *
-     * @param string $name
+
+*
+*@param string                   $name
      * @param DependencyInstance $instance
      */
     function setDependency($name, DependencyInstance $instance);

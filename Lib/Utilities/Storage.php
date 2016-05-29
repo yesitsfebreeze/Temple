@@ -1,6 +1,6 @@
 <?php
 
-namespace Temple\Repositories;
+namespace Temple\Utilities;
 
 
 use Temple\Exceptions\TempleException;
@@ -143,7 +143,7 @@ class Storage
      * if we pass an array it has the same behaviour
      * iterates over the array values recursively
      *
-     * @param StorageRepository $item
+     * @param Storage $item
      * @param array|string      $attrs
      * @param string            $value
      * @return array
@@ -163,7 +163,7 @@ class Storage
             }
         }
         if ($children) {
-            /** @var StorageRepository $child */
+            /** @var Storage $child */
             foreach ($children as &$child) {
                 $this->find($attrs, $value, $child);
                 $this->findHelper($found, $child, $attrs, $value);
@@ -178,7 +178,7 @@ class Storage
      * outsourcing the repeating find process
      *
      * @param array             $found
-     * @param StorageRepository $item
+     * @param Storage $item
      * @param array|string      $attrs
      * @param string            $value
      * @return array

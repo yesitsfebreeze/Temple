@@ -3,8 +3,8 @@
 namespace Temple\Template;
 
 
-use Temple\Config;
-use Temple\DependencyManagement\DependencyInstance;
+use Temple\Utilities\Config;
+use Temple\Dependency\DependencyInstance;
 
 class Template extends DependencyInstance
 {

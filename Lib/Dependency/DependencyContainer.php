@@ -1,6 +1,6 @@
 <?php
 
-namespace Temple\DependencyManagement;
+namespace Temple\Dependency;
 
 
 use Temple\Exceptions\TempleException;
