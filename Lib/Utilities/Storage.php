@@ -67,7 +67,7 @@ class Storage
                 $this->storage[ $key ] = $val;
             }
         } else {
-            throw new TempleException("Only arrays are allowed to merge!");
+            throw new TempleException("Cannot merge, no array was given!");
         }
     }
 
@@ -137,7 +137,7 @@ class Storage
     }
 
 
-    // TODO: needs to be generalized
+    // TODO: needs to be generalized not only "children"
     /**
      * searches for an item in the current tree
      * if we pass an array it has the same behaviour
