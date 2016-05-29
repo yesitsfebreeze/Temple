@@ -21,8 +21,8 @@ use Temple\Utilities\Directories;
 class Instance
 {
 
-    /** @var  DependencyContainer $dependencyContainer */
-    private $dependencyContainer;
+    /** @var  DependencyContainer $container */
+    private $container;
 
 
     /**
@@ -30,18 +30,18 @@ class Instance
      */
     public function __construct()
     {
-        $this->dependencyContainer = new DependencyContainer();
+        $this->container = new DependencyContainer();
 
         # Utilities
-        new Config($this->dependencyContainer);
-        new Directories($this->dependencyContainer);
+        new Config($this->container);
+        new Directories($this->container);
 
         # Template
-        new Plugins($this->dependencyContainer);
-        new Parser($this->dependencyContainer);
-        new Lexer($this->dependencyContainer);
-        new Cache($this->dependencyContainer);
-        new Template($this->dependencyContainer);
+        new Plugins($this->container);
+        new Parser($this->container);
+        new Lexer($this->container);
+        new Cache($this->container);
+        new Template($this->container);
     }
 
 
@@ -51,7 +51,7 @@ class Instance
      */
     public function getTemplate()
     {
-        return $this->dependencyContainer->getInstance("Template");
+        return $this->container->getInstance("Template");
     }
 
 
@@ -61,7 +61,7 @@ class Instance
      */
     public function getConfig()
     {
-        return $this->dependencyContainer->getInstance("Config");
+        return $this->container->getInstance("Config");
     }
 
 
@@ -71,7 +71,7 @@ class Instance
      */
     public function getPlugins()
     {
-        return $this->dependencyContainer->getInstance("Plugins");
+        return $this->container->getInstance("Plugins");
     }
 
 
@@ -81,7 +81,7 @@ class Instance
      */
     public function getCache()
     {
-        return $this->dependencyContainer->getInstance("Cache");
+        return $this->container->getInstance("Cache");
     }
 
 }
