@@ -11,7 +11,7 @@ use Temple\Exceptions\TempleException;
  *
  * @package Temple
  */
-class StorageRepository
+class Storage
 {
 
     /** @var array $storage */

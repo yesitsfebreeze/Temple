@@ -3,11 +3,8 @@
 namespace Temple;
 
 
-use Temple\Services\CacheService;
-use Temple\Services\ConfigService;
-use Temple\Services\DependencyService;
-use Temple\Services\PluginInitService;
-use Temple\Services\TemplateService;
+use Temple\Plugins\Plugins;
+use Temple\Template\Template;
 
 
 /**
@@ -18,8 +15,8 @@ use Temple\Services\TemplateService;
 class Engine
 {
 
-    /** @var DependencyService $classes */
-    private $dependencies;
+    /** @var Instance $instance */
+    private $instance;
 
 
     /**
@@ -27,43 +24,43 @@ class Engine
      */
     public function __construct()
     {
-        $this->dependencies = new DependencyService(__DIR__ . DIRECTORY_SEPARATOR, $this);
+        $this->instance = new Instance();
     }
 
 
     /**
-     * @return ConfigService
-     */
-    public function Config()
-    {
-        return $this->dependencies->getConfigService();
-    }
-
-
-    /**
-     * @return TemplateService
+     * @return Template
      */
     public function Template()
     {
-        return $this->dependencies->getTemplateService();
+        return $this->instance->getTemplate();
     }
 
 
     /**
-     * @return CacheService
+     * @return Config
      */
-    public function Cache()
+    public function Config()
     {
-        return $this->dependencies->getCacheService();
+        return $this->instance->getConfig();
     }
 
 
     /**
-     * @return PluginInitService
+     * @return Plugins
      */
     public function Plugins()
     {
-        return $this->dependencies->getPluginInitService();
+        return $this->instance->getPlugins();
+    }
+
+
+    /**
+     * @return Cache
+     */
+    public function Cache()
+    {
+        return $this->instance->getCache();
     }
 
 }
