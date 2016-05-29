@@ -274,11 +274,11 @@ class Storage
      */
     private function createPath($path)
     {
-        $seperator = ".";
+        $separator = ".";
         # remove last / if existent
-        $path = preg_replace('/' . preg_quote($seperator) . '$/', '', $path);
+        $path = preg_replace('/' . preg_quote($separator) . '$/', '', $path);
         # get path array
-        $path = explode($seperator, $path);
+        $path = explode($separator, $path);
 
         return $path;
     }
