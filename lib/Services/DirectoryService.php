@@ -3,8 +3,8 @@
 namespace Temple\Services;
 
 
-use Temple\Exception\TempleException;
-use Temple\Models\ServiceModel;
+use Temple\BaseClasses\DependencyBaseClass;
+use Temple\Exceptions\TempleException;
 
 
 /**
@@ -13,7 +13,7 @@ use Temple\Models\ServiceModel;
  *
  * @package Temple
  */
-class DirectoryService extends ServiceModel
+class DirectoryService extends DependencyBaseClass
 {
 
     /**
@@ -38,8 +38,8 @@ class DirectoryService extends ServiceModel
         $dirs = $this->addToArray($name, $dirs, $dir, $create);
 
         return $dirs;
-
     }
+
 
 
     /**
@@ -141,6 +141,13 @@ class DirectoryService extends ServiceModel
     }
 
 
+    /**
+     * @param $name
+     * @param $dir
+     * @param $create
+     * @return string
+     * @throws TempleException
+     */
     private function replaceString($name, $dir, $create)
     {
         $dir = $this->path($dir);

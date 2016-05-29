@@ -3,12 +3,10 @@
 namespace Temple\Services;
 
 
-use Temple\Exception\TempleException;
-use Temple\Models\DomModel;
-use Temple\Nodes\FunctionNodeModel;
-use Temple\Nodes\HtmlNodeModel;
-use Temple\Nodes\NodeModel;
-use Temple\Models\ServiceModel;
+use Temple\Exceptions\TempleException;
+use Temple\BaseClasses\DomBaseClass;
+use Temple\BaseClasses\DependencyBaseClass;
+use Temple\Nodes\BaseNode;
 use Temple\Repositories\StorageRepository;
 
 
@@ -17,15 +15,15 @@ use Temple\Repositories\StorageRepository;
  *
  * @package Temple
  */
-class LexerService extends ServiceModel
+class LexerService extends DependencyBaseClass
 {
 
-    /** @var DomModel $dom */
+    /** @var DomBaseClass $dom */
     private $dom;
 
 
     /**
-     * returns DomModel object
+     * returns DomBaseClass object
      *
      * @param string   $filename
      * @param int|bool $level
@@ -35,7 +33,7 @@ class LexerService extends ServiceModel
     {
 
         # create a new dom model
-        $this->dom = new DomModel();
+        $this->dom = new DomBaseClass();
         $filename  = str_replace("." . $this->configService->get("template.extension"), "", $filename);
         $this->dom->set("info.namespace", $filename);
         $this->dom->set("info.line", 1);
@@ -104,7 +102,7 @@ class LexerService extends ServiceModel
      * creates a node matching to the criteria
      *
      * @param $line
-     * @return NodeModel
+     * @return BaseNode
      * @throws TempleException
      */
     private function createNode($line)
@@ -133,7 +131,7 @@ class LexerService extends ServiceModel
      * adds the node to the dom
      * parent/child logic is handled here
      *
-     * @param NodeModel $node
+     * @param BaseNode $node
      */
     private function addNode($node)
     {
@@ -166,7 +164,7 @@ class LexerService extends ServiceModel
      * adds a node to the dom if has a deeper level
      * than the previous node
      *
-     * @param NodeModel $node
+     * @param BaseNode $node
      * @throws TempleException
      */
     private function deeper($node)
@@ -185,7 +183,7 @@ class LexerService extends ServiceModel
      * adds a node to the dom if has a higher level
      * than the previous node
      *
-     * @param NodeModel $node
+     * @param BaseNode $node
      */
     private function higher($node)
     {
@@ -199,7 +197,7 @@ class LexerService extends ServiceModel
      * adds a node to the dom if has the same  level
      * than the previous node
      *
-     * @param NodeModel $node
+     * @param BaseNode $node
      */
     private function same($node)
     {
@@ -212,8 +210,8 @@ class LexerService extends ServiceModel
     /**
      * adds the passed node to children
      *
-     * @param NodeModel $target
-     * @param NodeModel $node
+     * @param BaseNode $target
+     * @param BaseNode $node
      * @throws \Exception
      */
     private function children($target, $node)
@@ -227,9 +225,9 @@ class LexerService extends ServiceModel
     /**
      * returns the parent of the passed node
      *
-     * @param NodeModel      $node
-     * @param bool|NodeModel $parent
-     * @return NodeModel
+     * @param BaseNode      $node
+     * @param bool|BaseNode $parent
+     * @return BaseNode
      */
     private function parent($node, $parent = false)
     {

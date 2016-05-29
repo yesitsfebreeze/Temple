@@ -1,11 +1,12 @@
 <?php
 
-namespace Temple\Plugins\Core;
+namespace Temple\Plugin\Core;
 
 
-use Temple\Exception\TempleException;
+use Temple\Exceptions\TempleException;
+use Temple\BaseClasses\PluginBaseClass;
 use Temple\Models\NodeModel;
-use Temple\Models\PluginModel;
+
 
 
 /**
@@ -23,7 +24,7 @@ use Temple\Models\PluginModel;
  * @License : MIT
  * @package Temple
  */
-class Variables extends PluginModel
+class Variables extends PluginBaseClass
 {
 
     /** @var  string $sign */
@@ -36,6 +37,18 @@ class Variables extends PluginModel
     public function position()
     {
         return 9999999991;
+    }
+
+    /** @inheritdoc */
+    public function forTags()
+    {
+
+    }
+
+    /** @inheritdoc */
+    public function forNodes()
+    {
+
     }
 
 

@@ -3,11 +3,10 @@
 namespace Temple\Services;
 
 
-use Temple\Exception\TempleException;
-use Temple\Models\DomModel;
-use Temple\Nodes\NodeModel;
-use Temple\Models\Plugin;
-use Temple\Models\ServiceModel;
+use Temple\BaseClasses\DependencyBaseClass;
+use Temple\BaseClasses\DomBaseClass;
+use Temple\Exceptions\TempleException;
+use Temple\Nodes\BaseNode;
 
 
 /**
@@ -15,11 +14,11 @@ use Temple\Models\ServiceModel;
  *
  * @package Temple
  */
-class ParserService extends ServiceModel
+class ParserService extends DependencyBaseClass
 {
 
     /**
-     * @param DomModel $dom
+     * @param DomBaseClass $dom
      * @return bool
      */
     public function parse($dom)
@@ -29,28 +28,29 @@ class ParserService extends ServiceModel
         $output = $this->processPLugins($dom);
         $output = $this->createOutput($output);
         $this->cacheService->save($dom->get("info.file"), $output);
-
         return $output;
     }
 
 
     /**
-     * @param DomModel $dom
-     * @return string
+     * @param DomBaseClass $dom
+     * @return DomBaseClass $dom
      */
     private function processPlugins($dom) {
         if ($dom->has("nodes")) {
             $nodes = $dom->get("nodes");
             foreach ($nodes as $node) {
-                $this->pluginFactory->getForNode($node);
+                $this->pluginFactory->getPluginsForNode($node);
+//                 todoo: plugin processor must still be written
             }
         }
+        return $dom;
     }
 
     /**
      * checks if we have a valid dom object
      *
-     * @param DomModel $dom
+     * @param DomBaseClass $dom
      * @return bool
      */
     private function validateDom($dom)
@@ -65,106 +65,89 @@ class ParserService extends ServiceModel
     }
 
 
+    /**
+     * merges the nodes into the final forntend string
+     *
+     * @param DomBaseClass|BaseNode $dom
+     * @return mixed
+     * @throws TempleException
+     */
+    public function createOutput($dom)
+    {
+        # temp variable for the output
+        $output = '';
+        $nodes  = $dom->get("nodes");
+        foreach ($nodes as $node) {
+            /** @var BaseNode $node */
+            # open the tag
+            if ($node->get("tag.display")) {
+                if ($node->get("info.display") && $node->get("tag.opening.display")) {
+                    $output .= $node->get("tag.opening.before");
+                    $output .= $node->get("tag.opening.tag");
+                    if ($node->get("tag.opening.tag") != "") {
+                        $output .= " ";
+                    }
+                    foreach ($node->get("attributes") as $attribute) {
+                        if (isset($attribute["name"])) {
+                            $output .= $attribute["name"];
+                            if (isset($attribute["value"])) {
+                                $output .= "=";
+                                $output .= $attribute["value"];
+                            }
+                            $output .= " ";
+                        }
+                    }
+                    $output .= $node->get("tag.opening.after");
+                }
+            }
+
+            if ($node->has("content")) {
+                $content = $node->get("content");
+                if (is_string($content)) {
+                    $output .= $content;
+                }
+            }
+
+            # recursively iterate over the children
+            if ($node->has("children")) {
+                if (!$node->get("info.selfclosing")) {
+                    $children = new DomBaseClass();
+                    $children->set("nodes", $node->get("children"));
+                    $output .= $this->createOutput($children);
+                } else {
+                    throw new TempleException("You can't have children in an " . $node->get("tag.tag") . "!", $node->get("file"), $node->get("line"));
+                }
+            }
+
+            # close the tag
+            if ($node->get("tag.display")) {
+                if ($node->get("info.display") && $node->get("tag.closing.display") && $node->get("tag.display")) {
+                    if (!$node->get("info.selfclosing")) {
+                        $output .= $node->get("tag.closing.before");
+                        $output .= $node->get("tag.closing.tag");
+                        $output .= $node->get("tag.closing.after");
+                    }
+                }
+            }
+        }
+
+        if (trim($output) == "") return false;
+
+        return $output;
+    }
 
 
 
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//
-//
-//    /**
-//     * merges the nodes to a string
-//     *
-//     * @param DomModel|mixed $dom
-//     * @return string
-//     * @throws TempleException
-//     */
-//    private function output($dom)
-//    {
-//        # temp variable for the output
-//        $output = '';
-//        $nodes  = $dom->get("nodes");
-//        foreach ($nodes as $node) {
-//            /** @var NodeModel $node */
-//            # open the tag
-//            if ($node->get("tag.display")) {
-//                if ($node->get("info.display") && $node->get("tag.opening.display")) {
-//                    $output .= $node->get("tag.opening.before");
-//                    $output .= $node->get("tag.opening.tag");
-//                    if ($node->get("tag.opening.tag") != "") {
-//                        $output .= " ";
-//                    }
-//                    foreach ($node->get("attributes") as $attribute) {
-//                        if (isset($attribute["name"])) {
-//                            $output .= $attribute["name"];
-//                            if (isset($attribute["value"])) {
-//                                $output .= "=";
-//                                $output .= $attribute["value"];
-//                            }
-//                            $output .= " ";
-//                        }
-//                    }
-//                    $output .= $node->get("tag.opening.after");
-//                }
-//            }
-//
-//            if ($node->has("content")) {
-//                $content = $node->get("content");
-//                if (is_string($content)) {
-//                    $output .= $content;
-//                }
-//            }
-//
-//            # recursively iterate over the children
-//            if ($node->has("children")) {
-//                if (!$node->get("info.selfclosing")) {
-//                    $children = new DomModel();
-//                    $children->set("nodes", $node->get("children"));
-//                    $output .= $this->output($children);
-//                } else {
-//                    throw new TempleException("You can't have children in an " . $node->get("tag.tag") . "!", $node->get("file"), $node->get("line"));
-//                }
-//            }
-//
-//            # close the tag
-//            if ($node->get("tag.display")) {
-//                if ($node->get("info.display") && $node->get("tag.closing.display") && $node->get("tag.display")) {
-//                    if (!$node->get("info.selfclosing")) {
-//                        $output .= $node->get("tag.closing.before");
-//                        $output .= $node->get("tag.closing.tag");
-//                        $output .= $node->get("tag.closing.after");
-//                    }
-//                }
-//            }
-//        }
-//
-//        if (trim($output) == "") return false;
-//
-//        return $output;
 //    }
 //
 //
 //    /**
 //     * execute the plugins before we do anything else
 //     *
-//     * @param DomModel $dom
+//     * @param DomBaseClass $dom
 //     * @return mixed
 //     */
 //    private function preProcessPlugins($dom)
@@ -177,7 +160,7 @@ class ParserService extends ServiceModel
 //     * execute the plugins on each individual node
 //     * children will parsed first
 //     *
-//     * @param DomModel|array $dom
+//     * @param DomBaseClass|array $dom
 //     * @param array          $nodes
 //     * @return mixed
 //     */
@@ -187,7 +170,7 @@ class ParserService extends ServiceModel
 //            $nodes = $dom->get("nodes");
 //        }
 //
-//        /** @var NodeModel $node */
+//        /** @var BaseNode $node */
 //        foreach ($nodes as &$node) {
 //            $node = $this->executePlugins($node, "plugins");
 //
@@ -204,7 +187,7 @@ class ParserService extends ServiceModel
 //    /**
 //     * process the plugins after the main plugin process
 //     *
-//     * @param DomModel $dom
+//     * @param DomBaseClass $dom
 //     * @return mixed
 //     */
 //    private function postProcessPlugins($dom)
@@ -228,7 +211,7 @@ class ParserService extends ServiceModel
 //    /**
 //     * processes all plugins depending on the passed type
 //     *
-//     * @param DomModel|NodeModel|string $element
+//     * @param DomBaseClass|BaseNode|string $element
 //     * @param string                        $type
 //     * @return mixed
 //     * @throws TempleException
@@ -278,8 +261,8 @@ class ParserService extends ServiceModel
 //    private function PluginError($element, $plugin, $method, $variable)
 //    {
 //        $error = false;
-//        if ($variable == '$dom' && get_class($element) != "Temple\\Models\\DomModel") $error = true;
-//        if ($variable == '$node' && get_class($element) != "Temple\\Models\\NodeModel") $error = true;
+//        if ($variable == '$dom' && get_class($element) != "Temple\\Models\\DomBaseClass") $error = true;
+//        if ($variable == '$node' && get_class($element) != "Temple\\Models\\BaseNode") $error = true;
 //        if ($variable == '$output' && !is_string($element)) $error = true;
 //
 //        if ($error) {

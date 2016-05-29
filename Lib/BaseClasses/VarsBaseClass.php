@@ -1,6 +1,6 @@
 <?php
 
-namespace Temple\Models;
+namespace Temple\BaseClasses;
 
 
 use Temple\Repositories\StorageRepository;
@@ -11,7 +11,7 @@ use Temple\Repositories\StorageRepository;
  *
  * @package Temple
  */
-class Vars extends StorageRepository
+class VarsBaseClass extends StorageRepository
 {
     public function set($path,$value,$cached = false)
     {

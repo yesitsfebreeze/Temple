@@ -1,25 +1,43 @@
 <?php
 
 namespace Temple\Factories;
+
+
 use Temple\Nodes\BaseNode;
+use Temple\Repositories\StorageRepository;
+use Temple\Services\PluginInitService;
 
 /**
  * Class configFactory
+ *
  * @package Contentmanager\Services
  */
 class PluginFactory extends Factory
 {
 
+    /** @var  PluginInitService $plugins */
+    private $plugins;
+
+
+    /**
+     * @param StorageRepository $plugins
+     */
+    public function setPlugins(StorageRepository $plugins)
+    {
+        $this->plugins = $plugins;
+    }
+
+
     //    /** @inheritdoc */
     public function check($class)
     {
-//        $this->getClassName($class);
-//        $class = '\\Temple\\Interfaces\\' . ucfirst($class) . "Interface";
-//        if (class_exists($class)) {
-//            return $class;
-//        } else {
-//            return null;
-//        }
+        $this->getClassName($class);
+        $class = '\\Temple\\Plugins\\' . ucfirst($class) . "Plugin";
+        if (class_exists($class)) {
+            return $class;
+        } else {
+            return NULL;
+        }
     }
 
 
@@ -27,14 +45,12 @@ class PluginFactory extends Factory
      * @param BaseNode $node
      * @return array
      */
-    public function getForNode(BaseNode $node)
+    public function getPluginsForNode(BaseNode $node)
     {
         $plugins = array();
-        $tag = $node->get("tag.tag");
-        $name = $node->getName();
-        echo '<code><pre>'.print_r($name,true).'</pre></code><br>';
-        echo '<code><pre>'.print_r($tag,true).'</pre></code><br>';
-        die();
+        $tag     = $node->get("tag.tag");
+        $name    = $node->getName();
+
         return array();
     }
 

@@ -1,12 +1,13 @@
 <?php
 
-namespace Temple\Plugins\Core;
+namespace Temple\Plugin\Core;
 
 
-use Temple\Exception\TempleException;
+use Temple\Exceptions\TempleException;
+use Temple\BaseClasses\PluginBaseClass;
 use Temple\Models\DomModel;
 use Temple\Models\NodeModel;
-use Temple\Models\PluginModel;
+
 
 
 /**
@@ -18,7 +19,7 @@ use Temple\Models\PluginModel;
  * @author      Stefan Hövelmanns
  * @License     MIT
  */
-class Extend extends PluginModel
+class Extend extends PluginBaseClass
 {
 
     /**
@@ -27,6 +28,18 @@ class Extend extends PluginModel
     public function position()
     {
         return 1;
+    }
+
+    /** @inheritdoc */
+    public function forTags()
+    {
+
+    }
+
+    /** @inheritdoc */
+    public function forNodes()
+    {
+
     }
 
     /** @var array $blocks */

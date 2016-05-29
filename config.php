@@ -39,13 +39,6 @@ $config = array(
             "blocks" => false
         ]
     ],
-    "plugins" => [
-        "containers" => [
-            "global",
-            "core",
-            "html"
-        ]
-    ],
     "parser" => [
         "self closing" => [
             "br", "area", "base", "col", "command", "embed", "hr", "img", "input", "keygen", "link", "meta", "param", "source", "track", "wbr"

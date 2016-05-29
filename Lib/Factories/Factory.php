@@ -2,7 +2,7 @@
 
 namespace Temple\Factories;
 
-use Temple\Exception\TempleException;
+use Temple\Exceptions\TempleException;
 use Temple\Interfaces\FactoryInterface;
 
 /**
@@ -51,7 +51,7 @@ abstract class Factory implements FactoryInterface
 
             return $class;
         } else {
-            throw new \Exception("Class name must be string");
+            throw new TempleException("Class name must be a string");
         }
     }
 

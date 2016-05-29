@@ -1,6 +1,6 @@
 <?php
 
-namespace Temple\Models;
+namespace Temple\BaseClasses;
 
 
 use Temple\Factories\NodeFactory;
@@ -14,7 +14,7 @@ use Temple\Services\ParserService;
 use Temple\Services\PluginInitService;
 use Temple\Services\TemplateService;
 
-class ServiceModel
+class DependencyBaseClass
 {
 
     /** @var CacheService $cacheService */

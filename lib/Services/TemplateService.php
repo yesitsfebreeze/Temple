@@ -3,11 +3,11 @@
 namespace Temple\Services;
 
 
-use Temple\Exception\TempleException;
-use Temple\Models\DomModel;
-use Temple\Models\ServiceModel;
+use Temple\BaseClasses\DependencyBaseClass;
+use Temple\BaseClasses\DomBaseClass;
+use Temple\Exceptions\TempleException;
 
-class TemplateService extends ServiceModel
+class TemplateService extends DependencyBaseClass
 {
 
 
@@ -125,7 +125,7 @@ class TemplateService extends ServiceModel
     public function parse($file)
     {
         if ($this->cacheService->modified($file)) {
-            /** @var DomModel $dom */
+            /** @var DomBaseClass $dom */
             $dom = $this->lexerService->lex($file);
             $this->parserService->parse($dom);
         }

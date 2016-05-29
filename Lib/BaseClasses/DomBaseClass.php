@@ -1,6 +1,6 @@
 <?php
 
-namespace Temple\Models;
+namespace Temple\BaseClasses;
 
 // todoo: add local variable space
 // todoo: add find method
@@ -11,7 +11,7 @@ use Temple\Repositories\StorageRepository;
  *
  * @package Temple
  */
-class DomModel extends StorageRepository
+class DomBaseClass extends StorageRepository
 {
 
 }

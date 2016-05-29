@@ -3,8 +3,8 @@
 namespace Temple\Services;
 
 
-use Temple\Exception\TempleException;
-use Temple\Exception\ExceptionHandler;
+use Temple\Exceptions\TempleException;
+use Temple\Exceptions\ExceptionHandler;
 use Temple\Repositories\StorageRepository;
 
 class ConfigService extends StorageRepository

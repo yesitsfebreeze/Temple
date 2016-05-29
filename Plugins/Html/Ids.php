@@ -1,10 +1,11 @@
 <?php
 
-namespace Temple\Plugins\Html;
+namespace Temple\Plugin\Html;
 
 
+use Temple\BaseClasses\PluginBaseClass;
 use Temple\Models\NodeModel;
-use Temple\Models\PluginModel;
+
 
 
 /**
@@ -16,7 +17,7 @@ use Temple\Models\PluginModel;
  * @License : MIT
  * @package Temple
  */
-class Ids extends PluginModel
+class Ids extends PluginBaseClass
 {
 
     /**
@@ -25,6 +26,18 @@ class Ids extends PluginModel
     public function position()
     {
         return 4;
+    }
+
+    /** @inheritdoc */
+    public function forTags()
+    {
+
+    }
+
+    /** @inheritdoc */
+    public function forNodes()
+    {
+
     }
 
 

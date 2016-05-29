@@ -3,15 +3,15 @@
 namespace Temple\Nodes;
 
 
-// todoo: split attributes
 // todoo: add find method, maybe even to storage
-use Temple\Exception\TempleException;
+
+use Temple\Exceptions\TempleException;
 use Temple\Repositories\StorageRepository;
 use Temple\Services\ConfigService;
 
 /**
- * all NodeModel defaults are set here
- * Class NodeModel
+ * all BaseNode defaults are set here
+ * Class BaseNode
  *
  * @package Temple
  */
@@ -20,7 +20,7 @@ class BaseNode extends StorageRepository
 
 
     /** @var ConfigService $configService */
-    private $configService;
+    protected $configService;
 
 
     public function __construct(ConfigService $configService)
@@ -45,7 +45,7 @@ class BaseNode extends StorageRepository
      * and create a model
      *
      * @param $line
-     * @return NodeModel
+     * @return BaseNode
      */
     public function createNode($line)
     {
@@ -103,7 +103,7 @@ class BaseNode extends StorageRepository
      * @param string $line
      * @return string
      */
-    private function tag($line)
+    protected function tag($line)
     {
         $tag = array();
 
@@ -111,19 +111,19 @@ class BaseNode extends StorageRepository
         preg_match("/^(.*?)(?:$| )/", trim($line), $tagname);
         $tagname = trim($tagname[0]);
 
-        $tag["tag"] = $tagname;
+        $tag["tag"]     = $tagname;
         $tag["display"] = true;
         $tag["opening"] = array();
 
         $tag["opening"]["display"] = true;
-        $tag["opening"]["before"] = $this->configService->get("template.tag.opening.before");
-        $tag["opening"]["tag"] = $tagname;
-        $tag["opening"]["after"] = $this->configService->get("template.tag.opening.after");
+        $tag["opening"]["before"]  = $this->configService->get("template.tag.opening.before");
+        $tag["opening"]["tag"]     = $tagname;
+        $tag["opening"]["after"]   = $this->configService->get("template.tag.opening.after");
 
         $tag["closing"]["display"] = true;
-        $tag["closing"]["before"] = $this->configService->get("template.tag.closing.before");
-        $tag["closing"]["tag"] = $tagname;
-        $tag["closing"]["after"] = $this->configService->get("template.tag.closing.after");
+        $tag["closing"]["before"]  = $this->configService->get("template.tag.closing.before");
+        $tag["closing"]["tag"]     = $tagname;
+        $tag["closing"]["after"]   = $this->configService->get("template.tag.closing.after");
 
         return $tag;
     }
@@ -135,16 +135,16 @@ class BaseNode extends StorageRepository
      * @param string $line
      * @return string
      */
-    private function attributes($line)
+    protected function attributes($line)
     {
         # replace the tag from the beginning of the line and then trim the string
-        $tag = preg_quote($this->get("tag.tag"));
+        $tag        = preg_quote($this->get("tag.tag"));
         $attributes = trim(preg_replace("/^" . $tag . "/", "", trim($line)));
         $attributes = explode(">", $attributes);
         $attributes = explode(" ", $attributes[0]);
         $attributes = array_filter($attributes);
         foreach ($attributes as &$attribute) {
-            $arr = array();
+            $arr   = array();
             $attrs = explode("=", $attribute);
             if (isset($attrs[0])) {
                 $arr["name"] = $attrs[0];

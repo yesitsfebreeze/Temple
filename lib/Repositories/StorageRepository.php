@@ -3,7 +3,7 @@
 namespace Temple\Repositories;
 
 
-use Temple\Exception\TempleException;
+use Temple\Exceptions\TempleException;
 
 /**
  * this class handles all data storage

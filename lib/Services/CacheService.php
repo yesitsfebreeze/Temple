@@ -3,10 +3,10 @@
 namespace Temple\Services;
 
 
-use Temple\Exception\TempleException;
-use Temple\Models\ServiceModel;
+use Temple\BaseClasses\DependencyBaseClass;
+use Temple\Exceptions\TempleException;
 
-class CacheService extends ServiceModel
+class CacheService extends DependencyBaseClass
 {
 
 

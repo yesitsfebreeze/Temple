@@ -1,10 +1,11 @@
 <?php
 
-namespace Temple\Plugins\Core;
+namespace Temple\Plugin\Core;
 
 
+use Temple\BaseClasses\PluginBaseClass;
 use Temple\Models\NodeModel;
-use Temple\Models\PluginModel;
+
 
 /**
  * Class PluginComment
@@ -15,7 +16,7 @@ use Temple\Models\PluginModel;
  * @License : MIT
  * @package Temple
  */
-class Comment extends PluginModel
+class Comment extends PluginBaseClass
 {
 
     /**
@@ -24,6 +25,18 @@ class Comment extends PluginModel
     public function position()
     {
         return 2;
+    }
+
+    /** @inheritdoc */
+    public function forTags()
+    {
+
+    }
+
+    /** @inheritdoc */
+    public function forNodes()
+    {
+
     }
 
 

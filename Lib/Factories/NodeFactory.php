@@ -1,10 +1,13 @@
 <?php
 
 namespace Temple\Factories;
+
+
 use Temple\Services\ConfigService;
 
 /**
  * Class configFactory
+ *
  * @package Contentmanager\Services
  */
 class NodeFactory extends Factory
@@ -14,10 +17,12 @@ class NodeFactory extends Factory
     /** @var  ConfigService $config */
     private $config;
 
+
     public function addConfig($config)
     {
         $this->config = $config;
     }
+
 
     /** @inheritdoc */
     public function create($class)
@@ -28,8 +33,9 @@ class NodeFactory extends Factory
             return new $class($this->config);
         }
 
-        return null;
+        return NULL;
     }
+
 
     /** @inheritdoc */
     public function check($line)
@@ -42,13 +48,24 @@ class NodeFactory extends Factory
             $class = "html";
         }
 
+        return $this->getClass($class);
+    }
+
+
+    /**
+     * @param $class
+     * @return null|string
+     * @throws \Exception
+     */
+    private function getClass($class)
+    {
         $this->getClassName($class);
         $class = '\\Temple\\Nodes\\' . ucfirst($class) . "Node";
 
         if (class_exists($class)) {
             return $class;
         } else {
-            return null;
+            return NULL;
         }
     }
 

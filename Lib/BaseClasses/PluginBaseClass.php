@@ -1,9 +1,10 @@
 <?php
 
-namespace Temple\Models;
+namespace Temple\BaseClasses;
 
 
-use Temple\Repositories\ServiceRepository;
+use Temple\Engine;
+use Temple\Repositories\DependencyContainerRepository;
 use Temple\Services\CacheService;
 use Temple\Services\ConfigService;
 use Temple\Services\DirectoryService;
@@ -18,7 +19,7 @@ use Temple\Services\TemplateService;
  *
  * @package Temple
  */
-abstract class PluginModel
+abstract class PluginBaseClass
 {
 
     /** @var ConfigService $config */
@@ -46,17 +47,17 @@ abstract class PluginModel
     /**
      * PluginModel constructor.
      *
-     * @param ServiceRepository $services
+     * @param Engine $engine
      */
-    public function __construct(ServiceRepository $services)
+    public function __construct(Engine $engine)
     {
-        $this->config      = $services->get("config");
-        $this->cache       = $services->get("cache");
-        $this->directories = $services->get("directories");
-        $this->plugins     = $services->get("plugins");
-        $this->template    = $services->get("template");
-        $this->lexer       = $services->get("lexer");
-        $this->parser      = $services->get("parser");
+//        $this->config      = $services->get("config");
+//        $this->cache       = $services->get("cache");
+//        $this->directories = $services->get("directories");
+//        $this->plugins     = $services->get("plugins");
+//        $this->template    = $services->get("template");
+//        $this->lexer       = $services->get("lexer");
+//        $this->parser      = $services->get("parser");
     }
 
 
@@ -64,6 +65,18 @@ abstract class PluginModel
      * @return int
      */
     abstract public function position();
+
+
+    /**
+     * @return array
+     */
+    abstract public function forNodes();
+
+
+    /**
+     * @return array
+     */
+    abstract public function forTags();
 
 
     /**

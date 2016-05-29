@@ -3,209 +3,192 @@
 namespace Temple\Services;
 
 
-use Temple\Models\PluginModel;
-use Temple\Models\ServiceModel;
-use Temple\Repositories\ServiceRepository;
+use Temple\BaseClasses\DependencyBaseClass;
+use Temple\BaseClasses\PluginBaseClass;
+use Temple\Engine;
+use Temple\Repositories\StorageRepository;
 
-class PluginInitService extends ServiceModel
+class PluginInitService extends DependencyBaseClass
 {
 
-//     todoo: get all plugins sorted by type and tags and order
+    /** @var Engine $engine */
+    private $engine;
 
-
-    /** @var ServiceRepository $services */
-    private $services;
-
-    /** @var array $containers */
-    private $containers;
+    /** @var StorageRepository $plugins */
+    private $plugins;
 
 
     /**
      *  initiates the plugins
-
      *
-     * @param ServiceRepository $services
-     * @throws \Temple\Exception\TempleException
+     * @param Engine $engine
+     * @throws \Temple\Exceptions\TempleException
      */
-    public function init(ServiceRepository $services)
+    public function init(Engine $engine)
     {
-//        $this->services   = $services;
-//        $this->list       = $this->loadPlugins();
+        $this->engine  = $engine;
+        $this->plugins = new StorageRepository();
+        $this->loadPlugins();
     }
 
 
-//    /**
-//     * adds a plugin directory
-//     *
-//     * @param $dir
-//     * @return string
-//     */
-//    public function addPluginDir($dir)
+    /**
+     * adds a plugin directory
+     *
+     * @param $dir
+     * @return string
+     */
+    public function addPluginDir($dir)
+    {
+        $returner = $this->directoryService->add($dir, "plugins");
+        $this->loadPlugins();
+
+        return $returner;
+    }
+
+
+    /**
+     * removes a plugin dir
+     *
+     * @param integer $pos
+     * @return string
+     */
+    public function removePluginDir($pos)
+    {
+        return $this->directoryService->remove($pos, "plugins");
+    }
+
+
+    /**
+     * returns all plugin dirs
+     *
+     * @return array
+     */
+    public function getPluginDirs()
+    {
+        return $this->directoryService->get("plugins");
+    }
+
+
+    /**
+     * returns all plugins
+     *
+     * @return StorageRepository
+     */
+    public function getPlugins()
+    {
+        return $this->plugins;
+    }
+
+
+    /**
+     * gets all registered plugins
+     */
+    private function loadPlugins()
+    {
+        $dirs = $this->getPluginDirs();
+
+        # iterate all plugin directories
+        foreach ($dirs as $path) {
+
+            # search the directory recursively to get all plugins
+            $dir   = new \RecursiveDirectoryIterator($path);
+            $files = new \RecursiveIteratorIterator($dir, \RecursiveIteratorIterator::SELF_FIRST);
+            /** @var \SplFileInfo $file */
+            foreach ($files as $file) {
+                $name = $file->getFilename();
+                $full = $file->getRealPath();
+                if ($name !== "." && $name !== ".." && !is_dir($full)) {
+                    $this->requirePlugin($path, $file);
+                }
+            }
+        }
+
+
+        # update the plugin list for our factory
+        $this->pluginFactory->setPlugins($this->plugins);
+
+        return $this->plugins;
+    }
+
+
+    /**
+     * @param              $path
+     * @param \SplFileInfo $file
+     */
+    private function requirePlugin($path, \SplFileInfo $file)
+    {
+
+        $pluginName = strtolower(str_replace("." . $file->getExtension(), "", $file->getFilename()));
+        $path       = strtolower(str_replace($path, "", $file->getPath()) . "." . $pluginName);
+        $pluginFile = $file->getRealPath();
+
+        /** @noinspection PhpIncludeInspection */
+        require_once $pluginFile;
+
+        $this->installPlugin($path, $pluginName);
+
+    }
+
+
+    /**
+     * install the plugins and register them in Temple
+     *
+     * @param $path
+     * @param $pluginName
+     */
+    private function installPlugin($path, $pluginName)
+    {
 //    {
-//        $returner = $this->directories->add($dir, "plugins");
-//        $this->init($this->services);
-//        return $returner;
-//    }
-//
-//
-//    /**
-//     * removes a plugin dir
-//     *
-//     * @param integer $pos
-//     * @return string
-//     */
-//    public function removePluginDir($pos)
-//    {
-//        return $this->directories->remove($pos, "plugins");
-//    }
-//
-//
-//    /**
-//     * returns all plugin dirs
-//     *
-//     * @return array
-//     */
-//    public function getPluginDirs()
-//    {
-//        return $this->directories->get("plugins");
-//    }
-//
-//
-//    /**
-//     * returns all plugin dirs
-//     *
-//     * @return array
-//     */
-//    public function getPlugins()
-//    {
-//        return $this->list;
-//    }
-//
-//
-//    /**
-//     * gets all registered plugins
-//     */
-//    private function loadPlugins()
-//    {
-//        $dirs = $this->getPluginDirs();
-//        # iterate all plugin directories
-//        foreach ($dirs as $dir) {
-//
-//            # search the directory recursively to get all plugins
-//            $dir   = new \RecursiveDirectoryIterator($dir);
-//            $files = new \RecursiveIteratorIterator($dir, \RecursiveIteratorIterator::SELF_FIRST);
-//            foreach ($files as $pluginFile) {
-//                $this->requirePlugin($pluginFile);
-//            }
-//        }
-//
-//        $this->installPlugins();
-//
-//        return $this->list;
-//    }
-//
-//
-//    /**
-//     * loads a plugin via requires_one
-//     *
-//     * @param $pluginFile
-//     * @return mixed
-//     */
-//    private function requirePlugin($pluginFile)
-//    {
-//        # only process the file if it has a php extension
-//        if (strrev(substr(strrev($pluginFile), 0, 4)) == ".php") {
-//            # add a string to the file name to ensure we have a string
-//            $pluginFile = $pluginFile . '';
-//            if (file_exists($pluginFile)) {
-//                /** @noinspection PhpIncludeInspection */
-//                require_once $pluginFile;
-//            }
-//        }
-//
-//    }
-//
-//
-//    /**
-//     * install the plugins and register them in Temple
-//     */
-//    private function installPlugins()
-//    {
-//        if (!array_key_exists("global", $this->containers)) {
-//            $this->containers[] = "global";
-//        }
-//        $plugins = $this->getNamespacedPlugins();
-//        foreach ($this->containers as $container) {
-//            foreach ($plugins as $plugin) {
-//                if (strtolower($plugin["container"]) == strtolower($container)) {
-//                    $plugin = $this->installPlugin($plugin["class"]);
-//                    $this->addPlugin($plugin->position(), $plugin);
-//                }
-//            }
-//        }
-//    }
-//
-//
-//    /**
-//     * creates a new plugin instance with the given class
-//     *
-//     * @param string $class
-//     * @return PluginModel
-//     */
-//    private function installPlugin($class)
-//    {
-//        /** @var PluginModel $plugin */
-//        # create a new instance of the plugin
-//        $plugin = new $class($this->services);
-//
-//        return $plugin;
-//    }
-//
-//
-//    /**
-//     * @param $position
-//     * @param $plugin
-//     * @return array
-//     */
-//    private function addPlugin($position, $plugin)
-//    {
-//        # create position if not already existing
-//        if (!isset($this->list[ $position ])) $this->list[ $position ] = array();
-//
-//        # add the plugin and then
-//        # sort the array to keep things in order
-//        $this->list[ $position ][] = $plugin;
-//        ksort($this->list);
-//
-//        return $this->list;
-//    }
-//
-//
-//    /**
-//     * returns all Plugins within the Temple\Plugin namespace
-//     */
-//    private function getNamespacedPlugins()
-//    {
-//        $namespace = "Temple\\Plugins";
-//        $plugins   = array();
-//        $classes   = get_declared_classes();
-//        foreach ($classes as $class) {
-//            if (strpos($class, $namespace) !== false) {
-//                $plugin              = array();
-//                $plugin["class"]     = $class;
-//                $temp                = explode("\\", trim(str_replace($namespace, "", $class), "\\"));
-//                $plugin["container"] = $temp[0];
-//                $plugin["name"]      = $temp[1];
-//                if ($plugin["name"] == "") {
-//                    $plugin["name"]      = $plugin["container"];
-//                    $plugin["container"] = "global";
-//                }
-//
-//                $plugins[] = $plugin;
-//            }
-//        }
-//
-//        return $plugins;
-//    }
-//
+
+
+//        $plugin =
+//        var_dump($pluginName);
+
+        $namespace = $this->getNamespace($path, $pluginName);
+        /** @var PluginBaseClass $plugin */
+        $plugin = new $namespace($this->engine);
+        $this->addPlugin($plugin->position(), $plugin, $path);
+    }
+
+
+    /**
+     * returns the correct namepsace for the plugin
+     *
+     * @param $path
+     * @param $pluginName
+     * @return string
+     */
+    private function getNamespace($path, $pluginName)
+    {
+        $namespace      = "Temple\\Plugin\\";
+        $namespaceArray = explode(".", $path);
+        array_pop($namespaceArray);
+        foreach ($namespaceArray as $name) {
+            $namespace .= ucfirst($name) . "\\";
+        }
+        $namespace = $namespace . ucfirst($pluginName);
+
+        return $namespace;
+    }
+
+
+    /**
+     * @param int             $position
+     * @param PluginBaseClass $plugin
+     * @param string          $path
+     * @return StorageRepository
+     */
+    private function addPlugin($position, $plugin, $path)
+    {
+
+//         todoo: fix order
+
+        $this->plugins->set($position . "." . $path, $plugin);
+
+        return $this->plugins;
+
+    }
+
+
 }

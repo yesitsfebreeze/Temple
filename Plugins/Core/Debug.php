@@ -1,11 +1,12 @@
 <?php
 
-namespace Temple\Plugins\Core;
+namespace Temple\Plugin\Core;
 
 
-use Temple\Models\PluginModel;
+use Temple\BaseClasses\PluginBaseClass;
 
-class Debug extends PluginModel
+
+class Debug extends PluginBaseClass
 {
 
     /** @var string $type */
@@ -47,6 +48,18 @@ class Debug extends PluginModel
     public function position()
     {
         return 10;
+    }
+
+    /** @inheritdoc */
+    public function forTags()
+    {
+
+    }
+
+    /** @inheritdoc */
+    public function forNodes()
+    {
+
     }
 
 

@@ -1,9 +1,8 @@
 <?php
 
-namespace Temple\Plugins\Core;
+namespace Temple\Plugin\Core;
 
-
-use Temple\Models\PluginModel;
+use Temple\BaseClasses\PluginBaseClass;
 
 
 /**
@@ -15,7 +14,7 @@ use Temple\Models\PluginModel;
  * @License : MIT
  * @package Temple
  */
-class Cleanup extends PluginModel
+class Cleanup extends PluginBaseClass
 {
 
 
@@ -25,6 +24,18 @@ class Cleanup extends PluginModel
     public function position()
     {
         return 9999999993;
+    }
+
+    /** @inheritdoc */
+    public function forTags()
+    {
+        
+    }
+
+    /** @inheritdoc */
+    public function forNodes()
+    {
+
     }
 
 
