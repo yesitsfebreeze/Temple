@@ -18,6 +18,8 @@ class Template extends DependencyInstance
     /** @var  Config $Config */
     protected $Config;
 
+    /** @var  Cache $Cache */
+    protected $Cache;
 
     public function dependencies()
     {
@@ -25,6 +27,7 @@ class Template extends DependencyInstance
             "Config",
             "Lexer",
             "Parser",
+            "Cache"
         );
     }
 

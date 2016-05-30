@@ -24,12 +24,9 @@ class Config extends DependencyInstance
 
     /**
      * Config constructor.
-     *
-     * @param DependencyContainer $dependencyContainer
      */
-    public function __construct(DependencyContainer $dependencyContainer)
+    public function __construct()
     {
-        parent::__construct($dependencyContainer);
         $this->config = new Storage();
     }
 

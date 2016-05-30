@@ -32,16 +32,17 @@ class Instance
     {
         $this->container = new DependencyContainer();
 
+
         # Utilities
-        new Config($this->container);
-        new Directories($this->container);
+        $this->container->add(new Config());
+        $this->container->add(new Directories());
 
         # Template
-        new Plugins($this->container);
-        new Parser($this->container);
-        new Lexer($this->container);
-        new Cache($this->container);
-        new Template($this->container);
+        $this->container->add(new Plugins());
+        $this->container->add(new Parser());
+        $this->container->add(new Lexer());
+        $this->container->add(new Cache());
+        $this->container->add(new Template());
     }
 
 

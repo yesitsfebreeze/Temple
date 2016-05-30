@@ -19,18 +19,19 @@ class DependencyContainer
 
 
     /**
-     * loads dependencies if existing
+     * adds dependencies if existing
      *
      * @param DependencyInterface $instance
      * @throws TempleException
      */
-    public function load(DependencyInterface &$instance)
+    public function add(DependencyInterface &$instance)
     {
         $dependencies = $instance->dependencies();
         if (is_array($dependencies)) {
             foreach ($dependencies as $dependency) {
                 $this->setDependency($instance, $dependency);
             }
+            $this->registerDependency($instance);
         } else {
             throw new TempleException("Dependency Management: dependencies() must return an array ", get_class($instance) . ".php");
         }

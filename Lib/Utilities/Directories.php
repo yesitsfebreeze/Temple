@@ -15,7 +15,9 @@ class Directories extends DependencyInstance
 
     public function dependencies()
     {
-        return array();
+        return array(
+        );
     }
+
 
 }

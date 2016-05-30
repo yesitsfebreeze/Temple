@@ -10,18 +10,6 @@ abstract class DependencyInstance implements DependencyInterface
 {
 
     /**
-     * DependencyInstance constructor.
-     *
-     * @param DependencyContainer $dependencyContainer
-     */
-    public function __construct(DependencyContainer $dependencyContainer)
-    {
-        $dependencyContainer->load($this);
-        $dependencyContainer->registerDependency($this);
-    }
-
-
-    /**
      * has to add an instance to the class
      *
      * @param string             $name
