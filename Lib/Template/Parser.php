@@ -33,6 +33,7 @@ class Parser extends DependencyInstance
     public function parse($dom)
     {
         $cacheFile = "test";
+
         return $cacheFile;
     }
 
