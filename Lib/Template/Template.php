@@ -5,6 +5,7 @@ namespace Temple\Template;
 
 use Temple\Dependency\DependencyInstance;
 use Temple\Utilities\Config;
+use Temple\Utilities\Directories;
 
 class Template extends DependencyInstance
 {
@@ -18,12 +19,16 @@ class Template extends DependencyInstance
     /** @var  Config $Config */
     protected $Config;
 
+    /** @var  Directories $Directories */
+    protected $Directories;
+
     /** @var  Cache $Cache */
     protected $Cache;
 
     public function dependencies()
     {
         return array(
+            "Utilities/Directories" => "Directories",
             "Utilities/Config" => "Config",
             "Template/Lexer" => "Lexer",
             "Template/Parser" => "Parser",
@@ -52,9 +57,18 @@ class Template extends DependencyInstance
     }
 
 
+    /**
+     * renders and includes the template
+     *
+     * @param $filename
+     */
     public function showTemplate($filename)
     {
-        # renders and includes the template
+        $file = $this->getTemplateFile($filename);
+        $dom = $this->Lexer->lex($file);
+        $cacheFile = $this->Parser->parse($dom);
+
+        include $cacheFile;
     }
 
     public function fetchTemplate($filename)
@@ -62,4 +76,10 @@ class Template extends DependencyInstance
         # renders and includes the template
     }
 
+
+    public function getTemplateFile($templateFile) {
+        $files = $this->Directories->get("template");
+        # $files search for $templateFile
+        # returns template path
+    }
 }

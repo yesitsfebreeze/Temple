@@ -25,6 +25,7 @@ class DependencyContainer
      *
      * @param DependencyInterface $instance
      * @throws TempleException
+     * @return DependencyInstance
      */
     public function registerDependency(DependencyInterface &$instance)
     {
@@ -38,7 +39,11 @@ class DependencyContainer
             # register the instance in our container
             $name = $this->cleanClassNamespace($instance);
             $this->dependencies[$name] = $instance;
+
+            return $instance;
         }
+
+        return null;
     }
 
 

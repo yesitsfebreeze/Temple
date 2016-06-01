@@ -29,10 +29,10 @@ class Cache extends DependencyInstance
     }
 
 
-
     public function isModified($file)
     {
-
+        # returns if the file passed is newer than the cached file
+        # we might have to pass template since we don't know if a file extends or not
     }
 
     public function generate()
@@ -42,7 +42,7 @@ class Cache extends DependencyInstance
 
     public function clear()
     {
-
+        # removes the whole cache diretory
     }
 
 

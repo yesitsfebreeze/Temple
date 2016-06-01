@@ -19,4 +19,10 @@ class Lexer extends DependencyInstance
         return array();
     }
 
+
+    public function lex($file)
+    {
+
+    }
+
 }

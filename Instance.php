@@ -6,9 +6,9 @@ namespace Temple;
 use Temple\Dependency\DependencyContainer;
 use Temple\Exception\TempleException;
 use Temple\Plugins\Plugins;
+use Temple\Template\Cache;
 use Temple\Template\Lexer;
 use Temple\Template\Parser;
-use Temple\Template\Cache;
 use Temple\Template\Template;
 use Temple\Utilities\Config;
 use Temple\Utilities\Directories;
@@ -24,6 +24,27 @@ class Instance
     /** @var  DependencyContainer $container */
     private $container;
 
+    /** @var Config $config */
+    private $config;
+
+    /** @var Directories $directories */
+    private $directories;
+
+    /** @var Plugins $plugins */
+    private $plugins;
+
+    /** @var Parser $parser */
+    private $parser;
+
+    /** @var Lexer $lexer */
+    private $lexer;
+
+    /** @var Cache $cache */
+    private $cache;
+
+    /** @var Template $template */
+    private $template;
+
 
     /**
      * Instance constructor.
@@ -33,15 +54,20 @@ class Instance
         $this->container = new DependencyContainer();
 
         # Utilities
-        $this->container->registerDependency(new Config());
-        $this->container->registerDependency(new Directories());
+        $this->config      = $this->container->registerDependency(new Config());
+        $this->directories = $this->container->registerDependency(new Directories());
 
         # Template
-        $this->container->registerDependency(new Plugins());
-        $this->container->registerDependency(new Parser());
-        $this->container->registerDependency(new Lexer());
-        $this->container->registerDependency(new Cache());
-        $this->container->registerDependency(new Template());
+        $this->plugins  = $this->container->registerDependency(new Plugins());
+        $this->parser   = $this->container->registerDependency(new Parser());
+        $this->lexer    = $this->container->registerDependency(new Lexer());
+        $this->cache    = $this->container->registerDependency(new Cache());
+        $this->template = $this->container->registerDependency(new Template());
+
+        $this->config->addConfigFile(__DIR__ . "/config.php");
+        $this->plugins->addDirectory(__DIR__ . "/Plugins");
+        $this->plugins->initiatePlugins();
+
     }
 
 
@@ -51,7 +77,7 @@ class Instance
      */
     public function Template()
     {
-        return $this->container->getInstance("Template");
+        return $this->container->getInstance("Template/Template");
     }
 
 
@@ -61,7 +87,7 @@ class Instance
      */
     public function Config()
     {
-        return $this->container->getInstance("Config");
+        return $this->container->getInstance("Utilities/Config");
     }
 
 
@@ -71,7 +97,7 @@ class Instance
      */
     public function Plugins()
     {
-        return $this->container->getInstance("Plugins");
+        return $this->container->getInstance("Plugins/Plugins");
     }
 
 
@@ -81,7 +107,7 @@ class Instance
      */
     public function Cache()
     {
-        return $this->container->getInstance("Cache");
+        return $this->container->getInstance("Template/Cache");
     }
 
 }

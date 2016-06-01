@@ -88,6 +88,7 @@ class Storage
         } else {
             $temp = array();
         }
+
         if (is_array($temp)) {
             if (is_array($value)) {
                 $value = array_merge($temp, $value);
@@ -112,14 +113,7 @@ class Storage
     public function has($path)
     {
         try {
-            $value = $this->getter($path);
-
-            if (is_array($value)) {
-                if (sizeof($value) == 0) {
-                    return false;
-                }
-            }
-
+            $this->getter($path);
             return true;
         } catch (\Exception $e) {
             return false;
@@ -128,6 +122,8 @@ class Storage
 
 
     /**
+     * removes the passed path form the storage
+     *
      * @param $path
      * @return bool
      */
