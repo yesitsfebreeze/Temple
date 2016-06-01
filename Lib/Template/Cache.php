@@ -24,7 +24,7 @@ class Cache extends DependencyInstance
     public function dependencies()
     {
         return array(
-            "Config"
+            "Utilities/Config" => "Config"
         );
     }
 

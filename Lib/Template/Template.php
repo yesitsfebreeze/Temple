@@ -24,11 +24,42 @@ class Template extends DependencyInstance
     public function dependencies()
     {
         return array(
-            "Config",
-            "Lexer",
-            "Parser",
-            "Cache"
+            "Utilities/Config" => "Config",
+            "Template/Lexer" => "Lexer",
+            "Template/Parser" => "Parser",
+            "Template/Cache" => "Cache"
         );
+    }
+
+
+    public function addDirectory($dir)
+    {
+        # Directory service -> add
+        # the directory service will add them into the config
+        return $dir;
+    }
+
+    public function removeDirectory()
+    {
+        # Directory service -> add
+        # the directory service will add them into the config
+    }
+
+    public function getDirectories()
+    {
+        # Directory service -> add
+        # the directory service will add them into the config
+    }
+
+
+    public function showTemplate($filename)
+    {
+        # renders and includes the template
+    }
+
+    public function fetchTemplate($filename)
+    {
+        # renders and includes the template
     }
 
 }

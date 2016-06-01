@@ -21,7 +21,7 @@ class Parser extends DependencyInstance
     public function dependencies()
     {
         return array(
-            "Plugins"
+            "Plugins/Plugins" => "Plugins"
         );
     }
 

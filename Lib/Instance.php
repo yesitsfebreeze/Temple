@@ -34,15 +34,15 @@ class Instance
 
 
         # Utilities
-        $this->container->add(new Config());
-        $this->container->add(new Directories());
+        $this->container->registerDependency(new Config());
+        $this->container->registerDependency(new Directories());
 
         # Template
-        $this->container->add(new Plugins());
-        $this->container->add(new Parser());
-        $this->container->add(new Lexer());
-        $this->container->add(new Cache());
-        $this->container->add(new Template());
+        $this->container->registerDependency(new Plugins());
+        $this->container->registerDependency(new Parser());
+        $this->container->registerDependency(new Lexer());
+        $this->container->registerDependency(new Cache());
+        $this->container->registerDependency(new Template());
     }
 
 
