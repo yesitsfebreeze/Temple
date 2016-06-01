@@ -69,9 +69,10 @@ class Template extends DependencyInstance
      */
     public function showTemplate($filename)
     {
-        $file      = $this->getTemplateFile($filename);
-        $dom       = $this->Lexer->lex($file);
-        $cacheFile = $this->Parser->parse($dom);
+        $file          = $this->getTemplateFile($filename);
+        $templateFiles = $this->getTemplateFiles($file);
+        $dom           = $this->Lexer->lex($templateFiles, $file);
+        $cacheFile     = $this->Parser->parse($dom);
 
         if (file_exists($cacheFile)) {
             include $cacheFile;
@@ -88,6 +89,18 @@ class Template extends DependencyInstance
 
 
     public function getTemplateFile($templateFile)
+    {
+        $files = $this->Directories->get("template");
+
+        # $files search for $templateFile
+        # returns template path
+        $file = "found file";
+
+        return $file;
+    }
+
+
+    public function getTemplateFiles($templateFile)
     {
         $files = $this->Directories->get("template");
         # $files search for $templateFile

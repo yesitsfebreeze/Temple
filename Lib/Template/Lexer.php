@@ -28,19 +28,26 @@ class Lexer extends DependencyInstance
         );
     }
 
+
     /** @var Dom $dom */
     private $dom;
+
+    /** @var  array $templateFiles */
+    private $templateFiles;
+
 
     /**
      * returns the file as a Dom Object
      *
+     * @param array $templateFiles
      * @param string   $file
      * @param int|bool $level
      * @return array
      */
-    public function lex($file, $level = false)
+    public function lex($templateFiles, $file, $level = false)
     {
-        $this->prepareDom($file,$level);
+        $this->templateFiles = $templateFiles;
+        $this->prepareDom($file, $level);
         $this->process();
 
         return $this->dom;
@@ -63,7 +70,7 @@ class Lexer extends DependencyInstance
         $this->dom->set("info.line", 1);
         $this->dom->set("info.indent.amount", 0);
         $this->dom->set("info.indent.char", "");
-        $this->dom->set("info.templates", $this->Template->findTemplates($filename));
+        $this->dom->set("info.templates", $this->templateFiles);
         $this->dom->set("info.level", $level);
         $this->dom->set("info.file", $this->getFile($level, $filename));
         $this->dom->set("nodes", array());
