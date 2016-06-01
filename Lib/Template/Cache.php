@@ -28,4 +28,22 @@ class Cache extends DependencyInstance
         );
     }
 
+
+
+    public function isModified($file)
+    {
+
+    }
+
+    public function generate()
+    {
+        # compile all templates to cache
+    }
+
+    public function clear()
+    {
+
+    }
+
+
 }

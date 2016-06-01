@@ -41,6 +41,23 @@ class DependencyContainer
         }
     }
 
+
+    /**
+     * returns an instance if it's set
+     *
+     * @param string $name
+     * @return DependencyInterface
+     * @throws TempleException
+     */
+    public function getInstance($name)
+    {
+        if (isset($this->dependencies[$name])) {
+            return $this->dependencies[$name];
+        } else {
+            throw new TempleException("Dependency Management: " . "$name is not instantiated yet.");
+        }
+    }
+
     /**
      * adds a list of dependencies to an instance
      *
@@ -72,23 +89,6 @@ class DependencyContainer
             $instance->setDependency($name, $this->dependencies[$dependency]);
         } else {
             throw new TempleException("Dependency Management: " . $dependency . " instance does't exist.", get_class($instance));
-        }
-    }
-
-
-    /**
-     * returns an instance if it's set
-     *
-     * @param string $name
-     * @return DependencyInterface
-     * @throws TempleException
-     */
-    public function getInstance($name)
-    {
-        if (isset($this->dependencies[$name])) {
-            return $this->dependencies[$name];
-        } else {
-            throw new TempleException("Dependency Management: " . "$name is not instantiated yet.");
         }
     }
 

@@ -32,7 +32,6 @@ class Instance
     {
         $this->container = new DependencyContainer();
 
-
         # Utilities
         $this->container->registerDependency(new Config());
         $this->container->registerDependency(new Directories());
@@ -50,7 +49,7 @@ class Instance
      * @return Template
      * @throws TempleException
      */
-    public function getTemplate()
+    public function Template()
     {
         return $this->container->getInstance("Template");
     }
@@ -60,7 +59,7 @@ class Instance
      * @return Config
      * @throws TempleException
      */
-    public function getConfig()
+    public function Config()
     {
         return $this->container->getInstance("Config");
     }
@@ -70,7 +69,7 @@ class Instance
      * @return Plugins
      * @throws TempleException
      */
-    public function getPlugins()
+    public function Plugins()
     {
         return $this->container->getInstance("Plugins");
     }
@@ -80,7 +79,7 @@ class Instance
      * @return Cache
      * @throws TempleException
      */
-    public function getCache()
+    public function Cache()
     {
         return $this->container->getInstance("Cache");
     }

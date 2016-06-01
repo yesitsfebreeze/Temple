@@ -21,4 +21,4 @@ spl_autoload_register(function ($class) use ($namespace, $dir) {
 
 new ExceptionHandler();
 
-require_once __DIR__ . "/Engine.php";
+require_once __DIR__ . "/Instance.php";

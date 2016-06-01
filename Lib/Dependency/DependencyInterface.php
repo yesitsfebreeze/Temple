@@ -27,5 +27,4 @@ interface DependencyInterface
      * @param DependencyInstance $instance
      */
     function setDependency($name, DependencyInstance $instance);
-
 }
