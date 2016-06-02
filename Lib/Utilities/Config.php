@@ -11,16 +11,14 @@ use Temple\Exception\TempleException;
 class Config extends DependencyInstance
 {
 
-    /** @var Storage $config */
-    private $config;
-
-
     /** @inheritdoc */
     public function dependencies()
     {
         return array();
     }
 
+    /** @var Storage $config */
+    private $config;
 
     /**
      * Config constructor.

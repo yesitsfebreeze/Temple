@@ -21,8 +21,20 @@ class Parser extends DependencyInstance
     public function dependencies()
     {
         return array(
-            "Plugins"
+            "Plugins/Plugins" => "Plugins"
         );
+    }
+
+
+    /**
+     * @param $dom
+     * @return string
+     */
+    public function parse($dom)
+    {
+        $cacheFile = "test";
+
+        return $cacheFile;
     }
 
 }

@@ -24,8 +24,26 @@ class Cache extends DependencyInstance
     public function dependencies()
     {
         return array(
-            "Config"
+            "Utilities/Config" => "Config"
         );
     }
+
+
+    public function isModified($file)
+    {
+        # returns if the file passed is newer than the cached file
+        # we might have to pass template since we don't know if a file extends or not
+    }
+
+    public function generate()
+    {
+        # compile all templates to cache
+    }
+
+    public function clear()
+    {
+        # removes the whole cache diretory
+    }
+
 
 }

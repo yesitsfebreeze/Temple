@@ -17,50 +17,32 @@ class DependencyContainer
     /** @var array $dependencies */
     private $dependencies = array();
 
+    private $rootNameSpace = "Temple";
+
 
     /**
      * adds dependencies if existing
      *
      * @param DependencyInterface $instance
      * @throws TempleException
+     * @return DependencyInstance
      */
-    public function add(DependencyInterface &$instance)
+    public function registerDependency(DependencyInterface &$instance)
     {
+        # check if the dependencies method exists
+        # the Instance does net extend the DependencyInterface class if not
+        if (!method_exists($instance, "dependencies")) {
+            return null;
+        }
+        # get all dependencies and add them to the Instance
         $dependencies = $instance->dependencies();
-        if (!is_array($dependencies)) {
-            throw new TempleException("Dependency Management: dependencies() must return an array ", get_class($instance) . ".php");
-        }
+        $this->setDependencies($instance, $dependencies);
 
-        foreach ($dependencies as $dependency) {
-            $this->setDependency($instance, $dependency);
-        }
-        $this->registerDependency($instance);
-
-    }
-
-
-    /**
-     * @param DependencyInterface $instance
-     * @param                     $dependency
-     * @throws TempleException
-     */
-    public function setDependency(DependencyInterface &$instance, $dependency)
-    {
-        if (!isset($this->dependencies[$dependency])) {
-            throw new TempleException("Dependency Management: " . $dependency . " instance does't exist.");
-        }
-
-        $instance->setDependency($dependency, $this->dependencies[$dependency]);
-    }
-
-
-    /**
-     * @param DependencyInterface $instance
-     */
-    public function registerDependency(DependencyInterface $instance)
-    {
-        $name = $this->getClassName($instance);
+        # register the instance in our container
+        $name = $this->cleanClassNamespace($instance);
         $this->dependencies[$name] = $instance;
+        
+        return $instance;
     }
 
 
@@ -73,11 +55,47 @@ class DependencyContainer
      */
     public function getInstance($name)
     {
-        if (isset($this->dependencies[$name])) {
-            throw new TempleException("Dependency Management: " . "$name is not instantiated yet.");
+        if (!isset($this->dependencies[$name])) {
+            throw new TempleException("Dependency Management: " . "$name is not instantiated yet.");    
         }
 
         return $this->dependencies[$name];
+    }
+    
+
+    /**
+     * adds a list of dependencies to an instance
+     *
+     * @param $instance
+     * @param $dependencies
+     * @throws TempleException
+     */
+    private function setDependencies(DependencyInterface &$instance, $dependencies)
+    {
+        if (!is_array($dependencies)) {
+            throw new TempleException("Dependency Management: dependencies() must return an array ", get_class($instance) . ".php");
+        }
+
+        foreach ($dependencies as $dependency => $name) {
+            $this->setDependency($instance, $dependency, $name);
+        }
+    }
+
+
+    /**
+     * @param DependencyInterface $instance
+     * @param string $dependency
+     * @param $name
+     * @throws TempleException
+     */
+    private function setDependency(DependencyInterface &$instance, $dependency, $name)
+    {
+        if (!isset($this->dependencies[$dependency])) {
+            throw new TempleException("Dependency Management: " . $dependency . " instance does't exist.", get_class($instance));
+            
+        }
+
+        $instance->setDependency($name, $this->dependencies[$dependency]);
     }
 
 
@@ -87,9 +105,12 @@ class DependencyContainer
      * @param DependencyInterface $instance
      * @return mixed
      */
-    private function getClassName(DependencyInterface $instance)
+    private function cleanClassNamespace(DependencyInterface $instance)
     {
-        return array_pop(explode("\\", get_class($instance)));
+        $name = get_class($instance);
+        $name = str_replace("\\", "/", $name);
+        $name = str_replace($this->rootNameSpace . "/", "", $name);
+        return $name;
     }
 
 }
