@@ -28,6 +28,21 @@ class Cache extends DependencyInstance
         );
     }
 
+    public function save($file, $content, $level = 0)
+    {
+        # saves a file to the cache
+        return $this->getFile($file);
+    }
+
+    public function getFile($file)
+    {
+        # returns the cache file
+        $cacheDir = $this->Config->get("dirs.cache");
+        $cacheFile = $cacheDir . $file;
+
+        return $cacheFile;
+    }
+
 
     public function isModified($file)
     {
