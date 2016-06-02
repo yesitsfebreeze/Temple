@@ -88,16 +88,17 @@ class Storage
         } else {
             $temp = array();
         }
-        if (is_array($temp)) {
-            if (is_array($value)) {
-                $value = array_merge($temp, $value);
-            } else {
-                $value = array_merge($temp, array($value));
-            }
-            $this->set($path, $value);
-        } else {
+
+        if (!is_array($temp)) {
             throw new TempleException("Can't extend an non array value!");
         }
+
+        if (is_array($value)) {
+            $value = array_merge($temp, $value);
+        } else {
+            $value = array_merge($temp, array($value));
+        }
+        $this->set($path, $value);
 
         return $value;
     }

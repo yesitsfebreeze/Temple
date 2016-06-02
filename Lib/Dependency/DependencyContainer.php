@@ -27,14 +27,15 @@ class DependencyContainer
     public function add(DependencyInterface &$instance)
     {
         $dependencies = $instance->dependencies();
-        if (is_array($dependencies)) {
-            foreach ($dependencies as $dependency) {
-                $this->setDependency($instance, $dependency);
-            }
-            $this->registerDependency($instance);
-        } else {
+        if (!is_array($dependencies)) {
             throw new TempleException("Dependency Management: dependencies() must return an array ", get_class($instance) . ".php");
         }
+
+        foreach ($dependencies as $dependency) {
+            $this->setDependency($instance, $dependency);
+        }
+        $this->registerDependency($instance);
+
     }
 
 
@@ -45,11 +46,11 @@ class DependencyContainer
      */
     public function setDependency(DependencyInterface &$instance, $dependency)
     {
-        if (isset($this->dependencies[ $dependency ])) {
-            $instance->setDependency($dependency, $this->dependencies[ $dependency ]);
-        } else {
+        if (!isset($this->dependencies[$dependency])) {
             throw new TempleException("Dependency Management: " . $dependency . " instance does't exist.");
         }
+
+        $instance->setDependency($dependency, $this->dependencies[$dependency]);
     }
 
 
@@ -58,8 +59,8 @@ class DependencyContainer
      */
     public function registerDependency(DependencyInterface $instance)
     {
-        $name                        = $this->getClassName($instance);
-        $this->dependencies[ $name ] = $instance;
+        $name = $this->getClassName($instance);
+        $this->dependencies[$name] = $instance;
     }
 
 
@@ -72,10 +73,11 @@ class DependencyContainer
      */
     public function getInstance($name)
     {
-        if (isset($this->dependencies[ $name ])) {
-            return $this->dependencies[ $name ];
+        if (isset($this->dependencies[$name])) {
+            throw new TempleException("Dependency Management: " . "$name is not instantiated yet.");
         }
-        throw new TempleException("Dependency Management: " . "$name is not instantiated yet.");
+
+        return $this->dependencies[$name];
     }
 
 

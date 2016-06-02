@@ -39,22 +39,25 @@ class Config extends DependencyInstance
      */
     public function addConfigFile($file)
     {
-        if (file_exists($file)) {
-            /** @noinspection PhpIncludeInspection */
-            require_once $file;
-            if (isset($config)) {
-                if (sizeof($config) > 0) {
-                    $this->config->merge($config);
-                    if ($this->config->has("errorhandler") && $this->config->get("errorhandler")) {
-                        $this->config->set("errorhandler", new ExceptionHandler());
-                    }
-                }
-            } else {
-                throw new TempleException('You must declare an "$config" array!', $file);
-            }
-        } else {
+        if (!file_exists($file)) {
             throw new TempleException("Can't find the config file!", $file);
         }
+
+        /** @noinspection PhpIncludeInspection */
+        require_once $file;
+
+        if (!isset($config)) {
+            throw new TempleException('You must declare an "$config" array!', $file);
+        }
+
+        if (sizeof($config) > 0) {
+            $this->config->merge($config);
+            if ($this->config->has("errorhandler") && $this->config->get("errorhandler")) {
+                $this->config->set("errorhandler", new ExceptionHandler());
+            }
+        }
+
+
     }
 
 
