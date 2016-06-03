@@ -4,6 +4,7 @@ namespace Temple\Template;
 
 
 use Temple\Dependency\DependencyInstance;
+use Temple\Exception\TempleException;
 use Temple\Utilities\Config;
 use Temple\Utilities\Directories;
 
@@ -31,6 +32,12 @@ class Cache extends DependencyInstance
     public function save($file, $content, $level = 0)
     {
         # saves a file to the cache
+        $file = $this->getFile($file);
+
+        if (!file_exists($file)) {
+            throw new TempleException("Could not include template cache file!", $file);
+        }
+
         return $this->getFile($file);
     }
 

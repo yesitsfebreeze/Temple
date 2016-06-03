@@ -72,10 +72,6 @@ class Template extends DependencyInstance
 
         $cacheFile = $this->fetch($file);
 
-        if (!file_exists($cacheFile)) {
-            throw new TempleException("Could not include template cache file!", $cacheFile);
-        }
-
         /** @noinspection PhpIncludeInspection */
         include $cacheFile;
 
@@ -127,7 +123,7 @@ class Template extends DependencyInstance
      */
     public function getTemplateFile($file, $level = 0)
     {
-        
+
         # has to return the first found template file within the hierarchy
         $file = "test";
 
