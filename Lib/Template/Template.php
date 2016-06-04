@@ -5,6 +5,7 @@ namespace Temple\Template;
 
 use Temple\Dependency\DependencyInstance;
 use Temple\Exception\TempleException;
+use Temple\Template\Plugins\Plugins;
 use Temple\Utilities\Config;
 use Temple\Utilities\Directories;
 
@@ -27,6 +28,9 @@ class Template extends DependencyInstance
     /** @var  Cache $Cache */
     protected $Cache;
 
+    /** @var  Plugins Plugins */
+    protected $Plugins;
+
 
     /**
      * @return array
@@ -34,11 +38,12 @@ class Template extends DependencyInstance
     public function dependencies()
     {
         return array(
-            "Utilities/Directories" => "Directories",
-            "Utilities/Config"      => "Config",
-            "Template/Lexer"        => "Lexer",
-            "Template/Parser"       => "Parser",
-            "Template/Cache"        => "Cache"
+            "Utilities/Directories"    => "Directories",
+            "Utilities/Config"         => "Config",
+            "Template/Lexer"           => "Lexer",
+            "Template/Parser"          => "Parser",
+            "Template/Cache"           => "Cache",
+            "Template/Plugins/Plugins" => "Plugins"
         );
     }
 
@@ -132,6 +137,7 @@ class Template extends DependencyInstance
 
         $file    = $this->cleanExtension($file);
         $dom     = $this->Lexer->lex($file, $level);
+        $dom     = $this->Plugins->process($dom);
         $content = $this->Parser->parse($dom);
 
         return $content;

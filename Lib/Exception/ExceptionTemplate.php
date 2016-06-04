@@ -50,7 +50,8 @@ class ExceptionTemplate
      */
     private function displayMessage()
     {
-        $this->template = str_replace("%message%", $this->exception->getMessage(), $this->template);
+        $message        = preg_replace('/\'(.+?)\'/', "<span class='colored'>$1</span>", $this->exception->getMessage());
+        $this->template = str_replace("%message%", $message, $this->template);
     }
 
 

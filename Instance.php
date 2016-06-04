@@ -120,7 +120,8 @@ class Instance
 
         # this is the only place were a dependency setter is used
         # the whole instance will be passed into the plugins
-        $this->Plugins->setTempleInstance($this);
+        $this->Plugins->PluginFactory->setInstance($this);
+        $this->Plugins->PluginFactory->setDirectories($this->Directories);
 
         # Setup
         $this->Config->addConfigFile(__DIR__ . "/config.php");

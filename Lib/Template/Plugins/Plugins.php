@@ -5,6 +5,8 @@ namespace Temple\Template\Plugins;
 
 use Temple\Dependency\DependencyInstance;
 use Temple\Instance;
+use Temple\Models\Dom\Dom;
+use Temple\Models\Nodes\BaseNode;
 use Temple\Utilities\Config;
 use Temple\Utilities\Directories;
 
@@ -35,22 +37,12 @@ class Plugins extends DependencyInstance
 
 
     /** @var  PluginFactory $PluginFactory */
-    protected $PluginFactory;
+    public $PluginFactory;
 
 
     public function __construct(PluginFactory $PluginFactory)
     {
         $this->PluginFactory = $PluginFactory;
-    }
-
-
-    /**
-     * @param Instance $Temple
-     */
-    public function setTempleInstance(Instance $Temple)
-    {
-        $this->Temple = $Temple;
-        $this->PluginFactory->setTempleInstance($this->Temple);
     }
 
 
@@ -92,7 +84,6 @@ class Plugins extends DependencyInstance
     }
 
 
-
     /**
      * load and install all plugins within the added directories
      * if dir is passed it will just look for plugins within this directory
@@ -107,15 +98,68 @@ class Plugins extends DependencyInstance
     }
 
 
-    public function process($dom)
+    /**
+     * returns all registered plugins fot the instance
+     *
+     * @throws \Temple\Exception\TempleException
+     */
+    public function getPlugins()
     {
+        return $this->PluginFactory->getPlugins();
+    }
+
+
+    /**
+     * process the dom with all plugins
+     *
+     * @param $dom
+     * @return Dom
+     */
+    public function process(Dom $dom)
+    {
+        if (!$dom->has("nodes")) {
+            return $dom;
+        }
+
+        $this->processNodes($dom->get("nodes"));
+
         return $dom;
     }
 
 
-    public function getPlugins()
+    /**
+     * iterate over all nodes and its children
+     *
+     * @param $nodes
+     * @throws \Temple\Exception\TempleException
+     */
+    private function processNodes($nodes)
     {
-        # get all registered plugins
+
+        if (is_array($nodes)) {
+            /** @var BaseNode $node */
+            foreach ($nodes as $node) {
+                if ($node->has("children")) {
+                    $children = $node->get("children");
+                    $this->processNodes($children);
+                }
+                $node = $this->processNode($node);
+            }
+        }
+    }
+
+
+    /**
+     * process a single node via plugin factory
+     *
+     * @param BaseNode $node
+     * @return BaseNode
+     */
+    private function processNode(BaseNode $node)
+    {
+        $plugins = $this->PluginFactory->getPluginsForNode($node);
+        var_dump($plugins);
+        return $node;
     }
 
 

@@ -59,7 +59,7 @@ class Lexer extends DependencyInstance
      *
      * @param string $file
      * @param int    $level
-     * @return array
+     * @return Dom
      */
     public function lex($file, $level = 0)
     {

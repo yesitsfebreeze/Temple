@@ -18,17 +18,12 @@ use Temple\Template\Plugins\Plugins;
 class Parser extends DependencyInstance
 {
 
-    /** @var  Plugins Plugins */
-    protected $Plugins;
-
-
     /**
      * @return array
      */
     public function dependencies()
     {
         return array(
-            "Template/Plugins/Plugins" => "Plugins"
         );
     }
 
@@ -41,8 +36,6 @@ class Parser extends DependencyInstance
      */
     public function parse($dom)
     {
-
-        $dom = $this->Plugins->process($dom);
         $output = $this->createOutput($dom);
         return $output;
     }
