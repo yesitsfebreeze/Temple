@@ -42,23 +42,33 @@ class Template extends DependencyInstance
 
     public function addDirectory($dir)
     {
+        $this->Directories->add($dir, "template");
         # Directory service -> add
         # the directory service will add them into the config
         return $dir;
     }
 
 
-    public function removeDirectory()
+    /**
+     * removes the template directory for the passed level
+     *
+     * @param int $level
+     * @return bool
+     */
+    public function removeDirectory($level = 0)
     {
-        # Directory service -> add
-        # the directory service will add them into the config
+        return $this->Directories->remove($level, "template");
     }
 
 
+    /**
+     * returns the template directories
+     *
+     * @return mixed
+     */
     public function getDirectories()
     {
-        # Directory service -> add
-        # the directory service will add them into the config
+        return $this->Directories->get("template");
     }
 
 
@@ -82,54 +92,46 @@ class Template extends DependencyInstance
     /**
      * processes and saves the file to the cache, then return the cache file path
      *
-     * @param $file
-     * @param int $level
+     * @param string $file
+     * @param int    $level
      * @return string
      */
     public function fetch($file, $level = 0)
     {
 
         $parsedContent = $this->process($file, $level);
-        $cacheFile = $this->Cache->save($file, $parsedContent, $level);
+        $cacheFile     = $this->Cache->save($file, $parsedContent, $level);
 
         return $cacheFile;
 
     }
 
+
     /**
-     * processes and returns the passed template file
+     * processes and returns the parsed content
      *
-     * @param $file
-     * @param int $level
+     * @param string $file
+     * @param int    $level
      * @return string
      */
     public function process($file, $level = 0)
     {
 
-        $file = $this->getTemplateFile($file, $level);
-        $dom = $this->Lexer->lex($file);
+        $file          = $this->cleanExtension($file);
+        $dom           = $this->Lexer->lex($file, $level);
         $parsedContent = $this->Parser->parse($dom);
+
 
         return $parsedContent;
 
     }
 
 
-    /**
-     * returns the template file for the passed level
-     *
-     * @param $file
-     * @param int $level
-     * @return string
-     */
-    public function getTemplateFile($file, $level = 0)
+    private function cleanExtension($file)
     {
-
-        # has to return the first found template file within the hierarchy
-        $file = "test";
+        $file = strrev(preg_replace("/.*?\./", "", strrev($file))) . "." . $this->Config->get("template.extension");
 
         return $file;
-
     }
 
 }
