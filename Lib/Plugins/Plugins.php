@@ -4,12 +4,16 @@ namespace Temple\Plugins;
 
 
 use Temple\Dependency\DependencyInstance;
+use Temple\Instance;
 use Temple\Utilities\Config;
 use Temple\Utilities\Directories;
 
 
 class Plugins extends DependencyInstance
 {
+
+    /** @var Instance $Temple */
+    protected $Temple;
 
     /** @var Config $Config */
     protected $Config;
@@ -25,6 +29,15 @@ class Plugins extends DependencyInstance
             "Utilities/Directories" => "Directories"
         );
     }
+
+    /**
+     * @param Instance $Temple
+     */
+    public function setTempleInstance(Instance $Temple)
+    {
+        $this->Temple = $Temple;
+    }
+
 
 
     public function addDirectory($dir)
@@ -57,12 +70,13 @@ class Plugins extends DependencyInstance
     {
         # load and install all plugins within the added directories
         # if dir is passed it will just look for plugins within this directory
+        # also add $Temple to the plugin constructor so we can use it within the plugins
     }
 
 
     public function getPlugins()
     {
-        # get all plugins within the directories
+        # get all registered plugins
     }
 
 

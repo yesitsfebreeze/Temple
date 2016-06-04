@@ -19,12 +19,11 @@ abstract class DependencyInstance implements DependencyInterface
      */
     public function setDependency($name, DependencyInstance $instance)
     {
-        if (property_exists($this, $name)) {
-            $this->$name = $instance;
-        } else {
+        if (!property_exists($this, $name)) {
             throw new TempleException("Dependency Management: Please register 'protected $$name'", get_class($this) . ".php");
         }
 
+        $this->$name = $instance;
     }
 
 }

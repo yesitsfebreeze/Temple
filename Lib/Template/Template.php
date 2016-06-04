@@ -65,49 +65,71 @@ class Template extends DependencyInstance
     /**
      * renders and includes the template
      *
-     * @param $filename
+     * @param $file
      * @throws TempleException
      */
-    public function showTemplate($filename)
+    public function show($file)
     {
-        $file          = $this->getTemplateFile($filename);
-        $templateFiles = $this->getTemplateFiles($file);
-        $dom           = $this->Lexer->lex($templateFiles, $file);
-        $cacheFile     = $this->Parser->parse($dom);
 
-        if (file_exists($cacheFile)) {
-            include $cacheFile;
-        } else {
-            throw new TempleException("Could not include template cache file!", $cacheFile);
-        }
+        $cacheFile = $this->fetch($file);
+
+        /** @noinspection PhpIncludeInspection */
+        include $cacheFile;
+
     }
 
 
-    public function fetchTemplate($filename)
+    /**
+     * processes and saves the file to the cache, then return the cache file path
+     *
+     * @param $file
+     * @param int $level
+     * @return string
+     */
+    public function fetch($file, $level = 0)
     {
-        # renders and includes the template
+
+        $parsedContent = $this->process($file, $level);
+        $cacheFile = $this->Cache->save($file, $parsedContent, $level);
+
+        return $cacheFile;
+
+    }
+
+    /**
+     * processes and returns the passed template file
+     *
+     * @param $file
+     * @param int $level
+     * @return string
+     */
+    public function process($file, $level = 0)
+    {
+
+        $file = $this->getTemplateFile($file, $level);
+        $dom = $this->Lexer->lex($file);
+        $parsedContent = $this->Parser->parse($dom);
+
+        return $parsedContent;
+
     }
 
 
-    public function getTemplateFile($templateFile)
+    /**
+     * returns the template file for the passed level
+     *
+     * @param $file
+     * @param int $level
+     * @return string
+     */
+    public function getTemplateFile($file, $level = 0)
     {
-        $files = $this->Directories->get("template");
 
-        # $files search for $templateFile
-        # returns template path
-        $file = "found file";
+        # has to return the first found template file within the hierarchy
+        $file = "test";
 
         return $file;
+
     }
 
-
-    public function getTemplateFiles($templateFile)
-    {
-        $files = $this->Directories->get("template");
-        # $files search for $templateFile
-        # returns template path
-        $file = "found file";
-
-        return $file;
-    }
 }

@@ -58,7 +58,7 @@ class Config extends DependencyInstance
                 $this->config->set("errorhandler", new ExceptionHandler());
             }
         }
-
+        
     }
 
 

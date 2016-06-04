@@ -24,50 +24,35 @@ class Instance
     /** @var  DependencyContainer $container */
     private $container;
 
-    /** @var Config $config */
-    private $config;
+    /** @var Config $Config */
+    private $Config;
 
-    /** @var Directories $directories */
-    private $directories;
+    /** @var Directories $Directories */
+    private $Directories;
 
-    /** @var Plugins $plugins */
-    private $plugins;
+    /** @var Plugins $Plugins */
+    private $Plugins;
 
-    /** @var Parser $parser */
-    private $parser;
+    /** @var Parser $Parser */
+    private $Parser;
 
-    /** @var Lexer $lexer */
-    private $lexer;
+    /** @var Lexer $Lexer */
+    private $Lexer;
 
-    /** @var Cache $cache */
-    private $cache;
+    /** @var Cache $Cache */
+    private $Cache;
 
-    /** @var Template $template */
-    private $template;
-
+    /** @var Template $Template */
+    private $Template;
 
     /**
      * Instance constructor.
      */
     public function __construct()
     {
-        $this->container = new DependencyContainer();
+        $this->instantiate();
 
-        # Utilities
-        $this->config      = $this->container->registerDependency(new Config());
-        $this->directories = $this->container->registerDependency(new Directories());
-
-        # Template
-        $this->plugins  = $this->container->registerDependency(new Plugins());
-        $this->parser   = $this->container->registerDependency(new Parser());
-        $this->lexer    = $this->container->registerDependency(new Lexer());
-        $this->cache    = $this->container->registerDependency(new Cache());
-        $this->template = $this->container->registerDependency(new Template());
-
-        $this->config->addConfigFile(__DIR__ . "/config.php");
-        $this->plugins->addDirectory(__DIR__ . "/Plugins");
-        $this->plugins->initiatePlugins();
-
+        return $this;
     }
 
 
@@ -109,5 +94,35 @@ class Instance
     {
         return $this->container->getInstance("Template/Cache");
     }
+
+
+    /**
+     * @throws TempleException
+     */
+    private function instantiate()
+    {
+        $this->container = new DependencyContainer();
+
+        # Utilities
+        $this->Config      = $this->container->registerDependency(new Config());
+        $this->Directories = $this->container->registerDependency(new Directories());
+
+        # Template
+        $this->Plugins  = $this->container->registerDependency(new Plugins());
+        $this->Parser   = $this->container->registerDependency(new Parser());
+        $this->Lexer    = $this->container->registerDependency(new Lexer());
+        $this->Cache    = $this->container->registerDependency(new Cache());
+        $this->Template = $this->container->registerDependency(new Template());
+
+        $this->Config->addConfigFile(__DIR__ . "/config.php");
+        $this->Plugins->addDirectory(__DIR__ . "/Plugins");
+
+        # this is the only place were a dependency setter is used
+        $this->Plugins->setTempleInstance($this);
+        $this->Plugins->initiatePlugins();
+
+        return true;
+    }
+
 
 }

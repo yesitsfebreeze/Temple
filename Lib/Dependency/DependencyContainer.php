@@ -31,19 +31,20 @@ class DependencyContainer
     {
         # check if the dependencies method exists
         # the Instance does net extend the DependencyInterface class if not
-        if (method_exists($instance, "dependencies")) {
-            # get all dependencies and add them to the Instance
-            $dependencies = $instance->dependencies();
-            $this->setDependencies($instance, $dependencies);
-
-            # register the instance in our container
-            $name                        = $this->cleanClassNamespace($instance);
-            $this->dependencies[ $name ] = $instance;
-
-            return $instance;
+        if (!method_exists($instance, "dependencies")) {
+            return null;
         }
 
-        return null;
+        # get all dependencies and add them to the Instance
+        $dependencies = $instance->dependencies();
+        $this->setDependencies($instance, $dependencies);
+
+        # register the instance in our container
+        $name                        = $this->cleanClassNamespace($instance);
+        $this->dependencies[ $name ] = $instance;
+
+        return $instance;
+
     }
 
 
@@ -56,11 +57,12 @@ class DependencyContainer
      */
     public function getInstance($name)
     {
-        if (isset($this->dependencies[ $name ])) {
-            return $this->dependencies[ $name ];
-        } else {
+
+        if (!isset($this->dependencies[ $name ])) {
             throw new TempleException("Dependency Management: " . "$name is not instantiated yet.");
         }
+
+        return $this->dependencies[ $name ];
     }
 
 
@@ -73,12 +75,12 @@ class DependencyContainer
      */
     private function setDependencies(DependencyInterface &$instance, $dependencies)
     {
-        if (is_array($dependencies)) {
-            foreach ($dependencies as $dependency => $name) {
-                $this->setDependency($instance, $dependency, $name);
-            }
-        } else {
+        if (!is_array($dependencies)) {
             throw new TempleException("Dependency Management: dependencies() must return an array ", get_class($instance) . ".php");
+        }
+
+        foreach ($dependencies as $dependency => $name) {
+            $this->setDependency($instance, $dependency, $name);
         }
     }
 
@@ -91,11 +93,12 @@ class DependencyContainer
      */
     private function setDependency(DependencyInterface &$instance, $dependency, $name)
     {
-        if (isset($this->dependencies[ $dependency ])) {
-            $instance->setDependency($name, $this->dependencies[ $dependency ]);
-        } else {
+
+        if (!isset($this->dependencies[ $dependency ])) {
             throw new TempleException("Dependency Management: " . $dependency . " instance does't exist.", get_class($instance));
         }
+
+        $instance->setDependency($name, $this->dependencies[ $dependency ]);
     }
 
 

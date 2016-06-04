@@ -26,16 +26,15 @@ class Parser extends DependencyInstance
         );
     }
 
-
     /**
      * @param $dom
      * @return string
      */
     public function parse($dom)
     {
-        $cacheFile = "test";
+        $parsedContent = "<div>test</div>";
 
-        return $cacheFile;
+        return $parsedContent;
     }
 
 }
