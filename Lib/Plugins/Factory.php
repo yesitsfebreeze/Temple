@@ -3,9 +3,9 @@
 namespace Temple\Factories;
 
 
-use Temple\Nodes\BaseNode;
-use Temple\Repositories\StorageRepository;
-use Temple\Services\PluginInitService;
+use Temple\Models\Nodes\BaseNode;
+use Temple\Utilities\BaseFactory;
+use Temple\Utilities\Storage;
 
 
 /**
@@ -13,7 +13,7 @@ use Temple\Services\PluginInitService;
  *
  * @package Contentmanager\Services
  */
-class PluginFactory extends Factory
+class Factory extends BaseFactory
 {
 
     /** @var  PluginInitService $plugins */
@@ -21,9 +21,9 @@ class PluginFactory extends Factory
 
 
     /**
-     * @param StorageRepository $plugins
+     * @param Storage $plugins
      */
-    public function setPlugins(StorageRepository $plugins)
+    public function setPlugins(Storage $plugins)
     {
         $this->plugins = $plugins;
     }

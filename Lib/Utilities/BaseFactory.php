@@ -1,10 +1,9 @@
 <?php
 
-namespace Temple\Factories;
+namespace Temple\Utilities;
 
 
-use Temple\Exceptions\TempleException;
-use Temple\Interfaces\FactoryInterface;
+use Temple\Exception\TempleException;
 
 
 /**
@@ -12,7 +11,7 @@ use Temple\Interfaces\FactoryInterface;
  *
  * @package Contentmanager\Services
  */
-abstract class Factory implements FactoryInterface
+abstract class BaseFactory implements FactoryInterface
 {
 
     /**
@@ -23,11 +22,12 @@ abstract class Factory implements FactoryInterface
     public function create($class)
     {
         $class = $this->check($class);
-        if ($class) {
-            return new $class();
+
+        if (!$class) {
+            return null;
         }
 
-        return null;
+        return new $class();
     }
 
 
@@ -48,15 +48,18 @@ abstract class Factory implements FactoryInterface
     {
         if (is_null($class)) {
             return $class;
-        } elseif (gettype($class) == "string") {
-            $class = $this->cleanClassName($class, ' ');
-            $class = $this->cleanClassName($class, '_');
-            $class = ucfirst($class);
+        }
 
-            return $class;
-        } else {
+        if (!gettype($class) == "string") {
             throw new TempleException("Class name must be a string");
         }
+
+        $class = $this->cleanClassName($class, ' ');
+        $class = $this->cleanClassName($class, '_');
+        $class = ucfirst($class);
+
+        return $class;
+
     }
 
 

@@ -1,27 +1,29 @@
 <?php
 
-namespace Temple\Factories;
+namespace Temple\Template;
 
 
-use Temple\Services\ConfigService;
+use Temple\Exception\TempleException;
+use Temple\Utilities\BaseFactory;
+use Temple\Utilities\Config;
 
 
 /**
- * Class configFactory
+ * Class NodeFactory
  *
  * @package Contentmanager\Services
  */
-class NodeFactory extends Factory
+class NodeFactory extends BaseFactory
 {
 
 
-    /** @var  ConfigService $config */
-    private $config;
+    /** @var Config $Config */
+    private $Config;
 
 
     public function addConfig($config)
     {
-        $this->config = $config;
+        $this->Config = $config;
     }
 
 
@@ -30,11 +32,13 @@ class NodeFactory extends Factory
     {
 
         $class = $this->check($class);
-        if ($class) {
-            return new $class($this->config);
+
+        if (is_null($class)) {
+            throw new TempleException("Cant find the wanted Node Class!");
         }
 
-        return null;
+        return new $class($this->Config);
+
     }
 
 
@@ -61,7 +65,7 @@ class NodeFactory extends Factory
     private function getClass($class)
     {
         $this->getClassName($class);
-        $class = '\\Temple\\Nodes\\' . ucfirst($class) . "Node";
+        $class = '\\Temple\\Models\\Nodes\\' . ucfirst($class) . "Node";
 
         if (class_exists($class)) {
             return $class;
