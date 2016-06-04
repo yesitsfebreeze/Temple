@@ -5,11 +5,12 @@ namespace Temple;
 
 use Temple\Dependency\DependencyContainer;
 use Temple\Exception\TempleException;
-use Temple\Plugins\Plugins;
 use Temple\Template\Cache;
 use Temple\Template\Lexer;
 use Temple\Template\NodeFactory;
 use Temple\Template\Parser;
+use Temple\Template\Plugins\PluginFactory;
+use Temple\Template\Plugins\Plugins;
 use Temple\Template\Template;
 use Temple\Utilities\Config;
 use Temple\Utilities\Directories;
@@ -111,21 +112,20 @@ class Instance
         $this->Directories = $this->container->registerDependency(new Directories());
 
         # Template
-        $this->Plugins  = $this->container->registerDependency(new Plugins());
+        $this->Plugins  = $this->container->registerDependency(new Plugins(new PluginFactory()));
         $this->Parser   = $this->container->registerDependency(new Parser());
         $this->Lexer    = $this->container->registerDependency(new Lexer(new NodeFactory()));
         $this->Cache    = $this->container->registerDependency(new Cache());
         $this->Template = $this->container->registerDependency(new Template());
 
+        # this is the only place were a dependency setter is used
+        # the whole instance will be passed into the plugins
+        $this->Plugins->setTempleInstance($this);
+
         # Setup
         $this->Config->addConfigFile(__DIR__ . "/config.php");
         $this->Plugins->addDirectory(__DIR__ . "/Plugins");
         $this->Cache->setDirectory($this->Config->get("dirs.cache"));  # that is wrong
-
-        # this is the only place were a dependency setter is used
-        # the whole instance will be passed into the plugins
-        $this->Plugins->setTempleInstance($this);
-        $this->Plugins->initiatePlugins();
 
         return true;
     }

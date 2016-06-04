@@ -1,8 +1,9 @@
 <?php
 
-namespace Temple\Factories;
+namespace Temple\Template\Plugins;
 
 
+use Temple\Instance;
 use Temple\Models\Nodes\BaseNode;
 use Temple\Utilities\BaseFactory;
 use Temple\Utilities\Storage;
@@ -13,23 +14,37 @@ use Temple\Utilities\Storage;
  *
  * @package Contentmanager\Services
  */
-class Factory extends BaseFactory
+class PluginFactory extends BaseFactory
 {
 
-    /** @var  PluginInitService $plugins */
+    /** @var  Storage $plugins */
     private $plugins;
 
 
-    /**
-     * @param Storage $plugins
-     */
-    public function setPlugins(Storage $plugins)
+    /** @var  Instance $Temple */
+    private $Temple;
+
+
+    public function __construct()
     {
-        $this->plugins = $plugins;
+        $this->plugins = new Storage();
     }
 
 
-    //    /** @inheritdoc */
+    /**
+     * @param Instance $Temple
+     */
+    public function setTempleInstance(Instance $Temple)
+    {
+        $this->Temple = $Temple;
+    }
+
+
+    /**
+     * @param string $class
+     * @return null|string
+     * @throws \Temple\Exception\TempleException
+     */
     public function check($class)
     {
         $this->getClassName($class);
@@ -55,4 +70,11 @@ class Factory extends BaseFactory
         return array();
     }
 
+
+    public function loadAll($dir = null)
+    {
+        debug("load");
+        # load all plugins
+        return true;
+    }
 }
