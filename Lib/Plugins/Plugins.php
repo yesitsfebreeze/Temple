@@ -22,6 +22,9 @@ class Plugins extends DependencyInstance
     protected $Directories;
 
 
+    /**
+     * @return array
+     */
     public function dependencies()
     {
         return array(

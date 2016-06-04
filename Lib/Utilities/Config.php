@@ -11,10 +11,11 @@ use Temple\Exception\TempleException;
 class Config extends DependencyInstance
 {
 
-    /** @inheritdoc */
+    /**
+     * @return array
+     */
     public function dependencies()
     {
-
         return array();
     }
 
@@ -58,7 +59,7 @@ class Config extends DependencyInstance
                 $this->config->set("errorhandler", new ExceptionHandler());
             }
         }
-        
+
     }
 
 

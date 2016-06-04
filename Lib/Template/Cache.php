@@ -23,6 +23,9 @@ class Cache extends DependencyInstance
     protected $Template;
 
 
+    /**
+     * @return array
+     */
     public function dependencies()
     {
         return array(

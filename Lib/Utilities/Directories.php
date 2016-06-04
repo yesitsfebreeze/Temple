@@ -19,7 +19,9 @@ class Directories extends DependencyInstance
     protected $Config;
 
 
-    /** @inheritdoc */
+    /**
+     * @return array
+     */
     public function dependencies()
     {
         return array(

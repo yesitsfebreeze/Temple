@@ -28,6 +28,9 @@ class Template extends DependencyInstance
     protected $Cache;
 
 
+    /**
+     * @return array
+     */
     public function dependencies()
     {
         return array(
