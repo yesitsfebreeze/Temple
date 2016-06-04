@@ -104,11 +104,16 @@ class Template extends DependencyInstance
     public function fetch($file, $level = 0)
     {
 
-        $parsedContent = $this->process($file, $level);
-        $cacheFile     = $this->Cache->save($file, $parsedContent, $level);
+        $file = $this->cleanExtension($file);
+
+        if ($this->Cache->isModified($file)) {
+            $content = $this->process($file, $level);
+            $this->Cache->save($file, $content, $level);
+        }
+
+        $cacheFile = $this->Cache->getFile($file);
 
         return $cacheFile;
-
     }
 
 
@@ -122,18 +127,24 @@ class Template extends DependencyInstance
     public function process($file, $level = 0)
     {
 
-        $file          = $this->cleanExtension($file);
-        $dom           = $this->Lexer->lex($file, $level);
-        $parsedContent = $this->Parser->parse($dom);
+        $file    = $this->cleanExtension($file);
+        $dom     = $this->Lexer->lex($file, $level);
+        $content = $this->Parser->parse($dom);
 
-        return $parsedContent;
+        return $content;
 
     }
 
 
+    /**
+     * make sure we have the template extension
+     *
+     * @param $file
+     * @return string
+     */
     private function cleanExtension($file)
     {
-        $file = strrev(preg_replace("/.*?\./", "", strrev($file))) . "." . $this->Config->get("template.extension");
+        $file = preg_replace('/\..*?$/', '', $file) . "." . $this->Config->get("template.extension");
 
         return $file;
     }

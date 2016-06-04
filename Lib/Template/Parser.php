@@ -37,8 +37,8 @@ class Parser extends DependencyInstance
     public function parse($dom)
     {
 
-        $output = $this->createOutput($dom);
         # TODO: plugins
+        $output = $this->createOutput($dom);
         return $output;
     }
 

@@ -66,7 +66,9 @@ class Lexer extends DependencyInstance
         $files       = $this->getTemplateFiles($file);
         $file        = $this->getTemplateFile($file, $level);
         $this->createNewDom($namespace, $file, $files);
-        return $this->process($file);
+        $this->process($file);
+
+        return $this->dom;
 
     }
 
@@ -84,7 +86,8 @@ class Lexer extends DependencyInstance
     {
         $this->level = $level;
 
-        $dirs        = $this->Directories->get("template");
+        $dirs = $this->Directories->get("template");
+
         if (!isset($dirs[ $level ])) {
             throw new TempleException("No template file found!", "on level " . $level);
         }
@@ -93,6 +96,7 @@ class Lexer extends DependencyInstance
         $templateFile = $dir . $file;
 
         if (!file_exists($templateFile)) {
+
             return $this->getTemplateFile($file, $level + 1);
         }
 
@@ -109,7 +113,6 @@ class Lexer extends DependencyInstance
      */
     private function getTemplateFiles($file)
     {
-
         $dirs  = $this->Directories->get("template");
         $files = array();
 
@@ -165,8 +168,6 @@ class Lexer extends DependencyInstance
             $this->dom->set("info.line", $this->dom->get("info.line") + 1);
         }
         fclose($handle);
-
-        # remove the temporary dom helper
         $this->dom->delete("tmp");
 
         return $this->dom;
@@ -174,7 +175,7 @@ class Lexer extends DependencyInstance
 
 
     /**
-     * creates a node with the node factory
+     * creates a node matching to the criteria
      *
      * @param $line
      * @return BaseNode
@@ -183,20 +184,20 @@ class Lexer extends DependencyInstance
     private function createNode($line)
     {
 
+        # do i really need a factory here?
         $this->NodeFactory->addConfig($this->Config);
         $node = $this->NodeFactory->create($line);
 
         $node->createNode($line);
-
-        if (!$node->has("tag.tag")) {
-            throw new TempleException("Node models must have a tag!", $this->dom->get("info.file"), $this->dom->get("info.line"));
-        }
-
         $node->set("info.namespace", $this->dom->get("info.namespace"));
         $node->set("info.level", $this->dom->get("info.level"));
         $node->set("info.line", $this->dom->get("info.line"));
         $node->set("info.file", $this->dom->get("info.file"));
         $node->set("info.getParentNode", "test");
+
+        if (!$node->has("tag.tag")) {
+            throw new TempleException("Node models must have a tag!", $this->dom->get("info.file"), $this->dom->get("info.line"));
+        }
 
         return $node;
     }
@@ -204,9 +205,10 @@ class Lexer extends DependencyInstance
 
     /**
      * adds the node to the dom
-     * parent/child logic is handled here
+     * getParentNode/child logic is handled here
      *
      * @param BaseNode $node
+     * @return bool
      */
     private function addNode($node)
     {
@@ -220,7 +222,6 @@ class Lexer extends DependencyInstance
             $this->dom->set("nodes", $rootNodes);
 
         } else {
-
             $indent     = $node->get("info.indent");
             $prevIndent = $this->dom->get("tmp.prev")->get("info.indent");
 
@@ -238,15 +239,18 @@ class Lexer extends DependencyInstance
             }
 
         }
+
+        return true;
     }
 
 
     /**
-     * adds a node to the dom if it has a deeper level
+     * adds a node to the dom if has a addNodeOnDeeperLevel level
      * than the previous node
      *
      * @param BaseNode $node
      * @throws TempleException
+     * @return mixed
      */
     private function addNodeOnDeeperLevel($node)
     {
@@ -254,37 +258,42 @@ class Lexer extends DependencyInstance
         if ($node->get("info.parent")->get("info.selfclosing")) {
             $tag = $node->get("info.parent")->get("tag.tag");
             throw new TempleException("You can't have children in an $tag tag!", $this->dom->get("info.file"), $this->dom->get("info.line"));
-        } else {
-            $this->addNodeAsChild($this->dom->get("tmp.prev"), $node);
         }
+
+        return $this->addNodeAsChild($this->dom->get("tmp.prev"), $node);
+
     }
 
 
     /**
-     * adds a node to the dom if it has a higher
+     * adds a node to the dom if has a addNodeOnHigherLevel level
      * than the previous node
      *
      * @param BaseNode $node
+     * @return mixed
      */
     private function addNodeOnHigherLevel($node)
     {
         $parent = $this->getParentNode($node);
         $node->set("info.parent", $parent);
-        $this->addNodeAsChild($parent, $node);
+
+        return $this->addNodeAsChild($parent, $node);
     }
 
 
     /**
-     * adds a node to the dom if it has the same level
+     * adds a node to the dom if has the addNodeOnSameLevel  level
      * than the previous node
      *
      * @param BaseNode $node
+     * @return mixed
      */
     private function addNodeOnSameLevel($node)
     {
         $parent = $this->dom->get("tmp.prev")->get("info.parent");
         $node->set("info.parent", $parent);
-        $this->addNodeAsChild($parent, $node);
+
+        return $this->addNodeAsChild($parent, $node);
     }
 
 
@@ -294,17 +303,19 @@ class Lexer extends DependencyInstance
      * @param BaseNode $target
      * @param BaseNode $node
      * @throws \Exception
+     * @return mixed
      */
     private function addNodeAsChild($target, $node)
     {
         $children   = $target->get("children");
         $children[] = $node;
-        $target->set("children", $children);
+
+        return $target->set("children", $children);
     }
 
 
     /**
-     * returns the parent of the passed node
+     * returns the getParentNode of the passed node
      *
      * @param BaseNode      $node
      * @param bool|BaseNode $parent

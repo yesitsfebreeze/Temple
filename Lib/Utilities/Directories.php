@@ -74,14 +74,13 @@ class Directories extends DependencyInstance
      */
     public function create($dir)
     {
+        $dir = $this->path($dir);
         if (!is_dir($dir)) {
-
             if (!is_writable(dirname($dir))) {
                 throw new TempleException("You don't have the permission to create this directory." . $dir);
             }
 
             mkdir($dir, 0777, true);
-
         }
     }
 
@@ -181,9 +180,9 @@ class Directories extends DependencyInstance
     private function path($dir)
     {
         if ($dir[0] != "/") {
-            $framework = $this->framework();
-            $dir       = $framework . $dir . "/";
+            $dir       = $this->frameworkDir() . $dir . "/";
         }
+        $dir = str_replace("/./","/",$dir);
 
         return $dir;
     }
@@ -228,7 +227,7 @@ class Directories extends DependencyInstance
         if ($dir[0] != "/") $dir = $this->root() . $dir . "/";
         if (is_dir($dir)) return $dir;
 
-        throw new TempleException("Cannot add directory because it does not exist, pleas create it.", $dir);
+        throw new TempleException("Cannot add directory because it does not exist, please create it.", $dir);
     }
 
 
@@ -239,11 +238,7 @@ class Directories extends DependencyInstance
      */
     private function root()
     {
-        $root = strrev($_SERVER["DOCUMENT_ROOT"]);
-        $root = strrev(explode("/", $root[0]));
-        $dir  = explode($root, __DIR__);
-        $root = $dir[0] . $root . "/";
-
+        $root = $_SERVER["DOCUMENT_ROOT"] . "/";
         return $root;
     }
 
@@ -253,7 +248,7 @@ class Directories extends DependencyInstance
      *
      * @return array|string
      */
-    private function framework()
+    private function frameworkDir()
     {
         $framework = explode("Temple", __DIR__);
         $framework = $framework[0] . "Temple/";

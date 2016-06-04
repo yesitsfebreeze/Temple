@@ -85,6 +85,11 @@ class ExceptionTemplate
 
     private function colorFilePath($file)
     {
+
+        if (strpos($file, ".") == false) {
+            return "<span class='colored'>" . $file . "</span>";
+        }
+
         $file     = array_reverse(explode(DIRECTORY_SEPARATOR, $file));
         $filename = array_shift($file);
         $path     = implode("/", array_reverse($file));

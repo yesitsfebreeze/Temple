@@ -2,6 +2,10 @@
 
 namespace Temple\Utilities;
 
+
+use Temple\Exception\TempleException;
+
+
 /**
  * Class configFactory
  * @package Contentmanager\Services
@@ -12,7 +16,7 @@ interface FactoryInterface
     /**
      * @param string $class
      * @return mixed
-     * @throws \Exception
+     * @throws TempleException
      */
     function create($class);
 
@@ -20,7 +24,7 @@ interface FactoryInterface
     /**
      * @param string $class
      * @return string|null
-     * @throws \Exception
+     * @throws TempleException
      */
     function check($class);
 
