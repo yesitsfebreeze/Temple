@@ -14,11 +14,6 @@ mkdir assets/prod
 mkdir source
 clear
 
-#composer stuff
-composer dumpautoload -o
-composer update
-clear
-
 cp -rf ../.git source/.git
 cp -rf ../.gitignore source/.gitignore
 cp -rf ./_core/api_generator.php ./vendor/evert/phpdoc-md/src/Generator.php

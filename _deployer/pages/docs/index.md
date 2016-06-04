@@ -1,2 +1,2 @@
-# Welcome to Caramel
+# Welcome to Temple
 ### A dom driven template engine

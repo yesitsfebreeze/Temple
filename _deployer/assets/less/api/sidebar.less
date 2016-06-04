@@ -7,6 +7,9 @@
     bottom:           0;
     height:           100%;
     background-color: @sidebar-bg;
+    overflow-y:       scroll;
+    padding-bottom:   100px;
+    font-size:        @sidebar-font-size;
     .logo {
         font-weight:  @font-weight;
         line-height:  100px;
@@ -17,8 +20,9 @@
         padding-left: 25px;
         &, * {
             font-weight: @font-weight;
-            line-height: 24px;
-            font-size:   13px;
+            line-height: ceil(@sidebar-font-size * 1.5);
+            font-size:   @sidebar-font-size;
+            letter-spacing: 0.03em;
         }
     }
 }
