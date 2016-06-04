@@ -36,8 +36,3 @@ php phpdocmd ../../source/phpdocs/structure.xml
 
 # deploy docs
 php  ../../_core/deploy.php
-
-
-#cp -rf _deployer/_core/api_generator.php _deployer/vendor/evert/phpdoc-md/src/Generator.php
-#cd _deployer/vendor/bin
-#php phpdocmd ../../markdown/xml/structure.xml ../../markdown/parsed
