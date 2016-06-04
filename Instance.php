@@ -8,10 +8,12 @@ use Temple\Exception\TempleException;
 use Temple\Plugins\Plugins;
 use Temple\Template\Cache;
 use Temple\Template\Lexer;
+use Temple\Template\NodeFactory;
 use Temple\Template\Parser;
 use Temple\Template\Template;
 use Temple\Utilities\Config;
 use Temple\Utilities\Directories;
+
 
 /**
  * Class Instance
@@ -44,6 +46,7 @@ class Instance
 
     /** @var Template $Template */
     private $Template;
+
 
     /**
      * Instance constructor.
@@ -108,9 +111,11 @@ class Instance
         $this->Directories = $this->container->registerDependency(new Directories());
 
         # Template
-        $this->Plugins  = $this->container->registerDependency(new Plugins());
-        $this->Parser   = $this->container->registerDependency(new Parser());
-        $this->Lexer    = $this->container->registerDependency(new Lexer());
+        $this->Plugins = $this->container->registerDependency(new Plugins());
+        $this->Parser  = $this->container->registerDependency(new Parser());
+
+        $nodeFactory    = new NodeFactory();
+        $this->Lexer    = $this->container->registerDependency(new Lexer($nodeFactory));
         $this->Cache    = $this->container->registerDependency(new Cache());
         $this->Template = $this->container->registerDependency(new Template());
 

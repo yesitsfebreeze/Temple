@@ -5,8 +5,8 @@ namespace Temple\Models\Nodes;
 
 // todoo: add find method, maybe even to storage
 
-use Temple\Exceptions\TempleException;
-use Temple\Services\ConfigService;
+use Temple\Exception\TempleException;
+use Temple\Utilities\Config;
 use Temple\Utilities\Storage;
 
 
@@ -20,13 +20,13 @@ class BaseNode extends Storage
 {
 
 
-    /** @var ConfigService $configService */
-    protected $configService;
+    /** @var Config $Config */
+    protected $Config;
 
 
-    public function __construct(ConfigService $configService)
+    public function __construct(Config $configService)
     {
-        $this->configService = $configService;
+        $this->Config = $configService;
     }
 
 
@@ -65,7 +65,7 @@ class BaseNode extends Storage
         $this->set("info.plugins", true);
 
         # clean the node
-        unset($this->config);
+        unset($this->Config);
 
         return $this;
     }
@@ -87,8 +87,8 @@ class BaseNode extends Storage
         # divide our counted characters trough the amount
         # we used to indent in the first line
         # this should be a non decimal number
-        $indent = substr_count($whitespace, $this->configService->get("template.indent.character"));
-        $indent = $indent / $this->configService->get("template.indent.amount");
+        $indent = substr_count($whitespace, $this->Config->get("template.indent.character"));
+        $indent = $indent / $this->Config->get("template.indent.amount");
         # if we have a non decimal number return how many times we indented
         if (is_int($indent)) return $indent;
 
@@ -117,14 +117,14 @@ class BaseNode extends Storage
         $tag["opening"] = array();
 
         $tag["opening"]["display"] = true;
-        $tag["opening"]["before"]  = $this->configService->get("template.tag.opening.before");
+        $tag["opening"]["before"]  = $this->Config->get("template.tag.opening.before");
         $tag["opening"]["tag"]     = $tagname;
-        $tag["opening"]["after"]   = $this->configService->get("template.tag.opening.after");
+        $tag["opening"]["after"]   = $this->Config->get("template.tag.opening.after");
 
         $tag["closing"]["display"] = true;
-        $tag["closing"]["before"]  = $this->configService->get("template.tag.closing.before");
+        $tag["closing"]["before"]  = $this->Config->get("template.tag.closing.before");
         $tag["closing"]["tag"]     = $tagname;
-        $tag["closing"]["after"]   = $this->configService->get("template.tag.closing.after");
+        $tag["closing"]["after"]   = $this->Config->get("template.tag.closing.after");
 
         return $tag;
     }
@@ -168,7 +168,7 @@ class BaseNode extends Storage
     private function selfclosing()
     {
         # check if our tag is in the self closing array set in the config
-        if (in_array($this->get("tag.tag"), $this->configService->get("parser.self closing"))) return true;
+        if (in_array($this->get("tag.tag"), $this->Config->get("parser.self closing"))) return true;
 
         return false;
     }

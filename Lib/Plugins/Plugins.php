@@ -30,6 +30,7 @@ class Plugins extends DependencyInstance
         );
     }
 
+
     /**
      * @param Instance $Temple
      */
@@ -39,29 +40,24 @@ class Plugins extends DependencyInstance
     }
 
 
-
     public function addDirectory($dir)
     {
+        # Directory service -> add
         # the directory service will add them into the config
-        $value = $this->Directories->add($dir, "plugins");
-        # Initiate the newly added plugins
-        $this->initiatePlugins($dir);
-
-        return $value;
+        return $dir;
     }
 
 
-    public function removeDirectory($dir)
+    public function removeDirectory()
     {
-        return $this->Directories->remove($dir, "plugins");
-        # Directory service -> remove
+        # Directory service -> add
         # the directory service will add them into the config
     }
 
 
     public function getDirectories()
     {
-        return $this->Directories->get("plugins");
+        # Directory service -> add
         # the directory service will add them into the config
     }
 
