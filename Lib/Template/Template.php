@@ -40,11 +40,16 @@ class Template extends DependencyInstance
     }
 
 
+    /**
+     * adds a directory to the templates
+     *
+     * @param $dir
+     * @return mixed
+     */
     public function addDirectory($dir)
     {
         $this->Directories->add($dir, "template");
-        # Directory service -> add
-        # the directory service will add them into the config
+
         return $dir;
     }
 
@@ -120,7 +125,6 @@ class Template extends DependencyInstance
         $file          = $this->cleanExtension($file);
         $dom           = $this->Lexer->lex($file, $level);
         $parsedContent = $this->Parser->parse($dom);
-
 
         return $parsedContent;
 
