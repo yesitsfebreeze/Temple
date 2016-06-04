@@ -5,3 +5,7 @@
 /_deployer
 /img
 composer.lock
+
+!.idea/
+.idea/*
+!.idea/*.iml

@@ -4,9 +4,21 @@
 namespace Temple;
 
 
-use Temple\Services\AutoloaderService;
+use Temple\Exception\ExceptionHandler;
 
-require_once __DIR__ . "/lib/Services/AutoloadService.php";
-require_once __DIR__ . "/Engine.php";
+$namespace = __NAMESPACE__;
+$dir       = __DIR__ . "/Lib";
 
-new AutoloaderService(__DIR__ . "/lib");
+spl_autoload_register(function ($class) use ($namespace, $dir) {
+    $class = substr($class, strlen($namespace . "\\"));
+    $file  = $dir . "/" . str_replace('\\', '/', $class) . '.php';
+    if (file_exists($file)) {
+        /** @noinspection PhpIncludeInspection */
+        require $file;
+    }
+
+});
+
+new ExceptionHandler();
+
+require_once __DIR__ . "/Instance.php";

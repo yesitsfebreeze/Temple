@@ -4,7 +4,7 @@ $config = array(
     "errorhandler" => true,
     "dirs" => [
         "cache" => "./Cache",
-        "templates" => [],
+        "template" => [],
         "plugins" => [],
     ],
     "cache" => [
