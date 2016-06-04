@@ -6,6 +6,7 @@ namespace Temple\Utilities;
 use Temple\Dependency\DependencyInstance;
 use Temple\Exception\TempleException;
 
+
 /**
  * Class Directories
  *
@@ -37,10 +38,13 @@ class Directories extends DependencyInstance
      */
     public function add($dir, $type)
     {
+
         if ($this->Config->has("dirs." . $type)) {
-            $this->Config->set("dirs." . $type,$dir);
+            $this->Config->set("dirs." . $type, $dir);
+
             return $this->Config->get("dirs." . $type);
         }
+
         throw new TempleException("Directory could not be added, because it doesn't exist!", $dir);
 
     }

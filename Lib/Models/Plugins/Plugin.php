@@ -3,7 +3,6 @@
 namespace Temple\Models\Plugins;
 
 
-use Temple\Instance;
 use Temple\Services\CacheService;
 use Temple\Services\ConfigService;
 use Temple\Services\DirectoryService;

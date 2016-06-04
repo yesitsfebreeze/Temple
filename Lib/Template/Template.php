@@ -8,6 +8,7 @@ use Temple\Exception\TempleException;
 use Temple\Utilities\Config;
 use Temple\Utilities\Directories;
 
+
 class Template extends DependencyInstance
 {
 
@@ -31,10 +32,10 @@ class Template extends DependencyInstance
     {
         return array(
             "Utilities/Directories" => "Directories",
-            "Utilities/Config" => "Config",
-            "Template/Lexer" => "Lexer",
-            "Template/Parser" => "Parser",
-            "Template/Cache" => "Cache"
+            "Utilities/Config"      => "Config",
+            "Template/Lexer"        => "Lexer",
+            "Template/Parser"       => "Parser",
+            "Template/Cache"        => "Cache"
         );
     }
 

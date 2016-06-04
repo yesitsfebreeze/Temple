@@ -7,6 +7,7 @@ use Temple\Dependency\DependencyInstance;
 use Temple\Utilities\Config;
 use Temple\Utilities\Directories;
 
+
 class Plugins extends DependencyInstance
 {
 
@@ -20,7 +21,7 @@ class Plugins extends DependencyInstance
     public function dependencies()
     {
         return array(
-            "Utilities/Config" => "Config",
+            "Utilities/Config"      => "Config",
             "Utilities/Directories" => "Directories"
         );
     }
@@ -52,7 +53,7 @@ class Plugins extends DependencyInstance
     }
 
 
-    public function initiatePlugins($dir = NULL)
+    public function initiatePlugins($dir = null)
     {
         # load and install all plugins within the added directories
         # if dir is passed it will just look for plugins within this directory

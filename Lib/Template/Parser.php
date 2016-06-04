@@ -6,6 +6,7 @@ namespace Temple\Template;
 use Temple\Dependency\DependencyInstance;
 use Temple\Plugins\Plugins;
 
+
 /**
  * Class Parser
  *

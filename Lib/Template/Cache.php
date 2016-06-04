@@ -7,6 +7,7 @@ use Temple\Dependency\DependencyInstance;
 use Temple\Utilities\Config;
 use Temple\Utilities\Directories;
 
+
 class Cache extends DependencyInstance
 {
 
@@ -35,10 +36,12 @@ class Cache extends DependencyInstance
         # we might have to pass template since we don't know if a file extends or not
     }
 
+
     public function generate()
     {
         # compile all templates to cache
     }
+
 
     public function clear()
     {

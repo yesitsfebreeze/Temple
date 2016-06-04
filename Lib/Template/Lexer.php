@@ -4,11 +4,12 @@ namespace Temple\Template;
 
 
 use Temple\Dependency\DependencyInstance;
-use Temple\Exceptions\TempleException;
+use Temple\Exception\TempleException;
 use Temple\Models\Dom\Dom;
 use Temple\Models\Nodes\BaseNode;
 use Temple\Repositories\StorageRepository;
 use Temple\Utilities\Config;
+
 
 /**
  * Class Lexer
@@ -21,8 +22,10 @@ class Lexer extends DependencyInstance
     /** @var  Config $Config */
     protected $Config;
 
+
     public function dependencies()
     {
+
         return array(
             "Utilities/Config" => "Config"
         );
@@ -39,13 +42,14 @@ class Lexer extends DependencyInstance
     /**
      * returns the file as a Dom Object
      *
-     * @param array $templateFiles
+     * @param array    $templateFiles
      * @param string   $file
      * @param int|bool $level
      * @return array
      */
     public function lex($templateFiles, $file, $level = false)
     {
+
         $this->templateFiles = $templateFiles;
         $this->prepareDom($file, $level);
         $this->process();
@@ -64,6 +68,7 @@ class Lexer extends DependencyInstance
      */
     public function prepareDom($filename, $level)
     {
+
         $this->dom = new Dom();
         $filename  = str_replace("." . $this->Config->get("template.extension"), "", $filename);
         $this->dom->set("info.namespace", $filename);
@@ -94,13 +99,14 @@ class Lexer extends DependencyInstance
     {
 
         $templates = $this->dom->get("info.templates");
+        if (is_array($templates) && !empty($templates)) {
+            if (is_null($level)) {
+                return reset($templates);
+            }
 
-        if (is_null($level)) {
-            return reset($templates);
-        }
-
-        if (isset($templates[ $level ])) {
-            return $templates[ $level ];
+            if (isset($templates[ $level ])) {
+                return $templates[ $level ];
+            }
         }
 
         throw new TempleException("Can't find template file for '" . $filename . "' on template level " . $level);
@@ -115,6 +121,7 @@ class Lexer extends DependencyInstance
      */
     private function process()
     {
+
         $handle = fopen($this->dom->get("info.file"), "r");
         while (($line = fgets($handle)) !== false) {
             if (trim($line) != '') {
@@ -155,6 +162,7 @@ class Lexer extends DependencyInstance
         }
 
         return $node;
+
     }
 
 
@@ -166,11 +174,13 @@ class Lexer extends DependencyInstance
      */
     private function addNode($node)
     {
+
         # root nodes
         if ($node->get("info.indent") == 0 || $node->get("info.line") == 1) {
             $node->set("info.parent", false);
             $this->dom->set("nodes." . $this->dom->get("info.line"), $node);
         } else {
+
             $indent     = $node->get("info.indent");
             $prevIndent = $this->dom->get("tmp.prev")->get("info.indent");
 
@@ -188,6 +198,7 @@ class Lexer extends DependencyInstance
             }
 
         }
+
     }
 
 
@@ -200,13 +211,16 @@ class Lexer extends DependencyInstance
      */
     private function addNodeOnDeeperLevel($node)
     {
+
         $node->set("info.parent", $this->dom->get("tmp.prev"));
+
         if ($node->get("info.parent")->get("info.selfclosing")) {
             $tag = $node->get("info.parent")->get("tag.tag");
             throw new TempleException("You can't have children in an $tag!", $this->dom->get("info.file"), $this->dom->get("info.line"));
         } else {
             $this->getChildNodes($this->dom->get("tmp.prev"), $node);
         }
+
     }
 
 
@@ -218,9 +232,11 @@ class Lexer extends DependencyInstance
      */
     private function addNodeOnHigherLevel($node)
     {
+
         $parent = $this->getParentNode($node);
         $node->set("info.parent", $parent);
         $this->getChildNodes($parent, $node);
+
     }
 
 
@@ -232,9 +248,11 @@ class Lexer extends DependencyInstance
      */
     private function addNodeOnSameLevel($node)
     {
+
         $parent = $this->dom->get("tmp.prev")->get("info.parent");
         $node->set("info.parent", $parent);
         $this->getChildNodes($parent, $node);
+
     }
 
 
@@ -247,9 +265,11 @@ class Lexer extends DependencyInstance
      */
     private function getChildNodes($target, $node)
     {
+
         $children   = $target->get("children");
         $children[] = $node;
         $target->set("children", $children);
+
     }
 
 
@@ -275,6 +295,7 @@ class Lexer extends DependencyInstance
         } else {
             return $this->getParentNode($node, $temp);
         }
+
     }
 
 }

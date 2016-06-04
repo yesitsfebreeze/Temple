@@ -3,10 +3,10 @@
 namespace Temple\Utilities;
 
 
-use Temple\Dependency\DependencyContainer;
 use Temple\Dependency\DependencyInstance;
 use Temple\Exception\ExceptionHandler;
 use Temple\Exception\TempleException;
+
 
 class Config extends DependencyInstance
 {
@@ -14,11 +14,14 @@ class Config extends DependencyInstance
     /** @inheritdoc */
     public function dependencies()
     {
+
         return array();
     }
 
+
     /** @var Storage $config */
     private $config;
+
 
     /**
      * Config constructor.
@@ -37,22 +40,25 @@ class Config extends DependencyInstance
      */
     public function addConfigFile($file)
     {
-        if (file_exists($file)) {
-            /** @noinspection PhpIncludeInspection */
-            require_once $file;
-            if (isset($config)) {
-                if (sizeof($config) > 0) {
-                    $this->config->merge($config);
-                    if ($this->config->has("errorhandler") && $this->config->get("errorhandler")) {
-                        $this->config->set("errorhandler", new ExceptionHandler());
-                    }
-                }
-            } else {
-                throw new TempleException('You must declare an "$config" array!', $file);
-            }
-        } else {
+
+        if (!file_exists($file)) {
             throw new TempleException("Can't find the config file!", $file);
         }
+
+        /** @noinspection PhpIncludeInspection */
+        require_once $file;
+
+        if (!isset($config)) {
+            throw new TempleException('You must declare an "$config" array!', $file);
+        }
+
+        if (sizeof($config) > 0) {
+            $this->config->merge($config);
+            if ($this->config->has("errorhandler") && $this->config->get("errorhandler")) {
+                $this->config->set("errorhandler", new ExceptionHandler());
+            }
+        }
+
     }
 
 
@@ -61,7 +67,7 @@ class Config extends DependencyInstance
      * @return mixed
      * @throws TempleException
      */
-    public function get($path = NULL)
+    public function get($path = null)
     {
         return $this->config->get($path);
     }

@@ -37,8 +37,8 @@ class DependencyContainer
             $this->setDependencies($instance, $dependencies);
 
             # register the instance in our container
-            $name = $this->cleanClassNamespace($instance);
-            $this->dependencies[$name] = $instance;
+            $name                        = $this->cleanClassNamespace($instance);
+            $this->dependencies[ $name ] = $instance;
 
             return $instance;
         }
@@ -56,12 +56,13 @@ class DependencyContainer
      */
     public function getInstance($name)
     {
-        if (isset($this->dependencies[$name])) {
-            return $this->dependencies[$name];
+        if (isset($this->dependencies[ $name ])) {
+            return $this->dependencies[ $name ];
         } else {
             throw new TempleException("Dependency Management: " . "$name is not instantiated yet.");
         }
     }
+
 
     /**
      * adds a list of dependencies to an instance
@@ -84,14 +85,14 @@ class DependencyContainer
 
     /**
      * @param DependencyInterface $instance
-     * @param string $dependency
-     * @param $name
+     * @param string              $dependency
+     * @param                     $name
      * @throws TempleException
      */
     private function setDependency(DependencyInterface &$instance, $dependency, $name)
     {
-        if (isset($this->dependencies[$dependency])) {
-            $instance->setDependency($name, $this->dependencies[$dependency]);
+        if (isset($this->dependencies[ $dependency ])) {
+            $instance->setDependency($name, $this->dependencies[ $dependency ]);
         } else {
             throw new TempleException("Dependency Management: " . $dependency . " instance does't exist.", get_class($instance));
         }
@@ -109,6 +110,7 @@ class DependencyContainer
         $name = get_class($instance);
         $name = str_replace("\\", "/", $name);
         $name = str_replace($this->rootNameSpace . "/", "", $name);
+
         return $name;
     }
 

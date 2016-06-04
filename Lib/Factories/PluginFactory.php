@@ -7,6 +7,7 @@ use Temple\Nodes\BaseNode;
 use Temple\Repositories\StorageRepository;
 use Temple\Services\PluginInitService;
 
+
 /**
  * Class configFactory
  *
@@ -36,7 +37,7 @@ class PluginFactory extends Factory
         if (class_exists($class)) {
             return $class;
         } else {
-            return NULL;
+            return null;
         }
     }
 

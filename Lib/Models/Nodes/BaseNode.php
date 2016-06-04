@@ -6,8 +6,9 @@ namespace Temple\Models\Nodes;
 // todoo: add find method, maybe even to storage
 
 use Temple\Exceptions\TempleException;
-use Temple\Repositories\StorageRepository;
 use Temple\Services\ConfigService;
+use Temple\Utilities\Storage;
+
 
 /**
  * all BaseNode defaults are set here
@@ -15,7 +16,7 @@ use Temple\Services\ConfigService;
  *
  * @package Temple
  */
-class BaseNode extends StorageRepository
+class BaseNode extends Storage
 {
 
 

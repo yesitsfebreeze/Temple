@@ -2,11 +2,14 @@
 
 namespace Temple\Factories;
 
+
 use Temple\Exceptions\TempleException;
 use Temple\Interfaces\FactoryInterface;
 
+
 /**
  * Class configFactory
+ *
  * @package Contentmanager\Services
  */
 abstract class Factory implements FactoryInterface
@@ -26,6 +29,7 @@ abstract class Factory implements FactoryInterface
 
         return null;
     }
+
 
     /**
      * @param string $class
@@ -55,6 +59,7 @@ abstract class Factory implements FactoryInterface
         }
     }
 
+
     /**
      * replaces all "$char" characters and the following character with the according uppercase character
      *
@@ -64,13 +69,14 @@ abstract class Factory implements FactoryInterface
      */
     protected function cleanClassName($class, $char)
     {
-        $char = preg_quote($char);
+        $char  = preg_quote($char);
         $class = preg_replace_callback('@' . $char . '+(\w)@',
             function ($matches) {
                 return strtoupper($matches[1]);
             },
             $class
         );
+
         return $class;
     }
 

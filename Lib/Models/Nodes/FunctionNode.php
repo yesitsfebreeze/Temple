@@ -37,6 +37,7 @@ class FunctionNode extends BaseNode
     protected function attributes($line)
     {
         $attributes = array();
+
         return $attributes;
     }
 }

@@ -5,6 +5,7 @@ namespace Temple\Utilities;
 
 use Temple\Exception\TempleException;
 
+
 /**
  * this class handles all data storage
  * Class Storage
@@ -26,9 +27,7 @@ class Storage
     public function set($path, $value)
     {
         try {
-            $this->setter($path, $value);
-
-            return true;
+            return $this->setter($path, $value);
         } catch (\Exception $e) {
             return false;
         }
@@ -42,7 +41,7 @@ class Storage
      * @return mixed
      * @throws TempleException
      */
-    public function get($path = NULL)
+    public function get($path = null)
     {
         try {
             return $this->getter($path);
@@ -60,15 +59,16 @@ class Storage
      */
     public function merge($array)
     {
-        if (is_array($array)) {
-            foreach ($array as $key => $val) {
-                # this overrides all set keys in the config
-                # with the ones from the array
-                $this->storage[ $key ] = $val;
-            }
-        } else {
+        if (!is_array($array)) {
             throw new TempleException("Cannot merge, no array was given!");
         }
+
+        foreach ($array as $key => $val) {
+            # this overrides all set keys in the config
+            # with the ones from the array
+            $this->storage[ $key ] = $val;
+        }
+
     }
 
 
@@ -89,16 +89,16 @@ class Storage
             $temp = array();
         }
 
-        if (is_array($temp)) {
-            if (is_array($value)) {
-                $value = array_merge($temp, $value);
-            } else {
-                $value = array_merge($temp, array($value));
-            }
-            $this->set($path, $value);
-        } else {
+        if (!is_array($temp)) {
             throw new TempleException("Can't extend an non array value!");
         }
+
+        if (is_array($value)) {
+            $value = array_merge($temp, $value);
+        } else {
+            $value = array_merge($temp, array($value));
+        }
+        $this->set($path, $value);
 
         return $value;
     }
@@ -113,8 +113,11 @@ class Storage
     public function has($path)
     {
         try {
+
             $this->getter($path);
+
             return true;
+
         } catch (\Exception $e) {
             return false;
         }
@@ -129,7 +132,7 @@ class Storage
      */
     public function delete($path)
     {
-        $this->set($path, NULL);
+        $this->set($path, null);
     }
 
 
@@ -144,7 +147,7 @@ class Storage
      * @param string       $value
      * @return array
      */
-    public function find($attrs, $value = NULL, &$item = NULL)
+    public function find($attrs, $value = null, &$item = null)
     {
         $found    = array();
         $children = false;
@@ -179,7 +182,7 @@ class Storage
      * @param string       $value
      * @return array
      */
-    private function findHelper(&$found, &$item, $attrs, $value = NULL)
+    private function findHelper(&$found, &$item, $attrs, $value = null)
     {
         if (is_array($attrs)) {
             foreach ($attrs as $attr => $value) {
@@ -211,23 +214,24 @@ class Storage
     private function getter($path)
     {
         $storage = $this->storage;
-        if ($path) {
-            $paths = $this->createPath($path);
-            foreach ($paths as $position => $key) {
-                if (!isset($storage[ $key ])) {
-                    # if path is not set throw error
-                    throw new \Exception("Sorry, '{$path}' is undefined!");
-                } else {
-                    # reference back to current key
-                    $storage = $storage[ $key ];
-                }
-            }
-
-            return $storage;
-        } else {
+        if (!$path) {
             # if nothing is defined just return whole config
             return $storage;
         }
+
+        $paths = $this->createPath($path);
+        foreach ($paths as $position => $key) {
+            if (!isset($storage[ $key ])) {
+                # if path is not set throw error
+                throw new \Exception("Sorry, '{$path}' is undefined!");
+            } else {
+                # reference back to current key
+                $storage = $storage[ $key ];
+            }
+        }
+
+        return $storage;
+
     }
 
 
@@ -252,7 +256,7 @@ class Storage
             $parent  = &$storage;
             $storage = &$storage[ $name ];
         }
-        if ($value === NULL) {
+        if ($value === null) {
             unset($parent[ $name ]);
         } else {
             $storage = $value;

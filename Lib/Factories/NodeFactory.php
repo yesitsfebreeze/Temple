@@ -5,6 +5,7 @@ namespace Temple\Factories;
 
 use Temple\Services\ConfigService;
 
+
 /**
  * Class configFactory
  *
@@ -33,7 +34,7 @@ class NodeFactory extends Factory
             return new $class($this->config);
         }
 
-        return NULL;
+        return null;
     }
 
 
@@ -65,7 +66,7 @@ class NodeFactory extends Factory
         if (class_exists($class)) {
             return $class;
         } else {
-            return NULL;
+            return null;
         }
     }
 

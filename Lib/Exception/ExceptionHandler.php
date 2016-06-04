@@ -18,10 +18,10 @@ class ExceptionHandler
     public function __construct()
     {
 
-        /** @var $originalHandler */
-        $originalHandler = set_exception_handler(NULL);
+        $originalHandler = set_exception_handler(null);
 
         set_exception_handler(function ($Exception) use (&$originalHandler) {
+
             if ($Exception instanceof TempleException) {
                 new ExceptionTemplate($Exception);
             } elseif (is_callable($originalHandler)) {
@@ -30,6 +30,7 @@ class ExceptionHandler
 
             throw $Exception;
         });
+
     }
 
 }

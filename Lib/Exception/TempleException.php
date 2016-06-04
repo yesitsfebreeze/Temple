@@ -18,7 +18,7 @@ class TempleException extends \Exception
     private $TempleLine;
 
 
-    public function __construct($message = "", $file = false, $line = false, $code = 0, \Exception $previous = NULL)
+    public function __construct($message = "", $file = false, $line = false, $code = 0, \Exception $previous = null)
     {
 
         # if we'v passed an exception, translate its values to the new one

@@ -13,9 +13,9 @@ use Temple\Utilities\Storage;
  */
 class Variables extends Storage
 {
-    public function set($path,$value,$cached = false)
+    public function set($path, $value, $cached = false)
     {
         // TODO: cache per session or cookie
-        parent::set($path,$value);
+        parent::set($path, $value);
     }
 }
