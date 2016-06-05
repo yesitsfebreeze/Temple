@@ -63,7 +63,7 @@ class Plugin implements PluginInterface
      */
     public function getName()
     {
-        return strrev(explode("\\", strrev(get_class($this))));
+        return strrev(explode("\\",strrev(get_class($this)))[0]);
     }
 
 

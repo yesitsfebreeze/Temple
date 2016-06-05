@@ -7,6 +7,7 @@ use Temple\Dependency\DependencyInstance;
 use Temple\Instance;
 use Temple\Models\Dom\Dom;
 use Temple\Models\Nodes\BaseNode;
+use Temple\Models\Plugins\Plugin;
 use Temple\Utilities\Config;
 use Temple\Utilities\Directories;
 
@@ -158,7 +159,13 @@ class Plugins extends DependencyInstance
     private function processNode(BaseNode $node)
     {
         $plugins = $this->PluginFactory->getPluginsForNode($node);
-        var_dump($plugins);
+        foreach ($plugins as $plugin) {
+            /** @var Plugin $p */
+            foreach ($plugin as $p) {
+                $node = $p->process($node);
+            }
+        }
+
         return $node;
     }
 

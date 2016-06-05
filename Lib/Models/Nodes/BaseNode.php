@@ -30,14 +30,9 @@ class BaseNode extends Storage
     }
 
 
-    /**
-     * returns the node name
-     *
-     * @return string
-     */
-    public function getName()
+    public function isFunction()
     {
-        return strtolower(str_replace("Node", "", array_reverse(explode("\\", get_class($this)))[0]));
+        return false;
     }
 
 

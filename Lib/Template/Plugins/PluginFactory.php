@@ -82,14 +82,28 @@ class PluginFactory extends BaseFactory
      */
     public function getPluginsForNode(BaseNode $node)
     {
-        $plugins = array();
-        $tag     = $node->get("tag.tag");
-        $name    = $node->getName();
-        var_dump($tag);
-        var_dump($name);
-        debug();
+        $plugins  = array();
+        $tag      = $node->get("tag.tag");
+        $function = $node->isFunction();
+        if ($function) {
+            $allContainer = $this->plugins->get("functions.all");
+            if ($this->plugins->has("functions." . $tag)) {
+                $tagContainer = $this->plugins->get("functions." . $tag);
+            } else {
+                $tagContainer = array();
+            }
+        } else {
+            $allContainer = $this->plugins->get("plugins.all");
+            if ($this->plugins->has("plugins." . $tag)) {
+                $tagContainer = $this->plugins->get("plugins." . $tag);
+            } else {
+                $tagContainer = array();
+            }
+        }
 
-        return array();
+        $container = array_merge($allContainer, $tagContainer);
+
+        return $container;
     }
 
 
@@ -168,7 +182,7 @@ class PluginFactory extends BaseFactory
     {
         $pluginName = $this->getNamespace($path, $name);
         /** @var Plugin $plugin */
-        $plugin     = new $pluginName($this->Temple);
+        $plugin = new $pluginName($this->Temple);
         $this->addPlugin($plugin, $path);
     }
 
@@ -198,27 +212,53 @@ class PluginFactory extends BaseFactory
      * @param Plugin $plugin
      * @param string $path
      * @return Storage
+     * @throws TempleException
      */
     private function addPlugin($plugin, $path)
     {
+        $container = "plugins";
+
         $position   = $plugin->position();
         $isFunction = $plugin->isFunction();
         $forTags    = $plugin->forTags();
-        
-        var_dump($position);
-        var_dump($isFunction);
-        var_dump($forTags);
-        var_dump($path);
-        var_dump("static functions :D");
-        debug();
+        $name       = $plugin->getName();
 
-//        if (!is_int($position)) {
-//            throw new TempleException("The plugins '" . $pluginName . "' method 'position' has to return an integer");
-//        }
-        
-//        $this->plugins->set($position . "." . $path, $plugin);
+        if (!is_int($position)) {
+            throw new TempleException("Please set a position for the plugin '$name'");
+        }
 
-//        return $this->plugins;
+        if (empty($forTags)) {
+            $forTags = array("all");
+        }
+
+        if ($isFunction) {
+            $container = "functions";
+        }
+
+
+        foreach ($forTags as $tag) {
+            $tagContainer = $container . "." . $tag;
+
+            if (!$this->plugins->has($tagContainer)) {
+                $this->plugins->set($tagContainer, array());
+            }
+
+            $positionContainer = $tagContainer . "." . $position;
+
+            if (!$this->plugins->has($positionContainer)) {
+                $this->plugins->set($positionContainer, array());
+            }
+
+            $endContainer   = $this->plugins->get($positionContainer);
+            $endContainer[] = $plugin;
+            $this->plugins->set($positionContainer, $endContainer);
+
+            $sortContainer = $this->plugins->get($tagContainer);
+            ksort($sortContainer);
+            $this->plugins->set($tagContainer, $sortContainer);
+        }
+
+        return $this->plugins;
     }
 
 }
