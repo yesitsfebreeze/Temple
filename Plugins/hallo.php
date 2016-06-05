@@ -2,11 +2,13 @@
 
 namespace Temple\Plugin;
 
+
 use Temple\Models\Nodes\BaseNode;
 use Temple\Models\Plugins\Plugin;
 
 
-class Hallo extends Plugin {
+class Hallo extends Plugin
+{
 
     public function position()
     {
