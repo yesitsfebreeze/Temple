@@ -182,9 +182,10 @@ class Directories extends DependencyInstance
     private function path($dir)
     {
         if ($dir[0] != "/") {
-            $dir = $this->frameworkDir() . $dir . "/";
+            $dir = $this->frameworkDir() . $dir;
         }
-        $dir = str_replace("/./", "/", $dir);
+        $dir = str_replace("/./", "/", $dir) . "/";
+        $dir = preg_replace("/\/+/", "/", $dir);
 
         return $dir;
     }
@@ -226,28 +227,12 @@ class Directories extends DependencyInstance
      */
     private function validate($dir)
     {
-        if ($dir[0] != "/") $dir = $this->root() . $dir . "/";
+        $dir = $this->path($dir);
         if (is_dir($dir)) return $dir;
 
         throw new TempleException("Cannot add directory because it does not exist, please create it.", $dir);
     }
 
-
-    /**
-     * gets the current document root
-     *
-     * @return string
-     */
-    private function root()
-    {
-        $root = $_SERVER["DOCUMENT_ROOT"] . "/";
-        if ($this->Config->has("subfolder")) {
-            $root = $root . $this->Config->get("subfolder") . "/";
-        }
-        $root = preg_replace("/\/+/", "/", $root);
-
-        return $root;
-    }
 
 
     /**
