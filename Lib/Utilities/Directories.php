@@ -43,7 +43,7 @@ class Directories extends DependencyInstance
         $dir  = $this->validate($dir);
         $dirs = $this->get($type);
         $type = "dirs." . $type;
-        $dir = $this->addHandler($type, $dirs, $dir);
+        $dir  = $this->addHandler($type, $dirs, $dir);
 
         return $dir;
 
@@ -137,14 +137,14 @@ class Directories extends DependencyInstance
             if (!$dir) {
                 return false;
             }
-            $dir  = $this->path($dir);
+            $dir = $this->path($dir);
 
             # always add a trailing space
-            if (strrev($dir)[0] != "/")  {
+            if (strrev($dir)[0] != "/") {
                 $dir = $dir . "/";
             }
 
-            array_unshift($dirs,$dir);
+            array_unshift($dirs, $dir);
 
             $this->Config->set($name, $dirs);
 
@@ -182,9 +182,9 @@ class Directories extends DependencyInstance
     private function path($dir)
     {
         if ($dir[0] != "/") {
-            $dir       = $this->frameworkDir() . $dir . "/";
+            $dir = $this->frameworkDir() . $dir . "/";
         }
-        $dir = str_replace("/./","/",$dir);
+        $dir = str_replace("/./", "/", $dir);
 
         return $dir;
     }
@@ -241,6 +241,11 @@ class Directories extends DependencyInstance
     private function root()
     {
         $root = $_SERVER["DOCUMENT_ROOT"] . "/";
+        if ($this->Config->has("subfolder")) {
+            $root = $root . $this->Config->get("subfolder") . "/";
+        }
+        $root = preg_replace("/\/+/", "/", $root);
+
         return $root;
     }
 

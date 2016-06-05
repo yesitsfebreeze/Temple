@@ -51,10 +51,13 @@ class Instance
 
     /**
      * Instance constructor.
+     * takes config path
+     *
+     * @param null $config
      */
-    public function __construct()
+    public function __construct($config = null)
     {
-        $this->instantiate();
+        $this->instantiate($config);
 
         return $this;
     }
@@ -101,9 +104,11 @@ class Instance
 
 
     /**
+     * @param string $config
      * @throws TempleException
+     * @return bool
      */
-    private function instantiate()
+    private function instantiate($config)
     {
         $this->container = new DependencyContainer();
 
@@ -124,7 +129,13 @@ class Instance
         $this->Plugins->PluginFactory->setDirectories($this->Directories);
 
         # Setup
+
         $this->Config->addConfigFile(__DIR__ . "/config.php");
+
+        if (file_exists($config)) {
+            $this->Config->addConfigFile($config);
+        }
+
         $this->Plugins->addDirectory(__DIR__ . "/Plugins");
         $this->Cache->setDirectory($this->Config->get("dirs.cache"));  # that is wrong
 

@@ -1,6 +1,7 @@
 <?php
 
 $config = array(
+    "subfolder" => null,
     "errorhandler" => true,
     "dirs" => [
         "cache" => "./Cache",
@@ -8,7 +9,7 @@ $config = array(
         "plugins" => [],
     ],
     "cache" => [
-        "enable" => false
+        "enable" => true
     ],
     "template" => [
         "indent" => [
