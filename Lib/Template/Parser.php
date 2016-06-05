@@ -85,7 +85,7 @@ class Parser extends DependencyInstance
     {
         if ($node->get("info.display") && $node->get("tag.display") && $node->get("tag.opening.display")) {
             $output .= $node->get("tag.opening.before");
-            $output .= $node->get("tag.opening.tag");
+            $output .= $node->get("tag.opening.name");
             $output = $this->createAttributes($node, $output);
             $output .= $node->get("tag.opening.after");
         }
@@ -113,7 +113,7 @@ class Parser extends DependencyInstance
             return $output;
         }
 
-        if ($node->get("tag.opening.tag") != "") {
+        if ($node->get("tag.opening.name") != "") {
             $output .= " ";
         }
 
@@ -164,7 +164,7 @@ class Parser extends DependencyInstance
     {
         if ($node->has("children")) {
             if ($node->get("info.selfclosing")) {
-                throw new TempleException("You can't have children in an " . $node->get("tag.tag") . "!", $node->get("file"), $node->get("line"));
+                throw new TempleException("You can't have children in an " . $node->get("tag.name") . "!", $node->get("file"), $node->get("line"));
             }
 
             $children = new Dom();
@@ -189,7 +189,7 @@ class Parser extends DependencyInstance
         if ($node->get("info.display") && $node->get("tag.closing.display") && $node->get("tag.display")) {
             if (!$node->get("info.selfclosing")) {
                 $output .= $node->get("tag.closing.before");
-                $output .= $node->get("tag.closing.tag");
+                $output .= $node->get("tag.closing.name");
                 $output .= $node->get("tag.closing.after");
             }
         }

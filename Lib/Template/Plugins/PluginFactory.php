@@ -82,8 +82,7 @@ class PluginFactory extends BaseFactory
      */
     public function getPluginsForNode(BaseNode $node)
     {
-        $plugins  = array();
-        $tag      = $node->get("tag.tag");
+        $tag      = $node->get("tag.name");
         $function = $node->isFunction();
         if ($function) {
             $allContainer = $this->plugins->get("functions.all");

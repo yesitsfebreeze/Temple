@@ -107,18 +107,18 @@ class BaseNode extends Storage
         preg_match("/^(.*?)(?:$| )/", trim($line), $tagname);
         $tagname = trim($tagname[0]);
 
-        $tag["tag"]     = $tagname;
+        $tag["name"]     = $tagname;
         $tag["display"] = true;
         $tag["opening"] = array();
 
         $tag["opening"]["display"] = true;
         $tag["opening"]["before"]  = $this->Config->get("template.tag.opening.before");
-        $tag["opening"]["tag"]     = $tagname;
+        $tag["opening"]["name"]     = $tagname;
         $tag["opening"]["after"]   = $this->Config->get("template.tag.opening.after");
 
         $tag["closing"]["display"] = true;
         $tag["closing"]["before"]  = $this->Config->get("template.tag.closing.before");
-        $tag["closing"]["tag"]     = $tagname;
+        $tag["closing"]["name"]     = $tagname;
         $tag["closing"]["after"]   = $this->Config->get("template.tag.closing.after");
 
         return $tag;
@@ -134,7 +134,7 @@ class BaseNode extends Storage
     protected function attributes($line)
     {
         # replace the tag from the beginning of the line and then trim the string
-        $tag        = preg_quote($this->get("tag.tag"));
+        $tag        = preg_quote($this->get("tag.name"));
         $attributes = trim(preg_replace("/^" . $tag . "/", "", trim($line)));
         $attributes = explode(">", $attributes);
         $attributes = explode(" ", $attributes[0]);
@@ -163,7 +163,7 @@ class BaseNode extends Storage
     private function selfclosing()
     {
         # check if our tag is in the self closing array set in the config
-        if (in_array($this->get("tag.tag"), $this->Config->get("parser.self closing"))) return true;
+        if (in_array($this->get("tag.name"), $this->Config->get("parser.self closing"))) return true;
 
         return false;
     }

@@ -198,7 +198,7 @@ class Lexer extends DependencyInstance
         $node->set("info.file", $this->dom->get("info.file"));
         $node->set("info.getParentNode", "test");
 
-        if (!$node->has("tag.tag")) {
+        if (!$node->has("tag.name")) {
             throw new TempleException("Node models must have a tag!", $this->dom->get("info.file"), $this->dom->get("info.line"));
         }
 
@@ -259,7 +259,7 @@ class Lexer extends DependencyInstance
     {
         $node->set("info.parent", $this->dom->get("tmp.prev"));
         if ($node->get("info.parent")->get("info.selfclosing")) {
-            $tag = $node->get("info.parent")->get("tag.tag");
+            $tag = $node->get("info.parent")->get("tag.name");
             throw new TempleException("You can't have children in an $tag tag!", $this->dom->get("info.file"), $this->dom->get("info.line"));
         }
 
