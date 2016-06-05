@@ -87,7 +87,7 @@ class ExceptionTemplate
     private function colorFilePath($file)
     {
 
-        if (strpos($file, ".") == false) {
+        if (!file_exists($file)) {
             return "<span class='colored'>" . $file . "</span>";
         }
 
