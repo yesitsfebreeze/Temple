@@ -57,7 +57,7 @@ class Instance
      */
     public function __construct($config = null)
     {
-        $this->instantiate($config);
+        $this->prepare($config);
 
         return $this;
     }
@@ -108,7 +108,7 @@ class Instance
      * @throws TempleException
      * @return bool
      */
-    private function instantiate($config)
+    private function prepare($config)
     {
         $this->container = new DependencyContainer();
 
