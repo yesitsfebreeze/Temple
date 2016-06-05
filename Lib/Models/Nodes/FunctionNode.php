@@ -29,10 +29,16 @@ class FunctionNode extends BaseNode
     }
 
 
+    public function isFunction()
+    {
+        return true;
+    }
+
+
     /**
      * @param string $line
      * @return array|string
-     * @throws \Temple\Exceptions\TempleException
+     * @throws \Temple\Exception\TempleException
      */
     protected function attributes($line)
     {
