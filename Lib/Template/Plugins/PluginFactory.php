@@ -20,14 +20,23 @@ use Temple\Utilities\Storage;
 class PluginFactory extends BaseFactory
 {
 
+    /** @var  Directories $Directories */
+    protected $Directories;
+
+    public function dependencies()
+    {
+        return array(
+            "Utilities/Directories"    => "Directories"
+        );
+    }
+
+
     /** @var  Storage $plugins */
     private $plugins;
 
     /** @var  Instance $Temple */
     private $Temple;
 
-    /** @var  Directories $Directories */
-    private $Directories;
 
 
     /**

@@ -27,6 +27,12 @@ class Instance
     /** @var  DependencyContainer $container */
     private $container;
 
+    /** @var  NodeFactory $NodeFactory */
+    private $NodeFactory;
+
+    /** @var  PluginFactory $PluginFactory */
+    private $PluginFactory;
+
     /** @var Config $Config */
     private $Config;
 
@@ -112,32 +118,25 @@ class Instance
     {
         $this->container = new DependencyContainer();
 
-        # Utilities
-        $this->Config      = $this->container->registerDependency(new Config());
-        $this->Directories = $this->container->registerDependency(new Directories());
-
-        # Template
-        $this->Plugins  = $this->container->registerDependency(new Plugins(new PluginFactory()));
-        $this->Parser   = $this->container->registerDependency(new Parser());
-        $this->Lexer    = $this->container->registerDependency(new Lexer(new NodeFactory()));
-        $this->Cache    = $this->container->registerDependency(new Cache());
-        $this->Template = $this->container->registerDependency(new Template());
+        $this->Config        = $this->container->registerDependency(new Config());
+        $this->Directories   = $this->container->registerDependency(new Directories());
+        $this->NodeFactory   = $this->container->registerDependency(new NodeFactory());
+        $this->PluginFactory = $this->container->registerDependency(new PluginFactory());
+        $this->Plugins       = $this->container->registerDependency(new Plugins());
+        $this->Parser        = $this->container->registerDependency(new Parser());
+        $this->Lexer         = $this->container->registerDependency(new Lexer());
+        $this->Cache         = $this->container->registerDependency(new Cache());
+        $this->Template      = $this->container->registerDependency(new Template());
 
         # this is the only place were a dependency setter is used
         # the whole instance will be passed into the plugins
-        $this->Plugins->PluginFactory->setInstance($this);
-        $this->Plugins->PluginFactory->setDirectories($this->Directories);
+        $this->PluginFactory->setInstance($this);
 
         # Setup
-
         $this->Config->addConfigFile(__DIR__ . "/config.php");
-
-        if (file_exists($config)) {
-            $this->Config->addConfigFile($config);
-        }
-
+        if (file_exists($config)) $this->Config->addConfigFile($config);
         $this->Plugins->addDirectory(__DIR__ . "/Plugins");
-        $this->Cache->setDirectory($this->Config->get("dirs.cache"));  # that is wrong
+        $this->Cache->setDirectory($this->Config->get("dirs.cache"));
 
         return true;
     }

@@ -3,6 +3,7 @@
 namespace Temple\Utilities;
 
 
+use Temple\Dependency\DependencyInstance;
 use Temple\Exception\TempleException;
 
 
@@ -11,7 +12,7 @@ use Temple\Exception\TempleException;
  *
  * @package Contentmanager\Services
  */
-abstract class BaseFactory implements FactoryInterface
+abstract class BaseFactory extends DependencyInstance implements FactoryInterface
 {
 
     /**

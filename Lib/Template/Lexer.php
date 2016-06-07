@@ -25,6 +25,9 @@ class Lexer extends DependencyInstance
     /** @var  Directories $Directories */
     protected $Directories;
 
+    /** @var  NodeFactory $NodeFactory */
+    protected $NodeFactory;
+
 
     /**
      * @return array
@@ -33,7 +36,8 @@ class Lexer extends DependencyInstance
     {
         return array(
             "Utilities/Config"      => "Config",
-            "Utilities/Directories" => "Directories"
+            "Utilities/Directories" => "Directories",
+            "Template/NodeFactory" => "NodeFactory"
         );
     }
 
@@ -44,14 +48,6 @@ class Lexer extends DependencyInstance
     /** @var int $level */
     private $level;
 
-    /** @var  NodeFactory $NodeFactory */
-    private $NodeFactory;
-
-
-    public function __construct(NodeFactory $NodeFactory)
-    {
-        $this->NodeFactory = $NodeFactory;
-    }
 
 
     /**
@@ -187,10 +183,7 @@ class Lexer extends DependencyInstance
     private function createNode($line)
     {
 
-        # do i really need a factory here?
-        $this->NodeFactory->addConfig($this->Config);
         $node = $this->NodeFactory->create($line);
-
         $node->createNode($line);
         $node->set("info.namespace", $this->dom->get("info.namespace"));
         $node->set("info.level", $this->dom->get("info.level"));

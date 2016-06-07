@@ -16,15 +16,16 @@ use Temple\Utilities\Config;
 class NodeFactory extends BaseFactory
 {
 
-
     /** @var Config $Config */
-    private $Config;
+    protected $Config;
 
-
-    public function addConfig($config)
+    public function dependencies()
     {
-        $this->Config = $config;
+        return array(
+            "Utilities/Config" => "Config"
+        );
     }
+    
 
 
     /** @inheritdoc */

@@ -36,7 +36,7 @@ class Cache extends DependencyInstance
 
 
     /** @var string $cacheFile */
-    private $cacheFile = ".cache";
+    private $cacheFile = ".base";
 
 
     /**
@@ -333,12 +333,10 @@ class Cache extends DependencyInstance
      */
     private function extension($file)
     {
-        $file             = str_replace("." . $this->Config->get("template.extension"), ".php", $file);
-        $currentExtension = array_reverse(explode(".", $file));
-        $currentExtension = $currentExtension[0];
-        if ($currentExtension != "php") {
-            $file = $file . ".php";
-        }
+        $file = str_replace("." . $this->Config->get("template.extension"), "", $file);
+        $file = str_replace(".cachefile", "", $file);
+        $file = str_replace(".php", "", $file);
+        $file = $file . ".cachefile.php";
 
         return $file;
     }
