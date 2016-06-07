@@ -7,7 +7,6 @@ use Temple\Dependency\DependencyInstance;
 use Temple\Exception\TempleException;
 use Temple\Models\Dom\Dom;
 use Temple\Models\Nodes\BaseNode;
-use Temple\Template\Plugins\Plugins;
 
 
 /**
@@ -18,12 +17,17 @@ use Temple\Template\Plugins\Plugins;
 class Parser extends DependencyInstance
 {
 
+    /** @var  Plugins $Plugins */
+    protected $Plugins;
+
+
     /**
      * @return array
      */
     public function dependencies()
     {
         return array(
+            "Template/Plugins" => "Plugins"
         );
     }
 
@@ -37,6 +41,8 @@ class Parser extends DependencyInstance
     public function parse($dom)
     {
         $output = $this->createOutput($dom);
+        $output = $this->Plugins->processOutput($output);
+
         return $output;
     }
 

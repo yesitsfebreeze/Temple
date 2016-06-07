@@ -4,7 +4,7 @@ namespace Temple\Template;
 
 
 use Temple\Exception\TempleException;
-use Temple\Utilities\BaseFactory;
+use Temple\Utilities\FactoryBase;
 use Temple\Utilities\Config;
 
 
@@ -13,7 +13,7 @@ use Temple\Utilities\Config;
  *
  * @package Contentmanager\Services
  */
-class NodeFactory extends BaseFactory
+class NodeFactory extends FactoryBase
 {
 
     /** @var Config $Config */
@@ -25,7 +25,7 @@ class NodeFactory extends BaseFactory
             "Utilities/Config" => "Config"
         );
     }
-    
+
 
 
     /** @inheritdoc */

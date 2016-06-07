@@ -14,11 +14,19 @@ class Hallo extends Plugin
     {
         return 2;
     }
+    
+    /**
+     * @return bool
+     */
+    public function isPreProcessor(){
+        return true;
+    }
 
 
-    public function process(BaseNode $node)
+    public function process($element)
     {
-        return $node;
+
+        return $element;
     }
 
 }

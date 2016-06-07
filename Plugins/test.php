@@ -15,4 +15,10 @@ class Test extends Plugin
     }
 
 
+    public function isOutputProcessor()
+    {
+        return true;
+    }
+    
+
 }

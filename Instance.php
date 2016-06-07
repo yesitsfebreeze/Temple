@@ -9,8 +9,8 @@ use Temple\Template\Cache;
 use Temple\Template\Lexer;
 use Temple\Template\NodeFactory;
 use Temple\Template\Parser;
-use Temple\Template\Plugins\PluginFactory;
-use Temple\Template\Plugins\Plugins;
+use Temple\Template\PluginFactory;
+use Temple\Template\Plugins;
 use Temple\Template\Template;
 use Temple\Utilities\Config;
 use Temple\Utilities\Directories;
@@ -59,11 +59,12 @@ class Instance
      * Instance constructor.
      * takes config path
      *
-     * @param null $config
+     * @param string|null $config
+     * @param string|null $pluginOrder
      */
-    public function __construct($config = null)
+    public function __construct($config = null, $pluginOrder = null)
     {
-        $this->prepare($config);
+        $this->prepare($config, $pluginOrder);
 
         return $this;
     }
@@ -110,11 +111,12 @@ class Instance
 
 
     /**
-     * @param string $config
+     * @param string|null $config
+     * @param string|null $pluginOrder
      * @throws TempleException
      * @return bool
      */
-    private function prepare($config)
+    private function prepare($config, $pluginOrder)
     {
         $this->container = new DependencyContainer();
 
@@ -135,6 +137,8 @@ class Instance
         # Setup
         $this->Config->addConfigFile(__DIR__ . "/config.php");
         if (file_exists($config)) $this->Config->addConfigFile($config);
+        if (file_exists(__DIR__ . "/pluginOrder.php")) $this->Config->addPluginOrder(__DIR__ . "/pluginOrder.php");
+        if (file_exists($pluginOrder)) $this->Config->addPluginOrder($pluginOrder);
         $this->Plugins->addDirectory(__DIR__ . "/Plugins");
         $this->Cache->setDirectory($this->Config->get("dirs.cache"));
 

@@ -12,7 +12,7 @@ use Temple\Exception\TempleException;
  *
  * @package Contentmanager\Services
  */
-abstract class BaseFactory extends DependencyInstance implements FactoryInterface
+abstract class FactoryBase extends DependencyInstance implements FactoryInterface
 {
 
     /**

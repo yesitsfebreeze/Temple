@@ -1,10 +1,11 @@
 <?php
 
-namespace Temple\Template\Plugins;
+namespace Temple\Template;
 
 
 use Temple\Dependency\DependencyInstance;
 use Temple\Instance;
+use Temple\Models\Nodes\BaseNode;
 use Temple\Utilities\Config;
 use Temple\Utilities\Directories;
 
@@ -31,9 +32,9 @@ class Plugins extends DependencyInstance
     public function dependencies()
     {
         return array(
-            "Utilities/Config"      => "Config",
-            "Utilities/Directories" => "Directories",
-            "Template/Plugins/PluginFactory" => "PluginFactory"
+            "Utilities/Config"       => "Config",
+            "Utilities/Directories"  => "Directories",
+            "Template/PluginFactory" => "PluginFactory"
         );
     }
 
@@ -74,7 +75,7 @@ class Plugins extends DependencyInstance
     {
         return $this->Directories->get("plugins");
     }
-    
+
 
     /**
      * load and install all plugins within the added directories
@@ -97,22 +98,38 @@ class Plugins extends DependencyInstance
      */
     public function getPlugins()
     {
-        return $this->PluginFactory->getPlugins();
+        return $this->PluginFactory->getAllPlugins();
     }
 
 
-    public function preProcess()
+    public function preProcess($element)
+    {
+        return $element;
+    }
+
+
+    public function process($element)
+    {
+        return $element;
+    }
+
+
+    public function processFunctions($element)
     {
 
+        return $element;
     }
 
-    public function process() {
 
-    }
-
-    public function postProcess()
+    public function postProcess($element)
     {
+        return $element;
+    }
 
+
+    public function processOutput($element)
+    {
+        return $element;
     }
 
 

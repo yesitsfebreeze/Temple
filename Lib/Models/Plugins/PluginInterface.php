@@ -3,10 +3,6 @@
 namespace Temple\Models\Plugins;
 
 
-use Temple\Models\Dom\Dom;
-use Temple\Models\Nodes\BaseNode;
-
-
 /**
  * Class Plugins
  *
@@ -16,21 +12,45 @@ interface PluginInterface
 {
 
     /**
-     * @return int
+     * @return integer
      */
-    function position();
+    public function position();
+
+
+    /**
+     * @return string
+     */
+    public function getName();
 
 
     /**
      * @return bool
      */
-    function isFunction();
+    public function isFunction();
 
 
     /**
-     * @return array
+     * @return bool
      */
-    function forTags();
+    public function isPreProcessor();
+
+
+    /**
+     * @return bool
+     */
+    public function isProcessor();
+
+
+    /**
+     * @return bool
+     */
+    public function isPostProcessor();
+
+
+    /**
+     * @return bool
+     */
+    public function isOutputProcessor();
 
 
 }

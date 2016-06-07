@@ -28,6 +28,9 @@ class Lexer extends DependencyInstance
     /** @var  NodeFactory $NodeFactory */
     protected $NodeFactory;
 
+    /** @var  Plugins $Plugins */
+    protected $Plugins;
+
 
     /**
      * @return array
@@ -37,7 +40,8 @@ class Lexer extends DependencyInstance
         return array(
             "Utilities/Config"      => "Config",
             "Utilities/Directories" => "Directories",
-            "Template/NodeFactory" => "NodeFactory"
+            "Template/NodeFactory"  => "NodeFactory",
+            "Template/Plugins"      => "Plugins"
         );
     }
 
@@ -47,7 +51,6 @@ class Lexer extends DependencyInstance
 
     /** @var int $level */
     private $level;
-
 
 
     /**
@@ -66,7 +69,7 @@ class Lexer extends DependencyInstance
         $file        = $this->getTemplateFile($file, $level);
         $this->createNewDom($namespace, $file, $files);
         $this->process($file);
-
+        $this->dom = $this->Plugins->postProcess($this->dom);
         return $this->dom;
 
     }
@@ -160,6 +163,7 @@ class Lexer extends DependencyInstance
         $handle = fopen($file, "r");
         while (($line = fgets($handle)) !== false) {
             if (trim($line) != '') {
+                $line = $this->Plugins->preProcess($line);
                 $node = $this->createNode($line);
                 $this->addNode($node);
                 $this->dom->set("tmp.prev", $node);
@@ -182,7 +186,7 @@ class Lexer extends DependencyInstance
      */
     private function createNode($line)
     {
-
+        /** @var BaseNode $node */
         $node = $this->NodeFactory->create($line);
         $node->createNode($line);
         $node->set("info.namespace", $this->dom->get("info.namespace"));
@@ -194,6 +198,13 @@ class Lexer extends DependencyInstance
         if (!$node->has("tag.name")) {
             throw new TempleException("Node models must have a tag!", $this->dom->get("info.file"), $this->dom->get("info.line"));
         }
+
+        if ($node->isFunction()) {
+            $node = $this->Plugins->processFunctions($node);
+        } else {
+            $node = $this->Plugins->process($node);
+        }
+
 
         return $node;
     }

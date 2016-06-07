@@ -2,7 +2,7 @@
 
 $config = array(
     "subfolder" => null,
-    "errorhandler" => true,
+    "errorHandler" => true,
     "dirs" => [
         "cache" => "./Cache",
         "template" => [],

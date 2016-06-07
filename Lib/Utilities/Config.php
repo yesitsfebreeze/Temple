@@ -55,11 +55,39 @@ class Config extends DependencyInstance
 
         if (sizeof($config) > 0) {
             $this->config->merge($config);
-            if ($this->config->has("errorhandler") && $this->config->get("errorhandler")) {
-                $this->config->set("errorhandler", new ExceptionHandler());
+            if ($this->config->has("errorHandler") && $this->config->get("errorHandler")) {
+                $this->config->set("errorHandler", new ExceptionHandler());
             }
         }
 
+    }
+
+
+    /**
+     * adds the plugin order file to the config and
+     * then returns the result within the config
+     *
+     * @param $file
+     * @return mixed|null
+     * @throws TempleException
+     */
+    public function addPluginOrder($file)
+    {
+
+        if (!file_exists($file)) {
+            throw new TempleException("Can't find the PluginOrder file!", $file);
+        }
+
+        $order = file($file, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+        $order = array("pluginOrder" => $order);
+
+        $this->config->merge($order);
+
+        if ($this->config->has("pluginOrder")) {
+            return $this->config->get("pluginOrder");
+        }
+
+        return null;
     }
 
 

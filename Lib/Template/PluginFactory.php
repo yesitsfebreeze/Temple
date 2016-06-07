@@ -1,15 +1,13 @@
 <?php
 
-namespace Temple\Template\Plugins;
+namespace Temple\Template;
 
 
 use Temple\Exception\TempleException;
 use Temple\Instance;
-use Temple\Models\Nodes\BaseNode;
 use Temple\Models\Plugins\Plugin;
-use Temple\Utilities\BaseFactory;
 use Temple\Utilities\Directories;
-use Temple\Utilities\Storage;
+use Temple\Utilities\FactoryBase;
 
 
 /**
@@ -17,37 +15,26 @@ use Temple\Utilities\Storage;
  *
  * @package Contentmanager\Services
  */
-class PluginFactory extends BaseFactory
+class PluginFactory extends FactoryBase
 {
 
     /** @var  Directories $Directories */
     protected $Directories;
 
+
     public function dependencies()
     {
         return array(
-            "Utilities/Directories"    => "Directories"
+            "Utilities/Directories" => "Directories"
         );
     }
 
 
-    /** @var  Storage $plugins */
-    private $plugins;
+    /** @var  array $plugins */
+    private $plugins = array();
 
     /** @var  Instance $Temple */
     private $Temple;
-
-
-
-    /**
-     * PluginFactory constructor.
-     */
-    public function __construct()
-    {
-        $this->plugins = new Storage();
-        $this->plugins->set("functions", array());
-        $this->plugins->set("plugins", array());
-    }
 
 
     /**
@@ -56,15 +43,6 @@ class PluginFactory extends BaseFactory
     public function setInstance(Instance $Temple)
     {
         $this->Temple = $Temple;
-    }
-
-
-    /**
-     * @param Directories $Directories
-     */
-    public function setDirectories(Directories $Directories)
-    {
-        $this->Directories = $Directories;
     }
 
 
@@ -82,42 +60,6 @@ class PluginFactory extends BaseFactory
         } else {
             return null;
         }
-    }
-
-
-    /**
-     * @param BaseNode $node
-     * @return array
-     */
-    public function getPluginsForNode(BaseNode $node)
-    {
-        $tag      = $node->get("tag.name");
-        $function = $node->isFunction();
-        if ($function) {
-            $allContainer = $this->plugins->get("functions.all");
-            if ($this->plugins->has("functions." . $tag)) {
-                $tagContainer = $this->plugins->get("functions." . $tag);
-            } else {
-                $tagContainer = array();
-            }
-        } else {
-            $allContainer = $this->plugins->get("plugins.all");
-            if ($this->plugins->has("plugins." . $tag)) {
-                $tagContainer = $this->plugins->get("plugins." . $tag);
-            } else {
-                $tagContainer = array();
-            }
-        }
-
-        $container = array_merge($allContainer, $tagContainer);
-
-        return $container;
-    }
-
-
-    public function getPlugins()
-    {
-        return $this->plugins;
     }
 
 
@@ -147,7 +89,34 @@ class PluginFactory extends BaseFactory
 
 
     /**
-     * @param $pluginDir
+     * returns all instantiated plugins within the container
+     *
+     * @param string $container
+     * @return array
+     */
+    public function getPlugins($container)
+    {
+        if (!isset($this->plugins[ $container ])) {
+            return null;
+        }
+
+        return $this->plugins[ $container ];
+    }
+
+
+    /**
+     * returns all instantiated plugins
+     *
+     * @return array
+     */
+    public function getAllPlugins()
+    {
+        return $this->plugins;
+    }
+
+
+    /**
+     * @param string $pluginDir
      */
     private function installPluginsInDir($pluginDir)
     {
@@ -166,7 +135,7 @@ class PluginFactory extends BaseFactory
 
 
     /**
-     * @param              $path
+     * @param string       $path
      * @param \SplFileInfo $file
      */
     private function requirePlugin($path, \SplFileInfo $file)
@@ -190,8 +159,8 @@ class PluginFactory extends BaseFactory
     {
         $pluginName = $this->getNamespace($path, $name);
         /** @var Plugin $plugin */
-        $plugin = new $pluginName($this->Temple);
-        $this->addPlugin($plugin, $path);
+        $Plugin = new $pluginName($this->Temple);
+        $this->addPlugin($Plugin);
     }
 
 
@@ -217,56 +186,63 @@ class PluginFactory extends BaseFactory
 
 
     /**
-     * @param Plugin $plugin
-     * @param string $path
-     * @return Storage
+     * @param Plugin $Plugin
+     * @return array
      * @throws TempleException
      */
-    private function addPlugin($plugin, $path)
+    private function addPlugin(Plugin $Plugin)
     {
-        $container = "plugins";
 
-        $position   = $plugin->position();
-        $isFunction = $plugin->isFunction();
-        $forTags    = $plugin->forTags();
-        $name       = $plugin->getName();
-
-        if (!is_int($position)) {
-            throw new TempleException("Please set a position for the plugin '$name'");
+        $pluginType = $this->validatePlugin($Plugin);
+        if (!isset($this->plugins[ $pluginType ])) {
+            $this->plugins[ $pluginType ] = array();
         }
 
-        if (empty($forTags)) {
-            $forTags = array("all");
-        }
-
-        if ($isFunction) {
-            $container = "functions";
-        }
-
-
-        foreach ($forTags as $tag) {
-            $tagContainer = $container . "." . $tag;
-
-            if (!$this->plugins->has($tagContainer)) {
-                $this->plugins->set($tagContainer, array());
-            }
-
-            $positionContainer = $tagContainer . "." . $position;
-
-            if (!$this->plugins->has($positionContainer)) {
-                $this->plugins->set($positionContainer, array());
-            }
-
-            $endContainer   = $this->plugins->get($positionContainer);
-            $endContainer[] = $plugin;
-            $this->plugins->set($positionContainer, $endContainer);
-
-            $sortContainer = $this->plugins->get($tagContainer);
-            ksort($sortContainer);
-            $this->plugins->set($tagContainer, $sortContainer);
-        }
+        $this->plugins[ $pluginType ][] = $Plugin;
 
         return $this->plugins;
+    }
+
+
+    /**
+     * checks if the plugin is valid and
+     * returns the plugin container type
+     *
+     * @param Plugin $Plugin
+     * @throws TempleException
+     * @return string
+     */
+    private function validatePlugin(Plugin $Plugin)
+    {
+
+        $name     = $Plugin->getName();
+        $position = $Plugin->position();
+
+        if (!$position) {
+            throw new TempleException("Please set a position for the plugin '$name'!");
+        }
+
+        $methods = get_class_methods($Plugin);
+        $types   = array();
+        foreach ($methods as $method) {
+            if (substr($method, 0, 2) == "is") {
+                $types[ $method ] = ($Plugin->$method()) ? 1 : 0;
+            }
+        }
+
+        # creates a duplicate checker for the plugin type
+        $enabled = array_count_values($types);
+
+        if (!isset($enabled[1])) {
+            throw new TempleException("One plugin type method of the plugin '$name' should return true!");
+        }
+
+        if ($enabled[1] > 1) {
+            throw new TempleException("Plugin '$name' has more then one type set to true!");
+        }
+
+        # returns the active container type of the plugin
+        return substr(strtolower(array_flip($types)[1]), 2);
     }
 
 }
