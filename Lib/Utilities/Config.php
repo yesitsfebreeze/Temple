@@ -61,35 +61,7 @@ class Config extends DependencyInstance
         }
 
     }
-
-
-    /**
-     * adds the plugin order file to the config and
-     * then returns the result within the config
-     *
-     * @param $file
-     * @return mixed|null
-     * @throws TempleException
-     */
-    public function addPluginOrder($file)
-    {
-
-        if (!file_exists($file)) {
-            throw new TempleException("Can't find the PluginOrder file!", $file);
-        }
-
-        $order = file($file, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
-        $order = array("pluginOrder" => $order);
-
-        $this->config->merge($order);
-
-        if ($this->config->has("pluginOrder")) {
-            return $this->config->get("pluginOrder");
-        }
-
-        return null;
-    }
-
+    
 
     /**
      * @param null $path

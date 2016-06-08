@@ -3,29 +3,30 @@
 namespace Temple\Plugin;
 
 
-use Temple\Models\Nodes\BaseNode;
-use Temple\Models\Plugins\Plugin;
+use Temple\Models\Plugin\Plugin;
 
 
-class Hallo extends Plugin
+class outputprocessor extends Plugin
 {
 
     public function position()
     {
         return 2;
     }
-    
+
+
     /**
      * @return bool
      */
-    public function isPreProcessor(){
+    public function isOutputProcessor()
+    {
         return true;
     }
 
 
     public function process($element)
     {
-
+//        var_dump("outputprocessor",$element);
         return $element;
     }
 

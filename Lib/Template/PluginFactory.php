@@ -5,7 +5,7 @@ namespace Temple\Template;
 
 use Temple\Exception\TempleException;
 use Temple\Instance;
-use Temple\Models\Plugins\Plugin;
+use Temple\Models\Plugin\Plugin;
 use Temple\Utilities\Directories;
 use Temple\Utilities\FactoryBase;
 
@@ -91,16 +91,19 @@ class PluginFactory extends FactoryBase
     /**
      * returns all instantiated plugins within the container
      *
-     * @param string $container
+     * @param string $name
      * @return array
      */
-    public function getPlugins($container)
+    public function getPlugin($name)
     {
-        if (!isset($this->plugins[ $container ])) {
+
+        # TODO: search for plugins
+
+        if (!isset($this->plugins[ $name ])) {
             return null;
         }
 
-        return $this->plugins[ $container ];
+        return $this->plugins[ $name ];
     }
 
 
@@ -109,9 +112,26 @@ class PluginFactory extends FactoryBase
      *
      * @return array
      */
-    public function getAllPlugins()
+    public function getPlugins()
     {
         return $this->plugins;
+    }
+
+
+    /**
+     * returns all instantiated plugins
+     *
+     * @param string $type
+     * @return array
+     */
+    public function getPluginsByType($type)
+    {
+
+        if (!isset($this->plugins[ $type ])) {
+            return null;
+        }
+
+        return $this->plugins[ $type ];
     }
 
 
@@ -194,11 +214,16 @@ class PluginFactory extends FactoryBase
     {
 
         $pluginType = $this->validatePlugin($Plugin);
+        $position   = $Plugin->position();
         if (!isset($this->plugins[ $pluginType ])) {
             $this->plugins[ $pluginType ] = array();
         }
 
-        $this->plugins[ $pluginType ][] = $Plugin;
+        if (!isset($this->plugins[ $pluginType ][ $position ])) {
+            $this->plugins[ $pluginType ][ $position ] = array();
+        }
+
+        $this->plugins[ $pluginType ][ $position ][] = $Plugin;
 
         return $this->plugins;
     }

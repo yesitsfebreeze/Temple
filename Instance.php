@@ -60,11 +60,10 @@ class Instance
      * takes config path
      *
      * @param string|null $config
-     * @param string|null $pluginOrder
      */
-    public function __construct($config = null, $pluginOrder = null)
+    public function __construct($config = null)
     {
-        $this->prepare($config, $pluginOrder);
+        $this->prepare($config);
 
         return $this;
     }
@@ -96,7 +95,7 @@ class Instance
      */
     public function Plugins()
     {
-        return $this->container->getInstance("Plugins/Plugins");
+        return $this->container->getInstance("Template/Plugins");
     }
 
 
@@ -112,11 +111,10 @@ class Instance
 
     /**
      * @param string|null $config
-     * @param string|null $pluginOrder
      * @throws TempleException
      * @return bool
      */
-    private function prepare($config, $pluginOrder)
+    private function prepare($config)
     {
         $this->container = new DependencyContainer();
 
@@ -137,8 +135,6 @@ class Instance
         # Setup
         $this->Config->addConfigFile(__DIR__ . "/config.php");
         if (file_exists($config)) $this->Config->addConfigFile($config);
-        if (file_exists(__DIR__ . "/pluginOrder.php")) $this->Config->addPluginOrder(__DIR__ . "/pluginOrder.php");
-        if (file_exists($pluginOrder)) $this->Config->addPluginOrder($pluginOrder);
         $this->Plugins->addDirectory(__DIR__ . "/Plugins");
         $this->Cache->setDirectory($this->Config->get("dirs.cache"));
 

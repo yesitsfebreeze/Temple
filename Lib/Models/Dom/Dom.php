@@ -3,8 +3,8 @@
 namespace Temple\Models\Dom;
 
 
-// todoo: add local variable space
-// todoo: add find method
+// TODO: add local variable space
+// TODO: add find method
 use Temple\Utilities\Storage;
 
 

@@ -5,7 +5,7 @@ namespace Temple\Template;
 
 use Temple\Dependency\DependencyInstance;
 use Temple\Instance;
-use Temple\Models\Nodes\BaseNode;
+use Temple\Models\Plugin\Plugin;
 use Temple\Utilities\Config;
 use Temple\Utilities\Directories;
 
@@ -92,45 +92,116 @@ class Plugins extends DependencyInstance
 
 
     /**
-     * returns all registered plugins fot the instance
+     * returns all registered plugins for the instance
      *
      * @throws \Temple\Exception\TempleException
      */
     public function getPlugins()
     {
-        return $this->PluginFactory->getAllPlugins();
+        return $this->PluginFactory->getPlugins();
     }
 
 
+    /**
+     * returns all registered plugins for the instance
+     *
+     * @param string $type
+     * @return array
+     * @throws \Temple\Exception\TempleException
+     */
+    public function getPluginsByType($type)
+    {
+        return $this->PluginFactory->getPluginsByType($type);
+    }
+
+
+    /**
+     * returns a registered plugins depending on the passed name
+     *
+     * @param  string $name ;
+     * @throws \Temple\Exception\TempleException
+     * @return Plugin
+     */
+    public function getPlugin($name)
+    {
+        return $this->PluginFactory->getPlugin($name);
+    }
+
+
+    /**
+     * processes a single line from the template file
+     *
+     * @param $element
+     * @return mixed
+     */
     public function preProcess($element)
     {
-        return $element;
+        return $this->executePlugin("preprocessor", $element);
     }
 
 
+    /**
+     * processes a html node
+     *
+     * @param $element
+     * @return mixed
+     */
     public function process($element)
     {
-        return $element;
+        return $this->executePlugin("processor", $element);
     }
 
 
+    /**
+     * processes a function node
+     *
+     * @param $element
+     * @return mixed
+     */
     public function processFunctions($element)
     {
-
-        return $element;
+        return $this->executePlugin("functions", $element);
     }
 
 
+    /**
+     * processes the dom
+     *
+     * @param $element
+     * @return mixed
+     */
     public function postProcess($element)
     {
-        return $element;
+        return $this->executePlugin("postprocessor", $element);
     }
 
 
+    /**
+     * processes the finished template content
+     *
+     * @param $element
+     * @return mixed
+     */
     public function processOutput($element)
     {
-        return $element;
+        return $this->executePlugin("outputprocessor", $element);
     }
 
+
+    private function executePlugin($type, $element)
+    {
+        $plugins = $this->getPluginsByType($type);
+        if (is_null($plugins)) {
+            return $element;
+        }
+        foreach ($plugins as $positions) {
+            /** @var Plugin $plugin */
+            foreach ($positions as $plugin) {
+                $element = $plugin->process($element);
+            }
+        }
+
+        return $element;
+    }
 
 }

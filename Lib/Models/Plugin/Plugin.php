@@ -1,6 +1,6 @@
 <?php
 
-namespace Temple\Models\Plugins;
+namespace Temple\Models\Plugin;
 
 
 use Temple\Exception\TempleException;

@@ -3,7 +3,7 @@
 namespace Temple\Models\Nodes;
 
 
-// todoo: add find method, maybe even to storage
+// TODO: add find method, maybe even to storage
 
 use Temple\Exception\TempleException;
 use Temple\Utilities\Config;
