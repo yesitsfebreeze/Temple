@@ -7,6 +7,8 @@ use Temple\Dependency\DependencyInstance;
 use Temple\Exception\TempleException;
 use Temple\Models\Dom\Dom;
 use Temple\Models\Nodes\BaseNode;
+use Temple\Models\Nodes\FunctionNode;
+use Temple\Models\Nodes\HtmlNode;
 use Temple\Utilities\Config;
 use Temple\Utilities\Directories;
 
@@ -188,24 +190,16 @@ class Lexer extends DependencyInstance
     {
         /** @var BaseNode $node */
         $node = $this->NodeFactory->create($line);
-        $node->createNode($line);
         $node->set("info.namespace", $this->dom->get("info.namespace"));
         $node->set("info.level", $this->dom->get("info.level"));
         $node->set("info.line", $this->dom->get("info.line"));
         $node->set("info.file", $this->dom->get("info.file"));
-        $node->set("info.getParentNode", "test");
+        $node->createNode($line);
 
-        if (!$node->has("tag.name")) {
+        if (!$node->has("tag.definition")) {
             throw new TempleException("Node models must have a tag!", $this->dom->get("info.file"), $this->dom->get("info.line"));
         }
-
-        if ($node->isFunction()) {
-            $node = $this->Plugins->processFunctions($node);
-        } else {
-            $node = $this->Plugins->process($node);
-        }
-
-
+        
         return $node;
     }
 
@@ -263,7 +257,7 @@ class Lexer extends DependencyInstance
     {
         $node->set("info.parent", $this->dom->get("tmp.prev"));
         if ($node->get("info.parent")->get("info.selfclosing")) {
-            $tag = $node->get("info.parent")->get("tag.name");
+            $tag = $node->get("info.parent")->get("tag.definition");
             throw new TempleException("You can't have children in an $tag tag!", $this->dom->get("info.file"), $this->dom->get("info.line"));
         }
 

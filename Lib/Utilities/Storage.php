@@ -115,7 +115,6 @@ class Storage
         try {
 
             $this->getter($path);
-
             return true;
 
         } catch (\Exception $e) {

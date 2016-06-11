@@ -62,7 +62,7 @@ class ExceptionTemplate
     {
         $file = $this->colorFilePath($this->exception->getTempleFile());
         if ($this->exception->getTempleLine()) {
-            $file .= " on line<span class='colored'>" . $this->exception->getTempleLine() . "</span>";
+            $file .= " on line <span class='colored'>" . $this->exception->getTempleLine() . "</span>";
         }
         $this->template = str_replace("%file%", $file, $this->template);
     }

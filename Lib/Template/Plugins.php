@@ -151,6 +151,10 @@ class Plugins extends DependencyInstance
      */
     public function process($element)
     {
+        if (!$element->get('info.plugins')) {
+            return $element;
+        }
+        
         return $this->executePlugin("processor", $element);
     }
 
