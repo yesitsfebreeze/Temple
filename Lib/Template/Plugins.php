@@ -5,6 +5,9 @@ namespace Temple\Template;
 
 use Temple\Dependency\DependencyInstance;
 use Temple\Instance;
+use Temple\Models\Dom\Dom;
+use Temple\Models\Nodes\FunctionNode;
+use Temple\Models\Nodes\HtmlNode;
 use Temple\Models\Plugin\Plugin;
 use Temple\Utilities\Config;
 use Temple\Utilities\Directories;
@@ -131,8 +134,8 @@ class Plugins extends DependencyInstance
     /**
      * processes a single line from the template file
      *
-     * @param $element
-     * @return mixed
+     * @param string $element
+     * @return string
      */
     public function preProcess($element)
     {
@@ -143,8 +146,8 @@ class Plugins extends DependencyInstance
     /**
      * processes a html node
      *
-     * @param $element
-     * @return mixed
+     * @param HtmlNode $element
+     * @return HtmlNode
      */
     public function process($element)
     {
@@ -155,8 +158,8 @@ class Plugins extends DependencyInstance
     /**
      * processes a function node
      *
-     * @param $element
-     * @return mixed
+     * @param FunctionNode $element
+     * @return FunctionNode
      */
     public function processFunctions($element)
     {
@@ -167,8 +170,8 @@ class Plugins extends DependencyInstance
     /**
      * processes the dom
      *
-     * @param $element
-     * @return mixed
+     * @param Dom $element
+     * @return Dom
      */
     public function postProcess($element)
     {
@@ -179,8 +182,8 @@ class Plugins extends DependencyInstance
     /**
      * processes the finished template content
      *
-     * @param $element
-     * @return mixed
+     * @param string $element
+     * @return string
      */
     public function processOutput($element)
     {
