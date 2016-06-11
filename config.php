@@ -9,7 +9,7 @@ $config = array(
         "plugins" => [],
     ],
     "cache" => [
-        "enable" => true
+        "enable" => false
     ],
     "template" => [
         "indent" => [
