@@ -179,8 +179,10 @@ class PluginFactory extends FactoryBase
     {
         $pluginName = $this->getNamespace($path, $name);
         /** @var Plugin $plugin */
-        $Plugin = new $pluginName($this->Temple);
-        $this->addPlugin($Plugin);
+        if (class_exists($pluginName)) {
+            $Plugin = new $pluginName($this->Temple);
+            $this->addPlugin($Plugin);
+        }
     }
 
 
