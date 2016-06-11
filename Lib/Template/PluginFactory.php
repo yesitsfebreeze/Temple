@@ -97,7 +97,7 @@ class PluginFactory extends FactoryBase
     public function getPlugin($name)
     {
 
-        # TODO: search for plugins
+        // TODO: search for plugins
 
         if (!isset($this->plugins[ $name ])) {
             return null;
@@ -147,7 +147,8 @@ class PluginFactory extends FactoryBase
         foreach ($files as $file) {
             $name = $file->getFilename();
             $full = $file->getRealPath();
-            if ($name !== "." && $name !== ".." && !is_dir($full)) {
+            $extension = $file->getExtension();
+            if ($name !== "." && $name !== ".." && !is_dir($full) && $extension == "php") {
                 $this->requirePlugin($pluginDir, $file);
             }
         }
