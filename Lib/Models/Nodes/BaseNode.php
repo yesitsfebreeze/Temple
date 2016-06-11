@@ -55,7 +55,7 @@ class BaseNode extends Storage
         $this->set("info.indent", $this->indent($line));
         $this->set("info.selfclosing", $this->selfclosing());
 
-        $this->set("info.plain", $line);
+        $this->set("info.plain", str_replace("\n", "", $line));
         $this->set("info.display", true);
         $this->set("info.plugins", true);
 
@@ -107,18 +107,18 @@ class BaseNode extends Storage
         preg_match("/^(.*?)(?:$| )/", trim($line), $tagname);
         $tagname = trim($tagname[0]);
 
-        $tag["name"]     = $tagname;
+        $tag["name"]    = $tagname;
         $tag["display"] = true;
         $tag["opening"] = array();
 
         $tag["opening"]["display"] = true;
         $tag["opening"]["before"]  = $this->Config->get("template.tag.opening.before");
-        $tag["opening"]["name"]     = $tagname;
+        $tag["opening"]["name"]    = $tagname;
         $tag["opening"]["after"]   = $this->Config->get("template.tag.opening.after");
 
         $tag["closing"]["display"] = true;
         $tag["closing"]["before"]  = $this->Config->get("template.tag.closing.before");
-        $tag["closing"]["name"]     = $tagname;
+        $tag["closing"]["name"]    = $tagname;
         $tag["closing"]["after"]   = $this->Config->get("template.tag.closing.after");
 
         return $tag;
