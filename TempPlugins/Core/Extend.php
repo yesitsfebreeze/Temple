@@ -1,13 +1,12 @@
 <?php
 
-namespace Temple\Plugin\Core;
+namespace Temple\Plugin;
 
 
-use Temple\Exceptions\TempleException;
-use Temple\BaseClasses\PluginBaseClass;
+use Temple\Exception\TempleException;
 use Temple\Models\DomModel;
 use Temple\Models\NodeModel;
-
+use Temple\Models\Plugin\Plugin;
 
 
 /**
@@ -19,7 +18,7 @@ use Temple\Models\NodeModel;
  * @author      Stefan Hövelmanns
  * @License     MIT
  */
-class Extend extends PluginBaseClass
+class Extend extends Plugin
 {
 
     /**
@@ -30,17 +29,12 @@ class Extend extends PluginBaseClass
         return 1;
     }
 
-    /** @inheritdoc */
-    public function forTags()
-    {
 
+    public function isProcessor()
+    {
+        return true;
     }
 
-    /** @inheritdoc */
-    public function forNodes()
-    {
-
-    }
 
     /** @var array $blocks */
     private $blockStash = array();
@@ -68,9 +62,8 @@ class Extend extends PluginBaseClass
     /**
      * converts the blocks to comments or completely removes them
      * depending on configuration
-
-*
-*@param NodeModel $node
+     *
+     * @param NodeModel $node
      * @return NodeModel $node
      */
     public function process(NodeModel $node)
@@ -98,15 +91,14 @@ class Extend extends PluginBaseClass
 
     /**
      * handles the extending of templates
-
      *
-*@param DomModel $dom
+     * @param DomModel $dom
      * @return array
      * @throws \Exception
      */
     public function preProcess(DomModel $dom)
     {
-        $this->configService->extend("self_closing","extend");
+        $this->configService->extend("self_closing", "extend");
         # get the first node from the dom
         $nodes = $dom->get("nodes");
         $node  = reset($nodes);
@@ -125,9 +117,8 @@ class Extend extends PluginBaseClass
 
     /**
      * checks if the file has an valid extend tag
-
      *
-*@param NodeModel $node
+     * @param NodeModel $node
      * @return bool|mixed
      * @throws TempleException
      */
@@ -165,9 +156,8 @@ class Extend extends PluginBaseClass
     /**
      * extends the current file and replaces all blocks
      * this will restart the parsing process
-
-*
-*@param DomModel        $dom
+     *
+     * @param DomModel  $dom
      * @param NodeModel $node
      * @return array
      * @throws TempleException
@@ -216,9 +206,8 @@ class Extend extends PluginBaseClass
 
     /**
      * get all extending blocks from our current dom
-
      *
-*@param DomModel $dom
+     * @param DomModel $dom
      * @return array
      * @throws \Exception
      */
@@ -237,12 +226,10 @@ class Extend extends PluginBaseClass
     }
 
 
-
     /**
      * returns the dom of the file which got extended
-
-*
-*@param NodeModel $node
+     *
+     * @param NodeModel $node
      * @return DomModel
      * @throws TempleException
      */
@@ -286,10 +273,9 @@ class Extend extends PluginBaseClass
 
     /**
      * extend all blocks in the current dom
-
      *
-*@param DomModel    $dom
-     * @param array $blocks
+     * @param DomModel $dom
+     * @param array    $blocks
      * @return mixed
      * @throws \Exception
      */
@@ -328,9 +314,8 @@ class Extend extends PluginBaseClass
     /**
      * inserts the node into "block parent" if available
      * and then replaces the node with the block
-
-*
-*@param NodeModel $node
+     *
+     * @param NodeModel $node
      * @param NodeModel $block
      * @return NodeModel
      */

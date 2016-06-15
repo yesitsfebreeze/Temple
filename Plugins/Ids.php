@@ -1,23 +1,22 @@
 <?php
 
-namespace Temple\Plugin\Html;
+namespace Temple\Plugin;
 
 
-use Temple\BaseClasses\PluginBaseClass;
-use Temple\Models\NodeModel;
-
+use Temple\Models\Nodes\HtmlNode;
+use Temple\Models\Plugin\Plugin;
 
 
 /**
  * Class PluginIds
  *
- * @purpose : converts emmet inspired id definition to actual ids
- * @usage   : div#myid#myotherid id="default"
+ * @purpose  : converts emmet inspired id definition to actual ids
+ * @usage    : div#myid#myotherid id="default"
  * @author   : Stefan Hövelmanns - hvlmnns.de
- * @License : MIT
- * @package Temple
+ * @License  : MIT
+ * @package  Temple
  */
-class Ids extends PluginBaseClass
+class Ids extends Plugin
 {
 
     /**
@@ -28,27 +27,21 @@ class Ids extends PluginBaseClass
         return 4;
     }
 
-    /** @inheritdoc */
-    public function forTags()
+
+    public function isProcessor()
     {
-
-    }
-
-    /** @inheritdoc */
-    public function forNodes()
-    {
-
+        return true;
     }
 
 
     /**
-     * @param NodeModel $node
-     * @return NodeModel
+     * @param HtmlNode $node
+     * @return HtmlNode
      * @throws \Exception
      */
-    public function process(NodeModel $node)
+    public function process(HtmlNode $node)
     {
-        $tag = $node->get("tag.tag");
+        $tag     = $node->get("tag.definition");
         $ids = explode("#", $tag);
         if (sizeof($ids) > 1) {
             $ids  = $this->getIds($tag, $ids);
@@ -84,12 +77,12 @@ class Ids extends PluginBaseClass
 
 
     /**
-     * @param NodeModel $node
+     * @param HtmlNode $node
      * @param string    $tag
      * @param array     $ids
      * @return mixed
      */
-    private function updateTag(NodeModel $node, $tag, $ids)
+    private function updateTag(HtmlNode $node, $tag, $ids)
     {
         foreach (explode(" ", $ids) as $id) {
             $tag = str_replace('#' . $id, "", $tag);
@@ -99,38 +92,30 @@ class Ids extends PluginBaseClass
             $tag = $this->createNewTag($node);
         }
 
-        $node->set("tag.tag", $tag);
-        $node->set("tag.opening.tag", $tag);
-        $node->set("tag.closing.tag", $tag);
+        $node->set("tag.definition", $tag);
+        $node->set("tag.opening.definition", $tag);
+        $node->set("tag.closing.definition", $tag);
 
         return $node;
     }
 
 
     /**
-     * @param NodeModel $node
+     * @param HtmlNode $node
      * @param array     $ids
-     * @return NodeModel
+     * @return HtmlNode
      * @throws \Exception
      */
-    private function setAttribute(NodeModel $node, $ids)
+    private function setAttribute(HtmlNode $node, $ids)
     {
+        /** @var HtmlNode $node */
         $attributes = $node->get("attributes");
-        if ($attributes == "") {
-            $attributes = " id='" . $ids . "'";
+        if (sizeof($attributes) == 0) {
+            $attributes["id"] = $ids;
         } else {
-            preg_match("/id=(\"|\').*?(\"|\')/", $attributes, $id);
-            $id = $id[0];
-            if ($id) {
-                $toReplace  = $id;
-                $idEnd      = substr($id, -1);
-                $id         = substr($id, 0, strlen($id) - 1);
-                $id         = $id . ' ' . $ids . $idEnd;
-                $attributes = str_replace($toReplace, $id, $attributes);
-            } else {
-                $attributes = " id='" . $ids . "' " . $attributes;
-            }
+            $attributes["id"] = $attributes["id"] . " " . $ids;
         }
+
         $node->set("attributes", $attributes);
 
         return $node;
@@ -138,19 +123,19 @@ class Ids extends PluginBaseClass
 
 
     /**
-     * @param NodeModel $node
+     * @param HtmlNode $node
      * @return string
      * @throws \Exception
      */
-    private function createNewTag(NodeModel $node)
+    private function createNewTag(HtmlNode $node)
     {
         # check if tag is empty now
         # if so create div or span,
         # depending if we have a block or inline parent element
         $inline = false;
         if ($node->has("parent")) {
-            $parentTag = $node->get("parent")->get("tag.tag");
-            $inline    = in_array($parentTag, $this->configService->get("inline_elements"));
+            $parentTag = $node->get("parent")->get("tag.definition");
+            $inline    = in_array($parentTag, $this->Temple->Config()->get("parser.inline"));
         }
         if ($inline) {
             $tag = "span";

@@ -1,8 +1,8 @@
 <?php
 
-namespace Temple\Plugin\Core;
+namespace Temple\Plugin;
 
-use Temple\BaseClasses\PluginBaseClass;
+use Temple\Models\Plugin\Plugin;
 
 
 /**
@@ -14,7 +14,7 @@ use Temple\BaseClasses\PluginBaseClass;
  * @License : MIT
  * @package Temple
  */
-class Cleanup extends PluginBaseClass
+class Cleanup extends Plugin
 {
 
 
@@ -26,16 +26,10 @@ class Cleanup extends PluginBaseClass
         return 9999999993;
     }
 
-    /** @inheritdoc */
-    public function forTags()
-    {
-        
-    }
 
-    /** @inheritdoc */
-    public function forNodes()
+    public function isOutputProcessor()
     {
-
+        return true;
     }
 
 
@@ -47,7 +41,7 @@ class Cleanup extends PluginBaseClass
      * @param $output
      * @return bool|mixed|string
      */
-    public function processOutput($output)
+    public function process($output)
     {
         $output = $this->prepare($output);
         $output = $this->bufferPhp($output);

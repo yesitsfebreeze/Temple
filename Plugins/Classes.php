@@ -1,23 +1,22 @@
 <?php
 
-namespace Temple\Plugin\Html;
+namespace Temple\Plugin;
 
 
-use Temple\BaseClasses\PluginBaseClass;
-use Temple\Models\NodeModel;
-
+use Temple\Models\Nodes\HtmlNode;
+use Temple\Models\Plugin\Plugin;
 
 
 /**
  * Classes Plugin
  *
- * @description  :converts emmet inspired class definition to actual classes
- * @usage        : div.myclass.myotherclass results in <div class="myclass myotherclass"></div>
- * @author       : Stefan Hövelmanns - hvlmnns.de
- * @License      : MIT
+ * @description  converts emmet inspired class definition to actual classes
+ * @usage        div.myclass.myotherclass results in <div class="myclass myotherclass"></div>
+ * @author       Stefan Hövelmanns - hvlmnns.de
+ * @License      MIT
  * @package      Temple
  */
-class Classes extends PluginBaseClass
+class Classes extends Plugin
 {
 
 
@@ -29,27 +28,21 @@ class Classes extends PluginBaseClass
         return 3;
     }
 
-    /** @inheritdoc */
-    public function forTags()
+
+    public function isProcessor()
     {
-
-    }
-
-    /** @inheritdoc */
-    public function forNodes()
-    {
-
+        return true;
     }
 
 
     /**
-     * @param NodeModel $node
-     * @return NodeModel
+     * @param HtmlNode $node
+     * @return HtmlNode
      * @throws \Exception
      */
-    public function process(NodeModel $node)
+    public function process(HtmlNode $node)
     {
-        $tag     = $node->get("tag.tag");
+        $tag     = $node->get("tag.definition");
         $classes = explode(".", $tag);
         if (sizeof($classes) > 1) {
             $classes = $this->getClasses($tag, $classes);
@@ -57,7 +50,6 @@ class Classes extends PluginBaseClass
             $node    = $this->setAttribute($node, $classes);
         }
 
-        # always return node
         return $node;
     }
 
@@ -86,12 +78,12 @@ class Classes extends PluginBaseClass
 
 
     /**
-     * @param NodeModel $node
-     * @param string    $tag
-     * @param array     $classes
+     * @param HtmlNode $node
+     * @param string   $tag
+     * @param array    $classes
      * @return mixed
      */
-    private function updateTag(NodeModel $node, $tag, $classes)
+    private function updateTag(HtmlNode $node, $tag, $classes)
     {
         foreach (explode(" ", $classes) as $class) {
             $tag = str_replace('.' . $class, "", $tag);
@@ -101,39 +93,30 @@ class Classes extends PluginBaseClass
             $tag = $this->createNewTag($node);
         }
 
-        $node->set("tag.tag", $tag);
-        $node->set("tag.opening.tag", $tag);
-        $node->set("tag.closing.tag", $tag);
+        $node->set("tag.definition", $tag);
+        $node->set("tag.opening.definition", $tag);
+        $node->set("tag.closing.definition", $tag);
 
         return $node;
     }
 
 
     /**
-     * @param NodeModel $node
-     * @param array     $classes
-     * @return NodeModel
+     * @param HtmlNode $node
+     * @param array    $classes
+     * @return HtmlNode
      * @throws \Exception
      */
-    private function setAttribute(NodeModel $node, $classes)
+    private function setAttribute(HtmlNode $node, $classes)
     {
-        /** @var NodeModel $node */
+        /** @var HtmlNode $node */
         $attributes = $node->get("attributes");
-        if ($attributes == "") {
-            $attributes = " class='" . $classes . "'";
+        if (sizeof($attributes) == 0) {
+            $attributes["class"] = $classes;
         } else {
-            preg_match("/class=(\"|\').*?(\"|\')/", $attributes, $class);
-            $class = $class[0];
-            if ($class) {
-                $toReplace  = $class;
-                $classEnd   = substr($class, -1);
-                $class      = substr($class, 0, strlen($class) - 1);
-                $class      = $class . ' ' . $classes . $classEnd;
-                $attributes = str_replace($toReplace, $class, $attributes);
-            } else {
-                $attributes = " class='" . $classes . "' " . $attributes;
-            }
+            $attributes["class"] = $attributes["class"] . " " . $classes;
         }
+
         $node->set("attributes", $attributes);
 
         return $node;
@@ -141,19 +124,19 @@ class Classes extends PluginBaseClass
 
 
     /**
-     * @param NodeModel $node
+     * @param HtmlNode $node
      * @return string
      * @throws \Exception
      */
-    private function createNewTag(NodeModel $node)
+    private function createNewTag(HtmlNode $node)
     {
         # check if tag is empty now
         # if so create div or span,
         # depending if we have a block or inline parent element
         $inline = false;
         if ($node->has("parent")) {
-            $parentTag = $node->get("parent")->get("tag.tag");
-            $inline    = in_array($parentTag, $this->configService->get("inline_elements"));
+            $parentTag = $node->get("parent")->get("tag.definition");
+            $inline    = in_array($parentTag, $this->Temple->Config()->get("parser.inline"));
         }
         if ($inline) {
             $tag = "span";

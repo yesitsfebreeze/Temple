@@ -1,12 +1,12 @@
 <?php
 
-namespace Temple\Plugin\Core;
+
+namespace Temple\Plugin;
 
 
-use Temple\Exceptions\TempleException;
-use Temple\BaseClasses\PluginBaseClass;
+use Temple\Exception\TempleException;
 use Temple\Models\NodeModel;
-
+use Temple\Models\Plugin\Plugin;
 
 
 /**
@@ -18,13 +18,13 @@ use Temple\Models\NodeModel;
  *      classname = Temple_Plugin_MyPlugin
  * Class Temple_Plugin_MyPlugin
  *
- * @purpose : explains how to use plugins
- * @usage   : none
+ * @purpose  : explains how to use plugins
+ * @usage    : none
  * @author   : Stefan Hövelmanns
- * @License : MIT
- * @package Temple
+ * @License  : MIT
+ * @package  Temple
  */
-class Variables extends PluginBaseClass
+class Variables extends Plugin
 {
 
     /** @var  string $sign */
@@ -39,16 +39,10 @@ class Variables extends PluginBaseClass
         return 9999999991;
     }
 
-    /** @inheritdoc */
-    public function forTags()
+
+    public function isProcessor()
     {
-
-    }
-
-    /** @inheritdoc */
-    public function forNodes()
-    {
-
+        return true;
     }
 
 
@@ -64,6 +58,7 @@ class Variables extends PluginBaseClass
 
         return $tag[0] == $this->sign;
     }
+
 
     /**
      * @var NodeModel $node
@@ -174,6 +169,7 @@ class Variables extends PluginBaseClass
         return $name;
     }
 
+
     private function getMatchPattern()
     {
         $matchPattern = "/";
@@ -182,10 +178,11 @@ class Variables extends PluginBaseClass
         $matchPattern .= "(.*?)";
         $matchPattern .= preg_quote($this->configService->get("right_delimiter"));
         $matchPattern .= "/";
+
         return $matchPattern;
     }
-    
-    
+
+
     public function processOutput($output)
     {
 

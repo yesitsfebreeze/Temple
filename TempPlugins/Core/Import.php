@@ -1,12 +1,11 @@
 <?php
 
-namespace Temple\Plugin\Core;
+namespace Temple\Plugin;
 
 
-use Temple\Exceptions\TempleException;
-use Temple\BaseClasses\PluginBaseClass;
-use Temple\Models\NodeModel;
-
+use Temple\Exception\TempleException;
+use Temple\Models\Nodes\HtmlNode;
+use Temple\Models\Plugin\Plugin;
 
 
 /**
@@ -18,7 +17,7 @@ use Temple\Models\NodeModel;
  * @author      Stefan Hövelmanns
  * @License     MIT
  */
-class Import extends PluginBaseClass
+class Import extends Plugin
 {
 
     /**
@@ -26,39 +25,34 @@ class Import extends PluginBaseClass
      */
     public function position()
     {
-        return 0;
+        return 2;
     }
 
-    /** @inheritdoc */
-    public function forTags()
+
+    public function isProcessor()
     {
-
-    }
-
-    /** @inheritdoc */
-    public function forNodes()
-    {
-
+        return true;
     }
 
 
     /**
-     * @param NodeModel $node
+     * @param HtmlNode $node
      * @return bool
      */
-    public function check(NodeModel $node)
+    public function check(HtmlNode $node)
     {
-        $this->configService->extend("self_closing","import");
+        $this->configService->extend("self_closing", "import");
+
         return ($node->get("tag.tag") == "import");
     }
 
 
     /**
-     * @param NodeModel $node
-     * @return NodeModel $node
+     * @param HtmlNode $node
+     * @return HtmlNode $node
      * @throws TempleException
      */
-    public function process(NodeModel $node)
+    public function process(HtmlNode $node)
     {
         $node->set("tag.display", false);
 
@@ -79,12 +73,11 @@ class Import extends PluginBaseClass
 
     /**
      * searches for a template file and returns the correct path
-
      *
-*@param NodeModel $node
+     * @param HtmlNode $node
      * @return string $file
      */
-    private function getPath(NodeModel $node)
+    private function getPath(HtmlNode $node)
     {
         # if the file has an absolute path
         $path     = $node->get("attributes");
@@ -100,12 +93,11 @@ class Import extends PluginBaseClass
 
     /**
      * returns the template path to the file which is importing
-
      *
-*@param NodeModel $node
+     * @param HtmlNode $node
      * @return mixed
      */
-    private function getParentPath(NodeModel $node)
+    private function getParentPath(HtmlNode $node)
     {
         $templates = $this->templateService->dirs();
         $path      = explode("/", $node->get("file"));

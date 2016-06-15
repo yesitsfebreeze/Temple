@@ -1,13 +1,19 @@
 <?php
 
-namespace Temple\Plugin\Core;
+namespace Temple\Plugin;
 
 
-use Temple\BaseClasses\PluginBaseClass;
+use Temple\Models\Plugin\Plugin;
 
 
-class Debug extends PluginBaseClass
+class Debug extends Plugin
 {
+
+    public function isProcessor()
+    {
+        return true;
+    }
+
 
     /** @var string $type */
     private $type = "vars";
@@ -48,18 +54,6 @@ class Debug extends PluginBaseClass
     public function position()
     {
         return 10;
-    }
-
-    /** @inheritdoc */
-    public function forTags()
-    {
-
-    }
-
-    /** @inheritdoc */
-    public function forNodes()
-    {
-
     }
 
 
@@ -200,7 +194,7 @@ class Debug extends PluginBaseClass
      * @param \Closure|NULL $callback
      * @return string
      */
-    private function markup($type, $name, $value, $symbol = "", \Closure $callback = NULL)
+    private function markup($type, $name, $value, $symbol = "", \Closure $callback = null)
     {
         $markup = "<div class='item $type'>";
         $markup .= "<span class='type'>" . $type . "</span>";
