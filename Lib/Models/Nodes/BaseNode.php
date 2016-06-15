@@ -3,7 +3,7 @@
 namespace Temple\Models\Nodes;
 
 
-// todoo: add find method, maybe even to storage
+// TODO: add find method, maybe even to storage
 
 use Temple\Exception\TempleException;
 use Temple\Utilities\Config;
@@ -30,14 +30,9 @@ class BaseNode extends Storage
     }
 
 
-    /**
-     * returns the node name
-     *
-     * @return string
-     */
-    public function getName()
+    public function isFunction()
     {
-        return strtolower(str_replace("Node", "", array_reverse(explode("\\", get_class($this)))[0]));
+        return false;
     }
 
 
@@ -60,8 +55,9 @@ class BaseNode extends Storage
         $this->set("info.indent", $this->indent($line));
         $this->set("info.selfclosing", $this->selfclosing());
 
-        $this->set("info.plain", $line);
+        $this->set("info.plain", str_replace("\n", "", $line));
         $this->set("info.display", true);
+        $this->set("info.isPlain", false);
         $this->set("info.plugins", true);
 
         # clean the node
@@ -93,7 +89,7 @@ class BaseNode extends Storage
         if (is_int($indent)) return $indent;
 
         # else throw an error since the amount of characters doesn't match
-        throw new TempleException("Indent isn't matching!", $this->dom->get("file"), $this->dom->get("line"));
+        throw new TempleException("Indent isn't matching!", $this->get("info.file"), $this->get("info.line"));
 
     }
 
@@ -109,22 +105,22 @@ class BaseNode extends Storage
         $tag = array();
 
         # match all characters until a word boundary or space or end of the string
-        preg_match("/^(.*?)(?:$| )/", trim($line), $tagname);
-        $tagname = trim($tagname[0]);
+        preg_match("/^(.*?)(?:$| )/", trim($line), $tagName);
+        $tagName = trim($tagName[0]);
 
-        $tag["tag"]     = $tagname;
-        $tag["display"] = true;
-        $tag["opening"] = array();
+        $tag["definition"] = $tagName;
+        $tag["display"]    = true;
+        $tag["opening"]    = array();
 
-        $tag["opening"]["display"] = true;
-        $tag["opening"]["before"]  = $this->Config->get("template.tag.opening.before");
-        $tag["opening"]["tag"]     = $tagname;
-        $tag["opening"]["after"]   = $this->Config->get("template.tag.opening.after");
+        $tag["opening"]["display"]    = true;
+        $tag["opening"]["before"]     = $this->Config->get("template.tag.opening.before");
+        $tag["opening"]["definition"] = $tagName;
+        $tag["opening"]["after"]      = $this->Config->get("template.tag.opening.after");
 
-        $tag["closing"]["display"] = true;
-        $tag["closing"]["before"]  = $this->Config->get("template.tag.closing.before");
-        $tag["closing"]["tag"]     = $tagname;
-        $tag["closing"]["after"]   = $this->Config->get("template.tag.closing.after");
+        $tag["closing"]["display"]    = true;
+        $tag["closing"]["before"]     = $this->Config->get("template.tag.closing.before");
+        $tag["closing"]["definition"] = $tagName;
+        $tag["closing"]["after"]      = $this->Config->get("template.tag.closing.after");
 
         return $tag;
     }
@@ -138,25 +134,28 @@ class BaseNode extends Storage
      */
     protected function attributes($line)
     {
+        $attrs = array();
+        $tag        = preg_quote($this->get("tag.definition"));
         # replace the tag from the beginning of the line and then trim the string
-        $tag        = preg_quote($this->get("tag.tag"));
         $attributes = trim(preg_replace("/^" . $tag . "/", "", trim($line)));
         $attributes = explode(">", $attributes);
         $attributes = explode(" ", $attributes[0]);
         $attributes = array_filter($attributes);
         foreach ($attributes as &$attribute) {
-            $arr   = array();
-            $attrs = explode("=", $attribute);
-            if (isset($attrs[0])) {
-                $arr["name"] = $attrs[0];
-                if (isset($attrs[1])) {
-                    $arr["value"] = $attrs[1];
-                }
+            $attribute = explode("=",$attribute);
+            $name = $attribute[0];
+            if (isset($attribute[1])) {
+                $value = $attribute[1];
+                $value = preg_replace("/\'/",'',$value);
+                $value = preg_replace('/\"/','',$value);
             }
-            $attribute = $arr;
+            if (!isset($value)) {
+                $value = "";
+            }
+            $attrs[$name] = $value;
         }
 
-        return $attributes;
+        return $attrs;
     }
 
 
@@ -168,7 +167,7 @@ class BaseNode extends Storage
     private function selfclosing()
     {
         # check if our tag is in the self closing array set in the config
-        if (in_array($this->get("tag.tag"), $this->Config->get("parser.self closing"))) return true;
+        if (in_array($this->get("tag.definition"), $this->Config->get("parser.self closing"))) return true;
 
         return false;
     }

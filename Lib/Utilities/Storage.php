@@ -115,7 +115,6 @@ class Storage
         try {
 
             $this->getter($path);
-
             return true;
 
         } catch (\Exception $e) {
@@ -274,13 +273,7 @@ class Storage
      */
     private function createPath($path)
     {
-        $separator = ".";
-        # remove last / if existent
-        $path = preg_replace('/' . preg_quote($separator) . '$/', '', $path);
-        # get path array
-        $path = explode($separator, $path);
-
-        return $path;
+        return array_values(explode(".", $path));
     }
 
 }

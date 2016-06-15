@@ -55,13 +55,13 @@ class Config extends DependencyInstance
 
         if (sizeof($config) > 0) {
             $this->config->merge($config);
-            if ($this->config->has("errorhandler") && $this->config->get("errorhandler")) {
-                $this->config->set("errorhandler", new ExceptionHandler());
+            if ($this->config->has("errorHandler") && $this->config->get("errorHandler")) {
+                $this->config->set("errorHandler", new ExceptionHandler());
             }
         }
 
     }
-
+    
 
     /**
      * @param null $path

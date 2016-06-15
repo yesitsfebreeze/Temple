@@ -7,6 +7,8 @@ use Temple\Dependency\DependencyInstance;
 use Temple\Exception\TempleException;
 use Temple\Models\Dom\Dom;
 use Temple\Models\Nodes\BaseNode;
+use Temple\Models\Nodes\FunctionNode;
+use Temple\Models\Nodes\HtmlNode;
 use Temple\Utilities\Config;
 use Temple\Utilities\Directories;
 
@@ -25,6 +27,12 @@ class Lexer extends DependencyInstance
     /** @var  Directories $Directories */
     protected $Directories;
 
+    /** @var  NodeFactory $NodeFactory */
+    protected $NodeFactory;
+
+    /** @var  Plugins $Plugins */
+    protected $Plugins;
+
 
     /**
      * @return array
@@ -33,7 +41,9 @@ class Lexer extends DependencyInstance
     {
         return array(
             "Utilities/Config"      => "Config",
-            "Utilities/Directories" => "Directories"
+            "Utilities/Directories" => "Directories",
+            "Template/NodeFactory"  => "NodeFactory",
+            "Template/Plugins"      => "Plugins"
         );
     }
 
@@ -43,15 +53,6 @@ class Lexer extends DependencyInstance
 
     /** @var int $level */
     private $level;
-
-    /** @var  NodeFactory $NodeFactory */
-    private $NodeFactory;
-
-
-    public function __construct(NodeFactory $NodeFactory)
-    {
-        $this->NodeFactory = $NodeFactory;
-    }
 
 
     /**
@@ -70,7 +71,7 @@ class Lexer extends DependencyInstance
         $file        = $this->getTemplateFile($file, $level);
         $this->createNewDom($namespace, $file, $files);
         $this->process($file);
-
+        $this->dom = $this->Plugins->postProcess($this->dom);
         return $this->dom;
 
     }
@@ -164,6 +165,7 @@ class Lexer extends DependencyInstance
         $handle = fopen($file, "r");
         while (($line = fgets($handle)) !== false) {
             if (trim($line) != '') {
+                $line = $this->Plugins->preProcess($line);
                 $node = $this->createNode($line);
                 $this->addNode($node);
                 $this->dom->set("tmp.prev", $node);
@@ -186,22 +188,18 @@ class Lexer extends DependencyInstance
      */
     private function createNode($line)
     {
-
-        # do i really need a factory here?
-        $this->NodeFactory->addConfig($this->Config);
+        /** @var BaseNode $node */
         $node = $this->NodeFactory->create($line);
-
-        $node->createNode($line);
         $node->set("info.namespace", $this->dom->get("info.namespace"));
         $node->set("info.level", $this->dom->get("info.level"));
         $node->set("info.line", $this->dom->get("info.line"));
         $node->set("info.file", $this->dom->get("info.file"));
-        $node->set("info.getParentNode", "test");
+        $node->createNode($line);
 
-        if (!$node->has("tag.tag")) {
+        if (!$node->has("tag.definition")) {
             throw new TempleException("Node models must have a tag!", $this->dom->get("info.file"), $this->dom->get("info.line"));
         }
-
+        
         return $node;
     }
 
@@ -259,7 +257,7 @@ class Lexer extends DependencyInstance
     {
         $node->set("info.parent", $this->dom->get("tmp.prev"));
         if ($node->get("info.parent")->get("info.selfclosing")) {
-            $tag = $node->get("info.parent")->get("tag.tag");
+            $tag = $node->get("info.parent")->get("tag.definition");
             throw new TempleException("You can't have children in an $tag tag!", $this->dom->get("info.file"), $this->dom->get("info.line"));
         }
 
