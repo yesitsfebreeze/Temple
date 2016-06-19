@@ -5,6 +5,7 @@ namespace Temple;
 
 use Temple\Dependency\DependencyContainer;
 use Temple\Exception\TempleException;
+use Temple\Models\Variables\Variables;
 use Temple\Template\Cache;
 use Temple\Template\Lexer;
 use Temple\Template\NodeFactory;
@@ -27,17 +28,20 @@ class Instance
     /** @var  DependencyContainer $container */
     private $container;
 
+    /** @var Config $Config */
+    private $Config;
+
+    /** @var Variables $Variables */
+    private $Variables;
+
+    /** @var Directories $Directories */
+    private $Directories;
+
     /** @var  NodeFactory $NodeFactory */
     private $NodeFactory;
 
     /** @var  PluginFactory $PluginFactory */
     private $PluginFactory;
-
-    /** @var Config $Config */
-    private $Config;
-
-    /** @var Directories $Directories */
-    private $Directories;
 
     /** @var Plugins $Plugins */
     private $Plugins;
@@ -89,6 +93,17 @@ class Instance
     }
 
 
+
+    /**
+     * @return Variables
+     * @throws TempleException
+     */
+    public function Variables()
+    {
+        return $this->container->getInstance("Models/Variables");
+    }
+
+
     /**
      * @return Plugins
      * @throws TempleException
@@ -119,6 +134,7 @@ class Instance
         $this->container = new DependencyContainer();
 
         $this->Config        = $this->container->registerDependency(new Config());
+        $this->Variables     = $this->container->registerDependency(new Variables());
         $this->Directories   = $this->container->registerDependency(new Directories());
         $this->NodeFactory   = $this->container->registerDependency(new NodeFactory());
         $this->PluginFactory = $this->container->registerDependency(new PluginFactory());

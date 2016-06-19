@@ -3,6 +3,7 @@
 namespace Temple\Utilities;
 
 
+use Temple\Dependency\DependencyInstance;
 use Temple\Exception\TempleException;
 
 
@@ -12,12 +13,17 @@ use Temple\Exception\TempleException;
  *
  * @package Temple
  */
-class Storage
+class Storage extends DependencyInstance
 {
+
+    /** @inheritdoc */
+    public function dependencies()
+    {
+        return array();
+    }
 
     /** @var array $storage */
     private $storage;
-
 
     /**
      * @param $path

@@ -8,30 +8,8 @@ use Temple\Exception\ExceptionHandler;
 use Temple\Exception\TempleException;
 
 
-class Config extends DependencyInstance
+class Config extends Storage
 {
-
-    /**
-     * @return array
-     */
-    public function dependencies()
-    {
-        return array();
-    }
-
-
-    /** @var Storage $config */
-    private $config;
-
-
-    /**
-     * Config constructor.
-     */
-    public function __construct()
-    {
-        $this->config = new Storage();
-    }
-
 
     /**
      * merges a new config file into our current config
@@ -54,44 +32,12 @@ class Config extends DependencyInstance
         }
 
         if (sizeof($config) > 0) {
-            $this->config->merge($config);
-            if ($this->config->has("errorHandler") && $this->config->get("errorHandler")) {
-                $this->config->set("errorHandler", new ExceptionHandler());
+            $this->merge($config);
+            if ($this->has("errorHandler") && $this->get("errorHandler")) {
+                $this->set("errorHandler", new ExceptionHandler());
             }
         }
 
-    }
-    
-
-    /**
-     * @param null $path
-     * @return mixed
-     * @throws TempleException
-     */
-    public function get($path = null)
-    {
-        return $this->config->get($path);
-    }
-
-
-    /**
-     * @param $path
-     * @param $value
-     * @return bool
-     */
-    public function set($path, $value)
-    {
-        return $this->config->set($path, $value);
-    }
-
-
-    /**
-     * @param $path
-     * @return array
-     */
-    public function has($path)
-    {
-        return $this->config->has($path);
     }
 
 }
