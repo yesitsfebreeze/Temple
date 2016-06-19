@@ -5,7 +5,7 @@ namespace Temple\Template;
 
 use Temple\Exception\TempleException;
 use Temple\Instance;
-use Temple\Models\Plugin\Plugin;
+use Temple\Models\Plugin;
 use Temple\Utilities\Directories;
 use Temple\Utilities\FactoryBase;
 

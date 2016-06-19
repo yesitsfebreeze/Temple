@@ -1,6 +1,6 @@
 <?php
 
-namespace Temple\Models\Nodes;
+namespace Temple\Models;
 
 
 /**

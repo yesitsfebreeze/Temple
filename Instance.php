@@ -5,7 +5,7 @@ namespace Temple;
 
 use Temple\Dependency\DependencyContainer;
 use Temple\Exception\TempleException;
-use Temple\Models\Variables\Variables;
+use Temple\Models\Variables;
 use Temple\Template\Cache;
 use Temple\Template\Lexer;
 use Temple\Template\NodeFactory;

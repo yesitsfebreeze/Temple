@@ -4,8 +4,8 @@ namespace Temple\Plugin;
 
 
 use Temple\Exception\TempleException;
-use Temple\Models\Nodes\HtmlNode;
-use Temple\Models\Plugin\Plugin;
+use Temple\Models\HtmlNode;
+use Temple\Models\Plugin;
 
 
 /**

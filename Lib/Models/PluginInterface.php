@@ -1,6 +1,6 @@
 <?php
 
-namespace Temple\Models\Plugin;
+namespace Temple\Models;
 
 
 /**

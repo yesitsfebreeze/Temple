@@ -66,7 +66,7 @@ class NodeFactory extends FactoryBase
     private function getClass($class)
     {
         $this->getClassName($class);
-        $class = '\\Temple\\Models\\Nodes\\' . ucfirst($class) . "Node";
+        $class = '\\Temple\\Models\\' . ucfirst($class) . "Node";
 
         if (class_exists($class)) {
             return $class;

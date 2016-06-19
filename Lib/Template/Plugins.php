@@ -5,10 +5,10 @@ namespace Temple\Template;
 
 use Temple\Dependency\DependencyInstance;
 use Temple\Instance;
-use Temple\Models\Dom\Dom;
-use Temple\Models\Nodes\FunctionNode;
-use Temple\Models\Nodes\HtmlNode;
-use Temple\Models\Plugin\Plugin;
+use Temple\Models\Dom;
+use Temple\Models\FunctionNode;
+use Temple\Models\HtmlNode;
+use Temple\Models\Plugin;
 use Temple\Utilities\Config;
 use Temple\Utilities\Directories;
 

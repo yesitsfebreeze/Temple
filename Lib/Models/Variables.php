@@ -1,6 +1,6 @@
 <?php
 
-namespace Temple\Models\Variables;
+namespace Temple\Models;
 
 
 use Temple\Utilities\Storage;

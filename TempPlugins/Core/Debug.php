@@ -3,7 +3,7 @@
 namespace Temple\Plugin;
 
 
-use Temple\Models\Plugin\Plugin;
+use Temple\Models\Plugin;
 
 
 class Debug extends Plugin

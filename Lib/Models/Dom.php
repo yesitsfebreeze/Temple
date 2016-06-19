@@ -1,6 +1,6 @@
 <?php
 
-namespace Temple\Models\Dom;
+namespace Temple\Models;
 
 
 // TODO: add local variable space

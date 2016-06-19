@@ -5,10 +5,10 @@ namespace Temple\Template;
 
 use Temple\Dependency\DependencyInstance;
 use Temple\Exception\TempleException;
-use Temple\Models\Dom\Dom;
-use Temple\Models\Nodes\BaseNode;
-use Temple\Models\Nodes\FunctionNode;
-use Temple\Models\Nodes\HtmlNode;
+use Temple\Models\Dom;
+use Temple\Models\BaseNode;
+use Temple\Models\FunctionNode;
+use Temple\Models\HtmlNode;
 
 
 /**
