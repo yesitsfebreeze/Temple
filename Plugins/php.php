@@ -16,11 +16,11 @@ use Temple\Models\Plugin;
  * @License  MIT
  * @package  Temple
  */
-class Plain extends Plugin
+class Php extends Plugin
 {
 
     /** @var string $identifier */
-    private $identifier = "-";
+    private $identifier = "php";
 
 
     /**
@@ -50,8 +50,16 @@ class Plain extends Plugin
 
         $tag = $node->get("tag.definition");
 
-        if ($tag[0] == $this->identifier) {
+        if ($tag == $this->identifier) {
             $node = $this->createPlain($node);
+            $node->set("info.isPlain", false);
+            $node->set("content", "");
+            $node->set("tag.opening.before", "<?php ");
+            $node->set("tag.opening.definition", "");
+            $node->set("tag.opening.after", "");
+            $node->set("tag.closing.before", "");
+            $node->set("tag.closing.definition", "");
+            $node->set("tag.closing.after", " ?>");
         }
 
         return $node;
@@ -65,24 +73,16 @@ class Plain extends Plugin
     private function createPlain(HtmlNode $node)
     {
 
-        if ($node->get("tag.definition") == $this->identifier) {
-            $node->set("tag.opening.definition", "");
-        }
+        $node->set("info.isPlain", true);
 
-        $node->set("tag.closing.definition", "");
 
-        $node->set("tag.opening.before", "");
-        $node->set("tag.opening.after", "");
-
-        $node->set("tag.closing.before", "");
-        $node->set("tag.closing.after", "\r\n");
-
-        if (sizeof($node->get("children")) == 0 && sizeof($node->get("attributes")) == 0) {
-            $node->set("tag.opening.before", "</br>");
-        } else if (sizeof($node->get("children")) > 0) {
-            foreach ($node->get("children") as &$childNode) {
-                $childNode = $this->createPlain($childNode);
+        if (sizeof($node->get("children")) > 0) {
+            $children = array();
+            foreach ($node->get("children") as $key => $childNode) {
+                $children[ $key ] = $this->createPlain($childNode);
             }
+
+            $node->set("children", $children);
         }
 
         return $node;

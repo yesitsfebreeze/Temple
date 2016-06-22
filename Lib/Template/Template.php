@@ -5,6 +5,7 @@ namespace Temple\Template;
 
 use Temple\Dependency\DependencyInstance;
 use Temple\Exception\TempleException;
+use Temple\Models\Dom;
 use Temple\Utilities\Config;
 use Temple\Utilities\Directories;
 
@@ -129,17 +130,53 @@ class Template extends DependencyInstance
      *
      * @param string $file
      * @param int    $level
+     * @return Dom
+     */
+    public function getDom($file, $level = 0)
+    {
+        $file = $this->cleanExtension($file);
+        $dom  = $this->Lexer->lex($file, $level);
+
+        return $dom;
+    }
+
+
+    /**
+     * processes and returns the parsed content
+     *
+     * @param string $file
+     * @param int    $level
      * @return string
      */
     public function process($file, $level = 0)
     {
-
-        $file    = $this->cleanExtension($file);
-        $dom     = $this->Lexer->lex($file, $level);
+        $dom     = $this->getDom($file, $level);
         $content = $this->Parser->parse($dom);
 
         return $content;
 
+    }
+
+
+    /**
+     * checks if a template file exists within the template directories
+     *
+     * @param $file
+     * @return bool
+     */
+    public function templateExists($file)
+    {
+
+        $dirs = $this->Directories->get("template");
+        $file = $this->cleanExtension($file);
+        foreach ($dirs as $level => $dir) {
+            $checkFile = $dir . $file;
+            if (file_exists($checkFile)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
 

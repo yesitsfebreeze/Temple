@@ -51,16 +51,15 @@ class Plugin implements PluginInterface
     /**
      * @return bool
      */
-    public function isFunction()
+    public function isPreProcessor()
     {
         return false;
     }
 
-
     /**
      * @return bool
      */
-    public function isPreProcessor()
+    public function isDomProcessor()
     {
         return false;
     }
@@ -70,6 +69,14 @@ class Plugin implements PluginInterface
      * @return bool
      */
     public function isProcessor()
+    {
+        return false;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isFunction()
     {
         return false;
     }

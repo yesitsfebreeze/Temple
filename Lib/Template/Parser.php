@@ -73,12 +73,13 @@ class Parser extends DependencyInstance
             }
 
             if ($node->get("info.isPlain")) {
-                $output = trim($node->get("info.plain"));
-            } else {
-                /** @var BaseNode $node */
-                # open the tag
-                $output = $this->openTag($node, $output);
 
+                $output .= " ".trim($node->get("info.plain"));
+
+            } else {
+
+                /** @var BaseNode $node */
+                $output = $this->openTag($node, $output);
                 $output = $this->appendContent($node, $output);
             }
 

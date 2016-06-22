@@ -127,6 +127,7 @@ class PluginFactory extends FactoryBase
     public function getPluginsByType($type)
     {
 
+
         if (!isset($this->plugins[ $type ])) {
             return null;
         }
@@ -145,8 +146,8 @@ class PluginFactory extends FactoryBase
         $files = new \RecursiveIteratorIterator($dir, \RecursiveIteratorIterator::SELF_FIRST);
         /** @var \SplFileInfo $file */
         foreach ($files as $file) {
-            $name = $file->getFilename();
-            $full = $file->getRealPath();
+            $name      = $file->getFilename();
+            $full      = $file->getRealPath();
             $extension = $file->getExtension();
             if ($name !== "." && $name !== ".." && !is_dir($full) && $extension == "php") {
                 $this->requirePlugin($pluginDir, $file);
@@ -270,7 +271,7 @@ class PluginFactory extends FactoryBase
         }
 
         # returns the active container type of the plugin
-        return substr(strtolower(array_flip($types)[1]), 2);
+        return lcfirst(substr(array_flip($types)[1], 2));
     }
 
 }

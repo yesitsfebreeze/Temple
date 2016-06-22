@@ -70,6 +70,10 @@ class Cleanup extends Plugin
     private function bufferPhp($output)
     {
 
+        if ($output == "") {
+            return $output;
+        }
+
         if (strpos("<?php",$output) !== false && strpos("?>",$output) !== false) {
             $end     = strpos($output, "?>") + 2;
             $start   = strpos($output, "?>") - strpos(strrev(substr($output, 0, $end)), "php?<") - 3;

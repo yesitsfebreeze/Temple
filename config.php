@@ -41,7 +41,7 @@ $config = array(
         ]
     ],
     "parser" => [
-        "self closing" => [
+        "selfClosing" => [
             "br", "area", "base", "col", "command", "embed", "hr", "img", "input", "keygen", "link", "meta", "param", "source", "track", "wbr"
         ],
         "inline" => [

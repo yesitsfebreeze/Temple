@@ -134,12 +134,23 @@ class Plugins extends DependencyInstance
     /**
      * processes a single line from the template file
      *
+     * @param Dom $element
+     * @return Dom
+     */
+    public function domProcess($element)
+    {
+        return $this->executePlugin("domProcessor", $element);
+    }
+
+    /**
+     * processes a single line from the template file
+     *
      * @param string $element
      * @return string
      */
     public function preProcess($element)
     {
-        return $this->executePlugin("preprocessor", $element);
+        return $this->executePlugin("preProcessor", $element);
     }
 
 
@@ -179,7 +190,7 @@ class Plugins extends DependencyInstance
      */
     public function postProcess($element)
     {
-        return $this->executePlugin("postprocessor", $element);
+        return $this->executePlugin("postProcessor", $element);
     }
 
 
@@ -191,7 +202,7 @@ class Plugins extends DependencyInstance
      */
     public function processOutput($element)
     {
-        return $this->executePlugin("outputprocessor", $element);
+        return $this->executePlugin("outputProcessor", $element);
     }
 
 

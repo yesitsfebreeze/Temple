@@ -41,6 +41,7 @@ class BaseNode extends Storage
      * and create a model
      *
      * @param $line
+     *
      * @return BaseNode
      */
     public function createNode($line)
@@ -72,6 +73,7 @@ class BaseNode extends Storage
      * also initially sets the indent character and amount
      *
      * @param     $line
+     *
      * @return float|int
      * @throws TempleException
      */
@@ -98,6 +100,7 @@ class BaseNode extends Storage
      * returns the tag for the current line
      *
      * @param string $line
+     *
      * @return string
      */
     protected function tag($line)
@@ -130,29 +133,37 @@ class BaseNode extends Storage
      * returns the attributes for the current line
      *
      * @param string $line
+     *
      * @return string
      */
     protected function attributes($line)
     {
         $attrs = array();
-        $tag        = preg_quote($this->get("tag.definition"));
+        $tag   = preg_quote($this->get("tag.definition"));
+
         # replace the tag from the beginning of the line and then trim the string
         $attributes = trim(preg_replace("/^" . $tag . "/", "", trim($line)));
-        $attributes = explode(">", $attributes);
-        $attributes = explode(" ", $attributes[0]);
+        $attributes = $this->escapeSpaces($attributes, "'");
+        $attributes = $this->escapeSpaces($attributes, '"');
+        $attributes = explode(" ", $attributes);
         $attributes = array_filter($attributes);
+
         foreach ($attributes as &$attribute) {
-            $attribute = explode("=",$attribute);
-            $name = $attribute[0];
+            $attribute = explode("=", $attribute);
+            $name      = $attribute[0];
             if (isset($attribute[1])) {
                 $value = $attribute[1];
-                $value = preg_replace("/\'/",'',$value);
-                $value = preg_replace('/\"/','',$value);
+                $value = preg_replace("/^\'/", '', $value);
+                $value = preg_replace('/^\"/', '', $value);
+                $value = preg_replace("/\'$/", '', $value);
+                $value = preg_replace('/\"$/', '', $value);
             }
             if (!isset($value)) {
                 $value = "";
             }
-            $attrs[$name] = $value;
+            # revert the space escape
+            $value = str_replace("~~~", ' ', $value);
+            $attrs[ $name ] = $value;
         }
 
         return $attrs;
@@ -160,14 +171,39 @@ class BaseNode extends Storage
 
 
     /**
-     * returns if the current line has a self closing tag
+     * escapes all spaces within quotes
+     *
+     * @param string $text
+     * @param string $quote
+     *
+     * @return string
+     */
+    private function escapeSpaces($text, $quote)
+    {
+        $quote = preg_quote($quote);
+        preg_match_all('/(' . $quote . '[^' . $quote . ']*' . $quote . ')|[^' . $quote . ']*/', $text, $matches);
+
+        if (isset($matches[1])) {
+            $matches = array_filter($matches[1]);
+            foreach ($matches as $match) {
+                $newMatch = preg_replace('/\s/', "~~~", $match);
+                $text     = str_replace($match, $newMatch, $text);
+            }
+        }
+
+        return $text;
+    }
+
+
+    /**
+     * returns if the current line has a selfClosing tag
      *
      * @return string
      */
     private function selfclosing()
     {
-        # check if our tag is in the self closing array set in the config
-        if (in_array($this->get("tag.definition"), $this->Config->get("parser.self closing"))) return true;
+        # check if our tag is in the selfClosing array set in the config
+        if (in_array($this->get("tag.definition"), $this->Config->get("parser.selfClosing"))) return true;
 
         return false;
     }

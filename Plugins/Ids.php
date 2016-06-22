@@ -42,9 +42,9 @@ class Ids extends Plugin
     public function process(HtmlNode $node)
     {
         $tag     = $node->get("tag.definition");
-        $ids = explode("#", $tag);
-        if (sizeof($ids) > 1) {
-            $ids  = $this->getIds($tag, $ids);
+        preg_match("/#[^#]+/",$tag,$matches);
+        if (sizeof($matches) > 1) {
+            $ids  = $this->getIds($tag, explode("#", $tag));
             $node = $this->updateTag($node, $tag, $ids);
             $node = $this->setAttribute($node, $ids);
         }

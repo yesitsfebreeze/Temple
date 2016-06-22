@@ -175,6 +175,8 @@ class Lexer extends DependencyInstance
         fclose($handle);
         $this->dom->delete("tmp");
 
+        $this->dom = $this->Plugins->domProcess($this->dom);
+
         return $this->dom;
     }
 
