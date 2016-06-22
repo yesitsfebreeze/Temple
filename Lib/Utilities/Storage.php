@@ -218,21 +218,21 @@ class Storage extends DependencyInstance
      */
     private function getter($path)
     {
+        # if nothing is defined just return whole config
+        if (!$path) return $this->storage;
+
         $storage = $this->storage;
-        if (!$path) {
-            # if nothing is defined just return whole config
-            return $storage;
-        }
 
         $paths = $this->createPath($path);
         foreach ($paths as $position => $key) {
+
             if (!isset($storage[ $key ])) {
-                # if path is not set throw error
                 throw new \Exception("Sorry, '{$path}' is undefined!");
-            } else {
-                # reference back to current key
-                $storage = $storage[ $key ];
             }
+
+            # reference back to current key
+            $storage = $storage[ $key ];
+
         }
 
         return $storage;
@@ -251,16 +251,18 @@ class Storage extends DependencyInstance
         $storage = &$this->storage;
         $parent  = false;
         $name    = false;
+
         # recursively adds the value to the array
         foreach ($paths as $position => $name) {
+            # creates array if the key doesn't exist
             if (!isset($storage[ $name ]) || !is_array($storage[ $name ])) {
-                # creates array if the key doesn't exist
                 $storage[ $name ] = array();
             }
             # reference back to key
             $parent  = &$storage;
             $storage = &$storage[ $name ];
         }
+
         if ($value === null) {
             unset($parent[ $name ]);
         } else {
