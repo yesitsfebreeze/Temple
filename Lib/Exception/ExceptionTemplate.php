@@ -1,17 +1,17 @@
 <?php
 
-namespace Temple\Exception;
+namespace Shift\Exception;
 
 
 /**
- * Class TempleTemplate
+ * Class ShiftTemplate
  *
- * @package Temple\Exception
+ * @package Shift\Exception
  */
 class ExceptionTemplate
 {
 
-    /** @var TempleException $exception */
+    /** @var ShiftException $exception */
     private $exception;
 
     /** @var string $template */
@@ -21,9 +21,9 @@ class ExceptionTemplate
     /**
      * ExceptionTemplate constructor.
      *
-     * @param TempleException $exception
+     * @param ShiftException $exception
      */
-    public function __construct(TempleException $exception)
+    public function __construct(ShiftException $exception)
     {
         $this->exception = $exception;
         $this->template  = $this->getTemplate();
@@ -60,9 +60,9 @@ class ExceptionTemplate
      */
     private function displayFile()
     {
-        $file = $this->colorFilePath($this->exception->getTempleFile());
-        if ($this->exception->getTempleLine()) {
-            $file .= " on line <span class='colored'>" . $this->exception->getTempleLine() . "</span>";
+        $file = $this->colorFilePath($this->exception->getShiftFile());
+        if ($this->exception->getShiftLine()) {
+            $file .= " on line <span class='colored'>" . $this->exception->getShiftLine() . "</span>";
         }
         $this->template = str_replace("%file%", $file, $this->template);
     }

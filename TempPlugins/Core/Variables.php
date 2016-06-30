@@ -1,28 +1,28 @@
 <?php
 
 
-namespace Temple\Plugin;
+namespace Shift\Plugin;
 
 
-use Temple\Exception\TempleException;
-use Temple\Models\NodeModel;
-use Temple\Models\Plugin;
+use Shift\Exception\ShiftException;
+use Shift\Models\NodeModel;
+use Shift\Models\Plugin;
 
 
 /**
  * to implement a plugin, you have to follow a name convention.
  * The File name represents the plugin class name.
- * Each Plugins class has to be prefixed with with Temple(Type)
+ * Each Plugins class has to be prefixed with with Shift(Type)
  * Example given:
  *      filename = MyPlugin.php
- *      classname = Temple_Plugin_MyPlugin
- * Class Temple_Plugin_MyPlugin
+ *      classname = Shift_Plugin_MyPlugin
+ * Class Shift_Plugin_MyPlugin
  *
  * @purpose  : explains how to use plugins
  * @usage    : none
  * @author   : Stefan Hövelmanns
  * @License  : MIT
- * @package  Temple
+ * @package  Shift
  */
 class Variables extends Plugin
 {
@@ -49,7 +49,7 @@ class Variables extends Plugin
     /**
      * @param NodeModel $node
      * @return bool
-     * @throws TempleException
+     * @throws ShiftException
      */
     public function check(NodeModel $node)
     {

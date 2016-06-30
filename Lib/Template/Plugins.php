@@ -1,23 +1,23 @@
 <?php
 
-namespace Temple\Template;
+namespace Shift\Template;
 
 
-use Temple\Dependency\DependencyInstance;
-use Temple\Instance;
-use Temple\Models\Dom;
-use Temple\Models\FunctionNode;
-use Temple\Models\HtmlNode;
-use Temple\Models\Plugin;
-use Temple\Utilities\Config;
-use Temple\Utilities\Directories;
+use Shift\Dependency\DependencyInstance;
+use Shift\Instance;
+use Shift\Models\Dom;
+use Shift\Models\FunctionNode;
+use Shift\Models\HtmlNode;
+use Shift\Models\Plugin;
+use Shift\Utilities\Config;
+use Shift\Utilities\Directories;
 
 
 class Plugins extends DependencyInstance
 {
 
-    /** @var Instance $Temple */
-    protected $Temple;
+    /** @var Instance $Shift */
+    protected $Shift;
 
     /** @var Config $Config */
     protected $Config;
@@ -83,7 +83,7 @@ class Plugins extends DependencyInstance
     /**
      * load and install all plugins within the added directories
      * if dir is passed it will just look for plugins within this directory
-     * also add $Temple to the plugin constructor so we can use it within the plugins
+     * also add $Shift to the plugin constructor so we can use it within the plugins
      *
      * @param null $dir
      * @return bool
@@ -97,7 +97,7 @@ class Plugins extends DependencyInstance
     /**
      * returns all registered plugins for the instance
      *
-     * @throws \Temple\Exception\TempleException
+     * @throws \Shift\Exception\ShiftException
      */
     public function getPlugins()
     {
@@ -110,7 +110,7 @@ class Plugins extends DependencyInstance
      *
      * @param string $type
      * @return array
-     * @throws \Temple\Exception\TempleException
+     * @throws \Shift\Exception\ShiftException
      */
     public function getPluginsByType($type)
     {
@@ -122,7 +122,7 @@ class Plugins extends DependencyInstance
      * returns a registered plugins depending on the passed name
      *
      * @param  string $name ;
-     * @throws \Temple\Exception\TempleException
+     * @throws \Shift\Exception\ShiftException
      * @return Plugin
      */
     public function getPlugin($name)

@@ -1,11 +1,11 @@
 <?php
 
-namespace Temple\Template;
+namespace Shift\Template;
 
 
-use Temple\Exception\TempleException;
-use Temple\Utilities\FactoryBase;
-use Temple\Utilities\Config;
+use Shift\Exception\ShiftException;
+use Shift\Utilities\FactoryBase;
+use Shift\Utilities\Config;
 
 
 /**
@@ -35,7 +35,7 @@ class NodeFactory extends FactoryBase
         $class = $this->check($class);
 
         if (is_null($class)) {
-            throw new TempleException("Cant find the wanted Node Class!");
+            throw new ShiftException("Cant find the wanted Node Class!");
         }
 
         return new $class($this->Config);
@@ -66,7 +66,7 @@ class NodeFactory extends FactoryBase
     private function getClass($class)
     {
         $this->getClassName($class);
-        $class = '\\Temple\\Models\\' . ucfirst($class) . "Node";
+        $class = '\\Shift\\Models\\' . ucfirst($class) . "Node";
 
         if (class_exists($class)) {
             return $class;

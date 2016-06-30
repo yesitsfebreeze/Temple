@@ -1,17 +1,17 @@
 <?php
 
-namespace Temple\Utilities;
+namespace Shift\Utilities;
 
 
-use Temple\Dependency\DependencyInstance;
-use Temple\Exception\TempleException;
+use Shift\Dependency\DependencyInstance;
+use Shift\Exception\ShiftException;
 
 
 /**
  * this class handles all data storage
  * Class Storage
  *
- * @package Temple
+ * @package Shift
  */
 class Storage extends DependencyInstance
 {
@@ -45,14 +45,14 @@ class Storage extends DependencyInstance
      *
      * @param string $path
      * @return mixed
-     * @throws TempleException
+     * @throws ShiftException
      */
     public function get($path = null)
     {
         try {
             return $this->getter($path);
         } catch (\Exception $e) {
-            throw new TempleException($e);
+            throw new ShiftException($e);
         }
     }
 
@@ -61,12 +61,12 @@ class Storage extends DependencyInstance
      * merge an array into the storage
      *
      * @param array $array
-     * @throws TempleException
+     * @throws ShiftException
      */
     public function merge($array)
     {
         if (!is_array($array)) {
-            throw new TempleException("Cannot merge, no array was given!");
+            throw new ShiftException("Cannot merge, no array was given!");
         }
 
         foreach ($array as $key => $val) {
@@ -84,7 +84,7 @@ class Storage extends DependencyInstance
      * @param string       $path
      * @param array|string $value
      * @return array
-     * @throws TempleException
+     * @throws ShiftException
      */
     public function extend($path, $value)
     {
@@ -96,7 +96,7 @@ class Storage extends DependencyInstance
         }
 
         if (!is_array($temp)) {
-            throw new TempleException("Can't extend an non array value!");
+            throw new ShiftException("Can't extend an non array value!");
         }
 
         if (is_array($value)) {

@@ -1,13 +1,13 @@
 <?php
 
-namespace Temple\Template;
+namespace Shift\Template;
 
 
-use Temple\Dependency\DependencyInstance;
-use Temple\Exception\TempleException;
-use Temple\Models\Dom;
-use Temple\Utilities\Config;
-use Temple\Utilities\Directories;
+use Shift\Dependency\DependencyInstance;
+use Shift\Exception\ShiftException;
+use Shift\Models\Dom;
+use Shift\Utilities\Config;
+use Shift\Utilities\Directories;
 
 
 class Template extends DependencyInstance
@@ -89,7 +89,7 @@ class Template extends DependencyInstance
      * renders and includes the template
      *
      * @param $file
-     * @throws TempleException
+     * @throws ShiftException
      */
     public function show($file)
     {
@@ -132,7 +132,7 @@ class Template extends DependencyInstance
      * @param int    $level
      * @return Dom
      */
-    public function getDom($file, $level = 0)
+    public function dom($file, $level = 0)
     {
         $file = $this->cleanExtension($file);
         $dom  = $this->Lexer->lex($file, $level);
@@ -150,7 +150,7 @@ class Template extends DependencyInstance
      */
     public function process($file, $level = 0)
     {
-        $dom     = $this->getDom($file, $level);
+        $dom     = $this->dom($file, $level);
         $content = $this->Parser->parse($dom);
 
         return $content;

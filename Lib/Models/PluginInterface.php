@@ -1,12 +1,12 @@
 <?php
 
-namespace Temple\Models;
+namespace Shift\Models;
 
 
 /**
  * Class Plugins
  *
- * @package Temple
+ * @package Shift
  */
 interface PluginInterface
 {

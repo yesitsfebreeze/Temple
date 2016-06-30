@@ -1,15 +1,15 @@
 <?php
 
-namespace Temple\Dependency;
+namespace Shift\Dependency;
 
 
-use Temple\Exception\TempleException;
+use Shift\Exception\ShiftException;
 
 
 /**
  * Class DependencyContainer
  *
- * @package Temple\DependencyManagement
+ * @package Shift\DependencyManagement
  */
 class DependencyContainer
 {
@@ -17,14 +17,14 @@ class DependencyContainer
     /** @var array $dependencies */
     private $dependencies = array();
 
-    private $rootNameSpace = "Temple";
+    private $rootNameSpace = "Shift";
 
 
     /**
      * adds dependencies if existing
      *
      * @param DependencyInterface $instance
-     * @throws TempleException
+     * @throws ShiftException
      * @return DependencyInstance
      */
     public function registerDependency(DependencyInterface &$instance)
@@ -53,13 +53,13 @@ class DependencyContainer
      *
      * @param string $name
      * @return DependencyInterface
-     * @throws TempleException
+     * @throws ShiftException
      */
     public function getInstance($name)
     {
 
         if (!isset($this->dependencies[ $name ])) {
-            throw new TempleException("Dependency Management: " . "$name is not instantiated yet.");
+            throw new ShiftException("Dependency Management: " . "$name is not instantiated yet.");
         }
 
         return $this->dependencies[ $name ];
@@ -71,12 +71,12 @@ class DependencyContainer
      *
      * @param $instance
      * @param $dependencies
-     * @throws TempleException
+     * @throws ShiftException
      */
     private function setDependencies(DependencyInterface &$instance, $dependencies)
     {
         if (!is_array($dependencies)) {
-            throw new TempleException("Dependency Management: dependencies() must return an array ", get_class($instance) . ".php");
+            throw new ShiftException("Dependency Management: dependencies() must return an array ", get_class($instance) . ".php");
         }
 
         foreach ($dependencies as $dependency => $name) {
@@ -89,13 +89,13 @@ class DependencyContainer
      * @param DependencyInterface $instance
      * @param string              $dependency
      * @param                     $name
-     * @throws TempleException
+     * @throws ShiftException
      */
     private function setDependency(DependencyInterface &$instance, $dependency, $name)
     {
 
         if (!isset($this->dependencies[ $dependency ])) {
-            throw new TempleException("Dependency Management: " . $dependency . " instance does't exist.", get_class($instance));
+            throw new ShiftException("Dependency Management: " . $dependency . " instance does't exist.", get_class($instance));
         }
 
         $instance->setDependency($name, $this->dependencies[ $dependency ]);

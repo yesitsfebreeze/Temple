@@ -1,10 +1,10 @@
 <?php
 
-namespace Temple\Plugin;
+namespace Shift\Plugin;
 
 
-use Temple\Models\HtmlNode;
-use Temple\Models\Plugin;
+use Shift\Models\HtmlNode;
+use Shift\Models\Plugin;
 
 
 /**
@@ -14,7 +14,7 @@ use Temple\Models\Plugin;
  * @usage        div.myclass.myotherclass results in <div class="myclass myotherclass"></div>
  * @author       Stefan Hövelmanns - hvlmnns.de
  * @License      MIT
- * @package      Temple
+ * @package      Shift
  */
 class Classes extends Plugin
 {
@@ -136,7 +136,7 @@ class Classes extends Plugin
         $inline = false;
         if ($node->has("parent")) {
             $parentTag = $node->get("parent")->get("tag.definition");
-            $inline    = in_array($parentTag, $this->Temple->Config()->get("parser.inline"));
+            $inline    = in_array($parentTag, $this->Shift->Config()->get("parser.inline"));
         }
         if ($inline) {
             $tag = "span";

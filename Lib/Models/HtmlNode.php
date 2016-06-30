@@ -1,13 +1,13 @@
 <?php
 
-namespace Temple\Models;
+namespace Shift\Models;
 
 
 /**
  * all NodeModel defaults are set here
  * Class NodeModel
  *
- * @package Temple
+ * @package Shift
  */
 class HtmlNode extends BaseNode
 {

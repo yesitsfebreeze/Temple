@@ -1,20 +1,20 @@
 <?php
 
-namespace Temple\Models;
+namespace Shift\Models;
 
 
 // TODO: add find method, maybe even to storage
 
-use Temple\Exception\TempleException;
-use Temple\Utilities\Config;
-use Temple\Utilities\Storage;
+use Shift\Exception\ShiftException;
+use Shift\Utilities\Config;
+use Shift\Utilities\Storage;
 
 
 /**
  * all BaseNode defaults are set here
  * Class BaseNode
  *
- * @package Temple
+ * @package Shift
  */
 class BaseNode extends Storage
 {
@@ -75,7 +75,7 @@ class BaseNode extends Storage
      * @param     $line
      *
      * @return float|int
-     * @throws TempleException
+     * @throws ShiftException
      */
     private function indent($line)
     {
@@ -91,7 +91,7 @@ class BaseNode extends Storage
         if (is_int($indent)) return $indent;
 
         # else throw an error since the amount of characters doesn't match
-        throw new TempleException("Indent isn't matching!", $this->get("info.file"), $this->get("info.line"));
+        throw new ShiftException("Indent isn't matching!", $this->get("info.file"), $this->get("info.line"));
 
     }
 

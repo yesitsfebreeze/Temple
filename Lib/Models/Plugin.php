@@ -1,32 +1,32 @@
 <?php
 
-namespace Temple\Models;
+namespace Shift\Models;
 
 
-use Temple\Exception\TempleException;
-use Temple\Instance;
+use Shift\Exception\ShiftException;
+use Shift\Instance;
 
 
 /**
  * Class Plugins
  *
- * @package Temple
+ * @package Shift
  */
 class Plugin implements PluginInterface
 {
 
-    /** @var Instance $Temple */
-    protected $Temple;
+    /** @var Instance $Shift */
+    protected $Shift;
 
 
     /**
      * Plugin constructor.
      *
-     * @param Instance $Temple
+     * @param Instance $Shift
      */
-    public function __construct(Instance $Temple)
+    public function __construct(Instance $Shift)
     {
-        $this->Temple = $Temple;
+        $this->Shift = $Shift;
     }
 
 
@@ -106,12 +106,12 @@ class Plugin implements PluginInterface
      *
      * @var mixed $element
      * @return mixed $element
-     * @@throws TempleException
+     * @@throws ShiftException
      */
     public function process($element)
     {
         $name = $this->getName();
-        throw new TempleException("Please declare the method 'process' for the plugin '$name'!");
+        throw new ShiftException("Please declare the method 'process' for the plugin '$name'!");
     }
 
 }

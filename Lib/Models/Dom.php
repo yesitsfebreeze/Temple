@@ -1,17 +1,17 @@
 <?php
 
-namespace Temple\Models;
+namespace Shift\Models;
 
 
 // TODO: add local variable space
 // TODO: add find method
-use Temple\Utilities\Storage;
+use Shift\Utilities\Storage;
 
 
 /**
  * Class DomModel
  *
- * @package Temple
+ * @package Shift
  */
 class Dom extends Storage
 {

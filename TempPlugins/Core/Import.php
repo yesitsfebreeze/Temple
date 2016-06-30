@@ -1,17 +1,17 @@
 <?php
 
-namespace Temple\Plugin;
+namespace Shift\Plugin;
 
 
-use Temple\Exception\TempleException;
-use Temple\Models\HtmlNode;
-use Temple\Models\Plugin;
+use Shift\Exception\ShiftException;
+use Shift\Models\HtmlNode;
+use Shift\Models\Plugin;
 
 
 /**
  * Class PluginImport
  *
- * @package     Temple
+ * @package     Shift
  * @description handles file imports
  * @position    0
  * @author      Stefan Hövelmanns
@@ -50,7 +50,7 @@ class Import extends Plugin
     /**
      * @param HtmlNode $node
      * @return HtmlNode $node
-     * @throws TempleException
+     * @throws ShiftException
      */
     public function process(HtmlNode $node)
     {
@@ -58,7 +58,7 @@ class Import extends Plugin
 
         $file = $this->getPath($node);
         if ($file == $node->get("namespace")) {
-            throw new TempleException("Recursive imports are not allowed!", $node->get("file"), $node->get("line"));
+            throw new ShiftException("Recursive imports are not allowed!", $node->get("file"), $node->get("line"));
         }
         $cachePath = $this->templateService->parse($file);
 

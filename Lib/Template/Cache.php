@@ -1,12 +1,12 @@
 <?php
 
-namespace Temple\Template;
+namespace Shift\Template;
 
 
-use Temple\Dependency\DependencyInstance;
-use Temple\Exception\TempleException;
-use Temple\Utilities\Config;
-use Temple\Utilities\Directories;
+use Shift\Dependency\DependencyInstance;
+use Shift\Exception\ShiftException;
+use Shift\Utilities\Config;
+use Shift\Utilities\Directories;
 
 
 class Cache extends DependencyInstance
@@ -74,7 +74,7 @@ class Cache extends DependencyInstance
      * @param     $content
      * @param int $level
      * @return string
-     * @throws TempleException
+     * @throws ShiftException
      */
     public function save($file, $content, $level = 0)
     {
@@ -160,17 +160,17 @@ class Cache extends DependencyInstance
      * @param string $parent
      * @param string $file
      * @return bool
-     * @throws TempleException
+     * @throws ShiftException
      */
     public function dependency($parent, $file)
     {
 
         if (!$file || $file == "") {
-            throw new TempleException("Please set a file for your dependency");
+            throw new ShiftException("Please set a file for your dependency");
         }
 
         if (!$parent || $parent == "") {
-            throw new TempleException("Please set a parent file for your dependency");
+            throw new ShiftException("Please set a parent file for your dependency");
         }
 
         $file   = $this->cleanFile($file);

@@ -1,16 +1,16 @@
 <?php
 
-namespace Temple\Utilities;
+namespace Shift\Utilities;
 
 
-use Temple\Dependency\DependencyInstance;
-use Temple\Exception\TempleException;
+use Shift\Dependency\DependencyInstance;
+use Shift\Exception\ShiftException;
 
 
 /**
  * Class Directories
  *
- * @package Temple
+ * @package Shift
  */
 class Directories extends DependencyInstance
 {
@@ -36,7 +36,7 @@ class Directories extends DependencyInstance
      * @param $dir
      * @param $type
      * @return bool|mixed|string
-     * @throws \Temple\Exception\TempleException
+     * @throws \Shift\Exception\ShiftException
      */
     public function add($dir, $type)
     {
@@ -56,7 +56,7 @@ class Directories extends DependencyInstance
      * @param $dir
      * @param $type
      * @return string
-     * @throws TempleException
+     * @throws ShiftException
      */
     public function set($dir, $type)
     {
@@ -72,14 +72,14 @@ class Directories extends DependencyInstance
      * creates a directory at the given path
      *
      * @param $dir
-     * @throws \Temple\Exception\TempleException
+     * @throws \Shift\Exception\ShiftException
      */
     public function create($dir)
     {
         $dir = $this->path($dir);
         if (!is_dir($dir)) {
             if (!is_writable(dirname($dir))) {
-                throw new TempleException("You don't have the permission to create this directory." . $dir);
+                throw new ShiftException("You don't have the permission to create this directory." . $dir);
             }
 
             mkdir($dir, 0777, true);
@@ -115,7 +115,7 @@ class Directories extends DependencyInstance
      *
      * @param $type
      * @return mixed
-     * @throws \Temple\Exception\TempleException
+     * @throws \Shift\Exception\ShiftException
      */
     public function get($type)
     {
@@ -159,7 +159,7 @@ class Directories extends DependencyInstance
      * @param $type
      * @param $dir
      * @return string
-     * @throws TempleException
+     * @throws ShiftException
      */
     private function sethHandler($dir, $type)
     {
@@ -196,13 +196,13 @@ class Directories extends DependencyInstance
      *
      * @param string $type
      * @return mixed
-     * @throws \Temple\Exception\TempleException
+     * @throws \Shift\Exception\ShiftException
      */
     private function check($type)
     {
 
         if (!$this->Config->has("dirs." . $type)) {
-            throw new TempleException("Something is wrong with the Default Config, please reset it!");
+            throw new ShiftException("Something is wrong with the Default Config, please reset it!");
         }
 
         $dirs = $this->Config->get("dirs." . $type);
@@ -223,27 +223,27 @@ class Directories extends DependencyInstance
      *
      * @param $dir
      * @return string
-     * @throws TempleException
+     * @throws ShiftException
      */
     private function validate($dir)
     {
         $dir = $this->path($dir);
         if (is_dir($dir)) return $dir;
 
-        throw new TempleException("Cannot add directory because it does not exist, please create it.", $dir);
+        throw new ShiftException("Cannot add directory because it does not exist, please create it.", $dir);
     }
 
 
 
     /**
-     * Returns the Temple Directory
+     * Returns the Shift Directory
      *
      * @return array|string
      */
     private function frameworkDir()
     {
-        $framework = explode("Temple", __DIR__);
-        $framework = $framework[0] . "Temple/";
+        $framework = explode("Shift", __DIR__);
+        $framework = $framework[0] . "Shift/";
 
         return $framework;
     }

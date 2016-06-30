@@ -1,18 +1,18 @@
 <?php
 
-namespace Temple\Plugin;
+namespace Shift\Plugin;
 
 
-use Temple\Exception\TempleException;
-use Temple\Models\Dom;
-use Temple\Models\HtmlNode;
-use Temple\Models\Plugin;
+use Shift\Exception\ShiftException;
+use Shift\Models\Dom;
+use Shift\Models\HtmlNode;
+use Shift\Models\Plugin;
 
 
 /**
  * Class PluginExtend
  *
- * @package     Temple
+ * @package     Shift
  * @description handles the extending of files and blocks
  * @position    1
  * @author      Stefan Hövelmanns
@@ -51,7 +51,7 @@ class Extend extends Plugin
     {
 
         # add the extend tag to the selfclosing elements
-        $this->Temple->Config()->extend("parser.selfClosing", "extend");
+        $this->Shift->Config()->extend("parser.selfClosing", "extend");
 
         # get the first node from the dom
         $nodes = $dom->get("nodes");
@@ -73,27 +73,27 @@ class Extend extends Plugin
      * @param HtmlNode $node
      *
      * @return bool|mixed
-     * @throws TempleException
+     * @throws ShiftException
      */
     private function getFileToExtend(HtmlNode $node)
     {
 
         # check if node has "extend" tag
-        if ($node->get("tag.definition") == "extend") {
+        if ($node->get("tag.definition") == "extend" || $node->get("tag.definition") == "extends") {
 
             $node->set("tag.display", false);
 
             # if there is no file file passed
             if (sizeof($node->get("attributes")) == 0) {
-                throw new TempleException("Please pass a file to extend!", $node->get("info.file"), $node->get("info.line"));
+                throw new ShiftException("Please pass a file to extend!", $node->get("info.file"), $node->get("info.line"));
             }
 
             $fileToExtend = array_keys($node->get("attributes"))[0];
 
-            $exists = $this->Temple->Template()->templateExists($fileToExtend);
+            $exists = $this->Shift->Template()->templateExists($fileToExtend);
 
             if (!$exists) {
-                throw new TempleException("Can not extend from file '{$fileToExtend}', because it does not exist!", $node->get("info.file"), $node->get("info.line"));
+                throw new ShiftException("Can not extend from file '{$fileToExtend}', because it does not exist!", $node->get("info.file"), $node->get("info.line"));
             }
 
             return $fileToExtend;
@@ -111,7 +111,7 @@ class Extend extends Plugin
      * @param Dom    $dom
      *
      * @return array
-     * @throws TempleException
+     * @throws ShiftException
      */
     private function extend($fileToExtend, Dom $dom)
     {
@@ -119,12 +119,10 @@ class Extend extends Plugin
         $root   = $dom->get("info.namespace");
         $blocks = $this->gatherBlocks($dom);
 
-
         # from now on we have the dom from the extended file
         $dom = $this->getNewDom($fileToExtend);
         $dom->set("info.parent.namespace", $root);
-        $dom = $this->modifyBlocks($dom, $blocks);
-
+        $dom->set("info.blocks", $blocks);
 
         return $dom;
     }
@@ -137,7 +135,7 @@ class Extend extends Plugin
      */
     private function getNewDom($file)
     {
-        return $this->Temple->Template()->getDom($file);
+        return $this->Shift->template()->dom($file);
     }
 
 
@@ -190,24 +188,6 @@ class Extend extends Plugin
         }
 
         return $blocks;
-    }
-
-
-    /**
-     * appends,prepends and replaces the blocks of the new dom
-     *
-     * @param Dom   $dom
-     * @param array $blocks
-     *
-     * @return Dom
-     */
-    private function modifyBlocks(Dom $dom, $blocks)
-    {
-
-        # todo: find node method for dom comes in handy here, ergo next todo
-        var_dump($blocks);
-
-        return $dom;
     }
 
 }

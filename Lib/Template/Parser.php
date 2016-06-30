@@ -1,20 +1,20 @@
 <?php
 
-namespace Temple\Template;
+namespace Shift\Template;
 
 
-use Temple\Dependency\DependencyInstance;
-use Temple\Exception\TempleException;
-use Temple\Models\Dom;
-use Temple\Models\BaseNode;
-use Temple\Models\FunctionNode;
-use Temple\Models\HtmlNode;
+use Shift\Dependency\DependencyInstance;
+use Shift\Exception\ShiftException;
+use Shift\Models\Dom;
+use Shift\Models\BaseNode;
+use Shift\Models\FunctionNode;
+use Shift\Models\HtmlNode;
 
 
 /**
  * Class Parser
  *
- * @package Temple
+ * @package Shift
  */
 class Parser extends DependencyInstance
 {
@@ -54,7 +54,7 @@ class Parser extends DependencyInstance
      *
      * @param Dom|BaseNode $dom
      * @return mixed
-     * @throws TempleException
+     * @throws ShiftException
      */
     private function createOutput($dom)
     {
@@ -68,6 +68,7 @@ class Parser extends DependencyInstance
                 /** @var FunctionNode $node */
                 $node = $this->Plugins->processFunctions($node);
             } else {
+                $node->set("dom",$dom);
                 /** @var HtmlNode $node */
                 $node = $this->Plugins->process($node);
             }
@@ -183,13 +184,13 @@ class Parser extends DependencyInstance
      * @param string   $output
      * @param BaseNode $node
      * @return string
-     * @throws TempleException
+     * @throws ShiftException
      */
     private function createChildren($node, $output)
     {
         if ($node->has("children")) {
             if ($node->get("info.selfclosing")) {
-                throw new TempleException("You can't have children in an " . $node->get("tag.definition") . "!", $node->get("file"), $node->get("line"));
+                throw new ShiftException("You can't have children in an " . $node->get("tag.definition") . "!", $node->get("file"), $node->get("line"));
             }
 
             $children = new Dom();

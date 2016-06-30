@@ -1,10 +1,10 @@
 <?php
 
-namespace Temple\Plugin;
+namespace Shift\Plugin;
 
 
-use Temple\Models\HtmlNode;
-use Temple\Models\Plugin;
+use Shift\Models\HtmlNode;
+use Shift\Models\Plugin;
 
 
 /**
@@ -14,7 +14,7 @@ use Temple\Models\Plugin;
  * @usage    - at linestart
  * @author   Stefan Hövelmanns - hvlmnns.de
  * @License  MIT
- * @package  Temple
+ * @package  Shift
  */
 class Php extends Plugin
 {

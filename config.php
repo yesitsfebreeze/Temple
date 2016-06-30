@@ -16,7 +16,7 @@ $config = array(
             "character" => " ",
             "amount" => 2
         ],
-        "extension" => "tmpl",
+        "extension" => "shift",
         "symbols" => [
             "comment" => "#",
             "variable" => "$"

@@ -1,15 +1,15 @@
 <?php
 
-namespace Temple\Models;
+namespace Shift\Models;
 
 
-use Temple\Utilities\Storage;
+use Shift\Utilities\Storage;
 
 
 /**
  * Class Vars
  *
- * @package Temple
+ * @package Shift
  */
 class Variables extends Storage
 {

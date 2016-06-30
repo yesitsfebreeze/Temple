@@ -1,22 +1,22 @@
 <?php
 
-namespace Temple\Template;
+namespace Shift\Template;
 
 
-use Temple\Dependency\DependencyInstance;
-use Temple\Exception\TempleException;
-use Temple\Models\Dom;
-use Temple\Models\BaseNode;
-use Temple\Models\FunctionNode;
-use Temple\Models\HtmlNode;
-use Temple\Utilities\Config;
-use Temple\Utilities\Directories;
+use Shift\Dependency\DependencyInstance;
+use Shift\Exception\ShiftException;
+use Shift\Models\Dom;
+use Shift\Models\BaseNode;
+use Shift\Models\FunctionNode;
+use Shift\Models\HtmlNode;
+use Shift\Utilities\Config;
+use Shift\Utilities\Directories;
 
 
 /**
  * Class Lexer
  *
- * @package Temple
+ * @package Shift
  */
 class Lexer extends DependencyInstance
 {
@@ -84,7 +84,7 @@ class Lexer extends DependencyInstance
      * @param string $file
      * @param int    $level
      * @return string
-     * @throws TempleException
+     * @throws ShiftException
      */
     private function getTemplateFile($file, $level = 0)
     {
@@ -93,7 +93,7 @@ class Lexer extends DependencyInstance
         $dirs = $this->Directories->get("template");
 
         if (!isset($dirs[ $level ])) {
-            throw new TempleException("No template file found!", "on level " . $level);
+            throw new ShiftException("No template file found!", "on level " . $level);
         }
 
         $dir          = $dirs[ $level ];
@@ -157,7 +157,7 @@ class Lexer extends DependencyInstance
      * processes the current file and adds its node to the dom
      *
      * @param $file
-     * @throws TempleException
+     * @throws ShiftException
      * @return Dom
      */
     private function process($file)
@@ -186,7 +186,7 @@ class Lexer extends DependencyInstance
      *
      * @param $line
      * @return BaseNode
-     * @throws TempleException
+     * @throws ShiftException
      */
     private function createNode($line)
     {
@@ -199,7 +199,7 @@ class Lexer extends DependencyInstance
         $node->createNode($line);
 
         if (!$node->has("tag.definition")) {
-            throw new TempleException("Node models must have a tag!", $this->dom->get("info.file"), $this->dom->get("info.line"));
+            throw new ShiftException("Node models must have a tag!", $this->dom->get("info.file"), $this->dom->get("info.line"));
         }
         
         return $node;
@@ -252,7 +252,7 @@ class Lexer extends DependencyInstance
      * than the previous node
      *
      * @param BaseNode $node
-     * @throws TempleException
+     * @throws ShiftException
      * @return mixed
      */
     private function addNodeOnDeeperLevel($node)
@@ -260,7 +260,7 @@ class Lexer extends DependencyInstance
         $node->set("info.parent", $this->dom->get("tmp.prev"));
         if ($node->get("info.parent")->get("info.selfclosing")) {
             $tag = $node->get("info.parent")->get("tag.definition");
-            throw new TempleException("You can't have children in an $tag tag!", $this->dom->get("info.file"), $this->dom->get("info.line"));
+            throw new ShiftException("You can't have children in an $tag tag!", $this->dom->get("info.file"), $this->dom->get("info.line"));
         }
 
         return $this->addNodeAsChild($this->dom->get("tmp.prev"), $node);

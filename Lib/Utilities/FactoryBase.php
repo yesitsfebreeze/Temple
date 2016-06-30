@@ -1,10 +1,10 @@
 <?php
 
-namespace Temple\Utilities;
+namespace Shift\Utilities;
 
 
-use Temple\Dependency\DependencyInstance;
-use Temple\Exception\TempleException;
+use Shift\Dependency\DependencyInstance;
+use Shift\Exception\ShiftException;
 
 
 /**
@@ -52,7 +52,7 @@ abstract class FactoryBase extends DependencyInstance implements FactoryInterfac
         }
 
         if (!gettype($class) == "string") {
-            throw new TempleException("Class name must be a string");
+            throw new ShiftException("Class name must be a string");
         }
 
         $class = $this->cleanClassName($class, ' ');

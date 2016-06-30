@@ -1,8 +1,8 @@
 <?php
 
-namespace Temple\Plugin;
+namespace Shift\Plugin;
 
-use Temple\Models\Plugin;
+use Shift\Models\Plugin;
 
 
 /**
@@ -12,7 +12,7 @@ use Temple\Models\Plugin;
  * @usage   : automatic
  * @author   : Stefan Hövelmanns - hvlmnns.de
  * @License : MIT
- * @package Temple
+ * @package Shift
  */
 class Cleanup extends Plugin
 {

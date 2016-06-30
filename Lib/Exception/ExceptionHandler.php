@@ -1,18 +1,18 @@
 <?php
 
-namespace Temple\Exception;
+namespace Shift\Exception;
 
 
 /**
  * Class ExceptionHandler
  *
- * @package Temple\Exceptions
+ * @package Shift\Exceptions
  */
 class ExceptionHandler
 {
 
     /**
-     * adds a global exception handler for Temple exceptions
+     * adds a global exception handler for Shift exceptions
      * ExceptionHandler constructor.
      */
     public function __construct()
@@ -22,7 +22,7 @@ class ExceptionHandler
 
         set_exception_handler(function ($Exception) use (&$originalHandler) {
 
-            if ($Exception instanceof TempleException) {
+            if ($Exception instanceof ShiftException) {
                 new ExceptionTemplate($Exception);
             } elseif (is_callable($originalHandler)) {
                 return call_user_func_array($originalHandler, [$Exception]);

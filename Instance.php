@@ -1,26 +1,26 @@
 <?php
 
-namespace Temple;
+namespace Shift;
 
 
-use Temple\Dependency\DependencyContainer;
-use Temple\Exception\TempleException;
-use Temple\Models\Variables;
-use Temple\Template\Cache;
-use Temple\Template\Lexer;
-use Temple\Template\NodeFactory;
-use Temple\Template\Parser;
-use Temple\Template\PluginFactory;
-use Temple\Template\Plugins;
-use Temple\Template\Template;
-use Temple\Utilities\Config;
-use Temple\Utilities\Directories;
+use Shift\Dependency\DependencyContainer;
+use Shift\Exception\ShiftException;
+use Shift\Models\Variables;
+use Shift\Template\Cache;
+use Shift\Template\Lexer;
+use Shift\Template\NodeFactory;
+use Shift\Template\Parser;
+use Shift\Template\PluginFactory;
+use Shift\Template\Plugins;
+use Shift\Template\Template;
+use Shift\Utilities\Config;
+use Shift\Utilities\Directories;
 
 
 /**
  * Class Instance
  *
- * @package Temple
+ * @package Shift
  */
 class Instance
 {
@@ -75,9 +75,9 @@ class Instance
 
     /**
      * @return Template
-     * @throws TempleException
+     * @throws ShiftException
      */
-    public function Template()
+    public function template()
     {
         return $this->container->getInstance("Template/Template");
     }
@@ -85,9 +85,9 @@ class Instance
 
     /**
      * @return Config
-     * @throws TempleException
+     * @throws ShiftException
      */
-    public function Config()
+    public function config()
     {
         return $this->container->getInstance("Utilities/Config");
     }
@@ -96,9 +96,9 @@ class Instance
 
     /**
      * @return Variables
-     * @throws TempleException
+     * @throws ShiftException
      */
-    public function Variables()
+    public function variables()
     {
         return $this->container->getInstance("Models/Variables");
     }
@@ -106,9 +106,9 @@ class Instance
 
     /**
      * @return Plugins
-     * @throws TempleException
+     * @throws ShiftException
      */
-    public function Plugins()
+    public function plugins()
     {
         return $this->container->getInstance("Template/Plugins");
     }
@@ -116,9 +116,9 @@ class Instance
 
     /**
      * @return Cache
-     * @throws TempleException
+     * @throws ShiftException
      */
-    public function Cache()
+    public function cache()
     {
         return $this->container->getInstance("Template/Cache");
     }
@@ -126,7 +126,7 @@ class Instance
 
     /**
      * @param string|null $config
-     * @throws TempleException
+     * @throws ShiftException
      * @return bool
      */
     private function prepare($config)

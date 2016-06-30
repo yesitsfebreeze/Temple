@@ -1,13 +1,13 @@
 <?php
 
-namespace Temple\Template;
+namespace Shift\Template;
 
 
-use Temple\Exception\TempleException;
-use Temple\Instance;
-use Temple\Models\Plugin;
-use Temple\Utilities\Directories;
-use Temple\Utilities\FactoryBase;
+use Shift\Exception\ShiftException;
+use Shift\Instance;
+use Shift\Models\Plugin;
+use Shift\Utilities\Directories;
+use Shift\Utilities\FactoryBase;
 
 
 /**
@@ -33,28 +33,28 @@ class PluginFactory extends FactoryBase
     /** @var  array $plugins */
     private $plugins = array();
 
-    /** @var  Instance $Temple */
-    private $Temple;
+    /** @var  Instance $Shift */
+    private $Shift;
 
 
     /**
-     * @param Instance $Temple
+     * @param Instance $Shift
      */
-    public function setInstance(Instance $Temple)
+    public function setInstance(Instance $Shift)
     {
-        $this->Temple = $Temple;
+        $this->Shift = $Shift;
     }
 
 
     /**
      * @param string $class
      * @return null|string
-     * @throws \Temple\Exception\TempleException
+     * @throws \Shift\Exception\ShiftException
      */
     public function check($class)
     {
         $this->getClassName($class);
-        $class = '\\Temple\\Plugins\\' . ucfirst($class) . "Plugin";
+        $class = '\\Shift\\Plugins\\' . ucfirst($class) . "Plugin";
         if (class_exists($class)) {
             return $class;
         } else {
@@ -68,14 +68,14 @@ class PluginFactory extends FactoryBase
      *
      * @param null $dir
      * @return bool
-     * @throws TempleException
+     * @throws ShiftException
      */
     public function loadAll($dir = null)
     {
         $dirs = $this->Directories->get("plugins");
         if (!is_null($dir)) {
             if (!isset(array_flip($dirs)[ $dir ])) {
-                throw new TempleException("Please add the directory to the plugins", $dir);
+                throw new ShiftException("Please add the directory to the plugins", $dir);
             }
             $dirs = array($dir);
         }
@@ -171,18 +171,18 @@ class PluginFactory extends FactoryBase
 
 
     /**
-     * install the plugins and register them in Temple
+     * install the plugins and register them in Shift
      *
      * @param $path
      * @param $name
-     * @throws TempleException
+     * @throws ShiftException
      */
     private function installPlugin($path, $name)
     {
         $pluginName = $this->getNamespace($path, $name);
         /** @var Plugin $plugin */
         if (class_exists($pluginName)) {
-            $Plugin = new $pluginName($this->Temple);
+            $Plugin = new $pluginName($this->Shift);
             $this->addPlugin($Plugin);
         }
     }
@@ -197,7 +197,7 @@ class PluginFactory extends FactoryBase
      */
     private function getNamespace($path, $name)
     {
-        $namespace      = "Temple\\Plugin\\";
+        $namespace      = "Shift\\Plugin\\";
         $namespaceArray = explode(".", $path);
         array_pop($namespaceArray);
         foreach ($namespaceArray as $name) {
@@ -212,7 +212,7 @@ class PluginFactory extends FactoryBase
     /**
      * @param Plugin $Plugin
      * @return array
-     * @throws TempleException
+     * @throws ShiftException
      */
     private function addPlugin(Plugin $Plugin)
     {
@@ -238,7 +238,7 @@ class PluginFactory extends FactoryBase
      * returns the plugin container type
      *
      * @param Plugin $Plugin
-     * @throws TempleException
+     * @throws ShiftException
      * @return string
      */
     private function validatePlugin(Plugin $Plugin)
@@ -248,7 +248,7 @@ class PluginFactory extends FactoryBase
         $position = $Plugin->position();
 
         if (!$position) {
-            throw new TempleException("Please set a position for the plugin '$name'!");
+            throw new ShiftException("Please set a position for the plugin '$name'!");
         }
 
         $methods = get_class_methods($Plugin);
@@ -263,11 +263,11 @@ class PluginFactory extends FactoryBase
         $enabled = array_count_values($types);
 
         if (!isset($enabled[1])) {
-            throw new TempleException("One plugin type method of the plugin '$name' should return true!");
+            throw new ShiftException("One plugin type method of the plugin '$name' should return true!");
         }
 
         if ($enabled[1] > 1) {
-            throw new TempleException("Plugin '$name' has more then one type set to true!");
+            throw new ShiftException("Plugin '$name' has more then one type set to true!");
         }
 
         # returns the active container type of the plugin

@@ -1,10 +1,10 @@
 <?php
 
 
-namespace Temple;
+namespace Shift;
 
 
-use Temple\Exception\ExceptionHandler;
+use Shift\Exception\ExceptionHandler;
 
 $namespace = __NAMESPACE__;
 $dir       = __DIR__ . "/Lib";

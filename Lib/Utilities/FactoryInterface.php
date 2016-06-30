@@ -1,9 +1,9 @@
 <?php
 
-namespace Temple\Utilities;
+namespace Shift\Utilities;
 
 
-use Temple\Exception\TempleException;
+use Shift\Exception\ShiftException;
 
 
 /**
@@ -16,7 +16,7 @@ interface FactoryInterface
     /**
      * @param string $class
      * @return mixed
-     * @throws TempleException
+     * @throws ShiftException
      */
     function create($class);
 
@@ -24,7 +24,7 @@ interface FactoryInterface
     /**
      * @param string $class
      * @return string|null
-     * @throws TempleException
+     * @throws ShiftException
      */
     function check($class);
 

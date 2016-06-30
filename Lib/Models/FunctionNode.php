@@ -1,13 +1,13 @@
 <?php
 
-namespace Temple\Models;
+namespace Shift\Models;
 
 
 /**
  * all NodeModel defaults are set here
  * Class NodeModel
  *
- * @package Temple
+ * @package Shift
  */
 class FunctionNode extends BaseNode
 {
@@ -38,7 +38,7 @@ class FunctionNode extends BaseNode
     /**
      * @param string $line
      * @return array|string
-     * @throws \Temple\Exception\TempleException
+     * @throws \Shift\Exception\ShiftException
      */
     protected function attributes($line)
     {

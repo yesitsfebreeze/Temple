@@ -1,21 +1,21 @@
 <?php
 
-namespace Temple\Exception;
+namespace Shift\Exception;
 
 
 /**
- * Class TempleException
+ * Class ShiftException
  *
- * @package Temple
+ * @package Shift
  */
-class TempleException extends \Exception
+class ShiftException extends \Exception
 {
 
-    /** @var bool|string $TempleFile */
-    private $TempleFile;
+    /** @var bool|string $ShiftFile */
+    private $ShiftFile;
 
-    /** @var integer|string $TempleLine */
-    private $TempleLine;
+    /** @var integer|string $ShiftLine */
+    private $ShiftLine;
 
 
     public function __construct($message = "", $file = false, $line = false, $code = 0, \Exception $previous = null)
@@ -32,11 +32,11 @@ class TempleException extends \Exception
 
 
         if ($file) {
-            $this->TempleFile = $file;
+            $this->ShiftFile = $file;
         }
 
         if ($line) {
-            $this->TempleLine = $line;
+            $this->ShiftLine = $line;
         }
 
         # execute the default exception after that
@@ -46,24 +46,24 @@ class TempleException extends \Exception
 
 
     /**
-     * returns the Temple file
+     * returns the Shift file
      *
      * @return bool|string
      */
-    public function getTempleFile()
+    public function getShiftFile()
     {
-        return $this->TempleFile;
+        return $this->ShiftFile;
     }
 
 
     /**
-     * returns the Temple line
+     * returns the Shift line
      *
      * @return bool|int|string
      */
-    public function getTempleLine()
+    public function getShiftLine()
     {
-        return $this->TempleLine;
+        return $this->ShiftLine;
     }
 
 
@@ -94,7 +94,7 @@ class TempleException extends \Exception
      * @param $line
      * @param $function
      */
-    function displayTempleErrorFile($root, $file, $line = false, $function = false)
+    function displayShiftErrorFile($root, $file, $line = false, $function = false)
     {
 
         $file = $this->splitFile($file, $root);

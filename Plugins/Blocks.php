@@ -1,17 +1,15 @@
 <?php
 
-namespace Temple\Plugin;
+namespace Shift\Plugin;
 
-
-use Temple\Exception\TempleException;
-use Temple\Models\HtmlNode;
-use Temple\Models\Plugin;
+use Shift\Models\HtmlNode;
+use Shift\Models\Plugin;
 
 
 /**
  * Class PluginExtend
  *
- * @package     Temple
+ * @package     Shift
  * @description handles the extending of files and blocks
  * @position    1
  * @author      Stefan Hövelmanns
@@ -46,10 +44,36 @@ class Blocks extends Plugin
     {
 
         if ($node->get("tag.definition") == "block") {
-            $node->set("tag.display",false);
+            $node->set("tag.display", false);
+            $node = $this->modifyBlock($node);
         };
 
         return $node;
+    }
+
+    
+    /**
+     * wraps, prepends, appends or replaces the block
+     *
+     * @param $node
+     * @return mixed
+     */
+    private function modifyBlock($node)
+    {
+        $method = $this->getMethod($node);
+        return $node;
+    }
+
+
+    /**
+     * returns the block handling method
+     *
+     * @param $node
+     * @return string
+     */
+    private function getMethod($node)
+    {
+        return "replace";
     }
 
 }

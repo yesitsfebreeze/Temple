@@ -1,13 +1,13 @@
 <?php
 
-namespace Temple\Dependency;
+namespace Shift\Dependency;
 
 
 /**
  * Interface DependencyInterface
  * only used in DependencyInstance
  *
- * @package Temple\DependencyManagement
+ * @package Shift\DependencyManagement
  */
 interface DependencyInterface
 {
