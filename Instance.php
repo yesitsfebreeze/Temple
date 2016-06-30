@@ -77,7 +77,7 @@ class Instance
      * @return Template
      * @throws ShiftException
      */
-    public function template()
+    public function Template()
     {
         return $this->container->getInstance("Template/Template");
     }
@@ -87,18 +87,17 @@ class Instance
      * @return Config
      * @throws ShiftException
      */
-    public function config()
+    public function Config()
     {
         return $this->container->getInstance("Utilities/Config");
     }
-
 
 
     /**
      * @return Variables
      * @throws ShiftException
      */
-    public function variables()
+    public function Variables()
     {
         return $this->container->getInstance("Models/Variables");
     }
@@ -108,7 +107,7 @@ class Instance
      * @return Plugins
      * @throws ShiftException
      */
-    public function plugins()
+    public function Plugins()
     {
         return $this->container->getInstance("Template/Plugins");
     }
@@ -118,7 +117,7 @@ class Instance
      * @return Cache
      * @throws ShiftException
      */
-    public function cache()
+    public function Cache()
     {
         return $this->container->getInstance("Template/Cache");
     }
@@ -126,6 +125,7 @@ class Instance
 
     /**
      * @param string|null $config
+     *
      * @throws ShiftException
      * @return bool
      */
@@ -134,13 +134,13 @@ class Instance
         $this->container = new DependencyContainer();
 
         $this->Config        = $this->container->registerDependency(new Config());
-        $this->Variables     = $this->container->registerDependency(new Variables());
         $this->Directories   = $this->container->registerDependency(new Directories());
         $this->NodeFactory   = $this->container->registerDependency(new NodeFactory());
         $this->PluginFactory = $this->container->registerDependency(new PluginFactory());
         $this->Plugins       = $this->container->registerDependency(new Plugins());
         $this->Parser        = $this->container->registerDependency(new Parser());
         $this->Lexer         = $this->container->registerDependency(new Lexer());
+        $this->Variables     = $this->container->registerDependency(new Variables());
         $this->Cache         = $this->container->registerDependency(new Cache());
         $this->Template      = $this->container->registerDependency(new Template());
 
