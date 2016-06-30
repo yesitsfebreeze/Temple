@@ -5,10 +5,8 @@ namespace Shift\Template;
 
 use Shift\Dependency\DependencyInstance;
 use Shift\Exception\ShiftException;
-use Shift\Models\Dom;
 use Shift\Models\BaseNode;
-use Shift\Models\FunctionNode;
-use Shift\Models\HtmlNode;
+use Shift\Models\Dom;
 use Shift\Utilities\Config;
 use Shift\Utilities\Directories;
 
@@ -33,26 +31,17 @@ class Lexer extends DependencyInstance
     /** @var  Plugins $Plugins */
     protected $Plugins;
 
-
-    /**
-     * @return array
-     */
-    public function dependencies()
-    {
-        return array(
-            "Utilities/Config"      => "Config",
-            "Utilities/Directories" => "Directories",
-            "Template/NodeFactory"  => "NodeFactory",
-            "Template/Plugins"      => "Plugins"
-        );
-    }
-
-
     /** @var Dom $dom */
     private $dom;
 
     /** @var int $level */
     private $level;
+
+    /** @inheritdoc */
+    public function dependencies()
+    {
+        return $this->getDependencies();
+    }
 
 
     /**
@@ -60,6 +49,7 @@ class Lexer extends DependencyInstance
      *
      * @param string $file
      * @param int    $level
+     *
      * @return Dom
      */
     public function lex($file, $level = 0)
@@ -72,6 +62,7 @@ class Lexer extends DependencyInstance
         $this->createNewDom($namespace, $file, $files);
         $this->process($file);
         $this->dom = $this->Plugins->postProcess($this->dom);
+
         return $this->dom;
 
     }
@@ -83,6 +74,7 @@ class Lexer extends DependencyInstance
      *
      * @param string $file
      * @param int    $level
+     *
      * @return string
      * @throws ShiftException
      */
@@ -113,6 +105,7 @@ class Lexer extends DependencyInstance
      * returns all found template files
      *
      * @param $file
+     *
      * @return array
      */
     private function getTemplateFiles($file)
@@ -157,6 +150,7 @@ class Lexer extends DependencyInstance
      * processes the current file and adds its node to the dom
      *
      * @param $file
+     *
      * @throws ShiftException
      * @return Dom
      */
@@ -185,6 +179,7 @@ class Lexer extends DependencyInstance
      * creates a node matching to the criteria
      *
      * @param $line
+     *
      * @return BaseNode
      * @throws ShiftException
      */
@@ -201,7 +196,7 @@ class Lexer extends DependencyInstance
         if (!$node->has("tag.definition")) {
             throw new ShiftException("Node models must have a tag!", $this->dom->get("info.file"), $this->dom->get("info.line"));
         }
-        
+
         return $node;
     }
 
@@ -211,6 +206,7 @@ class Lexer extends DependencyInstance
      * getParentNode/child logic is handled here
      *
      * @param BaseNode $node
+     *
      * @return bool
      */
     private function addNode($node)
@@ -252,6 +248,7 @@ class Lexer extends DependencyInstance
      * than the previous node
      *
      * @param BaseNode $node
+     *
      * @throws ShiftException
      * @return mixed
      */
@@ -273,6 +270,7 @@ class Lexer extends DependencyInstance
      * than the previous node
      *
      * @param BaseNode $node
+     *
      * @return mixed
      */
     private function addNodeOnHigherLevel($node)
@@ -289,6 +287,7 @@ class Lexer extends DependencyInstance
      * than the previous node
      *
      * @param BaseNode $node
+     *
      * @return mixed
      */
     private function addNodeOnSameLevel($node)
@@ -305,6 +304,7 @@ class Lexer extends DependencyInstance
      *
      * @param BaseNode $target
      * @param BaseNode $node
+     *
      * @throws \Exception
      * @return mixed
      */
@@ -322,6 +322,7 @@ class Lexer extends DependencyInstance
      *
      * @param BaseNode      $node
      * @param bool|BaseNode $parent
+     *
      * @return BaseNode
      */
     private function getParentNode($node, $parent = false)

@@ -23,17 +23,12 @@ class Cache extends DependencyInstance
     protected $Template;
 
 
-    /**
-     * @return array
-     */
+    /** @inheritdoc */
     public function dependencies()
     {
-        return array(
-            "Utilities/Config"      => "Config",
-            "Utilities/Directories" => "Directories"
-        );
+        return $this->getDependencies();
     }
-
+    
 
     /** @var string $cacheFile */
     private $cacheFile = ".base";
@@ -43,6 +38,7 @@ class Cache extends DependencyInstance
      * sets the cache directory
      *
      * @param string $dir
+     *
      * @return string
      */
     public function setDirectory($dir)
@@ -73,6 +69,7 @@ class Cache extends DependencyInstance
      * @param     $file
      * @param     $content
      * @param int $level
+     *
      * @return string
      * @throws ShiftException
      */
@@ -97,6 +94,7 @@ class Cache extends DependencyInstance
      * returns if the file passed is newer than the cached file
      *
      * @param $file
+     *
      * @return bool
      */
     public function isModified($file)
@@ -143,6 +141,7 @@ class Cache extends DependencyInstance
      * returns a cache file
      *
      * @param $file
+     *
      * @return string
      */
     public function getFile($file)
@@ -159,6 +158,7 @@ class Cache extends DependencyInstance
      *
      * @param string $parent
      * @param string $file
+     *
      * @return bool
      * @throws ShiftException
      */
@@ -194,6 +194,7 @@ class Cache extends DependencyInstance
      * removes the whole cache directory
      *
      * @param null $dir
+     *
      * @return bool
      */
     public function clear($dir = null)
@@ -221,6 +222,7 @@ class Cache extends DependencyInstance
      * into our cache file
      *
      * @param $file
+     *
      * @return bool
      */
     private function setTime($file)
@@ -254,6 +256,7 @@ class Cache extends DependencyInstance
      * saves the array to the cache
      *
      * @param array $cache
+     *
      * @return bool
      */
     private function saveCache($cache)
@@ -268,6 +271,7 @@ class Cache extends DependencyInstance
      * returns all found template files
      *
      * @param $file
+     *
      * @return array
      */
     private function getTemplateFiles($file)
@@ -291,6 +295,7 @@ class Cache extends DependencyInstance
      * creates the file if its not already there
      *
      * @param $file
+     *
      * @return mixed|string
      */
     private function createFile($file)
@@ -307,6 +312,7 @@ class Cache extends DependencyInstance
      * returns the cache path for the given file
      *
      * @param $file
+     *
      * @return string
      */
     public function getPath($file)
@@ -329,6 +335,7 @@ class Cache extends DependencyInstance
      * adds a php extension to the files path
      *
      * @param $file
+     *
      * @return mixed|string
      */
     private function extension($file)
@@ -346,6 +353,7 @@ class Cache extends DependencyInstance
      * removes the template dirs and the extension form a file path
      *
      * @param $file
+     *
      * @return string
      */
     private function cleanFile($file)

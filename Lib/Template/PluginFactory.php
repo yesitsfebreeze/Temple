@@ -21,20 +21,18 @@ class PluginFactory extends FactoryBase
     /** @var  Directories $Directories */
     protected $Directories;
 
-
+    /** @inheritdoc */
     public function dependencies()
     {
-        return array(
-            "Utilities/Directories" => "Directories"
-        );
+        return $this->getDependencies();
     }
-
-
+    
     /** @var  array $plugins */
     private $plugins = array();
 
     /** @var  Instance $Shift */
     private $Shift;
+
 
 
     /**

@@ -31,20 +31,10 @@ class Template extends DependencyInstance
     /** @var  Plugins Plugins */
     protected $Plugins;
 
-
-    /**
-     * @return array
-     */
+    /** @inheritdoc */
     public function dependencies()
     {
-        return array(
-            "Utilities/Directories" => "Directories",
-            "Utilities/Config"      => "Config",
-            "Template/Lexer"        => "Lexer",
-            "Template/Parser"       => "Parser",
-            "Template/Cache"        => "Cache",
-            "Template/Plugins"      => "Plugins"
-        );
+        return $this->getDependencies();
     }
 
 

@@ -19,14 +19,11 @@ class NodeFactory extends FactoryBase
     /** @var Config $Config */
     protected $Config;
 
+    /** @inheritdoc */
     public function dependencies()
     {
-        return array(
-            "Utilities/Config" => "Config"
-        );
+        return $this->getDependencies();
     }
-
-
 
     /** @inheritdoc */
     public function create($class)

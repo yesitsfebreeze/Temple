@@ -22,15 +22,10 @@ class Parser extends DependencyInstance
     /** @var  Plugins $Plugins */
     protected $Plugins;
 
-
-    /**
-     * @return array
-     */
+    /** @inheritdoc */
     public function dependencies()
     {
-        return array(
-            "Template/Plugins" => "Plugins"
-        );
+        return $this->getDependencies();
     }
 
 

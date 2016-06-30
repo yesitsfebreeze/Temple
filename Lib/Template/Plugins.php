@@ -28,19 +28,11 @@ class Plugins extends DependencyInstance
     /** @var  PluginFactory $PluginFactory */
     protected $PluginFactory;
 
-
-    /**
-     * @return array
-     */
+    /** @inheritdoc */
     public function dependencies()
     {
-        return array(
-            "Utilities/Config"       => "Config",
-            "Utilities/Directories"  => "Directories",
-            "Template/PluginFactory" => "PluginFactory"
-        );
+        return $this->getDependencies();
     }
-
 
     /**
      * adds a plugin directory

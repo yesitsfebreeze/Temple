@@ -18,17 +18,11 @@ class Directories extends DependencyInstance
     /** @var  Config $Config */
     protected $Config;
 
-
-    /**
-     * @return array
-     */
+    /** @inheritdoc */
     public function dependencies()
     {
-        return array(
-            "Utilities/Config" => "Config"
-        );
+        return $this->getDependencies();
     }
-
 
     /**
      * adds the directory into the config for the respective type
