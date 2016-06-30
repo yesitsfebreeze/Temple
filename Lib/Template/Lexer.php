@@ -85,7 +85,7 @@ class Lexer extends DependencyInstance
         $dirs = $this->Directories->get("template");
 
         if (!isset($dirs[ $level ])) {
-            throw new ShiftException("No template file found!", "on level " . $level);
+            throw new ShiftException($file ." not found!");
         }
 
         $dir          = $dirs[ $level ];
