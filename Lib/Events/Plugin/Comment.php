@@ -56,9 +56,10 @@ class Comment extends Plugin
             $node = $this->createComment($node);
 
             if (sizeof($node->get("children")) > 0) {
-                $node->set("tag.opening.before", "<!--\r\n");
+                $node->set("tag.opening.before", "<!--\n");
                 $node->set("tag.closing.after", "--!>");
-                $node->set("tag.opening.after", "\r\n");
+                $node->set("tag.opening.after", "\n");
+                $node->set("info.attributes.trim", true);
             } else {
                 $node->set("tag.opening.before", "<!-- ");
                 $node->set("tag.closing.after", " --!>");
@@ -78,6 +79,7 @@ class Comment extends Plugin
      */
     private function createComment(HtmlNode $node)
     {
+
         if ($node->get("tag.definition") == $this->symbol) {
             $node->set("tag.opening.definition", "");
         }
@@ -88,7 +90,7 @@ class Comment extends Plugin
         $node->set("tag.opening.after", "");
 
         $node->set("tag.closing.before", "");
-        $node->set("tag.closing.after", "\r\n");
+        $node->set("tag.closing.after", "\n");
 
         if (sizeof($node->get("children")) > 0) {
             foreach ($node->get("children") as &$childNode) {

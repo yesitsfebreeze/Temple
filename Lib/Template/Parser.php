@@ -145,7 +145,16 @@ class Parser extends DependencyInstance
                 $output .= " ";
             }
 
-            $attrs = " ";
+            $trim = false;
+            if ($node->has("info.attributes.trim")) {
+                $trim = $node->get("info.attributes.trim");
+            }
+
+            if (!$trim) {
+                $attrs = " ";
+            } else {
+                $attrs = "";
+            }
 
             foreach ($attributes as $name => $value) {
                 $attrs .= $name;
