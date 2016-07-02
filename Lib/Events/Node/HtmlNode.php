@@ -26,10 +26,12 @@ class HtmlNode extends Event
      */
     public function dispatch($args, Instance $Instance)
     {
-
+        
         if (!$args instanceof BaseNode) {
-            $node = new Node($Instance->Config());
-            $node = $node->createNode($args);
+            $line  = $args[0];
+            $infos = $args[1];
+            $node  = new Node($Instance->Config());
+            $node  = $node->createNode($line, $infos);
 
             return $node;
         } else {

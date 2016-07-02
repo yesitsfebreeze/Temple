@@ -28,10 +28,12 @@ class FunctionNode extends Event
     {
 
         if (!$args instanceof BaseNode) {
-            $identifier = trim($args)[0];
+            $line       = $args[0];
+            $infos      = $args[1];
+            $identifier = trim($line)[0];
             if ($identifier == "+") {
                 $node = new Node($Instance->Config());
-                $node = $node->createNode($args);
+                $node = $node->createNode($line, $infos);
 
                 return $node;
             } else {
@@ -40,5 +42,6 @@ class FunctionNode extends Event
         } else {
             return $args;
         }
+        
     }
 }

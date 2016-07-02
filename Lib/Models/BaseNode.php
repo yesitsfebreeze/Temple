@@ -38,15 +38,20 @@ class BaseNode extends Storage
      * check for different node types
      * and create a model
      *
-     * @param $line
+     * @param string $line
+     * @param array  $infos
      *
      * @return BaseNode
      */
-    public function createNode($line)
+    public function createNode($line, $infos)
     {
 
         # add everything we need to our node
         $this->set("info.type", "node");
+
+        foreach ($infos as $name => $info) {
+            $this->set($name, $info);
+        }
 
         $this->set("tag", $this->tag($line));
         $this->set("attributes", $this->attributes($line));

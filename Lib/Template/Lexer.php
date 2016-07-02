@@ -190,14 +190,16 @@ class Lexer extends DependencyInstance
     private function createNode($line)
     {
         /** @var BaseNode $node */
-        $node = $this->EventManager->notify("lexer.node", $line);
+        $info                   = array();
+        $info["info.namespace"] = $this->dom->get("info.namespace");
+        $info["info.level"]     = $this->dom->get("info.level");
+        $info["info.line"]      = $this->dom->get("info.line");
+        $info["info.file"]      = $this->dom->get("info.file");
+
+        $node = $this->EventManager->notify("lexer.node", array($line, $info));
         if (!$node instanceof BaseNode) {
             throw new Exception("The Node EventManager has to return an instance of a 'BaseNode'!");
         }
-        $node->set("info.namespace", $this->dom->get("info.namespace"));
-        $node->set("info.level", $this->dom->get("info.level"));
-        $node->set("info.line", $this->dom->get("info.line"));
-        $node->set("info.file", $this->dom->get("info.file"));
 
         if (!$node->has("tag.definition")) {
             throw new Exception("Node models must have a tag!", $this->dom->get("info.file"), $this->dom->get("info.line"));
