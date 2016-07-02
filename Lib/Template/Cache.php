@@ -1,12 +1,12 @@
 <?php
 
-namespace Shift\Template;
+namespace Pavel\Template;
 
 
-use Shift\Dependency\DependencyInstance;
-use Shift\Exception\ShiftException;
-use Shift\Utilities\Config;
-use Shift\Utilities\Directories;
+use Pavel\Dependency\DependencyInstance;
+use Pavel\Exception\Exception;
+use Pavel\Utilities\Config;
+use Pavel\Utilities\Directories;
 
 
 class Cache extends DependencyInstance
@@ -65,13 +65,15 @@ class Cache extends DependencyInstance
 
     /**
      * saves the file to the cache and returns its path
-     *
-     * @param     $file
+     
+     * 
+*@param     $file
      * @param     $content
      * @param int $level
-     *
-     * @return string
-     * @throws ShiftException
+     
+     * 
+*@return string
+     * @throws Exception
      */
     public function save($file, $content, $level = 0)
     {
@@ -155,22 +157,24 @@ class Cache extends DependencyInstance
 
     /**
      * adds a dependency to the cache
-     *
-     * @param string $parent
+     
+     * 
+*@param string $parent
      * @param string $file
-     *
-     * @return bool
-     * @throws ShiftException
+     
+     * 
+*@return bool
+     * @throws Exception
      */
     public function dependency($parent, $file)
     {
 
         if (!$file || $file == "") {
-            throw new ShiftException("Please set a file for your dependency");
+            throw new Exception("Please set a file for your dependency");
         }
 
         if (!$parent || $parent == "") {
-            throw new ShiftException("Please set a parent file for your dependency");
+            throw new Exception("Please set a parent file for your dependency");
         }
 
         $file   = $this->cleanFile($file);

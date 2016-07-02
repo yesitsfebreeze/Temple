@@ -1,13 +1,13 @@
 <?php
 
-namespace Shift\Dependency;
+namespace Pavel\Dependency;
 
 
 /**
  * Interface DependencyInterface
  * only used in DependencyInstance
  *
- * @package Shift\DependencyManagement
+ * @package Pavel\DependencyManagement
  */
 interface DependencyInterface
 {

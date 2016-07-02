@@ -6,17 +6,16 @@ $config = array(
     "dirs" => [
         "cache" => "./Cache",
         "template" => [],
-        "plugins" => [],
     ],
     "cache" => [
-        "enable" => false
+        "enable" => true
     ],
     "template" => [
         "indent" => [
             "character" => " ",
             "amount" => 2
         ],
-        "extension" => "shift",
+        "extension" => "pav",
         "symbols" => [
             "comment" => "#",
             "variable" => "$"
@@ -36,8 +35,8 @@ $config = array(
             "right" => "}"
         ],
         "comments" => [
-            "show" => false,
-            "blocks" => false
+            "show" => true,
+            "bricks" => true
         ]
     ],
     "parser" => [

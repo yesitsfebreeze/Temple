@@ -1,20 +1,18 @@
 <?php
 
-namespace Shift\Models;
+namespace Pavel\Models;
 
 
-// TODO: add find method, maybe even to storage
-
-use Shift\Exception\ShiftException;
-use Shift\Utilities\Config;
-use Shift\Utilities\Storage;
+use Pavel\Exception\Exception;
+use Pavel\Utilities\Config;
+use Pavel\Utilities\Storage;
 
 
 /**
  * all BaseNode defaults are set here
  * Class BaseNode
  *
- * @package Shift
+ * @package Pavel
  */
 class BaseNode extends Storage
 {
@@ -54,7 +52,7 @@ class BaseNode extends Storage
         $this->set("attributes", $this->attributes($line));
         $this->set("children", array());
         $this->set("info.indent", $this->indent($line));
-        $this->set("info.selfclosing", $this->selfclosing());
+        $this->set("info.selfClosing", $this->selfClosing());
 
         $this->set("info.plain", str_replace("\n", "", $line));
         $this->set("info.display", true);
@@ -75,7 +73,7 @@ class BaseNode extends Storage
      * @param     $line
      *
      * @return float|int
-     * @throws ShiftException
+     * @throws Exception
      */
     private function indent($line)
     {
@@ -91,7 +89,7 @@ class BaseNode extends Storage
         if (is_int($indent)) return $indent;
 
         # else throw an error since the amount of characters doesn't match
-        throw new ShiftException("Indent isn't matching!", $this->get("info.file"), $this->get("info.line"));
+        throw new Exception("Indent isn't matching!", $this->get("info.file"), $this->get("info.line"));
 
     }
 
@@ -146,23 +144,25 @@ class BaseNode extends Storage
         $attributes = $this->escapeSpaces($attributes, "'");
         $attributes = $this->escapeSpaces($attributes, '"');
         $attributes = explode(" ", $attributes);
-        $attributes = array_filter($attributes);
+        $attributes = array_filter($attributes, function ($value) {
+            return ($value !== null && $value !== false && $value !== '');
+        });
 
         foreach ($attributes as &$attribute) {
             $attribute = explode("=", $attribute);
             $name      = $attribute[0];
             if (isset($attribute[1])) {
                 $value = $attribute[1];
-                $value = preg_replace("/^\'/", '', $value);
+                $value = preg_replace("/^'/", '', $value);
                 $value = preg_replace('/^\"/', '', $value);
-                $value = preg_replace("/\'$/", '', $value);
+                $value = preg_replace("/'$/", '', $value);
                 $value = preg_replace('/\"$/', '', $value);
             }
             if (!isset($value)) {
                 $value = "";
             }
             # revert the space escape
-            $value = str_replace("~~~", ' ', $value);
+            $value          = str_replace("~~~", ' ', $value);
             $attrs[ $name ] = $value;
         }
 
@@ -200,7 +200,7 @@ class BaseNode extends Storage
      *
      * @return string
      */
-    private function selfclosing()
+    private function selfClosing()
     {
         # check if our tag is in the selfClosing array set in the config
         if (in_array($this->get("tag.definition"), $this->Config->get("parser.selfClosing"))) return true;

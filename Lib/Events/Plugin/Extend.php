@@ -1,19 +1,19 @@
 <?php
 
-namespace Shift\Plugin;
+namespace Pavel\Events\Plugin;
 
 
-use Shift\Exception\ShiftException;
-use Shift\Models\Dom;
-use Shift\Models\HtmlNode;
-use Shift\Models\Plugin;
+use Pavel\Exception\Exception;
+use Pavel\Models\Dom;
+use Pavel\Models\HtmlNode;
+use Pavel\Models\Plugin;
 
 
 /**
  * Class PluginExtend
  *
- * @package     Shift
- * @description handles the extending of files and blocks
+ * @package     Pavel
+ * @description handles the extending of files and bricks
  * @position    1
  * @author      Stefan Hövelmanns
  * @License     MIT
@@ -21,22 +21,7 @@ use Shift\Models\Plugin;
 class Extend extends Plugin
 {
 
-    /**
-     * @return int;
-     */
-    public function position()
-    {
-        return 1;
-    }
-
-
-    public function isDomProcessor()
-    {
-        return true;
-    }
-
-
-    private $blockInsertMethods = array("before", "after", "wrap", "replace");
+    private $brickInsertMethods = array("before", "after", "wrap", "replace");
 
 
     /**
@@ -47,20 +32,21 @@ class Extend extends Plugin
      * @return array
      * @throws \Exception
      */
-    public function process(Dom $dom)
+    public function process($dom)
     {
-
-        # add the extend tag to the selfclosing elements
-        $this->Shift->Config()->extend("parser.selfClosing", "extend");
+        
+        # add the extend tag to the selfClosing elements
+        $this->Instance->Config()->extend("parser.selfClosing", "extend");
 
         # get the first node from the dom
         $nodes = $dom->get("nodes");
         $node  = reset($nodes);
 
-        $fileToExtend = $this->getFileToExtend($node);
-
-        if ($fileToExtend) {
-            $dom = $this->extend($fileToExtend, $dom);
+        if ($node instanceof HtmlNode) {
+            $fileToExtend = $this->getFileToExtend($node);
+            if ($fileToExtend) {
+                $dom = $this->extend($fileToExtend, $dom);
+            }
         }
 
         return $dom;
@@ -73,7 +59,7 @@ class Extend extends Plugin
      * @param HtmlNode $node
      *
      * @return bool|mixed
-     * @throws ShiftException
+     * @throws Exception
      */
     private function getFileToExtend(HtmlNode $node)
     {
@@ -85,15 +71,15 @@ class Extend extends Plugin
 
             # if there is no file file passed
             if (sizeof($node->get("attributes")) == 0) {
-                throw new ShiftException("Please pass a file to extend!", $node->get("info.file"), $node->get("info.line"));
+                throw new Exception("Please pass a file to extend!", $node->get("info.file"), $node->get("info.line"));
             }
 
             $fileToExtend = array_keys($node->get("attributes"))[0];
 
-            $exists = $this->Shift->Template()->templateExists($fileToExtend);
+            $exists = $this->Instance->Template()->templateExists($fileToExtend);
 
             if (!$exists) {
-                throw new ShiftException("Can not extend from file '{$fileToExtend}', because it does not exist!", $node->get("info.file"), $node->get("info.line"));
+                throw new Exception("Can not extend from file '{$fileToExtend}', because it does not exist!", $node->get("info.file"), $node->get("info.line"));
             }
 
             return $fileToExtend;
@@ -104,25 +90,25 @@ class Extend extends Plugin
 
 
     /**
-     * extends the current file and replaces all blocks
+     * extends the current file and replaces all bricks
      * this will restart the parsing process
      *
      * @param String $fileToExtend
      * @param Dom    $dom
      *
      * @return array
-     * @throws ShiftException
+     * @throws Exception
      */
     private function extend($fileToExtend, Dom $dom)
     {
 
         $root   = $dom->get("info.namespace");
-        $blocks = $this->gatherBlocks($dom);
+        $bricks = $this->collectBricks($dom);
 
         # from now on we have the dom from the extended file
         $dom = $this->getNewDom($fileToExtend);
         $dom->set("info.parent.namespace", $root);
-        $dom->set("info.blocks", $blocks);
+        $dom->set("info.bricks", $bricks);
 
         return $dom;
     }
@@ -135,25 +121,25 @@ class Extend extends Plugin
      */
     private function getNewDom($file)
     {
-        return $this->Shift->template()->dom($file);
+        return $this->Instance->Template()->dom($file);
     }
 
 
     /**
-     * returns all blocks from the template which extends
+     * returns all bricks from the template which extends
      *
      * @param Dom $dom
      *
      * @return array
      */
-    private function gatherBlocks(Dom $dom)
+    private function collectBricks(Dom $dom)
     {
-        $blocks = array();
+        $bricks = array();
         $nodes  = $dom->get("nodes");
         if (sizeof($nodes) > 0) {
             /** @var HtmlNode $node */
             foreach ($nodes as $node) {
-                if ($node->get("tag.definition") == "block") {
+                if ($node->get("tag.definition") == "brick") {
 
                     $attributes = $node->get("attributes");
 
@@ -161,8 +147,8 @@ class Extend extends Plugin
                         $name = $attributes["name"];
                     } else {
                         $name = implode(" ", array_keys($attributes));
-                        foreach ($this->blockInsertMethods as $blockInsertMethod) {
-                            $name = preg_replace("/" . $blockInsertMethod . "$/", "", $name);
+                        foreach ($this->brickInsertMethods as $brickInsertMethod) {
+                            $name = preg_replace("/" . $brickInsertMethod . "$/", "", $name);
                         }
                         $name = trim($name);
                     }
@@ -171,23 +157,24 @@ class Extend extends Plugin
                         $insert = $attributes["insert"];
                     } else {
                         $insert = array_reverse(array_keys($attributes))[0];
-                        if (!in_array($insert,$this->blockInsertMethods)) {
+                        if (!in_array($insert, $this->brickInsertMethods)) {
                             $insert = "replace";
                         }
                     }
 
-                    if (!isset($blocks[ $name ])) {
-                        $blocks[ $name ] = array();
+                    if (!isset($bricks[ $name ])) {
+                        $bricks[ $name ] = array();
                     }
-                    if (!isset($blocks[ $name ][ $insert ])) {
-                        $blocks[ $name ][ $insert ] = array();
+                    if (!isset($bricks[ $name ][ $insert ])) {
+                        $bricks[ $name ][ $insert ] = array();
                     }
-                    $blocks[ $name ][ $insert ][] = $node;
+
+                    $bricks[ $name ][ $insert ][] = $node;
                 }
             }
         }
 
-        return $blocks;
+        return $bricks;
     }
 
 }

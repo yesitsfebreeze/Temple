@@ -1,56 +1,33 @@
 <?php
 
-namespace Shift\Models;
+namespace Pavel\Models;
+
+
+use Pavel\Instance;
 
 
 /**
  * Class Plugins
  *
- * @package Shift
+ * @package Pavel
  */
 interface PluginInterface
 {
 
     /**
-     * @return integer
+     * @param          $args
+     * @param Instance $Instance
+     *
+     * @return mixed
      */
-    public function position();
+    public function dispatch($args, Instance $Instance);
 
 
     /**
-     * @return string
+     * @param mixed $element
+     *
+     * @return mixed
      */
-    public function getName();
-
-
-    /**
-     * @return bool
-     */
-    public function isFunction();
-
-
-    /**
-     * @return bool
-     */
-    public function isPreProcessor();
-
-
-    /**
-     * @return bool
-     */
-    public function isProcessor();
-
-
-    /**
-     * @return bool
-     */
-    public function isPostProcessor();
-
-
-    /**
-     * @return bool
-     */
-    public function isOutputProcessor();
-
+    public function process($element);
 
 }

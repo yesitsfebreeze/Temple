@@ -1,17 +1,17 @@
 <?php
 
-namespace Shift\Exception;
+namespace Pavel\Exception;
 
 
 /**
- * Class ShiftTemplate
+ * Class PavelTemplate
  *
- * @package Shift\Exception
+ * @package Pavel\Exception
  */
 class ExceptionTemplate
 {
 
-    /** @var ShiftException $exception */
+    /** @var Exception $exception */
     private $exception;
 
     /** @var string $template */
@@ -20,10 +20,11 @@ class ExceptionTemplate
 
     /**
      * ExceptionTemplate constructor.
-     *
-     * @param ShiftException $exception
+     
+     * 
+*@param Exception $exception
      */
-    public function __construct(ShiftException $exception)
+    public function __construct(Exception $exception)
     {
         $this->exception = $exception;
         $this->template  = $this->getTemplate();
@@ -60,9 +61,9 @@ class ExceptionTemplate
      */
     private function displayFile()
     {
-        $file = $this->colorFilePath($this->exception->getShiftFile());
-        if ($this->exception->getShiftLine()) {
-            $file .= " on line <span class='colored'>" . $this->exception->getShiftLine() . "</span>";
+        $file = $this->colorFilePath($this->exception->getPavelFile());
+        if ($this->exception->getPavelLine()) {
+            $file .= " on line <span class='colored'>" . $this->exception->getPavelLine() . "</span>";
         }
         $this->template = str_replace("%file%", $file, $this->template);
     }

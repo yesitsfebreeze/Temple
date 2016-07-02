@@ -1,13 +1,13 @@
 <?php
 
-namespace Shift\Models;
+namespace Pavel\Models;
 
 
 /**
  * all NodeModel defaults are set here
  * Class NodeModel
  *
- * @package Shift
+ * @package Pavel
  */
 class HtmlNode extends BaseNode
 {

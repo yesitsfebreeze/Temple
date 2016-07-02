@@ -1,11 +1,10 @@
 <?php
 
-namespace Shift\Utilities;
+namespace Pavel\Utilities;
 
 
-use Shift\Dependency\DependencyInstance;
-use Shift\Exception\ExceptionHandler;
-use Shift\Exception\ShiftException;
+use Pavel\Exception\Exception;
+use Pavel\Exception\ExceptionHandler;
 
 
 class Config extends Storage
@@ -15,20 +14,21 @@ class Config extends Storage
      * merges a new config file into our current config
      *
      * @param $file
-     * @throws ShiftException
+     *
+     * @throws Exception
      */
     public function addConfigFile($file)
     {
 
         if (!file_exists($file)) {
-            throw new ShiftException("Can't find the config file!", $file);
+            throw new Exception("Can't find the config file!", $file);
         }
 
         /** @noinspection PhpIncludeInspection */
         require_once $file;
 
         if (!isset($config)) {
-            throw new ShiftException('You must declare an "$config" array!', $file);
+            throw new Exception('You must declare an "$config" array!', $file);
         }
 
         if (sizeof($config) > 0) {

@@ -1,13 +1,13 @@
 <?php
 
-namespace Shift\Models;
+namespace Pavel\Models;
 
 
 /**
  * all NodeModel defaults are set here
  * Class NodeModel
  *
- * @package Shift
+ * @package Pavel
  */
 class FunctionNode extends BaseNode
 {
@@ -38,7 +38,7 @@ class FunctionNode extends BaseNode
     /**
      * @param string $line
      * @return array|string
-     * @throws \Shift\Exception\ShiftException
+     * @throws \Pavel\Exception\Exception
      */
     protected function attributes($line)
     {

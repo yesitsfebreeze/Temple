@@ -1,9 +1,9 @@
 <?php
 
-namespace Shift\Plugin;
+namespace Pavel\Plugin;
 
 
-use Shift\Models\Plugin;
+use Pavel\Models\Plugin;
 
 
 class Debug extends Plugin
@@ -91,7 +91,7 @@ class Debug extends Plugin
             $window = "<html>";
             $window .= "<head>";
             $window .= "<title>";
-            $window .= "Shift.debug";
+            $window .= "Pavel.debug";
             $window .= "</title>";
             $window .= $this->style;
             $window .= "</head>";
@@ -130,10 +130,10 @@ class Debug extends Plugin
                 $window .= "Version: 1.1.0";
                 $window .= "</div>";
                 $window .= "<div>";
-                $window .= "<a href='https://github.com/hvlmnns/Shift' title='gitHub' target='_blank'>gitHub</a>";
+                $window .= "<a href='https://github.com/hvlmnns/Pavel' title='gitHub' target='_blank'>gitHub</a>";
                 $window .= "</div>";
                 $window .= "<div>";
-                $window .= "<a href='http://hvlmnns.github.io/Shift/' title='Documentation' target='_blank'>Documentation</a>";
+                $window .= "<a href='http://hvlmnns.github.io/Pavel/' title='Documentation' target='_blank'>Documentation</a>";
                 $window .= "</div>";
             }
 
@@ -229,12 +229,12 @@ class Debug extends Plugin
         <a id="cdbl<?php echo $randomString; ?>">
             <script type="text/javascript">
                 (function() {
-                    var ShiftDebugLink<?php echo $randomString; ?> = document.getElementById('cdbl<?php echo $randomString;?>');
-                    ShiftDebugLink<?php echo $randomString; ?>.addEventListener("click", function() {
-                        var debugWindow<?php echo $randomString; ?> = window.open('', "Shift Debug", '_blank');
+                    var PavelDebugLink<?php echo $randomString; ?> = document.getElementById('cdbl<?php echo $randomString;?>');
+                    PavelDebugLink<?php echo $randomString; ?>.addEventListener("click", function() {
+                        var debugWindow<?php echo $randomString; ?> = window.open('', "Pavel Debug", '_blank');
                         debugWindow<?php echo $randomString; ?>.document.body.innerHTML = <?php echo json_encode($vars); ?>;
                     });
-                    ShiftDebugLink<?php echo $randomString; ?>.click();
+                    PavelDebugLink<?php echo $randomString; ?>.click();
                 })();
             </script>
         </a>

@@ -1,28 +1,28 @@
 <?php
 
 
-namespace Shift\Plugin;
+namespace Pavel\Plugin;
 
 
-use Shift\Exception\ShiftException;
-use Shift\Models\NodeModel;
-use Shift\Models\Plugin;
+use Pavel\Exception\Exception;
+use Pavel\Models\NodeModel;
+use Pavel\Models\Plugin;
 
 
 /**
  * to implement a plugin, you have to follow a name convention.
  * The File name represents the plugin class name.
- * Each Plugins class has to be prefixed with with Shift(Type)
+ * Each Plugins class has to be prefixed with with Pavel(Type)
  * Example given:
  *      filename = MyPlugin.php
- *      classname = Shift_Plugin_MyPlugin
- * Class Shift_Plugin_MyPlugin
+ *      classname = Pavel_Plugin_MyPlugin
+ * Class Pavel_Plugin_MyPlugin
  *
  * @purpose  : explains how to use plugins
  * @usage    : none
  * @author   : Stefan Hövelmanns
  * @License  : MIT
- * @package  Shift
+ * @package  Pavel
  */
 class Variables extends Plugin
 {
@@ -48,8 +48,9 @@ class Variables extends Plugin
 
     /**
      * @param NodeModel $node
-     * @return bool
-     * @throws ShiftException
+     * 
+*@return bool
+     * @throws Exception
      */
     public function check(NodeModel $node)
     {

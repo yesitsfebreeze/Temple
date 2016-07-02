@@ -1,15 +1,15 @@
 <?php
 
-namespace Shift\Dependency;
+namespace Pavel\Dependency;
 
 
-use Shift\Exception\ShiftException;
+use Pavel\Exception\Exception;
 
 
 /**
  * Class DependencyContainer
  *
- * @package Shift\DependencyManagement
+ * @package Pavel\DependencyManagement
  */
 class DependencyContainer
 {
@@ -17,14 +17,16 @@ class DependencyContainer
     /** @var array $dependencies */
     private $dependencies = array();
 
-    private $rootNameSpace = "Shift";
+    private $rootNameSpace = "Pavel";
 
 
     /**
      * adds dependencies if existing
-     *
-     * @param DependencyInterface $instance
-     * @throws ShiftException
+     
+     * 
+*@param DependencyInterface $instance
+     * 
+*@throws Exception
      * @return DependencyInstance
      */
     public function registerDependency(DependencyInterface &$instance)
@@ -50,16 +52,18 @@ class DependencyContainer
 
     /**
      * returns an instance if it's set
-     *
-     * @param string $name
-     * @return DependencyInterface
-     * @throws ShiftException
+     
+     * 
+*@param string $name
+     * 
+*@return DependencyInterface
+     * @throws Exception
      */
     public function getInstance($name)
     {
 
         if (!isset($this->dependencies[ $name ])) {
-            throw new ShiftException("Dependency Management: " . "$name is not instantiated yet.");
+            throw new Exception("Dependency Management: " . "$name is not instantiated yet.");
         }
 
         return $this->dependencies[ $name ];
@@ -68,15 +72,17 @@ class DependencyContainer
 
     /**
      * adds a list of dependencies to an instance
-     *
-     * @param $instance
+     
+     * 
+*@param $instance
      * @param $dependencies
-     * @throws ShiftException
+     * 
+* @throws Exception
      */
     private function setDependencies(DependencyInterface &$instance, $dependencies)
     {
         if (!is_array($dependencies)) {
-            throw new ShiftException("Dependency Management: dependencies() must return an array ", get_class($instance) . ".php");
+            throw new Exception("Dependency Management: 'dependencies()' must return an array ", get_class($instance) . ".php");
         }
 
         foreach ($dependencies as $dependency => $name) {
@@ -89,13 +95,14 @@ class DependencyContainer
      * @param DependencyInterface $instance
      * @param string              $dependency
      * @param                     $name
-     * @throws ShiftException
+     *
+     * @throws Exception
      */
     private function setDependency(DependencyInterface &$instance, $dependency, $name)
     {
 
         if (!isset($this->dependencies[ $dependency ])) {
-            throw new ShiftException("Dependency Management: " . $dependency . " instance does't exist.", get_class($instance));
+            throw new Exception("Dependency Management: '" . $dependency . "' instance does't exist.", get_class($instance));
         }
 
         $instance->setDependency($name, $this->dependencies[ $dependency ]);

@@ -1,17 +1,17 @@
 <?php
 
-namespace Shift\Plugin;
+namespace Pavel\Plugin;
 
 
-use Shift\Exception\ShiftException;
-use Shift\Models\HtmlNode;
-use Shift\Models\Plugin;
+use Pavel\Exception\Exception;
+use Pavel\Models\HtmlNode;
+use Pavel\Models\Plugin;
 
 
 /**
  * Class PluginImport
  *
- * @package     Shift
+ * @package     Pavel
  * @description handles file imports
  * @position    0
  * @author      Stefan Hövelmanns
@@ -49,8 +49,9 @@ class Import extends Plugin
 
     /**
      * @param HtmlNode $node
-     * @return HtmlNode $node
-     * @throws ShiftException
+     * 
+*@return HtmlNode $node
+     * @throws Exception
      */
     public function process(HtmlNode $node)
     {
@@ -58,7 +59,7 @@ class Import extends Plugin
 
         $file = $this->getPath($node);
         if ($file == $node->get("namespace")) {
-            throw new ShiftException("Recursive imports are not allowed!", $node->get("file"), $node->get("line"));
+            throw new Exception("Recursive imports are not allowed!", $node->get("file"), $node->get("line"));
         }
         $cachePath = $this->templateService->parse($file);
 

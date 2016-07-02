@@ -1,15 +1,15 @@
 <?php
 
-namespace Shift\Models;
+namespace Pavel\Models;
 
 
-use Shift\Utilities\Storage;
+use Pavel\Utilities\Storage;
 
 
 /**
  * Class Vars
  *
- * @package Shift
+ * @package Pavel
  */
 class Variables extends Storage
 {

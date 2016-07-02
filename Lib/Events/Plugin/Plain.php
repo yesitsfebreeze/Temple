@@ -1,10 +1,10 @@
 <?php
 
-namespace Shift\Plugin;
+namespace Pavel\Events\Plugin;
 
 
-use Shift\Models\HtmlNode;
-use Shift\Models\Plugin;
+use Pavel\Models\HtmlNode;
+use Pavel\Models\Plugin;
 
 
 /**
@@ -14,7 +14,7 @@ use Shift\Models\Plugin;
  * @usage    - at linestart
  * @author   Stefan Hövelmanns - hvlmnns.de
  * @License  MIT
- * @package  Shift
+ * @package  Pavel
  */
 class Plain extends Plugin
 {
@@ -22,32 +22,12 @@ class Plain extends Plugin
     /** @var string $identifier */
     private $identifier = "-";
 
-
-    /**
-     * @return int;
-     */
-    public function position()
-    {
-        return 2;
-    }
-
-
-    /**
-     * @return bool
-     */
-    public function isProcessor()
-    {
-        return true;
-    }
-
-
     /**
      * @param HtmlNode $node
      * @return HtmlNode
      */
-    public function process(HtmlNode $node)
+    public function process($node)
     {
-
         $tag = $node->get("tag.definition");
 
         if ($tag[0] == $this->identifier) {
@@ -77,7 +57,8 @@ class Plain extends Plugin
         $node->set("tag.closing.before", "");
         $node->set("tag.closing.after", "\r\n");
 
-        if (sizeof($node->get("children")) == 0 && sizeof($node->get("attributes")) == 0) {
+
+        if (sizeof($node->get("children")) < 1 && sizeof($node->get("attributes")) < 1) {
             $node->set("tag.opening.before", "</br>");
         } else if (sizeof($node->get("children")) > 0) {
             foreach ($node->get("children") as &$childNode) {

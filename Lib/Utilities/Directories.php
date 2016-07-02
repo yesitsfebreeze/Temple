@@ -1,16 +1,16 @@
 <?php
 
-namespace Shift\Utilities;
+namespace Pavel\Utilities;
 
 
-use Shift\Dependency\DependencyInstance;
-use Shift\Exception\ShiftException;
+use Pavel\Dependency\DependencyInstance;
+use Pavel\Exception\Exception;
 
 
 /**
  * Class Directories
  *
- * @package Shift
+ * @package Pavel
  */
 class Directories extends DependencyInstance
 {
@@ -26,11 +26,13 @@ class Directories extends DependencyInstance
 
     /**
      * adds the directory into the config for the respective type
-     *
-     * @param $dir
+     
+     * 
+*@param $dir
      * @param $type
-     * @return bool|mixed|string
-     * @throws \Shift\Exception\ShiftException
+     * 
+*@return bool|mixed|string
+     * @throws \Pavel\Exception\Exception
      */
     public function add($dir, $type)
     {
@@ -46,11 +48,13 @@ class Directories extends DependencyInstance
 
     /**
      * sets a single directory into the config for the respective type
-     *
-     * @param $dir
+     
+     * 
+*@param $dir
      * @param $type
-     * @return string
-     * @throws ShiftException
+     * 
+*@return string
+     * @throws Exception
      */
     public function set($dir, $type)
     {
@@ -64,16 +68,18 @@ class Directories extends DependencyInstance
 
     /**
      * creates a directory at the given path
-     *
-     * @param $dir
-     * @throws \Shift\Exception\ShiftException
+     
+     * 
+*@param $dir
+     * 
+*@throws \Pavel\Exception\Exception
      */
     public function create($dir)
     {
         $dir = $this->path($dir);
         if (!is_dir($dir)) {
             if (!is_writable(dirname($dir))) {
-                throw new ShiftException("You don't have the permission to create this directory." . $dir);
+                throw new Exception("You don't have the permission to create this directory." . $dir);
             }
 
             mkdir($dir, 0777, true);
@@ -106,10 +112,12 @@ class Directories extends DependencyInstance
 
     /**
      * get all directories for the passed type
-     *
-     * @param $type
-     * @return mixed
-     * @throws \Shift\Exception\ShiftException
+     
+     * 
+*@param $type
+     * 
+*@return mixed
+     * @throws \Pavel\Exception\Exception
      */
     public function get($type)
     {
@@ -149,11 +157,13 @@ class Directories extends DependencyInstance
 
     /**
      * sets a single directory in the config
-     *
-     * @param $type
+     
+     * 
+*@param $type
      * @param $dir
-     * @return string
-     * @throws ShiftException
+     * 
+*@return string
+     * @throws Exception
      */
     private function sethHandler($dir, $type)
     {
@@ -187,16 +197,18 @@ class Directories extends DependencyInstance
 
     /**
      * iterates over all directories and checks if they are valid
-     *
-     * @param string $type
-     * @return mixed
-     * @throws \Shift\Exception\ShiftException
+     
+     * 
+*@param string $type
+     * 
+*@return mixed
+     * @throws \Pavel\Exception\Exception
      */
     private function check($type)
     {
 
         if (!$this->Config->has("dirs." . $type)) {
-            throw new ShiftException("Something is wrong with the Default Config, please reset it!");
+            throw new Exception("Something is wrong with the Default Config, please reset it!");
         }
 
         $dirs = $this->Config->get("dirs." . $type);
@@ -214,30 +226,32 @@ class Directories extends DependencyInstance
 
     /**
      * checks if the passed directory exists
-     *
-     * @param $dir
-     * @return string
-     * @throws ShiftException
+     
+     * 
+*@param $dir
+     * 
+*@return string
+     * @throws Exception
      */
     private function validate($dir)
     {
         $dir = $this->path($dir);
         if (is_dir($dir)) return $dir;
 
-        throw new ShiftException("Cannot add directory because it does not exist, please create it.", $dir);
+        throw new Exception("Cannot add directory because it does not exist, please create it.", $dir);
     }
 
 
 
     /**
-     * Returns the Shift Directory
+     * Returns the Pavel Directory
      *
      * @return array|string
      */
     private function frameworkDir()
     {
-        $framework = explode("Shift", __DIR__);
-        $framework = $framework[0] . "Shift/";
+        $framework = explode("Pavel", __DIR__);
+        $framework = $framework[0] . "Pavel/";
 
         return $framework;
     }

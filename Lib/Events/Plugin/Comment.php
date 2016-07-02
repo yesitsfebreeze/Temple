@@ -1,10 +1,10 @@
 <?php
 
-namespace Shift\Plugin;
+namespace Pavel\Events\Plugin;
 
 
-use Shift\Models\HtmlNode;
-use Shift\Models\Plugin;
+use Pavel\Models\HtmlNode;
+use Pavel\Models\Plugin;
 
 
 /**
@@ -14,60 +14,57 @@ use Shift\Models\Plugin;
  * @usage    # at linestart
  * @author   Stefan Hövelmanns - hvlmnns.de
  * @License  MIT
- * @package  Shift
+ * @package  Pavel
  */
 class Comment extends Plugin
 {
 
-    /**
-     * @return int;
-     */
-    public function position()
-    {
-        return 2;
-    }
-
-
-    /**
-     * @return bool
-     */
-    public function isProcessor()
-    {
-        return true;
-    }
+    /** @var  string $symbol */
+    private $symbol;
 
 
     /**
      * @param HtmlNode $node
+     *
      * @return bool
      */
     public function check(HtmlNode $node)
     {
         $tag = $node->get("tag.definition");
+        if (!isset($tag[0])) {
+            return false;
+        }
 
-        return ($tag[0] == "#" && !isset($tag[1]));
+        return ($tag[0] == $this->symbol && !isset($tag[1]));
     }
 
 
     /**
      * @param HtmlNode $node
+     *
      * @return HtmlNode
      */
-    public function process(HtmlNode $node)
+    public function process($node)
     {
+
+        $this->symbol = $this->Instance->Config()->get("template.symbols.comment");
         if (!$this->check($node)) {
             return $node;
         }
 
-        $node = $this->createComment($node);
+        if ($this->Instance->Config()->get("template.comments.show")) {
+            $node = $this->createComment($node);
 
-        if (sizeof($node->get("children")) > 0) {
-            $node->set("tag.opening.before", "<!--\r\n");
-            $node->set("tag.closing.after", "--!>");
-            $node->set("tag.opening.after", "\r\n");
+            if (sizeof($node->get("children")) > 0) {
+                $node->set("tag.opening.before", "<!--\r\n");
+                $node->set("tag.closing.after", "--!>");
+                $node->set("tag.opening.after", "\r\n");
+            } else {
+                $node->set("tag.opening.before", "<!-- ");
+                $node->set("tag.closing.after", " --!>");
+            }
         } else {
-            $node->set("tag.opening.before", "<!-- ");
-            $node->set("tag.closing.after", " --!>");
+            $node->set("tag.display", false);
         }
 
         return $node;
@@ -76,11 +73,12 @@ class Comment extends Plugin
 
     /**
      * @param HtmlNode $node
+     *
      * @return HtmlNode
      */
     private function createComment(HtmlNode $node)
     {
-        if ($node->get("tag.definition") == "#") {
+        if ($node->get("tag.definition") == $this->symbol) {
             $node->set("tag.opening.definition", "");
         }
 

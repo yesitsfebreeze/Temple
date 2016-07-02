@@ -1,26 +1,31 @@
 <?php
 
-namespace Shift\Template;
+namespace Pavel\Template;
 
 
-use Shift\Dependency\DependencyInstance;
-use Shift\Exception\ShiftException;
-use Shift\Models\Dom;
-use Shift\Models\BaseNode;
-use Shift\Models\FunctionNode;
-use Shift\Models\HtmlNode;
+use Pavel\Dependency\DependencyInstance;
+use Pavel\EventManager\EventManager;
+use Pavel\Exception\Exception;
+use Pavel\Models\BaseNode;
+use Pavel\Models\Dom;
+use Pavel\Models\FunctionNode;
+use Pavel\Models\HtmlNode;
 
 
 /**
  * Class Parser
  *
- * @package Shift
+ * @package Pavel
  */
 class Parser extends DependencyInstance
 {
 
     /** @var  Plugins $Plugins */
     protected $Plugins;
+
+    /** @var  EventManager $EventManager */
+    protected $EventManager;
+
 
     /** @inheritdoc */
     public function dependencies()
@@ -33,12 +38,13 @@ class Parser extends DependencyInstance
      * returns the finished template content
      *
      * @param $dom
+     *
      * @return string
      */
     public function parse($dom)
     {
         $output = $this->createOutput($dom);
-        $output = $this->Plugins->processOutput($output);
+        $this->EventManager->notify("plugins.output", $output);
 
         return $output;
     }
@@ -47,9 +53,10 @@ class Parser extends DependencyInstance
     /**
      * merges the nodes into the final content
      *
-     * @param Dom|BaseNode $dom
+     * @param Dom|array $dom
+     *
      * @return mixed
-     * @throws ShiftException
+     * @throws Exception
      */
     private function createOutput($dom)
     {
@@ -58,19 +65,19 @@ class Parser extends DependencyInstance
         $nodes  = $dom->get("nodes");
         /** @var BaseNode $node */
         foreach ($nodes as $node) {
+            $node->set("dom", $dom);
 
             if ($node->isFunction()) {
                 /** @var FunctionNode $node */
-                $node = $this->Plugins->processFunctions($node);
+                $node = $this->EventManager->notify("plugins.node.functions", $node);
             } else {
-                $node->set("dom",$dom);
                 /** @var HtmlNode $node */
-                $node = $this->Plugins->process($node);
+                $node = $this->EventManager->notify("plugins.node.process", $node);
             }
 
             if ($node->get("info.isPlain")) {
 
-                $output .= " ".trim($node->get("info.plain"));
+                $output .= " " . trim($node->get("info.plain"));
 
             } else {
 
@@ -100,6 +107,7 @@ class Parser extends DependencyInstance
      *
      * @param string   $output
      * @param BaseNode $node
+     *
      * @return string
      */
     private function openTag($node, $output)
@@ -120,6 +128,7 @@ class Parser extends DependencyInstance
      *
      * @param string   $output
      * @param BaseNode $node
+     *
      * @return string
      */
     private function createAttributes($node, $output)
@@ -158,6 +167,7 @@ class Parser extends DependencyInstance
      *
      * @param string   $output
      * @param BaseNode $node
+     *
      * @return string
      */
     private function appendContent($node, $output)
@@ -178,17 +188,26 @@ class Parser extends DependencyInstance
      *
      * @param string   $output
      * @param BaseNode $node
+     *
      * @return string
-     * @throws ShiftException
+     * @throws Exception
      */
     private function createChildren($node, $output)
     {
         if ($node->has("children")) {
-            if ($node->get("info.selfclosing")) {
-                throw new ShiftException("You can't have children in an " . $node->get("tag.definition") . "!", $node->get("file"), $node->get("line"));
+            if ($node->get("info.selfClosing")) {
+                throw new Exception("You can't have children in an " . $node->get("tag.definition") . "!", $node->get("file"), $node->get("line"));
             }
 
             $children = new Dom();
+            if ($node->has("dom")) {
+                /** @var Dom $oldDom */
+                $oldDom = $node->get("dom");
+                if ($oldDom->has("info")) {
+                    $oldDom->get("info");
+                    $children->set("info", $oldDom->get("info"));
+                }
+            }
             $children->set("nodes", $node->get("children"));
             $output .= $this->createOutput($children);
         }
@@ -202,13 +221,14 @@ class Parser extends DependencyInstance
      *
      * @param string   $output
      * @param BaseNode $node
+     *
      * @return string
      */
     private function closeTag($node, $output)
     {
 
         if ($node->get("info.display") && $node->get("tag.closing.display") && $node->get("tag.display")) {
-            if (!$node->get("info.selfclosing")) {
+            if (!$node->get("info.selfClosing")) {
                 $output .= $node->get("tag.closing.before");
                 $output .= $node->get("tag.closing.definition");
                 $output .= $node->get("tag.closing.after");

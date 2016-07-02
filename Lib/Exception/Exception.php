@@ -1,21 +1,21 @@
 <?php
 
-namespace Shift\Exception;
+namespace Pavel\Exception;
 
 
 /**
- * Class ShiftException
+ * Class Exception
  *
- * @package Shift
+ * @package Pavel
  */
-class ShiftException extends \Exception
+class Exception extends \Exception
 {
 
-    /** @var bool|string $ShiftFile */
-    private $ShiftFile;
+    /** @var bool|string $PavelFile */
+    private $PavelFile;
 
-    /** @var integer|string $ShiftLine */
-    private $ShiftLine;
+    /** @var integer|string $PavelLine */
+    private $PavelLine;
 
 
     public function __construct($message = "", $file = false, $line = false, $code = 0, \Exception $previous = null)
@@ -32,11 +32,11 @@ class ShiftException extends \Exception
 
 
         if ($file) {
-            $this->ShiftFile = $file;
+            $this->PavelFile = $file;
         }
 
         if ($line) {
-            $this->ShiftLine = $line;
+            $this->PavelLine = $line;
         }
 
         # execute the default exception after that
@@ -46,24 +46,24 @@ class ShiftException extends \Exception
 
 
     /**
-     * returns the Shift file
+     * returns the Pavel file
      *
      * @return bool|string
      */
-    public function getShiftFile()
+    public function getPavelFile()
     {
-        return $this->ShiftFile;
+        return $this->PavelFile;
     }
 
 
     /**
-     * returns the Shift line
+     * returns the Pavel line
      *
      * @return bool|int|string
      */
-    public function getShiftLine()
+    public function getPavelLine()
     {
-        return $this->ShiftLine;
+        return $this->PavelLine;
     }
 
 
@@ -94,7 +94,7 @@ class ShiftException extends \Exception
      * @param $line
      * @param $function
      */
-    function displayShiftErrorFile($root, $file, $line = false, $function = false)
+    function displayPavelErrorFile($root, $file, $line = false, $function = false)
     {
 
         $file = $this->splitFile($file, $root);

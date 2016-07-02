@@ -1,20 +1,21 @@
 <?php
 
-namespace Shift\Template;
+namespace Pavel\Template;
 
 
-use Shift\Dependency\DependencyInstance;
-use Shift\Exception\ShiftException;
-use Shift\Models\BaseNode;
-use Shift\Models\Dom;
-use Shift\Utilities\Config;
-use Shift\Utilities\Directories;
+use Pavel\Dependency\DependencyInstance;
+use Pavel\EventManager\EventManager;
+use Pavel\Exception\Exception;
+use Pavel\Models\BaseNode;
+use Pavel\Models\Dom;
+use Pavel\Utilities\Config;
+use Pavel\Utilities\Directories;
 
 
 /**
  * Class Lexer
  *
- * @package Shift
+ * @package Pavel
  */
 class Lexer extends DependencyInstance
 {
@@ -28,14 +29,15 @@ class Lexer extends DependencyInstance
     /** @var  NodeFactory $NodeFactory */
     protected $NodeFactory;
 
-    /** @var  Plugins $Plugins */
-    protected $Plugins;
+    /** @var  EventManager $EventManager */
+    protected $EventManager;
 
     /** @var Dom $dom */
     private $dom;
 
     /** @var int $level */
     private $level;
+
 
     /** @inheritdoc */
     public function dependencies()
@@ -59,9 +61,14 @@ class Lexer extends DependencyInstance
         $namespace   = str_replace("." . $this->Config->get("template.extension"), "", $file);
         $files       = $this->getTemplateFiles($file);
         $file        = $this->getTemplateFile($file, $level);
+
+        $fileContent = file_get_contents($file);
+        $fileContent = $this->EventManager->notify("plugins.file.process", $fileContent);
+        file_put_contents($file, $fileContent);
+
         $this->createNewDom($namespace, $file, $files);
         $this->process($file);
-        $this->dom = $this->Plugins->postProcess($this->dom);
+        $this->dom = $this->EventManager->notify("plugins.dom.process", $this->dom);
 
         return $this->dom;
 
@@ -76,7 +83,7 @@ class Lexer extends DependencyInstance
      * @param int    $level
      *
      * @return string
-     * @throws ShiftException
+     * @throws Exception
      */
     private function getTemplateFile($file, $level = 0)
     {
@@ -85,7 +92,7 @@ class Lexer extends DependencyInstance
         $dirs = $this->Directories->get("template");
 
         if (!isset($dirs[ $level ])) {
-            throw new ShiftException($file ." not found!");
+            throw new Exception($file . " not found!");
         }
 
         $dir          = $dirs[ $level ];
@@ -151,7 +158,7 @@ class Lexer extends DependencyInstance
      *
      * @param $file
      *
-     * @throws ShiftException
+     * @throws Exception
      * @return Dom
      */
     private function process($file)
@@ -159,7 +166,6 @@ class Lexer extends DependencyInstance
         $handle = fopen($file, "r");
         while (($line = fgets($handle)) !== false) {
             if (trim($line) != '') {
-                $line = $this->Plugins->preProcess($line);
                 $node = $this->createNode($line);
                 $this->addNode($node);
                 $this->dom->set("tmp.prev", $node);
@@ -168,8 +174,6 @@ class Lexer extends DependencyInstance
         }
         fclose($handle);
         $this->dom->delete("tmp");
-
-        $this->dom = $this->Plugins->domProcess($this->dom);
 
         return $this->dom;
     }
@@ -181,20 +185,22 @@ class Lexer extends DependencyInstance
      * @param $line
      *
      * @return BaseNode
-     * @throws ShiftException
+     * @throws Exception
      */
     private function createNode($line)
     {
         /** @var BaseNode $node */
-        $node = $this->NodeFactory->create($line);
+        $node = $this->EventManager->notify("lexer.node", $line);
+        if (!$node instanceof BaseNode) {
+            throw new Exception("The Node EventManager has to return an instance of a 'BaseNode'!");
+        }
         $node->set("info.namespace", $this->dom->get("info.namespace"));
         $node->set("info.level", $this->dom->get("info.level"));
         $node->set("info.line", $this->dom->get("info.line"));
         $node->set("info.file", $this->dom->get("info.file"));
-        $node->createNode($line);
 
         if (!$node->has("tag.definition")) {
-            throw new ShiftException("Node models must have a tag!", $this->dom->get("info.file"), $this->dom->get("info.line"));
+            throw new Exception("Node models must have a tag!", $this->dom->get("info.file"), $this->dom->get("info.line"));
         }
 
         return $node;
@@ -213,9 +219,7 @@ class Lexer extends DependencyInstance
     {
         # root nodes
         if ($node->get("info.indent") == 0 || $node->get("info.line") == 1) {
-
             $node->set("info.parent", false);
-
             $rootNodes   = $this->dom->get("nodes");
             $rootNodes[] = $node;
             $this->dom->set("nodes", $rootNodes);
@@ -249,15 +253,15 @@ class Lexer extends DependencyInstance
      *
      * @param BaseNode $node
      *
-     * @throws ShiftException
+     * @throws Exception
      * @return mixed
      */
     private function addNodeOnDeeperLevel($node)
     {
         $node->set("info.parent", $this->dom->get("tmp.prev"));
-        if ($node->get("info.parent")->get("info.selfclosing")) {
+        if ($node->get("info.parent")->get("info.selfClosing")) {
             $tag = $node->get("info.parent")->get("tag.definition");
-            throw new ShiftException("You can't have children in an $tag tag!", $this->dom->get("info.file"), $this->dom->get("info.line"));
+            throw new Exception("You can't have children in an $tag tag!", $this->dom->get("info.file"), $this->dom->get("info.line"));
         }
 
         return $this->addNodeAsChild($this->dom->get("tmp.prev"), $node);

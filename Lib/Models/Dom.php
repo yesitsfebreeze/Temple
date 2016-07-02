@@ -1,17 +1,17 @@
 <?php
 
-namespace Shift\Models;
+namespace Pavel\Models;
 
 
 // TODO: add local variable space
 // TODO: add find method
-use Shift\Utilities\Storage;
+use Pavel\Utilities\Storage;
 
 
 /**
  * Class DomModel
  *
- * @package Shift
+ * @package Pavel
  */
 class Dom extends Storage
 {

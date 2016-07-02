@@ -1,52 +1,34 @@
 <?php
 
-namespace Shift\Plugin;
+namespace Pavel\Events\Plugin;
 
 
-use Shift\Models\HtmlNode;
-use Shift\Models\Plugin;
+use Pavel\Models\HtmlNode;
+use Pavel\Models\Plugin;
 
 
 /**
- * Class PluginIds
+ * Class Classes
  *
- * @purpose  : converts emmet inspired id definition to actual ids
- * @usage    : div#myid#myotherid id="default"
- * @author   : Stefan Hövelmanns - hvlmnns.de
- * @License  : MIT
- * @package  Shift
+ * @package Pavel\Plugin
  */
-class Ids extends Plugin
+class Classes extends Plugin
 {
 
     /**
-     * @return int;
-     */
-    public function position()
-    {
-        return 4;
-    }
-
-
-    public function isProcessor()
-    {
-        return true;
-    }
-
-
-    /**
      * @param HtmlNode $node
+     *
      * @return HtmlNode
      * @throws \Exception
      */
-    public function process(HtmlNode $node)
+    public function process($node)
     {
         $tag     = $node->get("tag.definition");
-        preg_match("/#[^#]+/",$tag,$matches);
-        if (sizeof($matches) > 1) {
-            $ids  = $this->getIds($tag, explode("#", $tag));
-            $node = $this->updateTag($node, $tag, $ids);
-            $node = $this->setAttribute($node, $ids);
+        $classes = explode(".", $tag);
+        if (sizeof($classes) > 1) {
+            $classes = $this->getClasses($tag, $classes);
+            $node    = $this->updateTag($node, $tag, $classes);
+            $node    = $this->setAttribute($node, $classes);
         }
 
         return $node;
@@ -55,37 +37,39 @@ class Ids extends Plugin
 
     /**
      * @param string $tag
-     * @param array  $ids
+     * @param array  $classes
+     *
      * @return string
      */
-    private function getIds($tag, $ids)
+    private function getClasses($tag, $classes)
     {
         # remove real tag if first item
         # when it's not a class
         # or if its a id
-        if ($tag[0] != "#" || $tag[0] == "." || $ids[0] == "") array_shift($ids);
+        if ($tag[0] != "." || $tag[0] == "#" || $classes[0] == "") array_shift($classes);
         $concat = '';
-        foreach ($ids as &$id) {
-            $class = strpos($id, ".");
-            if ($class) $id = substr($id, 0, $class);
-            $concat .= " " . $id;
+        foreach ($classes as &$class) {
+            $id = strpos($class, "#");
+            if ($id) $class = substr($class, 0, $id);
+            $concat .= " " . $class;
         }
-        $ids = substr($concat, 1);
+        $classes = substr($concat, 1);
 
-        return $ids;
+        return $classes;
     }
 
 
     /**
      * @param HtmlNode $node
-     * @param string    $tag
-     * @param array     $ids
+     * @param string   $tag
+     * @param array    $classes
+     *
      * @return mixed
      */
-    private function updateTag(HtmlNode $node, $tag, $ids)
+    private function updateTag(HtmlNode $node, $tag, $classes)
     {
-        foreach (explode(" ", $ids) as $id) {
-            $tag = str_replace('#' . $id, "", $tag);
+        foreach (explode(" ", $classes) as $class) {
+            $tag = str_replace('.' . $class, "", $tag);
         }
 
         if (trim($tag) == '') {
@@ -102,18 +86,19 @@ class Ids extends Plugin
 
     /**
      * @param HtmlNode $node
-     * @param array     $ids
+     * @param array    $classes
+     *
      * @return HtmlNode
      * @throws \Exception
      */
-    private function setAttribute(HtmlNode $node, $ids)
+    private function setAttribute(HtmlNode $node, $classes)
     {
         /** @var HtmlNode $node */
         $attributes = $node->get("attributes");
         if (sizeof($attributes) == 0) {
-            $attributes["id"] = $ids;
+            $attributes["class"] = $classes;
         } else {
-            $attributes["id"] = $attributes["id"] . " " . $ids;
+            $attributes["class"] = $attributes["class"] . " " . $classes;
         }
 
         $node->set("attributes", $attributes);
@@ -124,6 +109,7 @@ class Ids extends Plugin
 
     /**
      * @param HtmlNode $node
+     *
      * @return string
      * @throws \Exception
      */
@@ -135,7 +121,7 @@ class Ids extends Plugin
         $inline = false;
         if ($node->has("parent")) {
             $parentTag = $node->get("parent")->get("tag.definition");
-            $inline    = in_array($parentTag, $this->Shift->Config()->get("parser.inline"));
+            $inline    = in_array($parentTag, $this->Instance->Config()->get("parser.inline"));
         }
         if ($inline) {
             $tag = "span";

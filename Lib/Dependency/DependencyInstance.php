@@ -1,16 +1,18 @@
 <?php
 
 
-namespace Shift\Dependency;
+namespace Pavel\Dependency;
 
 
-use Shift\Exception\ShiftException;
+use Pavel\Exception\Exception;
+use Pavel\Exception\ExceptionHandler;
 
 
 abstract class DependencyInstance implements DependencyInterface
 {
 
-    private $rootNameSpace = "Shift";
+    private $rootNameSpace = "Pavel";
+
 
     /**
      * has to add an instance to the class
@@ -18,12 +20,12 @@ abstract class DependencyInstance implements DependencyInterface
      * @param string             $name
      * @param DependencyInstance $instance
      *
-     * @throws ShiftException
+     * @throws Exception
      */
     public function setDependency($name, DependencyInstance $instance)
     {
         if (!property_exists($this, $name)) {
-            throw new ShiftException("Dependency Management: Please register 'protected $$name'", get_class($this) . ".php");
+            throw new Exception("Dependency Management: Please register 'protected $$name'", get_class($this) . ".php");
         }
 
         $this->$name = $instance;
@@ -38,7 +40,8 @@ abstract class DependencyInstance implements DependencyInterface
         $dependencies = $this->getDependencyFile();
         $name         = $this->cleanClassNamespace($this);
         if (!isset($dependencies[ $name ])) {
-            throw new ShiftException("Dependency Management: Please register the dependency, " . $name . "!");
+            new ExceptionHandler();
+            throw new Exception("Dependency Management: Please register the dependency, '" . $name . "'!");
         }
 
         return $dependencies[ $name ];
@@ -49,10 +52,11 @@ abstract class DependencyInstance implements DependencyInterface
     {
         $dependencies = false;
         $file         = __DIR__ . "/dependencies.php";
+        /** @noinspection PhpIncludeInspection */
         require $file;
 
         if (!is_array($dependencies)) {
-            throw new ShiftException("You should set the array '\$dependencies' in:", $file);
+            throw new Exception("You should set the array '\$dependencies' in:", $file);
         };
 
         return $dependencies;

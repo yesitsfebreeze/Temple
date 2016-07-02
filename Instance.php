@@ -1,26 +1,25 @@
 <?php
 
-namespace Shift;
+namespace Pavel;
 
 
-use Shift\Dependency\DependencyContainer;
-use Shift\Exception\ShiftException;
-use Shift\Models\Variables;
-use Shift\Template\Cache;
-use Shift\Template\Lexer;
-use Shift\Template\NodeFactory;
-use Shift\Template\Parser;
-use Shift\Template\PluginFactory;
-use Shift\Template\Plugins;
-use Shift\Template\Template;
-use Shift\Utilities\Config;
-use Shift\Utilities\Directories;
+use Pavel\Dependency\DependencyContainer;
+use Pavel\EventManager\EventManager;
+use Pavel\Exception\Exception;
+use Pavel\Models\Variables;
+use Pavel\Events\Events;
+use Pavel\Template\Cache;
+use Pavel\Template\Lexer;
+use Pavel\Template\Parser;
+use Pavel\Template\Template;
+use Pavel\Utilities\Config;
+use Pavel\Utilities\Directories;
 
 
 /**
  * Class Instance
  *
- * @package Shift
+ * @package Pavel
  */
 class Instance
 {
@@ -31,20 +30,14 @@ class Instance
     /** @var Config $Config */
     private $Config;
 
+    /** @var EventManager $EventManager */
+    private $EventManager;
+
     /** @var Variables $Variables */
     private $Variables;
 
     /** @var Directories $Directories */
     private $Directories;
-
-    /** @var  NodeFactory $NodeFactory */
-    private $NodeFactory;
-
-    /** @var  PluginFactory $PluginFactory */
-    private $PluginFactory;
-
-    /** @var Plugins $Plugins */
-    private $Plugins;
 
     /** @var Parser $Parser */
     private $Parser;
@@ -57,6 +50,9 @@ class Instance
 
     /** @var Template $Template */
     private $Template;
+
+    /** @var Events $Events */
+    private $Events;
 
 
     /**
@@ -75,7 +71,7 @@ class Instance
 
     /**
      * @return Template
-     * @throws ShiftException
+     * @throws Exception
      */
     public function Template()
     {
@@ -85,7 +81,7 @@ class Instance
 
     /**
      * @return Config
-     * @throws ShiftException
+     * @throws Exception
      */
     public function Config()
     {
@@ -95,27 +91,26 @@ class Instance
 
     /**
      * @return Variables
-     * @throws ShiftException
+     * @throws Exception
      */
     public function Variables()
     {
         return $this->container->getInstance("Models/Variables");
     }
 
-
     /**
-     * @return Plugins
-     * @throws ShiftException
+     * @return EventManager
+     * @throws Exception
      */
-    public function Plugins()
+    public function EventManager()
     {
-        return $this->container->getInstance("Template/Plugins");
+        return $this->container->getInstance("EventManager/EventManager");
     }
 
 
     /**
      * @return Cache
-     * @throws ShiftException
+     * @throws Exception
      */
     public function Cache()
     {
@@ -126,33 +121,29 @@ class Instance
     /**
      * @param string|null $config
      *
-     * @throws ShiftException
+     * @throws Exception
      * @return bool
      */
     private function prepare($config)
     {
         $this->container = new DependencyContainer();
 
-        $this->Config        = $this->container->registerDependency(new Config());
-        $this->Directories   = $this->container->registerDependency(new Directories());
-        $this->NodeFactory   = $this->container->registerDependency(new NodeFactory());
-        $this->PluginFactory = $this->container->registerDependency(new PluginFactory());
-        $this->Plugins       = $this->container->registerDependency(new Plugins());
-        $this->Parser        = $this->container->registerDependency(new Parser());
-        $this->Lexer         = $this->container->registerDependency(new Lexer());
-        $this->Variables     = $this->container->registerDependency(new Variables());
-        $this->Cache         = $this->container->registerDependency(new Cache());
-        $this->Template      = $this->container->registerDependency(new Template());
+        $this->Config      = $this->container->registerDependency(new Config());
+        $this->EventManager    = $this->container->registerDependency(new EventManager());
+        $this->Directories = $this->container->registerDependency(new Directories());
+        $this->Parser      = $this->container->registerDependency(new Parser());
+        $this->Lexer       = $this->container->registerDependency(new Lexer());
+        $this->Variables   = $this->container->registerDependency(new Variables());
+        $this->Cache       = $this->container->registerDependency(new Cache());
+        $this->Template    = $this->container->registerDependency(new Template());
+        $this->Events  = $this->container->registerDependency(new Events());
 
-        # this is the only place were a dependency setter is used
-        # the whole instance will be passed into the plugins
-        $this->PluginFactory->setInstance($this);
-
-        # Setup
         $this->Config->addConfigFile(__DIR__ . "/config.php");
         if (file_exists($config)) $this->Config->addConfigFile($config);
-        $this->Plugins->addDirectory(__DIR__ . "/Plugins");
         $this->Cache->setDirectory($this->Config->get("dirs.cache"));
+
+        $this->EventManager->setInstance($this);
+        $this->Events->register();
 
         return true;
     }

@@ -1,13 +1,13 @@
 <?php
 
-namespace Shift\Template;
+namespace Pavel\Template;
 
 
-use Shift\Dependency\DependencyInstance;
-use Shift\Exception\ShiftException;
-use Shift\Models\Dom;
-use Shift\Utilities\Config;
-use Shift\Utilities\Directories;
+use Pavel\Dependency\DependencyInstance;
+use Pavel\Exception\Exception;
+use Pavel\Models\Dom;
+use Pavel\Utilities\Config;
+use Pavel\Utilities\Directories;
 
 
 class Template extends DependencyInstance
@@ -28,8 +28,6 @@ class Template extends DependencyInstance
     /** @var  Cache $Cache */
     protected $Cache;
 
-    /** @var  Plugins Plugins */
-    protected $Plugins;
 
     /** @inheritdoc */
     public function dependencies()
@@ -42,6 +40,7 @@ class Template extends DependencyInstance
      * adds a directory to the templates
      *
      * @param $dir
+     *
      * @return mixed
      */
     public function addDirectory($dir)
@@ -56,6 +55,7 @@ class Template extends DependencyInstance
      * removes the template directory for the passed level
      *
      * @param int $level
+     *
      * @return bool
      */
     public function removeDirectory($level = 0)
@@ -79,7 +79,8 @@ class Template extends DependencyInstance
      * renders and includes the template
      *
      * @param $file
-     * @throws ShiftException
+     *
+     * @throws Exception
      */
     public function show($file)
     {
@@ -97,6 +98,7 @@ class Template extends DependencyInstance
      *
      * @param string $file
      * @param int    $level
+     *
      * @return string
      */
     public function fetch($file, $level = 0)
@@ -120,6 +122,7 @@ class Template extends DependencyInstance
      *
      * @param string $file
      * @param int    $level
+     *
      * @return Dom
      */
     public function dom($file, $level = 0)
@@ -136,6 +139,7 @@ class Template extends DependencyInstance
      *
      * @param string $file
      * @param int    $level
+     *
      * @return string
      */
     public function process($file, $level = 0)
@@ -152,6 +156,7 @@ class Template extends DependencyInstance
      * checks if a template file exists within the template directories
      *
      * @param $file
+     *
      * @return bool
      */
     public function templateExists($file)
@@ -174,6 +179,7 @@ class Template extends DependencyInstance
      * make sure we have the template extension
      *
      * @param $file
+     *
      * @return string
      */
     private function cleanExtension($file)

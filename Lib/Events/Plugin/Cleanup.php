@@ -1,8 +1,8 @@
 <?php
 
-namespace Shift\Plugin;
+namespace Pavel\Events\Plugin;
 
-use Shift\Models\Plugin;
+use Pavel\Models\Plugin;
 
 
 /**
@@ -12,26 +12,10 @@ use Shift\Models\Plugin;
  * @usage   : automatic
  * @author   : Stefan Hövelmanns - hvlmnns.de
  * @License : MIT
- * @package Shift
+ * @package Pavel
  */
 class Cleanup extends Plugin
 {
-
-
-    /**
-     * @return int;
-     */
-    public function position()
-    {
-        return 9999999993;
-    }
-
-
-    public function isOutputProcessor()
-    {
-        return true;
-    }
-
 
     /** @var array $buffer */
     private $buffer = array();

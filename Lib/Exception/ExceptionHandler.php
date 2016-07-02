@@ -1,18 +1,18 @@
 <?php
 
-namespace Shift\Exception;
+namespace Pavel\Exception;
 
 
 /**
  * Class ExceptionHandler
  *
- * @package Shift\Exceptions
+ * @package Pavel\Exceptions
  */
 class ExceptionHandler
 {
 
     /**
-     * adds a global exception handler for Shift exceptions
+     * adds a global exception handler for Pavel exceptions
      * ExceptionHandler constructor.
      */
     public function __construct()
@@ -22,7 +22,7 @@ class ExceptionHandler
 
         set_exception_handler(function ($Exception) use (&$originalHandler) {
 
-            if ($Exception instanceof ShiftException) {
+            if ($Exception instanceof Exception) {
                 new ExceptionTemplate($Exception);
             } elseif (is_callable($originalHandler)) {
                 return call_user_func_array($originalHandler, [$Exception]);

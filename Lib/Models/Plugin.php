@@ -1,43 +1,30 @@
 <?php
 
-namespace Shift\Models;
+namespace Pavel\Models;
 
 
-use Shift\Exception\ShiftException;
-use Shift\Instance;
+use Pavel\EventManager\Event;
+use Pavel\Exception\Exception;
+use Pavel\Instance;
 
 
 /**
  * Class Plugins
  *
- * @package Shift
+ * @package Pavel
  */
-class Plugin implements PluginInterface
+class Plugin extends Event implements PluginInterface
 {
 
-    /** @var Instance $Shift */
-    protected $Shift;
+    /** @var Instance $Instance */
+    protected $Instance;
 
 
-    /**
-     * Plugin constructor.
-     *
-     * @param Instance $Shift
-     */
-    public function __construct(Instance $Shift)
+    function dispatch($args, Instance $Instance)
     {
-        $this->Shift = $Shift;
+        $this->Instance = $Instance;
+        return $this->process($args);
     }
-
-
-    /**
-     * @return integer
-     */
-    public function position()
-    {
-        return false;
-    }
-
 
     /**
      * @return string
@@ -47,71 +34,18 @@ class Plugin implements PluginInterface
         return strrev(explode("\\", strrev(get_class($this)))[0]);
     }
 
-
-    /**
-     * @return bool
-     */
-    public function isPreProcessor()
-    {
-        return false;
-    }
-
-    /**
-     * @return bool
-     */
-    public function isDomProcessor()
-    {
-        return false;
-    }
-
-
-    /**
-     * @return bool
-     */
-    public function isProcessor()
-    {
-        return false;
-    }
-
-    /**
-     * @return bool
-     */
-    public function isFunction()
-    {
-        return false;
-    }
-
-
-    /**
-     * @return bool
-     */
-    public function isPostProcessor()
-    {
-        return false;
-    }
-
-
-    /**
-     * @return bool
-     */
-    public function isOutputProcessor()
-    {
-        return false;
-    }
-
-
     /**
      * depending on the type of the plugin the element will one of those
      * line of template file, Node element, Dom element, parsed content
      *
      * @var mixed $element
      * @return mixed $element
-     * @@throws ShiftException
+     * @@throws Exception
      */
     public function process($element)
     {
         $name = $this->getName();
-        throw new ShiftException("Please declare the method 'process' for the plugin '$name'!");
+        throw new Exception("Please declare the method 'process' for the plugin '$name'!");
     }
 
 }

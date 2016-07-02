@@ -1,17 +1,17 @@
 <?php
 
-namespace Shift\Utilities;
+namespace Pavel\Utilities;
 
 
-use Shift\Dependency\DependencyInstance;
-use Shift\Exception\ShiftException;
+use Pavel\Dependency\DependencyInstance;
+use Pavel\Exception\Exception;
 
 
 /**
  * this class handles all data storage
  * Class Storage
  *
- * @package Shift
+ * @package Pavel
  */
 class Storage extends DependencyInstance
 {
@@ -42,31 +42,35 @@ class Storage extends DependencyInstance
 
     /**
      * returns a value from the storage
-     *
-     * @param string $path
-     * @return mixed
-     * @throws ShiftException
+     
+     * 
+*@param string $path
+     * 
+*@return mixed
+     * @throws Exception
      */
     public function get($path = null)
     {
         try {
             return $this->getter($path);
         } catch (\Exception $e) {
-            throw new ShiftException($e);
+            throw new Exception($e);
         }
     }
 
 
     /**
      * merge an array into the storage
-     *
-     * @param array $array
-     * @throws ShiftException
+     
+     * 
+*@param array $array
+     * 
+*@throws Exception
      */
     public function merge($array)
     {
         if (!is_array($array)) {
-            throw new ShiftException("Cannot merge, no array was given!");
+            throw new Exception("Cannot merge, no array was given!");
         }
 
         foreach ($array as $key => $val) {
@@ -80,11 +84,13 @@ class Storage extends DependencyInstance
 
     /**
      * extends an array in the storage
-     *
-     * @param string       $path
+     
+     * 
+*@param string       $path
      * @param array|string $value
-     * @return array
-     * @throws ShiftException
+     * 
+*@return array
+     * @throws Exception
      */
     public function extend($path, $value)
     {
@@ -96,7 +102,7 @@ class Storage extends DependencyInstance
         }
 
         if (!is_array($temp)) {
-            throw new ShiftException("Can't extend an non array value!");
+            throw new Exception("Can't extend an non array value!");
         }
 
         if (is_array($value)) {

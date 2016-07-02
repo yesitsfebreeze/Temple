@@ -1,13 +1,10 @@
 <?php
 
+namespace Pavel;
 
-namespace Shift;
-
-
-use Shift\Exception\ExceptionHandler;
 
 $namespace = __NAMESPACE__;
-$dir       = __DIR__ . "/Lib";
+$dir       = __DIR__ . DIRECTORY_SEPARATOR . "Lib";
 
 spl_autoload_register(function ($class) use ($namespace, $dir) {
     $class = substr($class, strlen($namespace . "\\"));
@@ -18,7 +15,5 @@ spl_autoload_register(function ($class) use ($namespace, $dir) {
     }
 
 });
-
-new ExceptionHandler();
 
 require_once __DIR__ . "/Instance.php";

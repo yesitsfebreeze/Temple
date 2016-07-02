@@ -1,10 +1,10 @@
 <?php
 
-namespace Shift\Plugin;
+namespace Pavel\Events\Plugin;
 
 
-use Shift\Models\HtmlNode;
-use Shift\Models\Plugin;
+use Pavel\Models\HtmlNode;
+use Pavel\Models\Plugin;
 
 
 /**
@@ -14,7 +14,7 @@ use Shift\Models\Plugin;
  * @usage    - at linestart
  * @author   Stefan Hövelmanns - hvlmnns.de
  * @License  MIT
- * @package  Shift
+ * @package  Pavel
  */
 class Php extends Plugin
 {
@@ -22,30 +22,11 @@ class Php extends Plugin
     /** @var string $identifier */
     private $identifier = "php";
 
-
-    /**
-     * @return int;
-     */
-    public function position()
-    {
-        return 2;
-    }
-
-
-    /**
-     * @return bool
-     */
-    public function isProcessor()
-    {
-        return true;
-    }
-
-
     /**
      * @param HtmlNode $node
      * @return HtmlNode
      */
-    public function process(HtmlNode $node)
+    public function process($node)
     {
 
         $tag = $node->get("tag.definition");
