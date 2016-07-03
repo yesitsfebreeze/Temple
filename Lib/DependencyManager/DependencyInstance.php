@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Pavel\Dependency;
+namespace Pavel\DependencyManager;
 
 
 use Pavel\Exception\Exception;

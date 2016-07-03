@@ -3,7 +3,7 @@
 namespace Pavel\Template;
 
 
-use Pavel\Dependency\DependencyInstance;
+use Pavel\DependencyManager\DependencyInstance;
 use Pavel\EventManager\EventManager;
 use Pavel\Exception\Exception;
 use Pavel\Models\BaseNode;
@@ -65,7 +65,7 @@ class Lexer extends DependencyInstance
 
         $this->createNewDom($namespace, $file, $files);
         $this->process($file);
-        $this->dom = $this->EventManager->notify("plugins.dom.process", $this->dom);
+        $this->dom = $this->EventManager->notify("plugin.dom", $this->dom);
 
         return $this->dom;
 

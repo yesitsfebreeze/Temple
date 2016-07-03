@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Pavel\EventManager\Events\Lexer\Node;
+namespace Pavel\Nodes;
 
 
 use Pavel\EventManager\Event;

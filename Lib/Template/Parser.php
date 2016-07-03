@@ -3,7 +3,7 @@
 namespace Pavel\Template;
 
 
-use Pavel\Dependency\DependencyInstance;
+use Pavel\DependencyManager\DependencyInstance;
 use Pavel\EventManager\EventManager;
 use Pavel\Exception\Exception;
 use Pavel\Models\BaseNode;
@@ -44,7 +44,7 @@ class Parser extends DependencyInstance
     public function parse($dom)
     {
         $output = $this->createOutput($dom);
-        $this->EventManager->notify("plugins.output", $output);
+        $this->EventManager->notify("plugin.output", $output);
 
         return $output;
     }
@@ -72,7 +72,7 @@ class Parser extends DependencyInstance
                 $node = $this->EventManager->notify("plugins.node.functions", $node);
             } else {
                 /** @var HtmlNode $node */
-                $node = $this->EventManager->notify("plugins.node.process", $node);
+                $node = $this->EventManager->notify("plugin.node", $node);
             }
 
             if ($node->get("info.isPlain")) {

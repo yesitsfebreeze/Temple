@@ -3,12 +3,13 @@
 namespace Pavel;
 
 
-use Pavel\Dependency\DependencyContainer;
+use Pavel\DependencyManager\DependencyContainer;
 use Pavel\EventManager\EventManager;
-use Pavel\EventManager\Events\Lexer\Node\FunctionNode;
-use Pavel\EventManager\Events\Lexer\Node\HtmlNode;
 use Pavel\Exception\Exception;
 use Pavel\Models\Variables;
+use Pavel\Nodes\FunctionNode;
+use Pavel\Nodes\HtmlNode;
+use Pavel\Plugins\Import;
 use Pavel\Plugins\Bricks;
 use Pavel\Plugins\Classes;
 use Pavel\Plugins\Cleanup;
@@ -107,6 +108,7 @@ class Instance
         return $this->container->getInstance("Models/Variables");
     }
 
+
     /**
      * @return EventManager
      * @throws Exception
@@ -137,14 +139,14 @@ class Instance
     {
         $this->container = new DependencyContainer();
 
-        $this->Config      = $this->container->registerDependency(new Config());
-        $this->EventManager    = $this->container->registerDependency(new EventManager());
-        $this->Directories = $this->container->registerDependency(new Directories());
-        $this->Parser      = $this->container->registerDependency(new Parser());
-        $this->Lexer       = $this->container->registerDependency(new Lexer());
-        $this->Variables   = $this->container->registerDependency(new Variables());
-        $this->Cache       = $this->container->registerDependency(new Cache());
-        $this->Template    = $this->container->registerDependency(new Template());
+        $this->Config       = $this->container->registerDependency(new Config());
+        $this->EventManager = $this->container->registerDependency(new EventManager());
+        $this->Directories  = $this->container->registerDependency(new Directories());
+        $this->Parser       = $this->container->registerDependency(new Parser());
+        $this->Lexer        = $this->container->registerDependency(new Lexer());
+        $this->Variables    = $this->container->registerDependency(new Variables());
+        $this->Cache        = $this->container->registerDependency(new Cache());
+        $this->Template     = $this->container->registerDependency(new Template());
 
         $this->Config->addConfigFile(__DIR__ . "/config.php");
         if (file_exists($config)) $this->Config->addConfigFile($config);
@@ -152,7 +154,7 @@ class Instance
 
         $this->EventManager->setInstance($this);
         $this->attachEvents();
-        
+
         return true;
     }
 
@@ -162,8 +164,8 @@ class Instance
      */
     private function attachEvents()
     {
-        $this->EventManager->attach("lexer.node",new FunctionNode());
-        $this->EventManager->attach("lexer.node",new HtmlNode());
+        $this->EventManager->attach("lexer.node", new FunctionNode());
+        $this->EventManager->attach("lexer.node", new HtmlNode());
 
         $this->attachPlugins();
     }
@@ -174,15 +176,15 @@ class Instance
      */
     private function attachPlugins()
     {
-        $this->EventManager->attach("plugins.dom.process", new Extend());
-        $this->EventManager->attach("plugins.node.process", new Plain());
-        $this->EventManager->attach("plugins.node.process", new Comment());
-        $this->EventManager->attach("plugins.node.process", new Bricks());
-        $this->EventManager->attach("plugins.node.process", new Classes());
-        $this->EventManager->attach("plugins.node.process", new Ids());
-        $this->EventManager->attach("plugins.node.process", new Php());
-
-//        $this->EventManager->attach("plugins.process", new Cleanup());
+        $this->EventManager->attach("plugin.dom", new Extend());
+        $this->EventManager->attach("plugin.node", new Plain());
+        $this->EventManager->attach("plugin.node", new Comment());
+        $this->EventManager->attach("plugin.node", new Bricks());
+        $this->EventManager->attach("plugin.node", new Classes());
+        $this->EventManager->attach("plugin.node", new Ids());
+        $this->EventManager->attach("plugin.node", new Php());
+        $this->EventManager->attach("plugin.node", new Import());
+        $this->EventManager->attach("plugin.output", new Cleanup());
     }
 
 

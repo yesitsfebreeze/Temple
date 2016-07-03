@@ -1,6 +1,6 @@
 <?php
 
-namespace Pavel\Dependency;
+namespace Pavel\DependencyManager;
 
 
 use Pavel\Exception\Exception;
@@ -9,7 +9,7 @@ use Pavel\Exception\Exception;
 /**
  * Class DependencyContainer
  *
- * @package Pavel\DependencyManagement
+ * @package Pavel\DependencyManager
  */
 class DependencyContainer
 {

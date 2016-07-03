@@ -1,6 +1,6 @@
 <?php
 
-namespace Pavel\Plugin;
+namespace Pavel\Plugins;
 
 
 use Pavel\Exception\Exception;
@@ -21,50 +21,53 @@ class Import extends Plugin
 {
 
     /**
-     * @return int;
+     * attribute mapping
+     *
+     * @return array
      */
-    public function position()
+    public function attributes()
     {
-        return 2;
-    }
-
-
-    public function isProcessor()
-    {
-        return true;
+        return array(
+            "file"
+        );
     }
 
 
     /**
      * @param HtmlNode $node
+     *
      * @return bool
      */
     public function check(HtmlNode $node)
     {
-        $this->configService->extend("self_closing", "import");
+        $this->Instance->Config()->extend("selfClosing", "import");
 
-        return ($node->get("tag.tag") == "import");
+        return ($node->get("tag.definition") == "import");
     }
 
 
     /**
      * @param HtmlNode $node
-     * 
-*@return HtmlNode $node
+     *
+     * @return HtmlNode $node
      * @throws Exception
      */
-    public function process(HtmlNode $node)
+    public function process($node)
     {
+        if (!$this->check($node)) {
+            return $node;
+        }
+
         $node->set("tag.display", false);
 
         $file = $this->getPath($node);
-        if ($file == $node->get("namespace")) {
+        if ($file == $node->get("info.namespace")) {
             throw new Exception("Recursive imports are not allowed!", $node->get("file"), $node->get("line"));
         }
-        $cachePath = $this->templateService->parse($file);
+        $cachePath = $this->Instance->Template()->fetch($file);
 
         # add the dependency
-        $this->cacheService->dependency($node->get("file"), $file);
+        $this->Instance->Cache()->addDependency($node->get("info.file"), $file);
 
         $node->set("content", "<?php include '" . $cachePath . "' ?>");
 
@@ -76,12 +79,14 @@ class Import extends Plugin
      * searches for a template file and returns the correct path
      *
      * @param HtmlNode $node
+     *
      * @return string $file
      */
     private function getPath(HtmlNode $node)
     {
+
         # if the file has an absolute path
-        $path     = $node->get("attributes");
+        $path     = $this->attrs["file"];
         $relative = $path[0] != "/";
 
         if ($relative) {
@@ -96,12 +101,13 @@ class Import extends Plugin
      * returns the template path to the file which is importing
      *
      * @param HtmlNode $node
+     *
      * @return mixed
      */
     private function getParentPath(HtmlNode $node)
     {
-        $templates = $this->templateService->dirs();
-        $path      = explode("/", $node->get("file"));
+        $templates = $this->Instance->Template()->getDirectories();
+        $path      = explode("/", $node->get("info.file"));
         array_pop($path);
         $path = implode("/", $path) . "/";
 

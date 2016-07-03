@@ -3,7 +3,7 @@
 namespace Pavel\EventManager;
 
 
-use Pavel\Dependency\DependencyInstance;
+use Pavel\DependencyManager\DependencyInstance;
 use Pavel\Instance;
 use Pavel\Utilities\Storage;
 

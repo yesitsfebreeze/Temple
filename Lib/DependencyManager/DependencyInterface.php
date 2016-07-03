@@ -1,13 +1,13 @@
 <?php
 
-namespace Pavel\Dependency;
+namespace Pavel\DependencyManager;
 
 
 /**
  * Interface DependencyInterface
  * only used in DependencyInstance
  *
- * @package Pavel\DependencyManagement
+ * @package Pavel\DependencyManager
  */
 interface DependencyInterface
 {

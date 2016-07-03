@@ -20,7 +20,7 @@ interface PluginInterface
      *
      * @return mixed
      */
-    public function dispatch($args, Instance $Instance);
+    function dispatch($args, Instance $Instance);
 
 
     /**
@@ -28,6 +28,14 @@ interface PluginInterface
      *
      * @return mixed
      */
-    public function process($element);
+    function process($element);
+
+
+    /**
+     * the attributes definition
+     *
+     * @return array
+     */
+    function attributes();
 
 }

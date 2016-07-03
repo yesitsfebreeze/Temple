@@ -3,7 +3,7 @@
 namespace Pavel\Template;
 
 
-use Pavel\Dependency\DependencyInstance;
+use Pavel\DependencyManager\DependencyInstance;
 use Pavel\Exception\Exception;
 use Pavel\Models\Dom;
 use Pavel\Utilities\Config;

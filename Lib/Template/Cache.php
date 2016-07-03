@@ -3,7 +3,7 @@
 namespace Pavel\Template;
 
 
-use Pavel\Dependency\DependencyInstance;
+use Pavel\DependencyManager\DependencyInstance;
 use Pavel\Exception\Exception;
 use Pavel\Utilities\Config;
 use Pavel\Utilities\Directories;
@@ -28,7 +28,7 @@ class Cache extends DependencyInstance
     {
         return $this->getDependencies();
     }
-    
+
 
     /** @var string $cacheFile */
     private $cacheFile = ".base";
@@ -65,14 +65,12 @@ class Cache extends DependencyInstance
 
     /**
      * saves the file to the cache and returns its path
-     
-     * 
-*@param     $file
+     *
+     * @param     $file
      * @param     $content
      * @param int $level
-     
-     * 
-*@return string
+     *
+     * @return string
      * @throws Exception
      */
     public function save($file, $content, $level = 0)
@@ -157,16 +155,14 @@ class Cache extends DependencyInstance
 
     /**
      * adds a dependency to the cache
-     
-     * 
-*@param string $parent
+     *
+     * @param string $parent
      * @param string $file
-     
-     * 
-*@return bool
+     *
+     * @return bool
      * @throws Exception
      */
-    public function dependency($parent, $file)
+    public function addDependency($parent, $file)
     {
 
         if (!$file || $file == "") {

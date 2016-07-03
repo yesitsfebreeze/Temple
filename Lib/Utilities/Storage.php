@@ -3,7 +3,7 @@
 namespace Pavel\Utilities;
 
 
-use Pavel\Dependency\DependencyInstance;
+use Pavel\DependencyManager\DependencyInstance;
 use Pavel\Exception\Exception;
 
 
