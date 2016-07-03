@@ -3,7 +3,6 @@
 namespace Pavel\Plugins;
 
 
-use Pavel\Exception\Exception;
 use Pavel\Models\HtmlNode;
 use Pavel\Models\Plugin;
 
@@ -37,7 +36,7 @@ class Bricks extends Plugin
 
         return $node;
     }
- 
+
 
     /**
      * @param HtmlNode $node
@@ -47,7 +46,7 @@ class Bricks extends Plugin
 
         if ($this->Instance->Config()->get("template.comments.bricks")) {
             $node->set("tag.opening.before", "<!-- ");
-            $node->set("tag.opening.after", " file: " . $node->get("info.file") . "  --!>");
+            $node->set("tag.opening.after", $node->get("info.relativeFile") . ":" . $node->get("info.line") . " --!>");
 
             $node->set("tag.closing.before", "");
             $node->set("tag.closing.after", "");
@@ -78,15 +77,15 @@ class Bricks extends Plugin
                 $domBricks = $dom->get("info.bricks");
                 $name      = $this->getBrickName($node);
 
-                if (isset($domBricks[ $name ])) {
+                if ($name == "parent") {
+                    $node = $this->modifyBrickParent($node, $domBricks);
+                } elseif (isset($domBricks[ $name ])) {
                     $methods = $domBricks[ $name ];
                     foreach ($methods as $method => $bricks) {
                         if ($method == "before") {
                             $node = $this->modifyBrickBefore($node, $bricks);
                         } elseif ($method == "after") {
                             $node = $this->modifyBrickAfter($node, $bricks);
-                        } elseif ($method == "wrap") {
-                            $node = $this->modifyBrickWrap($node, $bricks);
                         } elseif ($method == "replace") {
                             $node = $this->modifyBrickReplace($node, $bricks);
                         }
@@ -143,34 +142,14 @@ class Bricks extends Plugin
      *
      * @return HtmlNode $node
      */
-
     private function modifyBrickBefore(HtmlNode $node, $bricks)
     {
         $children = $node->get("children");
         foreach ($bricks as $brick) {
             $this->setProcessed($brick);
+            $this->setBrickParent($brick, $node);
+
             array_unshift($children, $brick);
-        }
-        $node->set("children", $children);
-
-        return $node;
-    }
-
-
-    /**
-     * inserts bricks after the extended brick
-     *
-     * @param HtmlNode $node
-     * @param array    $bricks
-     *
-     * @return HtmlNode $node
-     */
-    private function modifyBrickAfter(HtmlNode $node, $bricks)
-    {
-        $children = $node->get("children");
-        foreach ($bricks as $brick) {
-            $this->setProcessed($brick);
-            $children[] = $brick;
         }
         $node->set("children", $children);
 
@@ -188,9 +167,11 @@ class Bricks extends Plugin
      */
     private function modifyBrickReplace(HtmlNode $node, $bricks)
     {
-        $last = reset(array_reverse($bricks));
-        $this->setProcessed($last);
-        $node->set("children", array($last));
+        $brick = reset(array_reverse($bricks));
+        $this->setProcessed($brick);
+        $this->setBrickParent($brick, $node, false);
+
+        $node->set("children", array($brick));
 
         return $node;
 
@@ -204,76 +185,107 @@ class Bricks extends Plugin
      * @param array    $bricks
      *
      * @return HtmlNode $node
-     * @throws Exception
      */
-    private function modifyBrickWrap(HtmlNode $node, $bricks)
+    private function modifyBrickAfter(HtmlNode $node, $bricks)
     {
+        $children = $node->get("children");
         foreach ($bricks as $brick) {
-            $this->checkWrapBrick($brick);
-            $deepest = $this->getWrapBrick($brick);
-            $deepest->set("children", array($node));
-            $node = $brick;
             $this->setProcessed($brick);
-        }
+            $this->setBrickParent($brick, $node);
 
-        $this->hideBrick($node);
+            $children[] = $brick;
+        }
+        $node->set("children", $children);
 
         return $node;
     }
 
 
     /**
-     * @param HtmlNode $brick
+     * replaces the "brick parent" pattern with the parent brick
+     *
+     * @param HtmlNode $node
+     * @param          $domBricks
      *
      * @return HtmlNode
-     * @throws Exception
      */
-    private function getWrapBrick(HtmlNode $brick)
+    private function modifyBrickParent(HtmlNode $node, $domBricks)
     {
 
-        if (isset($brick)) {
-            $children = $brick->get("children");
-            if (isset($children[0])) {
-                $brick = $this->getWrapBrick($children[0]);
-            }
-        }
+        $parent = $this->getParentBrick($node);
+        $name   = $this->getBrickName($parent);
+        $method = $this->getModifyMethod($parent);
+        $brick  = reset(array_reverse($domBricks[ $name ][ $method ]));
 
-        return $brick;
+        /** @var HtmlNode $parent */
+        $parent = $brick->get("info.brick.parent");
+        $node->set("children", $parent->get("children"));
+
+        return $node;
+
     }
 
 
     /**
-     * checks if the given node is valid
+     * returns the closest brick
      *
-     * @param HtmlNode $brick
-     * @param bool     $deep
+     * @param HtmlNode $node
      *
      * @return HtmlNode
-     * @throws Exception
      */
-    private function checkWrapBrick(HtmlNode $brick, $deep = false)
+    private function getParentBrick(HtmlNode $node)
     {
-
-        $children = $brick->get("children");
-        $first    = reset($children);
-
-        if ($deep && sizeof($children) == 0) {
-            return true;
+        $parent     = $node->get("info.parent");
+        $definition = $parent->get("tag.definition");
+        if ($definition != "brick") {
+            return $this->getParentBrick($parent);
+        } else {
+            return $parent;
         }
 
-        if (sizeof($children) != 1) {
-            throw new Exception("Wrap brick can only have one child!", $brick->get("info.file"), $brick->get("info.line"));
-        }
-
-        if (!$first->get("info.plugins")) {
-            throw new Exception("Cant wrap brick with that type of node!", $brick->get("info.file"), $brick->get("info.line"));
-        }
-
-        if ($first->get("info.selfClosing")) {
-            throw new Exception("Cant wrap a self closing element!", $brick->get("info.file"), $brick->get("info.line"));
-        }
-
-        $this->checkWrapBrick($first, true);
     }
 
+
+    /**
+     * returns the brick method
+     *
+     * @param HtmlNode $node
+     *
+     * @return string $method
+     */
+    private function getModifyMethod(HtmlNode $node)
+    {
+        $attributes = $node->get("attributes");
+        if (isset($attributes["method"])) {
+            $method = $attributes["method"];
+        } else {
+            $method = array_reverse(array_keys($attributes))[0];
+            if (!in_array($method, $this->methods)) {
+                $method = "replace";
+            }
+        }
+
+        return $method;
+    }
+
+
+    /**
+     * @param HtmlNode $brick
+     * @param HtmlNode $node
+     * @param bool     $topLevel
+     */
+    private function setBrickParent(HtmlNode $brick, HtmlNode $node, $topLevel = true)
+    {
+        $parent = clone $node;
+        if ($topLevel) {
+            if ($parent->has("info.brick.parent")) {
+                $parent = $parent->get("info.brick.parent");
+            };
+            if ($brick->has("info.brick.parent")) {
+                $parent = $brick->get("info.brick.parent");
+            };
+        }
+        $brick->set("info.brick.parent", $parent);
+        $node->set("info.brick.parent", $parent);
+    }
 }

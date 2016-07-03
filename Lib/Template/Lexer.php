@@ -26,9 +26,6 @@ class Lexer extends DependencyInstance
     /** @var  Directories $Directories */
     protected $Directories;
 
-    /** @var  NodeFactory $NodeFactory */
-    protected $NodeFactory;
-
     /** @var  EventManager $EventManager */
     protected $EventManager;
 
@@ -142,6 +139,7 @@ class Lexer extends DependencyInstance
     private function createNewDom($namespace, $file, $files)
     {
         $this->dom = new Dom();
+
         $this->dom->set("info.namespace", $namespace);
         $this->dom->set("info.line", 1);
         $this->dom->set("info.indent.amount", 0);
@@ -190,11 +188,12 @@ class Lexer extends DependencyInstance
     private function createNode($line)
     {
         /** @var BaseNode $node */
-        $info                   = array();
-        $info["info.namespace"] = $this->dom->get("info.namespace");
-        $info["info.level"]     = $this->dom->get("info.level");
-        $info["info.line"]      = $this->dom->get("info.line");
-        $info["info.file"]      = $this->dom->get("info.file");
+        $info                      = array();
+        $info["info.namespace"]    = $this->dom->get("info.namespace");
+        $info["info.level"]        = $this->dom->get("info.level");
+        $info["info.line"]         = $this->dom->get("info.line");
+        $info["info.file"]         = $this->dom->get("info.file");
+        $info["info.relativeFile"] = str_replace($_SERVER['DOCUMENT_ROOT'], "", $info["info.file"]);
 
         $node = $this->EventManager->notify("lexer.node", array($line, $info));
         if (!$node instanceof BaseNode) {
