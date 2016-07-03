@@ -1,35 +1,24 @@
 <?php
 
-namespace Pavel;
+namespace Underware;
 
 
-use Pavel\DependencyManager\DependencyContainer;
-use Pavel\EventManager\EventManager;
-use Pavel\Exception\Exception;
-use Pavel\Models\Variables;
-use Pavel\Nodes\FunctionNode;
-use Pavel\Nodes\HtmlNode;
-use Pavel\Plugins\Import;
-use Pavel\Plugins\Bricks;
-use Pavel\Plugins\Classes;
-use Pavel\Plugins\Cleanup;
-use Pavel\Plugins\Comment;
-use Pavel\Plugins\Extend;
-use Pavel\Plugins\Ids;
-use Pavel\Plugins\Php;
-use Pavel\Plugins\Plain;
-use Pavel\Template\Cache;
-use Pavel\Template\Lexer;
-use Pavel\Template\Parser;
-use Pavel\Template\Template;
-use Pavel\Utilities\Config;
-use Pavel\Utilities\Directories;
+use Underware\DependencyManager\DependencyContainer;
+use Underware\EventManager\EventManager;
+use Underware\Exception\Exception;
+use Underware\Models\Variables;
+use Underware\Template\Cache;
+use Underware\Template\Lexer;
+use Underware\Template\Parser;
+use Underware\Template\Template;
+use Underware\Utilities\Config;
+use Underware\Utilities\Directories;
 
 
 /**
  * Class Instance
  *
- * @package Pavel
+ * @package Underware
  */
 class Instance
 {
@@ -61,8 +50,8 @@ class Instance
     /** @var Template $Template */
     private $Template;
 
-    /** @var Events $Events */
-    private $Events;
+    /** @var Subscribers $Subscribers */
+    private $Subscribers;
 
 
     /**
@@ -147,44 +136,16 @@ class Instance
         $this->Variables    = $this->container->registerDependency(new Variables());
         $this->Cache        = $this->container->registerDependency(new Cache());
         $this->Template     = $this->container->registerDependency(new Template());
+        $this->Subscribers  = $this->container->registerDependency(new Subscribers());
 
-        $this->Config->addConfigFile(__DIR__ . "/config.php");
+        $this->Config->addConfigFile(__DIR__ . "/../config.php");
         if (file_exists($config)) $this->Config->addConfigFile($config);
         $this->Cache->setDirectory($this->Config->get("dirs.cache"));
 
         $this->EventManager->setInstance($this);
-        $this->attachEvents();
+        $this->Subscribers->attachEvents();
 
         return true;
-    }
-
-
-    /**
-     * register defaukt events
-     */
-    private function attachEvents()
-    {
-        $this->EventManager->attach("lexer.node", new FunctionNode());
-        $this->EventManager->attach("lexer.node", new HtmlNode());
-
-        $this->attachPlugins();
-    }
-
-
-    /**
-     * register all plugins
-     */
-    private function attachPlugins()
-    {
-        $this->EventManager->attach("plugin.dom", new Extend());
-        $this->EventManager->attach("plugin.node", new Plain());
-        $this->EventManager->attach("plugin.node", new Comment());
-        $this->EventManager->attach("plugin.node", new Bricks());
-        $this->EventManager->attach("plugin.node", new Classes());
-        $this->EventManager->attach("plugin.node", new Ids());
-        $this->EventManager->attach("plugin.node", new Php());
-        $this->EventManager->attach("plugin.node", new Import());
-        $this->EventManager->attach("plugin.output", new Cleanup());
     }
 
 

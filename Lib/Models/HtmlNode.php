@@ -1,13 +1,13 @@
 <?php
 
-namespace Pavel\Models;
+namespace Underware\Models;
 
 
 /**
  * all NodeModel defaults are set here
  * Class NodeModel
  *
- * @package Pavel
+ * @package Underware
  */
 class HtmlNode extends BaseNode
 {

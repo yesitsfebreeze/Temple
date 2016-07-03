@@ -1,22 +1,24 @@
 <?php
 
 
-namespace Pavel\Nodes;
+namespace Underware\Nodes;
 
 
-use Pavel\EventManager\Event;
-use Pavel\Instance;
-use Pavel\Models\BaseNode;
-use Pavel\Models\FunctionNode as Node;
+use Underware\EventManager\Event;
+use Underware\Instance;
+use Underware\Models\BaseNode;
+use Underware\Models\FunctionNode as Node;
 
 
 /**
  * Class FunctionNode
  *
- * @package Pavel\Event\Nodes
+ * @package Underware\Event\Nodes
  */
 class FunctionNode extends Event
 {
+
+    private $identifier = "+";
 
     /**
      * @param mixed    $args
@@ -31,7 +33,7 @@ class FunctionNode extends Event
             $line       = $args[0];
             $infos      = $args[1];
             $identifier = trim($line)[0];
-            if ($identifier == "+") {
+            if ($identifier == $this->identifier) {
                 $node = new Node($Instance->Config());
                 $node = $node->createNode($line, $infos);
 

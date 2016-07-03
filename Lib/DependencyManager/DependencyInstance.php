@@ -1,17 +1,17 @@
 <?php
 
 
-namespace Pavel\DependencyManager;
+namespace Underware\DependencyManager;
 
 
-use Pavel\Exception\Exception;
-use Pavel\Exception\ExceptionHandler;
+use Underware\Exception\Exception;
+use Underware\Exception\ExceptionHandler;
 
 
 abstract class DependencyInstance implements DependencyInterface
 {
 
-    private $rootNameSpace = "Pavel";
+    private $rootNameSpace = "Underware";
 
 
     /**

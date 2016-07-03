@@ -1,27 +1,53 @@
 <?php
 
-namespace Pavel\Plugins;
+namespace Underware\Plugins;
 
 
-use Pavel\Exception\Exception;
-use Pavel\Models\Dom;
-use Pavel\Models\HtmlNode;
-use Pavel\Models\Plugin;
+use Underware\Exception\Exception;
+use Underware\Models\Dom;
+use Underware\Models\HtmlNode;
+use Underware\Models\Plugin;
+use Underware\Utilities\Storage;
 
 
 /**
- * Class PluginExtend
+ * Class Extend
  *
- * @package     Pavel
- * @description handles the extending of files and bricks
- * @position    1
- * @author      Stefan Hövelmanns
- * @License     MIT
+ * @package Underware\Plugins
  */
 class Extend extends Plugin
 {
 
-    private $brickInsertMethods = array("before", "after", "wrap", "replace");
+    /** @var array $brickMethods */
+    private $brickMethods = array("before", "after", "wrap", "replace");
+
+    /** @var array|Storage $attributes */
+    protected $attributes = array(
+        "file"
+    );
+
+
+    /**
+     * check if we have to extend
+     *
+     * @param mixed $args
+     *
+     * @return bool
+     */
+    public function check($args)
+    {
+        if ($args instanceof Dom) {
+            // get the first node from the dom
+            $nodes = $args->get("nodes");
+            $node  = reset($nodes);
+
+            if ($node instanceof HtmlNode) {
+                return ($node->get("tag.definition") == "extend" || $node->get("tag.definition") == "extends");
+            }
+        }
+
+        return false;
+    }
 
 
     /**
@@ -34,19 +60,17 @@ class Extend extends Plugin
      */
     public function process($dom)
     {
-        
+
         # add the extend tag to the selfClosing elements
         $this->Instance->Config()->extend("parser.selfClosing", "extend");
 
         # get the first node from the dom
-        $nodes = $dom->get("nodes");
-        $node  = reset($nodes);
-
-        if ($node instanceof HtmlNode) {
-            $fileToExtend = $this->getFileToExtend($node);
-            if ($fileToExtend) {
-                $dom = $this->extend($fileToExtend, $dom);
-            }
+        $nodes        = $dom->get("nodes");
+        $node         = reset($nodes);
+        $this->generateAttributes($node);
+        $fileToExtend = $this->getFileToExtend($node);
+        if ($fileToExtend) {
+            $dom = $this->extend($fileToExtend, $dom);
         }
 
         return $dom;
@@ -64,28 +88,22 @@ class Extend extends Plugin
     private function getFileToExtend(HtmlNode $node)
     {
 
-        # check if node has "extend" tag
-        if ($node->get("tag.definition") == "extend" || $node->get("tag.definition") == "extends") {
+        $node->set("tag.display", false);
 
-            $node->set("tag.display", false);
-
-            # if there is no file file passed
-            if (sizeof($node->get("attributes")) == 0) {
-                throw new Exception("Please pass a file to extend!", $node->get("info.file"), $node->get("info.line"));
-            }
-
-            $fileToExtend = array_keys($node->get("attributes"))[0];
-
-            $exists = $this->Instance->Template()->templateExists($fileToExtend);
-
-            if (!$exists) {
-                throw new Exception("Can not extend from file '{$fileToExtend}', because it does not exist!", $node->get("info.file"), $node->get("info.line"));
-            }
-
-            return $fileToExtend;
+        # if there is no file file passed
+        if (sizeof($node->get("attributes")) == 0) {
+            throw new Exception("Please pass a file to extend!", $node->get("info.file"), $node->get("info.line"));
         }
 
-        return false;
+        $fileToExtend = $this->attributes->get("file");
+        $exists = $this->Instance->Template()->templateExists($fileToExtend);
+
+        if (!$exists) {
+            throw new Exception("Can not extend from file '{$fileToExtend}', because it does not exist!", $node->get("info.file"), $node->get("info.line"));
+        }
+
+        return $fileToExtend;
+
     }
 
 
@@ -147,8 +165,8 @@ class Extend extends Plugin
                         $name = $attributes["name"];
                     } else {
                         $name = implode(" ", array_keys($attributes));
-                        foreach ($this->brickInsertMethods as $brickInsertMethod) {
-                            $name = preg_replace("/" . $brickInsertMethod . "$/", "", $name);
+                        foreach ($this->brickMethods as $method) {
+                            $name = preg_replace("/" . $method . "$/", "", $name);
                         }
                         $name = trim($name);
                     }
@@ -157,7 +175,7 @@ class Extend extends Plugin
                         $insert = $attributes["insert"];
                     } else {
                         $insert = array_reverse(array_keys($attributes))[0];
-                        if (!in_array($insert, $this->brickInsertMethods)) {
+                        if (!in_array($insert, $this->brickMethods)) {
                             $insert = "replace";
                         }
                     }

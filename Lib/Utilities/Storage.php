@@ -1,17 +1,17 @@
 <?php
 
-namespace Pavel\Utilities;
+namespace Underware\Utilities;
 
 
-use Pavel\DependencyManager\DependencyInstance;
-use Pavel\Exception\Exception;
+use Underware\DependencyManager\DependencyInstance;
+use Underware\Exception\Exception;
 
 
 /**
  * this class handles all data storage
  * Class Storage
  *
- * @package Pavel
+ * @package Underware
  */
 class Storage extends DependencyInstance
 {

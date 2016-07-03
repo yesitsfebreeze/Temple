@@ -1,13 +1,13 @@
 <?php
 
-namespace Pavel\Template;
+namespace Underware\Template;
 
 
-use Pavel\DependencyManager\DependencyInstance;
-use Pavel\Exception\Exception;
-use Pavel\Models\Dom;
-use Pavel\Utilities\Config;
-use Pavel\Utilities\Directories;
+use Underware\DependencyManager\DependencyInstance;
+use Underware\Exception\Exception;
+use Underware\Models\Dom;
+use Underware\Utilities\Config;
+use Underware\Utilities\Directories;
 
 
 class Template extends DependencyInstance

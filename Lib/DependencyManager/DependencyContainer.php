@@ -1,15 +1,16 @@
 <?php
 
-namespace Pavel\DependencyManager;
+namespace Underware\DependencyManager;
 
 
-use Pavel\Exception\Exception;
+use Underware\Exception\Exception;
+use Underware\Exception\ExceptionHandler;
 
 
 /**
  * Class DependencyContainer
  *
- * @package Pavel\DependencyManager
+ * @package Underware\DependencyManager
  */
 class DependencyContainer
 {
@@ -17,7 +18,7 @@ class DependencyContainer
     /** @var array $dependencies */
     private $dependencies = array();
 
-    private $rootNameSpace = "Pavel";
+    private $rootNameSpace = "Underware";
 
 
     /**
@@ -63,6 +64,7 @@ class DependencyContainer
     {
 
         if (!isset($this->dependencies[ $name ])) {
+            new ExceptionHandler();
             throw new Exception("Dependency Management: " . "$name is not instantiated yet.");
         }
 
@@ -82,6 +84,7 @@ class DependencyContainer
     private function setDependencies(DependencyInterface &$instance, $dependencies)
     {
         if (!is_array($dependencies)) {
+            new ExceptionHandler();
             throw new Exception("Dependency Management: 'dependencies()' must return an array ", get_class($instance) . ".php");
         }
 
@@ -102,6 +105,7 @@ class DependencyContainer
     {
 
         if (!isset($this->dependencies[ $dependency ])) {
+            new ExceptionHandler();
             throw new Exception("Dependency Management: '" . $dependency . "' instance does't exist.", get_class($instance));
         }
 

@@ -1,12 +1,12 @@
 <?php
 
-namespace Pavel\Template;
+namespace Underware\Template;
 
 
-use Pavel\DependencyManager\DependencyInstance;
-use Pavel\Exception\Exception;
-use Pavel\Utilities\Config;
-use Pavel\Utilities\Directories;
+use Underware\DependencyManager\DependencyInstance;
+use Underware\Exception\Exception;
+use Underware\Utilities\Config;
+use Underware\Utilities\Directories;
 
 
 class Cache extends DependencyInstance

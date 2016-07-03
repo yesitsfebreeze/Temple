@@ -1,18 +1,18 @@
 <?php
 
-namespace Pavel\Exception;
+namespace Underware\Exception;
 
 
 /**
  * Class ExceptionHandler
  *
- * @package Pavel\Exceptions
+ * @package Underware\Exceptions
  */
 class ExceptionHandler
 {
 
     /**
-     * adds a global exception handler for Pavel exceptions
+     * adds a global exception handler for Underware exceptions
      * ExceptionHandler constructor.
      */
     public function __construct()

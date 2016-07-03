@@ -1,22 +1,39 @@
 <?php
 
-namespace Pavel\Plugins;
+namespace Underware\Plugins;
 
 
-use Pavel\Models\HtmlNode;
-use Pavel\Models\Plugin;
+use Underware\Models\HtmlNode;
+use Underware\Models\Plugin;
 
 
 /**
  * Class Bricks
  *
- * @package Pavel\Event\Plugins
+ * @package Underware\Event\Plugins
  */
 class Bricks extends Plugin
 {
 
     /** @var array $methods */
     private $methods = array("before", "after", "wrap", "replace");
+
+
+    /**
+     * check if we have a brick
+     *
+     * @param mixed $args
+     *
+     * @return bool
+     */
+    public function check($args)
+    {
+        if ($args instanceof HtmlNode) {
+            return ($args->get("tag.definition") == "brick");
+        }
+
+        return false;
+    }
 
 
     /**
@@ -29,10 +46,8 @@ class Bricks extends Plugin
      */
     public function process($node)
     {
-        if ($node->get("tag.definition") == "brick") {
-            $this->hideBrick($node);
-            $node = $this->modifyBrick($node);
-        };
+        $this->hideBrick($node);
+        $node = $this->modifyBrick($node);
 
         return $node;
     }

@@ -1,18 +1,18 @@
 <?php
 
-namespace Pavel\Models;
+namespace Underware\Models;
 
 
-use Pavel\Exception\Exception;
-use Pavel\Utilities\Config;
-use Pavel\Utilities\Storage;
+use Underware\Exception\Exception;
+use Underware\Utilities\Config;
+use Underware\Utilities\Storage;
 
 
 /**
  * all BaseNode defaults are set here
  * Class BaseNode
  *
- * @package Pavel
+ * @package Underware
  */
 class BaseNode extends Storage
 {

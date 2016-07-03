@@ -1,20 +1,22 @@
 <?php
 
-namespace Pavel\Models;
+namespace Underware\Models;
 
 
-use Pavel\Instance;
+use Underware\Instance;
 
 
 /**
  * Class Plugins
  *
- * @package Pavel
+ * @package Underware
  */
 interface PluginInterface
 {
 
     /**
+     * event dispatcher
+     *
      * @param          $args
      * @param Instance $Instance
      *
@@ -24,18 +26,23 @@ interface PluginInterface
 
 
     /**
-     * @param mixed $element
+     * checking if the arguments are valid for this plugin
      *
-     * @return mixed
+     * @param mixed $args
+     *
+     * @return bool
      */
-    function process($element);
+    function check($args);
 
 
     /**
-     * the attributes definition
+     * the actual process method
      *
-     * @return array
+     * @param mixed $args
+     *
+     * @return mixed
      */
-    function attributes();
+    function process($args);
+
 
 }

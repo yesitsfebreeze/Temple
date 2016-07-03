@@ -1,10 +1,10 @@
 <?php
 
-namespace Pavel\Plugins;
+namespace Underware\Plugins;
 
 
-use Pavel\Models\HtmlNode;
-use Pavel\Models\Plugin;
+use Underware\Models\HtmlNode;
+use Underware\Models\Plugin;
 
 
 /**
@@ -14,7 +14,7 @@ use Pavel\Models\Plugin;
  * @usage    # at linestart
  * @author   Stefan Hövelmanns - hvlmnns.de
  * @License  MIT
- * @package  Pavel
+ * @package  Underware
  */
 class Comment extends Plugin
 {
@@ -24,18 +24,22 @@ class Comment extends Plugin
 
 
     /**
-     * @param HtmlNode $node
+     * @param HtmlNode $args
      *
      * @return bool
      */
-    public function check(HtmlNode $node)
+    public function check($args)
     {
-        $tag = $node->get("tag.definition");
-        if (!isset($tag[0])) {
-            return false;
+        if ($args instanceof HtmlNode) {
+            $tag = $args->get("tag.definition");
+            if (!isset($tag[0])) {
+                return false;
+            }
+
+            return ($tag[0] == $this->symbol && !isset($tag[1]));
         }
 
-        return ($tag[0] == $this->symbol && !isset($tag[1]));
+        return false;
     }
 
 
@@ -48,9 +52,6 @@ class Comment extends Plugin
     {
 
         $this->symbol = $this->Instance->Config()->get("template.symbols.comment");
-        if (!$this->check($node)) {
-            return $node;
-        }
 
         if ($this->Instance->Config()->get("template.comments.show")) {
             $node = $this->createComment($node);

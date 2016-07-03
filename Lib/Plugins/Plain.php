@@ -1,20 +1,16 @@
 <?php
 
-namespace Pavel\Plugins;
+namespace Underware\Plugins;
 
 
-use Pavel\Models\HtmlNode;
-use Pavel\Models\Plugin;
+use Underware\Models\HtmlNode;
+use Underware\Models\Plugin;
 
 
 /**
- * Class PluginComment
+ * Class Plain
  *
- * @purpose  converts line to plain text
- * @usage    - at linestart
- * @author   Stefan Hövelmanns - hvlmnns.de
- * @License  MIT
- * @package  Pavel
+ * @package Underware\Plugins
  */
 class Plain extends Plugin
 {
@@ -22,17 +18,35 @@ class Plain extends Plugin
     /** @var string $identifier */
     private $identifier = "-";
 
+
+    /**
+     * check if we have a plain tag
+     *
+     * @param HtmlNode $args
+     *
+     * @return bool
+     */
+    public function check($args)
+    {
+
+        if ($args instanceof HtmlNode) {
+            $tag = $args->get("tag.definition");
+
+            return ($tag[0] == $this->identifier);
+        }
+
+        return false;
+    }
+
+
     /**
      * @param HtmlNode $node
+     *
      * @return HtmlNode
      */
     public function process($node)
     {
-        $tag = $node->get("tag.definition");
-
-        if ($tag[0] == $this->identifier) {
-            $node = $this->createPlain($node);
-        }
+        $node = $this->createPlain($node);
 
         return $node;
     }
@@ -40,6 +54,7 @@ class Plain extends Plugin
 
     /**
      * @param HtmlNode $node
+     *
      * @return HtmlNode
      */
     private function createPlain(HtmlNode $node)

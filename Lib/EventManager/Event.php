@@ -1,9 +1,9 @@
 <?php
 
-namespace Pavel\EventManager;
+namespace Underware\EventManager;
 
 
-use Pavel\Instance;
+use Underware\Instance;
 
 
 /**

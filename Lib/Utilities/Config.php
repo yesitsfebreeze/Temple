@@ -1,10 +1,10 @@
 <?php
 
-namespace Pavel\Utilities;
+namespace Underware\Utilities;
 
 
-use Pavel\Exception\Exception;
-use Pavel\Exception\ExceptionHandler;
+use Underware\Exception\Exception;
+use Underware\Exception\ExceptionHandler;
 
 
 class Config extends Storage

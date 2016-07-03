@@ -4,7 +4,7 @@ $dependencies = array(
     "Utilities/Directories"   => array(
         "Utilities/Config" => "Config"
     ),
-    "Events/Events" => array(
+    "Subscribers" => array(
         "EventManager/EventManager" => "EventManager"
     ),
     "Template/Parser"         => array(

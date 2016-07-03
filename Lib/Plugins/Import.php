@@ -1,48 +1,42 @@
 <?php
 
-namespace Pavel\Plugins;
+namespace Underware\Plugins;
 
 
-use Pavel\Exception\Exception;
-use Pavel\Models\HtmlNode;
-use Pavel\Models\Plugin;
+use Underware\Exception\Exception;
+use Underware\Models\HtmlNode;
+use Underware\Models\Plugin;
+use Underware\Utilities\Storage;
 
 
 /**
- * Class PluginImport
+ * Class Import
  *
- * @package     Pavel
- * @description handles file imports
- * @position    0
- * @author      Stefan Hövelmanns
- * @License     MIT
+ * @package Underware\Plugins
  */
 class Import extends Plugin
 {
 
-    /**
-     * attribute mapping
-     *
-     * @return array
-     */
-    public function attributes()
-    {
-        return array(
-            "file"
-        );
-    }
+    /** @var array|Storage $attributes */
+    protected $attributes = array(
+        "file"
+    );
 
 
     /**
-     * @param HtmlNode $node
+     * @param HtmlNode $args
      *
      * @return bool
      */
-    public function check(HtmlNode $node)
+    public function check($args)
     {
-        $this->Instance->Config()->extend("selfClosing", "import");
 
-        return ($node->get("tag.definition") == "import");
+        if ($args instanceof HtmlNode) {
+            return ($args->get("tag.definition") == "import");
+        }
+
+        return false;
+
     }
 
 
@@ -54,11 +48,9 @@ class Import extends Plugin
      */
     public function process($node)
     {
-        if (!$this->check($node)) {
-            return $node;
-        }
 
-        $node->set("tag.display", false);
+        $this->Instance->Config()->extend("selfClosing", "import");
+        $this->hideImport($node);
 
         $file = $this->getPath($node);
         if ($file == $node->get("info.namespace")) {
@@ -86,7 +78,7 @@ class Import extends Plugin
     {
 
         # if the file has an absolute path
-        $path     = $this->attrs["file"];
+        $path     = $this->attributes->get("file");
         $relative = $path[0] != "/";
 
         if ($relative) {
@@ -116,6 +108,25 @@ class Import extends Plugin
         }
 
         return $path;
+    }
+
+
+    /**
+     * @param HtmlNode $node
+     */
+    private function hideImport(HtmlNode $node)
+    {
+
+        if ($this->Instance->Config()->get("template.comments.bricks")) {
+            $node->set("tag.opening.before", "<!-- ");
+            $node->set("tag.opening.after", $node->get("info.relativeFile") . ":" . $node->get("info.line") . " --!>");
+
+            $node->set("tag.closing.before", "");
+            $node->set("tag.closing.after", "");
+            $node->set("tag.closing.definition", "");
+        } else {
+            $node->set("tag.display", false);
+        }
     }
 
 }

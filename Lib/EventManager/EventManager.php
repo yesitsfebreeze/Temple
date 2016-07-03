@@ -1,17 +1,17 @@
 <?php
 
-namespace Pavel\EventManager;
+namespace Underware\EventManager;
 
 
-use Pavel\DependencyManager\DependencyInstance;
-use Pavel\Instance;
-use Pavel\Utilities\Storage;
+use Underware\DependencyManager\DependencyInstance;
+use Underware\Instance;
+use Underware\Utilities\Storage;
 
 
 /**
  * Class EventManager
  *
- * @package Pavel\EventManager
+ * @package Underware\EventManager
  */
 class EventManager extends DependencyInstance
 {
@@ -24,7 +24,7 @@ class EventManager extends DependencyInstance
 
 
     /**
-     * @var \Pavel\Utilities\Storage $events
+     * @var \Underware\Utilities\Storage $events
      */
     private $events;
 
@@ -59,7 +59,7 @@ class EventManager extends DependencyInstance
      * @param $args
      *
      * @return mixed
-     * @throws \Pavel\Exception\Exception
+     * @throws \Underware\Exception\Exception
      */
     public function notify($event, $args)
     {

@@ -1,6 +1,6 @@
 <?php
 
-namespace Pavel;
+namespace Underware;
 
 
 $namespace = __NAMESPACE__;
@@ -15,5 +15,3 @@ spl_autoload_register(function ($class) use ($namespace, $dir) {
     }
 
 });
-
-require_once __DIR__ . "/Instance.php";

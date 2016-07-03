@@ -1,21 +1,21 @@
 <?php
 
-namespace Pavel\Template;
+namespace Underware\Template;
 
 
-use Pavel\DependencyManager\DependencyInstance;
-use Pavel\EventManager\EventManager;
-use Pavel\Exception\Exception;
-use Pavel\Models\BaseNode;
-use Pavel\Models\Dom;
-use Pavel\Utilities\Config;
-use Pavel\Utilities\Directories;
+use Underware\DependencyManager\DependencyInstance;
+use Underware\EventManager\EventManager;
+use Underware\Exception\Exception;
+use Underware\Models\BaseNode;
+use Underware\Models\Dom;
+use Underware\Utilities\Config;
+use Underware\Utilities\Directories;
 
 
 /**
  * Class Lexer
  *
- * @package Pavel
+ * @package Underware
  */
 class Lexer extends DependencyInstance
 {
@@ -187,6 +187,7 @@ class Lexer extends DependencyInstance
      */
     private function createNode($line)
     {
+        $line = $this->EventManager->notify("plugin.line", $line);
         /** @var BaseNode $node */
         $info                      = array();
         $info["info.namespace"]    = $this->dom->get("info.namespace");

@@ -1,9 +1,9 @@
 <?php
 
-namespace Pavel\Plugin;
+namespace Underware\Plugin;
 
 
-use Pavel\Models\Plugin;
+use Underware\Models\Plugin;
 
 
 class Debug extends Plugin
@@ -91,7 +91,7 @@ class Debug extends Plugin
             $window = "<html>";
             $window .= "<head>";
             $window .= "<title>";
-            $window .= "Pavel.debug";
+            $window .= "Underware.debug";
             $window .= "</title>";
             $window .= $this->style;
             $window .= "</head>";
@@ -130,10 +130,10 @@ class Debug extends Plugin
                 $window .= "Version: 1.1.0";
                 $window .= "</div>";
                 $window .= "<div>";
-                $window .= "<a href='https://github.com/hvlmnns/Pavel' title='gitHub' target='_blank'>gitHub</a>";
+                $window .= "<a href='https://github.com/hvlmnns/Underware' title='gitHub' target='_blank'>gitHub</a>";
                 $window .= "</div>";
                 $window .= "<div>";
-                $window .= "<a href='http://hvlmnns.github.io/Pavel/' title='Documentation' target='_blank'>Documentation</a>";
+                $window .= "<a href='http://hvlmnns.github.io/Underware/' title='Documentation' target='_blank'>Documentation</a>";
                 $window .= "</div>";
             }
 
@@ -229,12 +229,12 @@ class Debug extends Plugin
         <a id="cdbl<?php echo $randomString; ?>">
             <script type="text/javascript">
                 (function() {
-                    var PavelDebugLink<?php echo $randomString; ?> = document.getElementById('cdbl<?php echo $randomString;?>');
-                    PavelDebugLink<?php echo $randomString; ?>.addEventListener("click", function() {
-                        var debugWindow<?php echo $randomString; ?> = window.open('', "Pavel Debug", '_blank');
+                    var UnderwareDebugLink<?php echo $randomString; ?> = document.getElementById('cdbl<?php echo $randomString;?>');
+                    UnderwareDebugLink<?php echo $randomString; ?>.addEventListener("click", function() {
+                        var debugWindow<?php echo $randomString; ?> = window.open('', "Underware Debug", '_blank');
                         debugWindow<?php echo $randomString; ?>.document.body.innerHTML = <?php echo json_encode($vars); ?>;
                     });
-                    PavelDebugLink<?php echo $randomString; ?>.click();
+                    UnderwareDebugLink<?php echo $randomString; ?>.click();
                 })();
             </script>
         </a>

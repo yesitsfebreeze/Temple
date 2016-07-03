@@ -1,16 +1,16 @@
 <?php
 
-namespace Pavel\Utilities;
+namespace Underware\Utilities;
 
 
-use Pavel\DependencyManager\DependencyInstance;
-use Pavel\Exception\Exception;
+use Underware\DependencyManager\DependencyInstance;
+use Underware\Exception\Exception;
 
 
 /**
  * Class Directories
  *
- * @package Pavel
+ * @package Underware
  */
 class Directories extends DependencyInstance
 {
@@ -32,7 +32,7 @@ class Directories extends DependencyInstance
      * @param $type
      * 
 *@return bool|mixed|string
-     * @throws \Pavel\Exception\Exception
+     * @throws \Underware\Exception\Exception
      */
     public function add($dir, $type)
     {
@@ -72,7 +72,7 @@ class Directories extends DependencyInstance
      * 
 *@param $dir
      * 
-*@throws \Pavel\Exception\Exception
+*@throws \Underware\Exception\Exception
      */
     public function create($dir)
     {
@@ -117,7 +117,7 @@ class Directories extends DependencyInstance
 *@param $type
      * 
 *@return mixed
-     * @throws \Pavel\Exception\Exception
+     * @throws \Underware\Exception\Exception
      */
     public function get($type)
     {
@@ -202,7 +202,7 @@ class Directories extends DependencyInstance
 *@param string $type
      * 
 *@return mixed
-     * @throws \Pavel\Exception\Exception
+     * @throws \Underware\Exception\Exception
      */
     private function check($type)
     {
@@ -244,14 +244,14 @@ class Directories extends DependencyInstance
 
 
     /**
-     * Returns the Pavel Directory
+     * Returns the Underware Directory
      *
      * @return array|string
      */
     private function frameworkDir()
     {
-        $framework = explode("Pavel", __DIR__);
-        $framework = $framework[0] . "Pavel/";
+        $framework = explode("Underware", __DIR__);
+        $framework = $framework[0] . "Underware/";
 
         return $framework;
     }

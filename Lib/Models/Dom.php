@@ -1,17 +1,17 @@
 <?php
 
-namespace Pavel\Models;
+namespace Underware\Models;
 
 
 // TODO: add local variable space
 // TODO: add find method
-use Pavel\Utilities\Storage;
+use Underware\Utilities\Storage;
 
 
 /**
  * Class DomModel
  *
- * @package Pavel
+ * @package Underware
  */
 class Dom extends Storage
 {

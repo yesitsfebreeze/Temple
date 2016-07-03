@@ -1,13 +1,13 @@
 <?php
 
-namespace Pavel\DependencyManager;
+namespace Underware\DependencyManager;
 
 
 /**
  * Interface DependencyInterface
  * only used in DependencyInstance
  *
- * @package Pavel\DependencyManager
+ * @package Underware\DependencyManager
  */
 interface DependencyInterface
 {

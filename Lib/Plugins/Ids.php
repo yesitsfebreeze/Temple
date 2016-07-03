@@ -1,23 +1,40 @@
 <?php
 
-namespace Pavel\Plugins;
+namespace Underware\Plugins;
 
 
-use Pavel\Models\HtmlNode;
-use Pavel\Models\Plugin;
+use Underware\Models\HtmlNode;
+use Underware\Models\Plugin;
 
 
 /**
- * Class PluginIds
+ * Class Ids
  *
- * @purpose  : converts emmet inspired id definition to actual ids
- * @usage    : div#myid#myotherid id="default"
- * @author   : Stefan Hövelmanns - hvlmnns.de
- * @License  : MIT
- * @package  Pavel
+ * @package Underware\Plugins
  */
 class Ids extends Plugin
 {
+
+
+    /**
+     * check if we have to create classes
+     *
+     * @param mixed $args
+     *
+     * @return bool
+     */
+    public function check($args)
+    {
+        if ($args instanceof HtmlNode) {
+            $tag = $args->get("tag.definition");
+            preg_match("/#[^#]+/", $tag, $matches);
+
+            return sizeof($matches) > 1;
+        }
+
+        return false;
+    }
+
 
     /**
      * @param HtmlNode $node
@@ -29,11 +46,10 @@ class Ids extends Plugin
     {
         $tag = $node->get("tag.definition");
         preg_match("/#[^#]+/", $tag, $matches);
-        if (sizeof($matches) > 1) {
-            $ids  = $this->getIds($tag, explode("#", $tag));
-            $node = $this->updateTag($node, $tag, $ids);
-            $node = $this->setAttribute($node, $ids);
-        }
+
+        $ids  = $this->getIds($tag, explode("#", $tag));
+        $node = $this->updateTag($node, $tag, $ids);
+        $node = $this->setAttribute($node, $ids);
 
         return $node;
     }

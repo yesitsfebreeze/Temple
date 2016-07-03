@@ -1,15 +1,15 @@
 <?php
 
-namespace Pavel\Models;
+namespace Underware\Models;
 
 
-use Pavel\Utilities\Storage;
+use Underware\Utilities\Storage;
 
 
 /**
  * Class Vars
  *
- * @package Pavel
+ * @package Underware
  */
 class Variables extends Storage
 {

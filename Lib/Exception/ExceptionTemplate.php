@@ -1,12 +1,12 @@
 <?php
 
-namespace Pavel\Exception;
+namespace Underware\Exception;
 
 
 /**
- * Class PavelTemplate
+ * Class UnderwareTemplate
  *
- * @package Pavel\Exception
+ * @package Underware\Exception
  */
 class ExceptionTemplate
 {
@@ -61,9 +61,9 @@ class ExceptionTemplate
      */
     private function displayFile()
     {
-        $file = $this->colorFilePath($this->exception->getPavelFile());
-        if ($this->exception->getPavelLine()) {
-            $file .= " on line <span class='colored'>" . $this->exception->getPavelLine() . "</span>";
+        $file = $this->colorFilePath($this->exception->getUnderwareFile());
+        if ($this->exception->getUnderwareLine()) {
+            $file .= " on line <span class='colored'>" . $this->exception->getUnderwareLine() . "</span>";
         }
         $this->template = str_replace("%file%", $file, $this->template);
     }

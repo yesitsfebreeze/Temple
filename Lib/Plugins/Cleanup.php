@@ -1,8 +1,8 @@
 <?php
 
-namespace Pavel\Plugins;
+namespace Underware\Plugins;
 
-use Pavel\Models\Plugin;
+use Underware\Models\Plugin;
 
 
 /**
@@ -12,13 +12,26 @@ use Pavel\Models\Plugin;
  * @usage   : automatic
  * @author   : Stefan Hövelmanns - hvlmnns.de
  * @License : MIT
- * @package Pavel
+ * @package Underware
  */
 class Cleanup extends Plugin
 {
 
     /** @var array $buffer */
     private $buffer = array();
+
+
+    /**
+     * always clean up
+     *
+     * @param mixed $args
+     *
+     * @return bool
+     */
+    public function check($args)
+    {
+        return true;
+    }
 
 
     /**

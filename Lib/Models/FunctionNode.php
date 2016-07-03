@@ -1,13 +1,13 @@
 <?php
 
-namespace Pavel\Models;
+namespace Underware\Models;
 
 
 /**
  * all NodeModel defaults are set here
  * Class NodeModel
  *
- * @package Pavel
+ * @package Underware
  */
 class FunctionNode extends BaseNode
 {
@@ -38,7 +38,7 @@ class FunctionNode extends BaseNode
     /**
      * @param string $line
      * @return array|string
-     * @throws \Pavel\Exception\Exception
+     * @throws \Underware\Exception\Exception
      */
     protected function attributes($line)
     {

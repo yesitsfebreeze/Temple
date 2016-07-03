@@ -1,27 +1,24 @@
 <?php
 
-namespace Pavel\Template;
+namespace Underware\Template;
 
 
-use Pavel\DependencyManager\DependencyInstance;
-use Pavel\EventManager\EventManager;
-use Pavel\Exception\Exception;
-use Pavel\Models\BaseNode;
-use Pavel\Models\Dom;
-use Pavel\Models\FunctionNode;
-use Pavel\Models\HtmlNode;
+use Underware\DependencyManager\DependencyInstance;
+use Underware\EventManager\EventManager;
+use Underware\Exception\Exception;
+use Underware\Models\BaseNode;
+use Underware\Models\Dom;
+use Underware\Models\FunctionNode;
+use Underware\Models\HtmlNode;
 
 
 /**
  * Class Parser
  *
- * @package Pavel
+ * @package Underware
  */
 class Parser extends DependencyInstance
 {
-
-    /** @var  Plugins $Plugins */
-    protected $Plugins;
 
     /** @var  EventManager $EventManager */
     protected $EventManager;
@@ -135,6 +132,7 @@ class Parser extends DependencyInstance
     {
 
         $attributes = $node->get("attributes");
+        $attributes = $this->EventManager->notify("node.attributes.create", $attributes);
         if (is_array($attributes)) {
 
             if (sizeof($node->get("attributes")) == 0) {

@@ -1,19 +1,19 @@
 <?php
 
 
-namespace Pavel\Nodes;
+namespace Underware\Nodes;
 
 
-use Pavel\EventManager\Event;
-use Pavel\Instance;
-use Pavel\Models\BaseNode;
-use Pavel\Models\HtmlNode as Node;
+use Underware\EventManager\Event;
+use Underware\Instance;
+use Underware\Models\BaseNode;
+use Underware\Models\HtmlNode as Node;
 
 
 /**
  * Class HtmlNode
  *
- * @package Pavel\Event\Nodes
+ * @package Underware\Event\Nodes
  */
 class HtmlNode extends Event
 {
@@ -22,7 +22,7 @@ class HtmlNode extends Event
      * @param mixed    $args
      * @param Instance $Instance
      *
-     * @return \Pavel\Models\BaseNode|Node
+     * @return \Underware\Models\BaseNode|Node
      */
     public function dispatch($args, Instance $Instance)
     {

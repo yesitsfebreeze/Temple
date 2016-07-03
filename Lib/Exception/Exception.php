@@ -1,21 +1,21 @@
 <?php
 
-namespace Pavel\Exception;
+namespace Underware\Exception;
 
 
 /**
  * Class Exception
  *
- * @package Pavel
+ * @package Underware
  */
 class Exception extends \Exception
 {
 
-    /** @var bool|string $PavelFile */
-    private $PavelFile;
+    /** @var bool|string $UnderwareFile */
+    private $UnderwareFile;
 
-    /** @var integer|string $PavelLine */
-    private $PavelLine;
+    /** @var integer|string $UnderwareLine */
+    private $UnderwareLine;
 
 
     public function __construct($message = "", $file = false, $line = false, $code = 0, \Exception $previous = null)
@@ -32,11 +32,11 @@ class Exception extends \Exception
 
 
         if ($file) {
-            $this->PavelFile = $file;
+            $this->UnderwareFile = $file;
         }
 
         if ($line) {
-            $this->PavelLine = $line;
+            $this->UnderwareLine = $line;
         }
 
         # execute the default exception after that
@@ -46,24 +46,24 @@ class Exception extends \Exception
 
 
     /**
-     * returns the Pavel file
+     * returns the Underware file
      *
      * @return bool|string
      */
-    public function getPavelFile()
+    public function getUnderwareFile()
     {
-        return $this->PavelFile;
+        return $this->UnderwareFile;
     }
 
 
     /**
-     * returns the Pavel line
+     * returns the Underware line
      *
      * @return bool|int|string
      */
-    public function getPavelLine()
+    public function getUnderwareLine()
     {
-        return $this->PavelLine;
+        return $this->UnderwareLine;
     }
 
 
@@ -94,7 +94,7 @@ class Exception extends \Exception
      * @param $line
      * @param $function
      */
-    function displayPavelErrorFile($root, $file, $line = false, $function = false)
+    function displayUnderwareErrorFile($root, $file, $line = false, $function = false)
     {
 
         $file = $this->splitFile($file, $root);

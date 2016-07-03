@@ -1,19 +1,39 @@
 <?php
 
-namespace Pavel\Plugins;
+namespace Underware\Plugins;
 
 
-use Pavel\Models\HtmlNode;
-use Pavel\Models\Plugin;
+use Underware\Models\HtmlNode;
+use Underware\Models\Plugin;
 
 
 /**
  * Class Classes
  *
- * @package Pavel\Plugin
+ * @package Underware\Plugin
  */
 class Classes extends Plugin
 {
+
+    /**
+     * check if we have to create classes
+     *
+     * @param mixed $args
+     *
+     * @return bool
+     */
+    public function check($args)
+    {
+        if ($args instanceof HtmlNode) {
+            $tag     = $args->get("tag.definition");
+            $classes = explode(".", $tag);
+
+            return sizeof($classes) > 1;
+        }
+
+        return false;
+    }
+
 
     /**
      * @param HtmlNode $node
@@ -25,11 +45,10 @@ class Classes extends Plugin
     {
         $tag     = $node->get("tag.definition");
         $classes = explode(".", $tag);
-        if (sizeof($classes) > 1) {
-            $classes = $this->getClasses($tag, $classes);
-            $node    = $this->updateTag($node, $tag, $classes);
-            $node    = $this->setAttribute($node, $classes);
-        }
+
+        $classes = $this->getClasses($tag, $classes);
+        $node    = $this->updateTag($node, $tag, $classes);
+        $node    = $this->setAttribute($node, $classes);
 
         return $node;
     }
