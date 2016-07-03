@@ -13,11 +13,11 @@ use Underware\Models\HtmlNode;
 
 
 /**
- * Class Parser
+ * Class Compiler
  *
  * @package Underware
  */
-class Parser extends DependencyInstance
+class Compiler extends DependencyInstance
 {
 
     /** @var  EventManager $EventManager */
@@ -38,7 +38,7 @@ class Parser extends DependencyInstance
      *
      * @return string
      */
-    public function parse($dom)
+    public function compile($dom)
     {
         $output = $this->createOutput($dom);
         $this->EventManager->notify("plugin.output", $output);

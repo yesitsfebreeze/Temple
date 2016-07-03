@@ -7,7 +7,7 @@ $dependencies = array(
     "Subscribers" => array(
         "EventManager/EventManager" => "EventManager"
     ),
-    "Template/Parser"         => array(
+    "Template/Compiler"         => array(
         "EventManager/EventManager" => "EventManager"
     ),
     "Template/Lexer"          => array(
@@ -23,7 +23,7 @@ $dependencies = array(
         "Utilities/Directories" => "Directories",
         "Utilities/Config"      => "Config",
         "Template/Lexer"        => "Lexer",
-        "Template/Parser"       => "Parser",
+        "Template/Compiler"       => "Compiler",
         "Template/Cache"        => "Cache",
     )
 );

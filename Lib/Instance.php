@@ -9,7 +9,7 @@ use Underware\Exception\Exception;
 use Underware\Models\Variables;
 use Underware\Template\Cache;
 use Underware\Template\Lexer;
-use Underware\Template\Parser;
+use Underware\Template\Compiler;
 use Underware\Template\Template;
 use Underware\Utilities\Config;
 use Underware\Utilities\Directories;
@@ -38,7 +38,7 @@ class Instance
     /** @var Directories $Directories */
     private $Directories;
 
-    /** @var Parser $Parser */
+    /** @var Compiler $Parser */
     private $Parser;
 
     /** @var Lexer $Lexer */
@@ -131,7 +131,7 @@ class Instance
         $this->Config       = $this->container->registerDependency(new Config());
         $this->EventManager = $this->container->registerDependency(new EventManager());
         $this->Directories  = $this->container->registerDependency(new Directories());
-        $this->Parser       = $this->container->registerDependency(new Parser());
+        $this->Parser       = $this->container->registerDependency(new Compiler());
         $this->Lexer        = $this->container->registerDependency(new Lexer());
         $this->Variables    = $this->container->registerDependency(new Variables());
         $this->Cache        = $this->container->registerDependency(new Cache());

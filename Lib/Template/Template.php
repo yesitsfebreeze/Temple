@@ -16,8 +16,8 @@ class Template extends DependencyInstance
     /** @var  Lexer $Lexer */
     protected $Lexer;
 
-    /** @var  Parser $Parser */
-    protected $Parser;
+    /** @var  Compiler $Compiler */
+    protected $Compiler;
 
     /** @var  Config $Config */
     protected $Config;
@@ -145,7 +145,7 @@ class Template extends DependencyInstance
     public function process($file, $level = 0)
     {
         $dom     = $this->dom($file, $level);
-        $content = $this->Parser->parse($dom);
+        $content = $this->Compiler->compile($dom);
 
         return $content;
 

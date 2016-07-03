@@ -25,6 +25,7 @@ abstract class DependencyInstance implements DependencyInterface
     public function setDependency($name, DependencyInstance $instance)
     {
         if (!property_exists($this, $name)) {
+            new ExceptionHandler();
             throw new Exception("Dependency Management: Please register 'protected $$name'", get_class($this) . ".php");
         }
 
