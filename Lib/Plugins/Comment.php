@@ -1,6 +1,6 @@
 <?php
 
-namespace Pavel\Events\Plugin;
+namespace Pavel\Plugins;
 
 
 use Pavel\Models\HtmlNode;

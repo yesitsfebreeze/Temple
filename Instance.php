@@ -5,9 +5,18 @@ namespace Pavel;
 
 use Pavel\Dependency\DependencyContainer;
 use Pavel\EventManager\EventManager;
+use Pavel\EventManager\Events\Lexer\Node\FunctionNode;
+use Pavel\EventManager\Events\Lexer\Node\HtmlNode;
 use Pavel\Exception\Exception;
 use Pavel\Models\Variables;
-use Pavel\Events\Events;
+use Pavel\Plugins\Bricks;
+use Pavel\Plugins\Classes;
+use Pavel\Plugins\Cleanup;
+use Pavel\Plugins\Comment;
+use Pavel\Plugins\Extend;
+use Pavel\Plugins\Ids;
+use Pavel\Plugins\Php;
+use Pavel\Plugins\Plain;
 use Pavel\Template\Cache;
 use Pavel\Template\Lexer;
 use Pavel\Template\Parser;
@@ -136,16 +145,33 @@ class Instance
         $this->Variables   = $this->container->registerDependency(new Variables());
         $this->Cache       = $this->container->registerDependency(new Cache());
         $this->Template    = $this->container->registerDependency(new Template());
-        $this->Events  = $this->container->registerDependency(new Events());
 
         $this->Config->addConfigFile(__DIR__ . "/config.php");
         if (file_exists($config)) $this->Config->addConfigFile($config);
         $this->Cache->setDirectory($this->Config->get("dirs.cache"));
 
         $this->EventManager->setInstance($this);
-        $this->Events->register();
-
+        $this->subscribeEvents();
         return true;
+    }
+
+
+    private function subscribeEvents()
+    {
+        $this->EventManager->attach("lexer.node",new FunctionNode());
+        $this->EventManager->attach("lexer.node",new HtmlNode());
+
+        $this->EventManager->attach("plugins.dom.process", new Extend());
+        $this->EventManager->attach("plugins.node.process", new Plain());
+        $this->EventManager->attach("plugins.node.process", new Comment());
+        $this->EventManager->attach("plugins.node.process", new Bricks());
+        $this->EventManager->attach("plugins.node.process", new Classes());
+        $this->EventManager->attach("plugins.node.process", new Ids());
+        $this->EventManager->attach("plugins.node.process", new Php());
+
+//        $this->EventManager->attach("plugins.process", new Cleanup());
+
+
     }
 
 
