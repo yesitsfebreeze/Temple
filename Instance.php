@@ -151,16 +151,29 @@ class Instance
         $this->Cache->setDirectory($this->Config->get("dirs.cache"));
 
         $this->EventManager->setInstance($this);
-        $this->subscribeEvents();
+        $this->attachEvents();
+        
         return true;
     }
 
 
-    private function subscribeEvents()
+    /**
+     * register defaukt events
+     */
+    private function attachEvents()
     {
         $this->EventManager->attach("lexer.node",new FunctionNode());
         $this->EventManager->attach("lexer.node",new HtmlNode());
 
+        $this->attachPlugins();
+    }
+
+
+    /**
+     * register all plugins
+     */
+    private function attachPlugins()
+    {
         $this->EventManager->attach("plugins.dom.process", new Extend());
         $this->EventManager->attach("plugins.node.process", new Plain());
         $this->EventManager->attach("plugins.node.process", new Comment());
@@ -170,8 +183,6 @@ class Instance
         $this->EventManager->attach("plugins.node.process", new Php());
 
 //        $this->EventManager->attach("plugins.process", new Cleanup());
-
-
     }
 
 
