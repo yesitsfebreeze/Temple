@@ -112,7 +112,7 @@ class Compiler extends DependencyInstance
         if ($node->get("info.display") && $node->get("tag.display") && $node->get("tag.opening.display")) {
             $output .= $node->get("tag.opening.before");
             $output .= $node->get("tag.opening.definition");
-            $output = $this->createAttributes($node, $output);
+            $output .= $this->createAttributes($node);
             $output .= $node->get("tag.opening.after");
         }
 
@@ -123,14 +123,13 @@ class Compiler extends DependencyInstance
     /**
      * creates the node attributes
      *
-     * @param string   $output
      * @param BaseNode $node
      *
      * @return string
      */
-    private function createAttributes($node, $output)
+    private function createAttributes($node)
     {
-
+        $output = "";
         $attributes = $node->get("attributes");
         $attributes = $this->EventManager->notify("node.attributes.create", $attributes);
         if (is_array($attributes)) {
