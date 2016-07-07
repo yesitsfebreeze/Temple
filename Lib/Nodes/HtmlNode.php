@@ -5,7 +5,6 @@ namespace Underware\Nodes;
 
 
 use Underware\EventManager\Event;
-use Underware\Instance;
 use Underware\Models\BaseNode;
 use Underware\Models\HtmlNode as Node;
 
@@ -19,23 +18,21 @@ class HtmlNode extends Event
 {
 
     /**
-     * @param mixed    $args
-     * @param Instance $Instance
+     * @param $line
+     * @param $infos
      *
-     * @return \Underware\Models\BaseNode|Node
+     * @return BaseNode|Node
      */
-    public function dispatch($args, Instance $Instance)
+    public function dispatch($line, $infos = null)
     {
-        
-        if (!$args instanceof BaseNode) {
-            $line  = $args[0];
-            $infos = $args[1];
-            $node  = new Node($Instance->Config());
-            $node  = $node->createNode($line, $infos);
+
+        if (!$line instanceof BaseNode) {
+            $node = new Node($this->Instance->Config());
+            $node = $node->createNode($line, $infos);
 
             return $node;
         } else {
-            return $args;
+            return $line;
         }
 
     }

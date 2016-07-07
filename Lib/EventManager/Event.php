@@ -3,6 +3,7 @@
 namespace Underware\EventManager;
 
 
+use Underware\Exception\Exception;
 use Underware\Instance;
 
 
@@ -11,13 +12,28 @@ use Underware\Instance;
  */
 abstract class Event
 {
+
+    /** @var Instance $Instance */
+    protected $Instance;
+
+
     /**
-     * the method which gets fired when the observer notifies the assigned event
+     * the method which gets fired when the event manager notifies the assigned event
      *
-     * @param mixed    $args
-     * @param Instance $Instance
-     *
-     * @return mixed
+     * @throws Exception
      */
-    abstract public function dispatch($args, Instance $Instance);
+    public function dispatch()
+    {
+        $class = get_class($this);
+        throw new Exception("Please register the 'dispatch' method for '" . $class . "'");
+    }
+
+
+    /**
+     * @param Instance $Instance
+     */
+    public function setInstance(Instance $Instance)
+    {
+        $this->Instance = $Instance;
+    }
 }

@@ -197,6 +197,7 @@ class Lexer extends DependencyInstance
         $info["info.relativeFile"] = str_replace($_SERVER['DOCUMENT_ROOT'], "", $info["info.file"]);
 
         $node = $this->EventManager->notify("lexer.node", array($line, $info));
+        
         if (!$node instanceof BaseNode) {
             throw new Exception("The Node EventManager has to return an instance of a 'BaseNode'!");
         }

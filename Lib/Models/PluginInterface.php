@@ -14,17 +14,7 @@ use Underware\Instance;
 interface PluginInterface
 {
 
-    /**
-     * event dispatcher
-     *
-     * @param          $args
-     * @param Instance $Instance
-     *
-     * @return mixed
-     */
-    function dispatch($args, Instance $Instance);
-
-
+    
     /**
      * checking if the arguments are valid for this plugin
      *

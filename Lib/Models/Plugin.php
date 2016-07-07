@@ -17,16 +17,14 @@ use Underware\Utilities\Storage;
 class Plugin extends Event implements PluginInterface
 {
 
-    /** @var Instance $Instance */
-    protected $Instance;
 
     /** @var  Storage $attributes */
     protected $attributes = array();
 
 
-    function dispatch($args, Instance $Instance)
+    /** todo: problemo with variable argumetns */
+    function dispatch($args)
     {
-        $this->Instance = $Instance;
 
         if (!$this->check($args)) {
             return $args;

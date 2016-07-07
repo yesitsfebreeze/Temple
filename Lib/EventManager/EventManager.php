@@ -56,51 +56,60 @@ class EventManager extends DependencyInstance
 
     /**
      * @param $event
-     * @param $args
+     * @param $arguments
      *
      * @return mixed
      * @throws \Underware\Exception\Exception
      */
-    public function notify($event, $args)
+    public function notify($event, $arguments = null)
     {
         if (!$this->events->has($event)) {
             $this->events->set($event, true);
 
-            return $args;
+            return $arguments;
         } else {
-            return $this->dispatch($this->events->get($event), $args);
+            return $this->dispatch($this->events->get($event), $arguments);
         }
     }
 
 
     /**
      * @param mixed $event
-     * @param mixed $args
+     * @param mixed $arguments
      *
-     * @return mixed $args
+     * @return mixed $arguments
      */
-    private function dispatch($event, $args)
+    private function dispatch($event, $arguments)
     {
-
         /** @var Event $event */
         if (is_array($event)) {
             foreach ($event as $e) {
-                $args = $this->dispatch($e, $args);
+                $arguments = $this->dispatch($e, $arguments);
             }
         } else {
             if (is_object($event)) {
-                $args = $event->dispatch($args, $this->instance);
+                $eventInstance = clone $event;
+                $eventInstance->setInstance($this->instance);
+
+                if (!is_array($arguments)) {
+                    $arguments = array($arguments);
+                } elseif (is_null($arguments)) {
+                    $arguments = array();
+                }
+
+                $arguments = $eventInstance->dispatch(...$arguments);
+                unset($eventInstance);
             }
         }
 
-        return $args;
+        return $arguments;
     }
 
 
     /**
      * @param            $event
      * @param integer    $position
-     * @param Event $subscriber
+     * @param Event      $subscriber
      *
      * @return bool
      */
