@@ -5,10 +5,10 @@ namespace Underware\Plugins;
 
 
 use Underware\Models\HtmlNode;
-use Underware\Models\Plugin;
+use Underware\Models\Plugins\NodePlugin;
 
 
-class Variables extends Plugin
+class Variables extends NodePlugin
 {
 
     /** @var  string $symbol */

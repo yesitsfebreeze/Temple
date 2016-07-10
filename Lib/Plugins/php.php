@@ -4,7 +4,7 @@ namespace Underware\Plugins;
 
 
 use Underware\Models\HtmlNode;
-use Underware\Models\Plugin;
+use Underware\Models\Plugins\NodePlugin;
 
 
 /**
@@ -12,7 +12,7 @@ use Underware\Models\Plugin;
  *
  * @package Underware\Plugins
  */
-class Php extends Plugin
+class Php extends NodePlugin
 {
     
 

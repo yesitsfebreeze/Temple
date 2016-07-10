@@ -6,7 +6,7 @@ namespace Underware\Plugins;
 use Underware\Exception\Exception;
 use Underware\Models\Dom;
 use Underware\Models\HtmlNode;
-use Underware\Models\Plugin;
+use Underware\Models\Plugins\DomPlugin;
 use Underware\Utilities\Storage;
 
 
@@ -15,7 +15,7 @@ use Underware\Utilities\Storage;
  *
  * @package Underware\Plugins
  */
-class Extend extends Plugin
+class Extend extends DomPlugin
 {
 
     /** @var array $brickMethods */
@@ -94,8 +94,9 @@ class Extend extends Plugin
         if (sizeof($node->get("attributes")) == 0) {
             throw new Exception("Please pass a file to extend!", $node->get("info.file"), $node->get("info.line"));
         }
-
+        
         $fileToExtend = $this->attributes->get("file");
+
         $exists = $this->Instance->Template()->templateExists($fileToExtend);
 
         if (!$exists) {

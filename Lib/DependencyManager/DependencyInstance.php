@@ -10,10 +10,7 @@ use Underware\Exception\ExceptionHandler;
 
 abstract class DependencyInstance implements DependencyInterface
 {
-
-    private $rootNameSpace = "Underware";
-
-
+    
     /**
      * has to add an instance to the class
      *
@@ -75,7 +72,9 @@ abstract class DependencyInstance implements DependencyInterface
     {
         $name = get_class($instance);
         $name = str_replace("\\", "/", $name);
-        $name = str_replace($this->rootNameSpace . "/", "", $name);
+        $rootNameSpace = explode("\\",__NAMESPACE__);
+        $rootNameSpace = $rootNameSpace[0];
+        $name = str_replace($rootNameSpace . "/", "", $name);
 
         return $name;
     }

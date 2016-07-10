@@ -4,7 +4,7 @@ namespace Underware\Plugins;
 
 
 use Underware\Models\HtmlNode;
-use Underware\Models\Plugin;
+use Underware\Models\Plugins\NodePlugin;
 
 
 /**
@@ -12,7 +12,7 @@ use Underware\Models\Plugin;
  *
  * @package Underware\Event\Plugins
  */
-class Bricks extends Plugin
+class Bricks extends NodePlugin
 {
 
     /** @var array $methods */

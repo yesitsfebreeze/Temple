@@ -15,7 +15,7 @@ $config = array(
             "character" => " ",
             "amount" => 2
         ],
-        "extension" => "pav",
+        "extension" => "u",
         "symbols" => [
             "comment" => "#",
             "variable" => "$"

@@ -1,11 +1,10 @@
 <?php
 
-namespace Underware\Models;
+namespace Underware\Models\Plugins;
 
 
 use Underware\EventManager\Event;
 use Underware\Exception\Exception;
-use Underware\Instance;
 use Underware\Utilities\Storage;
 
 
@@ -14,7 +13,7 @@ use Underware\Utilities\Storage;
  *
  * @package Underware
  */
-class Plugin extends Event implements PluginInterface
+class DomPlugin extends Event implements PluginInterface
 {
 
 
@@ -22,14 +21,19 @@ class Plugin extends Event implements PluginInterface
     protected $attributes = array();
 
 
-    /** todo: problemo with variable argumetns */
+    /**
+     * @param $args
+     *
+     * @return mixed
+     * @throws Exception
+     */
     function dispatch($args)
     {
 
         if (!$this->check($args)) {
             return $args;
         }
-        
+
         if (sizeof($this->attributes) > 0) {
             $this->generateAttributes($args);
         }

@@ -1,9 +1,6 @@
 <?php
 
-namespace Underware\Models;
-
-
-use Underware\Instance;
+namespace Underware\Models\Plugins;
 
 
 /**

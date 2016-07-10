@@ -5,7 +5,7 @@ namespace Underware\Plugins;
 
 use Underware\Exception\Exception;
 use Underware\Models\HtmlNode;
-use Underware\Models\Plugin;
+use Underware\Models\Plugins\NodePlugin;
 use Underware\Utilities\Storage;
 
 
@@ -14,7 +14,7 @@ use Underware\Utilities\Storage;
  *
  * @package Underware\Plugins
  */
-class Import extends Plugin
+class Import extends NodePlugin
 {
 
     /** @var array|Storage $attributes */

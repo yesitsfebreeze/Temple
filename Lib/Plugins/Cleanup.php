@@ -2,7 +2,7 @@
 
 namespace Underware\Plugins;
 
-use Underware\Models\Plugin;
+use Underware\Models\Plugins\OutputPlugin;
 
 
 /**
@@ -14,7 +14,7 @@ use Underware\Models\Plugin;
  * @License : MIT
  * @package Underware
  */
-class Cleanup extends Plugin
+class Cleanup extends OutputPlugin
 {
 
     /** @var array $buffer */

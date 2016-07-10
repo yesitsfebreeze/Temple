@@ -4,19 +4,15 @@ namespace Underware\Plugins;
 
 
 use Underware\Models\HtmlNode;
-use Underware\Models\Plugin;
+use Underware\Models\Plugins\NodePlugin;
 
 
 /**
- * Class PluginComment
+ * Class Comment
  *
- * @purpose  converts line to comment with all of its children
- * @usage    # at linestart
- * @author   Stefan Hövelmanns - hvlmnns.de
- * @License  MIT
- * @package  Underware
+ * @package Underware\Plugins
  */
-class Comment extends Plugin
+class Comment extends NodePlugin
 {
 
     /** @var  string $symbol */
