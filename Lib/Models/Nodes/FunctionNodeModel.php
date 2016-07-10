@@ -1,6 +1,6 @@
 <?php
 
-namespace Underware\Models;
+namespace Underware\Models\Nodes;
 
 
 /**
@@ -9,7 +9,7 @@ namespace Underware\Models;
  *
  * @package Underware
  */
-class FunctionNode extends BaseNode
+class FunctionNodeModel extends BaseNode
 {
 
     /**

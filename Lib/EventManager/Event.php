@@ -20,9 +20,17 @@ abstract class Event
     /**
      * the method which gets fired when the event manager notifies the assigned event
      *
+     * @return bool
      * @throws Exception
      */
-    public function dispatch()
+    public function dispatch($arguments)
+    {
+        $this->throwException();
+        return false;
+    }
+
+
+    private function throwException()
     {
         $class = get_class($this);
         throw new Exception("Please register the 'dispatch' method for '" . $class . "'");

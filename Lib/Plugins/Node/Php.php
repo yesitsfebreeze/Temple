@@ -1,9 +1,9 @@
 <?php
 
-namespace Underware\Plugins;
+namespace Underware\Plugins\Node;
 
 
-use Underware\Models\HtmlNode;
+use Underware\Models\Nodes\HtmlNodeModel;
 use Underware\Models\Plugins\NodePlugin;
 
 
@@ -25,7 +25,7 @@ class Php extends NodePlugin
      */
     public function check($args)
     {
-        if ($args instanceof HtmlNode) {
+        if ($args instanceof HtmlNodeModel) {
             $tag = $args->get("tag.definition");
 
             return ($tag == "php");
@@ -36,9 +36,9 @@ class Php extends NodePlugin
 
 
     /**
-     * @param HtmlNode $node
+     * @param HtmlNodeModel $node
      *
-     * @return HtmlNode
+     * @return HtmlNodeModel
      */
     public function process($node)
     {
@@ -58,11 +58,11 @@ class Php extends NodePlugin
 
 
     /**
-     * @param HtmlNode $node
+     * @param HtmlNodeModel $node
      *
-     * @return HtmlNode
+     * @return HtmlNodeModel
      */
-    private function createPlain(HtmlNode $node)
+    private function createPlain(HtmlNodeModel $node)
     {
 
         $node->set("info.isPlain", true);

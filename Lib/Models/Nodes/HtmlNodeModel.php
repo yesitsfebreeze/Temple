@@ -1,6 +1,6 @@
 <?php
 
-namespace Underware\Models;
+namespace Underware\Models\Nodes;
 
 
 /**
@@ -9,7 +9,7 @@ namespace Underware\Models;
  *
  * @package Underware
  */
-class HtmlNode extends BaseNode
+class HtmlNodeModel extends BaseNode
 {
 
 

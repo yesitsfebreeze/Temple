@@ -1,9 +1,9 @@
 <?php
 
-namespace Underware\Plugins;
+namespace Underware\Plugins\Output;
 
 use Underware\Models\Plugins\OutputPlugin;
-
+ 
 
 /**
  * Class PluginCleanup

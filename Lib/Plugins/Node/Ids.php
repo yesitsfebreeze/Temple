@@ -1,19 +1,20 @@
 <?php
 
-namespace Underware\Plugins;
+namespace Underware\Plugins\Node;
 
 
-use Underware\Models\HtmlNode;
+use Underware\Models\Nodes\HtmlNodeModel;
 use Underware\Models\Plugins\NodePlugin;
 
 
 /**
- * Class Classes
+ * Class Ids
  *
- * @package Underware\Plugin
+ * @package Underware\Plugins
  */
-class Classes extends NodePlugin
+class Ids extends NodePlugin
 {
+
 
     /**
      * check if we have to create classes
@@ -24,11 +25,11 @@ class Classes extends NodePlugin
      */
     public function check($args)
     {
-        if ($args instanceof HtmlNode) {
-            $tag     = $args->get("tag.definition");
-            $classes = explode(".", $tag);
+        if ($args instanceof HtmlNodeModel) {
+            $tag = $args->get("tag.definition");
+            preg_match("/#[^#]+/", $tag, $matches);
 
-            return sizeof($classes) > 1;
+            return sizeof($matches) > 1;
         }
 
         return false;
@@ -36,19 +37,19 @@ class Classes extends NodePlugin
 
 
     /**
-     * @param HtmlNode $node
+     * @param HtmlNodeModel $node
      *
-     * @return HtmlNode
+     * @return HtmlNodeModel
      * @throws \Exception
      */
     public function process($node)
     {
-        $tag     = $node->get("tag.definition");
-        $classes = explode(".", $tag);
+        $tag = $node->get("tag.definition");
+        preg_match("/#[^#]+/", $tag, $matches);
 
-        $classes = $this->getClasses($tag, $classes);
-        $node    = $this->updateTag($node, $tag, $classes);
-        $node    = $this->setAttribute($node, $classes);
+        $ids  = $this->getIds($tag, explode("#", $tag));
+        $node = $this->updateTag($node, $tag, $ids);
+        $node = $this->setAttribute($node, $ids);
 
         return $node;
     }
@@ -56,39 +57,39 @@ class Classes extends NodePlugin
 
     /**
      * @param string $tag
-     * @param array  $classes
+     * @param array  $ids
      *
      * @return string
      */
-    private function getClasses($tag, $classes)
+    private function getIds($tag, $ids)
     {
         # remove real tag if first item
         # when it's not a class
         # or if its a id
-        if ($tag[0] != "." || $tag[0] == "#" || $classes[0] == "") array_shift($classes);
+        if ($tag[0] != "#" || $tag[0] == "." || $ids[0] == "") array_shift($ids);
         $concat = '';
-        foreach ($classes as &$class) {
-            $id = strpos($class, "#");
-            if ($id) $class = substr($class, 0, $id);
-            $concat .= " " . $class;
+        foreach ($ids as &$id) {
+            $class = strpos($id, ".");
+            if ($class) $id = substr($id, 0, $class);
+            $concat .= " " . $id;
         }
-        $classes = substr($concat, 1);
+        $ids = substr($concat, 1);
 
-        return $classes;
+        return $ids;
     }
 
 
     /**
-     * @param HtmlNode $node
+     * @param HtmlNodeModel $node
      * @param string   $tag
-     * @param array    $classes
+     * @param array    $ids
      *
      * @return mixed
      */
-    private function updateTag(HtmlNode $node, $tag, $classes)
+    private function updateTag(HtmlNodeModel $node, $tag, $ids)
     {
-        foreach (explode(" ", $classes) as $class) {
-            $tag = str_replace('.' . $class, "", $tag);
+        foreach (explode(" ", $ids) as $id) {
+            $tag = str_replace('#' . $id, "", $tag);
         }
 
         if (trim($tag) == '') {
@@ -104,20 +105,20 @@ class Classes extends NodePlugin
 
 
     /**
-     * @param HtmlNode $node
-     * @param array    $classes
+     * @param HtmlNodeModel $node
+     * @param array    $ids
      *
-     * @return HtmlNode
+     * @return HtmlNodeModel
      * @throws \Exception
      */
-    private function setAttribute(HtmlNode $node, $classes)
+    private function setAttribute(HtmlNodeModel $node, $ids)
     {
-        /** @var HtmlNode $node */
+        /** @var HtmlNodeModel $node */
         $attributes = $node->get("attributes");
         if (sizeof($attributes) == 0) {
-            $attributes["class"] = $classes;
+            $attributes["id"] = $ids;
         } else {
-            $attributes["class"] = $attributes["class"] . " " . $classes;
+            $attributes["id"] = $attributes["id"] . " " . $ids;
         }
 
         $node->set("attributes", $attributes);
@@ -127,16 +128,16 @@ class Classes extends NodePlugin
 
 
     /**
-     * @param HtmlNode $node
+     * @param HtmlNodeModel $node
      *
      * @return string
      * @throws \Exception
      */
-    private function createNewTag(HtmlNode $node)
+    private function createNewTag(HtmlNodeModel $node)
     {
         # check if tag is empty now
         # if so create div or span,
-        # depending if we have a block or inline parent element
+        # depending if we have a brick or inline parent element
         $inline = false;
         if ($node->has("parent")) {
             $parentTag = $node->get("parent")->get("tag.definition");

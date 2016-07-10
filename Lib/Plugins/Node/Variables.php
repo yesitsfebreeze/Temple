@@ -1,10 +1,10 @@
 <?php
 
 
-namespace Underware\Plugins;
+namespace Underware\Plugins\Node;
 
 
-use Underware\Models\HtmlNode;
+use Underware\Models\Nodes\HtmlNodeModel;
 use Underware\Models\Plugins\NodePlugin;
 
 
@@ -30,14 +30,14 @@ class Variables extends NodePlugin
 
 
     /**
-     * @param HtmlNode $args
+     * @param HtmlNodeModel $args
      *
      * @return bool
      */
     public function check($args)
     {
 
-//        if ($args instanceof HtmlNode) {
+//        if ($args instanceof HtmlNodeModel) {
 //
 //            $this->symbol = $this->Instance->Config()->get("template.symbols.variable");
 //            $tag          = $args->get("tag.definition");
@@ -50,8 +50,8 @@ class Variables extends NodePlugin
 
 
     /**
-     * @var HtmlNode $node
-     * @return HtmlNode $node
+     * @var HtmlNodeModel $node
+     * @return HtmlNodeModel $node
      * hast to return $node
      */
     public function process($node)
@@ -69,11 +69,11 @@ class Variables extends NodePlugin
 
 //
 //    /**
-//     * @param HtmlNode $node
+//     * @param HtmlNodeModel $node
 //     *
 //     * @return bool|mixed
 //     */
-//    private function parseVariable(HtmlNode $node)
+//    private function parseVariable(HtmlNodeModel $node)
 //    {
 //        $value = preg_replace("/^\s*?=\s*?/", "", $node->get("attributes"));
 //        if ($node->has("children") && sizeof($node->get("children")) > 0) {
@@ -81,7 +81,7 @@ class Variables extends NodePlugin
 //
 //            $array = array();
 //
-//            /** @var $child HtmlNode */
+//            /** @var $child HtmlNodeModel */
 //            foreach ($children as $child) {
 //                $name  = $this->getVariableName($child);
 //                $name  = $this->parseValue($name);
@@ -149,12 +149,12 @@ class Variables extends NodePlugin
 
 //
 //    /**
-//     * @param HtmlNode|bool $node
+//     * @param HtmlNodeModel|bool $node
 //     * @param string        $name
 //     *
 //     * @return string
 //     */
-//    private function getVariableName(HtmlNode $node, $name = "")
+//    private function getVariableName(HtmlNodeModel $node, $name = "")
 //    {
 //        if ($name == "") $name = $node->get("tag.definition");
 //        $symbol = preg_quote($this->symbol);

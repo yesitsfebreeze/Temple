@@ -1,11 +1,11 @@
 <?php
 
-namespace Underware\Plugins;
+namespace Underware\Plugins\Dom;
 
 
 use Underware\Exception\Exception;
 use Underware\Models\Dom;
-use Underware\Models\HtmlNode;
+use Underware\Models\Nodes\HtmlNodeModel;
 use Underware\Models\Plugins\DomPlugin;
 use Underware\Utilities\Storage;
 
@@ -41,7 +41,7 @@ class Extend extends DomPlugin
             $nodes = $args->get("nodes");
             $node  = reset($nodes);
 
-            if ($node instanceof HtmlNode) {
+            if ($node instanceof HtmlNodeModel) {
                 return ($node->get("tag.definition") == "extend" || $node->get("tag.definition") == "extends");
             }
         }
@@ -65,8 +65,8 @@ class Extend extends DomPlugin
         $this->Instance->Config()->extend("parser.selfClosing", "extend");
 
         # get the first node from the dom
-        $nodes        = $dom->get("nodes");
-        $node         = reset($nodes);
+        $nodes = $dom->get("nodes");
+        $node  = reset($nodes);
         $this->generateAttributes($node);
         $fileToExtend = $this->getFileToExtend($node);
         if ($fileToExtend) {
@@ -80,12 +80,12 @@ class Extend extends DomPlugin
     /**
      * checks if the file has an valid extend tag
      *
-     * @param HtmlNode $node
+     * @param HtmlNodeModel $node
      *
      * @return bool|mixed
      * @throws Exception
      */
-    private function getFileToExtend(HtmlNode $node)
+    private function getFileToExtend(HtmlNodeModel $node)
     {
 
         $node->set("tag.display", false);
@@ -94,7 +94,7 @@ class Extend extends DomPlugin
         if (sizeof($node->get("attributes")) == 0) {
             throw new Exception("Please pass a file to extend!", $node->get("info.file"), $node->get("info.line"));
         }
-        
+
         $fileToExtend = $this->attributes->get("file");
 
         $exists = $this->Instance->Template()->templateExists($fileToExtend);
@@ -156,7 +156,7 @@ class Extend extends DomPlugin
         $bricks = array();
         $nodes  = $dom->get("nodes");
         if (sizeof($nodes) > 0) {
-            /** @var HtmlNode $node */
+            /** @var HtmlNodeModel $node */
             foreach ($nodes as $node) {
                 if ($node->get("tag.definition") == "brick") {
 

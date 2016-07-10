@@ -1,12 +1,11 @@
 <?php
 
 
-namespace Underware\Nodes;
+namespace Underware\Models\Nodes;
 
 
 use Underware\EventManager\Event;
-use Underware\Models\BaseNode;
-use Underware\Models\HtmlNode as Node;
+use Underware\Models\Nodes\HtmlNodeModel as Node;
 
 
 /**
@@ -14,7 +13,7 @@ use Underware\Models\HtmlNode as Node;
  *
  * @package Underware\Event\Nodes
  */
-class FunctionNode extends Event
+class HtmlNodeSubscriber extends Event
 {
 
     /**
@@ -27,8 +26,9 @@ class FunctionNode extends Event
     {
 
         if (!$line instanceof BaseNode) {
-            $node  = new Node($this->Instance->Config());
-            $node  = $node->createNode($line, $infos);
+            $node = new Node($this->Instance->Config());
+            $node = $node->createNode($line, $infos);
+
             return $node;
         } else {
             return $line;

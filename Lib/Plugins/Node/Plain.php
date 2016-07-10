@@ -1,9 +1,9 @@
 <?php
 
-namespace Underware\Plugins;
+namespace Underware\Plugins\Node;
 
 
-use Underware\Models\HtmlNode;
+use Underware\Models\Nodes\HtmlNodeModel;
 use Underware\Models\Plugins\NodePlugin;
 
 
@@ -22,14 +22,14 @@ class Plain extends NodePlugin
     /**
      * check if we have a plain tag
      *
-     * @param HtmlNode $args
+     * @param HtmlNodeModel $args
      *
      * @return bool
      */
     public function check($args)
     {
 
-        if ($args instanceof HtmlNode) {
+        if ($args instanceof HtmlNodeModel) {
             $tag = $args->get("tag.definition");
 
             return ($tag[0] == $this->identifier);
@@ -40,9 +40,9 @@ class Plain extends NodePlugin
 
 
     /**
-     * @param HtmlNode $node
+     * @param HtmlNodeModel $node
      *
-     * @return HtmlNode
+     * @return HtmlNodeModel
      */
     public function process($node)
     {
@@ -53,11 +53,11 @@ class Plain extends NodePlugin
 
 
     /**
-     * @param HtmlNode $node
+     * @param HtmlNodeModel $node
      *
-     * @return HtmlNode
+     * @return HtmlNodeModel
      */
-    private function createPlain(HtmlNode $node)
+    private function createPlain(HtmlNodeModel $node)
     {
 
         if ($node->get("tag.definition") == $this->identifier) {

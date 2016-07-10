@@ -1,9 +1,9 @@
 <?php
 
-namespace Underware\Plugins;
+namespace Underware\Plugins\Node;
 
 
-use Underware\Models\HtmlNode;
+use Underware\Models\Nodes\HtmlNodeModel;
 use Underware\Models\Plugins\NodePlugin;
 
 
@@ -28,7 +28,7 @@ class Bricks extends NodePlugin
      */
     public function check($args)
     {
-        if ($args instanceof HtmlNode) {
+        if ($args instanceof HtmlNodeModel) {
             return ($args->get("tag.definition") == "brick");
         }
 
@@ -40,9 +40,9 @@ class Bricks extends NodePlugin
      * converts the bricks to comments or completely removes them
      * depending on configuration
      *
-     * @param HtmlNode $node
+     * @param HtmlNodeModel $node
      *
-     * @return HtmlNode $node
+     * @return HtmlNodeModel $node
      */
     public function process($node)
     {
@@ -54,9 +54,9 @@ class Bricks extends NodePlugin
 
 
     /**
-     * @param HtmlNode $node
+     * @param HtmlNodeModel $node
      */
-    private function hideBrick(HtmlNode $node)
+    private function hideBrick(HtmlNodeModel $node)
     {
 
         if ($this->Instance->Config()->get("template.comments.bricks")) {
@@ -75,11 +75,11 @@ class Bricks extends NodePlugin
     /**
      * appends,prepends and replaces the bricks of the new dom
      *
-     * @param HtmlNode $node
+     * @param HtmlNodeModel $node
      *
-     * @return HtmlNode
+     * @return HtmlNodeModel
      */
-    private function modifyBrick(HtmlNode $node)
+    private function modifyBrick(HtmlNodeModel $node)
     {
         $processed = false;
         if ($node->has("info.brick.processed")) {
@@ -116,9 +116,9 @@ class Bricks extends NodePlugin
     /**
      * sets the brick to processed to prevent recursion
      *
-     * @param HtmlNode $brick
+     * @param HtmlNodeModel $brick
      */
-    public function setProcessed(HtmlNode $brick)
+    public function setProcessed(HtmlNodeModel $brick)
     {
         $brick->set("info.brick.processed", true);
     }
@@ -127,11 +127,11 @@ class Bricks extends NodePlugin
     /**
      * returns the brick method
      *
-     * @param HtmlNode $node
+     * @param HtmlNodeModel $node
      *
      * @return string $name
      */
-    private function getBrickName(HtmlNode $node)
+    private function getBrickName(HtmlNodeModel $node)
     {
         $attributes = $node->get("attributes");
 
@@ -152,12 +152,12 @@ class Bricks extends NodePlugin
     /**
      * inserts bricks before the extended brick
      *
-     * @param HtmlNode $node
+     * @param HtmlNodeModel $node
      * @param array    $bricks
      *
-     * @return HtmlNode $node
+     * @return HtmlNodeModel $node
      */
-    private function modifyBrickBefore(HtmlNode $node, $bricks)
+    private function modifyBrickBefore(HtmlNodeModel $node, $bricks)
     {
         $children = $node->get("children");
         foreach ($bricks as $brick) {
@@ -175,12 +175,12 @@ class Bricks extends NodePlugin
     /**
      * inserts bricks after the extended brick
      *
-     * @param HtmlNode $node
+     * @param HtmlNodeModel $node
      * @param array    $bricks
      *
-     * @return HtmlNode $node
+     * @return HtmlNodeModel $node
      */
-    private function modifyBrickReplace(HtmlNode $node, $bricks)
+    private function modifyBrickReplace(HtmlNodeModel $node, $bricks)
     {
         $brick = reset(array_reverse($bricks));
         $this->setProcessed($brick);
@@ -196,12 +196,12 @@ class Bricks extends NodePlugin
     /**
      * inserts bricks after the extended brick
      *
-     * @param HtmlNode $node
+     * @param HtmlNodeModel $node
      * @param array    $bricks
      *
-     * @return HtmlNode $node
+     * @return HtmlNodeModel $node
      */
-    private function modifyBrickAfter(HtmlNode $node, $bricks)
+    private function modifyBrickAfter(HtmlNodeModel $node, $bricks)
     {
         $children = $node->get("children");
         foreach ($bricks as $brick) {
@@ -219,12 +219,12 @@ class Bricks extends NodePlugin
     /**
      * replaces the "brick parent" pattern with the parent brick
      *
-     * @param HtmlNode $node
+     * @param HtmlNodeModel $node
      * @param          $domBricks
      *
-     * @return HtmlNode
+     * @return HtmlNodeModel
      */
-    private function modifyBrickParent(HtmlNode $node, $domBricks)
+    private function modifyBrickParent(HtmlNodeModel $node, $domBricks)
     {
 
         $parent = $this->getParentBrick($node);
@@ -232,7 +232,7 @@ class Bricks extends NodePlugin
         $method = $this->getModifyMethod($parent);
         $brick  = reset(array_reverse($domBricks[ $name ][ $method ]));
 
-        /** @var HtmlNode $parent */
+        /** @var HtmlNodeModel $parent */
         $parent = $brick->get("info.brick.parent");
         $node->set("children", $parent->get("children"));
 
@@ -244,11 +244,11 @@ class Bricks extends NodePlugin
     /**
      * returns the closest brick
      *
-     * @param HtmlNode $node
+     * @param HtmlNodeModel $node
      *
-     * @return HtmlNode
+     * @return HtmlNodeModel
      */
-    private function getParentBrick(HtmlNode $node)
+    private function getParentBrick(HtmlNodeModel $node)
     {
         $parent     = $node->get("info.parent");
         $definition = $parent->get("tag.definition");
@@ -264,11 +264,11 @@ class Bricks extends NodePlugin
     /**
      * returns the brick method
      *
-     * @param HtmlNode $node
+     * @param HtmlNodeModel $node
      *
      * @return string $method
      */
-    private function getModifyMethod(HtmlNode $node)
+    private function getModifyMethod(HtmlNodeModel $node)
     {
         $attributes = $node->get("attributes");
         if (isset($attributes["method"])) {
@@ -285,11 +285,11 @@ class Bricks extends NodePlugin
 
 
     /**
-     * @param HtmlNode $brick
-     * @param HtmlNode $node
+     * @param HtmlNodeModel $brick
+     * @param HtmlNodeModel $node
      * @param bool     $topLevel
      */
-    private function setBrickParent(HtmlNode $brick, HtmlNode $node, $topLevel = true)
+    private function setBrickParent(HtmlNodeModel $brick, HtmlNodeModel $node, $topLevel = true)
     {
         $parent = clone $node;
         if ($topLevel) {

@@ -1,6 +1,6 @@
 <?php
 
-namespace Underware\Models;
+namespace Underware\Models\Nodes;
 
 
 use Underware\Exception\Exception;
@@ -48,7 +48,7 @@ class BaseNode extends Storage
 
         # add everything we need to our node
         $this->set("info.type", "node");
-
+        
         foreach ($infos as $name => $info) {
             $this->set($name, $info);
         }

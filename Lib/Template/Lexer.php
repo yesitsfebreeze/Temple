@@ -6,7 +6,7 @@ namespace Underware\Template;
 use Underware\DependencyManager\DependencyInstance;
 use Underware\EventManager\EventManager;
 use Underware\Exception\Exception;
-use Underware\Models\BaseNode;
+use Underware\Models\Nodes\BaseNode;
 use Underware\Models\Dom;
 use Underware\Utilities\Config;
 use Underware\Utilities\Directories;

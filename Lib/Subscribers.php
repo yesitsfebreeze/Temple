@@ -5,18 +5,18 @@ namespace Underware;
 
 use Underware\DependencyManager\DependencyInstance;
 use Underware\EventManager\EventManager;
-use Underware\Nodes\FunctionNode;
-use Underware\Nodes\HtmlNode;
-use Underware\Plugins\Bricks;
-use Underware\Plugins\Classes;
-use Underware\Plugins\Cleanup;
-use Underware\Plugins\Comment;
-use Underware\Plugins\Extend;
-use Underware\Plugins\Ids;
-use Underware\Plugins\Import;
-use Underware\Plugins\Php;
-use Underware\Plugins\Plain;
-use Underware\Plugins\Variables;
+use Underware\Models\Nodes\FunctionNodeSubscriber;
+use Underware\Models\Nodes\HtmlNodeSubscriber;
+use Underware\Plugins\Node\Bricks;
+use Underware\Plugins\Node\Classes;
+use Underware\Plugins\Output\Cleanup;
+use Underware\Plugins\Node\Comment;
+use Underware\Plugins\Dom\Extend;
+use Underware\Plugins\Node\Ids;
+use Underware\Plugins\Node\Import;
+use Underware\Plugins\Node\Php;
+use Underware\Plugins\Node\Plain;
+use Underware\Plugins\Node\Variables;
 
 
 class Subscribers extends DependencyInstance
@@ -50,8 +50,8 @@ class Subscribers extends DependencyInstance
      */
     private function attachNodes()
     {
-        $this->EventManager->attach("lexer.node", new FunctionNode());
-        $this->EventManager->attach("lexer.node", new HtmlNode());
+        $this->EventManager->attach("lexer.node", new FunctionNodeSubscriber());
+        $this->EventManager->attach("lexer.node", new HtmlNodeSubscriber());
     }
 
 

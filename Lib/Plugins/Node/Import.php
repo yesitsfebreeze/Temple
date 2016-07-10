@@ -1,10 +1,10 @@
 <?php
 
-namespace Underware\Plugins;
+namespace Underware\Plugins\Node;
 
 
 use Underware\Exception\Exception;
-use Underware\Models\HtmlNode;
+use Underware\Models\Nodes\HtmlNodeModel;
 use Underware\Models\Plugins\NodePlugin;
 use Underware\Utilities\Storage;
 
@@ -24,14 +24,14 @@ class Import extends NodePlugin
 
 
     /**
-     * @param HtmlNode $args
+     * @param HtmlNodeModel $args
      *
      * @return bool
      */
     public function check($args)
     {
 
-        if ($args instanceof HtmlNode) {
+        if ($args instanceof HtmlNodeModel) {
             return ($args->get("tag.definition") == "import");
         }
 
@@ -41,9 +41,9 @@ class Import extends NodePlugin
 
 
     /**
-     * @param HtmlNode $node
+     * @param HtmlNodeModel $node
      *
-     * @return HtmlNode $node
+     * @return HtmlNodeModel $node
      * @throws Exception
      */
     public function process($node)
@@ -70,11 +70,11 @@ class Import extends NodePlugin
     /**
      * searches for a template file and returns the correct path
      *
-     * @param HtmlNode $node
+     * @param HtmlNodeModel $node
      *
      * @return string $file
      */
-    private function getPath(HtmlNode $node)
+    private function getPath(HtmlNodeModel $node)
     {
 
         # if the file has an absolute path
@@ -92,11 +92,11 @@ class Import extends NodePlugin
     /**
      * returns the template path to the file which is importing
      *
-     * @param HtmlNode $node
+     * @param HtmlNodeModel $node
      *
      * @return mixed
      */
-    private function getParentPath(HtmlNode $node)
+    private function getParentPath(HtmlNodeModel $node)
     {
         $templates = $this->Instance->Template()->getDirectories();
         $path      = explode("/", $node->get("info.file"));
@@ -112,9 +112,9 @@ class Import extends NodePlugin
 
 
     /**
-     * @param HtmlNode $node
+     * @param HtmlNodeModel $node
      */
-    private function hideImport(HtmlNode $node)
+    private function hideImport(HtmlNodeModel $node)
     {
 
         if ($this->Instance->Config()->get("template.comments.bricks")) {

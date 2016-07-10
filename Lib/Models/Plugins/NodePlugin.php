@@ -5,6 +5,7 @@ namespace Underware\Models\Plugins;
 
 use Underware\EventManager\Event;
 use Underware\Exception\Exception;
+use Underware\Models\Nodes\BaseNode;
 use Underware\Utilities\Storage;
 
 
