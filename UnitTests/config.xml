@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit bootstrap="unittest_autoload.php" colors="true" stopOnFailure="false" syntaxCheck="true">
+    <testsuites>
+        <testsuite name="Injection">
+            <directory>./Tests/</directory>
+        </testsuite>
+    </testsuites>
+</phpunit>
