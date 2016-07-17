@@ -1,10 +1,7 @@
 <?php
 
 
-namespace Underware\Nodes;
-
-
-use Underware\Engine\Structs\Dom;
+namespace Underware\Engine\Structs;
 
 
 /**
@@ -16,11 +13,9 @@ interface NodeInterface
 {
 
     /**
-     * @param $line
-     *
      * @return mixed
      */
-    public function create($line);
+    public function setup();
 
 
     /**

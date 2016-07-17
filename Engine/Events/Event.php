@@ -16,7 +16,6 @@ abstract class Event
     /** @var Instance $Instance */
     protected $Instance;
 
-
     /**
      * the method which gets fired when the event manager notifies the assigned event
      *
@@ -39,4 +38,5 @@ abstract class Event
     {
         $this->Instance = $Instance;
     }
+
 }

@@ -141,7 +141,7 @@ class DirectoryHandler extends Injection
         $dir = $this->path($dir);
         if (!is_dir($dir)) {
             if (!is_writable(dirname($dir))) {
-                throw new Exception("You'r missing permissions to create this directory!", $dir);
+                throw new Exception("You'r missing permissions to setup this directory!", $dir);
             }
 
             mkdir($dir, 0777, true);

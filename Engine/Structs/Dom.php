@@ -3,9 +3,6 @@
 namespace Underware\Engine\Structs;
 
 
-use Underware\Nodes\Node;
-
-
 class Dom
 {
     /** @var  string $namespace */
@@ -27,7 +24,10 @@ class Dom
     private $nodes = array();
 
     /** @var  Node $file */
-    private $lastNode;
+    private $previousNode;
+
+    /** @var  array $blocks */
+    private $blocks = array();
 
 
     public function __construct($namespace, $file, $templates, $level)
@@ -151,9 +151,9 @@ class Dom
     /**
      * @return Node
      */
-    public function getLastNode()
+    public function getPreviousNode()
     {
-        return $this->lastNode;
+        return $this->previousNode;
     }
 
 
@@ -162,7 +162,26 @@ class Dom
      */
     public function setLastNode($node)
     {
-        $this->lastNode = $node;
+        $this->previousNode = $node;
     }
+
+
+    /**
+     * @return array
+     */
+    public function getBlocks()
+    {
+        return $this->blocks;
+    }
+
+
+    /**
+     * @param Node $block
+     */
+    public function addBlock($block)
+    {
+        $this->blocks[] = $block;
+    }
+
 
 }

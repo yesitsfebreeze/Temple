@@ -40,7 +40,7 @@ class Config extends Injection
     private $showComments = true;
 
     /** @var bool */
-    private $showBrickComments = true;
+    private $showBlockComments = true;
 
 
     /**
@@ -266,23 +266,23 @@ class Config extends Injection
     /**
      * @return boolean
      */
-    public function isShowBrickComments()
+    public function isShowBlockComments()
     {
-        return $this->showBrickComments;
+        return $this->showBlockComments;
     }
 
 
     /**
-     * @param $showBrickComments
+     * @param $showBlockComments
      *
      * @return mixed
      */
-    public function setShowBrickComments($showBrickComments)
+    public function setShowBlockComments($showBlockComments)
     {
-        $this->showBrickComments = $showBrickComments;
+        $this->showBlockComments = $showBlockComments;
         $this->update();
 
-        return $this->showBrickComments;
+        return $this->showBlockComments;
     }
 
 }

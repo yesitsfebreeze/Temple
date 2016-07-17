@@ -8,7 +8,7 @@ use Underware\Engine\Exception\Exception;
 use Underware\Engine\Filesystem\DirectoryHandler;
 use Underware\Engine\Injection\Injection;
 use Underware\Engine\Structs\Dom;
-use Underware\Nodes\Node;
+use Underware\Engine\Structs\Node;
 
 
 /**
@@ -28,8 +28,8 @@ class Lexer extends Injection
     /** @var  EventManager $EventManager */
     protected $EventManager;
 
-    /** @var Dom $dom */
-    private $dom;
+    /** @var Dom $Dom */
+    private $Dom;
 
     /** @var int $level */
     private $level;
@@ -66,12 +66,12 @@ class Lexer extends Injection
         $fileContent = $this->EventManager->notify("plugins.file.process", $fileContent);
         file_put_contents($file, $fileContent);
 
-        $this->dom = new Dom($namespace, $file, $files, $this->level);
+        $this->Dom = new Dom($namespace, $file, $files, $this->level);
         $this->process($file);
 
-        $this->dom = $this->EventManager->notify("plugin.dom", $this->dom);
+        $this->Dom = $this->EventManager->notify("plugin.dom", $this->Dom);
 
-        return $this->dom;
+        return $this->Dom;
 
     }
 
@@ -148,14 +148,13 @@ class Lexer extends Injection
             if (trim($line) != '') {
                 $node = $this->createNode($line);
                 $this->addNode($node);
-                $this->dom->setLastNode($node);
+                $this->Dom->setLastNode($node);
             }
-            $this->dom->setCurrentLine($this->dom->getCurrentLine() + 1);
+            $this->Dom->setCurrentLine($this->Dom->getCurrentLine() + 1);
         }
         fclose($handle);
-        $this->dom->setLastNode(null);
 
-        return $this->dom;
+        return $this->Dom;
     }
 
 
@@ -169,19 +168,23 @@ class Lexer extends Injection
      */
     private function createNode($line)
     {
+
         $line = $this->EventManager->notify("plugin.line", $line);
         /** @var Node $node */
         $node = $this->EventManager->notify("lexer.node", array($line));
 
-        $node->setNamespace($this->dom->getNamespace());
-        $node->setLevel($this->dom->getLevel());
-        $node->setLine($this->dom->getCurrentLine());
-        $node->setFile($this->dom->getFile());
-        $node->setRelativeFile(str_replace($_SERVER['DOCUMENT_ROOT'], "", $this->dom->getFile()));
-
         if (!$node instanceof Node) {
-            throw new Exception("The Node EventManager has to return an instance of a %Node%!");
+            throw new Exception("The %lexer.node% event has to return a %Node% instance!");
         }
+
+        $node->setNamespace($this->Dom->getNamespace());
+        $node->setLevel($this->Dom->getLevel());
+        $node->setLine($this->Dom->getCurrentLine());
+        $node->setFile($this->Dom->getFile());
+        $node->setRelativeFile(str_replace($_SERVER['DOCUMENT_ROOT'], "", $this->Dom->getFile()));
+        $node->setDom($this->Dom);
+
+        $node->setup();
 
         return $node;
     }
@@ -200,13 +203,13 @@ class Lexer extends Injection
         # root nodes
         if ($node->getIndent() == 0 || $node->getLine() == 1) {
             $node->setParent(false);
-            $rootNodes   = $this->dom->getNodes();
+            $rootNodes   = $this->Dom->getNodes();
             $rootNodes[] = $node;
-            $this->dom->setNodes($rootNodes);
+            $this->Dom->setNodes($rootNodes);
 
         } else {
             $indent     = $node->getIndent();
-            $prevIndent = $this->dom->getLastNode()->getIndent();
+            $prevIndent = $this->Dom->getPreviousNode()->getIndent();
 
             # node position
             if ($indent > $prevIndent) {
@@ -238,12 +241,12 @@ class Lexer extends Injection
      */
     private function addNodeOnDeeperLevel($node)
     {
-        $node->setParent($this->dom->getLastNode());
+        $node->setParent($this->Dom->getPreviousNode());
         if ($node->getParent()->isSelfClosing()) {
-            throw new Exception("Current node cant have children!", $this->dom->getFile(), $this->dom->getCurrentLine());
+            throw new Exception("Current node cant have children!", $this->Dom->getFile(), $this->Dom->getCurrentLine());
         }
 
-        return $this->addNodeAsChild($this->dom->getLastNode(), $node);
+        return $this->addNodeAsChild($this->Dom->getPreviousNode(), $node);
 
     }
 
@@ -275,7 +278,7 @@ class Lexer extends Injection
      */
     private function addNodeOnSameLevel($node)
     {
-        $parent = $this->dom->getLastNode()->getParent();
+        $parent = $this->Dom->getPreviousNode()->getParent();
         $node->setParent($parent);
 
         return $this->addNodeAsChild($parent, $node);
@@ -312,7 +315,7 @@ class Lexer extends Injection
     {
 
         if (!$parent) {
-            $temp = $this->dom->getLastNode()->getParent();
+            $temp = $this->Dom->getPreviousNode()->getParent();
         } else {
             $temp = $parent->getParent();
         }

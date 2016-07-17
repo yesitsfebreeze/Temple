@@ -73,35 +73,48 @@ class EventManager extends Injection
 
 
     /**
-     * @param mixed $event
+     * @param mixed $events
      * @param mixed $arguments
      *
      * @return mixed $arguments
      */
-    private function dispatch($event, $arguments)
+    private function dispatch($events, $arguments)
     {
-        $value = null;
         /** @var Event $event */
-        if (is_array($event)) {
-            foreach ($event as $e) {
-                $value = $this->dispatch($e, $arguments);
+        if (is_array($events)) {
+            foreach ($events as $event) {
+                $arguments = $this->dispatch($event, $arguments);
             }
-        } else {
-            if (is_object($event)) {
-                $eventInstance = clone $event;
-                $eventInstance->setInstance($this->instance);
-
-                if (!is_array($arguments)) {
-                    $arguments = array($arguments);
-                } elseif (is_null($arguments)) {
-                    $arguments = array();
-                }
-                $value = $eventInstance->dispatch(...$arguments);
-                unset($eventInstance);
-            }
+        } elseif (is_object($events)) {
+            $arguments = $this->realDispatch($events, $arguments);
         }
 
-        return $value;
+        return $arguments;
+    }
+
+
+    /**
+     * @param Event $event
+     * @param       $arguments
+     *
+     * @return array|bool
+     */
+    public function realDispatch(Event $event, $arguments)
+    {
+        if (is_object($event)) {
+            $eventInstance = clone $event;
+            $eventInstance->setInstance($this->instance);
+
+            if (!is_array($arguments)) {
+                $arguments = array($arguments);
+            } elseif (is_null($arguments)) {
+                $arguments = array();
+            }
+            $arguments = $eventInstance->dispatch(...$arguments);
+            unset($eventInstance);
+        }
+
+        return $arguments;
     }
 
 

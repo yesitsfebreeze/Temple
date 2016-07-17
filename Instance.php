@@ -11,7 +11,10 @@ use Underware\Engine\Filesystem\DirectoryHandler;
 use Underware\Engine\Injection\InjectionManager;
 use Underware\Engine\Lexer;
 use Underware\Engine\Template;
+use Underware\Nodes\BlockNode;
+use Underware\Nodes\CommentNode;
 use Underware\Nodes\HtmlNode;
+use Underware\Nodes\PlainNode;
 
 
 /**
@@ -73,7 +76,10 @@ class Instance
     public function subscribers()
     {
         $this->EventManager->setInstance($this);
+        $this->EventManager->attach("lexer.node", new PlainNode());
         $this->EventManager->attach("lexer.node", new HtmlNode());
+        $this->EventManager->attach("lexer.node", new CommentNode());
+        $this->EventManager->attach("lexer.node", new BlockNode());
     }
 
 

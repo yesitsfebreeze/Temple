@@ -299,7 +299,7 @@ class Cache extends Injection
     private function createFile($file)
     {
         $file = $this->getPath($file);
-        # create the file
+        # setup the file
         if (!file_exists($file)) touch($file);
 
         return $file;
