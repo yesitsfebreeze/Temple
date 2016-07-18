@@ -44,6 +44,7 @@ class ForeachNode extends Node
         $this->key          = $this->getKey();
         $this->itemName     = $this->getItemName();
         $this->iterableName = $this->getIterableName();
+
         return $this;
     }
 
@@ -79,7 +80,7 @@ class ForeachNode extends Node
             return "";
         }
 
-        return " => $" . trim(explode(",", $part)[0]);
+        return trim(explode(",", $part)[0]);
     }
 
 
@@ -96,7 +97,7 @@ class ForeachNode extends Node
             return $part;
         }
 
-        return "$" . trim(explode(",", $part)[1]);
+        return trim(explode(",", $part)[1]);
     }
 
 
@@ -121,7 +122,14 @@ class ForeachNode extends Node
      */
     public function compile()
     {
-        $output = "<?php foreach(\$this->Variables->get('" . $this->iterableName . "') as " . $this->itemName . " ".  $this->key . ") {?>";
+        $output = '<?php foreach($this->Variables->get("' . $this->iterableName . '") as $' . ($this->key != "" ?  $this->key . ' => $': "") . $this->itemName .  ') { ?>';
+        if (is_string($this->key)) {
+            $output .= '<?php $this->Variables->set("' . $this->key . '",$' . $this->key . "); ?>";
+        }
+
+        if (is_string($this->itemName)) {
+            $output .= '<?php $this->Variables->set("' . $this->itemName . '",$' . $this->itemName . "); ?>";
+        }
 
         /** @var Node $child */
         foreach ($this->getChildren() as $child) {

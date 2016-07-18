@@ -19,6 +19,7 @@ use Underware\Nodes\ForeachNode;
 use Underware\Nodes\HtmlNode;
 use Underware\Nodes\PlainNode;
 use Underware\Nodes\VariableNode;
+use Underware\Plugins\VariablesPlugin;
 
 
 /**
@@ -91,12 +92,17 @@ class Instance
     public function subscribers()
     {
         $this->EventManager->setInstance($this);
+
+        // nodes
         $this->EventManager->attach("lexer.node", new PlainNode());
         $this->EventManager->attach("lexer.node", new HtmlNode());
         $this->EventManager->attach("lexer.node", new CommentNode());
         $this->EventManager->attach("lexer.node", new BlockNode());
         $this->EventManager->attach("lexer.node", new ForeachNode());
         $this->EventManager->attach("lexer.node", new VariableNode());
+
+        // plugins
+        $this->EventManager->attach("plugin.output", new VariablesPlugin());
     }
 
 
