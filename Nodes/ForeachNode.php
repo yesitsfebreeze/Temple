@@ -44,7 +44,6 @@ class ForeachNode extends Node
         $this->key          = $this->getKey();
         $this->itemName     = $this->getItemName();
         $this->iterableName = $this->getIterableName();
-        var_dump($this->iterableName);
         return $this;
     }
 
