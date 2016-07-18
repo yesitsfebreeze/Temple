@@ -8,13 +8,17 @@ use Underware\Engine\Config;
 use Underware\Engine\Events\EventManager;
 use Underware\Engine\Filesystem\Cache;
 use Underware\Engine\Filesystem\DirectoryHandler;
+use Underware\Engine\Filesystem\VariableCache;
 use Underware\Engine\Injection\InjectionManager;
 use Underware\Engine\Lexer;
+use Underware\Engine\Structs\Variables;
 use Underware\Engine\Template;
 use Underware\Nodes\BlockNode;
 use Underware\Nodes\CommentNode;
+use Underware\Nodes\ForeachNode;
 use Underware\Nodes\HtmlNode;
 use Underware\Nodes\PlainNode;
+use Underware\Nodes\VariableNode;
 
 
 /**
@@ -31,6 +35,9 @@ class Instance
     /** @var Config $Config */
     private $Config;
 
+    /** @var Variables $Variables */
+    private $Variables;
+
     /** @var DirectoryHandler $DirectoryHandler */
     private $DirectoryHandler;
 
@@ -39,6 +46,9 @@ class Instance
 
     /** @var Cache $Cache */
     private $Cache;
+
+    /** @var VariableCache $VariableCache */
+    private $VariableCache;
 
     /** @var Lexer $Lexer */
     private $Lexer;
@@ -60,9 +70,11 @@ class Instance
     {
         $this->InjectionManager = new InjectionManager();
         $this->Config           = $this->InjectionManager->registerDependency(new Config());
+        $this->Variables        = $this->InjectionManager->registerDependency(new Variables());
         $this->DirectoryHandler = $this->InjectionManager->registerDependency(new DirectoryHandler());
         $this->EventManager     = $this->InjectionManager->registerDependency(new EventManager());
         $this->Cache            = $this->InjectionManager->registerDependency(new Cache());
+        $this->VariableCache    = $this->InjectionManager->registerDependency(new VariableCache());
         $this->Lexer            = $this->InjectionManager->registerDependency(new Lexer());
         $this->Compiler         = $this->InjectionManager->registerDependency(new Compiler());
         $this->Template         = $this->InjectionManager->registerDependency(new Template());
@@ -73,6 +85,9 @@ class Instance
     }
 
 
+    /**
+     * default subscribers
+     */
     public function subscribers()
     {
         $this->EventManager->setInstance($this);
@@ -80,6 +95,8 @@ class Instance
         $this->EventManager->attach("lexer.node", new HtmlNode());
         $this->EventManager->attach("lexer.node", new CommentNode());
         $this->EventManager->attach("lexer.node", new BlockNode());
+        $this->EventManager->attach("lexer.node", new ForeachNode());
+        $this->EventManager->attach("lexer.node", new VariableNode());
     }
 
 
@@ -89,6 +106,15 @@ class Instance
     public function Config()
     {
         return $this->Config;
+    }
+
+
+    /**
+     * @return Variables
+     */
+    public function Variables()
+    {
+        return $this->Variables;
     }
 
 

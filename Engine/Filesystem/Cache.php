@@ -30,7 +30,7 @@ class Cache extends Injection
 
 
     /** @var string $cacheFile */
-    private $cacheFile = ".base";
+    private $cacheFile = "timestamp";
 
 
     /**
@@ -300,6 +300,10 @@ class Cache extends Injection
     {
         $file = $this->getPath($file);
         # setup the file
+        $dir = dirname($file);
+        if (!is_dir($dir)) {
+            mkdir($dir,0777,true);
+        }
         if (!file_exists($file)) touch($file);
 
         return $file;
@@ -322,7 +326,6 @@ class Cache extends Injection
         $file = $this->extension($file);
 
         # replace slashes with an dot
-        $file = str_replace(DIRECTORY_SEPARATOR, '.', $file);
         $file = $this->getDirectory() . DIRECTORY_SEPARATOR . $file;
 
         return $file;
@@ -339,9 +342,8 @@ class Cache extends Injection
     private function extension($file)
     {
         $file = str_replace("." . $this->Config->getExtension(), "", $file);
-        $file = str_replace(".cachefile", "", $file);
         $file = str_replace(".php", "", $file);
-        $file = $file . ".cachefile.php";
+        $file = $file . ".php";
 
         return $file;
     }

@@ -27,6 +27,7 @@ class PlainNode extends Node
      */
     public function setup()
     {
+        $this->setSelfClosing(true);
         return $this;
     }
 

@@ -3,20 +3,17 @@
 namespace Underware\Engine;
 
 
-use Underware\Engine\Exception\Exception;
 use Underware\Engine\Filesystem\Cache;
 use Underware\Engine\Filesystem\DirectoryHandler;
+use Underware\Engine\Filesystem\VariableCache;
 use Underware\Engine\Injection\Injection;
+use Underware\Engine\Structs\Dom;
+use Underware\Engine\Structs\Page;
+use Underware\Engine\Structs\Variables;
 
 
 class Template extends Injection
 {
-
-    /** @var  Lexer $Lexer */
-    protected $Lexer;
-
-    /** @var  Compiler $Compiler */
-    protected $Compiler;
 
     /** @var  Config $Config */
     protected $Config;
@@ -27,6 +24,18 @@ class Template extends Injection
     /** @var  Cache $Cache */
     protected $Cache;
 
+    /** @var  Variables $Variables */
+    protected $Variables;
+
+    /** @var  VariableCache $VariableCache */
+    protected $VariableCache;
+
+    /** @var  Lexer $Lexer */
+    protected $Lexer;
+
+    /** @var  Compiler $Compiler */
+    protected $Compiler;
+
 
     /** @inheritdoc */
     public function dependencies()
@@ -35,6 +44,8 @@ class Template extends Injection
             "Engine/Config"                      => "Config",
             "Engine/Filesystem/DirectoryHandler" => "DirectoryHandler",
             "Engine/Filesystem/Cache"            => "Cache",
+            "Engine/Structs/Variables"           => "Variables",
+            "Engine/Filesystem/VariableCache"    => "VariableCache",
             "Engine/Lexer"                       => "Lexer",
             "Engine/Compiler"                    => "Compiler"
         );
@@ -85,16 +96,18 @@ class Template extends Injection
      *
      * @param $file
      *
-     * @throws Exception
+     * @return string
      */
     public function show($file)
     {
-
+        $this->VariableCache->setFile($file);
         $cacheFile = $this->fetch($file);
+        $page      = new Page();
+        $page->setFileName($file);
+        $page->setVariables($this->VariableCache->getMergedVariables());
+        $page->setFile($cacheFile);
 
-        /** @noinspection PhpIncludeInspection */
-        include $cacheFile;
-
+        return $page->display();
     }
 
 
@@ -111,10 +124,10 @@ class Template extends Injection
 
         $file = $this->cleanExtension($file);
 
-//        if ($this->Cache->isModified($file)) {
+        if ($this->Cache->isModified($file)) {
             $content = $this->process($file, $level);
-            $this->Cache->save($file, $content, $level);
-//        }
+            $this->Cache->save($file, $content);
+        }
 
         $cacheFile = $this->Cache->getFile($file);
 
@@ -151,6 +164,9 @@ class Template extends Injection
     {
         $dom     = $this->dom($file, $level);
         $content = $this->Compiler->compile($dom);
+        $this->VariableCache->setFile($file);
+        $this->VariableCache->setDom($dom);
+        $this->VariableCache->saveTemplateVariables();
 
         return $content;
 

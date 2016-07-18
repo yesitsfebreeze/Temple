@@ -5,6 +5,10 @@ namespace Underware\Engine\Structs;
 
 class Dom
 {
+
+    /** @var Storage $Variables */
+    private $Variables;
+
     /** @var  string $namespace */
     private $namespace;
 
@@ -32,11 +36,30 @@ class Dom
 
     public function __construct($namespace, $file, $templates, $level)
     {
+        $this->Variables = new Variables();
         $this->setNamespace($namespace);
         $this->setCurrentLine(0);
         $this->setTemplates($templates);
         $this->setLevel($level);
         $this->setFile($file);
+    }
+
+
+    /**
+     * @return Storage
+     */
+    public function getVariables()
+    {
+        return $this->Variables;
+    }
+
+
+    /**
+     * @param Storage $Variables
+     */
+    public function setVariables($Variables)
+    {
+        $this->Variables = $Variables;
     }
 
 

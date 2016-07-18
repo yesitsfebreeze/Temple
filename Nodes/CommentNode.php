@@ -9,10 +9,6 @@ use Underware\Engine\Structs\Node;
 class CommentNode extends Node
 {
 
-    /** @var bool $isWithinComment */
-    protected $isWithinComment = false;
-
-
     public function check()
     {
         if (substr(trim($this->plain), 0, 1) == "#") {
@@ -26,6 +22,7 @@ class CommentNode extends Node
     /** @inheritdoc */
     public function setup()
     {
+        $this->setSelfClosing(true);
         return $this;
     }
 
