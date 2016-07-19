@@ -24,6 +24,9 @@ class Config extends Injection
     /** @var bool */
     private $cacheEnabled = true;
 
+    /** @var bool */
+    private $variableCacheEnabled = true;
+
     /** @var array */
     private $templateDirs = array();
 
@@ -145,6 +148,24 @@ class Config extends Injection
         $this->update();
 
         return $this->cacheEnabled;
+    }
+
+
+    /**
+     * @return boolean
+     */
+    public function isVariableCacheEnabled()
+    {
+        return $this->variableCacheEnabled;
+    }
+
+
+    /**
+     * @param boolean $variableCacheEnabled
+     */
+    public function setVariableCacheEnabled($variableCacheEnabled)
+    {
+        $this->variableCacheEnabled = $variableCacheEnabled;
     }
 
 

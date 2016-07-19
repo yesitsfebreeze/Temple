@@ -31,7 +31,6 @@ class Page {
 
             /** @noinspection PhpIncludeInspection */
             include $this->file;
-
             return true;
         } else {
             throw new Exception("Missing cache file!",$this->getFileName());

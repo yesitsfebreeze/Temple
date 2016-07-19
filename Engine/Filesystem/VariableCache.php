@@ -18,7 +18,7 @@ class VariableCache extends Injection
     /** @var  Cache $Cache */
     protected $Cache;
 
-    /** @var  Cache $Cache */
+    /** @var  Variables $Cache */
     protected $Variables;
 
     /** @var  Dom $Dom */
@@ -26,6 +26,9 @@ class VariableCache extends Injection
 
     /** @var  string $file */
     protected $file;
+
+    /** @var  string $url */
+    protected $url;
 
 
     public function dependencies()
@@ -63,14 +66,16 @@ class VariableCache extends Injection
      */
     public function getMergedVariables()
     {
+        /** @var Variables $Variables */
         $Variables = $this->unSerializeTemplateVariables($this->file);
-        $Variables = $this->mergeViewVariables($Variables, $this->file);
+        $Variables = $this->mergePhpVariables($Variables, $this->file);
 
         return $Variables;
     }
 
 
     /**
+     * todo: cache problem if cache is enabled and variables are not saved
      * saves the template variables in the cache
      */
     public function saveTemplateVariables()
@@ -118,14 +123,32 @@ class VariableCache extends Injection
      *
      * @return Variables
      */
-    private function mergeViewVariables(Variables $Variables, $file)
+    private function mergePhpVariables(Variables $Variables, $file)
     {
-        $this->serializeViewVariables($file);
-        $ViewVariables = $this->unSerializeViewVariables($file);
-        $ViewVariables = $ViewVariables->get();
-        if (!is_null($ViewVariables)) {
-            $Variables->merge($ViewVariables);
+        /** @var Variables $PhpVariables */
+        if ($this->Config->isVariableCacheEnabled()) {
+            $this->serializePhpVariables($file);
+            $PhpVariables         = $this->unSerializePhpVariables($file);
+            $unCachedPhpVariables = clone $this->Variables;
+            if (!is_null($PhpVariables)) {
+                $PhpVariablesArray = $PhpVariables->get();
+                if (!is_null($PhpVariablesArray)) {
+                    $unCachedPhpVariables->merge($PhpVariablesArray);
+                }
+            }
+            $PhpVariablesArray = $unCachedPhpVariables->get();
+
+        } else {
+            $PhpVariables      = $this->Variables;
+            $PhpVariablesArray = $PhpVariables->get();
         }
+
+        if (!is_null($PhpVariablesArray)) {
+            $Variables->merge($PhpVariablesArray);
+        }
+
+        $Variables->cached   = $this->Variables->cached;
+        $Variables->unCached = $this->Variables->unCached;
 
         return $Variables;
     }
@@ -138,11 +161,9 @@ class VariableCache extends Injection
      *
      * @return mixed
      */
-    private function getViewVariablesFileName($file)
+    private function getPhpVariablesFileName($file)
     {
-        $hash = md5($_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"]);
-
-        return str_replace($this->Config->getExtension(), "variables." . $hash . "." . $this->Config->getExtension(), $file);
+        return str_replace($this->Config->getExtension(), "variables." . $this->getUrlHash() . "." . $this->Config->getExtension(), $file);
     }
 
 
@@ -151,12 +172,35 @@ class VariableCache extends Injection
      *
      * @param     $file
      */
-    private function serializeViewVariables($file)
+    private function serializePhpVariables($file)
     {
-        $Variables = serialize($this->Variables);
+        /** @var Variables $Variables */
+        $Variables = serialize($this->Variables->cached);
         $file      = $this->cleanExtension($file);
-        $file      = $this->getViewVariablesFileName($file);
+        $file      = $this->getPhpVariablesFileName($file);
         $this->Cache->save($file, $Variables);
+    }
+
+
+    /**
+     * returns the current page url which will be used to cache the php assigned variables
+     *
+     * @return string
+     */
+    private function getUrl()
+    {
+        return $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"];
+    }
+
+
+    /**
+     * returns the current page url which will be used to cache the php assigned variables
+     *
+     * @return string
+     */
+    private function getUrlHash()
+    {
+        return md5($this->getUrl());
     }
 
 
@@ -167,14 +211,15 @@ class VariableCache extends Injection
      *
      * @return mixed
      */
-    private function unSerializeViewVariables($file)
+    private function unSerializePhpVariables($file)
     {
         $file = $this->cleanExtension($file);
-        $file = $this->getViewVariablesFileName($file);
+        $file = $this->getPhpVariablesFileName($file);
         $file = $this->Cache->getFile($file);
 
         return unserialize(file_get_contents($file));
     }
+
 
     /**
      * make sure we have the template extension
