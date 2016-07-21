@@ -5,6 +5,33 @@
 }
 
 .class-model {
+
+    position: relative;
+    &:after {
+        content:  '';
+        position: absolute;
+        left:     -26px;
+        top:      0px;
+        bottom:   0px;
+        width:    10px;
+    }
+
+    &:nth-child(3n+1) {
+        &:after {
+            .gradient(#58358a, #2ea8ac);
+        }
+    }
+    &:nth-child(3n+2) {
+        &:after {
+            .gradient(#e92d5c, #eb6e65);
+        }
+    }
+    &:nth-child(3n+3) {
+        &:after {
+            .gradient(#7f245a, #b02376);
+        }
+    }
+
     ul {
         padding-left: 0;
     }

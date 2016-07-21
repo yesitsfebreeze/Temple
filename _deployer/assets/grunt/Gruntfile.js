@@ -22,11 +22,11 @@ module.exports = function(grunt) {
         watch: {
             api: {
                 files: ['../less/api/**/*.less'],
-                tasks: ['less:api']
+                tasks: ['less']
             },
             index: {
                 files: ['../less/index/**/*.less'],
-                tasks: ['less:index']
+                tasks: ['less']
             }
         }
     });

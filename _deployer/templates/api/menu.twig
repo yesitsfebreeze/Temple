@@ -1,5 +1,7 @@
 {% set parent = parent|lower ~ name|lower ~ "-" %}
 
+{% set level = level + 1 %}
+
 {% if parent == "-" %}
     {% set parent = "" %}
 {% endif %}
@@ -11,8 +13,8 @@
         </a>
     </li>
     {% if items %}
-        <ul>
-            {% include "api/menu.twig" with {'menu': items, 'parent': parent} %}
+        <ul class="level-{{ level }}">
+            {% include "api/menu.twig" with {'menu': items, 'parent': parent, 'level': level} %}
         </ul>
     {% endif %}
 {% endfor %}

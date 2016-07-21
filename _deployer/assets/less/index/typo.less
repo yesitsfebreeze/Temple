@@ -1,3 +1,5 @@
+@import url(https://fonts.googleapis.com/css?family=Roboto:400,300,500,700);
+
 html {
     font-family:            @font-family;
     font-size:              @font-size;
@@ -98,11 +100,16 @@ code {
     margin-top: 0;
 }
 
+b {
+    font-weight: 500;
+}
+
 a {
     color:           @primary;
     text-decoration: none;
-    &:hover, &:active, &:focus, &:visited {
-        text-decoration: underline;
-        color:           @primary;
+    position:        relative;
+    .transition(color .55s cubic-bezier(.35, 1, .25, 1));
+    &:hover, &:active, &:focus {
+        color: @seconday !important;
     }
 }

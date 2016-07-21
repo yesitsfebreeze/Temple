@@ -1,3 +1,4 @@
+@import url(https://fonts.googleapis.com/css?family=Roboto:400,300,500,700);
 .right {
   float: right;
 }
@@ -21,16 +22,16 @@ html {
   position: absolute;
   width: 100%;
   height: 100%;
-  color: #3C4754;
+  color: #58626d;
 }
 body,
-body *,
 html,
+body *,
 html * {
   box-sizing: border-box;
 }
 html {
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 15px;
   font-weight: 200;
   -webkit-font-smoothing: antialiased;
@@ -50,8 +51,8 @@ ul ol li {
   line-height: 1.5rem;
 }
 ol ol,
-ol ul,
 ul ol,
+ol ul,
 ul ul {
   margin-top: 0;
   margin-bottom: 0;
@@ -70,7 +71,7 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif;
   margin-top: 1.5rem;
   margin-bottom: 0;
   line-height: 1.5rem;
@@ -117,16 +118,22 @@ code {
 .hug {
   margin-top: 0;
 }
+b {
+  font-weight: 500;
+}
 a {
-  color: #59A9E2;
+  color: #e92d5c;
   text-decoration: none;
+  position: relative;
+  -webkit-transition: color 0.55s cubic-bezier(0.35, 1, 0.25, 1);
+  -moz-transition: color 0.55s cubic-bezier(0.35, 1, 0.25, 1);
+  -ms-transition: color 0.55s cubic-bezier(0.35, 1, 0.25, 1);
+  -o-transition: color 0.55s cubic-bezier(0.35, 1, 0.25, 1);
 }
 a:hover,
 a:active,
-a:focus,
-a:visited {
-  text-decoration: underline;
-  color: #59A9E2;
+a:focus {
+  color: #2ea8ac !important;
 }
 body {
   padding-top: 70px;
@@ -136,7 +143,7 @@ header {
   position: fixed;
   top: 0;
   height: 70px;
-  background-color: #474F5F;
+  background-color: #2ea8ac;
   color: #fff;
   font-weight: bold;
   vertical-align: bottom;
@@ -150,3 +157,4 @@ header .head-container {
 header .hh {
   height: 25px;
 }
+/*# sourceMappingURL=../../../index.css.map */
