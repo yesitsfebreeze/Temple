@@ -19,6 +19,7 @@ class ParseTwig
     public function __construct($dir, Yaml $yaml, \Parsedown $parsedown, \Twig_Environment $twig)
     {
 
+//        $twig->addFunction(new Twig_SimpleFunction('dump', 'twig_var_dump', array('is_safe' => $isDumpOutputHtmlSafe ? array('html') : array(), 'needs_context' => true, 'needs_environment' => true)),);
         $this->render("docs", "index", $dir, $yaml, $parsedown, $twig);
         $this->render("api", "api", $dir, $yaml, $parsedown, $twig);
     }

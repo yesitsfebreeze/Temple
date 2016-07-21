@@ -53,9 +53,15 @@
         </header>
         <div class="content">
             {% include includes["index"] %}
-            {% for class in api %}
-                {% include class %}
-            {% endfor %}
+            <code>
+                <pre>
+            {{ dump(api) }}
+                </pre>
+            </code>
+
+            {#{% for class in api %}#}
+                {#{% include class %}#}
+            {#{% endfor %}#}
         </div>
         <div class="code"></div>
     </body>

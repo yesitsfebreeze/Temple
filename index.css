@@ -25,8 +25,8 @@ html {
   color: #58626d;
 }
 body,
-html,
 body *,
+html,
 html * {
   box-sizing: border-box;
 }
@@ -51,8 +51,8 @@ ul ol li {
   line-height: 1.5rem;
 }
 ol ol,
-ul ol,
 ol ul,
+ul ol,
 ul ul {
   margin-top: 0;
   margin-bottom: 0;
@@ -125,10 +125,10 @@ a {
   color: #e92d5c;
   text-decoration: none;
   position: relative;
-  -webkit-transition: color 0.55s cubic-bezier(0.35, 1, 0.25, 1);
-  -moz-transition: color 0.55s cubic-bezier(0.35, 1, 0.25, 1);
-  -ms-transition: color 0.55s cubic-bezier(0.35, 1, 0.25, 1);
-  -o-transition: color 0.55s cubic-bezier(0.35, 1, 0.25, 1);
+  -webkit-transition: color .55s cubic-bezier(.35,1,.25,1);
+  -moz-transition: color .55s cubic-bezier(.35,1,.25,1);
+  -ms-transition: color .55s cubic-bezier(.35,1,.25,1);
+  -o-transition: color .55s cubic-bezier(.35,1,.25,1);
 }
 a:hover,
 a:active,
@@ -157,4 +157,3 @@ header .head-container {
 header .hh {
   height: 25px;
 }
-/*# sourceMappingURL=../../../index.css.map */

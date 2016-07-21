@@ -141,7 +141,8 @@ class Generator
 
         foreach ($this->namespaces as $namespace) {
             $data              = array();
-            $namespaceName     = array_reverse(explode("\\", $namespace))[1];
+            $namespaceName     = preg_replace("/^Underware/", "", $namespace);
+            $namespaceName     = preg_replace('/^\\\/', "", $namespaceName);
             $filename          = $namespace . "\\" . strrev(explode("\\", strrev($namespace))[0]);
             $level             = substr_count($namespace, "\\");
             $data["level"]     = $level;
@@ -150,16 +151,13 @@ class Generator
             $data["namespace"] = $namespace;
             $this->parseTwigFile($twig, "namespace", $namespaceName, $filename, $data);
             foreach ($this->classes as $name => $class) {
-                $checkname = $name;
-//                str_replace($namespace . "\\", "", $name);
-//                if (substr_count($checkname, "\\") === 0) {
+                $checkname      = $name;
                 $level          = substr_count($namespace, "\\");
                 $class["level"] = $level;
                 $class["id"]    = strtolower(str_replace("\\", "-", preg_replace("/^.*?\\\/", "", $name)));
                 $class["name"]  = $checkname;
                 $filename       = $namespace . "\\" . $checkname;
                 $this->parseTwigFile($twig, "class", $checkname, $filename, $class);
-//                }
             }
         }
 
@@ -221,12 +219,16 @@ class Generator
      */
     private function setupTwigEnviroment()
     {
-        $loader = new Twig_Loader_Filesystem($this->templateDir, ['cache' => false, 'debug' => true,]);
-        $twig   = new Twig_Environment($loader);
+        $loader = new Twig_Loader_Filesystem($this->templateDir, ['cache' => false, 'debug' => true]);
 
-        $filter = new Twig_SimpleFilter('classlink', ['PHPDocMd\\Generator', 'classLink'], array('is_safe' => array('html')));
-        $twig->addFilter($filter);
+        $twig = new Twig_Environment($loader, array(
+            'debug' => true
+        ));
+        $twig->addExtension(new \Twig_Extension_Debug());
+
         $filter = new Twig_SimpleFilter('dump', ['PHPDocMd\\Generator', 'dump'], array('is_safe' => array('html')));
+        $twig->addFilter($filter);
+        $filter = new Twig_SimpleFilter('classlink', ['PHPDocMd\\Generator', 'classLink'], array('is_safe' => array('html')));
         $twig->addFilter($filter);
         $filter = new Twig_SimpleFilter('instance', ['PHPDocMd\\Generator', 'instance'], array('is_safe' => array('html')));
         $twig->addFilter($filter);
