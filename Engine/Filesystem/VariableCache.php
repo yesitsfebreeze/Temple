@@ -123,8 +123,13 @@ class VariableCache extends Injection
      *
      * @return Variables
      */
-    private function mergePhpVariables(Variables $Variables, $file)
+    private function mergePhpVariables($Variables, $file)
     {
+
+        if (!$Variables) {
+            $Variables = new Variables();
+        }
+
         /** @var Variables $PhpVariables */
         if ($this->Config->isVariableCacheEnabled()) {
             $this->serializePhpVariables($file);
@@ -147,8 +152,12 @@ class VariableCache extends Injection
             $Variables->merge($PhpVariablesArray);
         }
 
-        $Variables->cached   = $this->Variables->cached;
-        $Variables->unCached = $this->Variables->unCached;
+        if (!is_null($this->Variables->cached)) {
+            $Variables->cached = $this->Variables->cached;
+        }
+        if (!is_null($this->Variables->unCached)) {
+            $Variables->unCached = $this->Variables->unCached;
+        }
 
         return $Variables;
     }
