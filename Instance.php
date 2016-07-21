@@ -70,7 +70,7 @@ class Instance
     public function __construct($config = null)
     {
         $this->InjectionManager = new InjectionManager();
-        $this->Config           = $this->InjectionManager->registerDependency(new Config());
+        $this->Config           = $this->InjectionManager->registerDependency(new Config($config));
         $this->Variables        = $this->InjectionManager->registerDependency(new Variables());
         $this->DirectoryHandler = $this->InjectionManager->registerDependency(new DirectoryHandler());
         $this->EventManager     = $this->InjectionManager->registerDependency(new EventManager());

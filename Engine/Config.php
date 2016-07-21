@@ -47,6 +47,26 @@ class Config extends Injection
 
 
     /**
+     * Config constructor.
+     *
+     * @param null $config
+     */
+    public function __construct($config = null)
+    {
+        if (is_null($config)) {
+            return false;
+        }
+
+        if (file_exists($config)) {
+            /** @noinspection PhpIncludeInspection */
+            return include $config;
+        }
+
+        return false;
+    }
+
+
+    /**
      * updates the config
      */
     public function update()
@@ -307,17 +327,3 @@ class Config extends Injection
     }
 
 }
-
-//
-//<?php
-//
-//$config = array(
-//    "parser" => [
-//        "selfClosing" => [
-//
-//        ],
-//        "inline" => [
-//            "b", "big", "i", "small", "tt", "abbr", "acronym", "cite", "code", "dfn", "em", "kbd", "strong", "samp", "var", "a", "bdo", "br", "img", "map", "object", "q", "script", "span", "sub", "sup", "button", "input", "label", "select", "textarea"
-//        ],
-//    ]
-//);
