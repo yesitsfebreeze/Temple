@@ -2,9 +2,11 @@
 
 namespace PHPDocMD;
 
+
 use Twig_Environment;
 use Twig_Loader_Filesystem;
 use Twig_SimpleFilter;
+
 
 /**
  * This class takes the output from 'parser', and generate the markdown
@@ -81,7 +83,7 @@ class Generator
 
 
     /**
-     * @param array $classDefinitions
+     * @param array  $classDefinitions
      * @param string $outputDir
      * @param string $templateDir
      * @param string $linkTemplate
@@ -94,6 +96,7 @@ class Generator
         $this->outputDir        = $this->templateDir . "/../generated/api";
     }
 
+
     /**
      * Starts the generator.
      */
@@ -103,6 +106,7 @@ class Generator
         $this->getClassesAndNamespaces();
         $this->parseTwig();
     }
+
 
     /**
      * sets $this->classes to an array with all classes and the classname as key
@@ -133,11 +137,11 @@ class Generator
         $GLOBALS['PHPDocMD_classes']    = $this->classes;
         $GLOBALS['PHPDocMD_namespaces'] = $this->namespaces;
 
-        $twig = $this->setuptwigEnviroment();
+        $twig = $this->setupTwigEnviroment();
 
         foreach ($this->namespaces as $namespace) {
             $data              = array();
-            $namespaceName     = array_reverse(explode("\\", $namespace))[0];
+            $namespaceName     = array_reverse(explode("\\", $namespace))[1];
             $filename          = $namespace . "\\" . strrev(explode("\\", strrev($namespace))[0]);
             $level             = substr_count($namespace, "\\");
             $data["level"]     = $level;
@@ -146,15 +150,16 @@ class Generator
             $data["namespace"] = $namespace;
             $this->parseTwigFile($twig, "namespace", $namespaceName, $filename, $data);
             foreach ($this->classes as $name => $class) {
-                $checkname = str_replace($namespace . "\\", "", $name);
-                if (substr_count($checkname, "\\") === 0) {
-                    $level          = substr_count($namespace, "\\");
-                    $class["level"] = $level;
-                    $class["id"]    = strtolower(str_replace("\\", "-", preg_replace("/^.*?\\\/", "", $name)));
-                    $class["name"]  = $checkname;
-                    $filename       = $namespace . "\\" . $checkname;
-                    $this->parseTwigFile($twig, "class", $checkname, $filename, $class);
-                }
+                $checkname = $name;
+//                str_replace($namespace . "\\", "", $name);
+//                if (substr_count($checkname, "\\") === 0) {
+                $level          = substr_count($namespace, "\\");
+                $class["level"] = $level;
+                $class["id"]    = strtolower(str_replace("\\", "-", preg_replace("/^.*?\\\/", "", $name)));
+                $class["name"]  = $checkname;
+                $filename       = $namespace . "\\" . $checkname;
+                $this->parseTwigFile($twig, "class", $checkname, $filename, $class);
+//                }
             }
         }
 
@@ -168,7 +173,7 @@ class Generator
         }
         file_put_contents($fileListFile, $fileList);
 
-        $this->createMenu($this->fileMenu);
+        $this->createMenu();
         $this->fileMenu = reset($this->fileMenu);
         $fileMenu       = json_encode($this->fileMenu, JSON_PRETTY_PRINT);
         $fileMenuFile   = $this->templateDir . "/../../../api_menu.json";
@@ -183,13 +188,14 @@ class Generator
         return $twig;
     }
 
+
     /**
      * parsed a twig file
      *
      * @param Twig_Environment $twig
-     * @param string $type
-     * @param string $filename
-     * @param array $data
+     * @param string           $type
+     * @param string           $filename
+     * @param array            $data
      */
     private function parseTwigFile(Twig_Environment $twig, $type, $name, $filename, array $data)
     {
@@ -213,7 +219,7 @@ class Generator
      *
      * @return Twig_Environment
      */
-    private function setuptwigEnviroment()
+    private function setupTwigEnviroment()
     {
         $loader = new Twig_Loader_Filesystem($this->templateDir, ['cache' => false, 'debug' => true,]);
         $twig   = new Twig_Environment($loader);
@@ -227,6 +233,7 @@ class Generator
 
         return $twig;
     }
+
 
     /**
      * creates the menu
@@ -249,13 +256,11 @@ class Generator
 
     /**
      * This is a twig template function.
-     *
      * This function allows us to easily link classes to their existing pages.
-     *
      * Due to the unfortunate way twig works, this must be static, and we must use a global to
      * achieve our goal.
      *
-     * @param string $className
+     * @param string $string
      *
      * @return string
      */
@@ -264,20 +269,23 @@ class Generator
 
         $temp = array();
 
-        $strings = explode("|", $string);
-        foreach ($strings as $string) {
-            $namespace = $GLOBALS['PHPDocMD_namespaces'][0];
-            if (strpos($string, $namespace) !== false) {
-                $class    = strrev(explode("\\", strrev($string))[0]);
-                $link     = "#" . strtolower(str_replace("\\", "-", trim(str_replace($namespace, "", $string), "\\")));
-                $template = "<a href='" . $link . "' title='" . $class . "'>" . $class . "</a>";
-                $temp[]   = $template;
-            } else {
-                $temp[] = $string;
+        $strings   = explode("\\", $string);
+        $namespace = $GLOBALS['PHPDocMD_namespaces'][1];
+
+        if (strpos($string, $namespace) !== false) {
+            $current = "";
+            foreach ($strings as $string) {
+                if ($string != $namespace) {
+                    $current  = $current . "\\" . $string;
+                    $link     = str_replace("\\", "-", $current);
+                    $link     = preg_replace("/^-/", "", $link);
+                    $template = "<a href='#" . $link . "' title='" . $link . "'>" . $string . "</a>";
+                    $temp[]   = $template;
+                }
             }
         }
 
-        $temp = implode("|", $temp);
+        $temp = implode("\\", $temp);
 
         return $temp;
     }
@@ -285,7 +293,6 @@ class Generator
 
     /**
      * This is a twig template function.
-     *
      * This function dumps a variable
      *
      * @param string $var
@@ -300,7 +307,6 @@ class Generator
 
     /**
      * This is a twig template function.
-     *
      * thiw function returns the instance of the passed variable.
      *
      * @param mixed $var

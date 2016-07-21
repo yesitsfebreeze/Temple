@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-sudo chmod -R 0777 *
+chmod -R 0777 *
 
 composer install
 
