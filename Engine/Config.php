@@ -47,26 +47,6 @@ class Config extends Injection
 
 
     /**
-     * Config constructor.
-     *
-     * @param null $config
-     */
-    public function __construct($config = null)
-    {
-        if (is_null($config)) {
-            return false;
-        }
-
-        if (file_exists($config)) {
-            /** @noinspection PhpIncludeInspection */
-            return include $config;
-        }
-
-        return false;
-    }
-
-
-    /**
      * updates the config
      */
     public function update()

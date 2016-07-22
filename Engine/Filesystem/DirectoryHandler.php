@@ -124,6 +124,7 @@ class DirectoryHandler extends Injection
     {
         $dir = $this->Config->getCacheDir();
         $dir = $this->validate($dir);
+        $dir = realpath($dir) . DIRECTORY_SEPARATOR;
 
         return $dir;
     }

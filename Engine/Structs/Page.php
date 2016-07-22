@@ -28,10 +28,8 @@ class Page {
     public function display()
     {
         if (!is_null($this->file)) {
-
             /** @noinspection PhpIncludeInspection */
-            include $this->file;
-            return true;
+            return include $this->file;
         } else {
             throw new Exception("Missing cache file!",$this->getFileName());
         }

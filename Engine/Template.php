@@ -4,6 +4,7 @@ namespace Underware\Engine;
 
 
 use Underware\Engine\Filesystem\Cache;
+use Underware\Engine\Filesystem\CacheInvalidator;
 use Underware\Engine\Filesystem\DirectoryHandler;
 use Underware\Engine\Filesystem\VariableCache;
 use Underware\Engine\Injection\Injection;
@@ -23,6 +24,9 @@ class Template extends Injection
 
     /** @var  Cache $Cache */
     protected $Cache;
+
+    /** @var  CacheInvalidator $CacheInvalidator */
+    protected $CacheInvalidator;
 
     /** @var  Variables $Variables */
     protected $Variables;
@@ -44,6 +48,7 @@ class Template extends Injection
             "Engine/Config"                      => "Config",
             "Engine/Filesystem/DirectoryHandler" => "DirectoryHandler",
             "Engine/Filesystem/Cache"            => "Cache",
+            "Engine/Filesystem/CacheInvalidator" => "CacheInvalidator",
             "Engine/Structs/Variables"           => "Variables",
             "Engine/Filesystem/VariableCache"    => "VariableCache",
             "Engine/Lexer"                       => "Lexer",
@@ -101,8 +106,10 @@ class Template extends Injection
     public function show($file)
     {
         $this->VariableCache->setFile($file);
+
+        $this->CacheInvalidator->checkValidation();
         $cacheFile = $this->fetch($file);
-        $page      = new Page();
+        $page = new Page();
         $page->setFileName($file);
         $page->setVariables($this->VariableCache->getMergedVariables());
         $page->setFile($cacheFile);

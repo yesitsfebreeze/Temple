@@ -73,7 +73,6 @@ class Cache extends Injection
      */
     public function save($file, $content)
     {
-
         $this->setTime($file);
         $file = $this->createFile($file);
         file_put_contents($file, $content);
@@ -85,6 +84,18 @@ class Cache extends Injection
     public function generate()
     {
         // todo: compile all templates to cache
+    }
+
+
+    public function invalidate()
+    {
+
+        $cacheFile = $this->getPath($this->cacheFile);
+        if (file_exists($cacheFile)) {
+            unlink($cacheFile);
+        }
+
+        return false;
     }
 
 
@@ -241,7 +252,7 @@ class Cache extends Injection
      *
      * @return array
      */
-    private function getCache()
+    protected function getCache()
     {
         $cacheFile = $this->createFile($this->cacheFile);
         $cache     = unserialize(file_get_contents($cacheFile));
@@ -257,7 +268,7 @@ class Cache extends Injection
      *
      * @return bool
      */
-    private function saveCache($cache)
+    protected function saveCache($cache)
     {
         $cacheFile = $this->createFile($this->cacheFile);
 
@@ -302,7 +313,7 @@ class Cache extends Injection
         # setup the file
         $dir = dirname($file);
         if (!is_dir($dir)) {
-            mkdir($dir,0777,true);
+            mkdir($dir, 0777, true);
         }
         if (!file_exists($file)) touch($file);
 
@@ -321,12 +332,8 @@ class Cache extends Injection
     {
         # remove the template dir
         $file = $this->cleanFile($file);
-
-        # make sure we have a php extension
         $file = $this->extension($file);
-
-        # replace slashes with an dot
-        $file = $this->getDirectory() . DIRECTORY_SEPARATOR . $file;
+        $file = $this->getDirectory() . $file;
 
         return $file;
     }

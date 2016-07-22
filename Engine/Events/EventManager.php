@@ -56,6 +56,17 @@ class EventManager extends Injection
 
 
     /**
+     * @return Instance
+     */
+    public function getInstance()
+    {
+        return $this->instance;
+    }
+
+
+
+
+    /**
      * @param $event
      * @param $arguments
      *

@@ -7,6 +7,7 @@ use Underware\Engine\Events\EventManager;
 use Underware\Engine\Exception\Exception;
 use Underware\Engine\Filesystem\DirectoryHandler;
 use Underware\Engine\Injection\Injection;
+use Underware\Engine\Structs\BackupNode;
 use Underware\Engine\Structs\Dom;
 use Underware\Engine\Structs\Node;
 
@@ -174,7 +175,9 @@ class Lexer extends Injection
         $node = $this->EventManager->notify("lexer.node", array($line));
 
         if (!$node instanceof Node) {
-            throw new Exception("The %lexer.node% event has to return a %Node% instance!");
+            $node = new BackupNode();
+            $node->setInstance($this->EventManager->getInstance());
+            $node->setPlain($line);
         }
 
         $node->setNamespace($this->Dom->getNamespace());
