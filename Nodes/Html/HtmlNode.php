@@ -1,6 +1,6 @@
 <?php
 
-namespace Underware\Nodes;
+namespace Underware\Nodes\Html;
 
 
 use Underware\Engine\Structs\Node;

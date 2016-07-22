@@ -1,6 +1,6 @@
 <?php
 
-namespace Underware\Nodes;
+namespace Underware\Nodes\Base;
 
 
 use Underware\Engine\Exception\Exception;
