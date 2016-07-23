@@ -22,15 +22,15 @@ class InjectionManager
     /**
      * adds dependencies if existing
      *
-     * @param InjectionBlueprint $instance
+     * @param InjectionInterface $instance
      *
      * @throws Exception
      * @return mixed
      */
-    public function registerDependency(InjectionBlueprint &$instance)
+    public function registerDependency(InjectionInterface &$instance)
     {
         # check if the dependencies method exists
-        # the Instance does net extend the InjectionBlueprint class if not
+        # the Instance does net extend the InjectionInterface class if not
         if (!method_exists($instance, "dependencies")) {
             return null;
         }
@@ -43,6 +43,8 @@ class InjectionManager
         $name                        = $this->cleanClassNamespace($instance);
         $this->dependencies[ $name ] = $instance;
 
+        $instance->setInjectionManager($this);
+
         return $instance;
     }
 
@@ -52,7 +54,7 @@ class InjectionManager
      *
      * @param string $name
      *
-     * @return InjectionBlueprint
+     * @return InjectionInterface
      * @throws Exception
      */
     public function getInstance($name)
@@ -68,6 +70,21 @@ class InjectionManager
 
 
     /**
+     * @param $name
+     *
+     * @return bool
+     */
+    public function checkInstance($name)
+    {
+        if (!isset($this->dependencies[ $name ])) {
+            return false;
+        }
+
+        return true;
+    }
+
+
+    /**
      * adds a list of dependencies to an instance
      *
      * @param $instance
@@ -75,7 +92,7 @@ class InjectionManager
      *
      * @throws Exception
      */
-    private function setDependencies(InjectionBlueprint &$instance, $dependencies)
+    private function setDependencies(InjectionInterface &$instance, $dependencies)
     {
         if (!is_array($dependencies)) {
             new Handler();
@@ -89,13 +106,13 @@ class InjectionManager
 
 
     /**
-     * @param InjectionBlueprint           $instance
+     * @param InjectionInterface  $instance
      * @param string              $dependency
      * @param                     $name
      *
      * @throws Exception
      */
-    private function setDependency(InjectionBlueprint &$instance, $dependency, $name)
+    private function setDependency(InjectionInterface &$instance, $dependency, $name)
     {
 
         if (!isset($this->dependencies[ $dependency ])) {
@@ -110,11 +127,11 @@ class InjectionManager
     /**
      * returns the name of a Class
      *
-     * @param InjectionBlueprint $instance
+     * @param InjectionInterface $instance
      *
      * @return mixed
      */
-    private function cleanClassNamespace(InjectionBlueprint $instance)
+    private function cleanClassNamespace(InjectionInterface $instance)
     {
         $className = str_replace("\\", "/", get_class($instance));
         $root      = strrev(substr(strrchr(strrev($className), "/"), 1));

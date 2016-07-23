@@ -1,6 +1,6 @@
 <?php
 
-namespace Underware\Engine\Events;
+namespace Underware\Engine\EventManager;
 
 
 use Underware\Engine\Exception\Exception;
@@ -10,9 +10,9 @@ use Underware\Instance;
 
 
 /**
- * Class EventManager
+ * Class Manager
  *
- * @package Underware\EventManager
+ * @package Underware\Manager
  */
 class EventManager extends Injection
 {
@@ -36,7 +36,7 @@ class EventManager extends Injection
 
 
     /**
-     * EventManager constructor.
+     * Manager constructor.
      */
     public function __construct()
     {
@@ -62,8 +62,6 @@ class EventManager extends Injection
     {
         return $this->instance;
     }
-
-
 
 
     /**
@@ -115,6 +113,8 @@ class EventManager extends Injection
         if (is_object($event)) {
             $eventInstance = clone $event;
             $eventInstance->setInstance($this->instance);
+            $eventInstance->setInjectionManager($this->InjectionManager);
+
 
             if (!is_array($arguments)) {
                 $arguments = array($arguments);

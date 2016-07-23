@@ -2,7 +2,7 @@
 
 namespace Underware\Plugins;
 
-use Underware\Engine\Events\Event;
+use Underware\Engine\EventManager\Event;
 
 
 class VariablesPlugin extends Event{

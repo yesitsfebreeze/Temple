@@ -45,6 +45,9 @@ class Config extends Injection
     /** @var bool */
     private $showBlockComments = true;
 
+    /** @var bool */
+    private $defaultNodeContainer = "html";
+
 
     /**
      * updates the config
@@ -305,5 +308,25 @@ class Config extends Injection
 
         return $this->showBlockComments;
     }
+
+
+    /**
+     * @return boolean
+     */
+    public function isDefaultNodeContainer()
+    {
+        return $this->defaultNodeContainer;
+    }
+
+
+    /**
+     * @param boolean $defaultNodeContainer
+     */
+    public function setDefaultNodeContainer($defaultNodeContainer)
+    {
+        $this->defaultNodeContainer = $defaultNodeContainer;
+    }
+
+
 
 }

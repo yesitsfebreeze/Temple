@@ -8,8 +8,12 @@ use Underware\Engine\Exception\Exception;
 use Underware\Engine\Exception\Handler;
 
 
-abstract class Injection implements InjectionBlueprint
+abstract class Injection implements InjectionInterface
 {
+
+    /** @var  InjectionManager $InjectionManager */
+    protected $InjectionManager;
+
 
     /**
      * by default a injection has no dependencies
@@ -38,6 +42,17 @@ abstract class Injection implements InjectionBlueprint
         }
 
         $this->$name = $instance;
+    }
+
+
+    /**
+     * @param InjectionManager $InjectionManager
+     *
+     * @return mixed
+     */
+    function setInjectionManager(InjectionManager $InjectionManager)
+    {
+        $this->InjectionManager = $InjectionManager;
     }
 
 }

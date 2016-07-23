@@ -36,7 +36,11 @@ class BackupNode extends Node
      */
     public function compile()
     {
-        $output = "<pre style='margin:0'>" . $this->plain . "</pre>";
+        var_dump($this->plain);
+        $output = "";
+        if (trim($this->plain) != "") {
+            $output .= "<pre style='margin:0'>" . $this->plain . "</pre>";
+        }
         /** @var Node $child */
         foreach ($this->getChildren() as $child) {
             $output .= $child->compile();

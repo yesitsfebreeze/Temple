@@ -4,11 +4,11 @@ namespace Underware\Engine\Injection;
 
 
 /**
- * Interface Blueprint
+ * Interface InjectionInterface
  *
  * @package Underware\Engine\Injection
  */
-interface InjectionBlueprint
+interface InjectionInterface
 {
 
     /**
@@ -21,10 +21,17 @@ interface InjectionBlueprint
 
     /**
      * has to add an instance to the class
-
      *
-*@param string         $name
+     * @param string    $name
      * @param Injection $dependency
      */
     function setDependency($name, Injection $dependency);
+
+
+    /**
+     * @param InjectionManager InjectionManager
+     *
+     * @return mixed
+     */
+    function setInjectionManager(InjectionManager $InjectionManager);
 }

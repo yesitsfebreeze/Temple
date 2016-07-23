@@ -5,7 +5,8 @@ namespace Underware;
 
 use Underware\Engine\Compiler;
 use Underware\Engine\Config;
-use Underware\Engine\Events\EventManager;
+use Underware\Engine\EventManager\EventManager;
+use Underware\Engine\EventManager\Manager;
 use Underware\Engine\Filesystem\Cache;
 use Underware\Engine\Filesystem\CacheInvalidator;
 use Underware\Engine\Filesystem\DirectoryHandler;
@@ -18,8 +19,8 @@ use Underware\Nodes\Base\BlockNode;
 use Underware\Nodes\Base\CommentNode;
 use Underware\Nodes\Base\ForeachNode;
 use Underware\Nodes\Base\PlainNode;
+use Underware\Nodes\Base\UseNode;
 use Underware\Nodes\Base\VariableNode;
-use Underware\Nodes\Html\HtmlNode;
 use Underware\Plugins\VariablesPlugin;
 
 
@@ -48,6 +49,9 @@ class Instance
 
     /** @var Cache $Cache */
     private $Cache;
+
+    /** @var CacheInvalidator $CacheInvalidator */
+    private $CacheInvalidator;
 
     /** @var VariableCache $VariableCache */
     private $VariableCache;
@@ -84,7 +88,7 @@ class Instance
         $this->Compiler         = $this->InjectionManager->registerDependency(new Compiler());
         $this->Template         = $this->InjectionManager->registerDependency(new Template());
 
-        $this->subscribers();
+        $this->registerEventSubscribers();
 
         return $this;
     }
@@ -93,19 +97,34 @@ class Instance
     /**
      * default subscribers
      */
-    public function subscribers()
+    public function registerEventSubscribers()
     {
         $this->EventManager->setInstance($this);
 
-        // nodes
+        $this->registerBaseNodes();
+        $this->registerBasePlugins();
+    }
+
+
+    /**
+     * this function registers the base nodes for underware
+     */
+    public function registerBaseNodes()
+    {
         $this->EventManager->attach("lexer.node", new PlainNode());
         $this->EventManager->attach("lexer.node", new CommentNode());
         $this->EventManager->attach("lexer.node", new BlockNode());
         $this->EventManager->attach("lexer.node", new ForeachNode());
         $this->EventManager->attach("lexer.node", new VariableNode());
-        $this->EventManager->attach("lexer.node", new HtmlNode());
+        $this->EventManager->attach("lexer.node", new UseNode());
+    }
 
-        // plugins
+
+    /**
+     * this function registers the base plugins for underware
+     */
+    public function registerBasePlugins()
+    {
         $this->EventManager->attach("plugin.output", new VariablesPlugin());
     }
 

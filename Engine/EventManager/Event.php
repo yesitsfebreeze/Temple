@@ -1,9 +1,10 @@
 <?php
 
-namespace Underware\Engine\Events;
+namespace Underware\Engine\EventManager;
 
 
 use Underware\Engine\Exception\Exception;
+use Underware\Engine\Injection\InjectionManager;
 use Underware\Instance;
 
 
@@ -15,6 +16,10 @@ abstract class Event
 
     /** @var Instance $Instance */
     protected $Instance;
+
+
+    /** @var InjectionManager $InjectionManager */
+    protected $InjectionManager;
 
     /**
      * the method which gets fired when the event manager notifies the assigned event
@@ -37,6 +42,14 @@ abstract class Event
     public function setInstance(Instance $Instance)
     {
         $this->Instance = $Instance;
+    }
+
+    /**
+     * @param InjectionManager $InjectionManager
+     */
+    public function setInjectionManager(InjectionManager $InjectionManager)
+    {
+        $this->InjectionManager = $InjectionManager;
     }
 
 }

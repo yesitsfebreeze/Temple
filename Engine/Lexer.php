@@ -3,7 +3,7 @@
 namespace Underware\Engine;
 
 
-use Underware\Engine\Events\EventManager;
+use Underware\Engine\EventManager\EventManager;
 use Underware\Engine\Exception\Exception;
 use Underware\Engine\Filesystem\DirectoryHandler;
 use Underware\Engine\Injection\Injection;
@@ -42,7 +42,7 @@ class Lexer extends Injection
         return array(
             "Engine/Config"                      => "Config",
             "Engine/Filesystem/DirectoryHandler" => "DirectoryHandler",
-            "Engine/Events/EventManager"         => "EventManager"
+            "Engine/EventManager/EventManager"   => "EventManager"
         );
     }
 
@@ -169,23 +169,25 @@ class Lexer extends Injection
      */
     private function createNode($line)
     {
-
         $line = $this->EventManager->notify("plugin.line", $line);
+
+        $arguments = array(
+            $line,
+            $this->Dom->getNamespace(),
+            $this->Dom->getLevel(),
+            $this->Dom->getCurrentLine(),
+            $this->Dom->getFile(),
+            str_replace($_SERVER['DOCUMENT_ROOT'], "", $this->Dom->getFile()),
+            $this->Dom
+        );
+
         /** @var Node $node */
-        $node = $this->EventManager->notify("lexer.node", array($line));
+        $node = $this->EventManager->notify("lexer.node", $arguments);
 
         if (!$node instanceof Node) {
             $node = new BackupNode();
             $node->setInstance($this->EventManager->getInstance());
-            $node->setPlain($line);
         }
-
-        $node->setNamespace($this->Dom->getNamespace());
-        $node->setLevel($this->Dom->getLevel());
-        $node->setLine($this->Dom->getCurrentLine());
-        $node->setFile($this->Dom->getFile());
-        $node->setRelativeFile(str_replace($_SERVER['DOCUMENT_ROOT'], "", $this->Dom->getFile()));
-        $node->setDom($this->Dom);
 
         $node->setup();
 

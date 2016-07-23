@@ -3,11 +3,11 @@
 namespace Underware\Engine;
 
 
-use Underware\Engine\Events\EventManager;
+use Underware\Engine\EventManager\EventManager;
 use Underware\Engine\Exception\Exception;
 use Underware\Engine\Injection\Injection;
 use Underware\Engine\Structs\Dom;
-use Underware\Nodes\Node;
+use Underware\Engine\Structs\Node;
 
 
 /**
@@ -26,7 +26,7 @@ class Compiler extends Injection
     public function dependencies()
     {
         return array(
-            "Engine/Events/EventManager" => "EventManager"
+            "Engine/EventManager/EventManager" => "EventManager"
         );
     }
 

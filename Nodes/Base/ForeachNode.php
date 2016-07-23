@@ -122,7 +122,7 @@ class ForeachNode extends Node
      */
     public function compile()
     {
-        $output = '<?php foreach($this->Variables->get("' . $this->iterableName . '") as $' . ($this->key != "" ?  $this->key . ' => $': "") . $this->itemName .  ') { ?>';
+        $output = '<?php foreach($this->Variables->get("' . $this->iterableName . '") as $' . ($this->key != "" ? $this->key . ' => $' : "") . $this->itemName . ') { ?>';
         if (is_string($this->key)) {
             $output .= '<?php $this->Variables->set("' . $this->key . '",$' . $this->key . "); ?>";
         }

@@ -4,7 +4,7 @@
 namespace Underware\Engine\Structs;
 
 
-use Underware\Engine\Events\Event;
+use Underware\Engine\EventManager\Event;
 use Underware\Engine\Exception\Exception;
 
 
@@ -51,20 +51,34 @@ abstract class Node extends Event implements NodeInterface
 
 
     /**
-     * @param array $line
+     * @param array $plain
+     * @param       $namespace
+     * @param       $level
+     * @param       $line
+     * @param       $file
+     * @param       $relativeFile
+     * @param       $dom
      *
-     * @return Node|string
+     * @return Node|array
      */
-    public function dispatch($line)
+    public function dispatch($plain = null, $namespace = null, $level = null, $line = null, $file = null, $relativeFile = null, $dom = null)
     {
-        if ($line instanceof Node) {
-            return $line;
+        if ($plain instanceof Node) {
+            return $plain;
         }
-        $this->plain = $line;
+        $this->plain = $plain;
+        $this->setPlain($plain);
+        $this->setNamespace($namespace);
+        $this->setLevel($level);
+        $this->setLine($line);
+        $this->setFile($file);
+        $this->setRelativeFile($relativeFile);
+        $this->setDom($dom);
+
         if ($this->check()) {
             return $this;
         } else {
-            return array($line);
+            return array($plain, $namespace, $level, $line, $file, $relativeFile, $dom);
         }
     }
 
