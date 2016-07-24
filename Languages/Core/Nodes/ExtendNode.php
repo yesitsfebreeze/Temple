@@ -33,18 +33,21 @@ class ExtendNode extends Node
             throw new Exception(1, "Please specify a file", $this->getFile(), $this->getLine());
         }
 
-//        try {
+        // todoo: relative file
+        try {
             if ($this->getContent() == $this->getNamespace()) {
                 $Dom = $this->Instance->Template()->dom($this->getContent(), $this->getLevel() + 1);
             } else {
                 $Dom = $this->Instance->Template()->dom($this->getContent());
             }
-//        } catch (Exception $e) {
-//            if ($e->getUnderwareCode() == 0) {
-//                throw new Exception(1, "Can't extend file %" . $this->getContent() . "% because it doesn't exist!", $this->getFile(), $this->getLine());
-//            }
-//            throw $e;
-//        }
+        } catch (Exception $e) {
+
+            if ($e->getUnderwareCode() == 0) {
+                throw new Exception(1, "Can't extend file %" . $this->getContent() . "% because it doesn't exist!", $this->getFile(), $this->getLine());
+            }
+
+            throw $e;
+        }
 
         /** @var Dom $currentDom */
         $currentDom = $this->getDom();
