@@ -20,6 +20,6 @@ class Language extends Event implements LanguageInterface
     /** @inheritdoc */
     public function register()
     {
-        throw new Exception("Please implement the register function for %" . get_class($this) . "%", __FILE__);
+        throw new Exception(1,"Please implement the register function for %" . get_class($this) . "%", __FILE__);
     }
 }

@@ -175,11 +175,11 @@ class Cache extends Injection
     {
 
         if (!$file || $file == "") {
-            throw new Exception("Please set a file for your dependency");
+            throw new Exception(1,"Please set a file for your dependency");
         }
 
         if (!$parent || $parent == "") {
-            throw new Exception("Please set a parent file for your dependency");
+            throw new Exception(1,"Please set a parent file for your dependency");
         }
 
         $file   = $this->cleanFile($file);

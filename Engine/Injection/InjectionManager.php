@@ -4,7 +4,7 @@ namespace Underware\Engine\Injection;
 
 
 use Underware\Engine\Exception\Exception;
-use Underware\Engine\Exception\Handler;
+use Underware\Engine\Exception\ExceptionHandler;
 
 
 /**
@@ -61,8 +61,8 @@ class InjectionManager
     {
 
         if (!isset($this->dependencies[ $name ])) {
-            new Handler();
-            throw new Exception("Injection Management: %" . $name . "% is not instantiated yet.");
+            new ExceptionHandler();
+            throw new Exception(1,"Injection Management: %" . $name . "% is not instantiated yet.");
         }
 
         return $this->dependencies[ $name ];
@@ -95,8 +95,8 @@ class InjectionManager
     private function setDependencies(InjectionInterface &$instance, $dependencies)
     {
         if (!is_array($dependencies)) {
-            new Handler();
-            throw new Exception("Injection Management: %dependencies()% must return an array ", get_class($instance) . ".php");
+            new ExceptionHandler();
+            throw new Exception(1,"Injection Management: %dependencies()% must return an array ", get_class($instance) . ".php");
         }
 
         foreach ($dependencies as $dependency => $name) {
@@ -116,8 +116,8 @@ class InjectionManager
     {
 
         if (!isset($this->dependencies[ $dependency ])) {
-            new Handler();
-            throw new Exception("Injection Management: %" . $dependency . "% instance does't exist.", get_class($instance));
+            new ExceptionHandler();
+            throw new Exception(1,"Injection Management: %" . $dependency . "% instance does't exist.", get_class($instance));
         }
 
         $instance->setDependency($name, $this->dependencies[ $dependency ]);

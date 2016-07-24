@@ -3,7 +3,7 @@
 namespace Underware\Engine;
 
 
-use Underware\Engine\Exception\Handler;
+use Underware\Engine\Exception\ExceptionHandler;
 use Underware\Engine\Injection\Injection;
 
 
@@ -20,7 +20,7 @@ class Config extends Injection
     /** @var bool */
     private $errorHandler = true;
 
-    /** @var Handler */
+    /** @var ExceptionHandler */
     private $errorHandlerInstance;
 
     /** @var string */
@@ -51,7 +51,10 @@ class Config extends Injection
     private $showBlockComments = true;
 
     /** @var array $languages */
-    private $defaultLanguages = array("core", "html");
+    private $defaultLanguages = array("html");
+
+    /** @var bool $useCoreLanguage */
+    private $useCoreLanguage = true;
 
 
     /**
@@ -60,7 +63,7 @@ class Config extends Injection
     public function update()
     {
         if ($this->errorHandler) {
-            $this->errorHandlerInstance = new Handler();
+            $this->errorHandlerInstance = new ExceptionHandler();
         } else {
             $this->errorHandlerInstance = null;
         }
@@ -343,6 +346,24 @@ class Config extends Injection
         if (($key = array_search($language, $this->defaultLanguages)) !== false) {
             unset($this->defaultLanguages[ $key ]);
         }
+    }
+
+
+    /**
+     * @return bool
+     */
+    public function getUseCoreLanguage()
+    {
+        return $this->useCoreLanguage;
+    }
+
+
+    /**
+     * @param bool $useCoreLanguage
+     */
+    public function setUseCoreLanguage($useCoreLanguage)
+    {
+        $this->useCoreLanguage = $useCoreLanguage;
     }
 
 

@@ -11,7 +11,7 @@ namespace Underware\Engine\Exception;
 class Exception extends \Exception
 {
 
-    /** @var bool|string $underwareFile */
+    /** @var bool|string $underwareMessage */
     private $underwareMessage;
 
     /** @var bool|string $underwareFile */
@@ -20,8 +20,11 @@ class Exception extends \Exception
     /** @var integer|string $underwareLine */
     private $underwareLine;
 
+    /** @var integer|string $underwareCode */
+    private $underwareCode;
 
-    public function __construct($message = "", $file = false, $line = false, $code = 0, \Exception $previous = null)
+
+    public function __construct($code, $message = "", $file = false, $line = false, \Exception $previous = null)
     {
 
         # if we'v passed an exception, translate its values to the new one
@@ -33,6 +36,8 @@ class Exception extends \Exception
             $previous  = $exception->getPrevious();
         }
 
+
+        $this->underwareCode = $code;
 
         if ($file) {
             $this->underwareFile = $file;
@@ -54,6 +59,15 @@ class Exception extends \Exception
 
     }
 
+    /**
+     * returns the Underware Exception Code
+     *
+     * @return bool|string
+     */
+    public function getUnderwareCode()
+    {
+        return $this->underwareCode;
+    }
 
     /**
      * returns the Underware file
@@ -78,7 +92,7 @@ class Exception extends \Exception
 
 
     /**
-     * returns the Message
+     * returns the Underware message
      *
      * @return bool|int|string
      */

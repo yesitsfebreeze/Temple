@@ -8,7 +8,7 @@ namespace Underware\Engine\Exception;
  *
  * @package Underware\Exception
  */
-class Template
+class ExceptionTemplate
 {
 
     /** @var Exception $exception */
@@ -27,6 +27,7 @@ class Template
     {
         $this->exception = $exception;
         $this->template  = $this->getTemplate();
+        $this->displayCode();
         $this->displayMessage();
         $this->displayFile();
         $this->displayStackTrace();
@@ -45,6 +46,13 @@ class Template
     }
 
 
+    private function displayCode()
+    {
+        $code           = "Code " . $this->exception->getUnderwareCode() . ":";
+        $this->template = str_replace("%code%", $code, $this->template);
+    }
+
+
     /**
      * displays the message
      */
@@ -60,7 +68,7 @@ class Template
      */
     private function displayFile()
     {
-        $file = $this->coloredFilePath($this->exception->getUnderwareFile());
+        $file = $this->coloredFilePath($this->exception->getUnderwareFile(), true);
         if ($this->exception->getUnderwareLine()) {
             $file .= " on line <span class='highlight'>" . $this->exception->getUnderwareLine() . "</span>";
         }
@@ -97,19 +105,19 @@ class Template
 
 
     /**
-     * @param $file
+     * @param      $file
+     * @param bool $full
      *
      * @return string
      */
-    private function coloredFilePath($file)
+    private function coloredFilePath($file, $full = false)
     {
-        if (!file_exists($file)) {
-            return "<span class='highlight'>" . $file . "</span>";
+        if (!file_exists($file) || $full) {
+            return "<span class='highlight'>" . str_replace($_SERVER["DOCUMENT_ROOT"], "", $file) . "</span>";
         }
 
         $file     = array_reverse(explode(DIRECTORY_SEPARATOR, $file));
         $filename = array_shift($file);
-        $path     = implode("/", array_reverse($file));
         $output   = "<span class='highlight'>" . $filename . "</span>";
 
         return $output;
@@ -126,10 +134,10 @@ class Template
         if (!file_exists($file)) {
             return "";
         }
-        $file     = array_reverse(explode(DIRECTORY_SEPARATOR, $file));
+        $file = array_reverse(explode(DIRECTORY_SEPARATOR, $file));
         array_shift($file);
-        $path     = implode("/", array_reverse($file));
-        $output   = "<span class='hide mute'>" . $path . "</span>";
+        $path   = implode("/", array_reverse($file));
+        $output = "<span class='hide mute'>" . $path . "</span>";
 
         return $output;
     }

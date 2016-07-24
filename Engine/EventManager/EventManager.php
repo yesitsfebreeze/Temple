@@ -5,8 +5,8 @@ namespace Underware\Engine\EventManager;
 
 use Underware\Engine\Exception\Exception;
 use Underware\Engine\Injection\Injection;
+use Underware\Engine\Instance;
 use Underware\Engine\Structs\Storage;
-use Underware\Instance;
 
 
 /**

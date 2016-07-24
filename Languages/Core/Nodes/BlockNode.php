@@ -13,6 +13,11 @@ class BlockNode extends Node
     /** @var  string $blockName */
     private $blockName;
 
+    /** @var  bool $showBlockComment */
+    private $showBlockComment = true;
+
+    private $methods = array("before", "after", "replace");
+
 
     /** @inheritdoc */
     public function check()
@@ -32,8 +37,10 @@ class BlockNode extends Node
      */
     public function setup()
     {
-        $this->setBlockName("test");
-        $this->Dom->addBlock($this);
+
+        $this->setBlockName();
+        $this->Dom->addBlock($this->getBlockName(), $this);
+
         return $this;
     }
 
@@ -47,12 +54,45 @@ class BlockNode extends Node
     }
 
 
-    /**
-     * @param string $blockName
-     */
-    public function setBlockName($blockName)
+    public function setBlockName()
     {
-        $this->blockName = $blockName;
+        $name = $this->getContent();
+        foreach ($this->methods as $method) {
+            $name = trim(preg_replace("/" . $method . "$/", "", $name));
+        }
+
+        $this->blockName = $name;
+    }
+
+
+    public function getBlockMethod()
+    {
+        foreach ($this->methods as $method) {
+            preg_match("/" . $method . "$/", $this->getContent(), $matches);
+            if (isset($matches[0])) {
+                return $matches[0];
+            }
+        }
+
+        return "replace";
+    }
+
+
+    /**
+     * @return boolean
+     */
+    public function isShowBlockComment()
+    {
+        return $this->showBlockComment;
+    }
+
+
+    /**
+     * @param boolean $showBlockComment
+     */
+    public function setShowBlockComment($showBlockComment)
+    {
+        $this->showBlockComment = $showBlockComment;
     }
 
 
@@ -64,7 +104,7 @@ class BlockNode extends Node
     public function compile()
     {
         $output = "";
-        if ($this->Instance->Config()->isShowBlockComments()) {
+        if ($this->Instance->Config()->isShowBlockComments() && $this->showBlockComment) {
             $output = "<!-- " . trim($this->plain) . " - " . $this->getRelativeFile() . "-->";
         }
 

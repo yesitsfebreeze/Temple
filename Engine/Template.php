@@ -14,7 +14,7 @@ use Underware\Engine\Structs\Variables;
 
 
 /**
- * Class Template
+ * Class ExceptionTemplate
  *
  * @package Underware\Engine
  */
@@ -104,7 +104,7 @@ class Template extends Injection
     /**
      * renders and includes the template
      *
-     * @param $file
+     * @param string $file
      *
      * @return string
      */
@@ -114,7 +114,7 @@ class Template extends Injection
 
         $this->CacheInvalidator->checkValidation();
         $cacheFile = $this->fetch($file);
-        $page = new Page();
+        $page      = new Page();
         $page->setFileName($file);
         $page->setVariables($this->VariableCache->getMergedVariables());
         $page->setFile($cacheFile);

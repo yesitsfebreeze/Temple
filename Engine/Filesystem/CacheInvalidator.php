@@ -78,6 +78,6 @@ class CacheInvalidator extends Cache
         $cache[ $name ] = $hash;
         $this->saveCache($cache);
 
-        throw new Exception("Cache Invalidation failed");
+        throw new Exception(1,"Cache Invalidation failed");
     }
 }

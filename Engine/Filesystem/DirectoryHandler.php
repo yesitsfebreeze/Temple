@@ -142,7 +142,7 @@ class DirectoryHandler extends Injection
         $dir = $this->path($dir);
         if (!is_dir($dir)) {
             if (!is_writable(dirname($dir))) {
-                throw new Exception("You'r missing permissions to setup this directory!", $dir);
+                throw new Exception(1,"You'r missing permissions to setup this directory!", $dir);
             }
 
             mkdir($dir, 0777, true);
@@ -207,7 +207,7 @@ class DirectoryHandler extends Injection
         $dir = $this->path($dir);
         if (is_dir($dir)) return $dir;
 
-        throw new Exception("Can't add directory because it does't exist.", $dir);
+        throw new Exception(1,"Can't add directory because it does't exist.", $dir);
     }
 
 

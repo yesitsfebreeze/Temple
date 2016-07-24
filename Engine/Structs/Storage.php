@@ -53,11 +53,7 @@ class Storage extends Injection
      */
     public function get($path = null)
     {
-        try {
-            return $this->getter($path);
-        } catch (\Exception $e) {
-            throw new Exception($e);
-        }
+        return $this->getter($path);
     }
 
 
@@ -71,7 +67,7 @@ class Storage extends Injection
     public function merge($array)
     {
         if (!is_array($array)) {
-            throw new Exception("Cannot merge, no array was given!");
+            throw new Exception(1, "Cannot merge, no array was given!");
         }
 
         foreach ($array as $key => $val) {
@@ -102,7 +98,7 @@ class Storage extends Injection
         }
 
         if (!is_array($temp)) {
-            throw new Exception("Can't extend an non array value!");
+            throw new Exception(1, "Can't extend an non array value!");
         }
 
         if (is_array($value)) {
@@ -121,7 +117,7 @@ class Storage extends Injection
      *
      * @param string $path
      *
-     * @return array
+     * @return bool
      */
     public function has($path)
     {
@@ -239,7 +235,7 @@ class Storage extends Injection
         foreach ($paths as $position => $key) {
 
             if (!isset($storage[ $key ])) {
-                throw new \Exception("Sorry, '{$path}' is undefined!");
+                throw new Exception(1, "Sorry, '{$path}' is undefined!");
             }
 
             # reference back to current key

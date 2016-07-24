@@ -28,6 +28,7 @@ class PlainNode extends Node
     public function setup()
     {
         $this->setSelfClosing(true);
+
         return $this;
     }
 
@@ -39,7 +40,7 @@ class PlainNode extends Node
      */
     public function compile()
     {
-        $output = preg_replace("/^" . $this->getTag() . "/", "", trim($this->plain));
+        $output = trim(preg_replace("/^" . $this->getTag() . "/", "", trim($this->plain)));
 
         return $output;
     }

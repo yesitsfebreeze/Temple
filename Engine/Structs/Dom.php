@@ -3,6 +3,7 @@
 namespace Underware\Engine\Structs;
 
 
+use Underware\Engine\Exception\Exception;
 use Underware\Engine\Structs\Node\Node;
 
 
@@ -35,6 +36,12 @@ class Dom
 
     /** @var  array $blocks */
     private $blocks = array();
+
+    /** @var  Dom $parentDom */
+    protected $parentDom;
+
+    /** @var  bool $extending */
+    protected $extending;
 
 
     public function __construct($namespace, $file, $templates, $level)
@@ -202,11 +209,79 @@ class Dom
 
 
     /**
-     * @param Node $block
+     * @param $block
+     *
+     * @return mixed
+     * @throws Exception
      */
-    public function addBlock($block)
+    public function getBlock($block)
     {
-        $this->blocks[] = $block;
+        if (isset($this->blocks[ $block ])) {
+            return $this->blocks[ $block ];
+        }
+
+        throw new Exception(1,"The block %" . $block . "% doesn't exist", $this->getFile());
+    }
+
+
+    /**
+     * @param      $block
+     * @param Node $node
+     *
+     * @return mixed
+     * @throws Exception
+     */
+    public function setBlock($block, $node)
+    {
+        if (isset($this->blocks[ $block ])) {
+            return $this->blocks[ $block ] = $node;
+        }
+    }
+
+
+    /**
+     * @param string $name
+     * @param Node   $block
+     */
+    public function addBlock($name, $block)
+    {
+        $this->blocks[ $name ] = $block;
+    }
+
+
+    /**
+     * @return Dom
+     */
+    public function getParentDom()
+    {
+        return $this->parentDom;
+    }
+
+
+    /**
+     * @param Dom $parentDom
+     */
+    public function setParentDom(Dom $parentDom)
+    {
+        $this->parentDom = $parentDom;
+    }
+
+
+    /**
+     * @return boolean
+     */
+    public function isExtending()
+    {
+        return $this->extending;
+    }
+
+
+    /**
+     * @param boolean $extending
+     */
+    public function setExtending($extending)
+    {
+        $this->extending = $extending;
     }
 
 

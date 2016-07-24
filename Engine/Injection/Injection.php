@@ -5,7 +5,7 @@ namespace Underware\Engine\Injection;
 
 
 use Underware\Engine\Exception\Exception;
-use Underware\Engine\Exception\Handler;
+use Underware\Engine\Exception\ExceptionHandler;
 
 
 abstract class Injection implements InjectionInterface
@@ -37,8 +37,8 @@ abstract class Injection implements InjectionInterface
     public function setDependency($name, Injection $instance)
     {
         if (!property_exists($this, $name)) {
-            new Handler();
-            throw new Exception("Dependency Management: Please register %protected $" . $name . "%", get_class($this) . ".php");
+            new ExceptionHandler();
+            throw new Exception(1,"Dependency Management: Please register %protected $" . $name . "%", get_class($this) . ".php");
         }
 
         $this->$name = $instance;

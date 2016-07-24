@@ -37,21 +37,28 @@ class Languages extends Injection
 
     public function load(Dom $Dom, $line)
     {
+
+        $languages = array();
+
+        if ($this->Config->getUseCoreLanguage()) {
+            array_unshift($languages, "core");
+        }
+
         if ($Dom->getPreviousNode() == null) {
             $line = trim($line);
-            if (strpos($line, "use") !== false) {
-                preg_match("/^(.*?)(?:$|\s)/", $line, $tag);
-                $tag       = trim($tag[0]);
-                $languages = trim(str_replace($tag, "", $line));
+            preg_match("/^(.*?)(?:$|\s)/", $line, $tag);
+            $tag = trim($tag[0]);
+            if ($tag == "use") {
+                $loadedLanguages = trim(str_replace($tag, "", $line));
                 if (strpos($line, ",") !== false) {
-                    $languages = explode(",", $languages);
+                    $languages = array_merge(explode(",", $loadedLanguages), $languages);
                 } else {
-                    $languages = array($languages);
+                    $languages = array_merge(array($loadedLanguages), $languages);
                 }
-                array_unshift($languages, "core");
                 $this->loadLanguages($languages);
+
             } else {
-                $languages = $this->Config->getDefaultLanguages();
+                $languages = array_merge($this->Config->getDefaultLanguages(), $languages);
                 $this->loadLanguages($languages);
             }
         }
@@ -62,13 +69,13 @@ class Languages extends Injection
     {
         foreach ($languages as $language) {
 
-            $class = "\\Underware\\Languages\\" . ucfirst(strtolower($language)) . "\\Loader";
+            $class = "\\Underware\\Languages\\" . ucfirst(strtolower($language)) . "\\LanguageLoader";
             if (class_exists($class)) {
                 /** @var Language $lang */
                 $this->EventManager->register("language." . $language, $lang = new $class());
                 $this->EventManager->notify("language." . $language);
             } else {
-                throw new Exception("%" . $language . "% Language does not exist!");
+                throw new Exception(1,"Language %" . $language . "% does not exist!");
             }
         }
     }

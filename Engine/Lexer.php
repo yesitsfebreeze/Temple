@@ -32,9 +32,6 @@ class Lexer extends Injection
     /** @var  EventManager $EventManager */
     protected $EventManager;
 
-    /** @var Dom $Dom */
-    private $Dom;
-
     /** @var int $level */
     private $level;
 
@@ -71,12 +68,12 @@ class Lexer extends Injection
         $fileContent = $this->EventManager->notify("plugins.file.process", $fileContent);
         file_put_contents($file, $fileContent);
 
-        $this->Dom = new Dom($namespace, $file, $files, $this->level);
-        $this->process($file);
+        $Dom = new Dom($namespace, $file, $files, $this->level);
+        $this->process($file, $Dom);
 
-        $this->Dom = $this->EventManager->notify("plugin.dom", $this->Dom);
+        $Dom = $this->EventManager->notify("plugin.dom", $Dom);
 
-        return $this->Dom;
+        return $Dom;
 
     }
 
@@ -98,7 +95,7 @@ class Lexer extends Injection
         $dirs = $this->DirectoryHandler->getTemplateDirs();
 
         if (!isset($dirs[ $level ])) {
-            throw new Exception($file . " not found!");
+            throw new Exception(0, $file . " not found!", $file);
         }
 
         $dir          = $dirs[ $level ];
@@ -141,42 +138,44 @@ class Lexer extends Injection
     /**
      * processes the current file and adds its node to the dom
      *
-     * @param $file
+     * @param     $file
+     * @param Dom $Dom
      *
      * @throws Exception
      * @return Dom
      */
-    private function process($file)
+    private function process($file, Dom $Dom)
     {
         $handle = fopen($file, "r");
         while (($line = fgets($handle)) !== false) {
             if (trim($line) != '') {
-                $this->Languages->load($this->Dom,$line);
-                $node = $this->createNode($line);
-                $this->addNode($node);
-                $this->Dom->setPreviousNode($node);
+                $this->Languages->load($Dom, $line);
+                $node = $this->createNode($line, $Dom);
+                $this->addNode($node, $Dom);
+                $Dom->setPreviousNode($node);
             }
-            $this->Dom->setCurrentLine($this->Dom->getCurrentLine() + 1);
+            $Dom->setCurrentLine($Dom->getCurrentLine() + 1);
         }
         fclose($handle);
 
-        return $this->Dom;
+        return $Dom;
     }
 
 
     /**
      * creates a node matching to the criteria
      *
-     * @param $line
+     * @param     $line
+     * @param Dom $Dom
      *
      * @return Node
      * @throws Exception
      */
-    private function createNode($line)
+    private function createNode($line, Dom $Dom)
     {
         $line = $this->EventManager->notify("plugin.line", $line);
 
-        $arguments = array($line, $this->Dom);
+        $arguments = array($line, $Dom);
 
         /** @var Node $node */
         $node = $this->EventManager->notify("lexer.node", $arguments);
@@ -198,33 +197,34 @@ class Lexer extends Injection
      * getParentNode/child logic is handled here
      *
      * @param Node $node
+     * @param Dom  $Dom
      *
      * @return bool
      */
-    private function addNode($node)
+    private function addNode($node, Dom $Dom)
     {
         # root nodes
         if ($node->getIndent() == 0 || $node->getLine() == 1) {
             $node->setParent(false);
-            $rootNodes   = $this->Dom->getNodes();
+            $rootNodes   = $Dom->getNodes();
             $rootNodes[] = $node;
-            $this->Dom->setNodes($rootNodes);
+            $Dom->setNodes($rootNodes);
 
         } else {
             $indent     = $node->getIndent();
-            $prevIndent = $this->Dom->getPreviousNode()->getIndent();
+            $prevIndent = $Dom->getPreviousNode()->getIndent();
 
             # node position
             if ($indent > $prevIndent) {
-                $this->addNodeOnDeeperLevel($node);
+                $this->addNodeOnDeeperLevel($node, $Dom);
             }
 
             if ($indent < $prevIndent) {
-                $this->addNodeOnHigherLevel($node);
+                $this->addNodeOnHigherLevel($node, $Dom);
             }
 
             if ($indent == $prevIndent) {
-                $this->addNodeOnSameLevel($node);
+                $this->addNodeOnSameLevel($node, $Dom);
             }
 
         }
@@ -238,18 +238,19 @@ class Lexer extends Injection
      * than the previous node
      *
      * @param Node $node
+     * @param Dom  $Dom
      *
      * @throws Exception
      * @return mixed
      */
-    private function addNodeOnDeeperLevel($node)
+    private function addNodeOnDeeperLevel($node, Dom $Dom)
     {
-        $node->setParent($this->Dom->getPreviousNode());
+        $node->setParent($Dom->getPreviousNode());
         if ($node->getParent()->isSelfClosing()) {
-            throw new Exception("Current node cant have children!", $this->Dom->getFile(), $this->Dom->getCurrentLine());
+            throw new Exception(1, "Current node cant have children!", $Dom->getFile(), $Dom->getCurrentLine());
         }
 
-        return $this->addNodeAsChild($this->Dom->getPreviousNode(), $node);
+        return $this->addNodeAsChild($Dom->getPreviousNode(), $node);
 
     }
 
@@ -259,12 +260,13 @@ class Lexer extends Injection
      * than the previous node
      *
      * @param Node $node
+     * @param Dom  $Dom
      *
      * @return mixed
      */
-    private function addNodeOnHigherLevel($node)
+    private function addNodeOnHigherLevel($node, Dom $Dom)
     {
-        $parent = $this->getParentNode($node);
+        $parent = $this->getParentNode($node, $Dom);
         $node->setParent($parent);
 
         return $this->addNodeAsChild($parent, $node);
@@ -276,12 +278,13 @@ class Lexer extends Injection
      * than the previous node
      *
      * @param Node $node
+     * @param Dom  $Dom
      *
      * @return mixed
      */
-    private function addNodeOnSameLevel($node)
+    private function addNodeOnSameLevel($node, Dom $Dom)
     {
-        $parent = $this->Dom->getPreviousNode()->getParent();
+        $parent = $Dom->getPreviousNode()->getParent();
         $node->setParent($parent);
 
         return $this->addNodeAsChild($parent, $node);
@@ -310,15 +313,16 @@ class Lexer extends Injection
      * returns the getParentNode of the passed node
      *
      * @param Node      $node
+     * @param Dom       $Dom
      * @param bool|Node $parent
      *
      * @return Node
      */
-    private function getParentNode($node, $parent = false)
+    private function getParentNode($node, Dom $Dom, $parent = false)
     {
 
         if (!$parent) {
-            $temp = $this->Dom->getPreviousNode()->getParent();
+            $temp = $Dom->getPreviousNode()->getParent();
         } else {
             $temp = $parent->getParent();
         }
@@ -327,7 +331,7 @@ class Lexer extends Injection
 
             return $temp;
         } else {
-            return $this->getParentNode($node, $temp);
+            return $this->getParentNode($node, $Dom, $temp);
         }
     }
 

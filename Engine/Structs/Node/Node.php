@@ -107,7 +107,7 @@ abstract class Node extends Event implements NodeInterface
      */
     public function check()
     {
-        throw new Exception("Please implement the check method for %" . $this->getName() . "%!");
+        throw new Exception(1, "Please implement the check method for %" . $this->getName() . "%!");
     }
 
 
@@ -258,7 +258,7 @@ abstract class Node extends Event implements NodeInterface
         if (is_int($indent)) return $indent;
 
         # else throw an error since the amount of characters doesn't match
-        throw new Exception("Indent isn't matching!", $this->getFile(), $this->getLine());
+        throw new Exception(4, "Indent isn't matching!", $this->getFile(), $this->getLine());
     }
 
 
@@ -344,6 +344,15 @@ abstract class Node extends Event implements NodeInterface
     public function setPlain($plain)
     {
         return $this->plain = $plain;
+    }
+
+
+    /**
+     * @return string
+     */
+    public function getContent()
+    {
+        return trim(preg_replace("/^" . $this->getTag() . "/", "", trim($this->plain)));
     }
 
 

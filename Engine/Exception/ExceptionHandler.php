@@ -4,11 +4,11 @@ namespace Underware\Engine\Exception;
 
 
 /**
- * Class Handler
+ * Class ExceptionHandler
  *
  * @package Underware\Exceptions
  */
-class Handler
+class ExceptionHandler
 {
 
     /**
@@ -23,7 +23,7 @@ class Handler
         set_exception_handler(function ($Exception) use (&$originalHandler) {
 
             if ($Exception instanceof Exception) {
-                new Template($Exception);
+                new ExceptionTemplate($Exception);
             } elseif (is_callable($originalHandler)) {
                 return call_user_func_array($originalHandler, [$Exception]);
             }

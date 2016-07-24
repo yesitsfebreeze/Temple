@@ -1,21 +1,15 @@
 <?php
 
-namespace Underware;
+namespace Underware\Engine;
 
 
-use Underware\Engine\Compiler;
-use Underware\Engine\Config;
 use Underware\Engine\EventManager\EventManager;
-use Underware\Engine\EventManager\Manager;
 use Underware\Engine\Filesystem\Cache;
 use Underware\Engine\Filesystem\CacheInvalidator;
 use Underware\Engine\Filesystem\DirectoryHandler;
 use Underware\Engine\Filesystem\VariableCache;
 use Underware\Engine\Injection\InjectionManager;
-use Underware\Engine\Languages;
-use Underware\Engine\Lexer;
 use Underware\Engine\Structs\Variables;
-use Underware\Engine\Template;
 
 
 /**
@@ -71,6 +65,7 @@ class Instance
     public function __construct(Config $config = null)
     {
 
+        // used passed config or default
         $config = ($config === null) ? new Config() : $config;
 
         $this->InjectionManager = new InjectionManager();

@@ -60,7 +60,7 @@ class ForeachNode extends Node
         $clean = str_replace($this->getTag(), "", $this->plain);
         $parts = explode(" in ", $clean);
         if (sizeof($parts) < 2) {
-            throw new Exception("Syntax error in iteration! It should be: %for key,item in array%");
+            throw new Exception(1,"Syntax error in iteration! It should be: %for key,item in array%");
         }
 
         return $parts;

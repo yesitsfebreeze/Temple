@@ -7,7 +7,7 @@ use Underware\Engine\Structs\Language\Language;
 use Underware\Languages\Html\Nodes\HtmlNode;
 
 
-class Loader extends Language
+class LanguageLoader extends Language
 {
 
     /**
