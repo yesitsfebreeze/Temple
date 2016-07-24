@@ -1,7 +1,10 @@
 <?php
 
 
-namespace Underware\Engine\Structs;
+namespace Underware\Engine\Structs\Node;
+
+
+use Underware\Engine\Structs\Dom;
 
 
 /**

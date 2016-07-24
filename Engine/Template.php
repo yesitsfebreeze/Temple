@@ -13,6 +13,11 @@ use Underware\Engine\Structs\Page;
 use Underware\Engine\Structs\Variables;
 
 
+/**
+ * Class Template
+ *
+ * @package Underware\Engine
+ */
 class Template extends Injection
 {
 

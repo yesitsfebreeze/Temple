@@ -7,9 +7,9 @@ use Underware\Engine\EventManager\EventManager;
 use Underware\Engine\Exception\Exception;
 use Underware\Engine\Filesystem\DirectoryHandler;
 use Underware\Engine\Injection\Injection;
-use Underware\Engine\Structs\BackupNode;
 use Underware\Engine\Structs\Dom;
-use Underware\Engine\Structs\Node;
+use Underware\Engine\Structs\Node\BackupNode;
+use Underware\Engine\Structs\Node\Node;
 
 
 /**
@@ -22,6 +22,9 @@ class Lexer extends Injection
 
     /** @var  Config $Config */
     protected $Config;
+
+    /** @var  Languages $Languages */
+    protected $Languages;
 
     /** @var  DirectoryHandler $DirectoryHandler */
     protected $DirectoryHandler;
@@ -41,6 +44,7 @@ class Lexer extends Injection
     {
         return array(
             "Engine/Config"                      => "Config",
+            "Engine/Languages"                   => "Languages",
             "Engine/Filesystem/DirectoryHandler" => "DirectoryHandler",
             "Engine/EventManager/EventManager"   => "EventManager"
         );
@@ -147,9 +151,10 @@ class Lexer extends Injection
         $handle = fopen($file, "r");
         while (($line = fgets($handle)) !== false) {
             if (trim($line) != '') {
+                $this->Languages->load($this->Dom,$line);
                 $node = $this->createNode($line);
                 $this->addNode($node);
-                $this->Dom->setLastNode($node);
+                $this->Dom->setPreviousNode($node);
             }
             $this->Dom->setCurrentLine($this->Dom->getCurrentLine() + 1);
         }
@@ -178,8 +183,8 @@ class Lexer extends Injection
 
         if (!$node instanceof Node) {
             $node = new BackupNode();
-            $node->dispatch(...$arguments);
             $node->setInstance($this->EventManager->getInstance());
+            $node->dispatch(...$arguments);
         }
 
         $node->setup();

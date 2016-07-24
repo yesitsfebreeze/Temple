@@ -3,6 +3,9 @@
 namespace Underware\Engine\Structs;
 
 
+use Underware\Engine\Structs\Node\Node;
+
+
 class Dom
 {
 
@@ -183,7 +186,7 @@ class Dom
     /**
      * @param Node $node
      */
-    public function setLastNode($node)
+    public function setPreviousNode($node)
     {
         $this->previousNode = $node;
     }

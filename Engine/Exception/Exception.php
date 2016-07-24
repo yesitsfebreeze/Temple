@@ -84,7 +84,7 @@ class Exception extends \Exception
      */
     public function getUnderwareMessage()
     {
-        return $this->underwareLine;
+        return $this->underwareMessage;
     }
 
 

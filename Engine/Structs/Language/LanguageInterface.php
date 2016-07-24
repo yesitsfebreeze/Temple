@@ -1,6 +1,6 @@
 <?php
 
-namespace Underware\Engine\Structs;
+namespace Underware\Engine\Structs\Language;
 
 
 interface LanguageInterface

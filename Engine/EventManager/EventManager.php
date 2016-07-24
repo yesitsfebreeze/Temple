@@ -95,7 +95,7 @@ class EventManager extends Injection
                 $arguments = $this->dispatch($event, $arguments);
             }
         } elseif (is_object($events)) {
-            $arguments = $this->realDispatch($events, $arguments);
+            $arguments = $this->execute($events, $arguments);
         }
 
         return $arguments;
@@ -108,13 +108,12 @@ class EventManager extends Injection
      *
      * @return array|bool
      */
-    public function realDispatch(Event $event, $arguments)
+    private function execute(Event $event, $arguments)
     {
         if (is_object($event)) {
             $eventInstance = clone $event;
             $eventInstance->setInstance($this->instance);
             $eventInstance->setInjectionManager($this->InjectionManager);
-
 
             if (!is_array($arguments)) {
                 $arguments = array($arguments);
@@ -131,50 +130,32 @@ class EventManager extends Injection
 
     /**
      * @param            $event
-     * @param integer    $position
      * @param Event      $subscriber
      *
      * @return bool
      */
-    public function attach($event, Event $subscriber, $position = null)
+    public function register($event, Event $subscriber)
     {
 
-        if (!$this->events->has($event . ".pos")) {
-            $this->events->set($event . ".pos", array());
-        }
-
-        if (!is_null($position)) {
-            $selector = $event . ".pos." . $position;
-            if (!$this->events->has($selector)) {
-                $this->events->set($selector, array());
-            }
-            $events = $this->events->get($selector);
-            array_unshift($events, $subscriber);
-            $this->events->set($selector, $events);
-        } else {
-            $selector = $event . ".pos";
-            $events   = $this->events->get($selector);
-            array_unshift($events, array($subscriber));
-            $this->events->set($selector, $events);
-        }
+        $this->events->set($event, $subscriber);
 
         return true;
     }
 
 
     /**
-     * @param            $event
+     * @param string $eventName
      *
      * @return bool
      */
-    public function detach($event)
+    public function delete($eventName)
     {
 
-        if (!$this->events->has($event)) {
+        if (!$this->events->has($eventName)) {
             return false;
         }
 
-        $this->events->delete($event);
+        $this->events->delete($eventName);
 
         return true;
     }
@@ -189,66 +170,9 @@ class EventManager extends Injection
      */
     public function getEvents($selector = null)
     {
-        $events     = $this->events->get($selector);
-        $eventsCopy = $events;
-        $events     = $this->cleanEvents($eventsCopy);
-        $events     = $this->flattenEvents($events);
+        $events = $this->events->get($selector);
 
         return $events;
-    }
-
-
-    /**
-     * only returns an array with event names
-     * rather than the complete event array
-     *
-     * @param             $events
-     *
-     * @return mixed
-     */
-    private function cleanEvents(&$events)
-    {
-
-        if (is_object($events)) {
-            return true;
-        } elseif (is_array($events)) {
-            foreach ($events as $key => &$event) {
-                if ($key == "pos") {
-                    $event = true;
-                } else {
-                    $event = $this->cleanEvents($event);
-                }
-            }
-        }
-
-        return $events;
-    }
-
-
-    /**
-     * returns all event as a flattened array
-     *
-     * @param        $events
-     * @param string $prefix
-     *
-     * @return array
-     */
-    private function flattenEvents($events, $prefix = "")
-    {
-        $flatted = array();
-        foreach ($events as $key => $value) {
-            if (is_array($value)) {
-                $flatted = array_merge($flatted, $this->flattenEvents($value, $prefix . $key . '.'));
-            } else {
-                if ($key == "pos") {
-                    $flatted[ substr($prefix, 0, -1) ] = $value;
-                } else {
-                    $flatted[ $prefix . $key ] = $value;
-                }
-            }
-        }
-
-        return $flatted;
     }
 
 }

@@ -1,11 +1,12 @@
 <?php
 
 
-namespace Underware\Engine\Structs;
+namespace Underware\Engine\Structs\Node;
 
 
 use Underware\Engine\EventManager\Event;
 use Underware\Engine\Exception\Exception;
+use Underware\Engine\Structs\Dom;
 
 
 /**

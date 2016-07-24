@@ -1,9 +1,9 @@
 <?php
 
-namespace Underware\Nodes\Base;
+namespace Underware\Languages\Core\Nodes;
 
 
-use Underware\Engine\Structs\Node;
+use Underware\Engine\Structs\Node\Node;
 
 
 class BlockNode extends Node

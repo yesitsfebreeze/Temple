@@ -1,9 +1,9 @@
 <?php
 
-namespace Underware\Nodes\Html;
+namespace Underware\Languages\Html\Nodes;
 
 
-use Underware\Engine\Structs\Node;
+use Underware\Engine\Structs\Node\Node;
 
 
 class HtmlNode extends Node

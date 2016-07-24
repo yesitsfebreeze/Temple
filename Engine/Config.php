@@ -7,6 +7,11 @@ use Underware\Engine\Exception\Handler;
 use Underware\Engine\Injection\Injection;
 
 
+/**
+ * Class Config
+ *
+ * @package Underware\Engine
+ */
 class Config extends Injection
 {
     /** @var null */
@@ -45,8 +50,8 @@ class Config extends Injection
     /** @var bool */
     private $showBlockComments = true;
 
-    /** @var bool */
-    private $defaultNodeContainer = "html";
+    /** @var array $languages */
+    private $defaultLanguages = array("core", "html");
 
 
     /**
@@ -311,22 +316,34 @@ class Config extends Injection
 
 
     /**
-     * @return boolean
+     * @return array
      */
-    public function isDefaultNodeContainer()
+    public function getDefaultLanguages()
     {
-        return $this->defaultNodeContainer;
+        return $this->defaultLanguages;
     }
 
 
     /**
-     * @param boolean $defaultNodeContainer
+     * @param array $language
      */
-    public function setDefaultNodeContainer($defaultNodeContainer)
+    public function addDefaultLanguage($language)
     {
-        $this->defaultNodeContainer = $defaultNodeContainer;
+        if (!in_array($language, $this->defaultLanguages)) {
+            $this->defaultLanguages[] = $language;
+        }
     }
 
+
+    /**
+     * @param array $language
+     */
+    public function removeDefaultLanguage($language)
+    {
+        if (($key = array_search($language, $this->defaultLanguages)) !== false) {
+            unset($this->defaultLanguages[ $key ]);
+        }
+    }
 
 
 }
