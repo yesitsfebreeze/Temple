@@ -3,13 +3,13 @@
 namespace Underware\Engine\Structs;
 
 
+/**
+ * Class BackupNode
+ *
+ * @package Underware\Engine\Structs
+ */
 class BackupNode extends Node
 {
-
-
-    /** @var  string $blockName */
-    private $blockName;
-
 
     /** @inheritdoc */
     public function check()
@@ -36,10 +36,9 @@ class BackupNode extends Node
      */
     public function compile()
     {
-        var_dump($this->plain);
         $output = "";
         if (trim($this->plain) != "") {
-            $output .= "<pre style='margin:0'>" . $this->plain . "</pre>";
+            $output .= "%%" . trim($this->plain) . "%% ";
         }
         /** @var Node $child */
         foreach ($this->getChildren() as $child) {

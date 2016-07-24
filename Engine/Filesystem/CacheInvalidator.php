@@ -4,15 +4,9 @@ namespace Underware\Engine\Filesystem;
 
 
 use Underware\Engine\Exception\Exception;
-use Underware\Engine\Exception\ValidateException;
 use Underware\Engine\Injection\Injection;
 
 
-/**
- * Class CacheInvalidator
- *
- * @package Underware\Engine\Filesystem
- */
 class CacheInvalidator extends Cache
 {
 
@@ -24,7 +18,7 @@ class CacheInvalidator extends Cache
     {
         try {
             $this->classesToCheck();
-        } catch (ValidateException $e) {
+        } catch (Exception $e) {
             $this->invalidate();
         }
     }
@@ -84,6 +78,6 @@ class CacheInvalidator extends Cache
         $cache[ $name ] = $hash;
         $this->saveCache($cache);
 
-        throw new ValidateException("Cache Invalidation failed");
+        throw new Exception("Cache Invalidation failed");
     }
 }

@@ -171,21 +171,14 @@ class Lexer extends Injection
     {
         $line = $this->EventManager->notify("plugin.line", $line);
 
-        $arguments = array(
-            $line,
-            $this->Dom->getNamespace(),
-            $this->Dom->getLevel(),
-            $this->Dom->getCurrentLine(),
-            $this->Dom->getFile(),
-            str_replace($_SERVER['DOCUMENT_ROOT'], "", $this->Dom->getFile()),
-            $this->Dom
-        );
+        $arguments = array($line, $this->Dom);
 
         /** @var Node $node */
         $node = $this->EventManager->notify("lexer.node", $arguments);
 
         if (!$node instanceof Node) {
             $node = new BackupNode();
+            $node->dispatch(...$arguments);
             $node->setInstance($this->EventManager->getInstance());
         }
 

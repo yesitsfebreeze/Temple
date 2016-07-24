@@ -9,9 +9,9 @@ use Underware\Engine\Exception\Exception;
 
 
 /**
- * Interface Node
+ * Class Node
  *
- * @package Underware\Nodes
+ * @package Underware\Engine\Structs
  */
 abstract class Node extends Event implements NodeInterface
 {
@@ -52,33 +52,29 @@ abstract class Node extends Event implements NodeInterface
 
     /**
      * @param array $plain
-     * @param       $namespace
-     * @param       $level
-     * @param       $line
-     * @param       $file
-     * @param       $relativeFile
-     * @param       $dom
+     * @param Dom   $Dom
      *
      * @return Node|array
      */
-    public function dispatch($plain = null, $namespace = null, $level = null, $line = null, $file = null, $relativeFile = null, $dom = null)
+    public function dispatch($plain = null, Dom $Dom = null)
     {
         if ($plain instanceof Node) {
             return $plain;
         }
-        $this->plain = $plain;
+
         $this->setPlain($plain);
-        $this->setNamespace($namespace);
-        $this->setLevel($level);
-        $this->setLine($line);
-        $this->setFile($file);
-        $this->setRelativeFile($relativeFile);
-        $this->setDom($dom);
+        $this->setDom($Dom);
+        $this->setNamespace($Dom->getNamespace());
+        $this->setLevel($Dom->getLevel());
+        $this->setLine($Dom->getCurrentLine());
+        $this->setFile($Dom->getFile());
+        $this->setRelativeFile(str_replace($_SERVER['DOCUMENT_ROOT'], "", $Dom->getFile()));
+
 
         if ($this->check()) {
             return $this;
         } else {
-            return array($plain, $namespace, $level, $line, $file, $relativeFile, $dom);
+            return array($plain, $Dom);
         }
     }
 

@@ -11,11 +11,14 @@ namespace Underware\Engine\Exception;
 class Exception extends \Exception
 {
 
-    /** @var bool|string $UnderwareFile */
-    private $UnderwareFile;
+    /** @var bool|string $underwareFile */
+    private $underwareMessage;
 
-    /** @var integer|string $UnderwareLine */
-    private $UnderwareLine;
+    /** @var bool|string $underwareFile */
+    private $underwareFile;
+
+    /** @var integer|string $underwareLine */
+    private $underwareLine;
 
 
     public function __construct($message = "", $file = false, $line = false, $code = 0, \Exception $previous = null)
@@ -32,11 +35,18 @@ class Exception extends \Exception
 
 
         if ($file) {
-            $this->UnderwareFile = $file;
+            $this->underwareFile = $file;
         }
 
         if ($line) {
-            $this->UnderwareLine = $line;
+            $this->underwareLine = $line;
+        }
+
+        if ($message) {
+            $this->underwareMessage = $message;
+            $message                = str_replace("%", "", $message);
+        } else {
+            $message = "No Message given!";
         }
 
         # execute the default exception after that
@@ -52,7 +62,7 @@ class Exception extends \Exception
      */
     public function getUnderwareFile()
     {
-        return $this->UnderwareFile;
+        return $this->underwareFile;
     }
 
 
@@ -63,7 +73,18 @@ class Exception extends \Exception
      */
     public function getUnderwareLine()
     {
-        return $this->UnderwareLine;
+        return $this->underwareLine;
+    }
+
+
+    /**
+     * returns the Message
+     *
+     * @return bool|int|string
+     */
+    public function getUnderwareMessage()
+    {
+        return $this->underwareLine;
     }
 
 
@@ -72,6 +93,7 @@ class Exception extends \Exception
      *
      * @param $file
      * @param $root
+     *
      * @return array $file
      */
     private function splitFile($file, $root)

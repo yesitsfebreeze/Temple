@@ -50,7 +50,7 @@ class Template
      */
     private function displayMessage()
     {
-        $message        = preg_replace('/\\%(.+?)\\%/', "<span class='highlight'>$1</span>", $this->exception->getMessage());
+        $message        = preg_replace('/\\%(.+?)\\%/', "<span class='highlight'>$1</span>", $this->exception->getUnderwareMessage());
         $this->template = str_replace("%message%", $message, $this->template);
     }
 
