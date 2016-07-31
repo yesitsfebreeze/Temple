@@ -1,6 +1,6 @@
 <?php
 
-namespace Underware\Engine\Injection;
+namespace Underware\Engine\InjectionManager;
 
 
 /**

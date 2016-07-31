@@ -62,7 +62,7 @@ class VariableNode extends Node
 
 
     /**
-     * unqotes an already quoted string
+     * unquotes an already quoted string
      *
      * @param $value
      *

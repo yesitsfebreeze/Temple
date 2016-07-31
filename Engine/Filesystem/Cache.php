@@ -5,7 +5,7 @@ namespace Underware\Engine\Filesystem;
 
 use Underware\Engine\Config;
 use Underware\Engine\Exception\Exception;
-use Underware\Engine\Injection\Injection;
+use Underware\Engine\InjectionManager\Injection;
 
 
 class Cache extends Injection

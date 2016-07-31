@@ -6,9 +6,9 @@ namespace Underware\Engine;
 use Underware\Engine\EventManager\EventManager;
 use Underware\Engine\Exception\Exception;
 use Underware\Engine\Filesystem\DirectoryHandler;
-use Underware\Engine\Injection\Injection;
+use Underware\Engine\InjectionManager\Injection;
 use Underware\Engine\Structs\Dom;
-use Underware\Engine\Structs\Node\BackupNode;
+use Underware\Engine\Structs\Node\DefaultNode;
 use Underware\Engine\Structs\Node\Node;
 
 
@@ -181,7 +181,7 @@ class Lexer extends Injection
         $node = $this->EventManager->notify("lexer.node", $arguments);
 
         if (!$node instanceof Node) {
-            $node = new BackupNode();
+            $node = new DefaultNode();
             $node->setInstance($this->EventManager->getInstance());
             $node->dispatch(...$arguments);
         }

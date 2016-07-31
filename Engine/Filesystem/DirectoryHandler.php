@@ -5,7 +5,7 @@ namespace Underware\Engine\Filesystem;
 
 use Underware\Engine\Config;
 use Underware\Engine\Exception\Exception;
-use Underware\Engine\Injection\Injection;
+use Underware\Engine\InjectionManager\Injection;
 
 
 /**
@@ -77,6 +77,8 @@ class DirectoryHandler extends Injection
      * removes a template directory
      *
      * @param null $levelOrPath
+     *
+     * @return array
      */
     public function removeTemplateDir($levelOrPath = null)
     {

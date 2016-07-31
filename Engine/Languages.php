@@ -5,7 +5,7 @@ namespace Underware\Engine;
 
 use Underware\Engine\EventManager\EventManager;
 use Underware\Engine\Exception\Exception;
-use Underware\Engine\Injection\Injection;
+use Underware\Engine\InjectionManager\Injection;
 use Underware\Engine\Structs\Dom;
 use Underware\Engine\Structs\Language\Language;
 

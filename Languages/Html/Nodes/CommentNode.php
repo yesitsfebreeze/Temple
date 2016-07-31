@@ -1,6 +1,6 @@
 <?php
 
-namespace Underware\Languages\Core\Nodes;
+namespace Underware\Languages\Html\Nodes;
 
 
 use Underware\Engine\Structs\Node\Node;
@@ -23,6 +23,7 @@ class CommentNode extends Node
     public function setup()
     {
         $this->setSelfClosing(true);
+
         return $this;
     }
 
@@ -34,9 +35,13 @@ class CommentNode extends Node
      */
     public function compile()
     {
-        $output = "<!-- ";
-        $output .= preg_replace("/^" . $this->getTag() . "/", "", trim($this->plain));
-        $output .= " -->";
+        if ($this->Instance->Config()->isShowComments()) {
+            $output = "<!-- ";
+            $output .= preg_replace("/^" . $this->getTag() . "/", "", trim($this->plain));
+            $output .= " -->";
+        } else {
+            $output = "";
+        }
 
         return $output;
     }

@@ -252,10 +252,19 @@ abstract class Node extends Event implements NodeInterface
         # divide our counted characters trough the amount
         # we used to indent in the first line
         # this should be a non decimal number
-        $indent = substr_count($whitespace, $this->Instance->Config()->getIndentCharacter());
-        $indent = $indent / $this->Instance->Config()->getIndentAmount();
-        # if we have a non decimal number return how many times we indented
-        if (is_int($indent)) return $indent;
+        $indentCharacter = ($this->Instance->Config()->getIndentCharacter() == "tab") ? "	" : " ";
+        if (strlen($whitespace) > 0) {
+            if (preg_match('/[^' . preg_quote($indentCharacter) . ']/', $whitespace)) {
+                throw new Exception(4, "Please use the %" . $this->Instance->Config()->getIndentCharacter() . "% character for indentation!", $this->getFile(), $this->getLine());
+            } else {
+                $indent = substr_count($whitespace, $indentCharacter);
+                $indent = $indent / $this->Instance->Config()->getIndentAmount();
+                # if we have a non decimal number return how many times we indented
+                if (is_int($indent)) return $indent;
+            }
+        } else {
+            return 0;
+        }
 
         # else throw an error since the amount of characters doesn't match
         throw new Exception(4, "Indent isn't matching!", $this->getFile(), $this->getLine());

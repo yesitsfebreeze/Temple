@@ -3,9 +3,6 @@
 namespace Underware\Engine\Structs;
 
 
-use Underware\Engine\Exception\Exception;
-
-
 class Variables extends Storage
 {
 

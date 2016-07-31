@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Underware\Engine\Injection;
+namespace Underware\Engine\InjectionManager;
 
 
 use Underware\Engine\Exception\Exception;

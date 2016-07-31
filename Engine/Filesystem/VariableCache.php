@@ -4,7 +4,7 @@ namespace Underware\Engine\Filesystem;
 
 
 use Underware\Engine\Config;
-use Underware\Engine\Injection\Injection;
+use Underware\Engine\InjectionManager\Injection;
 use Underware\Engine\Structs\Dom;
 use Underware\Engine\Structs\Variables;
 

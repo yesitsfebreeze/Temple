@@ -4,7 +4,7 @@ namespace Underware\Engine\EventManager;
 
 
 use Underware\Engine\Exception\Exception;
-use Underware\Engine\Injection\InjectionManager;
+use Underware\Engine\InjectionManager\InjectionManager;
 use Underware\Engine\Instance;
 
 
@@ -25,15 +25,16 @@ abstract class Event
     /**
      * the method which gets fired when the event manager notifies the assigned event
      *
-     * @param array $arguments
+     * @param $arguments
      *
-     * @return bool
      * @throws Exception
+     * @noinspection PhpUnusedParameterInspection
      */
-    public function dispatch($arguments)
+    public function dispatch(/** @noinspection PhpUnusedParameterInspection  */ $arguments)
     {
         $class = get_class($this);
-        throw new Exception(1,"Please register the %dispatch% method for %" . $class . "%");
+        throw new Exception(1, "Please register the %dispatch% method for %" . $class . "%");
+
     }
 
 

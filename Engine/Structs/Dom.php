@@ -5,12 +5,13 @@ namespace Underware\Engine\Structs;
 
 use Underware\Engine\Exception\Exception;
 use Underware\Engine\Structs\Node\Node;
+use Underware\Languages\Core\Nodes\VariableNode;
 
 
 class Dom
 {
 
-    /** @var Storage $Variables */
+    /** @var VariableNode $Variables */
     private $Variables;
 
     /** @var  string $namespace */
@@ -236,6 +237,8 @@ class Dom
         if (isset($this->blocks[ $block ])) {
             return $this->blocks[ $block ] = $node;
         }
+
+        return false;
     }
 
 

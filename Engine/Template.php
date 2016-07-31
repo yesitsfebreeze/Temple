@@ -7,7 +7,7 @@ use Underware\Engine\Filesystem\Cache;
 use Underware\Engine\Filesystem\CacheInvalidator;
 use Underware\Engine\Filesystem\DirectoryHandler;
 use Underware\Engine\Filesystem\VariableCache;
-use Underware\Engine\Injection\Injection;
+use Underware\Engine\InjectionManager\Injection;
 use Underware\Engine\Structs\Dom;
 use Underware\Engine\Structs\Page;
 use Underware\Engine\Structs\Variables;

@@ -48,7 +48,11 @@ class ExceptionTemplate
 
     private function displayCode()
     {
-        $code           = "Code " . $this->exception->getUnderwareCode() . ":";
+
+        $code = "<div class='mute code'>";
+        $code .= "Errorcode " . $this->exception->getUnderwareCode();
+        $code .= "</div>";
+
         $this->template = str_replace("%code%", $code, $this->template);
     }
 
@@ -81,25 +85,17 @@ class ExceptionTemplate
      */
     private function displayStackTrace()
     {
-        $output = "<table>";
+        $output = "<div>";
         $traces = $this->exception->getTrace();
         foreach ($traces as $trace) {
-            $output .= "<tr>";
-            $output .= "<td>";
-            $output .= $this->coloredFilePath($trace["file"]);
-            $output .= "</td>";
-            $output .= "<td>";
-            $output .= "on line <span class='highlight'>" . $trace["line"] . "</span>";
-            $output .= "</td>";
-            $output .= "<td>";
-            $output .= "<span class='mute'>&rarr;</span> " . $trace["function"] . "()";
-            $output .= "</td>";
-            $output .= "<td>";
+            $output .= "<div class='trace'>";
             $output .= $this->realPath($trace["file"]);
-            $output .= "</td>";
-            $output .= "</tr>";
+            $output .= $this->coloredFilePath($trace["file"]);
+            $output .= "<span class='mute'>:</span><span class='highlight'>" . $trace["line"] . "</span>";
+            $output .= "<span class='mute'> &rightarrow; </span>" . $trace["function"] . "()";
+            $output .= "</div>";
         }
-        $output .= "</table>";
+        $output .= "</div>";
         $this->template = str_replace("%stacktrace%", $output, $this->template);
     }
 
@@ -136,8 +132,13 @@ class ExceptionTemplate
         }
         $file = array_reverse(explode(DIRECTORY_SEPARATOR, $file));
         array_shift($file);
-        $path   = implode("/", array_reverse($file));
-        $output = "<span class='hide mute'>" . $path . "</span>";
+        $path = implode("/", array_reverse($file));
+        $path = str_replace($_SERVER["DOCUMENT_ROOT"], "", $path);
+        $path = preg_replace("/^\//", "", $path);
+        if ($path != "") {
+            $path = $path . "/";
+        }
+        $output = "<span class='mute hide'>" . $path . "</span>";
 
         return $output;
     }

@@ -8,7 +8,7 @@ use Underware\Engine\Filesystem\Cache;
 use Underware\Engine\Filesystem\CacheInvalidator;
 use Underware\Engine\Filesystem\DirectoryHandler;
 use Underware\Engine\Filesystem\VariableCache;
-use Underware\Engine\Injection\InjectionManager;
+use Underware\Engine\InjectionManager\InjectionManager;
 use Underware\Engine\Structs\Variables;
 
 

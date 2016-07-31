@@ -3,8 +3,8 @@
 namespace Underware\Languages\Core\Nodes;
 
 
-use Underware\Engine\Exception\Exception;
 use Underware\Engine\Structs\Dom;
+use Underware\Engine\Exception\Exception;
 use Underware\Engine\Structs\Node\Node;
 
 
@@ -28,12 +28,12 @@ class ExtendNode extends Node
      * @throws Exception
      */
     public function setup()
-    {
+        {
         if ($this->getContent() == "") {
             throw new Exception(1, "Please specify a file", $this->getFile(), $this->getLine());
         }
 
-        // todoo: relative file
+        // todo: relative file
         try {
             if ($this->getContent() == $this->getNamespace()) {
                 $Dom = $this->Instance->Template()->dom($this->getContent(), $this->getLevel() + 1);

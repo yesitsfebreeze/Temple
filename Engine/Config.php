@@ -4,7 +4,7 @@ namespace Underware\Engine;
 
 
 use Underware\Engine\Exception\ExceptionHandler;
-use Underware\Engine\Injection\Injection;
+use Underware\Engine\InjectionManager\Injection;
 
 
 /**
@@ -35,11 +35,15 @@ class Config extends Injection
     /** @var array */
     private $templateDirs = array();
 
-    /** @var string */
-    private $IndentCharacter = " ";
+    /**
+     * tab or space
+     *
+     * @var string
+     */
+    private $IndentCharacter = "tab";
 
     /** @var int */
-    private $IndentAmount = 2;
+    private $IndentAmount = 1;
 
     /** @var string */
     private $extension = "slip";

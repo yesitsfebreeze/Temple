@@ -4,7 +4,7 @@ namespace Underware\Engine\Structs;
 
 
 use Underware\Engine\Exception\Exception;
-use Underware\Engine\Injection\Injection;
+use Underware\Engine\InjectionManager\Injection;
 
 
 /**

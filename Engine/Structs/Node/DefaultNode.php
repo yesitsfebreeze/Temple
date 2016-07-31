@@ -3,12 +3,15 @@
 namespace Underware\Engine\Structs\Node;
 
 
+use Underware\Engine\Exception\Exception;
+
+
 /**
- * Class BackupNode
+ * Class DefaultNode
  *
  * @package Underware\Engine\Structs
  */
-class BackupNode extends Node
+class DefaultNode extends Node
 {
 
     /** @inheritdoc */
@@ -30,22 +33,11 @@ class BackupNode extends Node
 
 
     /**
-     * creates the output
-     *
-     * @return string
+     * @throws Exception
      */
     public function compile()
     {
-        $output = "";
-        if (trim($this->plain) != "") {
-            $output .= "%%" . trim($this->plain) . "%% ";
-        }
-        /** @var Node $child */
-        foreach ($this->getChildren() as $child) {
-            $output .= $child->compile();
-        }
-
-        return $output;
+        throw new Exception(400, "%" . $this->getTag() . "% node is not defined!");
     }
 
 
