@@ -1,15 +1,15 @@
 <?php
 
-namespace Rite\Engine\Structs\Node;
+namespace WorkingTitle\Engine\Structs\Node;
 
 
-use Rite\Engine\Exception\Exception;
+use WorkingTitle\Engine\Exception\Exception;
 
 
 /**
  * Class DefaultNode
  *
- * @package Rite\Engine\Structs
+ * @package WorkingTitle\Engine\Structs
  */
 class DefaultNode extends Node
 {

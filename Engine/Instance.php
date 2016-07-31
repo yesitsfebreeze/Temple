@@ -1,21 +1,21 @@
 <?php
 
-namespace Rite\Engine;
+namespace WorkingTitle\Engine;
 
 
-use Rite\Engine\EventManager\EventManager;
-use Rite\Engine\Filesystem\Cache;
-use Rite\Engine\Filesystem\CacheInvalidator;
-use Rite\Engine\Filesystem\DirectoryHandler;
-use Rite\Engine\Filesystem\VariableCache;
-use Rite\Engine\InjectionManager\InjectionManager;
-use Rite\Engine\Structs\Variables;
+use WorkingTitle\Engine\EventManager\EventManager;
+use WorkingTitle\Engine\Filesystem\Cache;
+use WorkingTitle\Engine\Filesystem\CacheInvalidator;
+use WorkingTitle\Engine\Filesystem\DirectoryHandler;
+use WorkingTitle\Engine\Filesystem\VariableCache;
+use WorkingTitle\Engine\InjectionManager\InjectionManager;
+use WorkingTitle\Engine\Structs\Variables;
 
 
 /**
  * Class Instance
  *
- * @package Rite
+ * @package WorkingTitle
  */
 class Instance
 {

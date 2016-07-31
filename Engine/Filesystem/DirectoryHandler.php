@@ -1,17 +1,17 @@
 <?php
 
-namespace Rite\Engine\Filesystem;
+namespace WorkingTitle\Engine\Filesystem;
 
 
-use Rite\Engine\Config;
-use Rite\Engine\Exception\Exception;
-use Rite\Engine\InjectionManager\Injection;
+use WorkingTitle\Engine\Config;
+use WorkingTitle\Engine\Exception\Exception;
+use WorkingTitle\Engine\InjectionManager\Injection;
 
 
 /**
  * Class Directories
  *
- * @package Rite
+ * @package WorkingTitle
  */
 class DirectoryHandler extends Injection
 {
@@ -139,8 +139,9 @@ class DirectoryHandler extends Injection
 *@param $dir
 
 
+
 *
-*@throws \Rite\Engine\Exception\Exception
+*@throws \WorkingTitle\Engine\Exception\Exception
      */
     public function createDir($dir)
     {
@@ -183,7 +184,7 @@ class DirectoryHandler extends Injection
 
 *
 *@return mixed
-     * @throws \Rite\Engine\Exception\Exception
+     * @throws \WorkingTitle\Engine\Exception\Exception
      */
     private function check()
     {

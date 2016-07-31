@@ -1,11 +1,11 @@
 <?php
 
 
-namespace Rite\Engine\InjectionManager;
+namespace WorkingTitle\Engine\InjectionManager;
 
 
-use Rite\Engine\Exception\Exception;
-use Rite\Engine\Exception\ExceptionHandler;
+use WorkingTitle\Engine\Exception\Exception;
+use WorkingTitle\Engine\Exception\ExceptionHandler;
 
 
 abstract class Injection implements InjectionInterface

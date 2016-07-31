@@ -1,15 +1,15 @@
 <?php
 
-namespace Rite\Engine;
+namespace WorkingTitle\Engine;
 
 
-use Rite\Engine\EventManager\EventManager;
-use Rite\Engine\Exception\Exception;
-use Rite\Engine\Filesystem\DirectoryHandler;
-use Rite\Engine\InjectionManager\Injection;
-use Rite\Engine\Structs\Dom;
-use Rite\Engine\Structs\Node\DefaultNode;
-use Rite\Engine\Structs\Node\Node;
+use WorkingTitle\Engine\EventManager\EventManager;
+use WorkingTitle\Engine\Exception\Exception;
+use WorkingTitle\Engine\Filesystem\DirectoryHandler;
+use WorkingTitle\Engine\InjectionManager\Injection;
+use WorkingTitle\Engine\Structs\Dom;
+use WorkingTitle\Engine\Structs\Node\DefaultNode;
+use WorkingTitle\Engine\Structs\Node\Node;
 
 
 /**

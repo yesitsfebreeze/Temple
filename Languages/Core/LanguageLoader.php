@@ -1,15 +1,15 @@
 <?php
 
-namespace Rite\Languages\Core;
+namespace WorkingTitle\Languages\Core;
 
 
-use Rite\Engine\Structs\Language\Language;
-use Rite\Languages\Core\Nodes\BlockNode;
-use Rite\Languages\Core\Nodes\ExtendNode;
-use Rite\Languages\Core\Nodes\UseNode;
-use Rite\Languages\Core\Nodes\VariableNode;
-use Rite\Languages\Core\Plugins\ExtendPlugin;
-use Rite\Languages\Core\Plugins\VariablesPlugin;
+use WorkingTitle\Engine\Structs\Language\Language;
+use WorkingTitle\Languages\Core\Nodes\BlockNode;
+use WorkingTitle\Languages\Core\Nodes\ExtendNode;
+use WorkingTitle\Languages\Core\Nodes\UseNode;
+use WorkingTitle\Languages\Core\Nodes\VariableNode;
+use WorkingTitle\Languages\Core\Plugins\ExtendPlugin;
+use WorkingTitle\Languages\Core\Plugins\VariablesPlugin;
 
 
 class LanguageLoader extends Language

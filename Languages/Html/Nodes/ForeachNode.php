@@ -1,10 +1,10 @@
 <?php
 
-namespace Rite\Languages\Html\Nodes;
+namespace WorkingTitle\Languages\Html\Nodes;
 
 
-use Rite\Engine\Exception\Exception;
-use Rite\Engine\Structs\Node\Node;
+use WorkingTitle\Engine\Exception\Exception;
+use WorkingTitle\Engine\Structs\Node\Node;
 
 
 class ForeachNode extends Node

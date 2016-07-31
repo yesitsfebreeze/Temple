@@ -1,15 +1,15 @@
 <?php
 
-namespace Rite\Languages\Core\Plugins;
+namespace WorkingTitle\Languages\Core\Plugins;
 
 
-use Rite\Engine\EventManager\Event;
+use WorkingTitle\Engine\EventManager\Event;
 
 
 /**
  * Class VariablesPlugin
  *
- * @package Rite\Languages\Core\Plugins
+ * @package WorkingTitle\Languages\Core\Plugins
  */
 class VariablesPlugin extends Event
 {

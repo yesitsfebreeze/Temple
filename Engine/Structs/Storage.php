@@ -1,17 +1,17 @@
 <?php
 
-namespace Rite\Engine\Structs;
+namespace WorkingTitle\Engine\Structs;
 
 
-use Rite\Engine\Exception\Exception;
-use Rite\Engine\InjectionManager\Injection;
+use WorkingTitle\Engine\Exception\Exception;
+use WorkingTitle\Engine\InjectionManager\Injection;
 
 
 /**
  * this class handles all data storage
  * Class Storage
  *
- * @package Rite
+ * @package WorkingTitle
  */
 class Storage extends Injection
 {

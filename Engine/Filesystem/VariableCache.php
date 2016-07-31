@@ -1,12 +1,12 @@
 <?php
 
-namespace Rite\Engine\Filesystem;
+namespace WorkingTitle\Engine\Filesystem;
 
 
-use Rite\Engine\Config;
-use Rite\Engine\InjectionManager\Injection;
-use Rite\Engine\Structs\Dom;
-use Rite\Engine\Structs\Variables;
+use WorkingTitle\Engine\Config;
+use WorkingTitle\Engine\InjectionManager\Injection;
+use WorkingTitle\Engine\Structs\Dom;
+use WorkingTitle\Engine\Structs\Variables;
 
 
 class VariableCache extends Injection

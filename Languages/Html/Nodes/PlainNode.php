@@ -1,9 +1,9 @@
 <?php
 
-namespace Rite\Languages\Html\Nodes;
+namespace WorkingTitle\Languages\Html\Nodes;
 
 
-use Rite\Engine\Structs\Node\Node;
+use WorkingTitle\Engine\Structs\Node\Node;
 
 
 class PlainNode extends Node

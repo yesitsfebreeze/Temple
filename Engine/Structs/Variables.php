@@ -1,6 +1,6 @@
 <?php
 
-namespace Rite\Engine\Structs;
+namespace WorkingTitle\Engine\Structs;
 
 
 class Variables extends Storage

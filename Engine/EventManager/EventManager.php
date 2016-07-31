@@ -1,18 +1,18 @@
 <?php
 
-namespace Rite\Engine\EventManager;
+namespace WorkingTitle\Engine\EventManager;
 
 
-use Rite\Engine\Exception\Exception;
-use Rite\Engine\InjectionManager\Injection;
-use Rite\Engine\Instance;
-use Rite\Engine\Structs\Storage;
+use WorkingTitle\Engine\Exception\Exception;
+use WorkingTitle\Engine\InjectionManager\Injection;
+use WorkingTitle\Engine\Instance;
+use WorkingTitle\Engine\Structs\Storage;
 
 
 /**
  * Class Manager
  *
- * @package Rite\Manager
+ * @package WorkingTitle\Manager
  */
 class EventManager extends Injection
 {

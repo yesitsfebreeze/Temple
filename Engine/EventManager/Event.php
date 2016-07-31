@@ -1,11 +1,11 @@
 <?php
 
-namespace Rite\Engine\EventManager;
+namespace WorkingTitle\Engine\EventManager;
 
 
-use Rite\Engine\Exception\Exception;
-use Rite\Engine\InjectionManager\InjectionManager;
-use Rite\Engine\Instance;
+use WorkingTitle\Engine\Exception\Exception;
+use WorkingTitle\Engine\InjectionManager\InjectionManager;
+use WorkingTitle\Engine\Instance;
 
 
 /**

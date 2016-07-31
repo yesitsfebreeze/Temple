@@ -1,10 +1,10 @@
 <?php
 
-namespace Rite\Languages\Core\Nodes;
+namespace WorkingTitle\Languages\Core\Nodes;
 
 
-use Rite\Engine\Exception\Exception;
-use Rite\Engine\Structs\Node\Node;
+use WorkingTitle\Engine\Exception\Exception;
+use WorkingTitle\Engine\Structs\Node\Node;
 
 
 class UseNode extends Node

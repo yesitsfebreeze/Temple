@@ -1,11 +1,11 @@
 <?php
 
-namespace Rite\Engine\Structs;
+namespace WorkingTitle\Engine\Structs;
 
 
-use Rite\Engine\Exception\Exception;
-use Rite\Engine\Structs\Node\Node;
-use Rite\Languages\Core\Nodes\VariableNode;
+use WorkingTitle\Engine\Exception\Exception;
+use WorkingTitle\Engine\Structs\Node\Node;
+use WorkingTitle\Languages\Core\Nodes\VariableNode;
 
 
 class Dom

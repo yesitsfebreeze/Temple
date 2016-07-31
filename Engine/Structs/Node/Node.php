@@ -1,18 +1,18 @@
 <?php
 
 
-namespace Rite\Engine\Structs\Node;
+namespace WorkingTitle\Engine\Structs\Node;
 
 
-use Rite\Engine\EventManager\Event;
-use Rite\Engine\Exception\Exception;
-use Rite\Engine\Structs\Dom;
+use WorkingTitle\Engine\EventManager\Event;
+use WorkingTitle\Engine\Exception\Exception;
+use WorkingTitle\Engine\Structs\Dom;
 
 
 /**
  * Class Node
  *
- * @package Rite\Engine\Structs
+ * @package WorkingTitle\Engine\Structs
  */
 abstract class Node extends Event implements NodeInterface
 {

@@ -1,10 +1,10 @@
 <?php
 
-namespace Rite\Engine\Structs\Language;
+namespace WorkingTitle\Engine\Structs\Language;
 
 
-use Rite\Engine\EventManager\Event;
-use Rite\Engine\Exception\Exception;
+use WorkingTitle\Engine\EventManager\Event;
+use WorkingTitle\Engine\Exception\Exception;
 
 
 class Language extends Event implements LanguageInterface

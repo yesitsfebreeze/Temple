@@ -1,12 +1,12 @@
 <?php
 
-namespace Rite\Engine\InjectionManager;
+namespace WorkingTitle\Engine\InjectionManager;
 
 
 /**
  * Interface InjectionInterface
  *
- * @package Rite\Engine\Injection
+ * @package WorkingTitle\Engine\Injection
  */
 interface InjectionInterface
 {

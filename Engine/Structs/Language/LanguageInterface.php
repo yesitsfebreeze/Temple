@@ -1,6 +1,6 @@
 <?php
 
-namespace Rite\Engine\Structs\Language;
+namespace WorkingTitle\Engine\Structs\Language;
 
 
 interface LanguageInterface

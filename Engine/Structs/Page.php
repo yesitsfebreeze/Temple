@@ -1,8 +1,8 @@
 <?php
 
-namespace Rite\Engine\Structs;
+namespace WorkingTitle\Engine\Structs;
 
-use Rite\Engine\Exception\Exception;
+use WorkingTitle\Engine\Exception\Exception;
 
 
 class Page {

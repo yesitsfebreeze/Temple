@@ -1,6 +1,6 @@
 <?php
 
-namespace Rite;
+namespace WorkingTitle;
 
 
 $namespace = __NAMESPACE__;

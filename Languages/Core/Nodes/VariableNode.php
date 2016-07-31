@@ -1,9 +1,9 @@
 <?php
 
-namespace Rite\Languages\Core\Nodes;
+namespace WorkingTitle\Languages\Core\Nodes;
 
 
-use Rite\Engine\Structs\Node\Node;
+use WorkingTitle\Engine\Structs\Node\Node;
 
 
 class VariableNode extends Node

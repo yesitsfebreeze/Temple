@@ -1,16 +1,16 @@
 <?php
 
-namespace Rite\Engine;
+namespace WorkingTitle\Engine;
 
 
-use Rite\Engine\Exception\ExceptionHandler;
-use Rite\Engine\InjectionManager\Injection;
+use WorkingTitle\Engine\Exception\ExceptionHandler;
+use WorkingTitle\Engine\InjectionManager\Injection;
 
 
 /**
  * Class Config
  *
- * @package Rite\Engine
+ * @package WorkingTitle\Engine
  */
 class Config extends Injection
 {

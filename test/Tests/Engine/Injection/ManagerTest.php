@@ -1,7 +1,7 @@
 <?php
 
 
-class TestDependencyInstance extends \Rite\Engine\Injection\Instance
+class TestDependencyInstance extends \WorkingTitle\Engine\Injection\Instance
 {
 
     public function dependencies()
@@ -12,7 +12,7 @@ class TestDependencyInstance extends \Rite\Engine\Injection\Instance
 }
 
 
-class TestDependencyInstanceWithDependencies extends \Rite\Engine\Injection\Instance
+class TestDependencyInstanceWithDependencies extends \WorkingTitle\Engine\Injection\Instance
 {
 
     public function dependencies()
@@ -25,7 +25,7 @@ class TestDependencyInstanceWithDependencies extends \Rite\Engine\Injection\Inst
 }
 
 
-class TestDependencyInstanceWithDependenciesAndMemberVariable extends \Rite\Engine\Injection\Instance
+class TestDependencyInstanceWithDependenciesAndMemberVariable extends \WorkingTitle\Engine\Injection\Instance
 {
 
     /** @var  TestDependencyInstance $Test */
@@ -44,13 +44,13 @@ class TestDependencyInstanceWithDependenciesAndMemberVariable extends \Rite\Engi
 class DependencyContainerTest extends \PHPUnit_Framework_TestCase
 {
 
-    /** @var  \Rite\DependencyManager\DependencyContainer $container */
+    /** @var  \WorkingTitle\DependencyManager\DependencyContainer $container */
     private $container;
 
 
     public function testDependencyContainerCreation()
     {
-        $this->container = new  \Rite\Engine\Injection\Manager();
+        $this->container = new  \WorkingTitle\Engine\Injection\Manager();
     }
 
 
@@ -85,7 +85,7 @@ class DependencyContainerTest extends \PHPUnit_Framework_TestCase
 
 
     /**
-     * @expectedException \Rite\Exception\Exception
+     * @expectedException \WorkingTitle\Exception\Exception
      */
     public function testDependencyInstanceGetterException()
     {
@@ -97,7 +97,7 @@ class DependencyContainerTest extends \PHPUnit_Framework_TestCase
 
 
     /**
-     * @expectedException \Rite\Exception\Exception
+     * @expectedException \WorkingTitle\Exception\Exception
      */
     public function testDependencyRegistrationWithDependenciesException()
     {
@@ -108,7 +108,7 @@ class DependencyContainerTest extends \PHPUnit_Framework_TestCase
 
 
     /**
-     * @expectedException \Rite\Exception\Exception
+     * @expectedException \WorkingTitle\Exception\Exception
      */
     public function testDependencyRegistrationWithDependenciesMemberVariableException()
     {

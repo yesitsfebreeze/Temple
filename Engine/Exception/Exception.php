@@ -1,12 +1,12 @@
 <?php
 
-namespace Rite\Engine\Exception;
+namespace WorkingTitle\Engine\Exception;
 
 
 /**
  * Class Exception
  *
- * @package Rite
+ * @package WorkingTitle
  */
 class Exception extends \Exception
 {
