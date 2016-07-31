@@ -1,21 +1,21 @@
 <?php
 
-namespace Underware\Engine;
+namespace Rite\Engine;
 
 
-use Underware\Engine\EventManager\EventManager;
-use Underware\Engine\Filesystem\Cache;
-use Underware\Engine\Filesystem\CacheInvalidator;
-use Underware\Engine\Filesystem\DirectoryHandler;
-use Underware\Engine\Filesystem\VariableCache;
-use Underware\Engine\InjectionManager\InjectionManager;
-use Underware\Engine\Structs\Variables;
+use Rite\Engine\EventManager\EventManager;
+use Rite\Engine\Filesystem\Cache;
+use Rite\Engine\Filesystem\CacheInvalidator;
+use Rite\Engine\Filesystem\DirectoryHandler;
+use Rite\Engine\Filesystem\VariableCache;
+use Rite\Engine\InjectionManager\InjectionManager;
+use Rite\Engine\Structs\Variables;
 
 
 /**
  * Class Instance
  *
- * @package Underware
+ * @package Rite
  */
 class Instance
 {

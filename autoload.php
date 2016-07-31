@@ -1,6 +1,6 @@
 <?php
 
-namespace Underware;
+namespace Rite;
 
 
 $namespace = __NAMESPACE__;

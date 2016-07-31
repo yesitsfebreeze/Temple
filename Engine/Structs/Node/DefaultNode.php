@@ -1,15 +1,15 @@
 <?php
 
-namespace Underware\Engine\Structs\Node;
+namespace Rite\Engine\Structs\Node;
 
 
-use Underware\Engine\Exception\Exception;
+use Rite\Engine\Exception\Exception;
 
 
 /**
  * Class DefaultNode
  *
- * @package Underware\Engine\Structs
+ * @package Rite\Engine\Structs
  */
 class DefaultNode extends Node
 {

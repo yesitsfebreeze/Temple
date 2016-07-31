@@ -1,18 +1,18 @@
 <?php
 
-namespace Underware\Engine\EventManager;
+namespace Rite\Engine\EventManager;
 
 
-use Underware\Engine\Exception\Exception;
-use Underware\Engine\InjectionManager\Injection;
-use Underware\Engine\Instance;
-use Underware\Engine\Structs\Storage;
+use Rite\Engine\Exception\Exception;
+use Rite\Engine\InjectionManager\Injection;
+use Rite\Engine\Instance;
+use Rite\Engine\Structs\Storage;
 
 
 /**
  * Class Manager
  *
- * @package Underware\Manager
+ * @package Rite\Manager
  */
 class EventManager extends Injection
 {

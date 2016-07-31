@@ -1,18 +1,18 @@
 <?php
 
-namespace Underware\Engine\Exception;
+namespace Rite\Engine\Exception;
 
 
 /**
  * Class ExceptionHandler
  *
- * @package Underware\Exceptions
+ * @package Rite\Exceptions
  */
 class ExceptionHandler
 {
 
     /**
-     * adds a global exception handler for Underware exceptions
+     * adds a global exception handler for custom exceptions
      * ExceptionHandler constructor.
      */
     public function __construct()

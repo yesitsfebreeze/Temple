@@ -1,13 +1,13 @@
 <?php
 
-namespace Underware\Engine;
+namespace Rite\Engine;
 
 
-use Underware\Engine\EventManager\EventManager;
-use Underware\Engine\Exception\Exception;
-use Underware\Engine\InjectionManager\Injection;
-use Underware\Engine\Structs\Dom;
-use Underware\Engine\Structs\Node\Node;
+use Rite\Engine\EventManager\EventManager;
+use Rite\Engine\Exception\Exception;
+use Rite\Engine\InjectionManager\Injection;
+use Rite\Engine\Structs\Dom;
+use Rite\Engine\Structs\Node\Node;
 
 
 /**

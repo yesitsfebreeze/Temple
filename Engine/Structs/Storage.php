@@ -1,17 +1,17 @@
 <?php
 
-namespace Underware\Engine\Structs;
+namespace Rite\Engine\Structs;
 
 
-use Underware\Engine\Exception\Exception;
-use Underware\Engine\InjectionManager\Injection;
+use Rite\Engine\Exception\Exception;
+use Rite\Engine\InjectionManager\Injection;
 
 
 /**
  * this class handles all data storage
  * Class Storage
  *
- * @package Underware
+ * @package Rite
  */
 class Storage extends Injection
 {

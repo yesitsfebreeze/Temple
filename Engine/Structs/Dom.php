@@ -1,11 +1,11 @@
 <?php
 
-namespace Underware\Engine\Structs;
+namespace Rite\Engine\Structs;
 
 
-use Underware\Engine\Exception\Exception;
-use Underware\Engine\Structs\Node\Node;
-use Underware\Languages\Core\Nodes\VariableNode;
+use Rite\Engine\Exception\Exception;
+use Rite\Engine\Structs\Node\Node;
+use Rite\Languages\Core\Nodes\VariableNode;
 
 
 class Dom

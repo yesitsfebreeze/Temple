@@ -1,16 +1,16 @@
 <?php
 
-namespace Underware\Engine;
+namespace Rite\Engine;
 
 
-use Underware\Engine\Exception\ExceptionHandler;
-use Underware\Engine\InjectionManager\Injection;
+use Rite\Engine\Exception\ExceptionHandler;
+use Rite\Engine\InjectionManager\Injection;
 
 
 /**
  * Class Config
  *
- * @package Underware\Engine
+ * @package Rite\Engine
  */
 class Config extends Injection
 {
@@ -40,13 +40,13 @@ class Config extends Injection
      *
      * @var string
      */
-    private $IndentCharacter = "tab";
+    private $IndentCharacter = "space";
 
     /** @var int */
     private $IndentAmount = 1;
 
     /** @var string */
-    private $extension = "slip";
+    private $extension = "ri";
 
     /** @var bool */
     private $showComments = true;

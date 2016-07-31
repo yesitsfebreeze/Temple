@@ -1,27 +1,27 @@
 <?php
 
-namespace Underware\Engine\Exception;
+namespace Rite\Engine\Exception;
 
 
 /**
  * Class Exception
  *
- * @package Underware
+ * @package Rite
  */
 class Exception extends \Exception
 {
 
-    /** @var bool|string $underwareMessage */
-    private $underwareMessage;
+    /** @var bool|string $customMessage */
+    private $customMessage;
 
-    /** @var bool|string $underwareFile */
-    private $underwareFile;
+    /** @var bool|string $customFile */
+    private $customFile;
 
-    /** @var integer|string $underwareLine */
-    private $underwareLine;
+    /** @var integer|string $customLine */
+    private $customLine;
 
-    /** @var integer|string $underwareCode */
-    private $underwareCode;
+    /** @var integer|string $customCode */
+    private $customCode;
 
 
     public function __construct($code, $message = "", $file = false, $line = false, \Exception $previous = null)
@@ -37,19 +37,19 @@ class Exception extends \Exception
         }
 
 
-        $this->underwareCode = $code;
+        $this->customCode = $code;
 
         if ($file) {
-            $this->underwareFile = $file;
+            $this->customFile = $file;
         }
 
         if ($line) {
-            $this->underwareLine = $line;
+            $this->customLine = $line;
         }
 
         if ($message) {
-            $this->underwareMessage = $message;
-            $message                = str_replace("%", "", $message);
+            $this->customMessage = $message;
+            $message             = str_replace("%", "", $message);
         } else {
             $message = "No Message given!";
         }
@@ -60,45 +60,45 @@ class Exception extends \Exception
     }
 
     /**
-     * returns the Underware Exception Code
+     * returns the Custom Exception Code
      *
      * @return bool|string
      */
-    public function getUnderwareCode()
+    public function getCustomCode()
     {
-        return $this->underwareCode;
+        return $this->customCode;
     }
 
     /**
-     * returns the Underware file
+     * returns the Custom file
      *
      * @return bool|string
      */
-    public function getUnderwareFile()
+    public function getCustomFile()
     {
-        return $this->underwareFile;
+        return $this->customFile;
     }
 
 
     /**
-     * returns the Underware line
+     * returns the Custom line
      *
      * @return bool|int|string
      */
-    public function getUnderwareLine()
+    public function getCustomLine()
     {
-        return $this->underwareLine;
+        return $this->customLine;
     }
 
 
     /**
-     * returns the Underware message
+     * returns the Custom message
      *
      * @return bool|int|string
      */
-    public function getUnderwareMessage()
+    public function getCustomMessage()
     {
-        return $this->underwareMessage;
+        return $this->customMessage;
     }
 
 
@@ -130,7 +130,7 @@ class Exception extends \Exception
      * @param $line
      * @param $function
      */
-    function displayUnderwareErrorFile($root, $file, $line = false, $function = false)
+    function displayCustomErrorFile($root, $file, $line = false, $function = false)
     {
 
         $file = $this->splitFile($file, $root);

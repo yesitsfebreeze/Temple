@@ -1,17 +1,17 @@
 <?php
 
-namespace Underware\Engine\Filesystem;
+namespace Rite\Engine\Filesystem;
 
 
-use Underware\Engine\Config;
-use Underware\Engine\Exception\Exception;
-use Underware\Engine\InjectionManager\Injection;
+use Rite\Engine\Config;
+use Rite\Engine\Exception\Exception;
+use Rite\Engine\InjectionManager\Injection;
 
 
 /**
  * Class Directories
  *
- * @package Underware
+ * @package Rite
  */
 class DirectoryHandler extends Injection
 {
@@ -134,17 +134,20 @@ class DirectoryHandler extends Injection
 
     /**
      * creates a directory at the given path
-     *
-     * @param $dir
-     *
-     * @throws \Underware\Engine\Exception\Exception
+
+*
+*@param $dir
+
+
+*
+*@throws \Rite\Engine\Exception\Exception
      */
     public function createDir($dir)
     {
         $dir = $this->path($dir);
         if (!is_dir($dir)) {
             if (!is_writable(dirname($dir))) {
-                throw new Exception(1,"You'r missing permissions to setup this directory!", $dir);
+                throw new Exception(1, "You'r missing permissions to setup this directory!", $dir);
             }
 
             mkdir($dir, 0777, true);
@@ -162,9 +165,10 @@ class DirectoryHandler extends Injection
      */
     private function path($dir)
     {
+        $frameworkName = reset(explode("\\", __NAMESPACE__));
         if ($dir[0] != "/") {
-            $framework = explode("Underware", __DIR__);
-            $framework = $framework[0] . "Underware/";
+            $framework = explode($frameworkName, __DIR__);
+            $framework = $framework[0] . $frameworkName . "/";
             $dir       = $framework . $dir;
         }
         $dir = str_replace("/./", "/", $dir) . "/";
@@ -176,9 +180,10 @@ class DirectoryHandler extends Injection
 
     /**
      * iterates over all template directories and checks if they are valid
-     *
-     * @return mixed
-     * @throws \Underware\Engine\Exception\Exception
+
+*
+*@return mixed
+     * @throws \Rite\Engine\Exception\Exception
      */
     private function check()
     {
@@ -209,7 +214,7 @@ class DirectoryHandler extends Injection
         $dir = $this->path($dir);
         if (is_dir($dir)) return $dir;
 
-        throw new Exception(1,"Can't add directory because it does't exist.", $dir);
+        throw new Exception(1, "Can't add directory because it does't exist.", $dir);
     }
 
 

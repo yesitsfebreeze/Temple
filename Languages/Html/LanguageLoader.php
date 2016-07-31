@@ -1,13 +1,13 @@
 <?php
 
-namespace Underware\Languages\Html;
+namespace Rite\Languages\Html;
 
 
-use Underware\Engine\Structs\Language\Language;
-use Underware\Languages\Html\Nodes\CommentNode;
-use Underware\Languages\Html\Nodes\ForeachNode;
-use Underware\Languages\Html\Nodes\HtmlNode;
-use Underware\Languages\Html\Nodes\PlainNode;
+use Rite\Engine\Structs\Language\Language;
+use Rite\Languages\Html\Nodes\CommentNode;
+use Rite\Languages\Html\Nodes\ForeachNode;
+use Rite\Languages\Html\Nodes\HtmlNode;
+use Rite\Languages\Html\Nodes\PlainNode;
 
 
 class LanguageLoader extends Language

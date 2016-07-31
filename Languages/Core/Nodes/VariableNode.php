@@ -1,9 +1,9 @@
 <?php
 
-namespace Underware\Languages\Core\Nodes;
+namespace Rite\Languages\Core\Nodes;
 
 
-use Underware\Engine\Structs\Node\Node;
+use Rite\Engine\Structs\Node\Node;
 
 
 class VariableNode extends Node

@@ -1,22 +1,22 @@
 <?php
 
-namespace Underware\Engine;
+namespace Rite\Engine;
 
 
-use Underware\Engine\Filesystem\Cache;
-use Underware\Engine\Filesystem\CacheInvalidator;
-use Underware\Engine\Filesystem\DirectoryHandler;
-use Underware\Engine\Filesystem\VariableCache;
-use Underware\Engine\InjectionManager\Injection;
-use Underware\Engine\Structs\Dom;
-use Underware\Engine\Structs\Page;
-use Underware\Engine\Structs\Variables;
+use Rite\Engine\Filesystem\Cache;
+use Rite\Engine\Filesystem\CacheInvalidator;
+use Rite\Engine\Filesystem\DirectoryHandler;
+use Rite\Engine\Filesystem\VariableCache;
+use Rite\Engine\InjectionManager\Injection;
+use Rite\Engine\Structs\Dom;
+use Rite\Engine\Structs\Page;
+use Rite\Engine\Structs\Variables;
 
 
 /**
  * Class ExceptionTemplate
  *
- * @package Underware\Engine
+ * @package Rite\Engine
  */
 class Template extends Injection
 {

@@ -1,18 +1,18 @@
 <?php
 
-namespace Underware\Languages\Core\Plugins;
+namespace Rite\Languages\Core\Plugins;
 
 
-use Underware\Engine\EventManager\Event;
-use Underware\Engine\Structs\Dom;
-use Underware\Engine\Structs\Node\Node;
-use Underware\Languages\Core\Nodes\BlockNode;
+use Rite\Engine\EventManager\Event;
+use Rite\Engine\Structs\Dom;
+use Rite\Engine\Structs\Node\Node;
+use Rite\Languages\Core\Nodes\BlockNode;
 
 
 /**
  * Class VariablesPlugin
  *
- * @package Underware\Languages\Core\Plugins
+ * @package Rite\Languages\Core\Plugins
  */
 class ExtendPlugin extends Event
 {

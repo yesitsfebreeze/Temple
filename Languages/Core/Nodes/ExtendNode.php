@@ -1,11 +1,11 @@
 <?php
 
-namespace Underware\Languages\Core\Nodes;
+namespace Rite\Languages\Core\Nodes;
 
 
-use Underware\Engine\Structs\Dom;
-use Underware\Engine\Exception\Exception;
-use Underware\Engine\Structs\Node\Node;
+use Rite\Engine\Structs\Dom;
+use Rite\Engine\Exception\Exception;
+use Rite\Engine\Structs\Node\Node;
 
 
 class ExtendNode extends Node
@@ -42,7 +42,7 @@ class ExtendNode extends Node
             }
         } catch (Exception $e) {
 
-            if ($e->getUnderwareCode() == 0) {
+            if ($e->getCustomCode() == 0) {
                 throw new Exception(1, "Can't extend file %" . $this->getContent() . "% because it doesn't exist!", $this->getFile(), $this->getLine());
             }
 

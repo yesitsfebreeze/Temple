@@ -1,16 +1,16 @@
 <?php
 
 
-namespace Underware\Engine\Structs\Node;
+namespace Rite\Engine\Structs\Node;
 
 
-use Underware\Engine\Structs\Dom;
+use Rite\Engine\Structs\Dom;
 
 
 /**
  * Interface Node
  *
- * @package Underware\Nodes
+ * @package Rite\Nodes
  */
 interface NodeInterface
 {

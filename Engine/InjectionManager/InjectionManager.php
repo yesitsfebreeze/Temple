@@ -1,16 +1,16 @@
 <?php
 
-namespace Underware\Engine\InjectionManager;
+namespace Rite\Engine\InjectionManager;
 
 
-use Underware\Engine\Exception\Exception;
-use Underware\Engine\Exception\ExceptionHandler;
+use Rite\Engine\Exception\Exception;
+use Rite\Engine\Exception\ExceptionHandler;
 
 
 /**
  * Class Manager
  *
- * @package Underware\Engine\Injection
+ * @package Rite\Engine\Injection
  */
 class InjectionManager
 {

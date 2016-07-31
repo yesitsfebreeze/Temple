@@ -1,9 +1,9 @@
 <?php
 
-namespace Underware\Languages\Html\Nodes;
+namespace Rite\Languages\Html\Nodes;
 
 
-use Underware\Engine\Structs\Node\Node;
+use Rite\Engine\Structs\Node\Node;
 
 
 class CommentNode extends Node

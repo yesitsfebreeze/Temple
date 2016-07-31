@@ -1,8 +1,8 @@
 <?php
 
-namespace Underware\Engine\Structs;
+namespace Rite\Engine\Structs;
 
-use Underware\Engine\Exception\Exception;
+use Rite\Engine\Exception\Exception;
 
 
 class Page {

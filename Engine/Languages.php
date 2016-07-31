@@ -1,19 +1,19 @@
 <?php
 
-namespace Underware\Engine;
+namespace Rite\Engine;
 
 
-use Underware\Engine\EventManager\EventManager;
-use Underware\Engine\Exception\Exception;
-use Underware\Engine\InjectionManager\Injection;
-use Underware\Engine\Structs\Dom;
-use Underware\Engine\Structs\Language\Language;
+use Rite\Engine\EventManager\EventManager;
+use Rite\Engine\Exception\Exception;
+use Rite\Engine\InjectionManager\Injection;
+use Rite\Engine\Structs\Dom;
+use Rite\Engine\Structs\Language\Language;
 
 
 /**
  * Class Languages
  *
- * @package Underware\Engine
+ * @package Rite\Engine
  */
 class Languages extends Injection
 {
@@ -68,14 +68,14 @@ class Languages extends Injection
     private function loadLanguages($languages)
     {
         foreach ($languages as $language) {
-
-            $class = "\\Underware\\Languages\\" . ucfirst(strtolower($language)) . "\\LanguageLoader";
+            $frameworkName = reset(explode("\\", __NAMESPACE__));
+            $class         = "\\" . $frameworkName . "\\Languages\\" . ucfirst(strtolower($language)) . "\\LanguageLoader";
             if (class_exists($class)) {
                 /** @var Language $lang */
                 $this->EventManager->register("language." . $language, $lang = new $class());
                 $this->EventManager->notify("language." . $language);
             } else {
-                throw new Exception(1,"Language %" . $language . "% does not exist!");
+                throw new Exception(1, "Language %" . $language . "% does not exist!");
             }
         }
     }

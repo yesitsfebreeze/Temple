@@ -1,11 +1,11 @@
 <?php
 
-namespace Underware\Engine\Filesystem;
+namespace Rite\Engine\Filesystem;
 
 
-use Underware\Engine\Config;
-use Underware\Engine\Exception\Exception;
-use Underware\Engine\InjectionManager\Injection;
+use Rite\Engine\Config;
+use Rite\Engine\Exception\Exception;
+use Rite\Engine\InjectionManager\Injection;
 
 
 class Cache extends Injection

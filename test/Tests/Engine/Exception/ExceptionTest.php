@@ -5,18 +5,18 @@ class ExceptionTest extends \PHPUnit_Framework_TestCase
 {
 
     /**
-     * @expectedException \Underware\Exception\Exception
+     * @expectedException \Rite\Exception\Exception
      */
     public function testException()
     {
-        throw new \Underware\Engine\Exception\Exception("test", "myfile", "myline");
+        throw new \Rite\Engine\Exception\Exception("test", "myfile", "myline");
     }
 
 
     public function testExceptionMessage()
     {
         $expected = "test";
-        $e        = new \Underware\Engine\Exception\Exception($expected, "myfile", "myline");
+        $e        = new \Rite\Engine\Exception\Exception($expected, "myfile", "myline");
         $result   = $e->getMessage();
         $this->assertEquals($expected, $result);
     }
@@ -25,8 +25,8 @@ class ExceptionTest extends \PHPUnit_Framework_TestCase
     public function testExceptionFile()
     {
         $expected = "test";
-        $e        = new \Underware\Engine\Exception\Exception("test", $expected, "myline");
-        $result   = $e->getUnderwareFile();
+        $e        = new \Rite\Engine\Exception\Exception("test", $expected, "myline");
+        $result   = $e->getCustomFile();
         $this->assertEquals($expected, $result);
     }
 
@@ -34,8 +34,8 @@ class ExceptionTest extends \PHPUnit_Framework_TestCase
     public function testExceptionLine()
     {
         $expected = "myline";
-        $e        = new \Underware\Engine\Exception\Exception("test", "myfile", $expected);
-        $result   = $e->getUnderwareLine();
+        $e        = new \Rite\Engine\Exception\Exception("test", "myfile", $expected);
+        $result   = $e->getCustomLine();
         $this->assertEquals($expected, $result);
     }
 

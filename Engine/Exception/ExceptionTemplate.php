@@ -1,12 +1,12 @@
 <?php
 
-namespace Underware\Engine\Exception;
+namespace Rite\Engine\Exception;
 
 
 /**
  * Class ExceptionTemplate
  *
- * @package Underware\Exception
+ * @package Rite\Exception
  */
 class ExceptionTemplate
 {
@@ -50,7 +50,7 @@ class ExceptionTemplate
     {
 
         $code = "<div class='mute code'>";
-        $code .= "Errorcode " . $this->exception->getUnderwareCode();
+        $code .= "Errorcode " . $this->exception->getCustomCode();
         $code .= "</div>";
 
         $this->template = str_replace("%code%", $code, $this->template);
@@ -62,7 +62,7 @@ class ExceptionTemplate
      */
     private function displayMessage()
     {
-        $message        = preg_replace('/\\%(.+?)\\%/', "<span class='highlight'>$1</span>", $this->exception->getUnderwareMessage());
+        $message        = preg_replace('/\\%(.+?)\\%/', "<span class='highlight'>$1</span>", $this->exception->getCustomMessage());
         $this->template = str_replace("%message%", $message, $this->template);
     }
 
@@ -72,9 +72,9 @@ class ExceptionTemplate
      */
     private function displayFile()
     {
-        $file = $this->coloredFilePath($this->exception->getUnderwareFile(), true);
-        if ($this->exception->getUnderwareLine()) {
-            $file .= " on line <span class='highlight'>" . $this->exception->getUnderwareLine() . "</span>";
+        $file = $this->coloredFilePath($this->exception->getCustomFile(), true);
+        if ($this->exception->getCustomLine()) {
+            $file .= " on line <span class='highlight'>" . $this->exception->getCustomLine() . "</span>";
         }
         $this->template = str_replace("%file%", $file, $this->template);
     }
@@ -91,7 +91,7 @@ class ExceptionTemplate
             $output .= "<div class='trace'>";
             $output .= $this->realPath($trace["file"]);
             $output .= $this->coloredFilePath($trace["file"]);
-            $output .= "<span class='mute'>:</span><span class='highlight'>" . $trace["line"] . "</span>";
+            $output .= "<span class='mute'> at line </span><span class='highlight'>" . $trace["line"] . "</span>";
             $output .= "<span class='mute'> &rightarrow; </span>" . $trace["function"] . "()";
             $output .= "</div>";
         }
