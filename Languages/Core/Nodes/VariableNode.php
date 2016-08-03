@@ -1,9 +1,9 @@
 <?php
 
-namespace WorkingTitle\Languages\Core\Nodes;
+namespace Temple\Languages\Core\Nodes;
 
 
-use WorkingTitle\Engine\Structs\Node\Node;
+use Temple\Engine\Structs\Node\Node;
 
 
 class VariableNode extends Node

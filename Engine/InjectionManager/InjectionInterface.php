@@ -1,12 +1,12 @@
 <?php
 
-namespace WorkingTitle\Engine\InjectionManager;
+namespace Temple\Engine\InjectionManager;
 
 
 /**
  * Interface InjectionInterface
  *
- * @package WorkingTitle\Engine\Injection
+ * @package Temple\Engine\Injection
  */
 interface InjectionInterface
 {

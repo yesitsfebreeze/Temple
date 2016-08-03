@@ -1,10 +1,10 @@
 <?php
 
-namespace WorkingTitle\Engine\Structs\Language;
+namespace Temple\Engine\Structs\Language;
 
 
-use WorkingTitle\Engine\EventManager\Event;
-use WorkingTitle\Engine\Exception\Exception;
+use Temple\Engine\EventManager\Event;
+use Temple\Engine\Exception\Exception;
 
 
 class Language extends Event implements LanguageInterface

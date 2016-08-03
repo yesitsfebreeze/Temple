@@ -1,16 +1,16 @@
 <?php
 
-namespace WorkingTitle\Engine;
+namespace Temple\Engine;
 
 
-use WorkingTitle\Engine\Exception\ExceptionHandler;
-use WorkingTitle\Engine\InjectionManager\Injection;
+use Temple\Engine\Exception\ExceptionHandler;
+use Temple\Engine\InjectionManager\Injection;
 
 
 /**
  * Class Config
  *
- * @package WorkingTitle\Engine
+ * @package Temple\Engine
  */
 class Config extends Injection
 {

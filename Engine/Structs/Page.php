@@ -1,8 +1,8 @@
 <?php
 
-namespace WorkingTitle\Engine\Structs;
+namespace Temple\Engine\Structs;
 
-use WorkingTitle\Engine\Exception\Exception;
+use Temple\Engine\Exception\Exception;
 
 
 class Page {

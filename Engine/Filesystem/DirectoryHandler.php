@@ -1,17 +1,17 @@
 <?php
 
-namespace WorkingTitle\Engine\Filesystem;
+namespace Temple\Engine\Filesystem;
 
 
-use WorkingTitle\Engine\Config;
-use WorkingTitle\Engine\Exception\Exception;
-use WorkingTitle\Engine\InjectionManager\Injection;
+use Temple\Engine\Config;
+use Temple\Engine\Exception\Exception;
+use Temple\Engine\InjectionManager\Injection;
 
 
 /**
  * Class Directories
  *
- * @package WorkingTitle
+ * @package Temple
  */
 class DirectoryHandler extends Injection
 {
@@ -141,7 +141,7 @@ class DirectoryHandler extends Injection
 
 
 *
-*@throws \WorkingTitle\Engine\Exception\Exception
+*@throws \Temple\Engine\Exception\Exception
      */
     public function createDir($dir)
     {
@@ -184,7 +184,7 @@ class DirectoryHandler extends Injection
 
 *
 *@return mixed
-     * @throws \WorkingTitle\Engine\Exception\Exception
+     * @throws \Temple\Engine\Exception\Exception
      */
     private function check()
     {

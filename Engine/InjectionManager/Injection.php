@@ -1,11 +1,11 @@
 <?php
 
 
-namespace WorkingTitle\Engine\InjectionManager;
+namespace Temple\Engine\InjectionManager;
 
 
-use WorkingTitle\Engine\Exception\Exception;
-use WorkingTitle\Engine\Exception\ExceptionHandler;
+use Temple\Engine\Exception\Exception;
+use Temple\Engine\Exception\ExceptionHandler;
 
 
 abstract class Injection implements InjectionInterface

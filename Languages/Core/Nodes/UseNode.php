@@ -1,10 +1,10 @@
 <?php
 
-namespace WorkingTitle\Languages\Core\Nodes;
+namespace Temple\Languages\Core\Nodes;
 
 
-use WorkingTitle\Engine\Exception\Exception;
-use WorkingTitle\Engine\Structs\Node\Node;
+use Temple\Engine\Exception\Exception;
+use Temple\Engine\Structs\Node\Node;
 
 
 class UseNode extends Node

@@ -1,15 +1,15 @@
 <?php
 
-namespace WorkingTitle\Languages\Core\Plugins;
+namespace Temple\Languages\Core\Plugins;
 
 
-use WorkingTitle\Engine\EventManager\Event;
+use Temple\Engine\EventManager\Event;
 
 
 /**
  * Class VariablesPlugin
  *
- * @package WorkingTitle\Languages\Core\Plugins
+ * @package Temple\Languages\Core\Plugins
  */
 class VariablesPlugin extends Event
 {

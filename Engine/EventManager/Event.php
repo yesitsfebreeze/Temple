@@ -1,11 +1,11 @@
 <?php
 
-namespace WorkingTitle\Engine\EventManager;
+namespace Temple\Engine\EventManager;
 
 
-use WorkingTitle\Engine\Exception\Exception;
-use WorkingTitle\Engine\InjectionManager\InjectionManager;
-use WorkingTitle\Engine\Instance;
+use Temple\Engine\Exception\Exception;
+use Temple\Engine\InjectionManager\InjectionManager;
+use Temple\Instance;
 
 
 /**

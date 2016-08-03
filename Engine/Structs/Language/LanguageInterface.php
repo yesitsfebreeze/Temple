@@ -1,6 +1,6 @@
 <?php
 
-namespace WorkingTitle\Engine\Structs\Language;
+namespace Temple\Engine\Structs\Language;
 
 
 interface LanguageInterface

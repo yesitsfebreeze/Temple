@@ -1,22 +1,22 @@
 <?php
 
-namespace WorkingTitle\Engine;
+namespace Temple\Engine;
 
 
-use WorkingTitle\Engine\Filesystem\Cache;
-use WorkingTitle\Engine\Filesystem\CacheInvalidator;
-use WorkingTitle\Engine\Filesystem\DirectoryHandler;
-use WorkingTitle\Engine\Filesystem\VariableCache;
-use WorkingTitle\Engine\InjectionManager\Injection;
-use WorkingTitle\Engine\Structs\Dom;
-use WorkingTitle\Engine\Structs\Page;
-use WorkingTitle\Engine\Structs\Variables;
+use Temple\Engine\Filesystem\Cache;
+use Temple\Engine\Filesystem\CacheInvalidator;
+use Temple\Engine\Filesystem\DirectoryHandler;
+use Temple\Engine\Filesystem\VariableCache;
+use Temple\Engine\InjectionManager\Injection;
+use Temple\Engine\Structs\Dom;
+use Temple\Engine\Structs\Page;
+use Temple\Engine\Structs\Variables;
 
 
 /**
  * Class ExceptionTemplate
  *
- * @package WorkingTitle\Engine
+ * @package Temple\Engine
  */
 class Template extends Injection
 {

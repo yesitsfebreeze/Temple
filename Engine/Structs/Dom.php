@@ -1,11 +1,11 @@
 <?php
 
-namespace WorkingTitle\Engine\Structs;
+namespace Temple\Engine\Structs;
 
 
-use WorkingTitle\Engine\Exception\Exception;
-use WorkingTitle\Engine\Structs\Node\Node;
-use WorkingTitle\Languages\Core\Nodes\VariableNode;
+use Temple\Engine\Exception\Exception;
+use Temple\Engine\Structs\Node\Node;
+use Temple\Languages\Core\Nodes\VariableNode;
 
 
 class Dom

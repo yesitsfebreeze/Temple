@@ -1,15 +1,15 @@
 <?php
 
-namespace WorkingTitle\Languages\Core;
+namespace Temple\Languages\Core;
 
 
-use WorkingTitle\Engine\Structs\Language\Language;
-use WorkingTitle\Languages\Core\Nodes\BlockNode;
-use WorkingTitle\Languages\Core\Nodes\ExtendNode;
-use WorkingTitle\Languages\Core\Nodes\UseNode;
-use WorkingTitle\Languages\Core\Nodes\VariableNode;
-use WorkingTitle\Languages\Core\Plugins\ExtendPlugin;
-use WorkingTitle\Languages\Core\Plugins\VariablesPlugin;
+use Temple\Engine\Structs\Language\Language;
+use Temple\Languages\Core\Nodes\BlockNode;
+use Temple\Languages\Core\Nodes\ExtendNode;
+use Temple\Languages\Core\Nodes\UseNode;
+use Temple\Languages\Core\Nodes\VariableNode;
+use Temple\Languages\Core\Plugins\ExtendPlugin;
+use Temple\Languages\Core\Plugins\VariablesPlugin;
 
 
 class LanguageLoader extends Language

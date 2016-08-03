@@ -1,16 +1,16 @@
 <?php
 
 
-namespace WorkingTitle\Engine\Structs\Node;
+namespace Temple\Engine\Structs\Node;
 
 
-use WorkingTitle\Engine\Structs\Dom;
+use Temple\Engine\Structs\Dom;
 
 
 /**
  * Interface Node
  *
- * @package WorkingTitle\Nodes
+ * @package Temple\Nodes
  */
 interface NodeInterface
 {

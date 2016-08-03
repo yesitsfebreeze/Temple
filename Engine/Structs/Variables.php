@@ -1,6 +1,6 @@
 <?php
 
-namespace WorkingTitle\Engine\Structs;
+namespace Temple\Engine\Structs;
 
 
 class Variables extends Storage

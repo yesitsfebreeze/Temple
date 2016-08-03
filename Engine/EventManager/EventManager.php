@@ -1,18 +1,18 @@
 <?php
 
-namespace WorkingTitle\Engine\EventManager;
+namespace Temple\Engine\EventManager;
 
 
-use WorkingTitle\Engine\Exception\Exception;
-use WorkingTitle\Engine\InjectionManager\Injection;
-use WorkingTitle\Engine\Instance;
-use WorkingTitle\Engine\Structs\Storage;
+use Temple\Engine\Exception\Exception;
+use Temple\Engine\InjectionManager\Injection;
+use Temple\Instance;
+use Temple\Engine\Structs\Storage;
 
 
 /**
  * Class Manager
  *
- * @package WorkingTitle\Manager
+ * @package Temple\Manager
  */
 class EventManager extends Injection
 {

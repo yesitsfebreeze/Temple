@@ -1,18 +1,18 @@
 <?php
 
-namespace WorkingTitle\Languages\Core\Plugins;
+namespace Temple\Languages\Core\Plugins;
 
 
-use WorkingTitle\Engine\EventManager\Event;
-use WorkingTitle\Engine\Structs\Dom;
-use WorkingTitle\Engine\Structs\Node\Node;
-use WorkingTitle\Languages\Core\Nodes\BlockNode;
+use Temple\Engine\EventManager\Event;
+use Temple\Engine\Structs\Dom;
+use Temple\Engine\Structs\Node\Node;
+use Temple\Languages\Core\Nodes\BlockNode;
 
 
 /**
  * Class VariablesPlugin
  *
- * @package WorkingTitle\Languages\Core\Plugins
+ * @package Temple\Languages\Core\Plugins
  */
 class ExtendPlugin extends Event
 {

@@ -1,13 +1,13 @@
 <?php
 
-namespace WorkingTitle\Languages\Html;
+namespace Temple\Languages\Html;
 
 
-use WorkingTitle\Engine\Structs\Language\Language;
-use WorkingTitle\Languages\Html\Nodes\CommentNode;
-use WorkingTitle\Languages\Html\Nodes\ForeachNode;
-use WorkingTitle\Languages\Html\Nodes\HtmlNode;
-use WorkingTitle\Languages\Html\Nodes\PlainNode;
+use Temple\Engine\Structs\Language\Language;
+use Temple\Languages\Html\Nodes\CommentNode;
+use Temple\Languages\Html\Nodes\ForeachNode;
+use Temple\Languages\Html\Nodes\HtmlNode;
+use Temple\Languages\Html\Nodes\PlainNode;
 
 
 class LanguageLoader extends Language

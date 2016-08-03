@@ -1,15 +1,15 @@
 <?php
 
-namespace WorkingTitle\Engine\Structs\Node;
+namespace Temple\Engine\Structs\Node;
 
 
-use WorkingTitle\Engine\Exception\Exception;
+use Temple\Engine\Exception\Exception;
 
 
 /**
  * Class DefaultNode
  *
- * @package WorkingTitle\Engine\Structs
+ * @package Temple\Engine\Structs
  */
 class DefaultNode extends Node
 {

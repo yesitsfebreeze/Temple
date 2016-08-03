@@ -1,13 +1,13 @@
 <?php
 
-namespace WorkingTitle\Engine;
+namespace Temple\Engine;
 
 
-use WorkingTitle\Engine\EventManager\EventManager;
-use WorkingTitle\Engine\Exception\Exception;
-use WorkingTitle\Engine\InjectionManager\Injection;
-use WorkingTitle\Engine\Structs\Dom;
-use WorkingTitle\Engine\Structs\Node\Node;
+use Temple\Engine\EventManager\EventManager;
+use Temple\Engine\Exception\Exception;
+use Temple\Engine\InjectionManager\Injection;
+use Temple\Engine\Structs\Dom;
+use Temple\Engine\Structs\Node\Node;
 
 
 /**

@@ -1,12 +1,12 @@
 <?php
 
-namespace WorkingTitle\Engine\Exception;
+namespace Temple\Engine\Exception;
 
 
 /**
  * Class ExceptionHandler
  *
- * @package WorkingTitle\Exceptions
+ * @package Temple\Exceptions
  */
 class ExceptionHandler
 {

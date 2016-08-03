@@ -1,6 +1,6 @@
 <?php
 
-namespace WorkingTitle;
+namespace Temple;
 
 
 $namespace = __NAMESPACE__;
@@ -14,3 +14,5 @@ spl_autoload_register(function ($class) use ($namespace, $dir) {
         require $file;
     }
 });
+
+require "Instance.php";

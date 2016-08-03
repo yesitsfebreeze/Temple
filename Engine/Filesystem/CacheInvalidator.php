@@ -1,10 +1,10 @@
 <?php
 
-namespace WorkingTitle\Engine\Filesystem;
+namespace Temple\Engine\Filesystem;
 
 
-use WorkingTitle\Engine\Exception\Exception;
-use WorkingTitle\Engine\InjectionManager\Injection;
+use Temple\Engine\Exception\Exception;
+use Temple\Engine\InjectionManager\Injection;
 
 
 class CacheInvalidator extends Cache

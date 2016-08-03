@@ -1,21 +1,26 @@
 <?php
 
-namespace WorkingTitle\Engine;
+namespace Temple;
 
 
-use WorkingTitle\Engine\EventManager\EventManager;
-use WorkingTitle\Engine\Filesystem\Cache;
-use WorkingTitle\Engine\Filesystem\CacheInvalidator;
-use WorkingTitle\Engine\Filesystem\DirectoryHandler;
-use WorkingTitle\Engine\Filesystem\VariableCache;
-use WorkingTitle\Engine\InjectionManager\InjectionManager;
-use WorkingTitle\Engine\Structs\Variables;
+use Temple\Engine\Compiler;
+use Temple\Engine\Config;
+use Temple\Engine\EventManager\EventManager;
+use Temple\Engine\Filesystem\Cache;
+use Temple\Engine\Filesystem\CacheInvalidator;
+use Temple\Engine\Filesystem\DirectoryHandler;
+use Temple\Engine\Filesystem\VariableCache;
+use Temple\Engine\InjectionManager\InjectionManager;
+use Temple\Engine\Languages;
+use Temple\Engine\Lexer;
+use Temple\Engine\Structs\Variables;
+use Temple\Engine\Template;
 
 
 /**
  * Class Instance
  *
- * @package WorkingTitle
+ * @package Temple
  */
 class Instance
 {

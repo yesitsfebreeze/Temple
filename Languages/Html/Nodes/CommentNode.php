@@ -1,9 +1,9 @@
 <?php
 
-namespace WorkingTitle\Languages\Html\Nodes;
+namespace Temple\Languages\Html\Nodes;
 
 
-use WorkingTitle\Engine\Structs\Node\Node;
+use Temple\Engine\Structs\Node\Node;
 
 
 class CommentNode extends Node

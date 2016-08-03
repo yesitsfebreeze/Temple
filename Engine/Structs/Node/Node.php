@@ -1,18 +1,18 @@
 <?php
 
 
-namespace WorkingTitle\Engine\Structs\Node;
+namespace Temple\Engine\Structs\Node;
 
 
-use WorkingTitle\Engine\EventManager\Event;
-use WorkingTitle\Engine\Exception\Exception;
-use WorkingTitle\Engine\Structs\Dom;
+use Temple\Engine\EventManager\Event;
+use Temple\Engine\Exception\Exception;
+use Temple\Engine\Structs\Dom;
 
 
 /**
  * Class Node
  *
- * @package WorkingTitle\Engine\Structs
+ * @package Temple\Engine\Structs
  */
 abstract class Node extends Event implements NodeInterface
 {
