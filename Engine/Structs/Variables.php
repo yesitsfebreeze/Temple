@@ -15,9 +15,6 @@ class Variables extends Storage
     /** @var  Storage $scoped */
     public $scoped;
 
-    /** @var int $currentScope */
-    public $currentScope = 0;
-
     /** @var bool $isScoped */
     public $isScoped = false;
 
@@ -51,8 +48,6 @@ class Variables extends Storage
         $this->init();
 
         if ($this->isScoped) {
-            $path = $this->currentScope . "." . $path;
-
             return $this->scoped->set($path, $value);
         } else {
             if (!$cached) {
@@ -90,7 +85,6 @@ class Variables extends Storage
         if ($this->isScoped) {
             $mergedVars = $merged->get();
             $this->scoped->merge($mergedVars);
-            $path = $this->currentScope . "." . $path;
 
             return $this->scoped->get($path);
         }
@@ -104,16 +98,16 @@ class Variables extends Storage
      */
     public function scope()
     {
-        $this->currentScope = $this->currentScope + 1;
-        $this->isScoped     = true;
+        $this->isScoped = true;
     }
 
 
     /**
      * stops the current scope
      */
-    public function unscope()
+    public function unScope()
     {
+        $this->scoped   = new Storage();
         $this->isScoped = false;
     }
 

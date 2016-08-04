@@ -140,7 +140,7 @@ class ForeachNode extends Node
 
         $output .= $this->compileChildren();
 
-        $output .= '<?php $this->Variables->unscope(); ?>';
+        $output .= '<?php $this->Variables->unScope(); ?>';
 
         if (!$this->isSelfClosing()) {
             $output .= "<?php } ?>";

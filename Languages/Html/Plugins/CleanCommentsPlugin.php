@@ -16,7 +16,7 @@ use Temple\Engine\Structs\Node\Node;
 class CleanCommentsPlugin extends Event
 {
     /**
-     * add tags which cannot contain a comment here
+     * defines the tags which can't contain comments
      *
      * @var array
      */

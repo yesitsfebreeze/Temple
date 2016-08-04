@@ -8,7 +8,7 @@ use Temple\Engine\EventManager\Event;
 
 /**
  * Class VariablesPlugin
- v*
+ *
  * @package Temple\Languages\Core\Plugins
  */
 class VariablesPlugin extends Event
