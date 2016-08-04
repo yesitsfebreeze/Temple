@@ -86,10 +86,7 @@ class HtmlNode extends Node
     {
         $output = "<" . $this->getTag() . " " . $this->getAttributes() . ">";
 
-        /** @var Node $child */
-        foreach ($this->getChildren() as $child) {
-            $output .= $child->compile();
-        }
+        $output .= $this->compileChildren();
 
         if (!$this->isSelfClosing()) {
             $output .= "</" . $this->getTag() . ">";

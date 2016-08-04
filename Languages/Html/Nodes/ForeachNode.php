@@ -131,10 +131,7 @@ class ForeachNode extends Node
             $output .= '<?php $this->Variables->set("' . $this->itemName . '",$' . $this->itemName . "); ?>";
         }
 
-        /** @var Node $child */
-        foreach ($this->getChildren() as $child) {
-            $output .= $child->compile();
-        }
+        $output .= $this->compileChildren();
 
         if (!$this->isSelfClosing()) {
             $output .= "<?php } ?>";

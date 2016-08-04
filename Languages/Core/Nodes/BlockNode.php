@@ -107,11 +107,8 @@ class BlockNode extends Node
         if ($this->Instance->Config()->isShowBlockComments() && $this->showBlockComment) {
             $output = "<!-- " . trim($this->plain) . " - " . $this->getRelativeFile() . "-->";
         }
-
-        /** @var Node $child */
-        foreach ($this->getChildren() as $child) {
-            $output .= $child->compile();
-        }
+        
+        $output .= $this->compileChildren();
 
         return $output;
     }
