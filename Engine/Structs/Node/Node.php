@@ -112,6 +112,23 @@ abstract class Node extends Event implements NodeInterface
 
 
     /**
+     * compiles children nodes and returns the output
+     *
+     * @return string
+     */
+    public function compileChildren()
+    {
+        $output = "";
+        /** @var Node $child */
+        foreach ($this->getChildren() as $child) {
+            $output .= $child->compile();
+        }
+
+        return $output;
+    }
+
+
+    /**
      * @return string
      */
     public function getName()
