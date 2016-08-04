@@ -71,7 +71,6 @@ class Lexer extends Injection
         $Dom = new Dom($namespace, $file, $files, $this->level);
         $this->process($file, $Dom);
 
-        $Dom = $this->EventManager->notify("plugin.dom", $Dom);
 
         return $Dom;
 

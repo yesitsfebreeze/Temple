@@ -37,7 +37,7 @@ class BlockNode extends Node
      */
     public function setup()
     {
-
+        $this->setCommentNode(true);
         $this->setBlockName();
         $this->Dom->addBlock($this->getBlockName(), $this);
 
@@ -79,24 +79,6 @@ class BlockNode extends Node
 
 
     /**
-     * @return boolean
-     */
-    public function isShowBlockComment()
-    {
-        return $this->showBlockComment;
-    }
-
-
-    /**
-     * @param boolean $showBlockComment
-     */
-    public function setShowBlockComment($showBlockComment)
-    {
-        $this->showBlockComment = $showBlockComment;
-    }
-
-
-    /**
      * creates the output
      *
      * @return string
@@ -104,7 +86,7 @@ class BlockNode extends Node
     public function compile()
     {
         $output = "";
-        if ($this->Instance->Config()->isShowBlockComments() && $this->showBlockComment) {
+        if ($this->Instance->Config()->isShowBlockComments() && $this->isShowComment()) {
             $output = "<!-- " . trim($this->plain) . " - " . $this->getRelativeFile() . "-->";
         }
         

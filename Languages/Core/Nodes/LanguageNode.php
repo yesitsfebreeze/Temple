@@ -6,8 +6,13 @@ namespace Temple\Languages\Core\Nodes;
 use Temple\Engine\Exception\Exception;
 use Temple\Engine\Structs\Node\Node;
 
-
-class UseNode extends Node
+/**
+ * this node us just for disabling the rendering of the language tag
+ *
+ * Class LanguageNode
+ * @package Temple\Languages\Core\Nodes
+ */
+class LanguageNode extends Node
 {
 
 
@@ -15,12 +20,9 @@ class UseNode extends Node
     public function check()
     {
 
-
-        if ((strtolower($this->getTag()) == "use")) {
+        if ((strtolower($this->getTag()) == "language")) {
             return true;
         }
-
-        $this->setup();
 
         return false;
     }

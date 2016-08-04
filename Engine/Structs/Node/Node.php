@@ -50,6 +50,12 @@ abstract class Node extends Event implements NodeInterface
     /** @var  array $children */
     protected $children = array();
 
+    /** @var  bool $commentNode */
+    protected $commentNode = false;
+
+    /** @var  bool $showComment */
+    protected $showComment = true;
+
 
     /**
      * @param array $plain
@@ -379,6 +385,38 @@ abstract class Node extends Event implements NodeInterface
     public function getContent()
     {
         return trim(preg_replace("/^" . $this->getTag() . "/", "", trim($this->plain)));
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isCommentNode()
+    {
+        return $this->commentNode;
+    }
+
+    /**
+     * @param boolean $commentNode
+     */
+    public function setCommentNode($commentNode)
+    {
+        $this->commentNode = $commentNode;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isShowComment()
+    {
+        return $this->showComment;
+    }
+
+    /**
+     * @param boolean $showComment
+     */
+    public function setShowComment($showComment)
+    {
+        $this->showComment = $showComment;
     }
 
 
