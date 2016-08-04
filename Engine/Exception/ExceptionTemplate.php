@@ -27,6 +27,7 @@ class ExceptionTemplate
     {
         $this->exception = $exception;
         $this->template  = $this->getTemplate();
+        $this->displayLogo();
         $this->displayCode();
         $this->displayMessage();
         $this->displayFile();
@@ -42,10 +43,34 @@ class ExceptionTemplate
      */
     private function getTemplate()
     {
-        return file_get_contents(__DIR__ . DIRECTORY_SEPARATOR . (new \ReflectionClass($this))->getShortName() . ".html");
+        $className = explode("\\", get_class($this));
+        $className = array_pop($className);
+
+        return file_get_contents(__DIR__ . DIRECTORY_SEPARATOR . $className . ".html");
     }
 
 
+    /**
+     * displays the logo
+     */
+    public function displayLogo()
+    {
+        $src = realpath(__DIR__ . DIRECTORY_SEPARATOR . "logo.png");
+
+        $logo = "";
+
+        if (file_exists($src)) {
+            $src  = str_replace($_SERVER["DOCUMENT_ROOT"], "", $src);
+            $logo = "<img src='" . $src . "' title='logo'/>";
+        }
+
+        $this->template = str_replace("%logo%", $logo, $this->template);
+    }
+
+
+    /**
+     * displays the error code
+     */
     private function displayCode()
     {
 
