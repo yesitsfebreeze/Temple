@@ -16,17 +16,59 @@ use Temple\Languages\Core\Nodes\BlockNode;
  */
 class CleanCommentsPlugin extends Event
 {
+    /**
+     * add tags which cannot contain a comment here
+     *
+     * @var array
+     */
+    private $tags = array("title");
 
-    /** @var  Dom $Dom */
-    private $Dom;
 
-
-    public function dispatch(Dom $Dom)
+    /**
+     * iterates over all nodes and cleans the comments if we have a matching tag
+     *
+     * @param Dom $dom
+     * @return mixed
+     */
+    public function dispatch(Dom $dom)
     {
-        $this->Dom       = $Dom;
+        $nodes = $dom->getNodes();
+        foreach ($nodes as &$node) {
+            $node = $this->cleanNode($node);
+        }
+        $dom->setNodes($nodes);
+
+        return $dom;
+    }
+
+    /**
+     * cleans the nodes
+     *
+     * @param Node $node
+     * @param bool $showComments
+     *
+     * @return Node
+     */
+    public function cleanNode(Node $node, $showComments = true)
+    {
+        if (in_array($node->getTag(), $this->tags)) {
+            $showComments = false;
+        }
+
+        if ($node->isCommentNode() && !$showComments) {
+            $node->setShowComment(false);
+        }
 
 
-        return $Dom;
+        $children = $node->getChildren();
+        if (sizeof($children) > 0) {
+            foreach ($children as &$child) {
+                $this->cleanNode($child, $showComments);
+            }
+        }
+        $node->setChildren($children);
+
+        return $node;
     }
 
 

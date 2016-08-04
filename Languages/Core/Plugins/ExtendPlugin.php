@@ -28,7 +28,7 @@ class ExtendPlugin extends Event
     {
 
         if ($Dom->isExtending()) {
-            $this->Dom       = $Dom;
+            $this->Dom = $Dom;
             $this->ParentDom = $this->Dom->getParentDom();
 
             /** @var Node $node */
@@ -50,7 +50,7 @@ class ExtendPlugin extends Event
      */
     private function iterate(Node $node)
     {
-        $node     = $this->extend($node);
+        $node = $this->extend($node);
         $children = $node->getChildren();
         if (sizeof($children) > 0) {
             foreach ($children as &$child) {
@@ -74,18 +74,18 @@ class ExtendPlugin extends Event
             /** @var BlockNode $node */
             $name = $node->getBlockName();
             /** @var BlockNode $block */
-            $block  = $this->ParentDom->getBlock($name);
+            $block = $this->ParentDom->getBlock($name);
             $method = $node->getBlockMethod();
             if ($method == "before") {
                 $children = $block->getChildren();
                 array_unshift($children, $node);
                 $block->setChildren($children);
             } elseif ($method == "after") {
-                $children   = $block->getChildren();
+                $children = $block->getChildren();
                 $children[] = $node;
                 $block->setChildren($children);
             } elseif ($method == "replace") {
-                $block->setShowBlockComment(false);
+                $block->setShowComment(false);
                 $block->setChildren(array($node));
             }
 

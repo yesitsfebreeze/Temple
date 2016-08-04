@@ -7,7 +7,7 @@ use Temple\Engine\Exception\Exception;
 use Temple\Engine\Structs\Node\Node;
 
 
-class UseNode extends Node
+class LanguageNode extends Node
 {
 
 
@@ -16,7 +16,7 @@ class UseNode extends Node
     {
 
 
-        if ((strtolower($this->getTag()) == "use")) {
+        if ((strtolower($this->getTag()) == "language")) {
             return true;
         }
 

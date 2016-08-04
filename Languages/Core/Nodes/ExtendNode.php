@@ -29,6 +29,7 @@ class ExtendNode extends Node
      */
     public function setup()
     {
+        $this->setCommentNode(true);
         if ($this->getContent() == "") {
             throw new Exception(1, "Please specify a file", $this->getFile(), $this->getLine());
         }
@@ -72,7 +73,7 @@ class ExtendNode extends Node
     public function compile()
     {
         $output = "";
-        if ($this->Instance->Config()->isShowBlockComments()) {
+        if ($this->Instance->Config()->isShowBlockComments() && $this->isShowComment()) {
             $output = "<!-- " . trim($this->plain) . " - " . $this->getRelativeFile() . "-->";
         }
 
