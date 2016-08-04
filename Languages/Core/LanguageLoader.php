@@ -12,6 +12,11 @@ use Temple\Languages\Core\Plugins\ExtendPlugin;
 use Temple\Languages\Core\Plugins\VariablesPlugin;
 
 
+/**
+ * Class LanguageLoader
+ *
+ * @package Temple\Languages\Core
+ */
 class LanguageLoader extends Language
 {
 

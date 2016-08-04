@@ -7,6 +7,11 @@ use Temple\Engine\Exception\Exception;
 use Temple\Engine\Structs\Node\Node;
 
 
+/**
+ * Class BreakNode
+ *
+ * @package Temple\Languages\Html\Nodes
+ */
 class BreakNode extends Node
 {
 

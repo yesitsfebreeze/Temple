@@ -7,6 +7,11 @@ use Temple\Engine\Exception\Exception;
 use Temple\Engine\Structs\Node\Node;
 
 
+/**
+ * Class ForeachNode
+ *
+ * @package Temple\Languages\Html\Nodes
+ */
 class ForeachNode extends Node
 {
 
@@ -60,7 +65,7 @@ class ForeachNode extends Node
         $clean = str_replace($this->getTag(), "", $this->plain);
         $parts = explode(" in ", $clean);
         if (sizeof($parts) < 2) {
-            throw new Exception(1,"Syntax error in iteration! It should be: %for key,item in array%");
+            throw new Exception(1, "Syntax error in iteration! It should be: %for key,item in array%");
         }
 
         return $parts;
@@ -116,6 +121,7 @@ class ForeachNode extends Node
 
 
     /**
+     * todo: variables need to be scoped, therefore i need to add a
      * creates the output
      *
      * @return string
@@ -123,6 +129,7 @@ class ForeachNode extends Node
     public function compile()
     {
         $output = '<?php foreach($this->Variables->get("' . $this->iterableName . '") as $' . ($this->key != "" ? $this->key . ' => $' : "") . $this->itemName . ') { ?>';
+        $output .= '<?php $this->Variables->scope(); ?>';
         if (is_string($this->key)) {
             $output .= '<?php $this->Variables->set("' . $this->key . '",$' . $this->key . "); ?>";
         }
@@ -132,6 +139,8 @@ class ForeachNode extends Node
         }
 
         $output .= $this->compileChildren();
+
+        $output .= '<?php $this->Variables->unscope(); ?>';
 
         if (!$this->isSelfClosing()) {
             $output .= "<?php } ?>";

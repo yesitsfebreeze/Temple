@@ -12,6 +12,15 @@ class Variables extends Storage
     /** @var  Storage $unCached */
     public $unCached;
 
+    /** @var  Storage $scoped */
+    public $scoped;
+
+    /** @var int $currentScope */
+    public $currentScope = 0;
+
+    /** @var bool $isScoped */
+    public $isScoped = false;
+
 
     /**
      * setup Storage Objects
@@ -23,6 +32,9 @@ class Variables extends Storage
         }
         if (!$this->unCached instanceof Storage) {
             $this->unCached = new Storage();
+        }
+        if (!$this->scoped instanceof Storage) {
+            $this->scoped = new Storage();
         }
     }
 
@@ -37,11 +49,20 @@ class Variables extends Storage
     public function set($path, $value, $cached = true)
     {
         $this->init();
-        if (!$cached) {
-            return $this->unCached->set($path, $value);
+
+        if ($this->isScoped) {
+            $path = $this->currentScope . "." . $path;
+
+            return $this->scoped->set($path, $value);
         } else {
-            return $this->cached->set($path, $value);
+            if (!$cached) {
+                return $this->unCached->set($path, $value);
+            } else {
+                return $this->cached->set($path, $value);
+            }
         }
+
+
     }
 
 
@@ -53,8 +74,9 @@ class Variables extends Storage
      */
     public function get($path = null, $onlyCached = false)
     {
-        if ($onlyCached) {
-            return $this->cached->get();
+
+        if ($onlyCached && !$this->isScoped) {
+            return $this->cached->get($path);
         }
         $this->init();
         $merged = new Storage();
@@ -65,8 +87,34 @@ class Variables extends Storage
             $merged->merge($this->unCached->get());
         }
 
+        if ($this->isScoped) {
+            $mergedVars = $merged->get();
+            $this->scoped->merge($mergedVars);
+            $path = $this->currentScope . "." . $path;
+
+            return $this->scoped->get($path);
+        }
+
         return $merged->get($path);
     }
 
+
+    /**
+     * starts a new scope session
+     */
+    public function scope()
+    {
+        $this->currentScope = $this->currentScope + 1;
+        $this->isScoped     = true;
+    }
+
+
+    /**
+     * stops the current scope
+     */
+    public function unscope()
+    {
+        $this->isScoped = false;
+    }
 
 }

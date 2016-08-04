@@ -4,13 +4,21 @@ namespace Temple\Languages\Html;
 
 
 use Temple\Engine\Structs\Language\Language;
-use Temple\Languages\Html\Plugins\CleanCommentsPlugin;
 use Temple\Languages\Html\Nodes\CommentNode;
 use Temple\Languages\Html\Nodes\ForeachNode;
 use Temple\Languages\Html\Nodes\HtmlNode;
 use Temple\Languages\Html\Nodes\PlainNode;
+use Temple\Languages\Html\Plugins\CleanCommentsPlugin;
 
 
+/**
+ * this is the default language
+ * it renders to a mix of html and php
+ *
+ * Class LanguageLoader
+ *
+ * @package Temple\Languages\Html
+ */
 class LanguageLoader extends Language
 {
 
@@ -23,6 +31,7 @@ class LanguageLoader extends Language
         $this->registerPlugins();
     }
 
+
     /**
      * registers all nodes for the html language
      */
@@ -33,6 +42,7 @@ class LanguageLoader extends Language
         $this->Instance->EventManager()->register("lexer.node.foreach", new ForeachNode());
         $this->Instance->EventManager()->register("lexer.node.plain", new PlainNode());
     }
+
 
     /**
      * registers all plugins for the html language

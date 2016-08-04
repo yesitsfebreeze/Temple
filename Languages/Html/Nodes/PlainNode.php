@@ -6,6 +6,11 @@ namespace Temple\Languages\Html\Nodes;
 use Temple\Engine\Structs\Node\Node;
 
 
+/**
+ * Class PlainNode
+ *
+ * @package Temple\Languages\Html\Nodes
+ */
 class PlainNode extends Node
 {
 

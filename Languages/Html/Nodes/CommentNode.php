@@ -6,6 +6,11 @@ namespace Temple\Languages\Html\Nodes;
 use Temple\Engine\Structs\Node\Node;
 
 
+/**
+ * Class CommentNode
+ *
+ * @package Temple\Languages\Html\Nodes
+ */
 class CommentNode extends Node
 {
 

@@ -6,6 +6,11 @@ namespace Temple\Languages\Core\Nodes;
 use Temple\Engine\Structs\Node\Node;
 
 
+/**
+ * Class BlockNode
+ *
+ * @package Temple\Languages\Core\Nodes
+ */
 class BlockNode extends Node
 {
 
@@ -54,6 +59,9 @@ class BlockNode extends Node
     }
 
 
+    /**
+     * sets the name of the block
+     */
     public function setBlockName()
     {
         $name = $this->getContent();
@@ -65,6 +73,11 @@ class BlockNode extends Node
     }
 
 
+    /**
+     * returns the block replacing method
+     *
+     * @return string
+     */
     public function getBlockMethod()
     {
         foreach ($this->methods as $method) {
@@ -89,7 +102,7 @@ class BlockNode extends Node
         if ($this->Instance->Config()->isShowBlockComments() && $this->isShowComment()) {
             $output = "<!-- " . trim($this->plain) . " - " . $this->getRelativeFile() . "-->";
         }
-        
+
         $output .= $this->compileChildren();
 
         return $output;

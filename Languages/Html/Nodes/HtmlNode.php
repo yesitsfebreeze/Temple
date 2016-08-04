@@ -6,6 +6,11 @@ namespace Temple\Languages\Html\Nodes;
 use Temple\Engine\Structs\Node\Node;
 
 
+/**
+ * Class HtmlNode
+ *
+ * @package Temple\Languages\Html\Nodes
+ */
 class HtmlNode extends Node
 {
 

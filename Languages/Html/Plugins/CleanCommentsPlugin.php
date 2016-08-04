@@ -6,7 +6,6 @@ namespace Temple\Languages\Html\Plugins;
 use Temple\Engine\EventManager\Event;
 use Temple\Engine\Structs\Dom;
 use Temple\Engine\Structs\Node\Node;
-use Temple\Languages\Core\Nodes\BlockNode;
 
 
 /**
@@ -28,6 +27,7 @@ class CleanCommentsPlugin extends Event
      * iterates over all nodes and cleans the comments if we have a matching tag
      *
      * @param Dom $dom
+     *
      * @return mixed
      */
     public function dispatch(Dom $dom)
@@ -40,6 +40,7 @@ class CleanCommentsPlugin extends Event
 
         return $dom;
     }
+
 
     /**
      * cleans the nodes

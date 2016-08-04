@@ -3,11 +3,16 @@
 namespace Temple\Languages\Core\Nodes;
 
 
-use Temple\Engine\Structs\Dom;
 use Temple\Engine\Exception\Exception;
+use Temple\Engine\Structs\Dom;
 use Temple\Engine\Structs\Node\Node;
 
 
+/**
+ * Class ExtendNode
+ *
+ * @package Temple\Languages\Core\Nodes
+ */
 class ExtendNode extends Node
 {
 
@@ -38,7 +43,7 @@ class ExtendNode extends Node
 
         if (substr($this->getContent(), 0, 1) != "/") {
             $templateFolder = preg_replace("/\/[^\/]*?$/", "", $this->getNamespace());
-            $fileToExtend = $templateFolder . "/" . $fileToExtend;
+            $fileToExtend   = $templateFolder . "/" . $fileToExtend;
         }
 
         try {

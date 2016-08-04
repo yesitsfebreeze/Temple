@@ -6,6 +6,11 @@ namespace Temple\Languages\Core\Nodes;
 use Temple\Engine\Structs\Node\Node;
 
 
+/**
+ * Class VariableNode
+ *
+ * @package Temple\Languages\Core\Nodes
+ */
 class VariableNode extends Node
 {
 
