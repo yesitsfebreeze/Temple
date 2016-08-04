@@ -34,12 +34,14 @@ class Compiler extends Injection
     /**
      * returns the finished template content
      *
-     * @param $dom
+     * @param Dom $dom
      *
      * @return string
      */
-    public function compile($dom)
+    public function compile(Dom $dom)
     {
+
+        $dom = $this->EventManager->notify("plugin.dom", $dom);
         $output = $this->createOutput($dom);
         $output = $this->EventManager->notify("plugin.output", $output);
 
@@ -59,7 +61,7 @@ class Compiler extends Injection
     {
         # temp variable for the output
         $output = '';
-        $nodes  = $dom->getNodes();
+        $nodes = $dom->getNodes();
         /** @var Node $node */
         foreach ($nodes as $node) {
             $node->setDom($dom);

@@ -46,7 +46,7 @@ class Config extends Injection
     private $IndentAmount = 1;
 
     /** @var string */
-    private $extension = "ri";
+    private $extension = "tmpl";
 
     /** @var bool */
     private $showComments = true;

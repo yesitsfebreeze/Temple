@@ -58,7 +58,7 @@ class Languages extends Injection
                 $this->loadLanguages($languages);
 
             } else {
-                $languages = array_merge($this->Config->getDefaultLanguages(), $languages);
+                $languages = array_merge($languages,$this->Config->getDefaultLanguages());
                 $this->loadLanguages($languages);
             }
         }

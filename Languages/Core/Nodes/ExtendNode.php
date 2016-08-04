@@ -28,17 +28,23 @@ class ExtendNode extends Node
      * @throws Exception
      */
     public function setup()
-        {
+    {
         if ($this->getContent() == "") {
             throw new Exception(1, "Please specify a file", $this->getFile(), $this->getLine());
         }
 
-        // todo: relative file
+        $fileToExtend = $this->getContent();
+
+        if (substr($this->getContent(), 0, 1) != "/") {
+            $templateFolder = preg_replace("/\/[^\/]*?$/", "", $this->getNamespace());
+            $fileToExtend = $templateFolder . "/" . $fileToExtend;
+        }
+
         try {
-            if ($this->getContent() == $this->getNamespace()) {
-                $Dom = $this->Instance->Template()->dom($this->getContent(), $this->getLevel() + 1);
+            if ($fileToExtend == $this->getNamespace()) {
+                $Dom = $this->Instance->Template()->dom($fileToExtend, $this->getLevel() + 1);
             } else {
-                $Dom = $this->Instance->Template()->dom($this->getContent());
+                $Dom = $this->Instance->Template()->dom($fileToExtend);
             }
         } catch (Exception $e) {
 
