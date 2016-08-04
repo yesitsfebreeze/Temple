@@ -30,7 +30,7 @@ class Languages extends Injection
     {
         return array(
             "Engine/EventManager/EventManager" => "EventManager",
-            "Engine/Config"                    => "Config"
+            "Engine/Config" => "Config"
         );
     }
 
@@ -48,7 +48,7 @@ class Languages extends Injection
             $line = trim($line);
             preg_match("/^(.*?)(?:$|\s)/", $line, $tag);
             $tag = trim($tag[0]);
-            if ($tag == "use") {
+            if ($tag == "language") {
                 $loadedLanguages = trim(str_replace($tag, "", $line));
                 if (strpos($line, ",") !== false) {
                     $languages = array_merge(explode(",", $loadedLanguages), $languages);
@@ -58,7 +58,7 @@ class Languages extends Injection
                 $this->loadLanguages($languages);
 
             } else {
-                $languages = array_merge($languages,$this->Config->getDefaultLanguages());
+                $languages = array_merge($languages, $this->Config->getDefaultLanguages());
                 $this->loadLanguages($languages);
             }
         }
@@ -69,7 +69,7 @@ class Languages extends Injection
     {
         foreach ($languages as $language) {
             $frameworkName = reset(explode("\\", __NAMESPACE__));
-            $class         = "\\" . $frameworkName . "\\Languages\\" . ucfirst(strtolower($language)) . "\\LanguageLoader";
+            $class = "\\" . $frameworkName . "\\Languages\\" . ucfirst(strtolower($language)) . "\\LanguageLoader";
             if (class_exists($class)) {
                 /** @var Language $lang */
                 $this->EventManager->register("language." . $language, $lang = new $class());
