@@ -134,7 +134,7 @@ class Cache extends Injection
                 $cacheTime    = $times[ $template ][ md5($templatePath) ];
                 $currentTime  = filemtime($templatePath);
 
-                if ($cacheTime != $currentTime || $this->missingVariablesCacheFiles($templatePath)) {
+                if ($cacheTime != $currentTime || $this->CacheFilesAreMissing($templatePath)) {
                     $modified = true;
                 }
             }
@@ -152,7 +152,7 @@ class Cache extends Injection
      *
      * @return bool
      */
-    private function missingVariablesCacheFiles($templatePath)
+    private function CacheFilesAreMissing($templatePath)
     {
         $cacheFilePath = $templatePath;
         foreach ($this->DirectoryHandler->getTemplateDirs() as $templateDir) {
@@ -160,10 +160,11 @@ class Cache extends Injection
         }
 
         // check if all needed variable files exist
+        $templateFile    = $this->getDirectory() . str_replace("." . $this->Config->getExtension(), ".php", $cacheFilePath);
         $variableFile    = $this->getDirectory() . str_replace("." . $this->Config->getExtension(), ".variables.php", $cacheFilePath);
         $urlVariableFile = $this->getDirectory() . str_replace("." . $this->Config->getExtension(), ".variables." . VariableCache::getUrlHash() . ".php", $cacheFilePath);
 
-        if (!file_exists($variableFile) ||  !file_exists($urlVariableFile)) {
+        if (!file_exists($variableFile) || !file_exists($urlVariableFile) || !file_exists($templateFile)) {
             return true;
         }
 
