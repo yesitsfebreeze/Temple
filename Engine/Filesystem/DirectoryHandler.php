@@ -134,14 +134,10 @@ class DirectoryHandler extends Injection
 
     /**
      * creates a directory at the given path
-
-*
-*@param $dir
-
-
-
-*
-*@throws \Temple\Engine\Exception\Exception
+     *
+     * @param $dir
+     *
+     * @throws \Temple\Engine\Exception\Exception
      */
     public function createDir($dir)
     {
@@ -181,9 +177,8 @@ class DirectoryHandler extends Injection
 
     /**
      * iterates over all template directories and checks if they are valid
-
-*
-*@return mixed
+     *
+     * @return mixed
      * @throws \Temple\Engine\Exception\Exception
      */
     private function check()

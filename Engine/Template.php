@@ -110,9 +110,8 @@ class Template extends Injection
      */
     public function show($file)
     {
-        $this->VariableCache->setFile($file);
-
         $this->CacheInvalidator->checkValidation();
+        $this->VariableCache->setFile($file);
         $cacheFile = $this->fetch($file);
         $page      = new Page();
         $page->setFileName($file);
@@ -137,6 +136,7 @@ class Template extends Injection
         $file = $this->cleanExtension($file);
 
         if ($this->Cache->isModified($file)) {
+            echo "<script>console.log('uncached')</script>";
             $content = $this->process($file, $level);
             $this->Cache->save($file, $content);
         }

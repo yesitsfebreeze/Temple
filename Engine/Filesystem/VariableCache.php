@@ -76,6 +76,9 @@ class VariableCache extends Injection
 
     /**
      * todo: cache problem if cache is enabled and variables are not saved
+     * so i have to check if the file is cached anf if the variables file exist
+     * if not i have to invalidate the cache
+     * this->isModified
      * saves the template variables in the cache
      */
     public function saveTemplateVariables()
@@ -196,20 +199,9 @@ class VariableCache extends Injection
      *
      * @return string
      */
-    private function getUrl()
+    static function getUrlHash()
     {
-        return $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"];
-    }
-
-
-    /**
-     * returns the current page url which will be used to cache the php assigned variables
-     *
-     * @return string
-     */
-    private function getUrlHash()
-    {
-        return md5($this->getUrl());
+        return md5($_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"]);
     }
 
 

@@ -121,7 +121,6 @@ class ForeachNode extends Node
 
 
     /**
-     * todo: variables need to be scoped, therefore i need to add a
      * creates the output
      *
      * @return string

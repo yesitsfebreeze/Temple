@@ -10,6 +10,8 @@ use Temple\Engine\InjectionManager\Injection;
 class CacheInvalidator extends Cache
 {
 
+    /** @var  array $tempCache */
+    private $tempCache;
 
     /**
      * checks the validation of a list of predefined classes
@@ -20,6 +22,7 @@ class CacheInvalidator extends Cache
             $this->classesToCheck();
         } catch (Exception $e) {
             $this->invalidate();
+            $this->saveCache($this->tempCache);
         }
     }
 
@@ -36,6 +39,7 @@ class CacheInvalidator extends Cache
     /**
      * @param Injection $class
      *
+     * @throws Exception
      * @return bool
      */
     public function check(Injection $class)
@@ -47,20 +51,18 @@ class CacheInvalidator extends Cache
 
         if ($cache) {
             if (key_exists($classname, $cache)) {
-
                 $currentHash = $cache[ $classname ];
                 if ($currentHash == $hash) {
                     return true;
+                } else {
+                    return $this->update($cache, $classname, $hash);
                 }
-
-                return $this->update($cache, $classname, $hash);
-
             } else {
                 return $this->update($cache, $classname, $hash);
             }
         }
 
-        return false;
+        throw new Exception(1, "Cache Invalidation failed -> check()");
     }
 
 
@@ -76,8 +78,8 @@ class CacheInvalidator extends Cache
     private function update($cache, $name, $hash)
     {
         $cache[ $name ] = $hash;
-        $this->saveCache($cache);
+        $this->tempCache = $cache;
 
-        throw new Exception(1,"Cache Invalidation failed");
+        throw new Exception(1, "Cache Invalidation failed -> update()");
     }
 }

@@ -81,12 +81,9 @@ class Cache extends Injection
     }
 
 
-    public function generate()
-    {
-        // todo: compile all templates to cache
-    }
-
-
+    /**
+     * @return bool
+     */
     public function invalidate()
     {
 
@@ -112,35 +109,46 @@ class Cache extends Injection
             return true;
         }
 
-        $cache = $this->getCache();
-        if (is_bool($cache)) {
-            return true;
-        }
-
+        $cache    = $this->getCache();
         $modified = false;
 
-        $times     = $cache["times"];
-        $templates = array();
-        if (isset($cache["dependencies"])) {
-            $dependencies = $cache["dependencies"][ $file ];
-            if ($dependencies) {
-                foreach ($dependencies as $dependency) {
-                    $templates = array_merge($templates, $this->getTemplateFiles($dependency));
+        if (!$cache) {
+            return true;
+        } else {
+            $times     = $cache["times"];
+            $templates = array();
+            if (isset($cache["dependencies"])) {
+                $dependencies = $cache["dependencies"][ $file ];
+                if ($dependencies) {
+                    foreach ($dependencies as $dependency) {
+                        $templates = array_merge($templates, $this->getTemplateFiles($dependency));
+                    }
+                }
+            }
+
+            $file      = str_replace("." . $this->Config->getExtension(), "", $file);
+            $templates = array_merge($templates, $this->getTemplateFiles($file));
+            foreach ($templates as $template) {
+                $templatePath = $template;
+                $template     = $this->cleanFile($template);
+                $cacheTime    = $times[ $template ][ md5($templatePath) ];
+                $currentTime  = filemtime($templatePath);
+
+                $cacheFilePath = $templatePath;
+                foreach ($this->DirectoryHandler->getTemplateDirs() as $templateDir) {
+                    $cacheFilePath = str_replace($templateDir, "", $cacheFilePath);
+                }
+
+                // check if all needed variable files exist
+                $variableFile    = $this->getDirectory() . str_replace("." . $this->Config->getExtension(), ".variables.php", $cacheFilePath);
+                $urlVariableFile = $this->getDirectory() . str_replace("." . $this->Config->getExtension(), ".variables." . VariableCache::getUrlHash() . ".php", $cacheFilePath);
+
+                if ($cacheTime != $currentTime || !file_exists($variableFile) ||  !file_exists($urlVariableFile)) {
+                    $modified = true;
                 }
             }
         }
 
-        $file      = str_replace("." . $this->Config->getExtension(), "", $file);
-        $templates = array_merge($templates, $this->getTemplateFiles($file));
-        foreach ($templates as $template) {
-            $templatePath = $template;
-            $template     = $this->cleanFile($template);
-            $cacheTime    = $times[ $template ][ md5($templatePath) ];
-            $currentTime  = filemtime($templatePath);
-            if ($cacheTime != $currentTime) {
-                $modified = true;
-            }
-        }
 
         return $modified;
     }
@@ -175,11 +183,11 @@ class Cache extends Injection
     {
 
         if (!$file || $file == "") {
-            throw new Exception(1,"Please set a file for your dependency");
+            throw new Exception(1, "Please set a file for your dependency");
         }
 
         if (!$parent || $parent == "") {
-            throw new Exception(1,"Please set a parent file for your dependency");
+            throw new Exception(1, "Please set a parent file for your dependency");
         }
 
         $file   = $this->cleanFile($file);

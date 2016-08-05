@@ -30,9 +30,10 @@ abstract class Event
      * @throws Exception
      * @noinspection PhpUnusedParameterInspection
      */
-    public function dispatch(/** @noinspection PhpUnusedParameterInspection  */ $arguments)
+    public function dispatch($arguments)
     {
         $class = get_class($this);
+        unset($arguments);
         throw new Exception(1, "Please register the %dispatch% method for %" . $class . "%");
 
     }
