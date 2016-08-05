@@ -20,24 +20,7 @@ abstract class Event
 
     /** @var InjectionManager $InjectionManager */
     protected $InjectionManager;
-
-
-    /**
-     * the method which gets fired when the event manager notifies the assigned event
-     *
-     * @param $arguments
-     *
-     * @throws Exception
-     * @noinspection PhpUnusedParameterInspection
-     */
-    public function dispatch($arguments)
-    {
-        $class = get_class($this);
-        unset($arguments);
-        throw new Exception(1, "Please register the %dispatch% method for %" . $class . "%");
-
-    }
-
+    
 
     /**
      * @param Instance $Instance

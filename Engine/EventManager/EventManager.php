@@ -106,7 +106,8 @@ class EventManager extends Injection
      * @param Event $event
      * @param       $arguments
      *
-     * @return array|bool
+     * @return array
+     * @throws Exception
      */
     private function execute(Event $event, $arguments)
     {
@@ -121,6 +122,10 @@ class EventManager extends Injection
                 $arguments = array();
             }
             /** @noinspection PhpMethodParametersCountMismatchInspection */
+            if (!method_exists($eventInstance,"dispatch")) {
+                $class = get_class($eventInstance);
+                throw new Exception(1, "Please register the %dispatch% method for %" . $class . "%");
+            }
             $arguments = $eventInstance->dispatch(...$arguments);
             unset($eventInstance);
         }

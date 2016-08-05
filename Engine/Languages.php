@@ -68,7 +68,8 @@ class Languages extends Injection
     private function loadLanguages($languages)
     {
         foreach ($languages as $language) {
-            $frameworkName = reset(explode("\\", __NAMESPACE__));
+            $namespaces = explode("\\", __NAMESPACE__);
+            $frameworkName = reset($namespaces);
             $class = "\\" . $frameworkName . "\\Languages\\" . ucfirst(strtolower($language)) . "\\LanguageLoader";
             if (class_exists($class)) {
                 /** @var Language $lang */

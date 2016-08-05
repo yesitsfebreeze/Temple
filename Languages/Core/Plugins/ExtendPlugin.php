@@ -24,6 +24,11 @@ class ExtendPlugin extends Event
     private $ParentDom;
 
 
+    /**
+     * @param Dom $Dom
+     *
+     * @return Dom
+     */
     public function dispatch(Dom $Dom)
     {
 
