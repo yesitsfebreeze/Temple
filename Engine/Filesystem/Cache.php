@@ -134,16 +134,7 @@ class Cache extends Injection
                 $cacheTime    = $times[ $template ][ md5($templatePath) ];
                 $currentTime  = filemtime($templatePath);
 
-                $cacheFilePath = $templatePath;
-                foreach ($this->DirectoryHandler->getTemplateDirs() as $templateDir) {
-                    $cacheFilePath = str_replace($templateDir, "", $cacheFilePath);
-                }
-
-                // check if all needed variable files exist
-                $variableFile    = $this->getDirectory() . str_replace("." . $this->Config->getExtension(), ".variables.php", $cacheFilePath);
-                $urlVariableFile = $this->getDirectory() . str_replace("." . $this->Config->getExtension(), ".variables." . VariableCache::getUrlHash() . ".php", $cacheFilePath);
-
-                if ($cacheTime != $currentTime || !file_exists($variableFile) ||  !file_exists($urlVariableFile)) {
+                if ($cacheTime != $currentTime || $this->missingVariablesCacheFiles($templatePath)) {
                     $modified = true;
                 }
             }
@@ -151,6 +142,32 @@ class Cache extends Injection
 
 
         return $modified;
+    }
+
+
+    /**
+     * check if all needed variable files exist
+     *
+     * @param string $templatePath
+     *
+     * @return bool
+     */
+    private function missingVariablesCacheFiles($templatePath)
+    {
+        $cacheFilePath = $templatePath;
+        foreach ($this->DirectoryHandler->getTemplateDirs() as $templateDir) {
+            $cacheFilePath = str_replace($templateDir, "", $cacheFilePath);
+        }
+
+        // check if all needed variable files exist
+        $variableFile    = $this->getDirectory() . str_replace("." . $this->Config->getExtension(), ".variables.php", $cacheFilePath);
+        $urlVariableFile = $this->getDirectory() . str_replace("." . $this->Config->getExtension(), ".variables." . VariableCache::getUrlHash() . ".php", $cacheFilePath);
+
+        if (!file_exists($variableFile) ||  !file_exists($urlVariableFile)) {
+            return true;
+        }
+
+        return false;
     }
 
 
