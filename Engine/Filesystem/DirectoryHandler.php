@@ -162,7 +162,8 @@ class DirectoryHandler extends Injection
      */
     private function path($dir)
     {
-        $frameworkName = reset(explode("\\", __NAMESPACE__));
+        $namespaces = explode("\\", __NAMESPACE__);
+        $frameworkName = reset($namespaces);
         if ($dir[0] != "/") {
             $framework = explode($frameworkName, __DIR__);
             $framework = $framework[0] . $frameworkName . "/";

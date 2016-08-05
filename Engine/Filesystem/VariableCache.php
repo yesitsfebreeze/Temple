@@ -75,10 +75,6 @@ class VariableCache extends Injection
 
 
     /**
-     * todo: cache problem if cache is enabled and variables are not saved
-     * so i have to check if the file is cached anf if the variables file exist
-     * if not i have to invalidate the cache
-     * this->isModified
      * saves the template variables in the cache
      */
     public function saveTemplateVariables()

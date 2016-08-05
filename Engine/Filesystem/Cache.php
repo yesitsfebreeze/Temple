@@ -82,6 +82,7 @@ class Cache extends Injection
 
 
     /**
+     * @throws Exception
      * @return bool
      */
     public function invalidate()
@@ -89,7 +90,11 @@ class Cache extends Injection
 
         $cacheFile = $this->getPath($this->cacheFile);
         if (file_exists($cacheFile)) {
-            unlink($cacheFile);
+            if (is_writable($cacheFile)) {
+                unlink($cacheFile);
+            } else {
+                throw new Exception(500, "You don't have the permission to delete this file", $cacheFile);
+            }
         }
 
         return false;
@@ -131,11 +136,13 @@ class Cache extends Injection
             foreach ($templates as $template) {
                 $templatePath = $template;
                 $template     = $this->cleanFile($template);
-                $cacheTime    = $times[ $template ][ md5($templatePath) ];
-                $currentTime  = filemtime($templatePath);
+                if (isset($times[ $template ])) {
+                    $cacheTime   = $times[ $template ][ md5($templatePath) ];
+                    $currentTime = filemtime($templatePath);
 
-                if ($cacheTime != $currentTime || $this->CacheFilesAreMissing($templatePath)) {
-                    $modified = true;
+                    if ($cacheTime != $currentTime || $this->CacheFilesAreMissing($templatePath)) {
+                        $modified = true;
+                    }
                 }
             }
         }
