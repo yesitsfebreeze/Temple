@@ -18,7 +18,7 @@ class Dom
     private $namespace;
 
     /** @var int $currentLine */
-    private $currentLine;
+    private $currentLine = 1;
 
     /** @var  array $templates */
     private $templates = array();
@@ -49,7 +49,6 @@ class Dom
     {
         $this->Variables = new Variables();
         $this->setNamespace($namespace);
-        $this->setCurrentLine(0);
         $this->setTemplates($templates);
         $this->setLevel($level);
         $this->setFile($file);

@@ -47,6 +47,9 @@ abstract class Node extends Event implements NodeInterface
     /** @var  Node $parent */
     protected $parent;
 
+    /** @var  Node $previousNode */
+    protected $previousNode;
+
     /** @var  array $children */
     protected $children = array();
 
@@ -71,6 +74,7 @@ abstract class Node extends Event implements NodeInterface
 
         $this->setPlain($plain);
         $this->setDom($Dom);
+        $this->setPreviousNode($Dom->getPreviousNode());
         $this->setNamespace($Dom->getNamespace());
         $this->setLevel($Dom->getLevel());
         $this->setLine($Dom->getCurrentLine());
@@ -336,6 +340,24 @@ abstract class Node extends Event implements NodeInterface
     public function setParent($parent)
     {
         return $this->parent = $parent;
+    }
+
+
+    /**
+     * @return Node
+     */
+    public function getPreviousNode()
+    {
+        return $this->previousNode;
+    }
+
+
+    /**
+     * @param Node $previousNode
+     */
+    public function setPreviousNode($previousNode)
+    {
+        $this->previousNode = $previousNode;
     }
 
 

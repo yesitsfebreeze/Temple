@@ -315,6 +315,7 @@ class Lexer extends Injection
      * @param Dom       $Dom
      * @param bool|Node $parent
      *
+     * @throws Exception
      * @return Node
      */
     private function getParentNode($node, Dom $Dom, $parent = false)
@@ -325,13 +326,18 @@ class Lexer extends Injection
         } else {
             $temp = $parent->getParent();
         }
-        if ($temp->getIndent() == $node->getIndent()) {
-            $temp = $temp->getParent();
 
-            return $temp;
-        } else {
-            return $this->getParentNode($node, $Dom, $temp);
+        if ($temp) {
+            if ($temp->getIndent() == $node->getIndent()) {
+                $temp = $temp->getParent();
+
+                return $temp;
+            } else {
+                return $this->getParentNode($node, $Dom, $temp);
+            }
         }
+
+        throw new Exception(4,"Mismatching Nodes detected",$node->getFile(),$node->getLine());
     }
 
 }

@@ -27,7 +27,7 @@ class Config extends Injection
     private $cacheDir = "./Cache";
 
     /** @var bool */
-    private $cacheEnabled = true;
+    private $cacheEnabled = false;
 
     /** @var bool */
     private $variableCacheEnabled = true;
@@ -43,7 +43,7 @@ class Config extends Injection
     private $IndentCharacter = "space";
 
     /** @var int */
-    private $IndentAmount = 1;
+    private $IndentAmount = 4;
 
     /** @var string */
     private $extension = "tmpl";
