@@ -27,9 +27,36 @@ class CommentNode extends Node
     /** @inheritdoc */
     public function setup()
     {
-        $this->setSelfClosing(true);
+        $this->setCommentNode(true);
 
+        $lastNode = $this->getLastRealNode($this);
+        if ($lastNode) {
+            $this->setIndent($lastNode->getIndent());
+        }
+ste
         return $this;
+    }
+
+
+    /**
+     * returns the closest node which is not a comment
+     *
+     * @param Node $node
+     *
+     * @return Node|bool
+     */
+    private function getLastRealNode(Node $node)
+    {
+        $lastNode = $node->getPreviousNode();
+        if (!is_null($lastNode)) {
+            if (!$lastNode->isCommentNode()) {
+                return $lastNode;
+            } else if ($lastNode instanceof Node) {
+                return $this->getLastRealNode($lastNode);
+            }
+        }
+
+        return false;
     }
 
 
@@ -42,7 +69,7 @@ class CommentNode extends Node
     {
         if ($this->Instance->Config()->isShowComments()) {
             $output = "<!-- ";
-            $output .= preg_replace("/^" . $this->getTag() . "/", "", trim($this->plain));
+            $output .= trim(preg_replace("/^" . $this->getTag() . "/", "", trim($this->plain)));
             $output .= " -->";
         } else {
             $output = "";
@@ -50,6 +77,5 @@ class CommentNode extends Node
 
         return $output;
     }
-
 
 }
