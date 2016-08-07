@@ -21,6 +21,12 @@ class Deployer
     /** @var Less_Parser $less */
     private $less;
 
+    /** @var \Patchwork\JSqueeze $jsSqueezer */
+    private $jsSqueezer;
+
+    /** @var string $jsContent */
+    private $jsContent;
+
     /** @var array $menu */
     private $menu = array();
 
@@ -34,6 +40,8 @@ class Deployer
         $this->smarty->addTemplateDir($this->page . "templates");
 
         $this->yaml = new \Symfony\Component\Yaml\Yaml();
+
+        $this->jsSqueezer = new \Patchwork\JSqueeze();
 
         Less_Autoloader::register();
         $this->less = new Less_Parser();
@@ -49,8 +57,9 @@ class Deployer
     public function deploy()
     {
         $pages = $this->getPages();
-        $this->parseLess("../source/all");
         $this->buildMenu($pages);
+        $this->parseLess("../source/all");
+        $this->processJs("../source/all");
         $this->fetchTemplates($pages);
     }
 
@@ -81,12 +90,13 @@ class Deployer
             $menu[ $iteration ] = array();
             $orgPath            = $path;
             $path               = $path . "/" . $name;
-            $template           = "index/" . substr($path . ".tpl", 1);
+            $escaped           = str_replace(" ", "_", $path);
+            $template           = "index/" . substr($escaped . ".tpl", 1);
 
-            $exists = $this->smarty->templateExists($template);
+            $exists                     = $this->smarty->templateExists($template);
             $menu[ $iteration ]["name"] = $name;
             if ($exists) {
-                $menu[ $iteration ]["link"] = $path;
+                $menu[ $iteration ]["link"] = $escaped;
             } else {
                 $menu[ $iteration ]["link"] = false;
             }
@@ -126,11 +136,13 @@ class Deployer
         if (is_string($name)) {
             try {
                 $this->smarty->clearAllAssign();
-                $path = substr($path, 1);
-
+                $path            = substr($path, 1);
+                $path            = str_replace(" ", "_", $path);
+                $this->jsContent = "";
                 $this->assignPageData("default");
                 $this->assignPageData($path);
                 $this->parseLess($path);
+                $this->processJs($path);
                 $this->smarty->assign("menu", $this->menu);
                 $content = $this->smarty->fetch($path . ".tpl");
                 $this->saveFile($path, "", "html", $content, true, true);
@@ -210,6 +222,46 @@ class Deployer
                 $path = "all";
             }
             $this->saveFile($path, "css" . DIRECTORY_SEPARATOR, "css", $css, false);
+        }
+    }
+
+
+    /**
+     * compiles the less files to css
+     *
+     * @param $path
+     *
+     * @throws Exception
+     */
+    private function processJs($path)
+    {
+
+        $prePath = $this->page . "assets" . DIRECTORY_SEPARATOR . "js" . DIRECTORY_SEPARATOR . "pages" . DIRECTORY_SEPARATOR;
+        $jsPath  = $prePath . preg_replace("/\/[^\/]*?$/", "", $path) . DIRECTORY_SEPARATOR;
+        $file    = $prePath . $path . ".loader.php";
+
+        if ($path == "../source/all") {
+            $path = "all";
+        }
+
+        if (file_exists($file)) {
+            /** @noinspection PhpIncludeInspection */
+            include $file;
+            if (isset($scripts)) {
+                if (is_array($scripts)) {
+                    foreach ($scripts as $script) {
+                        $script = $jsPath . $script;
+                        if (file_exists($script)) {
+                            $content         = file_get_contents($script);
+                            $content         = $this->jsSqueezer->squeeze($content);
+                            $this->jsContent = $this->jsContent . ";" . $content;
+                        } else {
+                            throw new Exception("could not include js file: " . $script);
+                        }
+                    }
+                    $this->saveFile($path, "js" . DIRECTORY_SEPARATOR, "js", $this->jsContent, false);
+                }
+            }
         }
     }
 

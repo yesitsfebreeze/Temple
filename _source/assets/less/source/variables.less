@@ -1,5 +1,23 @@
+@fa-font-path: "../_source/assets/fonts";
+
 @black: #07030D;
 @white: #f0fcff;
-@accent: #ff865d;
+@brand-primary: #eb5d1d;
+@brand-secondary: #3384e9;
 
-@transition-easing-fast: cubic-bezier(.23,1,.32,1);
+@gray-base: @black;
+@gray-darker: desaturate(lighten(@gray-base, 10%), 60%);
+@gray-dark: desaturate(lighten(@gray-base, 20%), 60%);
+@gray: desaturate(lighten(@gray-base, 33%), 60%);
+@gray-light: desaturate(lighten(@gray-base, 45%), 60%);
+@gray-lighter: desaturate(lighten(@gray-base, 75%), 60%);
+
+@easing-fast: cubic-bezier(.23, 1, .32, 1);
+@easing-slow: cubic-bezier(1, .23, .32, 1);
+
+@font-family-sans-serif: 'Roboto', "Helvetica Neue", Helvetica, Arial, sans-serif;
+@font-family-serif: @font-family-sans-serif;
+@headings-font-weight: 100;
+
+@font-size-base: 16px;
+@font-size-h1: floor((@font-size-base * 4.375));
