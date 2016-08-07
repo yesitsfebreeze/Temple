@@ -2,15 +2,18 @@ module.exports = function(grunt) {
 
     grunt.initConfig({
         exec: {
-            echo_name: {
-                cmd: function() {
-
+            deploy: {
+                "cmd": function() {
                     return 'sh deploy.sh; echo ..deployed';
                 }
             }
         },
         watch: {
-            files: ['./../_source/**/*.*'],
+            files: [
+                './../_source/**/*.*',
+                "./Deployer.php",
+                "./pages.yml"
+            ],
             tasks: ['exec']
         }
     });
@@ -18,6 +21,6 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-exec');
 
-    grunt.registerTask('default', ['watch']);
+    grunt.registerTask('default', ["exec", "watch"]);
 
 };

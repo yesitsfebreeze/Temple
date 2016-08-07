@@ -5,11 +5,15 @@
             {$title}
         </title>
         <link rel="stylesheet" href="/css/default.css">
-        <link rel="stylesheet" href="/css/{$pagePath}.css">
+        {$cssFile ="/css/{$pagePath}.css"}
+        {if file_exists($cssFile)}
+            <link rel="stylesheet" href="{$cssFile}">
+        {/if}
+
     </head>
     <body>
         <div>
-
+            {include "_source/menu.tpl"}
         </div>
     </body>
 </html>

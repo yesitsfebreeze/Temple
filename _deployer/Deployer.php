@@ -3,7 +3,7 @@
 require "vendor/autoload.php";
 
 
-class Page
+class Deployer
 {
 
     /** @var string $root */
@@ -20,6 +20,9 @@ class Page
 
     /** @var Less_Parser $less */
     private $less;
+
+    /** @var array $menu */
+    private $menu = array();
 
 
     public function __construct()
@@ -46,7 +49,47 @@ class Page
     public function deploy()
     {
         $pages = $this->getPages();
-        $this->fetchTemplates($pages, "index");
+        $this->buildMenu($pages);
+        $this->fetchTemplates($pages);
+    }
+
+
+    private function buildMenu($pages)
+    {
+        $menu       = $this->buildSubMenu(array(), $pages["index"]);
+        $this->menu = $menu;
+    }
+
+
+    private function buildSubMenu($menu = array(), $pages, $path = "")
+    {
+
+        $iteration = 0;
+
+        foreach ($pages as $name => $page) {
+            $menu[ $iteration ] = array();
+
+            $path     = $path . "/" . $name;
+            $template = "index/" . substr($path . ".tpl", 1);
+
+            $exists                     = $this->smarty->templateExists($template);
+            $menu[ $iteration ]["name"] = $name;
+            if ($exists) {
+                $menu[ $iteration ]["link"] = $path;
+            } else {
+                $menu[ $iteration ]["link"] = false;
+            }
+            $menu[ $iteration ]["children"] = array();
+
+            if (is_array($page)) {
+                $menu[ $iteration ]["children"] = $this->buildSubMenu($menu[ $iteration ]["children"], $page, $path);
+            }
+
+            $iteration = $iteration + 1;
+        }
+
+        return $menu;
+
     }
 
 
@@ -57,7 +100,7 @@ class Page
      * @param        $name
      * @param string $path
      */
-    private function fetchTemplates($page, $name, $path = "")
+    private function fetchTemplates($page, $name = "", $path = "")
     {
         if (is_array($page)) {
             foreach ($page as $name => $subviews) {
@@ -66,15 +109,24 @@ class Page
                 $this->fetchTemplates($subviews, $name, $path);
                 $path = $orgPath;
             }
-        } else if (is_string($name)) {
-            $this->smarty->clearAllAssign();
-            $path = substr($path, 1);
-            $this->assignPageData("default");
-            $this->assignPageData($path);
-            $this->parseLess("default");
-            $this->parseLess($path);
-            $content = $this->smarty->fetch($path . ".tpl");
-            $this->saveFile($path, "", "html", $content);
+        }
+
+        if (is_string($name)) {
+
+            try {
+                $this->smarty->clearAllAssign();
+                $path = substr($path, 1);
+
+                $this->assignPageData("default");
+                $this->assignPageData($path);
+                $this->parseLess("default");
+                $this->parseLess($path);
+                $this->smarty->assign("menu", $this->menu);
+                $content = $this->smarty->fetch($path . ".tpl");
+                $this->saveFile($path, "", "html", $content, true, true);
+            } catch (Exception $e) {
+                // nothing to do here
+            }
         }
     }
 
@@ -87,13 +139,18 @@ class Page
      * @param $extension
      * @param $content
      * @param $useIndex
+     * @param $removeIndex
      */
-    private function saveFile($path, $subPath, $extension, $content, $useIndex = true)
+    private function saveFile($path, $subPath, $extension, $content, $useIndex = true, $removeIndex = false)
     {
+
 
         if ($path == "index" || $useIndex == false) {
             $outputFile = $this->root . ".." . DIRECTORY_SEPARATOR . $subPath . $path . "." . $extension;
         } else {
+            if ($removeIndex) {
+                $path = preg_replace("/^index\//", "", $path);
+            }
             $outputFile = $this->root . ".." . DIRECTORY_SEPARATOR . $subPath . $path . "/index." . $extension;
         }
         $outputDir = dirname($outputFile);

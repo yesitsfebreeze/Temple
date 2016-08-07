@@ -1,5 +1,5 @@
 <?php
 
-include "Page.php";
-$page = new Page();
-$page->deploy();
+include "Deployer.php";
+$deployer = new Deployer();
+$deployer->deploy();
