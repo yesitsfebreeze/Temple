@@ -14,9 +14,9 @@
 
 <div class="menu">
     <div class="container">
-        <div class="logo">
+        <div class="logo"> 
             <a href="/" title="temple">
-                <img src="/_source/assets/img/logo/logo.svg" alt="temple">
+                <img src="{$pathPrefix}/_source/assets/img/logo/logo.svg" alt="temple">
                 <span class="text">Temple</span>
             </a>
         </div>
