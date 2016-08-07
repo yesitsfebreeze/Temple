@@ -2,7 +2,7 @@
 <html>
     <head>
         <title>
-            Temple - a smarty template engine
+            {$title}
         </title>
     </head>
     <body>
