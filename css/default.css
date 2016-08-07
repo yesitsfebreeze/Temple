@@ -1,18 +1,40 @@
-body {
-  background-color: #f1f1f1;
+@import url(https://fonts.googleapis.com/css?family=Roboto:400,500,700,100,300);
+body,
+html {
+  background-color: #07030d;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+section.content {
+  background-color: #f0fcff;
+  min-height: 100px;
+}
+.menu {
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: #07030d;
+  width: 100%;
+  height: 50px;
+}
+.menu .menu-list {
+  display: inline-block;
+  color: #f0fcff;
+}
+.menu .menu-list li {
+  display: inline-block;
+}
+.menu .menu-list a {
+  color: #f0fcff;
+}
+.menu .menu-list a:hover,
+.menu .menu-list a:active,
+.menu .menu-list a:focus {
+  color: #ff865d;
 }
 body {
-  background-color: #f1f1f1;
-}
-body {
-  background-color: #f1f1f1;
-}
-body {
-  background-color: #f1f1f1;
-}
-body {
-  background-color: #f1f1f1;
-}
-body {
-  background-color: #f1f1f1;
+  font-family: Roboto, "Helvetica Neue", Helvetica, Arial, sans-serif;
 }

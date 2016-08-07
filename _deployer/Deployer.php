@@ -49,6 +49,7 @@ class Deployer
     public function deploy()
     {
         $pages = $this->getPages();
+        $this->parseLess("default");
         $this->buildMenu($pages);
         $this->fetchTemplates($pages);
     }
@@ -119,7 +120,6 @@ class Deployer
 
                 $this->assignPageData("default");
                 $this->assignPageData($path);
-                $this->parseLess("default");
                 $this->parseLess($path);
                 $this->smarty->assign("menu", $this->menu);
                 $content = $this->smarty->fetch($path . ".tpl");
@@ -189,7 +189,7 @@ class Deployer
      */
     private function parseLess($path)
     {
-        $file = $this->page . "assets" . DIRECTORY_SEPARATOR . "less" . DIRECTORY_SEPARATOR . $path . ".less";
+        $file = $this->page . "assets" . DIRECTORY_SEPARATOR . "less" . DIRECTORY_SEPARATOR . "pages" . DIRECTORY_SEPARATOR . $path . ".less";
         if (file_exists($file)) {
             $less = $this->less->parseFile($file);
             $css  = $less->getCss();

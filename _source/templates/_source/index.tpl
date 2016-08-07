@@ -12,9 +12,10 @@
 
     </head>
     <body>
-        <div>
-            {include "_source/menu.tpl"}
-        </div>
+        {include "_source/menu.tpl"}
+        <section class="content">
+
+        </section>
     </body>
 </html>
 

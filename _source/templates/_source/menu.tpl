@@ -1,6 +1,6 @@
 {function name="menu" menu=false path="index"}
     {if is_array($menu)}
-        <ul class="menu">
+        <ul class="menu-list">
             {foreach $menu as $item}
                 <li>
                     {if $item.link}
@@ -19,5 +19,6 @@
 
 {/function}
 
-
-{call menu menu=$menu}
+<div class="menu">
+    {call menu menu=$menu}
+</div>
