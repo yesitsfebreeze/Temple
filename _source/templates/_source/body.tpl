@@ -4,7 +4,7 @@
         <title>
             {$title}
         </title>
-        <link rel="stylesheet" href="/css/default.css">
+        <link rel="stylesheet" href="/css/all.css">
         {$cssFile ="/css/{$pagePath}.css"}
         {if file_exists($cssFile)}
             <link rel="stylesheet" href="{$cssFile}">
@@ -12,10 +12,12 @@
 
     </head>
     <body>
-        {include "_source/menu.tpl"}
-        <section class="content">
+        <div class="container">
+            {include "_source/menu.tpl"}
+        </div>
+        {block name="content"}
 
-        </section>
+        {/block}
     </body>
 </html>
 

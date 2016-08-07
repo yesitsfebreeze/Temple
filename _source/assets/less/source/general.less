@@ -5,11 +5,22 @@ body, html {
     height:           100%;
     margin:           0;
     padding:          0;
+    overflow-x:       hidden;
 }
 
-section {
-    &.content {
-        background-color: @white;
-        min-height:       100px;
+.logo {
+    display: inline-block;
+    img {
+        width:      100px;
+        max-height: 50px;
+        height:     100%;
+        padding:    10px 0;
+    }
+}
+
+a {
+    .transition(color .2s @transition-easing-fast);
+    &:hover, &:active, &:focus {
+        text-decoration: none;
     }
 }

@@ -49,12 +49,15 @@ class Deployer
     public function deploy()
     {
         $pages = $this->getPages();
-        $this->parseLess("default");
+        $this->parseLess("../source/all");
         $this->buildMenu($pages);
         $this->fetchTemplates($pages);
     }
 
 
+    /**
+     * @param $pages
+     */
     private function buildMenu($pages)
     {
         $menu       = $this->buildSubMenu(array(), $pages["index"]);
@@ -62,6 +65,13 @@ class Deployer
     }
 
 
+    /**
+     * @param array  $menu
+     * @param        $pages
+     * @param string $path
+     *
+     * @return array
+     */
     private function buildSubMenu($menu = array(), $pages, $path = "")
     {
 
@@ -69,11 +79,11 @@ class Deployer
 
         foreach ($pages as $name => $page) {
             $menu[ $iteration ] = array();
+            $orgPath            = $path;
+            $path               = $path . "/" . $name;
+            $template           = "index/" . substr($path . ".tpl", 1);
 
-            $path     = $path . "/" . $name;
-            $template = "index/" . substr($path . ".tpl", 1);
-
-            $exists                     = $this->smarty->templateExists($template);
+            $exists = $this->smarty->templateExists($template);
             $menu[ $iteration ]["name"] = $name;
             if ($exists) {
                 $menu[ $iteration ]["link"] = $path;
@@ -87,6 +97,7 @@ class Deployer
             }
 
             $iteration = $iteration + 1;
+            $path      = $orgPath;
         }
 
         return $menu;
@@ -113,7 +124,6 @@ class Deployer
         }
 
         if (is_string($name)) {
-
             try {
                 $this->smarty->clearAllAssign();
                 $path = substr($path, 1);
@@ -125,6 +135,7 @@ class Deployer
                 $content = $this->smarty->fetch($path . ".tpl");
                 $this->saveFile($path, "", "html", $content, true, true);
             } catch (Exception $e) {
+                // just catch stuff so smarty wont try to render non existent templates
                 // nothing to do here
             }
         }
@@ -190,10 +201,14 @@ class Deployer
     private function parseLess($path)
     {
         $file = $this->page . "assets" . DIRECTORY_SEPARATOR . "less" . DIRECTORY_SEPARATOR . "pages" . DIRECTORY_SEPARATOR . $path . ".less";
+
         if (file_exists($file)) {
             $less = $this->less->parseFile($file);
             $css  = $less->getCss();
 
+            if ($path == "../source/all") {
+                $path = "all";
+            }
             $this->saveFile($path, "css" . DIRECTORY_SEPARATOR, "css", $css, false);
         }
     }
