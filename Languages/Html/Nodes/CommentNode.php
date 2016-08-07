@@ -33,7 +33,7 @@ class CommentNode extends Node
         if ($lastNode) {
             $this->setIndent($lastNode->getIndent());
         }
-ste
+        
         return $this;
     }
 
