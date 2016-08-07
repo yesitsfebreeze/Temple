@@ -2,10 +2,10 @@
 <html>
     <head>
         <title>
-            Temple - a smarty template engine
+            {$title}
         </title>
         <link rel="stylesheet" href="/css/default.css">
-        <link rel="stylesheet" href="/css/index.css">
+        <link rel="stylesheet" href="/css/{$pagePath}.css">
     </head>
     <body>
         <div>

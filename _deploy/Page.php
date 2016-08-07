@@ -18,15 +18,23 @@ class Page
     /** @var \Symfony\Component\Yaml\Yaml $yaml */
     private $yaml;
 
+    /** @var Less_Parser $less */
+    private $less;
 
 
     public function __construct()
     {
-        $this->root   = realpath(__DIR__) . DIRECTORY_SEPARATOR;
-        $this->page   = $this->root . ".." . DIRECTORY_SEPARATOR . "_page" . DIRECTORY_SEPARATOR;
+        $this->root = realpath(__DIR__) . DIRECTORY_SEPARATOR;
+        $this->page = $this->root . "source" . DIRECTORY_SEPARATOR;
+
         $this->smarty = new Smarty();
-        $this->yaml   = new \Symfony\Component\Yaml\Yaml();
         $this->smarty->addTemplateDir($this->page . "templates");
+
+        $this->yaml = new \Symfony\Component\Yaml\Yaml();
+
+        Less_Autoloader::register();
+        $this->less = new Less_Parser();
+
         date_default_timezone_set("Europe/Berlin");
     }
 
@@ -63,17 +71,39 @@ class Page
             $path = substr($path, 1);
             $this->assignPageData("default");
             $this->assignPageData($path);
-            $content    = $this->smarty->fetch($path . ".tpl");
-            $outputFile = $this->root . ".." . DIRECTORY_SEPARATOR . $path . ".html";
-            $outputDir  = dirname($outputFile);
-            if (!is_dir($outputDir)) {
-                mkdir($outputDir, 0777, true);
-            }
-            if (!file_exists($outputFile)) {
-                touch($outputFile);
-            }
-            file_put_contents($outputFile, $content);
+            $this->parseLess("default");
+            $this->parseLess($path);
+            $content = $this->smarty->fetch($path . ".tpl");
+            $this->saveFile($path, "", "html", $content);
         }
+    }
+
+
+    /**
+     * saves a file
+     *
+     * @param $path
+     * @param $subPath
+     * @param $extension
+     * @param $content
+     * @param $useIndex
+     */
+    private function saveFile($path, $subPath, $extension, $content, $useIndex = true)
+    {
+
+        if ($path == "index" || $useIndex == false) {
+            $outputFile = $this->root . ".." . DIRECTORY_SEPARATOR . $subPath . $path . "." . $extension;
+        } else {
+            $outputFile = $this->root . ".." . DIRECTORY_SEPARATOR . $subPath . $path . "/index." . $extension;
+        }
+        $outputDir = dirname($outputFile);
+        if (!is_dir($outputDir)) {
+            mkdir($outputDir, 0777, true);
+        }
+        if (!file_exists($outputFile)) {
+            touch($outputFile);
+        }
+        file_put_contents($outputFile, $content);
     }
 
 
@@ -85,9 +115,29 @@ class Page
     private function assignPageData($path)
     {
         $file = $this->page . "data" . DIRECTORY_SEPARATOR . $path . ".yml";
+        if ($path != "default") {
+            $this->smarty->assign("pagePath", $path);
+        }
         if (file_exists($file)) {
             $data = $this->yaml->parse(file_get_contents($file));
             $this->smarty->assign($data);
+        }
+    }
+
+
+    /**
+     * compiles the less files to css
+     *
+     * @param $path
+     */
+    private function parseLess($path)
+    {
+        $file = $this->page . "assets" . DIRECTORY_SEPARATOR . "less" . DIRECTORY_SEPARATOR . $path . ".less";
+        if (file_exists($file)) {
+            $less = $this->less->parseFile($file);
+            $css  = $less->getCss();
+
+            $this->saveFile($path, "css" . DIRECTORY_SEPARATOR, "css", $css, false);
         }
     }
 
