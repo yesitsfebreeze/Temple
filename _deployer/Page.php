@@ -25,7 +25,7 @@ class Page
     public function __construct()
     {
         $this->root = realpath(__DIR__) . DIRECTORY_SEPARATOR;
-        $this->page = $this->root . "source" . DIRECTORY_SEPARATOR;
+        $this->page = $this->root . ".." . DIRECTORY_SEPARATOR . "_source" . DIRECTORY_SEPARATOR;
 
         $this->smarty = new Smarty();
         $this->smarty->addTemplateDir($this->page . "templates");

@@ -10,7 +10,7 @@ module.exports = function(grunt) {
             }
         },
         watch: {
-            files: ['./source/**/*.*'],
+            files: ['./../_source/**/*.*'],
             tasks: ['exec']
         }
     });
