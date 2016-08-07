@@ -3,7 +3,7 @@
         <ul class="menu-list list-unstyled list-inline">
             {foreach $menu as $item}
                 <li>
-                    {if $item.link}<a href="{$item.link}" title="{$item.name}">{/if}{$item.name}{if $item.link}</a>{/if}
+                    {if $item.link}<a href="{$pathPrefix}{$item.link}" title="{$item.name}">{/if}{$item.name}{if $item.link}</a>{/if}
                     {call menu menu=$item.children path=$path}
                 </li>
             {/foreach}

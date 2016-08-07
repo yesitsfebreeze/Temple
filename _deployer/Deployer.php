@@ -27,11 +27,20 @@ class Deployer
     /** @var string $jsContent */
     private $jsContent;
 
+    /** @var string $environment */
+    private $environment;
+
     /** @var array $menu */
     private $menu = array();
 
 
-    public function __construct()
+    /**
+     * Deployer constructor.
+     *
+     * @param $environment
+     * @param $pathPrefix
+     */
+    public function __construct($environment, $pathPrefix)
     {
         $this->root = realpath(__DIR__) . DIRECTORY_SEPARATOR;
         $this->page = $this->root . ".." . DIRECTORY_SEPARATOR . "_source" . DIRECTORY_SEPARATOR;
@@ -42,6 +51,9 @@ class Deployer
         $this->yaml = new \Symfony\Component\Yaml\Yaml();
 
         $this->jsSqueezer = new \Patchwork\JSqueeze();
+
+        $this->environment = $environment;
+        $this->pathPrefix  = $pathPrefix;
 
         Less_Autoloader::register();
         $this->less = new Less_Parser();
@@ -90,7 +102,7 @@ class Deployer
             $menu[ $iteration ] = array();
             $orgPath            = $path;
             $path               = $path . "/" . $name;
-            $escaped           = str_replace(" ", "_", $path);
+            $escaped            = str_replace(" ", "_", $path);
             $template           = "index/" . substr($escaped . ".tpl", 1);
 
             $exists                     = $this->smarty->templateExists($template);
@@ -139,6 +151,9 @@ class Deployer
                 $path            = substr($path, 1);
                 $path            = str_replace(" ", "_", $path);
                 $this->jsContent = "";
+                if ($this->environment == "production") {
+                    $this->smarty->assign("pathPrefix", $this->pathPrefix);
+                }
                 $this->assignPageData("default");
                 $this->assignPageData($path);
                 $this->parseLess($path);

@@ -2,7 +2,12 @@ module.exports = function(grunt) {
 
     grunt.initConfig({
         exec: {
-            deploy: {
+            dev: {
+                "cmd": function() {
+                    return 'sh deploy_dev.sh; echo ..deployed';
+                }
+            },
+            prod: {
                 "cmd": function() {
                     return 'sh deploy.sh; echo ..deployed';
                 }
@@ -21,6 +26,7 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-exec');
 
-    grunt.registerTask('default', ["exec", "watch"]);
+    grunt.registerTask('default', ["exec:dev", "watch"]);
+    grunt.registerTask('dump', ["exec:prod"]);
 
 };
