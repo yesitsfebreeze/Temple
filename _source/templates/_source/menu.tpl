@@ -16,7 +16,7 @@
     <div class="container">
         <div class="logo">
             <a href="{$pathPrefix}/" title="temple">
-                <img src="{$pathPrefix}/assets/img/logo/logo.png" alt="temple">
+                <img src="{$pathPrefix}/assets/img/logo/logo.png" class="img-responsive" alt="temple">
                 <span class="text">Temple</span>
             </a>
         </div>

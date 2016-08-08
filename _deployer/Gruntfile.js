@@ -19,7 +19,7 @@ module.exports = function(grunt) {
                 "./Deployer.php",
                 "./pages.yml"
             ],
-            tasks: ['exec']
+            tasks: ['exec:dev']
         }
     });
 

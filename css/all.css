@@ -8980,15 +8980,13 @@ a:focus {
   display: inline-block;
 }
 .menu .logo img {
-  width: 100px;
-  max-height: 50px;
-  height: 100%;
-  padding: 10px 0;
+  display: inline-block;
+  max-height: 30px;
+  margin: 10px 0;
 }
 .menu .logo .text {
-  position: relative;
-  left: -20px;
   color: white;
+  padding-left: 10px;
 }
 .menu .menu-list {
   display: inline-block;
