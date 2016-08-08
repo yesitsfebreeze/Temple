@@ -5,5 +5,6 @@ $scripts = array(
     "../../../../_deployer/vendor/twbs/bootstrap/dist/js/bootstrap.min.js",
     "plug.min.js",
     "sectionResize.js",
-    "pageFadeIn.js"
+    "pageFadeIn.js",
+    "parallax.js"
 );

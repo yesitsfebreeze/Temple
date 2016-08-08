@@ -56,7 +56,6 @@ class Deployer
         $this->pathPrefix  = $pathPrefix;
 
         Less_Autoloader::register();
-        $this->less = new Less_Parser();
 
         date_default_timezone_set("Europe/Berlin");
     }
@@ -162,7 +161,7 @@ class Deployer
                 $this->smarty->assign("menu", $this->menu);
                 $content = $this->smarty->fetch($path . ".tpl");
                 $this->saveFile($path, "", "html", $content, true, true);
-            } catch (Exception $e) {
+            } catch (SmartyException $e) {
                 // just catch stuff so smarty wont try to render non existent templates
                 // nothing to do here
             }
@@ -228,7 +227,9 @@ class Deployer
      */
     private function parseLess($path)
     {
+        $this->less = new Less_Parser();
         $file = $this->page . "assets" . DIRECTORY_SEPARATOR . "less" . DIRECTORY_SEPARATOR . "pages" . DIRECTORY_SEPARATOR . $path . ".less";
+
 
         if (file_exists($file)) {
             $less = $this->less->parseFile($file);
@@ -237,6 +238,8 @@ class Deployer
             if ($path == "../source/all") {
                 $path = "all";
             }
+
+
             $this->saveFile($path, "css" . DIRECTORY_SEPARATOR, "css", $css, false);
         }
     }
@@ -298,12 +301,23 @@ class Deployer
     }
 
 
+    /**
+     * copy all assets to the root folder
+     */
     private function copyAssets()
     {
         $this->copy(__DIR__ . DIRECTORY_SEPARATOR . ".." . DIRECTORY_SEPARATOR . "_source" . DIRECTORY_SEPARATOR . "assets", __DIR__ . DIRECTORY_SEPARATOR . "../assets");
     }
 
-
+    /**
+     * copied files from a to b
+     *
+     * @param     $source
+     * @param     $dest
+     * @param int $permissions
+     *
+     * @return bool
+     */
     private function copy($source, $dest, $permissions = 0755)
     {
         if (is_link($source)) {

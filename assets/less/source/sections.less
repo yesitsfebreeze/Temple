@@ -1,6 +1,8 @@
 section {
     min-height: 500px;
     padding:    50px 0;
+    position:   relative;
+    overflow:   hidden;
     &.light {
         color:            @gray-dark;
         background-color: @white;
@@ -15,8 +17,23 @@ section {
     }
     &.gradient {
         color: @white;
-        #gradient > .vertical(@start-color:#eb5d1d ; @end-color: #e93d89);
+        #gradient > .vertical(@start-color:#f46e63 ; @end-color: #f35a6e);
     }
+
+    &.gradient-reverse {
+        color: @white;
+        #gradient > .vertical(@start-color:#f35a6e ; @end-color: #f46e63);
+    }
+
+    .pattern {
+        position:         absolute;
+        left:             0;
+        right:            0;
+        top:              0;
+        bottom:           0;
+        background-image: url("../assets/img/pattern.png");
+    }
+
     .vertical-center {
         position: relative;
         top:      50%;
