@@ -72,6 +72,7 @@ class Deployer
         $this->buildMenu($pages);
         $this->parseLess("../source/all");
         $this->processJs("../source/all");
+        $this->copyAssets();
         $this->fetchTemplates($pages);
     }
 
@@ -294,6 +295,40 @@ class Deployer
         }
 
         return null;
+    }
+
+
+    private function copyAssets()
+    {
+        $this->copy(__DIR__ . DIRECTORY_SEPARATOR . ".." . DIRECTORY_SEPARATOR . "_source" . DIRECTORY_SEPARATOR . "assets", __DIR__ . DIRECTORY_SEPARATOR . "../assets");
+    }
+
+
+    private function copy($source, $dest, $permissions = 0755)
+    {
+        if (is_link($source)) {
+            return symlink(readlink($source), $dest);
+        }
+
+        if (is_file($source)) {
+            return copy($source, $dest);
+        }
+
+        if (!is_dir($dest)) {
+            mkdir($dest, $permissions);
+        }
+
+        $dir = dir($source);
+        while (false !== $entry = $dir->read()) {
+            if ($entry == '.' || $entry == '..') {
+                continue;
+            }
+            $this->copy("$source/$entry", "$dest/$entry", $permissions);
+        }
+
+        $dir->close();
+
+        return true;
     }
 
 }

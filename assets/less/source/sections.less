@@ -1,0 +1,25 @@
+section {
+    min-height: 500px;
+    padding:    50px 0;
+    &.light {
+        color:            @gray-dark;
+        background-color: @white;
+    }
+    &.dark {
+        color:            @gray-lighter;
+        background-color: @black;
+    }
+    &.primary {
+        color:            @white;
+        background-color: @brand-primary;
+    }
+    &.gradient {
+        color: @white;
+        #gradient > .vertical(@start-color:#eb5d1d ; @end-color: #e93d89);
+    }
+    .vertical-center {
+        position: relative;
+        top:      50%;
+        .transform(translateY(-50%));
+    }
+}
