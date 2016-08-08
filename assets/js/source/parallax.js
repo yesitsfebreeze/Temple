@@ -35,22 +35,41 @@ $(function() {
             var distance = $el.data("distance");
             var direction = $el.data("direction");
             var speed = $el.data("speed");
-            var elOffset = $(this).offset().top;
             var originalPosition = $el.attr("data-originalPos");
             var startPosition = originalPosition - distance;
 
             if(offset > startPosition) {
-                var difference = offset - startPosition;
-                var percentage = difference / distance;
+                var difference = (offset - startPosition);
+                var realPercentage = (difference / distance);
+                var percentage = realPercentage * speed;
 
-                $el.css({"margin-top": ((-Math.abs(distance) * speed) * percentage)});
+                var fadePecentage = realPercentage * 1.2;
+                $el.css({opacity: fadePecentage});
 
-                // var percentage =  distance / difference;
-                // console.log(percentage);
+                if(direction == "left" || direction == "up") {
+                    distance = distance - (distance * percentage) + "px";
+                    if(direction == "left") {
+                        $el.css({"left": distance});
+                    }
+                    if(direction == "up") {
+                        $el.css({"margin-top": distance});
+                    }
+                } else if(direction == "right" || direction == "down") {
+                    distance = -Math.abs(distance) + (distance * percentage) + "px";
+
+                    if(direction == "right") {
+                        $el.css({"left": distance});
+                    } else if(direction == "down") {
+                        $el.css({"margin-top": distance});
+                    }
+
+                }
+
+            } else {
+                $el.css({opacity: 0});
             }
 
 
-            // console.log(elOffset);
         });
     });
 });
