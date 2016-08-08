@@ -8986,7 +8986,7 @@ a:focus {
 }
 .menu .logo .text {
   color: white;
-  padding: 0 10px;
+  padding: 0 15px 0 10px;
 }
 .menu .menu-list {
   display: inline-block;
