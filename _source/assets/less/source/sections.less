@@ -3,26 +3,22 @@ section {
     padding:    50px 0;
     position:   relative;
     overflow:   hidden;
+
     &.light {
-        color:            @gray-dark;
-        background-color: @white;
+        .bg-light()
     }
     &.dark {
-        color:            @gray-lighter;
-        background-color: @black;
+        .bg-dark()
     }
     &.primary {
-        color:            @white;
-        background-color: @brand-primary;
+        .bg-primary()
     }
     &.gradient {
-        color: @white;
-        #gradient > .vertical(@start-color:#f46e63 ; @end-color: #f35a6e);
+        .bg-gradient()
     }
 
     &.gradient-reverse {
-        color: @white;
-        #gradient > .vertical(@start-color:#f35a6e ; @end-color: #f46e63);
+        .bg-gradient-reverse()
     }
 
     .pattern {

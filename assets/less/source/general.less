@@ -25,7 +25,21 @@ a {
     }
 }
 
-.parallax {
-    opacity: 0;
+.code-container {
     position: absolute;
+    height:     300px;
+    margin-top: -150px;
+    code {
+        padding: 0;
+        font-size:87%;
+        background-color: transparent;
+        border-color:     transparent;
+        pre {
+            &:first-line {
+                line-height: 0;
+            }
+            background-color: transparent;
+            border-color:     transparent;
+        }
+    }
 }

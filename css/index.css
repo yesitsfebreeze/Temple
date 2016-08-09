@@ -11,3 +11,25 @@
 #branch-icon * {
   fill: #eb7c53;
 }
+.section-1 .logo {
+  opacity: .4;
+  position: absolute;
+  right: -100px;
+  float: left;
+  display: inline;
+  width: 40%;
+  bottom: -320px;
+  -ms-transform: rotate(347deg);
+  /* IE 9 */
+  -webkit-transform: rotate(347deg);
+  /* Chrome, Safari, Opera */
+  transform: rotate(347deg);
+}
+.section-1 .logo img {
+  width: 100%;
+}
+.section-2 .editor {
+  position: absolute;
+  margin-top: -168px;
+  height: 600px;
+}

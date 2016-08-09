@@ -6,5 +6,6 @@ $scripts = array(
     "plug.min.js",
     "sectionResize.js",
     "pageFadeIn.js",
-    "parallax.js"
+    "parallax.js",
+    "fix-height.js"
 );

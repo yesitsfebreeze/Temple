@@ -1,17 +1,21 @@
-@color-1st: LightCoral;
-@color-2nd: GhostWhite;
-@color-3rd: Gainsboro;
-
 .editor {
+
+    &.dark {
+        background: @gray-darker;
+        pre {
+            color: @gray-lighter;
+        }
+    }
+
     width:         547px;
-    background:    @color-2nd;
+    background:    @white;
     border-radius: 0.3rem;
     box-shadow:    0 8px 12px rgba(0, 0, 0, 0.1);
     overflow:      hidden;
 
     .editor-header {
-        height:     37px;
-        background: @color-3rd;
+        height:     38px;
+        background: @gray;
         position:   relative;
 
         .action-buttons {
@@ -26,35 +30,23 @@
             box-shadow:    15px 0 0 Orange,
                            30px 0 0 LimeGreen;
         }
-
-        .language {
-            display:            inline-block;
-            position:           absolute;
-            right:              10px;
-            top:                50%;
-            margin-top:         -10px;
-            height:             21px;
-            padding:            0 1em;
-            text-align:         right;
-            -webkit-appearance: none;
-            appearance:         none;
-            border:             none;
-            background:         transparent;
-            font-family:        Lato, sans-serif;
-            color:              DimGrey;
-
-            &:before {
-                content: 'asd';
-            }
-
-            &:hover {
-                background: rgba(0, 0, 0, 0.1);
-            }
-        }
     }
 
     .editor-body {
         position: relative;
         height:   300px;
+        code {
+            padding:          0;
+            font-size:        87%;
+            background-color: transparent;
+            border-color:     transparent;
+            pre {
+                &:first-line {
+                    line-height: 0;
+                }
+                background-color: transparent;
+                border-color:     transparent;
+            }
+        }
     }
 }

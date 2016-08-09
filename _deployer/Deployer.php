@@ -163,7 +163,14 @@ class Deployer
                 $this->saveFile($path, "", "html", $content, true, true);
             } catch (SmartyException $e) {
                 // just catch stuff so smarty wont try to render non existent templates
-                // nothing to do here
+                // and log the message in the console
+                $message = $e->getMessage();
+                if ($message != "Unable to load template 'file:.tpl'") {
+                    echo "\n";
+                    echo $e->getMessage();
+                    echo "\n";
+                }
+
             }
         }
     }
@@ -228,7 +235,7 @@ class Deployer
     private function parseLess($path)
     {
         $this->less = new Less_Parser();
-        $file = $this->page . "assets" . DIRECTORY_SEPARATOR . "less" . DIRECTORY_SEPARATOR . "pages" . DIRECTORY_SEPARATOR . $path . ".less";
+        $file       = $this->page . "assets" . DIRECTORY_SEPARATOR . "less" . DIRECTORY_SEPARATOR . "pages" . DIRECTORY_SEPARATOR . $path . ".less";
 
 
         if (file_exists($file)) {
@@ -308,6 +315,7 @@ class Deployer
     {
         $this->copy(__DIR__ . DIRECTORY_SEPARATOR . ".." . DIRECTORY_SEPARATOR . "_source" . DIRECTORY_SEPARATOR . "assets", __DIR__ . DIRECTORY_SEPARATOR . "../assets");
     }
+
 
     /**
      * copied files from a to b
