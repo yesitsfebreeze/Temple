@@ -7,5 +7,6 @@ $scripts = array(
     "sectionResize.js",
     "pageFadeIn.js",
     "parallax.js",
-    "fix-height.js"
+    "fix-height.js",
+    "jump-to-donate.js"
 );

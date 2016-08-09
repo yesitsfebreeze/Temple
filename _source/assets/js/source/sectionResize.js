@@ -5,7 +5,7 @@ $(function () {
         $sections.css("height","");
         $.each($sections,function () {
             var height = $(this).outerHeight();
-            $("section").css("height",height);
+            $(this).css("height",height);
         });
     };
 

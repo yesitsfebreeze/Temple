@@ -16,7 +16,7 @@
     <div class="container">
         <div class="logo">
             <a href="{$pathPrefix}/" title="temple">
-                <img src="{$pathPrefix}/assets/img/logo/logo.png" class="img-responsive" alt="temple">
+                <img src="{$pathPrefix}/assets/img/logo/logo.png" class="img-responsive" alt="Temple">
                 <span class="text">Temple</span>
             </a>
         </div>
@@ -25,12 +25,12 @@
 
         <ul class="social-links list-unstyled list-inline pull-right">
             <li>
-                <a href="#donate" title="donate me">
-                    <i class="fa fa-dollar"></i> donate
+                <a href="#donate" class="jump-to-donate" title="donate me" >
+                    <i class="fa fa-heart-o"></i> donate
                 </a>
             </li>
             <li>
-                <a href="https://github.com/hvlmnns" title="fork me">
+                <a href="https://github.com/hvlmnns" title="fork me" target="_blank">
                     <i class="fa fa-code-fork"></i> fork
                 </a>
             </li>

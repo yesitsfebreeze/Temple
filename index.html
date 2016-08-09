@@ -25,20 +25,20 @@
     <div class="container">
         <div class="logo">
             <a href="/Temple/" title="temple">
-                <img src="/Temple/assets/img/logo/logo.png" class="img-responsive" alt="temple">
+                <img src="/Temple/assets/img/logo/logo.png" class="img-responsive" alt="Temple">
                 <span class="text">Temple</span>
             </a>
         </div>
                     <ul class="menu-list list-unstyled list-inline">
                             <li>
                     <a href="/Temple/getting_started" title="getting started">getting started</a>                                <ul class="menu-list list-unstyled list-inline">
-                            <li>
-                    <a href="/Temple/getting_started/step_1" title="step 1">step 1</a>                                <ul class="menu-list list-unstyled list-inline">
             
         </ul>
     
 
                 </li>
+                            <li>
+                    <a href="/Temple/test_drive" title="test drive">test drive</a>                                <ul class="menu-list list-unstyled list-inline">
             
         </ul>
     
@@ -66,12 +66,12 @@
 
         <ul class="social-links list-unstyled list-inline pull-right">
             <li>
-                <a href="#donate" title="donate me">
-                    <i class="fa fa-dollar"></i> donate
+                <a href="#donate" class="jump-to-donate" title="donate me" >
+                    <i class="fa fa-heart-o"></i> donate
                 </a>
             </li>
             <li>
-                <a href="https://github.com/hvlmnns" title="fork me">
+                <a href="https://github.com/hvlmnns" title="fork me" target="_blank">
                     <i class="fa fa-code-fork"></i> fork
                 </a>
             </li>
@@ -89,7 +89,7 @@
     <section class="light section-1">
         <div class="vertical-center">
             <div class="logo">
-                <img src="/Temple/assets/img/lgoo-ultra-large.png" alt="Temple">
+                <img src="/Temple/assets/img/logo-ultra-large.png" alt="Temple">
             </div>
             <div class="text-center">
                 <h1>
@@ -118,6 +118,11 @@
         &lt;title&gt;
             awesome
         &lt;/title&gt;
+        &lt;script src="resources/app.js"&gt;
+            $(function(){
+                magic();
+            });
+        &lt;/script&gt;
     &lt;head&gt;
     &lt;body&gt;
         &lt;div&gt;
@@ -145,6 +150,7 @@ html
     head
         title
             - awesome
+        include resources/app.js
     body
         div
             - finally easy templates!
@@ -171,7 +177,13 @@ html
     <section class="gradient">
         <div class="container vertical-center">
             <div class="text-center">
-                some more text
+                <div class="row">
+
+                    <div class="col-xs-12 col-md-6 col-md-push-3">
+                        <p>Temple is super flexible and can be adjusted to your needs.</p>
+                        <p>Since it's working event based, you will be able to add custom functionalities at almost any point in the code.</p>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
@@ -189,7 +201,7 @@ html
                 </div>
                 <div class="col-xs-12 col-md-6">
                     <div>
-                        <div class="parallax" data-distance="400" data-direction="bottom" data-lag=".5" data-offset="500" data-fade="3">
+                        <div class="parallax" data-distance="400" data-direction="bottom" data-lag=".5" data-offset="550" data-fade="1.5">
                             <svg version="1.1" id="branch-icon" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" viewBox="0 0 32 36.6666679" style="enable-background:new 0 0 32 36.6666679;" xml:space="preserve">
     <path d="M26.8745117,28.9140625c-1.6105347,0-2.9382935,1.1879272-3.1808472,2.7314453H22.293457c-1.6518555,0-2.9960938-1.3442383-2.9960938-2.996582v-8.3837891h4.5252075c0.2425537,1.5435181,1.5703125,2.7314453,3.1808472,2.7314453c1.7817383,0,3.230957-1.449707,3.230957-3.2314453s-1.4492188-3.2314453-3.230957-3.2314453c-1.6105347,0-2.9382935,1.1879272-3.1808472,2.7314453h-4.5252075v-0.8666992c0-2.2744141-1.8505859-4.125-4.125-4.125h-4.6025391c-1.5708008,0-2.8617554-1.1687622-3.0800171-2.6801147c2.5971069-0.2766113,4.6342163-2.4547729,4.6342163-5.1240845c0-2.855957-2.3232422-5.1791992-5.1791992-5.1791992S1.765625,3.6132812,1.765625,6.4692383c0,2.7005005,2.0845947,4.8991699,4.7251587,5.1333008c0.2294922,2.0587158,1.960144,3.6708984,4.0790405,3.6708984h4.6025391c1.7231445,0,3.125,1.4018555,3.125,3.125v10.2504883c0,2.2036133,1.7924805,3.996582,3.9960938,3.996582h1.4002075c0.2425537,1.543457,1.5703125,2.730957,3.1808472,2.730957c1.7817383,0,3.2314453-1.4492188,3.2314453-3.230957S28.65625,28.9140625,26.8745117,28.9140625z M27.003418,17.5336914c1.2299805,0,2.230957,1.0009766,2.230957,2.2314453s-1.0009766,2.2314453-2.230957,2.2314453c-1.2304688,0-2.2314453-1.0009766-2.2314453-2.2314453S25.7729492,17.5336914,27.003418,17.5336914z M2.765625,6.4692383c0-2.3041992,1.875-4.1791992,4.1791992-4.1791992s4.1791992,1.875,4.1791992,4.1791992s-1.875,4.1791992-4.1791992,4.1791992S2.765625,8.7734375,2.765625,6.4692383z M26.8745117,34.3764648c-1.2304688,0-2.2314453-1.0009766-2.2314453-2.230957c0-1.2304688,1.0009766-2.2314453,2.2314453-2.2314453s2.2314453,1.0009766,2.2314453,2.2314453C29.105957,33.3754883,28.1049805,34.3764648,26.8745117,34.3764648z"></path>
 </svg>
@@ -200,13 +212,13 @@ html
             </div>
         </div>
     </section>
-    <section class="light">
+
+
+            <footer>
+    <section class="light donate-section">
         <div class="pattern parent-height">
             <div class="vertical-center text-center">
-                <h3>
-                    Show me your support!
-                </h3>
-                <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+                <form id="paypal-donate" action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank">
                     <input type="hidden" name="cmd" value="_donations">
                     <input type="hidden" name="business" value="stefan.hoevelmanns@schmiechen.de">
                     <input type="hidden" name="lc" value="DE">
@@ -214,69 +226,99 @@ html
                     <input type="hidden" name="no_note" value="0">
                     <input type="hidden" name="currency_code" value="EUR">
                     <input type="hidden" name="bn" value="PP-DonationsBF:donate-button.png:NonHostedGuest">
-                    <input type="image" src="http://hvlmnns.github.io/Temple/assets/img/donate-button.png" border="0" name="submit" alt="Jetzt einfach, schnell und sicher online bezahlen – mit PayPal.">
+                    <button type="submit" class="btn btn-link">
+                        <span class="click-me">
+                            <img class="img-responsive" src="/Temple/assets/img/click-me.png" alt="Temple">
+                        </span>
+                        <h2 class="text-primary">
+                            <i class="icon icon-static fa fa-2x fa-heart-o"></i>
+                            <i class="icon icon-hover fa fa-2x fa-heart"></i>
+                        </h2>
+                    </button>
                     <img alt="" border="0" src="https://www.paypalobjects.com/de_DE/i/scr/pixel.gif" width="1" height="1">
                 </form>
+
+                <h3 class="no-margin">
+                    Show me your support!
+                </h3>
+                <p>
+                    Since i'm working alone on this project, a little love never hurts.
+                </p>
+
+                <small class="text-muted">
+                    donation via &nbsp; <i class="fa fa-paypal"></i>
+                </small>
             </div>
         </div>
     </section>
 
 
-            <footer>
-    <section class="dark">
-        <div class="container vertical-center">
-            <div>
-                <div class="row">
-                    <div class="col-xs-3">
-                        <ul class="list-unstyled">
-                            <li>
-                                bla
-                            </li>
-                            <li>
-                                bla
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="col-xs-5">
-                        <ul class="list-unstyled">
+    
 
-                            <li>
-                                bla
-                            </li>
-                            <li>
-                                bla
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="col-xs-4 text-right">
-                        <form action="/donate">
-                            <label for="#amount"></label>
-                            <input id="amount" type="text">
-                            <button type="submit" class="btn btn-primary">
-                                do it
-                            </button>
-                        </form>
+    <section class="dark no-height">
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12 col-md-9">
+                    <div class="row">
+                        <div class="col-xs-12 col-md-3">
+                            <a href="/Temple/" title="temple">
+                                <img src="/Temple/assets/img/logo/logo.png" class="img-responsive" alt="Temple">
+                            </a>
+                        </div>
+                        <div class="col-xs-12 col-md-4">                    <ul class="menu-list list-unstyled">
+                                    <li>
+                                                <a href="/Temple/getting_started" title="getting started">getting started</a>                                    <ul class="menu-list list-unstyled list-inline">
+            
+        </ul>
+    
 
-                        <h3>
-                            follow me on:
-                        </h3>
-                        <ul class="list-unstyled">
-                            <li>
-                                twitter
-                            </li>
-                            <li>
-                                facebook
-                            </li>
-                            <li>
-                                dribble
-                            </li>
-                        </ul>
+                    </li>
+                                    <li>
+                                                <a href="/Temple/test_drive" title="test drive">test drive</a>                                    <ul class="menu-list list-unstyled list-inline">
+            
+        </ul>
+    
+
+                    </li>
+                                    <li>
+                                                <a href="/Temple/docs" title="docs">docs</a>                                    <ul class="menu-list list-unstyled list-inline">
+            
+        </ul>
+    
+
+                    </li>
+                                    <li>
+                                                <a href="/Temple/languages" title="languages">languages</a>                                    <ul class="menu-list list-unstyled list-inline">
+            
+        </ul>
+    
+
+                    </li>
+                
+            </ul>
+        
+    </div>
+                        <div class="col-xs-12 col-md-5 text-left">
+                            <ul class="social-links list-unstyled list-inline">
+                                <li>
+                                    <a href="https://github.com/hvlmnns" title="fork me" target="_blank">
+                                        <i class="fa fa-2x fa-code-fork"></i>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="https://github.com/hvlmnns/Temple" title="github" target="_blank">
+                                        <i class="fa fa-2x fa-github"></i>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <hr>
-            <div class="text-center">
-                @ copyright by hvlmnns. 2017
+                <div class="col-xs-12 col-md-3">
+                    <span class="text-muted">
+                        &copy; copyright by hvlmnns &mdash; 2016
+                    </span>
+                </div>
             </div>
         </div>
     </section>
