@@ -9200,7 +9200,7 @@ section .vertical-center {
 }
 .editor .editor-header .action-buttons {
   position: absolute;
-  top: 51%;
+  top: 50%;
   left: 10px;
   margin-top: -5px;
   width: 10px;
