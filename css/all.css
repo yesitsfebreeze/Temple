@@ -9165,7 +9165,30 @@ section.gradient-reverse {
   background-repeat: repeat-x;
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#fff35a6e', endColorstr='#fff46e63', GradientType=0);
 }
+section.bg-stretch {
+  background-position: center center;
+  -webkit-background-size: cover;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+section.bg-maple {
+  background-image: url("../assets/img/bgs/maple.jpg");
+}
+section.bg-shrine {
+  background-image: url("../assets/img/bgs/shrine.jpg");
+}
+section.bg-bamboo {
+  background-image: url("../assets/img/bgs/bamboo.jpg");
+}
+section.bg-buddah {
+  background-image: url("../assets/img/bgs/buddah.jpg");
+}
+section.bg-desk {
+  background-image: url("../assets/img/bgs/desk.jpg");
+}
 section .pattern {
+  background-attachment: fixed;
   position: absolute;
   left: 0;
   right: 0;
@@ -9190,7 +9213,7 @@ section .vertical-center {
   overflow: hidden;
 }
 .editor.dark {
-  background: #212122;
+  background: #151519;
 }
 .editor.dark pre {
   color: #c7c6c9;
@@ -9247,6 +9270,9 @@ h4.no-margin,
 h5.no-margin,
 h6.no-margin {
   margin-bottom: 3px;
+}
+.color-white {
+  color: #fff;
 }
 .parallax {
   opacity: 0;

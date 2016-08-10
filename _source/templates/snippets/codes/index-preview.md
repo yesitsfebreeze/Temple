@@ -3,7 +3,7 @@ html
     head
         title
             - awesome
-        include resources/app.js
+        include template/js/app.js
     body
         div
             - finally easy templates!

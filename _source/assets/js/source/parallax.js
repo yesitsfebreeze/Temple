@@ -12,16 +12,16 @@ $(function() {
 
         $el.attr("data-originalPos", elOffset);
 
-        if(direction == "left") {
+        if(direction == "right") {
             distance = distance + "px";
-            $el.css({"margin-left": distance});
-        } else if(direction == "top") {
-            distance = distance + "px";
-            $el.css({"margin-top": distance});
-        } else if(direction == "right") {
-            distance = -Math.abs(distance) + "px";
             $el.css({"margin-left": distance});
         } else if(direction == "bottom") {
+            distance = distance + "px";
+            $el.css({"margin-top": distance});
+        } else if(direction == "left") {
+            distance = -Math.abs(distance) + "px";
+            $el.css({"margin-left": distance});
+        } else if(direction == "top") {
             distance = -Math.abs(distance) + "px";
             $el.css({"margin-top": distance});
         }
@@ -39,7 +39,7 @@ $(function() {
             var $el = $(this);
             var offset = data($el,"offset",300);
             var distance = data($el,"distance",250);
-            var direction = data($el,"direction","bottom");
+            var direction = data($el,"direction","top");
             var fade = data($el,"fade",2);
             var speed = data($el,"lag",.5);
             var minus = data($el,"minus",true);
@@ -48,13 +48,14 @@ $(function() {
 
             offset = windowOffset + offset;
 
+
             if(offset > startPosition) {
                 var difference = (offset - startPosition);
                 var realPercentage = (difference / distance);
                 var percentage = realPercentage * speed;
 
                 finalDistance =  distance - (distance * percentage);
-                if (direction == "right" || direction == "bottom") {
+                if (direction == "left" || direction == "top") {
                     var finalDistance =  -Math.abs(distance) + (distance * percentage);
                 }
 
@@ -62,7 +63,7 @@ $(function() {
                     finalDistance = distance;
                 }
 
-                if ((direction == "right" || direction == "bottom") && !minus) {
+                if ((direction == "left" || direction == "top") && !minus) {
                     if(finalDistance > 0) {
                         finalDistance = 0;
                     }
@@ -72,7 +73,7 @@ $(function() {
                         finalDistance = -Math.abs(distance);
                 }
 
-                if ((direction == "left" || direction == "top") && !minus) {
+                if ((direction == "right" || direction == "bottom") && !minus) {
                     if(finalDistance < 0) {
                         finalDistance = 0;
                     }
@@ -80,9 +81,9 @@ $(function() {
 
                 finalDistance = finalDistance + "px";
 
-                if(direction == "left" || direction == "right") {
-                    $el.css({"left": finalDistance});
-                } else if(direction == "top" || direction == "bottom") {
+                if(direction == "right" || direction == "left") {
+                    $el.css({"margin-left": finalDistance});
+                } else if(direction == "bottom" || direction == "top") {
                     $el.css({"margin-top": finalDistance});
                 }
 

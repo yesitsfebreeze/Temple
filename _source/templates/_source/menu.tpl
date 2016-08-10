@@ -26,12 +26,12 @@
         <ul class="social-links list-unstyled list-inline pull-right">
             <li>
                 <a href="#donate" class="jump-to-donate" title="donate me" >
-                    <i class="fa fa-heart-o"></i> donate
+                    <i class="fa fa-heart-o"></i>&nbsp;&nbsp;show some love
                 </a>
             </li>
             <li>
                 <a href="https://github.com/hvlmnns" title="fork me" target="_blank">
-                    <i class="fa fa-code-fork"></i> fork
+                    <i class="fa fa-code-fork"></i>&nbsp;&nbsp;fork me
                 </a>
             </li>
             <li>
