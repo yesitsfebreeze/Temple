@@ -18,9 +18,6 @@ class BlockNode extends Node
     /** @var  string $blockName */
     private $blockName;
 
-    /** @var  bool $showBlockComment */
-    private $showBlockComment = true;
-
     private $methods = array("before", "after", "replace");
 
 

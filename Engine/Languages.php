@@ -51,9 +51,9 @@ class Languages extends Injection
             if ($tag == "language") {
                 $loadedLanguages = trim(str_replace($tag, "", $line));
                 if (strpos($line, ",") !== false) {
-                    $languages = array_merge(explode(",", $loadedLanguages), $languages);
+                    $languages = array_merge($languages,explode(",", $loadedLanguages));
                 } else {
-                    $languages = array_merge(array($loadedLanguages), $languages);
+                    $languages = array_merge($languages,array($loadedLanguages));
                 }
                 $this->loadLanguages($languages);
 

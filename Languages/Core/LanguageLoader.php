@@ -38,7 +38,6 @@ class LanguageLoader extends Language
         $this->Instance->EventManager()->register("lexer.node.use", new LanguageNode());
         $this->Instance->EventManager()->register("lexer.node.Extends", new ExtendNode());
         $this->Instance->EventManager()->register("lexer.node.block", new BlockNode());
-        $this->Instance->EventManager()->register("lexer.node.variable", new VariableNode());
     }
 
 
@@ -47,7 +46,6 @@ class LanguageLoader extends Language
      */
     private function registerPlugins()
     {
-        $this->Instance->EventManager()->register("plugin.output.variables", new VariablesPlugin());
         $this->Instance->EventManager()->register("plugin.dom.extend", new ExtendPlugin());
     }
 }

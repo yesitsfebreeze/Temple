@@ -7,8 +7,12 @@ use Temple\Engine\Structs\Language\Language;
 use Temple\Languages\Html\Nodes\CommentNode;
 use Temple\Languages\Html\Nodes\ForeachNode;
 use Temple\Languages\Html\Nodes\HtmlNode;
+use Temple\Languages\Html\Nodes\IfNode;
 use Temple\Languages\Html\Nodes\PlainNode;
+use Temple\Languages\Html\Nodes\VariableNode;
 use Temple\Languages\Html\Plugins\CleanCommentsPlugin;
+use Temple\Languages\Html\Plugins\CleanPhpTagsPlugin;
+use Temple\Languages\Html\Plugins\VariablesPlugin;
 
 
 /**
@@ -37,10 +41,12 @@ class LanguageLoader extends Language
      */
     private function registerNodes()
     {
+        $this->Instance->EventManager()->register("lexer.node.variable", new VariableNode());
         $this->Instance->EventManager()->register("lexer.node.html", new HtmlNode());
         $this->Instance->EventManager()->register("lexer.node.comment", new CommentNode());
         $this->Instance->EventManager()->register("lexer.node.foreach", new ForeachNode());
         $this->Instance->EventManager()->register("lexer.node.plain", new PlainNode());
+        $this->Instance->EventManager()->register("lexer.node.if", new IfNode());
     }
 
 
@@ -50,5 +56,10 @@ class LanguageLoader extends Language
     private function registerPlugins()
     {
         $this->Instance->EventManager()->register("plugin.dom.cleanComments", new CleanCommentsPlugin());
+        $this->Instance->EventManager()->register("plugin.output.cleanPhpTags", new CleanPhpTagsPlugin());
+        $this->Instance->EventManager()->register("plugin.nodeoutput.variables", new VariablesPlugin());
+        $this->Instance->EventManager()->register("plugin.output.variables", new VariablesPlugin());
     }
+
+
 }

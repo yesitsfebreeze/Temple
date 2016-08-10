@@ -38,6 +38,9 @@ abstract class Node extends Event implements NodeInterface
     /** @var  string $relativeFile */
     protected $relativeFile;
 
+    /** @var  bool $function */
+    protected $function = false;
+
     /** @var  bool $selfClosing */
     protected $selfClosing = false;
 
@@ -131,7 +134,9 @@ abstract class Node extends Event implements NodeInterface
         $output = "";
         /** @var Node $child */
         foreach ($this->getChildren() as $child) {
-            $output .= $child->compile();
+            $nodeOutput = $child->compile();
+            $nodeOutput = $this->Instance->EventManager()->notify("plugin.nodeoutput", array($nodeOutput,$child));
+            $output .= $nodeOutput;
         }
 
         return $output;
@@ -245,6 +250,25 @@ abstract class Node extends Event implements NodeInterface
     {
         return $this->relativeFile = $relativeFile;
     }
+
+
+    /**
+     * @return boolean
+     */
+    public function isFunction()
+    {
+        return $this->function;
+    }
+
+
+    /**
+     * @param boolean $function
+     */
+    public function setFunction($function)
+    {
+        $this->function = $function;
+    }
+
 
 
     /**

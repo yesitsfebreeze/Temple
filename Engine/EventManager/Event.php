@@ -20,7 +20,14 @@ abstract class Event
 
     /** @var InjectionManager $InjectionManager */
     protected $InjectionManager;
-    
+
+
+    public function dispatch()
+    {
+
+        throw new Exception(7, "Please implement the dispatch function for %" . get_class($this) . "%!", __FILE__);
+    }
+
 
     /**
      * @param Instance $Instance
