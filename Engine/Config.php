@@ -48,6 +48,9 @@ class Config extends Injection
     /** @var string */
     private $extension = "tmpl";
 
+    /** @var string */
+    private $variablePattern = "{{%}}";
+
     /** @var bool */
     private $showComments = true;
 
@@ -274,6 +277,25 @@ class Config extends Injection
 
         return $this->extension;
     }
+
+
+    /**
+     * @return string
+     */
+    public function getVariablePattern()
+    {
+        return $this->variablePattern;
+    }
+
+
+    /**
+     * @param string $variablePattern
+     */
+    public function setVariablePattern($variablePattern)
+    {
+        $this->variablePattern = $variablePattern;
+    }
+
 
 
     /**

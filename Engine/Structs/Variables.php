@@ -57,7 +57,6 @@ class Variables extends Storage
             }
         }
 
-
     }
 
 
@@ -83,8 +82,7 @@ class Variables extends Storage
         }
 
         if ($this->isScoped) {
-            $mergedVars = $merged->get();
-            $this->scoped->merge($mergedVars);
+            $this->scoped->merge($merged->get());
 
             return $this->scoped->get($path);
         }
