@@ -110,7 +110,7 @@ class Cache extends Injection
      */
     public function isModified($file)
     {
-        if ($this->Config->isDisableCacheInvalidation()) {
+        if (!$this->Config->isCacheInvalidation()) {
             return false;
         }
 
@@ -119,38 +119,78 @@ class Cache extends Injection
         }
         $file     = $this->cleanFile($file);
         $cache    = $this->getCache();
-        $modified = false;
 
         if (!$cache) {
             return true;
         } else {
             $templateCache = $cache["templates"];
-            $templates     = array();
-            if (isset($cache["dependencies"])) {
-                if (isset($cache["dependencies"][ $file ])) {
-                    foreach ($cache["dependencies"][ $file ] as $dependency) {
-                        $templates = array_merge($templates, $this->getTemplateFiles($dependency));
-                    }
-                }
-            }
+            $modified      = $this->checkModified($file, $templateCache);
 
-            $templates = array_merge($templates, $this->getTemplateFiles($file));
-            foreach ($templates as $template) {
-                $templatePath = $template;
-                $template     = $this->cleanFile($template);
-
-                if (isset($templateCache[ $template ])) {
-                    $cacheTime   = $templateCache[ $template ][ md5($templatePath) ];
-                    $currentTime = filemtime($templatePath);
-
-                    if (($cacheTime != $currentTime) || $this->CacheFilesAreMissing($templatePath)) {
-                        $modified = true;
-                    }
+            if (isset($cache["dependencies"]) && isset($cache["dependencies"][ $file ])) {
+                foreach ($cache["dependencies"][ $file ] as $dependency) {
+                    $template = $dependency["file"];
+                    $type     = $dependency["type"];
+                    $modified = $this->checkModified($template, $templateCache, $type);
                 }
             }
         }
 
         return $modified;
+    }
+
+
+    /**
+     * check if a file or its parents are modified
+     *
+     * @param      $file
+     * @param      $templateCache
+     * @param bool $needToExist | if the file has to exist withing the cache
+     *
+     * @return bool
+     */
+    public function checkModified($file, $templateCache, $needToExist = true)
+    {
+        $modified = false;
+
+        foreach ($this->getTemplateFiles($file) as $template) {
+            $templatePath = $template;
+            $template     = $this->cleanFile($template);
+
+            if (isset($templateCache[ $template ])) {
+
+                $cacheTime   = $templateCache[ $template ][ md5($templatePath) ];
+                $currentTime = filemtime($templatePath);
+
+                $exists = false;
+                if ($needToExist) {
+                    $exists = $this->CacheFilesExist($templatePath);
+                }
+                var_dump($exists,$templatePath);
+                var_dump("___");
+                if (($cacheTime != $currentTime) || !$exists) {
+                    $modified = $this->modifyReturnValue($templatePath);
+                }
+            } else {
+                $modified = $this->modifyReturnValue($templatePath);
+            }
+        }
+
+        return $modified;
+    }
+
+
+    /**
+     * updates time for modified templates
+     *
+     * @param $file
+     *
+     * @return bool
+     */
+    private function modifyReturnValue($file)
+    {
+        $this->setTime($file);
+
+        return true;
     }
 
 
@@ -161,7 +201,7 @@ class Cache extends Injection
      *
      * @return bool
      */
-    private function CacheFilesAreMissing($templatePath)
+    private function CacheFilesExist($templatePath)
     {
         $cacheFilePath = $templatePath;
         foreach ($this->DirectoryHandler->getTemplateDirs() as $templateDir) {
@@ -169,14 +209,14 @@ class Cache extends Injection
         }
 
         // check if all needed variable files exist
-        $templateFile    = $this->getDirectory() . str_replace("." . $this->Config->getExtension(), ".php", $cacheFilePath);
-        $variableFile    = $this->getDirectory() . str_replace("." . $this->Config->getExtension(), ".variables.php", $cacheFilePath);
+        $templateFile = $this->getDirectory() . str_replace("." . $this->Config->getExtension(), ".php", $cacheFilePath);
+        $variableFile = $this->getDirectory() . str_replace("." . $this->Config->getExtension(), ".variables.php", $cacheFilePath);
 
-        if (!file_exists($variableFile) || !file_exists($templateFile)) {
-            return true;
+        if (!file_exists($templateFile) || !file_exists($variableFile)) {
+            return false;
         }
 
-        return false;
+        return true;
     }
 
 
@@ -201,11 +241,12 @@ class Cache extends Injection
      *
      * @param string $parent
      * @param string $file
+     * @param bool   $needToExist
      *
      * @return bool
      * @throws Exception
      */
-    public function addDependency($parent, $file)
+    public function addDependency($parent, $file, $needToExist = true)
     {
 
         if (!$file || $file == "") {
@@ -221,8 +262,8 @@ class Cache extends Injection
 
         $cache = $this->getCache();
 
-        if (!isset($cache["dependencies"])) {
-            $cache["dependencies"] = array();
+        if (!isset($cache["templates"][ $file ])) {
+            $this->setTime($file);
         }
 
         if (!isset($cache["dependencies"][ $parent ])) {
@@ -230,9 +271,10 @@ class Cache extends Injection
         }
 
         if (!in_array($file, $cache["dependencies"][ $parent ])) {
-            array_push($cache["dependencies"][ $parent ], $file);
+            array_push($cache["dependencies"][ $parent ], array("file" => $file, "type" => $needToExist));
         }
 
+//        var_dump($cache);
         return $this->saveCache($cache);
     }
 
@@ -294,6 +336,17 @@ class Cache extends Injection
     {
         $cacheFile = $this->createFile($this->cacheFile);
         $cache     = unserialize(file_get_contents($cacheFile));
+
+
+        // set initial templates sub array
+        if (!isset($cache["templates"])) {
+            $cache["templates"] = array();
+        }
+
+        // set initial dependencies sub array
+        if (!isset($cache["dependencies"])) {
+            $cache["dependencies"] = array();
+        }
 
         return $cache;
     }

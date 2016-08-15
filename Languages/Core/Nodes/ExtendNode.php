@@ -52,7 +52,7 @@ class ExtendNode extends Node
             } else {
                 $Dom = $this->Instance->Template()->dom($fileToExtend);
             }
-            $this->Instance->Cache()->addDependency($this->getNamespace(),$fileToExtend);
+            $this->Instance->Cache()->addDependency($this->getNamespace(), $fileToExtend, false);
         } catch (Exception $e) {
 
             if ($e->getCustomCode() == 0) {

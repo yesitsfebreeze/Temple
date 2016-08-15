@@ -70,6 +70,6 @@ class IncludeNode extends Node
     {
         $includeFile = $this->Instance->Template()->fetch($this->includeFile);
         $this->Instance->Cache()->addDependency($this->getNamespace(), $this->includeFile);
-        return "<?php include_once('" . $includeFile . "'); ?>";
+        return "<?php include('" . $includeFile . "'); ?>";
     }
 }

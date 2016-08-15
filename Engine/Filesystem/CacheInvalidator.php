@@ -46,7 +46,7 @@ class CacheInvalidator extends Cache
     public function check(Injection $class)
     {
 
-        if ($this->Config->isDisableCacheInvalidation()) {
+        if (!$this->Config->isCacheInvalidation()) {
             return true;
         }
 

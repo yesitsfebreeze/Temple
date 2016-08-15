@@ -64,9 +64,11 @@ class Lexer extends Injection
         $files       = $this->getTemplateFiles($file);
         $file        = $this->getTemplateFile($file, $level);
 
-        $fileContent = file_get_contents($file);
-        $fileContent = $this->EventManager->notify("plugins.file.process", $fileContent);
-        file_put_contents($file, $fileContent);
+
+        // todo: cache problem
+        // $fileContent = file_get_contents($file);
+        // $fileContent = $this->EventManager->notify("plugins.file.process", $fileContent);
+        // file_put_contents($file, $fileContent);
 
         $Dom = new Dom($namespace, $file, $files, $this->level);
         $this->process($file, $Dom);
