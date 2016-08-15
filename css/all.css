@@ -8943,6 +8943,7 @@ html {
   font-weight: 300;
 }
 .page-wrapper {
+  margin-top: 50px;
   opacity: 0;
   -webkit-transition: opacity 0.5s cubic-bezier(1, 0.23, 0.32, 1);
   -o-transition: opacity 0.5s cubic-bezier(1, 0.23, 0.32, 1);

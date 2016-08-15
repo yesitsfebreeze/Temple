@@ -9,7 +9,8 @@ body, html {
 }
 
 .page-wrapper {
-    opacity: 0;
+    margin-top: 50px;
+    opacity:    0;
     .transition(opacity .5s @easing-slow);
     &.in {
         opacity: 1;
@@ -25,14 +26,13 @@ a {
     }
 }
 
-
 .code-container {
-    position: absolute;
+    position:   absolute;
     height:     300px;
     margin-top: -150px;
     code {
-        padding: 0;
-        font-size:87%;
+        padding:          0;
+        font-size:        87%;
         background-color: transparent;
         border-color:     transparent;
         pre {

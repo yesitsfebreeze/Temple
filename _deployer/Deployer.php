@@ -151,9 +151,9 @@ class Deployer
                 $path            = substr($path, 1);
                 $path            = str_replace(" ", "_", $path);
                 $this->jsContent = "";
-                if ($this->environment == "production") {
+//                if ($this->environment == "production") {
                     $this->smarty->assign("pathPrefix", $this->pathPrefix);
-                }
+//                }
                 $this->assignPageData("default");
                 $this->assignPageData($path);
                 $this->parseLess($path);
