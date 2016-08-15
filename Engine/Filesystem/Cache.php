@@ -110,6 +110,10 @@ class Cache extends Injection
      */
     public function isModified($file)
     {
+        if ($this->Config->isDisableCacheInvalidation()) {
+            return false;
+        }
+
         if (!$this->Config->isCacheEnabled()) {
             return true;
         }
@@ -120,8 +124,8 @@ class Cache extends Injection
         if (!$cache) {
             return true;
         } else {
-            $times     = $cache["times"];
-            $templates = array();
+            $templateCache = $cache["templates"];
+            $templates     = array();
             if (isset($cache["dependencies"])) {
                 if (isset($cache["dependencies"][ $file ])) {
                     foreach ($cache["dependencies"][ $file ] as $dependency) {
@@ -134,17 +138,17 @@ class Cache extends Injection
             foreach ($templates as $template) {
                 $templatePath = $template;
                 $template     = $this->cleanFile($template);
-                if (isset($times[ $template ])) {
-                    $cacheTime   = $times[ $template ][ md5($templatePath) ];
+
+                if (isset($templateCache[ $template ])) {
+                    $cacheTime   = $templateCache[ $template ][ md5($templatePath) ];
                     $currentTime = filemtime($templatePath);
 
-                    if ($cacheTime != $currentTime || $this->CacheFilesAreMissing($templatePath)) {
+                    if (($cacheTime != $currentTime) || $this->CacheFilesAreMissing($templatePath)) {
                         $modified = true;
                     }
                 }
             }
         }
-
 
         return $modified;
     }
@@ -167,9 +171,8 @@ class Cache extends Injection
         // check if all needed variable files exist
         $templateFile    = $this->getDirectory() . str_replace("." . $this->Config->getExtension(), ".php", $cacheFilePath);
         $variableFile    = $this->getDirectory() . str_replace("." . $this->Config->getExtension(), ".variables.php", $cacheFilePath);
-        $urlVariableFile = $this->getDirectory() . str_replace("." . $this->Config->getExtension(), ".variables." . VariableCache::getUrlHash() . ".php", $cacheFilePath);
 
-        if (!file_exists($variableFile) || !file_exists($urlVariableFile) || !file_exists($templateFile)) {
+        if (!file_exists($variableFile) || !file_exists($templateFile)) {
             return true;
         }
 
@@ -218,11 +221,11 @@ class Cache extends Injection
 
         $cache = $this->getCache();
 
-        if (is_null($cache["dependencies"])) {
+        if (!isset($cache["dependencies"])) {
             $cache["dependencies"] = array();
         }
 
-        if (is_null($cache["dependencies"][ $parent ])) {
+        if (!isset($cache["dependencies"][ $parent ])) {
             $cache["dependencies"][ $parent ] = array();
         }
 
@@ -275,7 +278,7 @@ class Cache extends Injection
         $cache     = $this->getCache();
         $templates = $this->getTemplateFiles($file);
         foreach ($templates as $template) {
-            $cache["times"][ $file ][ md5($template) ] = filemtime($template);
+            $cache["templates"][ $file ][ md5($template) ] = filemtime($template);
         }
 
         return $this->saveCache($cache);

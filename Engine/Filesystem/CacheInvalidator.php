@@ -11,7 +11,8 @@ class CacheInvalidator extends Cache
 {
 
     /** @var  array $tempCache */
-    private $tempCache;
+    private $classesCache;
+
 
     /**
      * checks the validation of a list of predefined classes
@@ -22,7 +23,7 @@ class CacheInvalidator extends Cache
             $this->classesToCheck();
         } catch (Exception $e) {
             $this->invalidate();
-            $this->saveCache($this->tempCache);
+            $this->saveCache($this->classesCache);
         }
     }
 
@@ -45,13 +46,20 @@ class CacheInvalidator extends Cache
     public function check(Injection $class)
     {
 
+        if ($this->Config->isDisableCacheInvalidation()) {
+            return true;
+        }
+
         $classname = get_class($class);
         $cache     = $this->getCache();
         $hash      = md5(serialize($this->Config));
 
         if ($cache) {
-            if (key_exists($classname, $cache)) {
-                $currentHash = $cache[ $classname ];
+            if (!isset($cache["classes"])) {
+                $cache["classes"] = array();
+            }
+            if (key_exists($classname, $cache["classes"])) {
+                $currentHash = $cache["classes"][ $classname ];
                 if ($currentHash == $hash) {
                     return true;
                 } else {
@@ -77,8 +85,8 @@ class CacheInvalidator extends Cache
      */
     private function update($cache, $name, $hash)
     {
-        $cache[ $name ] = $hash;
-        $this->tempCache = $cache;
+        $cache["classes"][ $name ] = $hash;
+        $this->classesCache        = $cache;
 
         throw new Exception(1, "Cache Invalidation failed -> update()");
     }

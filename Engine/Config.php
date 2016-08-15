@@ -30,6 +30,9 @@ class Config extends Injection
     private $cacheEnabled = true;
 
     /** @var bool */
+    private $disableCacheInvalidation = false;
+
+    /** @var bool */
     private $variableCacheEnabled = true;
 
     /** @var array */
@@ -167,6 +170,25 @@ class Config extends Injection
 
         return $this->cacheEnabled;
     }
+
+
+    /**
+     * @return boolean
+     */
+    public function isDisableCacheInvalidation()
+    {
+        return $this->disableCacheInvalidation;
+    }
+
+
+    /**
+     * @param boolean $disableCacheInvalidation
+     */
+    public function setDisableCacheInvalidation($disableCacheInvalidation)
+    {
+        $this->disableCacheInvalidation = $disableCacheInvalidation;
+    }
+
 
 
     /**
