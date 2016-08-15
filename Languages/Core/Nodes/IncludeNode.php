@@ -17,6 +17,11 @@ class IncludeNode extends Node
     private $includeFile;
 
 
+    /**
+     * check if the tag is matching this node
+     *
+     * @return bool
+     */
     public function check()
     {
         if ($this->getTag() == "include") {
@@ -27,6 +32,11 @@ class IncludeNode extends Node
     }
 
 
+    /**
+     * initial setup of the node
+     *
+     * @return $this
+     */
     public function setup()
     {
         $this->includeFile = $this->getIncludeFile();
@@ -35,21 +45,31 @@ class IncludeNode extends Node
     }
 
 
+    /**
+     * returns the include file we passed with the node
+     *
+     * @return string
+     */
     private function getIncludeFile()
     {
-        return trim(preg_replace("/^" . $this->getTag() . "/", "", trim($this->plain)));
+        $includeFile = trim(preg_replace("/^" . $this->getTag() . "/", "", trim($this->plain)))
+        if (substr($includeFile, 1) != "/") {
+            $prefix      = preg_replace("/\/([^\/]*?$)/", "/", $this->getNamespace());
+            $includeFile = $prefix . $includeFile;
+        }
+        return $includeFile;
     }
 
 
+    /**
+     * turns the node into php output
+     *
+     * @return string
+     */
     public function compile()
     {
-        if (substr($this->includeFile, 1) != "/") {
-            $prefix            = preg_replace("/\/([^\/]*?$)/", "/", $this->getNamespace());
-            $this->includeFile = $prefix . $this->includeFile;
-        }
         $includeFile = $this->Instance->Template()->fetch($this->includeFile);
-
-        $this->Instance->Cache()->addDependency($this->getNamespace(),$this->includeFile);
+        $this->Instance->Cache()->addDependency($this->getNamespace(), $this->includeFile);
         return "<?php include_once('" . $includeFile . "'); ?>";
     }
 }
