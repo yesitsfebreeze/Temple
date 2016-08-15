@@ -117,20 +117,45 @@ class Cache extends Injection
         if (!$this->Config->isCacheEnabled()) {
             return true;
         }
-        $file     = $this->cleanFile($file);
-        $cache    = $this->getCache();
+        $file  = $this->cleanFile($file);
+        $cache = $this->getCache();
 
         if (!$cache) {
             return true;
         } else {
-            $templateCache = $cache["templates"];
-            $modified      = $this->checkModified($file, $templateCache);
+            $modified = $this->checkModified($file);
+            if (!$modified) {
+                $modified = $this->checkDependencies($file);
+            }
+        }
 
-            if (isset($cache["dependencies"]) && isset($cache["dependencies"][ $file ])) {
-                foreach ($cache["dependencies"][ $file ] as $dependency) {
-                    $template = $dependency["file"];
-                    $type     = $dependency["type"];
-                    $modified = $this->checkModified($template, $templateCache, $type);
+        if ($modified){
+            var_dump("mod");
+            // todo: invalidate cache times for sub templates
+        }
+
+        return $modified;
+    }
+
+
+    /**
+     * checks all of the files dependencies and returns true if they are modified
+     *
+     * @param string $file
+     *
+     * @return bool
+     */
+    private function checkDependencies($file)
+    {
+        $cache    = $this->getCache();
+        $modified = false;
+        if (isset($cache["dependencies"]) && isset($cache["dependencies"][ $file ])) {
+            foreach ($cache["dependencies"][ $file ] as $dependency) {
+                $template = $dependency["file"];
+                $type     = $dependency["type"];
+                $modified = $this->checkModified($template, $type);
+                if ($modified) {
+                    break;
                 }
             }
         }
@@ -143,13 +168,15 @@ class Cache extends Injection
      * check if a file or its parents are modified
      *
      * @param      $file
-     * @param      $templateCache
      * @param bool $needToExist | if the file has to exist withing the cache
      *
      * @return bool
      */
-    public function checkModified($file, $templateCache, $needToExist = true)
+    public function checkModified($file, $needToExist = true)
     {
+        $cache         = $this->getCache();
+        $templateCache = $cache["templates"];
+
         $modified = false;
 
         foreach ($this->getTemplateFiles($file) as $template) {
@@ -160,37 +187,25 @@ class Cache extends Injection
 
                 $cacheTime   = $templateCache[ $template ][ md5($templatePath) ];
                 $currentTime = filemtime($templatePath);
-
-                $exists = false;
+                $timeDiffers = $cacheTime != $currentTime;
+                $exists      = true;
                 if ($needToExist) {
                     $exists = $this->CacheFilesExist($templatePath);
                 }
-                var_dump($exists,$templatePath);
-                var_dump("___");
-                if (($cacheTime != $currentTime) || !$exists) {
-                    $modified = $this->modifyReturnValue($templatePath);
+                if ($timeDiffers || !$exists) {
+                    $this->setTime($templatePath);
+                    $modified = true;
                 }
             } else {
-                $modified = $this->modifyReturnValue($templatePath);
+                $this->setTime($templatePath);
+                $modified = true;
+            }
+            if ($modified) {
+                break;
             }
         }
 
         return $modified;
-    }
-
-
-    /**
-     * updates time for modified templates
-     *
-     * @param $file
-     *
-     * @return bool
-     */
-    private function modifyReturnValue($file)
-    {
-        $this->setTime($file);
-
-        return true;
     }
 
 

@@ -17,12 +17,6 @@ use Temple\Languages\Core\Nodes\BlockNode;
 class ExtendPlugin extends Event
 {
 
-    /** @var  Dom $Dom */
-    private $Dom;
-
-    /** @var  Dom $ParentDom */
-    private $ParentDom;
-
 
     /**
      * @param Dom $Dom
@@ -31,35 +25,44 @@ class ExtendPlugin extends Event
      */
     public function dispatch(Dom $Dom)
     {
+        return $this->extendDom($Dom);
+    }
 
+
+    /**
+     * recursively extends the dom
+     *
+     * @param Dom $Dom
+     *
+     * @return Dom
+     */
+    private function extendDom(Dom $Dom)
+    {
         if ($Dom->isExtending()) {
-            $this->Dom       = $Dom;
-            $this->ParentDom = $this->Dom->getParentDom();
-
-            /** @var Node $node */
-            foreach ($this->Dom->getNodes() as &$node) {
-                $node = $this->iterate($node);
+            foreach ($Dom->getNodes() as &$node) {
+                $node = $this->iterate($node, $Dom);
             }
 
-            return $this->ParentDom;
+            return $this->extendDom($Dom->getParentDom());
+        } else {
+            return $Dom;
         }
-
-        return $Dom;
     }
 
 
     /**
      * @param Node $node
+     * @param Dom  $Dom
      *
      * @return Node
      */
-    private function iterate(Node $node)
+    private function iterate(Node $node, Dom $Dom)
     {
-        $node     = $this->extend($node);
+        $node     = $this->extend($node, $Dom);
         $children = $node->getChildren();
         if (sizeof($children) > 0) {
             foreach ($children as &$child) {
-                $child = $this->iterate($child);
+                $child = $this->iterate($child, $Dom);
             }
         }
 
@@ -69,25 +72,32 @@ class ExtendPlugin extends Event
 
     /**
      * @param Node $node
+     * @param Dom  $Dom
      *
      * @return Node
      */
-    private function extend(Node $node)
+    private function extend(Node $node, Dom $Dom)
     {
 
         if ($node->getTag() == "block") {
             /** @var BlockNode $node */
             $name = $node->getBlockName();
+            /** @var Dom $parentDom */
+            $parentDom = $Dom->getParentDom();
             /** @var BlockNode $block */
-            $block  = $this->ParentDom->getBlock($name);
+            $block  = $parentDom->getBlock($name);
             $method = $node->getBlockMethod();
             if ($method == "before") {
                 $children = $block->getChildren();
-                array_unshift($children, $node);
+                foreach ($node->getChildren() as $child) {
+                    array_unshift($children, $child);
+                }
                 $block->setChildren($children);
             } elseif ($method == "after") {
                 $children   = $block->getChildren();
-                $children[] = $node;
+                foreach ($node->getChildren() as $child) {
+                    $children[] = $child;
+                }
                 $block->setChildren($children);
             } elseif ($method == "replace") {
                 $block->setShowComment(false);
