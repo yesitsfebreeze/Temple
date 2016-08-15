@@ -177,7 +177,7 @@ class Lexer extends Injection
         $arguments = array($line, $Dom);
 
         /** @var Node $node */
-        $node = $this->EventManager->notify("lexer.node", $arguments);
+        $node = $this->EventManager->notify("node", $arguments);
 
         if (!$node instanceof Node) {
             $node = new DefaultNode();

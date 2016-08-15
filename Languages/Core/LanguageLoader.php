@@ -6,6 +6,7 @@ namespace Temple\Languages\Core;
 use Temple\Engine\Structs\Language\Language;
 use Temple\Languages\Core\Nodes\BlockNode;
 use Temple\Languages\Core\Nodes\ExtendNode;
+use Temple\Languages\Core\Nodes\IncludeNode;
 use Temple\Languages\Core\Nodes\LanguageNode;
 use Temple\Languages\Core\Nodes\VariableNode;
 use Temple\Languages\Core\Plugins\ExtendPlugin;
@@ -35,9 +36,10 @@ class LanguageLoader extends Language
      */
     private function registerNodes()
     {
-        $this->Instance->EventManager()->register("lexer.node.use", new LanguageNode());
-        $this->Instance->EventManager()->register("lexer.node.Extends", new ExtendNode());
-        $this->Instance->EventManager()->register("lexer.node.block", new BlockNode());
+        $this->Instance->EventManager()->register("node.use", new LanguageNode());
+        $this->Instance->EventManager()->register("node.extend", new ExtendNode());
+        $this->Instance->EventManager()->register("node.include", new IncludeNode());
+        $this->Instance->EventManager()->register("node.block", new BlockNode());
     }
 
 

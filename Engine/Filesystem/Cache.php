@@ -30,7 +30,7 @@ class Cache extends Injection
 
 
     /** @var string $cacheFile */
-    private $cacheFile = "timestamp";
+    private $cacheFile = "cache";
 
 
     /**
@@ -113,7 +113,7 @@ class Cache extends Injection
         if (!$this->Config->isCacheEnabled()) {
             return true;
         }
-
+        $file     = $this->cleanFile($file);
         $cache    = $this->getCache();
         $modified = false;
 
@@ -123,15 +123,13 @@ class Cache extends Injection
             $times     = $cache["times"];
             $templates = array();
             if (isset($cache["dependencies"])) {
-                $dependencies = $cache["dependencies"][ $file ];
-                if ($dependencies) {
-                    foreach ($dependencies as $dependency) {
+                if (isset($cache["dependencies"][ $file ])) {
+                    foreach ($cache["dependencies"][ $file ] as $dependency) {
                         $templates = array_merge($templates, $this->getTemplateFiles($dependency));
                     }
                 }
             }
 
-            $file      = str_replace("." . $this->Config->getExtension(), "", $file);
             $templates = array_merge($templates, $this->getTemplateFiles($file));
             foreach ($templates as $template) {
                 $templatePath = $template;
@@ -219,6 +217,10 @@ class Cache extends Injection
         $parent = $this->cleanFile($parent);
 
         $cache = $this->getCache();
+
+        if (is_null($cache["dependencies"])) {
+            $cache["dependencies"] = array();
+        }
 
         if (is_null($cache["dependencies"][ $parent ])) {
             $cache["dependencies"][ $parent ] = array();

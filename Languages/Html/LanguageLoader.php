@@ -41,12 +41,12 @@ class LanguageLoader extends Language
      */
     private function registerNodes()
     {
-        $this->Instance->EventManager()->register("lexer.node.variable", new VariableNode());
-        $this->Instance->EventManager()->register("lexer.node.html", new HtmlNode());
-        $this->Instance->EventManager()->register("lexer.node.comment", new CommentNode());
-        $this->Instance->EventManager()->register("lexer.node.foreach", new ForeachNode());
-        $this->Instance->EventManager()->register("lexer.node.plain", new PlainNode());
-        $this->Instance->EventManager()->register("lexer.node.if", new IfNode());
+        $this->Instance->EventManager()->register("node.variable", new VariableNode());
+        $this->Instance->EventManager()->register("node.html", new HtmlNode());
+        $this->Instance->EventManager()->register("node.comment", new CommentNode());
+        $this->Instance->EventManager()->register("node.foreach", new ForeachNode());
+        $this->Instance->EventManager()->register("node.plain", new PlainNode());
+        $this->Instance->EventManager()->register("node.if", new IfNode());
     }
 
 

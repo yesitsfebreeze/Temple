@@ -27,7 +27,7 @@ class Config extends Injection
     private $cacheDir = "./Cache";
 
     /** @var bool */
-    private $cacheEnabled = false;
+    private $cacheEnabled = true;
 
     /** @var bool */
     private $variableCacheEnabled = true;

@@ -21,7 +21,7 @@ abstract class Event
     /** @var InjectionManager $InjectionManager */
     protected $InjectionManager;
 
-    
+
     /**
      * @param Instance $Instance
      */
