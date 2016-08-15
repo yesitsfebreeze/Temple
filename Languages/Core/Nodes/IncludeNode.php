@@ -52,7 +52,7 @@ class IncludeNode extends Node
      */
     private function getIncludeFile()
     {
-        $includeFile = trim(preg_replace("/^" . $this->getTag() . "/", "", trim($this->plain)))
+        $includeFile = trim(preg_replace("/^" . $this->getTag() . "/", "", trim($this->plain)));
         if (substr($includeFile, 1) != "/") {
             $prefix      = preg_replace("/\/([^\/]*?$)/", "/", $this->getNamespace());
             $includeFile = $prefix . $includeFile;
