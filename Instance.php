@@ -91,7 +91,6 @@ class Instance
         $this->Compiler         = $this->InjectionManager->registerDependency(new Compiler());
         $this->Template         = $this->InjectionManager->registerDependency(new Template());
 
-
         $this->EventManager->setInstance($this);
 
         return $this;

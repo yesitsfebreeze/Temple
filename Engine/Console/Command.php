@@ -12,8 +12,12 @@ use Temple\Engine\Exception\Exception;
  *
  * @package Temple\Engine\Console
  */
-class Command {
+class Command
+{
 
+
+    /** @var  string $rootPath */
+    private $rootPath;
 
     /** @var  string $name */
     private $name;
@@ -27,16 +31,13 @@ class Command {
 
     /**
      * just sets the path to the console command file for the cache
-     *
      * Command constructor.
      */
     public function __construct()
     {
-        $this->path = __DIR__ . DIRECTORY_SEPARATOR . __FILE__;
+        $this->path = __FILE__;
         $this->className = get_class($this);
     }
-
-    # Temple\Engine\Console\Command
 
 
     /**
@@ -44,9 +45,10 @@ class Command {
      *
      * @throws Exception
      */
-    public function define(){
-        $commandName = preg_replace('/^.*?\[^\]*?$/',"",get_class($this));
-        throw new Exception(5000,"Please implement the %define% function for %".$commandName."%!");
+    public function define()
+    {
+        $commandName = preg_replace('/^.*?\[^\]*?$/', "", get_class($this));
+        throw new Exception(5000, "Please implement the %define% function for %" . $commandName . "%!");
     }
 
 
@@ -55,9 +57,10 @@ class Command {
      *
      * @throws Exception
      */
-    public function execute() {
-        $commandName = preg_replace('/^.*?\[^\]*?$/',"",get_class($this));
-        throw new Exception(5000,"Please implement the %execute% function for %".$commandName."%!");
+    public function execute()
+    {
+        $commandName = preg_replace('/^.*?\[^\]*?$/', "", get_class($this));
+        throw new Exception(5000, "Please implement the %execute% function for %" . $commandName . "%!");
     }
 
 
@@ -89,15 +92,6 @@ class Command {
 
 
     /**
-     * @param string $className
-     */
-    public function setClassName($className)
-    {
-        $this->className = $className;
-    }
-
-
-    /**
      * @return string
      */
     public function getPath()
@@ -105,14 +99,6 @@ class Command {
         return $this->path;
     }
 
-
-    /**
-     * @param string $path
-     */
-    public function setPath($path)
-    {
-        $this->path = $path;
-    }
 
 
 

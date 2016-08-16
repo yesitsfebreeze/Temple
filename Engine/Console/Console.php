@@ -4,7 +4,7 @@
 namespace Temple\Engine\Console;
 
 
-use Temple\Engine\Console\Commands\TestCommand;
+use Temple\Engine\Console\Commands\ClearCacheCommand;
 use Temple\Engine\InjectionManager\Injection;
 
 
@@ -49,10 +49,15 @@ class Console extends Injection
 
         if (!file_exists($this->cacheFile)) {
             touch($this->cacheFile);
-            file_put_contents($this->cacheFile,serialize($this->cache));
+            file_put_contents($this->cacheFile, serialize($this->cache));
         }
+        $this->registerDefaultCommands();
+    }
 
-        $this->register(new TestCommand());
+
+    private function registerDefaultCommands()
+    {
+        $this->register(new ClearCacheCommand());
     }
 
 
@@ -65,22 +70,39 @@ class Console extends Injection
 
     /**
      * remove the class from my cache file
+     *
+     * @param string $name
+     *
+     * @return bool
      */
-    public function delete()
+    public function delete($name)
     {
+        $this->cache = $this->getCache();
 
+        if (isset($this->cache[ $name ])) {
+            unset($this->cache[ $name ]);
+        }
+
+        $this->saveCache();
+
+        return true;
     }
 
 
     /**
      * @param string $name
      * @param array  $args
+     *
+     * @throws \Exception
      */
     public function execute($name, $args)
     {
-
         $this->cache = $this->getCache();
-        $command = $this->cache[$name];
+
+        if (!isset($this->cache[ $name ])) {
+            throw new \Exception("The console Command " . $name . " wasn't found!");
+        }
+        $command = $this->cache[ $name ];
 
         /** @noinspection PhpIncludeInspection */
         require_once($command["path"]);
@@ -89,6 +111,7 @@ class Console extends Injection
         $command = new $command["className"](...$args);
 
         $command->execute();
+
 
     }
 
@@ -100,22 +123,20 @@ class Console extends Injection
      */
     private function save(Command $command = null)
     {
-
-
         $this->cache = $this->getCache();
 
         if ($command instanceof Command) {
-            $className = $command->getClassName();
-            $name = $command->getName();
-            $path = $command->getPath();
-            $command = array(
+            $className            = $command->getClassName();
+            $name                 = $command->getName();
+            $path                 = $command->getPath();
+            $command              = array(
                 "className" => $className,
-                "path" => $path
+                "path"      => $path
             );
-            $this->cache[$name] = $command;
+            $this->cache[ $name ] = $command;
         }
 
-        file_put_contents($this->cacheFile,serialize($this->cache));
+        $this->saveCache();
     }
 
 
@@ -124,7 +145,16 @@ class Console extends Injection
      */
     private function getCache()
     {
-        return serialize(file_get_contents($this->cacheFile));
+        return unserialize(file_get_contents($this->cacheFile));
+    }
+
+
+    /**
+     * @return string
+     */
+    private function saveCache()
+    {
+        return file_put_contents($this->cacheFile, serialize($this->cache));
     }
 
 

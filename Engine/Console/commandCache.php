@@ -1,0 +1,1 @@
+a:2:{s:4:"test";a:2:{s:9:"className";s:42:"Temple\Engine\Console\Commands\TestCommand";s:4:"path";s:66:"/Users/hvlmnns/docker/temple/app/Temple/Engine/Console/Command.php";}s:10:"clearcache";a:2:{s:9:"className";s:48:"Temple\Engine\Console\Commands\ClearCacheCommand";s:4:"path";s:66:"/Users/hvlmnns/docker/temple/app/Temple/Engine/Console/Command.php";}}
