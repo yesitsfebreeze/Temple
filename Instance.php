@@ -5,6 +5,7 @@ namespace Temple;
 
 use Temple\Engine\Compiler;
 use Temple\Engine\Config;
+use Temple\Engine\Console\Console;
 use Temple\Engine\EventManager\EventManager;
 use Temple\Engine\Filesystem\Cache;
 use Temple\Engine\Filesystem\CacheInvalidator;
@@ -30,6 +31,9 @@ class Instance
 
     /** @var Config $Config */
     private $Config;
+
+    /** @var Console $Console */
+    private $Console;
 
     /** @var Variables $Variables */
     private $Variables;
@@ -71,10 +75,11 @@ class Instance
     {
 
         // used passed config or default
-        $config = ($config === null) ? new Config() : $config;
+        $config = ($config instanceof Config) ? $config : new Config();
 
         $this->InjectionManager = new InjectionManager();
         $this->Config           = $this->InjectionManager->registerDependency($config);
+        $this->Console          = $this->InjectionManager->registerDependency(new Console());
         $this->Variables        = $this->InjectionManager->registerDependency(new Variables());
         $this->DirectoryHandler = $this->InjectionManager->registerDependency(new DirectoryHandler());
         $this->EventManager     = $this->InjectionManager->registerDependency(new EventManager());
@@ -99,6 +104,15 @@ class Instance
     public function Config()
     {
         return $this->Config;
+    }
+
+
+    /**
+     * @return Console
+     */
+    public function Console()
+    {
+        return $this->Console;
     }
 
 

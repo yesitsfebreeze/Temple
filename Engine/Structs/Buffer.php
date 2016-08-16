@@ -3,10 +3,14 @@
 
 namespace Temple\Engine\Structs;
 
-
 use Temple\Engine\Exception\Exception;
 
 
+/**
+ * Class Buffer
+ *
+ * @package Temple\Engine\Structs
+ */
 class Buffer
 {
 
