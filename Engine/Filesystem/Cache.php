@@ -129,11 +129,6 @@ class Cache extends Injection
             }
         }
 
-        if ($modified){
-            var_dump("mod");
-            // todo: invalidate cache times for sub templates
-        }
-
         return $modified;
     }
 
@@ -289,7 +284,6 @@ class Cache extends Injection
             array_push($cache["dependencies"][ $parent ], array("file" => $file, "type" => $needToExist));
         }
 
-//        var_dump($cache);
         return $this->saveCache($cache);
     }
 
