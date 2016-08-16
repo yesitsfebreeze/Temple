@@ -3,6 +3,7 @@
 namespace Temple\Languages\Core;
 
 
+use Temple\Engine\EventManager\EventManager;
 use Temple\Engine\Structs\Language\Language;
 use Temple\Languages\Core\Nodes\BlockNode;
 use Temple\Languages\Core\Nodes\ExtendNode;
@@ -18,11 +19,15 @@ use Temple\Languages\Core\Plugins\ExtendPlugin;
 class LanguageLoader extends Language
 {
 
+    /** @var  EventManager $EventManager */
+    private $EventManager;
+
     /**
      * register the nodes for the language
      */
     public function register()
     {
+        $this->EventManager = $this->Instance->EventManager();
         $this->registerNodes();
         $this->registerPlugins();
     }
@@ -33,9 +38,9 @@ class LanguageLoader extends Language
      */
     private function registerNodes()
     {
-        $this->Instance->EventManager()->register("node.use", new LanguageNode());
-        $this->Instance->EventManager()->register("node.extend", new ExtendNode());
-        $this->Instance->EventManager()->register("node.block", new BlockNode());
+        $this->EventManager->register("node.use", new LanguageNode());
+        $this->EventManager->register("node.extend", new ExtendNode());
+        $this->EventManager->register("node.block", new BlockNode());
     }
 
 
@@ -44,6 +49,6 @@ class LanguageLoader extends Language
      */
     private function registerPlugins()
     {
-        $this->Instance->EventManager()->register("plugin.dom.extend", new ExtendPlugin());
+        $this->EventManager->register("plugin.dom.extend", new ExtendPlugin());
     }
 }

@@ -63,11 +63,13 @@ class Variables extends Storage
     /**
      * @param null $path
      * @param bool $onlyCached
+     * @param bool $echo
      *
      * @return mixed
      */
-    public function get($path = null, $onlyCached = false)
+    public function get($path = null, $onlyCached = false, $echo = false)
     {
+
 
         if ($onlyCached && !$this->isScoped) {
             return $this->cached->get($path);
@@ -84,10 +86,39 @@ class Variables extends Storage
         if ($this->isScoped) {
             $this->scoped->merge($merged->get());
 
-            return $this->scoped->get($path);
+            $var = $this->scoped->get($path);
+            if ($echo) {
+                $var = $this->convertToEchoOutput($var);
+            }
+
+            return $var;
         }
 
-        return $merged->get($path);
+        $var = $merged->get($path);
+        if ($echo) {
+            $var = $this->convertToEchoOutput($var);
+        }
+
+        return $var;
+    }
+
+
+    /**
+     * converts variable to save echo output
+     *
+     * @param  mixed $variable
+     *
+     * @return string
+     */
+    private function convertToEchoOutput($variable)
+    {
+        if (is_array($variable)) {
+            $variable = implode(",", $variable);
+        } else if (is_bool($variable)) {
+            $variable = (!$variable) ? "false" : "true";
+        }
+
+        return (string)$variable;
     }
 
 

@@ -37,6 +37,10 @@ class VariableNode extends Node
         $this->setSelfClosing(true);
         $this->getVariableName();
         $this->getVariableValue();
+        $this->setFunction(true);
+
+        $this->variableValue = $this->Instance->EventManager()->notify("plugin.variableNode.variableReturn", array($this->variableValue, $this->getDom()->getVariables()));
+        $this->getDom()->getVariables()->set($this->variableName, $this->variableValue);
 
         return $this;
     }
@@ -103,10 +107,21 @@ class VariableNode extends Node
             foreach ($value as $item) {
                 $exploded = explode("=", $item);
                 if (sizeof($exploded) > 1) {
-                    $array[ $exploded[0] ] = $exploded[1];
+                    $key        = $exploded[0];
+                    $arrayValue = $exploded[1];
                 } else {
-                    $array[] = $exploded[0];
+                    $key        = false;
+                    $arrayValue = $exploded[0];
                 }
+
+                $arrayValue = $this->Instance->EventManager()->notify("plugin.variableNode.variableReturn", array($arrayValue, $this->getDom()->getVariables()));
+
+                if ($key !== false) {
+                    $array[ $key ] = $arrayValue;
+                } else {
+                    $array[] = $arrayValue;
+                }
+
             }
             $value = $array;
         }
@@ -122,9 +137,6 @@ class VariableNode extends Node
      */
     public function compile()
     {
-        $Variables = $this->getDom()->getVariables();
-        $Variables->set($this->variableName, $this->variableValue);
-
         return "";
     }
 

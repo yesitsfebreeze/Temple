@@ -2,8 +2,8 @@
 
 namespace Temple\Languages\Html\Plugins;
 
-
 use Temple\Engine\EventManager\Event;
+use Temple\Engine\Structs\Buffer;
 use Temple\Engine\Structs\Node\Node;
 
 
@@ -14,6 +14,9 @@ use Temple\Engine\Structs\Node\Node;
  */
 class VariablesPlugin extends Event
 {
+
+    /** @var  array $modifiers */
+    private $modifiers = false;
 
     /**
      * @param           $output
@@ -45,13 +48,14 @@ class VariablesPlugin extends Event
      *
      * @param array  $matches
      * @param string $output
-     * @param bool   $echo
+     * @param bool   $addEcho
      *
      * @return string $output
      */
-    private function replace($matches, $output, $echo = false)
+    private function replace($matches, $output, $addEcho = false)
     {
-        if ($echo) {
+
+      /*  if ($echo) {
             $before = '<?php echo $this->Variables->get("';
         } else {
             $before = '<?php $this->Variables->get("';
@@ -63,22 +67,82 @@ class VariablesPlugin extends Event
         } else {
             $after = ' ?>';
         }
+      */
 
         foreach ($matches[0] as $key => $match) {
             $path   = $this->getPath($matches[1][ $key ]);
-            $output = str_replace($match, $before . $path[0] . $middle . $path[1] . $after, $output);
+
+            $buffer = new Buffer();
+
+            $buffer->insertAfter('$this->Variables->get("');
+            $buffer->insertAfter($path[0]);
+            $buffer->insertAfter('"');
+            if ($addEcho) {
+                $buffer->insertAfter(",true,true");
+            }
+            $buffer->insertAfter(')');
+            if ($path[1] != "") {
+                $buffer->insertAfter($path[1]);
+            }
+
+            if ($this->modifiers !== false) {
+                foreach ($this->modifiers as $modifier) {
+                    // get modifier name
+                    $name = explode(":",$modifier);
+                    $name = $name[0];
+
+                    // todo: get modifier arguments
+                    $arguments = array();
+
+                    array_unshift($arguments,$buffer);
+                    // get arguments
+                    $buffer = $this->Instance->EventManager()->notify("modifier.". $name,$arguments);
+                }
+            }
+
+            if ($addEcho) {
+                $buffer->insertBefore("echo ");
+                $buffer->insertAfter(";");
+            }
+
+            $buffer->insertBefore("<?php ");
+            $buffer->insertAfter(" ?>");
+
+            $output = str_replace($match, $buffer->getContent(), $output);
         }
 
         return $output;
     }
 
 
+    /**
+     * within here we check if we have some modifiers or object methods
+     *
+     * @param $path
+     *
+     * @return array
+     */
     private function getPath($path)
     {
+        $this->modifiers = false;
+        $path = explode("|", $path);
+
+        // gather all modifiers
+        if (sizeof($path) > 1) {
+            $modifiers = $path;
+            array_shift($modifiers);
+            $this->modifiers = $modifiers;
+        }
+
+        // reset the path to continue
+        $path = $path[0];
+
         $path = explode("->", $path);
+        // if there is no object getter we set the second part od the path to an empty string
         if (!isset($path[1])) {
             $path[1] = "";
         } else {
+            // if it's there we have to prefix it with the previously removed "->"
             $path[1] = "->" . $path[1];
         }
 
