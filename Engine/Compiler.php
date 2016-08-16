@@ -66,7 +66,7 @@ class Compiler extends Injection
         foreach ($nodes as $node) {
             $node->setDom($dom);
             $nodeOutput = $node->compile();
-            $nodeOutput = $this->EventManager->notify("plugin.nodeoutput", array($nodeOutput,$node));
+            $nodeOutput = $this->EventManager->notify("plugin.nodeOutput", array($nodeOutput,$node));
             $output .= $nodeOutput;
         }
 

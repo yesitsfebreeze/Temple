@@ -8,6 +8,7 @@ use Temple\Languages\Html\Nodes\CommentNode;
 use Temple\Languages\Html\Nodes\ForeachNode;
 use Temple\Languages\Html\Nodes\HtmlNode;
 use Temple\Languages\Html\Nodes\IfNode;
+use Temple\Languages\Html\Nodes\IncludeNode;
 use Temple\Languages\Html\Nodes\PlainNode;
 use Temple\Languages\Html\Nodes\VariableNode;
 use Temple\Languages\Html\Plugins\CleanCommentsPlugin;
@@ -47,6 +48,7 @@ class LanguageLoader extends Language
         $this->Instance->EventManager()->register("node.foreach", new ForeachNode());
         $this->Instance->EventManager()->register("node.plain", new PlainNode());
         $this->Instance->EventManager()->register("node.if", new IfNode());
+        $this->Instance->EventManager()->register("node.include", new IncludeNode());
     }
 
 
@@ -57,7 +59,7 @@ class LanguageLoader extends Language
     {
         $this->Instance->EventManager()->register("plugin.dom.cleanComments", new CleanCommentsPlugin());
         $this->Instance->EventManager()->register("plugin.output.cleanPhpTags", new CleanPhpTagsPlugin());
-        $this->Instance->EventManager()->register("plugin.nodeoutput.variables", new VariablesPlugin());
+        $this->Instance->EventManager()->register("plugin.nodeOutput.variables", new VariablesPlugin());
         $this->Instance->EventManager()->register("plugin.output.variables", new VariablesPlugin());
     }
 

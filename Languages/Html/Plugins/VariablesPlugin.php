@@ -27,7 +27,6 @@ class VariablesPlugin extends Event
 
         $pattern = $this->Instance->Config()->getVariablePattern();
         $pattern = explode('%', $pattern);
-        # brb making a coffee
         $pattern = "/" . preg_quote($pattern[0]) . "(.*?)" . preg_quote($pattern[1]) . "/";
         preg_match_all($pattern, $output, $matches);
 

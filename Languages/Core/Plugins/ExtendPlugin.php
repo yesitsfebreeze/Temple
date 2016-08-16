@@ -89,7 +89,8 @@ class ExtendPlugin extends Event
             $method = $node->getBlockMethod();
             if ($method == "before") {
                 $children = $block->getChildren();
-                foreach ($node->getChildren() as $child) {
+                $childrenToPrepend = array_reverse($node->getChildren());
+                foreach ($childrenToPrepend as $child) {
                     array_unshift($children, $child);
                 }
                 $block->setChildren($children);

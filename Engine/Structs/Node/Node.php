@@ -135,7 +135,7 @@ abstract class Node extends Event implements NodeInterface
         /** @var Node $child */
         foreach ($this->getChildren() as $child) {
             $nodeOutput = $child->compile();
-            $nodeOutput = $this->Instance->EventManager()->notify("plugin.nodeoutput", array($nodeOutput,$child));
+            $nodeOutput = $this->Instance->EventManager()->notify("plugin.nodeOutput", array($nodeOutput,$child));
             $output .= $nodeOutput;
         }
 
