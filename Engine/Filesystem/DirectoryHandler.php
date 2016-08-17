@@ -125,8 +125,9 @@ class DirectoryHandler extends Injection
     public function getCacheDir()
     {
         $dir = $this->Config->getCacheDir();
-        $dir = $this->validate($dir);
+        $dir = $this->createDir($dir);
         $dir = realpath($dir) . DIRECTORY_SEPARATOR;
+        $dir = $this->validate($dir);
 
         return $dir;
     }
@@ -136,6 +137,8 @@ class DirectoryHandler extends Injection
      * creates a directory at the given path
      *
      * @param $dir
+     *
+     * @return string
      *
      * @throws \Temple\Engine\Exception\Exception
      */
@@ -149,6 +152,7 @@ class DirectoryHandler extends Injection
 
             mkdir($dir, 0777, true);
         }
+        return $dir;
     }
 
 

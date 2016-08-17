@@ -5,6 +5,9 @@ namespace Temple\Engine\Console;
 
 
 use Temple\Engine\Console\Commands\ClearCacheCommand;
+use Temple\Engine\Console\Commands\TestCommand;
+use Temple\Engine\Exception\Exception;
+use Temple\Engine\Filesystem\ConfigCache;
 use Temple\Engine\InjectionManager\Injection;
 
 
@@ -16,24 +19,22 @@ use Temple\Engine\InjectionManager\Injection;
 class Console extends Injection
 {
 
-    /**
-     * @var string $path
-     */
+    /** @var CliOutput $CliOutput */
+    protected $CliOutput;
+
+    /** @var ConfigCache $ConfigCache */
+    private $ConfigCache;
+
+    /** @var string $path */
     private $path;
 
-    /**
-     * @var string $cacheFileName
-     */
-    private $cacheFileName = "commandCache.php";
+    /**  @var string $cacheFileName */
+    private $cacheFileName = "cache.commands.php";
 
-    /**
-     * @var string $cacheFile
-     */
+    /** @var string $cacheFile */
     private $cacheFile;
 
-    /**
-     * @var array $cacheFile
-     */
+    /** @var array $cacheFile */
     private $cache = array();
 
 
@@ -44,24 +45,39 @@ class Console extends Injection
     public function __construct()
     {
 
-        $this->path      = __DIR__ . DIRECTORY_SEPARATOR;
+        $this->ConfigCache = new ConfigCache();
+        $this->CliOutput   = new CliOutput(new CliColors());
+
+        $this->path      = __DIR__ . DIRECTORY_SEPARATOR . "../../Cache/";
         $this->cacheFile = $this->path . $this->cacheFileName;
+
+        if (!is_dir($this->path)) {
+            mkdir($this->path, 0777, true);
+        }
 
         if (!file_exists($this->cacheFile)) {
             touch($this->cacheFile);
             file_put_contents($this->cacheFile, serialize($this->cache));
         }
+
         $this->registerDefaultCommands();
     }
 
 
+    /**
+     * register all default commands
+     */
     private function registerDefaultCommands()
     {
-        $this->register(new ClearCacheCommand());
+        $this->addCommand(new ClearCacheCommand());
+        $this->addCommand(new TestCommand());
     }
 
 
-    public function register(Command $command)
+    /**
+     * @param Command $command
+     */
+    public function addCommand(Command $command)
     {
         $command->define();
         $this->save($command);
@@ -75,7 +91,7 @@ class Console extends Injection
      *
      * @return bool
      */
-    public function delete($name)
+    public function removeCommand($name)
     {
         $this->cache = $this->getCache();
 
@@ -93,14 +109,15 @@ class Console extends Injection
      * @param string $name
      * @param array  $args
      *
-     * @throws \Exception
+     * @throws Exception
      */
     public function execute($name, $args)
     {
+
         $this->cache = $this->getCache();
 
         if (!isset($this->cache[ $name ])) {
-            throw new \Exception("The console Command " . $name . " wasn't found!");
+            throw new Exception(600, "The console Command " . $name . " wasn't found!");
         }
         $command = $this->cache[ $name ];
 
@@ -108,10 +125,54 @@ class Console extends Injection
         require_once($command["path"]);
 
         /** @var Command $command */
-        $command = new $command["className"](...$args);
+        $command = new $command["className"]();
 
-        $command->execute();
 
+        if (isset($args[0]) && ($args[0] == "-h" || $args[0] == "--help")) {
+            $this->CliOutput->clearBuffer();
+            $command->setCliOutput($this->CliOutput);
+            $command->getHelp();
+
+            $this->CliOutput->outputBuffer();
+
+            return;
+        }
+
+        $command->define();
+
+        /**
+         * foreach cached config call the execute function
+         */
+
+        $configs = $this->ConfigCache->getConfigs();
+
+        $CliProgress = null;
+        if ($command->isUseProgress()) {
+            $CliProgress = new CliProgress();
+            $command->setCliProgress($CliProgress);
+            $CliProgress->addTask(sizeof($configs));
+            $CliProgress->start();
+        }
+
+        foreach ($configs as $config) {
+            $command->setConfig($config);
+            $this->CliOutput->clearBuffer();
+            $command->setCliOutput($this->CliOutput);
+            $command->execute(...$args);
+            if (!is_null($CliProgress)) {
+                $CliProgress->removeTask(1);
+                $CliProgress->update();
+            }
+
+        }
+
+        if (!is_null($CliProgress)) {
+            $CliProgress->update();
+        }
+
+        $command->after();
+
+        $this->CliOutput->outputBuffer();
 
     }
 

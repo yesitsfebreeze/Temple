@@ -40,7 +40,7 @@ class Languages extends Injection
 
         $languages = array();
 
-        if ($this->Config->getUseCoreLanguage()) {
+        if ($this->Config->isUseCoreLanguage()) {
             array_unshift($languages, "core");
         }
 

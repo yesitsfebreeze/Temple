@@ -5,6 +5,7 @@ namespace Temple\Engine;
 
 use Temple\Engine\Exception\ExceptionHandler;
 use Temple\Engine\InjectionManager\Injection;
+use Temple\Instance;
 
 
 /**
@@ -14,50 +15,53 @@ use Temple\Engine\InjectionManager\Injection;
  */
 class Config extends Injection
 {
-    /** @var null */
+
+    /** @var bool $shutdownCallbackRegistered */
+    private $shutdownCallbackRegistered = false;
+
+    /** @var  InstanceWrapper $InstanceWrapper */
+    private $InstanceWrapper;
+
+    /** @var null $subfolder */
     private $subfolder = null;
 
-    /** @var bool */
+    /** @var bool $errorHandler */
     private $errorHandler = true;
 
-    /** @var ExceptionHandler */
+    /** @var ExceptionHandler $errorHandlerInstance */
     private $errorHandlerInstance;
 
-    /** @var string */
+    /** @var string $cacheDir */
     private $cacheDir = "./Cache";
 
-    /** @var bool */
+    /** @var bool $cacheEnabled */
     private $cacheEnabled = false;
 
-    /** @var bool */
+    /** @var bool $CacheInvalidation */
     private $CacheInvalidation = true;
 
-    /** @var bool */
+    /** @var bool $variableCacheEnabled */
     private $variableCacheEnabled = true;
 
-    /** @var array */
+    /** @var array $templateDirs */
     private $templateDirs = array();
 
-    /**
-     * tab or space
-     *
-     * @var string
-     */
+    /** @var string $IndentCharacter tab or space */
     private $IndentCharacter = "space";
 
-    /** @var int */
+    /** @var int $IndentAmount */
     private $IndentAmount = 4;
 
-    /** @var string */
+    /** @var string $extension */
     private $extension = "tmpl";
 
-    /** @var string */
+    /** @var string $variablePattern */
     private $variablePattern = "{{%}}";
 
-    /** @var bool */
+    /** @var bool $showComments */
     private $showComments = true;
 
-    /** @var bool */
+    /** @var bool $showBlockComments */
     private $showBlockComments = true;
 
     /** @var array $languages */
@@ -68,10 +72,45 @@ class Config extends Injection
 
 
     /**
+     * @param InstanceWrapper $InstanceWrapper
+     */
+    public function setInstanceWrapper($InstanceWrapper)
+    {
+        $this->InstanceWrapper = $InstanceWrapper;
+    }
+
+
+
+
+    /**
      * updates the config
      */
     public function update()
     {
+
+        if (!$this->shutdownCallbackRegistered) {
+            register_shutdown_function(function(Config $configInstance)
+            {
+                $config = array(
+                    // todo: add remaining keys
+                    "cacheDir" => $configInstance->InstanceWrapper->DirectoryHandler()->getCacheDir(),
+                    "subfolder" => $configInstance->getSubfolder(),
+                    "cacheEnabled" => $configInstance->isCacheEnabled(),
+                    "templateDirs" => $configInstance->getTemplateDirs(),
+                    "IndentCharacter" => $configInstance->getIndentCharacter(),
+                    "IndentAmount" => $configInstance->getIndentAmount(),
+                    "extension" => $configInstance->getExtension(),
+                    "defaultLanguages" => $configInstance->getDefaultLanguages(),
+                    "useCoreLanguage" => $configInstance->isUseCoreLanguage(),
+                    "DocumentRoot" => $_SERVER["DOCUMENT_ROOT"]
+                );
+                $key = md5(serialize($configInstance));
+                $configInstance->InstanceWrapper->ConfigCache()->save($key,$config);
+            },$this);
+            $this->shutdownCallbackRegistered = true;
+        }
+
+
         if ($this->errorHandler) {
             $this->errorHandlerInstance = new ExceptionHandler();
         } else {
@@ -400,7 +439,7 @@ class Config extends Injection
     /**
      * @return bool
      */
-    public function getUseCoreLanguage()
+    public function isUseCoreLanguage()
     {
         return $this->useCoreLanguage;
     }
