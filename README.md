@@ -1,5 +1,5 @@
 
-<a href="hvlmnns.github.io/Temple/" title="temple">
+<a href="http://hvlmnns.github.io/Temple/" title="temple" target="_blank">
 ![Temple](https://raw.githubusercontent.com/hvlmnns/Temple/master/logo.png)
 </a>
 
