@@ -5,6 +5,7 @@ namespace Temple\Engine\Console\Commands;
 
 
 use Temple\Engine\Console\Command;
+use Temple\Engine\Exception\Exception;
 
 
 /**
@@ -12,15 +13,16 @@ use Temple\Engine\Console\Command;
  *
  * @package Temple\Engine\Console\Commands
  */
-class ClearCacheCommand extends Command
+class CacheClearCompleteCommand extends Command
 {
 
 
     public function define()
     {
-        $this->setName("cache:clear");
-        # process
-        # help
+        $this->setName("cache:clear:complete");
+        $this->setUseProgress(true);
+        $this->setProgressTitle("completely clearing cache...");
+        $this->setProgressTitleColor("red");
     }
 
 
@@ -31,8 +33,27 @@ class ClearCacheCommand extends Command
     {
         $this->CliOutput->writeln("clearing caches...", "green");
         $cacheDir = $this->config["cacheDir"];
-        $this->removeDir($cacheDir);
+
+        if (!$this->Storage->has("paths." . $cacheDir)) {
+            $this->removeDir($cacheDir);
+            $this->Storage->set("paths." . $cacheDir, true);
+        }
         $this->CliOutput->writeln("done.", "green");
+    }
+
+
+    /**
+     * echo if there were no caches to clear
+     */
+    public function after()
+    {
+        try {
+            $this->Storage->get("paths");
+        } catch (Exception $e) {
+            if ($e->getMessage() == "Sorry, 'paths' is undefined!") {
+                $this->CliOutput->writeln("Nothing to clear.", "green");
+            }
+        }
     }
 
 

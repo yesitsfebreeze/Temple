@@ -20,6 +20,7 @@ array_shift($arguments);
 $name = array_shift($arguments);
 
 try {
+    $CommandCache = new \Temple\Engine\Console\Console();
     $Console = new \Temple\Engine\Console\Console();
 
     return $Console->execute($name, $arguments);

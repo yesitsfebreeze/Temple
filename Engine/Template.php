@@ -178,6 +178,7 @@ class Template extends Injection
         $this->VariableCache->setFile($file);
         $this->VariableCache->setDom($dom);
         $this->VariableCache->saveTemplateVariables();
+        $this->Config->addProcessedTemplate($file);
 
         return $content;
 
@@ -195,11 +196,12 @@ class Template extends Injection
     {
 
         $dirs = $this->DirectoryHandler->getTemplateDirs();
+
         $file = $this->cleanExtension($file);
         foreach ($dirs as $level => $dir) {
             $checkFile = $dir . $file;
             if (file_exists($checkFile)) {
-                return true;
+                return $checkFile;
             }
         }
 

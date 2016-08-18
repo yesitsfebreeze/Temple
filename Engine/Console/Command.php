@@ -26,7 +26,16 @@ class Command
     protected $CliProgress;
 
     /** @var bool $useProgress */
-    private $useProgress;
+    private $useProgress = false;
+
+    /** @var string $progressTitle */
+    private $progressTitle = "";
+
+    /** @var string $progressTitleColor */
+    private $progressTitleColor = null;
+
+    /** @var string $progressTitleBackground */
+    private $progressTitleBackground = null;
 
     /** @var bool $useConfigs */
     private $useConfigs = true;
@@ -194,6 +203,24 @@ class Command
 
 
     /**
+     * @param boolean $progressTitle
+     */
+    public function setProgressTitle($progressTitle)
+    {
+        $this->progressTitle = $progressTitle;
+    }
+
+
+    /**
+     * @return string
+     */
+    public function getProgressTitle()
+    {
+        return $this->progressTitle;
+    }
+
+
+    /**
      * @return CliProgress
      */
     public function getCliProgress()
@@ -229,6 +256,40 @@ class Command
     }
 
 
+    /**
+     * @return string
+     */
+    public function getProgressTitleColor()
+    {
+        return $this->progressTitleColor;
+    }
+
+
+    /**
+     * @param string $progressTitleColor
+     */
+    public function setProgressTitleColor($progressTitleColor)
+    {
+        $this->progressTitleColor = $progressTitleColor;
+    }
+
+
+    /**
+     * @return string
+     */
+    public function getProgressTitleBackground()
+    {
+        return $this->progressTitleBackground;
+    }
+
+
+    /**
+     * @param string $progressTitleBackground
+     */
+    public function setProgressTitleBackground($progressTitleBackground)
+    {
+        $this->progressTitleBackground = $progressTitleBackground;
+    }
 
 
 }

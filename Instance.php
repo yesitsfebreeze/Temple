@@ -5,6 +5,7 @@ namespace Temple;
 
 use Temple\Engine\Compiler;
 use Temple\Engine\Config;
+use Temple\Engine\Console\CommandCache;
 use Temple\Engine\Console\Console;
 use Temple\Engine\EventManager\EventManager;
 use Temple\Engine\Filesystem\Cache;
@@ -86,6 +87,7 @@ class Instance
 
         $this->Config           = $this->InjectionManager->registerDependency($config);
         $this->ConfigCache      = $this->InjectionManager->registerDependency(new ConfigCache());
+        $this->CommandCache     = $this->InjectionManager->registerDependency(new CommandCache());
         $this->Console          = $this->InjectionManager->registerDependency(new Console());
         $this->Variables        = $this->InjectionManager->registerDependency(new Variables());
         $this->DirectoryHandler = $this->InjectionManager->registerDependency(new DirectoryHandler());

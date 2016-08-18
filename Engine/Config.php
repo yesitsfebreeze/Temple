@@ -5,10 +5,11 @@ namespace Temple\Engine;
 
 use Temple\Engine\Exception\ExceptionHandler;
 use Temple\Engine\InjectionManager\Injection;
-use Temple\Instance;
 
 
 /**
+ * if you add setter and getter which have an add function
+ * the name must be singular
  * Class Config
  *
  * @package Temple\Engine
@@ -70,6 +71,9 @@ class Config extends Injection
     /** @var bool $useCoreLanguage */
     private $useCoreLanguage = true;
 
+    /** @var array $processedTemplates */
+    private $processedTemplates = array();
+
 
     /**
      * @param InstanceWrapper $InstanceWrapper
@@ -80,8 +84,6 @@ class Config extends Injection
     }
 
 
-
-
     /**
      * updates the config
      */
@@ -89,24 +91,23 @@ class Config extends Injection
     {
 
         if (!$this->shutdownCallbackRegistered) {
-            register_shutdown_function(function(Config $configInstance)
-            {
+            register_shutdown_function(function (Config $configInstance) {
                 $config = array(
-                    // todo: add remaining keys
-                    "cacheDir" => $configInstance->InstanceWrapper->DirectoryHandler()->getCacheDir(),
-                    "subfolder" => $configInstance->getSubfolder(),
-                    "cacheEnabled" => $configInstance->isCacheEnabled(),
-                    "templateDirs" => $configInstance->getTemplateDirs(),
-                    "IndentCharacter" => $configInstance->getIndentCharacter(),
-                    "IndentAmount" => $configInstance->getIndentAmount(),
-                    "extension" => $configInstance->getExtension(),
-                    "defaultLanguages" => $configInstance->getDefaultLanguages(),
-                    "useCoreLanguage" => $configInstance->isUseCoreLanguage(),
-                    "DocumentRoot" => $_SERVER["DOCUMENT_ROOT"]
+                    "cacheDir"           => $configInstance->InstanceWrapper->DirectoryHandler()->getCacheDir(),
+                    "subfolder"          => $configInstance->getSubfolder(),
+                    "cacheEnabled"       => $configInstance->isCacheEnabled(),
+                    "templateDirs"       => $configInstance->getTemplateDirs(),
+                    "processedTemplates" => $configInstance->getProcessedTemplates(),
+                    "IndentCharacter"    => $configInstance->getIndentCharacter(),
+                    "IndentAmount"       => $configInstance->getIndentAmount(),
+                    "extension"          => $configInstance->getExtension(),
+                    "defaultLanguages"   => $configInstance->getDefaultLanguages(),
+                    "useCoreLanguage"    => $configInstance->isUseCoreLanguage(),
+                    "DocumentRoot"       => $_SERVER["DOCUMENT_ROOT"]
                 );
-                $key = md5(serialize($configInstance));
-                $configInstance->InstanceWrapper->ConfigCache()->save($key,$config);
-            },$this);
+                $key    = md5(serialize($configInstance));
+                $configInstance->InstanceWrapper->ConfigCache()->save($key, $config);
+            }, $this);
             $this->shutdownCallbackRegistered = true;
         }
 
@@ -227,7 +228,6 @@ class Config extends Injection
     {
         $this->CacheInvalidation = $CacheInvalidation;
     }
-
 
 
     /**
@@ -358,7 +358,6 @@ class Config extends Injection
     }
 
 
-
     /**
      * @return boolean
      */
@@ -451,6 +450,24 @@ class Config extends Injection
     public function setUseCoreLanguage($useCoreLanguage)
     {
         $this->useCoreLanguage = $useCoreLanguage;
+    }
+
+
+    /**
+     * @return array
+     */
+    public function getProcessedTemplates()
+    {
+        return $this->processedTemplates;
+    }
+
+
+    /**
+     * @param array $processedTemplate
+     */
+    public function addProcessedTemplate($processedTemplate)
+    {
+        $this->processedTemplates[] = $processedTemplate;
     }
 
 

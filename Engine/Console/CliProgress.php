@@ -14,6 +14,16 @@ namespace Temple\Engine\Console;
 class CliProgress
 {
 
+
+    /** @var string $progressTitle */
+    private $progressTitle = "";
+
+    /** @var string $progressTitleColor */
+    private $progressTitleColor = null;
+
+    /** @var string $progressTitleBackground */
+    private $progressTitleBackground = null;
+
     /** @var  callable $finishCallback */
     private $finishCallback;
 
@@ -48,15 +58,6 @@ class CliProgress
     }
 
 
-//    /**
-//     * destroys the function
-//     */
-//    function __destruct()
-//    {
-//        $this->update();
-//    }
-
-
     /**
      * add tasks to the progress bar
      *
@@ -84,6 +85,12 @@ class CliProgress
      */
     public function start()
     {
+        echo "\n";
+        if ($this->progressTitle != "") {
+            $this->CliOutput->writeln($this->progressTitle, $this->progressTitleColor, $this->progressTitleBackground);
+            $this->CliOutput->outputBuffer();
+            echo "\n";
+        }
         echo "\n";
         $this->update();
     }
@@ -247,5 +254,31 @@ class CliProgress
         return number_format($sec) . " sec";
     }
 
+
+    /**
+     * @param boolean $progressTitle
+     */
+    public function setProgressTitle($progressTitle)
+    {
+        $this->progressTitle = $progressTitle;
+    }
+
+
+    /**
+     * @param boolean $progressTitleColor
+     */
+    public function setProgressTitleColor($progressTitleColor)
+    {
+        $this->progressTitleColor = $progressTitleColor;
+    }
+
+
+    /**
+     * @param boolean $progressTitleBackground
+     */
+    public function setProgressTitleBackground($progressTitleBackground)
+    {
+        $this->progressTitleBackground = $progressTitleBackground;
+    }
 
 }
