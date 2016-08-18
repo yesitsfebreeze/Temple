@@ -35,6 +35,9 @@ class CliProgress
     /** @var bool $stopped */
     private $stopped;
 
+    /** @var bool $single */
+    private $single;
+
 
     /**
      * CliProgress constructor.
@@ -48,13 +51,13 @@ class CliProgress
     }
 
 
-    /**
-     * destroys the function
-     */
-    function __destruct()
-    {
-        $this->update();
-    }
+//    /**
+//     * destroys the function
+//     */
+//    function __destruct()
+//    {
+//        $this->update();
+//    }
 
 
     /**
@@ -96,8 +99,10 @@ class CliProgress
     {
         if (!$this->stopped) {
             $this->stopped = true;
-            $elapsed       = $this->now - $this->startTime;
-            $this->CliOutput->writeln("done in " . $this->formatTime($elapsed),"green");
+
+            $this->update(100);
+            $elapsed = $this->now - $this->startTime;
+            $this->CliOutput->writeln("done in " . $this->formatTime($elapsed), "green");
             $this->CliOutput->outputBuffer();
             $this->finish();
             echo "\n";
@@ -107,20 +112,55 @@ class CliProgress
 
     /**
      * updates the current progress
+     *
+     * @param null $percent
      */
-    public function update()
+    public function update($percent = null)
     {
+
+        if ($this->stopped) {
+            return;
+        }
+
         $this->now = time();
-        if ($this->doneTasks > $this->tasks) {
+
+
+        if ($this->doneTasks > $this->tasks && !$this->single) {
             $this->stop();
 
             return;
         }
 
 
+        if ($this->single) {
+            $time = 5;
+            $this->draw(.10);
+            for ($timer = 1; $timer <= $time; $timer++) {
+                $percent = ($timer / $time);
+                usleep(10000);
+                $this->draw($percent);
+            }
+        } else {
+            $this->draw($percent);
+        }
+
+
+    }
+
+
+    /**
+     * draws the console progress bar
+     *
+     * @param $percent
+     */
+    public function draw($percent = null)
+    {
         // jump to the beginning and a line up
         echo "\r;\e[A";
-        $percent = (double) ($this->doneTasks / $this->tasks);
+        if (is_null($percent)) {
+            $percent = (double) ($this->doneTasks / $this->tasks);
+        }
+
         echo $this->updateStatusInformation($percent);
         echo "\n";
         echo $this->updateStatusBar($percent);
@@ -222,5 +262,15 @@ class CliProgress
 
         return number_format($sec) . " sec";
     }
+
+
+    /**
+     * @param boolean $single
+     */
+    public function setSingle($single)
+    {
+        $this->single = $single;
+    }
+
 
 }

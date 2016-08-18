@@ -66,6 +66,7 @@ class ConfigCache extends Injection
 
     /**
      * just return the complete cache
+     * @return array
      */
     public function getConfigs () {
         return $this->getCache();

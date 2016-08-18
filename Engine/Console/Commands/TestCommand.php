@@ -17,22 +17,17 @@ class TestCommand extends Command {
 
     public function define() {
         $this->setName("test");
-        $this->setUseProgress(true);
+        $this->setUseConfigs(false);
     }
 
 
     /**
      * removes all cache folders
      */
-    public function execute($test = null,$ba = null) {
-        usleep(1000000 / 10);
+    public function execute($test = null) {
+        sleep(1);
     }
 
-
-    public function after()
-    {
-
-    }
 
 
 }

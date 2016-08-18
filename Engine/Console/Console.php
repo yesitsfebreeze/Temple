@@ -9,6 +9,7 @@ use Temple\Engine\Console\Commands\TestCommand;
 use Temple\Engine\Exception\Exception;
 use Temple\Engine\Filesystem\ConfigCache;
 use Temple\Engine\InjectionManager\Injection;
+use Temple\Engine\Structs\Storage;
 
 
 /**
@@ -109,6 +110,7 @@ class Console extends Injection
      * @param string $name
      * @param array  $args
      *
+     * @return bool
      * @throws Exception
      */
     public function execute($name, $args)
@@ -135,10 +137,18 @@ class Console extends Injection
 
             $this->CliOutput->outputBuffer();
 
-            return;
+            return false;
         }
 
         $command->define();
+
+        if ($command->isUseProgress() && !$command->isUseConfigs()) {
+            $this->CliOutput->writeln("Error in: " . get_class($command), "red");
+            $this->CliOutput->writeln("Can't use Progress without configs!", "red");
+            $this->CliOutput->outputBuffer();
+
+            return false;
+        }
 
         /**
          * foreach cached config call the execute function
@@ -147,26 +157,45 @@ class Console extends Injection
         $configs = $this->ConfigCache->getConfigs();
 
         $CliProgress = null;
-        if ($command->isUseProgress()) {
+        if ($command->isUseProgress() && $command->isUseConfigs()) {
+
             $CliProgress = new CliProgress();
             $command->setCliProgress($CliProgress);
+
+            if (sizeof($configs) == 0) {
+                $this->CliOutput->writeln("No configs found!", "red");
+                $this->CliOutput->outputBuffer();
+
+                return false;
+            }
             $CliProgress->addTask(sizeof($configs));
+
             $CliProgress->start();
         }
 
-        foreach ($configs as $config) {
-            $command->setConfig($config);
+        # add storage to store persistent data
+        $command->setStorage(new Storage());
+
+        if ($command->isUseConfigs()) {
+            # execute the command for each cached config
+            foreach ($configs as $config) {
+                $command->setConfig($config);
+                $this->CliOutput->clearBuffer();
+                $command->setCliOutput($this->CliOutput);
+                $command->execute(...$args);
+                if (!is_null($CliProgress)) {
+                    $CliProgress->removeTask(1);
+                    $CliProgress->update();
+                }
+            }
+        } else {
+            # execution of a single command
             $this->CliOutput->clearBuffer();
             $command->setCliOutput($this->CliOutput);
             $command->execute(...$args);
-            if (!is_null($CliProgress)) {
-                $CliProgress->removeTask(1);
-                $CliProgress->update();
-            }
-
         }
 
-        if (!is_null($CliProgress)) {
+        if (!is_null($CliProgress) && !$command->isUseConfigs()) {
             $CliProgress->update();
         }
 

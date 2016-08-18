@@ -5,6 +5,7 @@ namespace Temple\Engine\Console;
 
 
 use Temple\Engine\Exception\Exception;
+use Temple\Engine\Structs\Storage;
 
 
 /**
@@ -15,6 +16,9 @@ use Temple\Engine\Exception\Exception;
 class Command
 {
 
+    /** @var Storage $Storage */
+    protected $Storage;
+
     /** @var CliOutput $CliOutput */
     protected $CliOutput;
 
@@ -23,6 +27,9 @@ class Command
 
     /** @var bool $useProgress */
     private $useProgress;
+
+    /** @var bool $useConfigs */
+    private $useConfigs = true;
 
     /** @var  array $config */
     protected $config;
@@ -169,6 +176,24 @@ class Command
 
 
     /**
+     * @return boolean
+     */
+    public function isUseConfigs()
+    {
+        return $this->useConfigs;
+    }
+
+
+    /**
+     * @param boolean $useConfigs
+     */
+    public function setUseConfigs($useConfigs)
+    {
+        $this->useConfigs = $useConfigs;
+    }
+
+
+    /**
      * @return CliProgress
      */
     public function getCliProgress()
@@ -184,6 +209,26 @@ class Command
     {
         $this->CliProgress = $CliProgress;
     }
+
+
+    /**
+     * @return Storage
+     */
+    public function getStorage()
+    {
+        return $this->Storage;
+    }
+
+
+    /**
+     * @param Storage $Storage
+     */
+    public function setStorage($Storage)
+    {
+        $this->Storage = $Storage;
+    }
+
+
 
 
 }
