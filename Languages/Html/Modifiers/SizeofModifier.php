@@ -1,6 +1,6 @@
 <?php
 
-namespace Temple\Languages\Html\Modifier;
+namespace Temple\Languages\Html\Modifiers;
 
 
 use Temple\Engine\EventManager\Event;

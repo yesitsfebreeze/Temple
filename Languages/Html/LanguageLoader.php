@@ -5,7 +5,7 @@ namespace Temple\Languages\Html;
 
 use Temple\Engine\EventManager\EventManager;
 use Temple\Engine\Structs\Language\Language;
-use Temple\Languages\Html\Modifier\SizeofModifier;
+use Temple\Languages\Html\Modifiers\SizeofModifier;
 use Temple\Languages\Html\Nodes\CommentNode;
 use Temple\Languages\Html\Nodes\ForeachNode;
 use Temple\Languages\Html\Nodes\HtmlNode;
