@@ -35,9 +35,6 @@ class CliProgress
     /** @var bool $stopped */
     private $stopped;
 
-    /** @var bool $single */
-    private $single;
-
 
     /**
      * CliProgress constructor.
@@ -125,26 +122,13 @@ class CliProgress
         $this->now = time();
 
 
-        if ($this->doneTasks > $this->tasks && !$this->single) {
+        if ($this->doneTasks > $this->tasks) {
             $this->stop();
 
             return;
         }
 
-
-        if ($this->single) {
-            $time = 5;
-            $this->draw(.10);
-            for ($timer = 1; $timer <= $time; $timer++) {
-                $percent = ($timer / $time);
-                usleep(10000);
-                $this->draw($percent);
-            }
-        } else {
-            $this->draw($percent);
-        }
-
-
+        $this->draw($percent);
     }
 
 
@@ -261,15 +245,6 @@ class CliProgress
         }
 
         return number_format($sec) . " sec";
-    }
-
-
-    /**
-     * @param boolean $single
-     */
-    public function setSingle($single)
-    {
-        $this->single = $single;
     }
 
 
