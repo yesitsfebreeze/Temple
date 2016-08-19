@@ -67,14 +67,16 @@ class Cache extends Injection
      *
      * @param     $file
      * @param     $content
+     * @param     $extension
      *
      * @return string
      * @throws Exception
      */
-    public function save($file, $content)
+    public function save($file, $content,$extension = null)
     {
+        $extension = $this->getExtension($extension);
         $this->setTime($file);
-        $file = $this->createFile($file);
+        $file = $this->createFile($file, $extension);
         file_put_contents($file, $content);
 
         return $file;
@@ -234,13 +236,15 @@ class Cache extends Injection
      * returns a cache file
      *
      * @param $file
+     * @param $extension
      *
      * @return string
      */
-    public function getFile($file)
+    public function getFile($file, $extension = null)
     {
+        $extension = $this->getExtension($extension);
         # returns the cache file
-        $file = $this->createFile($file);
+        $file = $this->createFile($file, $extension);
 
         return $file;
     }
@@ -404,12 +408,15 @@ class Cache extends Injection
      * creates the file if its not already there
      *
      * @param $file
+     * @param $extension
      *
      * @return mixed|string
      */
-    private function createFile($file)
+    private function createFile($file, $extension = null)
     {
-        $file = $this->getPath($file);
+        $extension = $this->getExtension($extension);
+
+        $file = $this->getPath($file, $extension);
         # setup the file
         $dir = dirname($file);
         if (!is_dir($dir)) {
@@ -425,14 +432,16 @@ class Cache extends Injection
      * returns the cache path for the given file
      *
      * @param $file
+     * @param $extension
      *
      * @return string
      */
-    public function getPath($file)
+    public function getPath($file, $extension = null)
     {
+        $extension = $this->getExtension($extension);
         # remove the template dir
         $file = $this->cleanFile($file);
-        $file = $this->extension($file);
+        $file = $this->extension($file, $extension);
         $file = $this->getDirectory() . $file;
 
         return $file;
@@ -443,14 +452,16 @@ class Cache extends Injection
      * adds a php extension to the files path
      *
      * @param $file
+     * @param $extension
      *
      * @return mixed|string
      */
-    private function extension($file)
+    private function extension($file, $extension = null)
     {
-        $file = str_replace("." . $this->Config->getExtension(), "", $file);
-        $file = str_replace(".php", "", $file);
-        $file = $file . ".php";
+        $extension = $this->getExtension($extension);
+        $file      = str_replace("." . $this->Config->getExtension(), "", $file);
+        $file      = str_replace("." . $extension, "", $file);
+        $file      = $file . "." . $extension;
 
         return $file;
     }
@@ -474,5 +485,19 @@ class Cache extends Injection
         return $file;
     }
 
+
+    /**
+     * @param null $extension
+     *
+     * @return null|string
+     */
+    private function getExtension($extension = null)
+    {
+        if (is_null($extension)) {
+            $extension = $this->Config->getDefaultCacheExtension();
+        }
+
+        return $extension;
+    }
 
 }

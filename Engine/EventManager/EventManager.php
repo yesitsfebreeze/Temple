@@ -120,12 +120,16 @@ class EventManager extends Injection
                 $arguments = array($arguments);
             } elseif (is_null($arguments)) {
                 $arguments = array();
+            } elseif (is_array($arguments) && sizeof($arguments) == 0) {
+                $arguments = array($arguments);
             }
+
             /** @noinspection PhpMethodParametersCountMismatchInspection */
             if (!method_exists($eventInstance,"dispatch")) {
                 $class = get_class($eventInstance);
                 throw new Exception(1, "Please register the %dispatch% method for %" . $class . "%");
             }
+
             $arguments = $eventInstance->dispatch(...$arguments);
             unset($eventInstance);
         }

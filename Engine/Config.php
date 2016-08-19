@@ -56,6 +56,9 @@ class Config extends Injection
     /** @var string $extension */
     private $extension = "tmpl";
 
+    /** @var string $extension */
+    private $defaultCacheExtension = "php";
+
     /** @var string $variablePattern */
     private $variablePattern = "{{%}}";
 
@@ -337,6 +340,24 @@ class Config extends Injection
         $this->update();
 
         return $this->extension;
+    }
+
+
+    /**
+     * @return string
+     */
+    public function getDefaultCacheExtension()
+    {
+        return $this->defaultCacheExtension;
+    }
+
+
+    /**
+     * @param string $defaultCacheExtension
+     */
+    public function setDefaultCacheExtension($defaultCacheExtension)
+    {
+        $this->defaultCacheExtension = $defaultCacheExtension;
     }
 
 

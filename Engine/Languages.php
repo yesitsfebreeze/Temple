@@ -70,10 +70,12 @@ class Languages extends Injection
         foreach ($languages as $language) {
             $namespaces = explode("\\", __NAMESPACE__);
             $frameworkName = reset($namespaces);
+
             $class = "\\" . $frameworkName . "\\Languages\\" . ucfirst(strtolower($language)) . "\\LanguageLoader";
             if (class_exists($class)) {
                 /** @var Language $lang */
-                $this->EventManager->register("language." . $language, $lang = new $class());
+                $lang = new $class();
+                $this->EventManager->register("language." . $language, $lang);
                 $this->EventManager->notify("language." . $language);
             } else {
                 throw new Exception(1, "Language %" . $language . "% does not exist!");

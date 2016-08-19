@@ -22,6 +22,16 @@ class LanguageLoader extends Language
     /** @var  EventManager $EventManager */
     private $EventManager;
 
+
+    /**
+     * @return string
+     */
+    public function extension()
+    {
+        return "php";
+    }
+
+
     /**
      * register the nodes for the language
      */

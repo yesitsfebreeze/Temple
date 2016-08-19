@@ -8,7 +8,7 @@ use Temple\Engine\Console\Commands\CacheClearCommandsCommand;
 use Temple\Engine\Console\Commands\CacheClearCompleteCommand;
 use Temple\Engine\Console\Commands\CacheClearConfigsCommand;
 use Temple\Engine\Console\Commands\CacheClearTemplatesCommand;
-use Temple\Engine\Console\Commands\CacheWarmupTemplatesCommand;
+use Temple\Engine\Console\Commands\CacheBuildTemplatesCommand;
 use Temple\Engine\Exception\Exception;
 use Temple\Engine\Filesystem\ConfigCache;
 use Temple\Engine\InjectionManager\Injection;
@@ -59,7 +59,7 @@ class Console extends Injection
         $this->addCommand(new CacheClearCommandsCommand());
         $this->addCommand(new CacheClearConfigsCommand());
         $this->addCommand(new CacheClearTemplatesCommand());
-        $this->addCommand(new CacheWarmupTemplatesCommand());
+        $this->addCommand(new CacheBuildTemplatesCommand());
     }
 
 

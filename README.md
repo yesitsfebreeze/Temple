@@ -1,6 +1,6 @@
 
 <a href="http://hvlmnns.github.io/Temple/" title="temple" target="_blank">
-![Temple](https://raw.githubusercontent.com/hvlmnns/Temple/master/logo.png)
+![Temple](https://raw.githubusercontent.com/hvlmnns/Temple/master/media/logo.png)
 </a>
 
 ## a language pre compiler

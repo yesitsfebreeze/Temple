@@ -159,6 +159,11 @@ class Lexer extends Injection
         }
         fclose($handle);
 
+        $languages = array();
+        $languages = $this->EventManager->notify("languages",$languages);
+        $languages = reset($languages);
+        $Dom->setLanguages($languages);
+
         return $Dom;
     }
 
@@ -339,7 +344,7 @@ class Lexer extends Injection
             }
         }
 
-        throw new Exception(4,"Mismatching Nodes detected",$node->getFile(),$node->getLine());
+        throw new Exception(4, "Mismatching Nodes detected", $node->getFile(), $node->getLine());
     }
 
 }

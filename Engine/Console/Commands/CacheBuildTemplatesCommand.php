@@ -14,13 +14,13 @@ use Temple\Instance;
  *
  * @package Temple\Engine\Console\Commands
  */
-class CacheWarmupTemplatesCommand extends Command
+class CacheBuildTemplatesCommand extends Command
 {
 
 
     public function define()
     {
-        $this->setName("cache:warmup:templates");
+        $this->setName("cache:build:templates");
         $this->setUseProgress(true);
         $this->setProgressTitle("generating template cache...");
         $this->setProgressTitleColor("green");

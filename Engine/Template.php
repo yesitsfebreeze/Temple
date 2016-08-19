@@ -9,6 +9,7 @@ use Temple\Engine\Filesystem\DirectoryHandler;
 use Temple\Engine\Filesystem\VariableCache;
 use Temple\Engine\InjectionManager\Injection;
 use Temple\Engine\Structs\Dom;
+use Temple\Engine\Structs\Language\LanguageConfig;
 use Temple\Engine\Structs\Page;
 use Temple\Engine\Structs\Variables;
 
@@ -44,6 +45,9 @@ class Template extends Injection
 
     /** @var  Compiler $Compiler */
     protected $Compiler;
+
+    /** @var  string $extension */
+    protected $extension;
 
 
     /** @inheritdoc */
@@ -132,12 +136,16 @@ class Template extends Injection
      */
     public function fetch($file, $level = 0)
     {
-
         $file = $this->cleanExtension($file);
 
+        // todo: figure out how to get extension without dom
         if ($this->Cache->isModified($file)) {
-            $content = $this->process($file, $level);
-            $this->Cache->save($file, $content);
+            $dom = $this->dom($file, $level);
+            /** @var LanguageConfig $language */
+            $language = end($dom->getLanguages());
+            $content  = $this->process($file, $level, $dom);
+            $this->Cache->save($file, $content, $language->getExtension());
+            $this->extension = null;
         }
 
         $cacheFile = $this->Cache->getFile($file);
@@ -168,15 +176,18 @@ class Template extends Injection
      *
      * @param string $file
      * @param int    $level
+     * @param DOM    $Dom
      *
      * @return string
      */
-    public function process($file, $level = 0)
+    public function process($file, $level = 0, $Dom = null)
     {
-        $dom     = $this->dom($file, $level);
-        $content = $this->Compiler->compile($dom);
+        if (is_null($Dom)) {
+            $Dom     = $this->dom($file, $level);
+        }
+        $content = $this->Compiler->compile($Dom);
         $this->VariableCache->setFile($file);
-        $this->VariableCache->setDom($dom);
+        $this->VariableCache->setDom($Dom);
         $this->VariableCache->saveTemplateVariables();
         $this->Config->addProcessedTemplate($file);
 

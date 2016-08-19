@@ -4,15 +4,18 @@ namespace Temple\Engine\Structs;
 
 
 use Temple\Engine\Exception\Exception;
+use Temple\Engine\Filesystem\VariableCache;
 use Temple\Engine\Structs\Node\Node;
-use Temple\Languages\Core\Nodes\VariableNode;
 
 
 class Dom
 {
 
-    /** @var VariableNode $Variables */
+    /** @var VariableCache $Variables */
     private $Variables;
+
+    /** @var array $languages */
+    private $languages;
 
     /** @var  string $namespace */
     private $namespace;
@@ -284,6 +287,24 @@ class Dom
     public function setExtending($extending)
     {
         $this->extending = $extending;
+    }
+
+
+    /**
+     * @return array
+     */
+    public function getLanguages()
+    {
+        return $this->languages;
+    }
+
+
+    /**
+     * @param array $languages
+     */
+    public function setLanguages($languages)
+    {
+        $this->languages = $languages;
     }
 
 
