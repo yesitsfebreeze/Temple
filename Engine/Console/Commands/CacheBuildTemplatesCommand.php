@@ -17,7 +17,9 @@ use Temple\Instance;
 class CacheBuildTemplatesCommand extends Command
 {
 
-
+    /**
+     * defines the command
+     */
     public function define()
     {
         $this->setName("cache:build:templates");
@@ -32,7 +34,7 @@ class CacheBuildTemplatesCommand extends Command
      */
     public function execute($arg = null)
     {
-        if (!is_null($this->config["processedTemplates"])) {
+        if (isset($this->config["processedTemplates"])) {
             foreach ($this->config["processedTemplates"] as $template) {
                 $Instance = new Instance();
                 $Instance = $this->createConfig($Instance, $this->config);
@@ -43,6 +45,12 @@ class CacheBuildTemplatesCommand extends Command
     }
 
 
+    /**
+     * @param Instance $Instance
+     * @param          $cachedConfig
+     *
+     * @return Instance
+     */
     private function createConfig(Instance $Instance, $cachedConfig)
     {
         /** @var Config $config */
@@ -60,8 +68,6 @@ class CacheBuildTemplatesCommand extends Command
                 }
             }
         }
-
-//        $Instance->Config()
 
         return $Instance;
     }
