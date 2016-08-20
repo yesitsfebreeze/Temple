@@ -56,9 +56,6 @@ class Config extends Injection
     /** @var string $extension */
     private $extension = "tmpl";
 
-    /** @var string $extension */
-    private $defaultCacheExtension = "php";
-
     /** @var string $variablePattern */
     private $variablePattern = "{{%}}";
 
@@ -69,7 +66,10 @@ class Config extends Injection
     private $showBlockComments = true;
 
     /** @var array $languages */
-    private $defaultLanguages = array("html");
+    private $defaultLanguage = "html";
+
+    /** @var array $languages */
+    private $languageTagName = "lang";
 
     /** @var bool $useCoreLanguage */
     private $useCoreLanguage = true;
@@ -104,7 +104,7 @@ class Config extends Injection
                     "IndentCharacter"    => $configInstance->getIndentCharacter(),
                     "IndentAmount"       => $configInstance->getIndentAmount(),
                     "extension"          => $configInstance->getExtension(),
-                    "defaultLanguages"   => $configInstance->getDefaultLanguages(),
+                    "defaultLanguage"   => $configInstance->getDefaultLanguage(),
                     "useCoreLanguage"    => $configInstance->isUseCoreLanguage(),
                     "DocumentRoot"       => $_SERVER["DOCUMENT_ROOT"]
                 );
@@ -346,24 +346,6 @@ class Config extends Injection
     /**
      * @return string
      */
-    public function getDefaultCacheExtension()
-    {
-        return $this->defaultCacheExtension;
-    }
-
-
-    /**
-     * @param string $defaultCacheExtension
-     */
-    public function setDefaultCacheExtension($defaultCacheExtension)
-    {
-        $this->defaultCacheExtension = $defaultCacheExtension;
-    }
-
-
-    /**
-     * @return string
-     */
     public function getVariablePattern()
     {
         return $this->variablePattern;
@@ -428,31 +410,36 @@ class Config extends Injection
     /**
      * @return array
      */
-    public function getDefaultLanguages()
+    public function getDefaultLanguage()
     {
-        return $this->defaultLanguages;
+        return $this->defaultLanguage;
     }
 
 
     /**
      * @param array $language
      */
-    public function addDefaultLanguage($language)
+    public function setDefaultLanguage($language)
     {
-        if (!in_array($language, $this->defaultLanguages)) {
-            $this->defaultLanguages[] = $language;
-        }
+        $this->defaultLanguage = $language;
     }
 
 
     /**
-     * @param array $language
+     * @return array
      */
-    public function removeDefaultLanguage($language)
+    public function getLanguageTagName()
     {
-        if (($key = array_search($language, $this->defaultLanguages)) !== false) {
-            unset($this->defaultLanguages[ $key ]);
-        }
+        return $this->languageTagName;
+    }
+
+
+    /**
+     * @param array $languageTagName
+     */
+    public function setLanguageTagName($languageTagName)
+    {
+        $this->languageTagName = $languageTagName;
     }
 
 

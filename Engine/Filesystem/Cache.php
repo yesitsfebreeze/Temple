@@ -6,6 +6,8 @@ namespace Temple\Engine\Filesystem;
 use Temple\Engine\Config;
 use Temple\Engine\Exception\Exception;
 use Temple\Engine\InjectionManager\Injection;
+use Temple\Engine\Languages;
+use Temple\Engine\Structs\Language\Language;
 
 
 class Cache extends Injection
@@ -18,13 +20,17 @@ class Cache extends Injection
     /** @var  DirectoryHandler $DirectoryHandler */
     protected $DirectoryHandler;
 
+    /** @var  Languages $Languages */
+    protected $Languages;
+
 
     /** @inheritdoc */
     public function dependencies()
     {
         return array(
             "Engine/Config"                      => "Config",
-            "Engine/Filesystem/DirectoryHandler" => "DirectoryHandler"
+            "Engine/Filesystem/DirectoryHandler" => "DirectoryHandler",
+            "Engine/Languages"                   => "Languages"
         );
     }
 
@@ -50,15 +56,23 @@ class Cache extends Injection
 
     /**
      * returns the cache directory
+     * #
+     *
+     * @param $folder
      *
      * @return string
      */
-    public function getDirectory()
+    public function getDirectory($folder = null)
     {
+        if (!is_null($folder)) {
+            return $this->DirectoryHandler->createDir($folder);
+        }
+
         $cacheDir = $this->Config->getCacheDir();
         $this->DirectoryHandler->createDir($cacheDir);
 
         return $this->DirectoryHandler->getCacheDir();
+
     }
 
 
@@ -72,11 +86,13 @@ class Cache extends Injection
      * @return string
      * @throws Exception
      */
-    public function save($file, $content,$extension = null)
+    public function save($file, $content, $extension = null)
     {
+
+        $folder    = $this->getFolder($file);
         $extension = $this->getExtension($extension);
         $this->setTime($file);
-        $file = $this->createFile($file, $extension);
+        $file = $this->createFile($file, $extension, $folder);
         file_put_contents($file, $content);
 
         return $file;
@@ -89,7 +105,6 @@ class Cache extends Injection
      */
     public function invalidate()
     {
-
         $cacheFile = $this->getPath($this->cacheFile);
         if (file_exists($cacheFile)) {
             if (is_writable($cacheFile)) {
@@ -237,14 +252,16 @@ class Cache extends Injection
      *
      * @param $file
      * @param $extension
+     * @param $folder
      *
      * @return string
      */
-    public function getFile($file, $extension = null)
+    public function getFile($file, $extension = null, $folder = null)
     {
         $extension = $this->getExtension($extension);
+        $folder    = $this->getFolder($file);
         # returns the cache file
-        $file = $this->createFile($file, $extension);
+        $file = $this->createFile($file, $extension, $folder);
 
         return $file;
     }
@@ -347,9 +364,8 @@ class Cache extends Injection
      */
     protected function getCache()
     {
-        $cacheFile = $this->createFile($this->cacheFile);
+        $cacheFile = $this->createFile($this->cacheFile, "php");
         $cache     = unserialize(file_get_contents($cacheFile));
-
 
         // set initial templates sub array
         if (!isset($cache["templates"])) {
@@ -374,7 +390,7 @@ class Cache extends Injection
      */
     protected function saveCache($cache)
     {
-        $cacheFile = $this->createFile($this->cacheFile);
+        $cacheFile = $this->createFile($this->cacheFile, "php");
 
         return file_put_contents($cacheFile, serialize($cache));
     }
@@ -409,14 +425,15 @@ class Cache extends Injection
      *
      * @param $file
      * @param $extension
+     * @param $folder
      *
      * @return mixed|string
      */
-    private function createFile($file, $extension = null)
+    private function createFile($file, $extension = null, $folder = null)
     {
         $extension = $this->getExtension($extension);
 
-        $file = $this->getPath($file, $extension);
+        $file = $this->getPath($file, $extension, $folder);
         # setup the file
         $dir = dirname($file);
         if (!is_dir($dir)) {
@@ -433,16 +450,17 @@ class Cache extends Injection
      *
      * @param $file
      * @param $extension
+     * @param $folder
      *
      * @return string
      */
-    public function getPath($file, $extension = null)
+    public function getPath($file, $extension = null, $folder = null)
     {
         $extension = $this->getExtension($extension);
         # remove the template dir
         $file = $this->cleanFile($file);
         $file = $this->extension($file, $extension);
-        $file = $this->getDirectory() . $file;
+        $file = $this->getDirectory($folder) . $file;
 
         return $file;
     }
@@ -494,10 +512,30 @@ class Cache extends Injection
     private function getExtension($extension = null)
     {
         if (is_null($extension)) {
-            $extension = $this->Config->getDefaultCacheExtension();
+            $lang = $this->Config->getDefaultLanguage();
+            /** @var Language $lang */
+            $lang      = $this->Languages->getLanguage($lang);
+            $extension = $lang->getExtension();
         }
 
         return $extension;
+    }
+
+
+    /**
+     * @param $file
+     *
+     * @return string
+     */
+    public function getFolder($file)
+    {
+        $filename = explode(".", $file);
+        $filename = $filename[0];
+        $template = $this->DirectoryHandler->templateExists($filename);
+        $lang     = $this->Languages->getLanguageFromFile($template);
+        $folder   = $lang->getCacheFolder();
+
+        return $folder;
     }
 
 }

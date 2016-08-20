@@ -92,10 +92,10 @@ class Instance
         $this->Variables        = $this->InjectionManager->registerDependency(new Variables());
         $this->DirectoryHandler = $this->InjectionManager->registerDependency(new DirectoryHandler());
         $this->EventManager     = $this->InjectionManager->registerDependency(new EventManager());
+        $this->Languages        = $this->InjectionManager->registerDependency(new Languages());
         $this->Cache            = $this->InjectionManager->registerDependency(new Cache());
         $this->CacheInvalidator = $this->InjectionManager->registerDependency(new CacheInvalidator());
         $this->VariableCache    = $this->InjectionManager->registerDependency(new VariableCache());
-        $this->Languages        = $this->InjectionManager->registerDependency(new Languages());
         $this->Lexer            = $this->InjectionManager->registerDependency(new Lexer());
         $this->Compiler         = $this->InjectionManager->registerDependency(new Compiler());
         $this->Template         = $this->InjectionManager->registerDependency(new Template());
@@ -159,6 +159,15 @@ class Instance
     public function EventManager()
     {
         return $this->EventManager;
+    }
+
+
+    /**
+     * @return Languages
+     */
+    public function Languages()
+    {
+        return $this->Languages;
     }
 
 }

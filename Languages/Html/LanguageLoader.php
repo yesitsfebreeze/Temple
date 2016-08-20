@@ -39,7 +39,7 @@ class LanguageLoader extends Language
      */
     public function extension()
     {
-        return "html";
+        return "php";
     }
 
     /**

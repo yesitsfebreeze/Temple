@@ -148,21 +148,25 @@ class Lexer extends Injection
     private function process($file, Dom $Dom)
     {
         $handle = fopen($file, "r");
+        $nodeCounter = 0;
         while (($line = fgets($handle)) !== false) {
             if (trim($line) != '') {
-                $this->Languages->load($Dom, $line);
                 $node = $this->createNode($line, $Dom);
+                if ($node->getTag() == $this->Config->getLanguageTagName()) {
+                    if ($nodeCounter == 0) {
+                        $this->Languages->loadLanguage($node->getContent());
+                    } else {
+                        throw new Exception(600,"Language must be the first declaration!",$file);
+                    }
+                }
                 $this->addNode($node, $Dom);
                 $Dom->setPreviousNode($node);
+                $nodeCounter++;
             }
+
             $Dom->setCurrentLine($Dom->getCurrentLine() + 1);
         }
         fclose($handle);
-
-        $languages = array();
-        $languages = $this->EventManager->notify("languages",$languages);
-        $languages = reset($languages);
-        $Dom->setLanguages($languages);
 
         return $Dom;
     }

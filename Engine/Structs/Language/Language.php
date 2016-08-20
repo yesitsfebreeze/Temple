@@ -3,6 +3,7 @@
 namespace Temple\Engine\Structs\Language;
 
 
+use Temple\Engine\Config;
 use Temple\Engine\EventManager\Event;
 use Temple\Engine\Exception\Exception;
 
@@ -10,10 +11,22 @@ use Temple\Engine\Exception\Exception;
 class Language extends Event
 {
 
-    /**
-     * @var string $extension
-     */
-    private $languageExtension;
+    /** @var Config $Config */
+    private $Config;
+
+    /** @var string $name */
+    private $name;
+
+    /** @var string $privateCacheFolder */
+    private $privateCacheFolder;
+
+    public function __construct(Config $Config)
+    {
+        $this->Config = $Config;
+        $name = explode("\\", get_class($this));
+        array_pop($name);
+        $this->name = strtolower(end($name));
+    }
 
 
     /**
@@ -21,46 +34,96 @@ class Language extends Event
      */
     public function dispatch($args)
     {
-        $languageName = explode("\\", get_class($this));
-        array_pop($languageName);
-        $languageName = end($languageName);
-
         $this->register();
-        $this->languageExtension = $this->extension();
-        $language                = $this->createLanguage($languageName);
-        $this->Instance->EventManager()->register("languages." . $languageName, $language);
     }
 
 
-    /** @inheritdoc */
+    /**
+     * set the extension for the language
+     *
+     * @return string
+     * @throws Exception
+     */
     public function extension()
     {
         throw new Exception(1, "Please implement the extension function for %" . get_class($this) . "%", __FILE__);
     }
 
 
-    /** @inheritdoc */
-    public function register()
+    /**
+     * set the folder which the parsed files will be saved to, default is the global cache directory
+     *
+     * @return string
+     * @throws Exception
+     */
+    public function cacheFolder()
     {
-        throw new Exception(1, "Please implement the register function for %" . get_class($this) . "%", __FILE__);
+        return false;
     }
 
 
     /**
-     * creates a language config which is stored in the dom
+     * this function is used to register all nodes and plugins for the language
+     * return void
      *
-     * @param $languageName
-     *
-     * @return LanguageConfig
+     * @throws Exception
      */
-    private function createLanguage($languageName)
+    protected function register()
     {
-        $language = new LanguageConfig();
-        $language->setExtension($this->languageExtension);
-        $language->setName($languageName);
-
-        return $language;
+        throw new Exception(1, "Please implement the register function for %" . get_class($this) . "%", __FILE__);
     }
+
+    /**
+     * returns the current language extension
+     */
+    public function getExtension()
+    {
+        $extension = $this->extension();
+
+        if ($extension == "" || gettype($extension) != "string") {
+            throw new Exception(1, "Invalid extension set for %" . get_class($this) . "%", __FILE__);
+        }
+
+        return $extension;
+    }
+
+
+    /**
+     * returns the current language cache folder
+     */
+    public function getCacheFolder()
+    {
+        if ($this->privateCacheFolder != false) {
+            $folder = $this->privateCacheFolder;
+        } else {
+            $folder = $this->cacheFolder();
+        }
+
+        if ($folder == "" || gettype($folder) != "string") {
+            $folder = $this->Config->getCacheDir() . DIRECTORY_SEPARATOR . $this->name;
+        }
+
+        return $folder;
+    }
+
+
+    /**
+     * @param $cacheFolder
+     */
+    public function setCacheFolder($cacheFolder)
+    {
+        $this->privateCacheFolder = $cacheFolder;
+    }
+
+
+    /**
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
 
 
 }

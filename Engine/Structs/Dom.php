@@ -14,9 +14,6 @@ class Dom
     /** @var VariableCache $Variables */
     private $Variables;
 
-    /** @var array $languages */
-    private $languages;
-
     /** @var  string $namespace */
     private $namespace;
 
@@ -287,24 +284,6 @@ class Dom
     public function setExtending($extending)
     {
         $this->extending = $extending;
-    }
-
-
-    /**
-     * @return array
-     */
-    public function getLanguages()
-    {
-        return $this->languages;
-    }
-
-
-    /**
-     * @param array $languages
-     */
-    public function setLanguages($languages)
-    {
-        $this->languages = $languages;
     }
 
 
