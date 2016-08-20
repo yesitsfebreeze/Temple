@@ -9,6 +9,7 @@ use Temple\Engine\Console\Commands\CacheClearCompleteCommand;
 use Temple\Engine\Console\Commands\CacheClearConfigsCommand;
 use Temple\Engine\Console\Commands\CacheClearTemplatesCommand;
 use Temple\Engine\Console\Commands\CacheBuildTemplatesCommand;
+use Temple\Engine\Console\Commands\CurlUrlsCommand;
 use Temple\Engine\Exception\Exception;
 use Temple\Engine\Filesystem\ConfigCache;
 use Temple\Engine\InjectionManager\Injection;
@@ -60,6 +61,7 @@ class Console extends Injection
         $this->addCommand(new CacheClearConfigsCommand());
         $this->addCommand(new CacheClearTemplatesCommand());
         $this->addCommand(new CacheBuildTemplatesCommand());
+        $this->addCommand(new CurlUrlsCommand());
     }
 
 

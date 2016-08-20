@@ -74,6 +74,9 @@ class Config extends Injection
     /** @var array $languageCacheFolders */
     private $languageCacheFolders = array();
 
+    /** @var array $curlUrls */
+    private $curlUrls = array();
+
     /** @var bool $useCoreLanguage */
     private $useCoreLanguage = true;
 
@@ -99,18 +102,19 @@ class Config extends Injection
         if (!$this->shutdownCallbackRegistered) {
             register_shutdown_function(function (Config $configInstance) {
                 $config = array(
-                    "cacheDir"           => $configInstance->InstanceWrapper->DirectoryHandler()->getCacheDir(),
-                    "languageCacheFolders"  => $configInstance->getLanguageCacheFolders(),
-                    "subfolder"          => $configInstance->getSubfolder(),
-                    "cacheEnabled"       => $configInstance->isCacheEnabled(),
-                    "templateDirs"       => $configInstance->getTemplateDirs(),
-                    "processedTemplates" => $configInstance->getProcessedTemplates(),
-                    "IndentCharacter"    => $configInstance->getIndentCharacter(),
-                    "IndentAmount"       => $configInstance->getIndentAmount(),
-                    "extension"          => $configInstance->getExtension(),
-                    "defaultLanguage"    => $configInstance->getDefaultLanguage(),
-                    "useCoreLanguage"    => $configInstance->isUseCoreLanguage(),
-                    "DocumentRoot"       => $_SERVER["DOCUMENT_ROOT"]
+                    "cacheDir"             => $configInstance->InstanceWrapper->DirectoryHandler()->getCacheDir(),
+                    "languageCacheFolders" => $configInstance->getLanguageCacheFolders(),
+                    "curlUrls"             => $configInstance->getCurlUrls(),
+                    "subfolder"            => $configInstance->getSubfolder(),
+                    "cacheEnabled"         => $configInstance->isCacheEnabled(),
+                    "templateDirs"         => $configInstance->getTemplateDirs(),
+                    "processedTemplates"   => $configInstance->getProcessedTemplates(),
+                    "IndentCharacter"      => $configInstance->getIndentCharacter(),
+                    "IndentAmount"         => $configInstance->getIndentAmount(),
+                    "extension"            => $configInstance->getExtension(),
+                    "defaultLanguage"      => $configInstance->getDefaultLanguage(),
+                    "useCoreLanguage"      => $configInstance->isUseCoreLanguage(),
+                    "DocumentRoot"         => $_SERVER["DOCUMENT_ROOT"]
                 );
                 $key    = md5(serialize($configInstance));
                 $configInstance->InstanceWrapper->ConfigCache()->save($key, $config);
@@ -470,8 +474,8 @@ class Config extends Injection
      */
     public function addLanguageCacheFolder($languageCacheFolder)
     {
-        if (!isset($this->languageCacheFolders[$languageCacheFolder])) {
-            $this->languageCacheFolders[$languageCacheFolder] = true;
+        if (!isset($this->languageCacheFolders[ $languageCacheFolder ])) {
+            $this->languageCacheFolders[ $languageCacheFolder ] = true;
         }
 
     }
@@ -483,6 +487,34 @@ class Config extends Injection
     public function getLanguageCacheFolders()
     {
         return array_keys($this->languageCacheFolders);
+    }
+
+
+    /**
+     * @param string $curlUrl
+     */
+    public function addCurlUrl($curlUrl)
+    {
+        if (is_array($curlUrl)) {
+            foreach ($curlUrl as $url) {
+                if (!isset($this->curlUrls[ $url ])) {
+                    $this->curlUrls[ $url ] = true;
+                }
+            }
+        } else {
+            if (!isset($this->curlUrls[ $curlUrl ])) {
+                $this->curlUrls[ $curlUrl ] = true;
+            }
+        }
+    }
+
+
+    /**
+     * @return array
+     */
+    public function getCurlUrls()
+    {
+        return array_keys($this->curlUrls);
     }
 
 
