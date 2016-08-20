@@ -47,6 +47,7 @@ class CliOutput
      */
     public function outputBuffer() {
         echo implode("\n",$this->buffer) . "\n";
+        $this->clearBuffer();
     }
 
 }
