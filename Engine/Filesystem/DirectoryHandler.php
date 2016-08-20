@@ -102,6 +102,40 @@ class DirectoryHandler extends Injection
 
 
     /**
+     * @param $file
+     *
+     * @return bool|string
+     */
+    public function templateExists($file)
+    {
+        $dirs = $this->getTemplateDirs();
+
+        $file = $this->cleanExtension($file);
+        foreach ($dirs as $level => $dir) {
+            $checkFile = $dir . $file;
+            if (file_exists($checkFile)) {
+                return $checkFile;
+            }
+        }
+
+        return false;
+    }
+
+
+    /**
+     * @param $file
+     *
+     * @return string
+     */
+    public function cleanExtension($file)
+    {
+        $file = preg_replace('/\..*?$/', '', $file) . "." . $this->Config->getExtension();
+
+        return $file;
+    }
+
+
+    /**
      * sets the cache directory
      *
      * @param $dir
@@ -139,19 +173,21 @@ class DirectoryHandler extends Injection
      * @param $dir
      *
      * @return string
-     *
      * @throws \Temple\Engine\Exception\Exception
      */
     public function createDir($dir)
     {
         $dir = $this->path($dir);
         if (!is_dir($dir)) {
-            if (!is_writable(dirname($dir))) {
-                throw new Exception(1, "You'r missing permissions to setup this directory!", $dir);
-            }
+            
+//            todo: check if is writeable
+//            if (!is_writable(dirname($dir))) {
+//                throw new Exception(1, "You'r missing permissions to create this directory!", "/" . $dir);
+//            }
 
             mkdir($dir, 0777, true);
         }
+
         return $dir;
     }
 
@@ -166,12 +202,15 @@ class DirectoryHandler extends Injection
      */
     private function path($dir)
     {
-        $namespaces = explode("\\", __NAMESPACE__);
+        $namespaces    = explode("\\", __NAMESPACE__);
         $frameworkName = reset($namespaces);
         if ($dir[0] != "/") {
             $framework = explode($frameworkName, __DIR__);
             $framework = $framework[0] . $frameworkName . "/";
             $dir       = $framework . $dir;
+        } else {
+            $docRoot = preg_replace("/\/$/", "", $_SERVER["DOCUMENT_ROOT"]);
+            $dir     = $docRoot . preg_replace("#^" . preg_quote($docRoot) . "#", "", $dir);
         }
         $dir = str_replace("/./", "/", $dir) . "/";
         $dir = preg_replace("/\/+/", "/", $dir);
@@ -210,7 +249,7 @@ class DirectoryHandler extends Injection
      * @return string
      * @throws Exception
      */
-    private function validate($dir)
+    public function validate($dir)
     {
         $dir = $this->path($dir);
         if (is_dir($dir)) return $dir;

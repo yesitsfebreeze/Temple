@@ -9,7 +9,6 @@ use Temple\Engine\Filesystem\DirectoryHandler;
 use Temple\Engine\Filesystem\VariableCache;
 use Temple\Engine\InjectionManager\Injection;
 use Temple\Engine\Structs\Dom;
-use Temple\Engine\Structs\Language\Language;
 use Temple\Engine\Structs\Page;
 use Temple\Engine\Structs\Variables;
 

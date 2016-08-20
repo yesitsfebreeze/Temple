@@ -71,6 +71,9 @@ class Config extends Injection
     /** @var array $languages */
     private $languageTagName = "lang";
 
+    /** @var array $languageCacheFolders */
+    private $languageCacheFolders = array();
+
     /** @var bool $useCoreLanguage */
     private $useCoreLanguage = true;
 
@@ -97,6 +100,7 @@ class Config extends Injection
             register_shutdown_function(function (Config $configInstance) {
                 $config = array(
                     "cacheDir"           => $configInstance->InstanceWrapper->DirectoryHandler()->getCacheDir(),
+                    "languageCacheFolders"  => $configInstance->getLanguageCacheFolders(),
                     "subfolder"          => $configInstance->getSubfolder(),
                     "cacheEnabled"       => $configInstance->isCacheEnabled(),
                     "templateDirs"       => $configInstance->getTemplateDirs(),
@@ -104,7 +108,7 @@ class Config extends Injection
                     "IndentCharacter"    => $configInstance->getIndentCharacter(),
                     "IndentAmount"       => $configInstance->getIndentAmount(),
                     "extension"          => $configInstance->getExtension(),
-                    "defaultLanguage"   => $configInstance->getDefaultLanguage(),
+                    "defaultLanguage"    => $configInstance->getDefaultLanguage(),
                     "useCoreLanguage"    => $configInstance->isUseCoreLanguage(),
                     "DocumentRoot"       => $_SERVER["DOCUMENT_ROOT"]
                 );
@@ -458,6 +462,27 @@ class Config extends Injection
     public function setUseCoreLanguage($useCoreLanguage)
     {
         $this->useCoreLanguage = $useCoreLanguage;
+    }
+
+
+    /**
+     * @param string $languageCacheFolder
+     */
+    public function addLanguageCacheFolder($languageCacheFolder)
+    {
+        if (!isset($this->languageCacheFolders[$languageCacheFolder])) {
+            $this->languageCacheFolders[$languageCacheFolder] = true;
+        }
+
+    }
+
+
+    /**
+     * @return array
+     */
+    public function getLanguageCacheFolders()
+    {
+        return array_keys($this->languageCacheFolders);
     }
 
 

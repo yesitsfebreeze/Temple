@@ -4,7 +4,7 @@ namespace Temple\Languages\Core;
 
 
 use Temple\Engine\EventManager\EventManager;
-use Temple\Engine\Structs\Language\Language;
+use Temple\Engine\Structs\Language;
 use Temple\Languages\Core\Nodes\BlockNode;
 use Temple\Languages\Core\Nodes\ExtendNode;
 use Temple\Languages\Core\Nodes\LanguageNode;

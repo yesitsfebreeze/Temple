@@ -32,12 +32,20 @@ class CacheClearCompleteCommand extends Command
     public function execute($arg = null)
     {
         $this->CliOutput->writeln("clearing caches...", "green");
-        $cacheDir = $this->config["cacheDir"];
+        $cacheDir             = $this->config["cacheDir"];
+        $last_error_reporting = error_reporting();
+        error_reporting(E_ALL & ~E_WARNING);
+        $folders = array($cacheDir);
+        $folders = array_merge($this->config["languageCacheFolders"], $folders);
 
-        if (!$this->Storage->has("paths." . $cacheDir)) {
-            $this->removeDir($cacheDir);
-            $this->Storage->set("paths." . $cacheDir, true);
+        foreach ($folders as $folder) {
+            if (!$this->Storage->has("paths." . $folder)) {
+                $this->removeDir($folder);
+                $this->Storage->set("paths." . $folder, true);
+            }
         }
+
+        error_reporting($last_error_reporting);
         $this->CliOutput->writeln("done.", "green");
     }
 

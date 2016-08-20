@@ -7,7 +7,7 @@ use Temple\Engine\Config;
 use Temple\Engine\Exception\Exception;
 use Temple\Engine\InjectionManager\Injection;
 use Temple\Engine\Languages;
-use Temple\Engine\Structs\Language\Language;
+use Temple\Engine\Structs\Language;
 
 
 class Cache extends Injection
@@ -93,6 +93,7 @@ class Cache extends Injection
         $extension = $this->getExtension($extension);
         $this->setTime($file);
         $file = $this->createFile($file, $extension, $folder);
+        $this->Config->addLanguageCacheFolder($this->getDirectory($folder));
         file_put_contents($file, $content);
 
         return $file;

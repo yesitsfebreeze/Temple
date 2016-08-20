@@ -6,7 +6,7 @@ namespace Temple\Engine;
 use Temple\Engine\EventManager\EventManager;
 use Temple\Engine\Exception\Exception;
 use Temple\Engine\InjectionManager\Injection;
-use Temple\Engine\Structs\Language\Language;
+use Temple\Engine\Structs\Language;
 
 
 /**
@@ -39,29 +39,6 @@ class Languages extends Injection
 
     /**
      * @param $lang
-     */
-    public function loadLanguage($lang)
-    {
-
-        $languages = array();
-
-        if ($this->Config->isUseCoreLanguage()) {
-            array_unshift($languages, "core");
-        }
-
-        if ($lang != "") {
-            $languages = array_merge($languages, array($lang));
-            $this->load($languages);
-        } else {
-            $languages = array_merge($languages, $this->Config->getDefaultLanguage());
-            $this->load($languages);
-        }
-
-    }
-
-
-    /**
-     * @param $lang
      *
      * @return mixed
      * @throws Exception
@@ -87,6 +64,7 @@ class Languages extends Injection
     {
         $language = false;
 
+        $languages = array();
         if (file_exists($file)) {
 
             $handle = fopen($file, "r");
@@ -95,14 +73,23 @@ class Languages extends Injection
                     preg_match("/^(.*?)(?:$|\s)/", trim($line), $tag);
                     $tag = trim($tag[0]);
 
+                    if ($this->Config->isUseCoreLanguage()) {
+                        array_unshift($languages, "core");
+                    }
+
                     if ($tag == $this->Config->getLanguageTagName()) {
                         $lang = trim(str_replace($tag, "", $line));
                     } else {
                         $lang = $this->Config->getDefaultLanguage();
                     }
 
+                    $languages[] = $lang;
+
                     /** @var  Language $lang*/
-                    $language = $this->getLanguage($lang);
+                    $this->load($languages);
+                    $class = $this->getLanguageClass($lang);
+                    $language = $this->languages[$class];
+
                     break;
                 }
             }
@@ -118,6 +105,8 @@ class Languages extends Injection
 
     /**
      * @param $languages
+     *
+     * @return Language
      *
      * @throws Exception
      */

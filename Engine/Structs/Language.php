@@ -1,6 +1,6 @@
 <?php
 
-namespace Temple\Engine\Structs\Language;
+namespace Temple\Engine\Structs;
 
 
 use Temple\Engine\Config;
