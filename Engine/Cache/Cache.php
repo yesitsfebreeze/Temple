@@ -249,7 +249,9 @@ class Cache extends Injection
 
         $lang = $this->getLanguage($templatePath);
 
-        $folder    = $this->DirectoryHandler->validate($lang->getCacheFolder());
+        $folder = $lang->getCacheFolder();
+        $folder = $this->DirectoryHandler->validate($folder, true);
+
         $extension = "." . $lang->getExtension();
 
         // check if all needed variable files exist

@@ -247,14 +247,19 @@ class DirectoryHandler extends Injection
      * checks if the passed directory exists
      *
      * @param $dir
+     * @param $create
      *
      * @return string
      * @throws Exception
      */
-    public function validate($dir)
+    public function validate($dir, $create = false)
     {
         $dir = $this->path($dir);
         if (is_dir($dir)) return $dir;
+
+        if ($create) {
+            return $this->createDir($dir);
+        }
 
         throw new Exception(1, "Can't add directory because it does't exist.", $dir);
     }
