@@ -5,7 +5,7 @@ namespace Temple\Engine\EventManager;
 
 use Temple\Engine\Exception\Exception;
 use Temple\Engine\InjectionManager\Injection;
-use Temple\Instance;
+use Temple\Engine\Instance;
 use Temple\Engine\Structs\Storage;
 
 

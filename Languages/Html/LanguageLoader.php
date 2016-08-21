@@ -3,6 +3,7 @@
 namespace Temple\Languages\Html;
 
 
+use Temple\Languages\Html\Services\Variables\VariableCache;
 use Temple\Engine\EventManager\EventManager;
 use Temple\Engine\Structs\Language;
 use Temple\Languages\Html\Modifiers\SizeofModifier;
@@ -51,6 +52,7 @@ class LanguageLoader extends Language
         $this->registerNodes();
         $this->registerModifiers();
         $this->registerPlugins();
+        $this->registerServices();
     }
 
 
@@ -88,6 +90,15 @@ class LanguageLoader extends Language
     private function registerModifiers()
     {
         $this->EventManager->register("modifier.sizeof",new SizeofModifier());
+    }
+
+
+    /**
+     * registers all services
+     */
+    public function registerServices()
+    {
+        $this->EventManager->register("cache.save",new VariableCache());
     }
 
 

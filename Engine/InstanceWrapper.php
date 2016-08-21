@@ -26,9 +26,6 @@ class InstanceWrapper extends Injection
     /** @var Console $Console */
     protected $Console;
 
-    /** @var Variables $Variables */
-    protected $Variables;
-
     /** @var DirectoryHandler $DirectoryHandler */
     protected $DirectoryHandler;
 
@@ -40,9 +37,6 @@ class InstanceWrapper extends Injection
 
     /** @var CacheInvalidator $CacheInvalidator */
     protected $CacheInvalidator;
-
-    /** @var VariableCache $VariableCache */
-    protected $VariableCache;
 
     /** @var Languages $Languages */
     protected $Languages;
@@ -63,12 +57,10 @@ class InstanceWrapper extends Injection
             "Engine/Config"                      => "Config",
             "Engine/Filesystem/ConfigCache"      => "ConfigCache",
             "Engine/Console/Console"             => "Console",
-            "Engine/Structs/Variables"           => "Variables",
             "Engine/Filesystem/DirectoryHandler" => "DirectoryHandler",
             "Engine/EventManager/EventManager"   => "EventManager",
             "Engine/Filesystem/Cache"            => "Cache",
             "Engine/Filesystem/CacheInvalidator" => "CacheInvalidator",
-            "Engine/Filesystem/VariableCache"    => "VariableCache",
             "Engine/Languages"                   => "Languages",
             "Engine/Lexer"                       => "Lexer",
             "Engine/Compiler"                    => "Compiler",

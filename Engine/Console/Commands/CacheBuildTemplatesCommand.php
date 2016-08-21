@@ -6,7 +6,7 @@ namespace Temple\Engine\Console\Commands;
 
 use Temple\Engine\Config;
 use Temple\Engine\Console\Command;
-use Temple\Instance;
+use Temple\Engine\Instance;
 
 
 /**

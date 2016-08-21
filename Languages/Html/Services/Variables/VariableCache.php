@@ -1,15 +1,15 @@
 <?php
 
-namespace Temple\Engine\Filesystem;
+namespace Temple\Languages\Html\Services\Variables;
 
 
 use Temple\Engine\Config;
-use Temple\Engine\InjectionManager\Injection;
+use Temple\Engine\EventManager\Event;
 use Temple\Engine\Structs\Dom;
 use Temple\Engine\Structs\Variables;
 
 
-class VariableCache extends Injection
+class VariableCache extends Event
 {
 
     /** @var  Config $Config */
@@ -31,13 +31,12 @@ class VariableCache extends Injection
     protected $url;
 
 
-    public function dependencies()
+    /**
+     * dispatch the variables cache
+     */
+    public function dispatch()
     {
-        return array(
-            "Engine/Config"            => "Config",
-            "Engine/Filesystem/Cache"  => "Cache",
-            "Engine/Structs/Variables" => "Variables"
-        );
+//        var_dump("test");
     }
 
 

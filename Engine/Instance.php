@@ -1,6 +1,6 @@
 <?php
 
-namespace Temple;
+namespace Temple\Engine;
 
 
 use Temple\Engine\Compiler;
@@ -89,13 +89,11 @@ class Instance
         $this->ConfigCache      = $this->InjectionManager->registerDependency(new ConfigCache());
         $this->CommandCache     = $this->InjectionManager->registerDependency(new CommandCache());
         $this->Console          = $this->InjectionManager->registerDependency(new Console());
-        $this->Variables        = $this->InjectionManager->registerDependency(new Variables());
         $this->DirectoryHandler = $this->InjectionManager->registerDependency(new DirectoryHandler());
         $this->EventManager     = $this->InjectionManager->registerDependency(new EventManager());
         $this->Languages        = $this->InjectionManager->registerDependency(new Languages());
         $this->Cache            = $this->InjectionManager->registerDependency(new Cache());
         $this->CacheInvalidator = $this->InjectionManager->registerDependency(new CacheInvalidator());
-        $this->VariableCache    = $this->InjectionManager->registerDependency(new VariableCache());
         $this->Lexer            = $this->InjectionManager->registerDependency(new Lexer());
         $this->Compiler         = $this->InjectionManager->registerDependency(new Compiler());
         $this->Template         = $this->InjectionManager->registerDependency(new Template());

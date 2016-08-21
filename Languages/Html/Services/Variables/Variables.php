@@ -118,7 +118,7 @@ class Variables extends Storage
             $variable = (!$variable) ? "false" : "true";
         }
 
-        return (string)$variable;
+        return (string) $variable;
     }
 
 

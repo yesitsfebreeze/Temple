@@ -15,4 +15,4 @@ spl_autoload_register(function ($class) use ($namespace, $dir) {
     }
 });
 
-require "Instance.php";
+require $dir . "Engine/Instance.php";

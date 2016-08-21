@@ -5,7 +5,7 @@ namespace Temple\Engine\EventManager;
 
 use Temple\Engine\Exception\Exception;
 use Temple\Engine\InjectionManager\InjectionManager;
-use Temple\Instance;
+use Temple\Engine\Instance;
 
 
 /**

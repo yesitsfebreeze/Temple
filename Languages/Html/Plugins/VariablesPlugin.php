@@ -55,20 +55,6 @@ class VariablesPlugin extends Event
     private function replace($matches, $output, $addEcho = false)
     {
 
-      /*  if ($echo) {
-            $before = '<?php echo $this->Variables->get("';
-        } else {
-            $before = '<?php $this->Variables->get("';
-        }
-
-        $middle = '")';
-        if ($echo) {
-            $after = '; ?>';
-        } else {
-            $after = ' ?>';
-        }
-      */
-
         foreach ($matches[0] as $key => $match) {
             $path   = $this->getPath($matches[1][ $key ]);
 

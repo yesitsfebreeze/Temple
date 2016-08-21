@@ -4,9 +4,11 @@ namespace Temple\Engine\Filesystem;
 
 
 use Temple\Engine\Config;
+use Temple\Engine\EventManager\EventManager;
 use Temple\Engine\Exception\Exception;
 use Temple\Engine\InjectionManager\Injection;
 use Temple\Engine\Languages;
+use Temple\Engine\Structs\Dom;
 use Temple\Engine\Structs\Language;
 
 
@@ -20,6 +22,9 @@ class Cache extends Injection
     /** @var  DirectoryHandler $DirectoryHandler */
     protected $DirectoryHandler;
 
+    /** @var  EventManager $EventManager */
+    protected $EventManager;
+
     /** @var  Languages $Languages */
     protected $Languages;
 
@@ -30,7 +35,8 @@ class Cache extends Injection
         return array(
             "Engine/Config"                      => "Config",
             "Engine/Filesystem/DirectoryHandler" => "DirectoryHandler",
-            "Engine/Languages"                   => "Languages"
+            "Engine/Languages"                   => "Languages",
+            "Engine/EventManager/EventManager"   => "EventManager"
         );
     }
 
@@ -79,14 +85,15 @@ class Cache extends Injection
     /**
      * saves the file to the cache and returns its path
      *
-     * @param     $file
-     * @param     $content
-     * @param     $extension
+     * @param string $file
+     * @param string $content
+     * @param Dom    $dom
+     * @param string $extension
      *
      * @return string
      * @throws Exception
      */
-    public function save($file, $content, $extension = null)
+    public function save($file, $content, Dom $dom, $extension = null)
     {
 
         $folder    = $this->getFolder($file);
@@ -95,6 +102,7 @@ class Cache extends Injection
         $file = $this->createFile($file, $extension, $folder);
         $this->Config->addLanguageCacheFolder($this->getDirectory($folder));
         file_put_contents($file, $content);
+        $this->EventManager->notify("cache.save", array($file, $content, $dom, $extension));
 
         return $file;
     }
