@@ -1,5 +1,5 @@
 {if $code}
-<div class="editor {if isset($dark)}dark{/if}">
+<div class="editor {if !isset($light)}dark{/if}">
 <div class="editor-header">
     <div class="action-buttons"></div>
     {if isset($lang)}

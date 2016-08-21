@@ -1,15 +1,38 @@
-@prism-variable-color: #f46e63;
-@prism-comment-color: #acaba9;
-@prism-code-color: @gray-light;
-@prism-operator-color: #708090;
+@prism-variable-color: #e96055;
+@prism-comment-color: #46494C;
+@prism-code-color: #6d7279;
+@prism-operator-color: #6d7279;
 @prism-this-color: #949494;
-@prism-class-color: #08a0f9;
-@prism-function-color: #3e84ad;
-@prism-string-color: #91c5ab;
+@prism-class-color: #e9427b;
+@prism-function-color: #6d7279;
+@prism-keyword-color: #7dcbf5;
+@prism-string-color: #bfbfbf;
+@prism-select-color: #26272B;
 
 code[class*="language-"],
 pre[class*="language-"] {
     color: @prism-code-color;
+}
+
+::-moz-selection {
+    color:            white;
+    background: salmon;
+}
+
+::selection {
+    color:            white;
+    background: salmon;
+}
+
+code[class*="language-"]::-moz-selection, code[class*="language-"] ::-moz-selection {
+    color:            white;
+    background: salmon;
+}
+
+pre[class*="language-"]::selection, pre[class*="language-"] ::selection,
+code[class*="language-"]::selection, code[class*="language-"] ::selection {
+    color:            white;
+    background: salmon;
 }
 
 .token.comment,
@@ -23,16 +46,23 @@ pre[class*="language-"] {
     opacity: .7;
 }
 
-.token.property,
-.token.tag,
-.token.boolean,
 .token.number,
+.token.boolean {
+    color: @prism-keyword-color;
+}
+
+.token.delimiter {
+    color: #e9c414;
+}
+
+.token.property,
+.token.keyword,
+.token.tag,
 .token.constant,
 .token.symbol,
 .token.deleted,
 .token.atrule,
 .token.attr-value,
-.token.keyword,
 .token.function {
     color: @prism-function-color;
 }

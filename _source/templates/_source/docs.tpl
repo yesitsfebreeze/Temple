@@ -35,17 +35,37 @@
         {/if}
     {/function}
     <div class="container">
-        <div class="row">
-            <div class="col-xs-3">
+        <div class="row border-left-light">
+            <div class="col-xs-3 no-padding-left">
                 <div class="jump-docs-sidebar docs-page-jumper no-index"></div>
-                <h4>
+                <h4 class="pl-grid">
                     Documentation
                 </h4>
                 <div class="sidebar">
                     {call docsMenu menu=$docsMenu}
+                    {* breadcrumbs*}
+                </div>
+                <div class="breadcrumbs fade">
+                    <div class="breadcrumbs-bg">
+                        <h4 class="pl-grid">
+                            you are here:
+                        </h4>
+                        <div class="sidebar">
+                            {foreach from=$breadcrumbs key=$name item=$link name="bread"}
+                                <div>
+                                    <a href="{$link}">
+                                        {$name}
+                                    </a>
+                                </div>
+                            {/foreach}
+                            <div class="section-breadcrumb doc-link fade">
+                                <a href="" title="" class="section-link"></a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="col-xs-9 border-left-light">
+            <div class="col-xs-9">
                 <div class="docs">
                     <div class="head">
                         <h1>
@@ -60,32 +80,6 @@
                         {block name="content:docs"}
 
                         {/block}
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    {* breadcrumbs*}
-    <div class="breadcrumbs fade">
-        <div class="container">
-            <div class="row">
-                <div class="col-xs-3">
-                    <div class="breadcrumbs-bg">
-                        <h4>
-                            you are here
-                        </h4>
-                        <div class="sidebar">
-                            {foreach from=$breadcrumbs key=$name item=$link name="bread"}
-                                <div>
-                                    <a href="{$link}">
-                                        {$name}
-                                    </a>
-                                </div>
-                            {/foreach}
-                            <div class="section-breadcrumb doc-link fade">
-                                <a href="" title="" class="section-link"></a>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>

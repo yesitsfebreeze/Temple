@@ -1,3 +1,13 @@
+<div class="docs-padding">
+
+    <h4>
+        Introduction
+    </h4>
+    <p>
+        Temple works instance based, therefore all your settings are stored within one instance and automatically passed to another instance.
+        <br>
+        First of you need to require the autoloader.php if you'r not using composer.
+    </p>
 
 <div class="editor dark">
 <div class="editor-header">
@@ -9,29 +19,23 @@
 <div class="editor-body">
  <pre><code class="language-php">&lt;?php
 
-namespace Temple\Engine\Structs;
+// this registers all classes of Temple with a psr_4 conform standard
+require_once "YourPath/Temple/autoload.php";
 
-use Temple\Engine\Exception\Exception;
-
-class Page {
-
-    /** @var  string $fileName */
-    private $fileName;
-
-    /** @var  string $file */
-    private $file;
-
-    /** @var  Variables $Variables */
-    private $Variables;
-
-}</code></pre>
+</code></pre>
 
 </div>
 </div>
 
 
 
-<div class="editor ">
+    <h4>
+        Creating an Instance
+    </h4>
+    <p>
+        To create a new instance you would just do this.
+    </p>
+<div class="editor dark">
 <div class="editor-header">
     <div class="action-buttons"></div>
         <div class="editor-language">
@@ -41,29 +45,52 @@ class Page {
 <div class="editor-body">
  <pre><code class="language-php">&lt;?php
 
-namespace Temple\Engine\Structs;
+// this creates a new instance of Temple which is ready to use
+$templeInstance = new \Temple\Engine\Instance();
 
-use Temple\Engine\Exception\Exception;
-
-class Page {
-
-    /** @var  string $fileName */
-    private $fileName;
-
-    /** @var  string $file */
-    private $file;
-
-    /** @var  Variables $Variables */
-    private $Variables;
-
-}</code></pre>
+</code></pre>
 
 </div>
 </div>
+
+
+
+
+    <h4>
+        Configure an Instance
+    </h4>
+    <p>
+        You can either pass a custom config into the instance creation or change the settings afterwards.
+    </p>
+<div class="editor dark">
+<div class="editor-header">
+    <div class="action-buttons"></div>
+        <div class="editor-language">
+        php
+    </div>
+    </div>
+<div class="editor-body">
+ <pre><code class="language-php">&lt;?php
+
+// you can also create a custom config object and to pass it into an instance
+$config = new  \Temple\Engine\Config();
+$config-&gt;setExtension("myCustomExtension");
+$templeInstance = new \Temple\Engine\Instance($config);
+
+// to change a setting afterwards you can just use the setters from our Config object.
+$templeInstance = new \Temple\Engine\Instance($config);
+$templeInstance-&gt;Config()-&gt;setExtension("myCustomExtension");
+
+</code></pre>
+
+</div>
+</div>
+
 
 
 
 
 <div class="doc-link">
     <a href="#docs-sidebar" title="back to top">back to top</a>
+</div>
 </div>

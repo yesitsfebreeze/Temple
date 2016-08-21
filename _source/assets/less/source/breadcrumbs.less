@@ -1,12 +1,11 @@
 .breadcrumbs {
     position: fixed;
     top:      @menu-height;
-    left:     0;
-    right:    0;
     color:    @text-color;
     z-index:  99999;
     padding-top: 30px;
     .sidebar {
+        z-index: 499;
         > div {
             .transition(opacity .4s @easing-fast);
             &:nth-child(1) {

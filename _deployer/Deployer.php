@@ -9,6 +9,9 @@ class Deployer
     /** @var string $root */
     private $root;
 
+    /** @var string $task */
+    private $task;
+
     /** @var string $page */
     private $page;
 
@@ -51,23 +54,32 @@ class Deployer
      *
      * @param $environment
      * @param $pathPrefix
+     * @param $task
      */
-    public function __construct($environment, $pathPrefix)
+    public function __construct($environment, $pathPrefix, $task = false)
     {
+        $this->task = $task;
         $this->root = realpath(__DIR__) . DIRECTORY_SEPARATOR;
         $this->page = $this->root . ".." . DIRECTORY_SEPARATOR . "_source" . DIRECTORY_SEPARATOR;
 
-        $this->smarty = new Smarty();
-        $this->smarty->addTemplateDir($this->page . "templates");
+        if ($task == "template") {
+            $this->smarty = new Smarty();
+            $this->smarty->addTemplateDir($this->page . "templates");
+        }
 
         $this->yaml = new \Symfony\Component\Yaml\Yaml();
 
-        $this->jsSqueezer = new \Patchwork\JSqueeze();
+        if ($task == "js") {
+            $this->jsSqueezer = new \Patchwork\JSqueeze();
+        }
 
         $this->environment = $environment;
         $this->pathPrefix  = $pathPrefix;
 
-        Less_Autoloader::register();
+        if ($task == "less") {
+            Less_Autoloader::register();
+            $this->less = new Less_Parser();
+        }
 
         date_default_timezone_set("Europe/Berlin");
     }
@@ -80,13 +92,23 @@ class Deployer
     public function deploy()
     {
         $this->pages = $this->getPages();
-        $this->buildMenu($this->pages);
-        $this->buildDocsMenu($this->pages);
-        $this->parseLess("../source/all");
-        $this->processJs("../source/all");
-        $this->copyAssets();
-        error_reporting(E_ERROR | E_WARNING | E_PARSE);
-        $this->fetchTemplates($this->pages);
+        if ($this->task == "template") {
+            $this->buildMenu($this->pages);
+            $this->buildDocsMenu($this->pages);
+        }
+        if ($this->task == "less") {
+            $this->parseLess("../source/all");
+        }
+        if ($this->task == "js") {
+            $this->processJs("../source/all");
+        }
+        if ($this->task == "assets") {
+            $this->copyAssets();
+        }
+        if ($this->task == "template") {
+            error_reporting(E_ERROR | E_WARNING | E_PARSE);
+            $this->fetchTemplates($this->pages);
+        }
     }
 
 
@@ -282,7 +304,7 @@ class Deployer
                 $pages       = array();
                 $breadcrumbs = array(
                     "Documentation" => preg_replace("/^index/", "/Temple/", "index/" . $this->docsMenuName),
-                    "$name"    => preg_replace("/^index/", "/Temple/", $oldPath)
+                    "$name"         => preg_replace("/^index/", "/Temple/", $oldPath)
                 );
                 foreach ($this->docsSubMenu as $page) {
                     $docPage                = array();
@@ -311,18 +333,23 @@ class Deployer
      */
     private function parseLess($path)
     {
-        $this->less = new Less_Parser();
         $file       = $this->page . "assets" . DIRECTORY_SEPARATOR . "less" . DIRECTORY_SEPARATOR . "pages" . DIRECTORY_SEPARATOR . $path . ".less";
-
-
+        
         if (file_exists($file)) {
+            if (!$this->less instanceof Less_Parser) {
+                Less_Parser::$options = array(
+                    "cache_method" => "serialize",
+                    "sourceMap" => true
+                );
+                $this->less = new Less_Parser();
+            }
+            $this->less->Reset();
             $less = $this->less->parseFile($file);
             $css  = $less->getCss();
 
             if ($path == "../source/all") {
                 $path = "all";
             }
-
 
             $this->saveFile($path, "css" . DIRECTORY_SEPARATOR, "css", $css, false);
         }
@@ -405,6 +432,7 @@ class Deployer
      */
     private function copy($source, $dest, $permissions = 0755)
     {
+
         if (is_link($source)) {
             return symlink(readlink($source), $dest);
         }
@@ -419,7 +447,7 @@ class Deployer
 
         $dir = dir($source);
         while (false !== $entry = $dir->read()) {
-            if ($entry == '.' || $entry == '..') {
+            if ($entry == '.' || $entry == '..' || $entry == "js" || $entry == "less") {
                 continue;
             }
             $this->copy("$source/$entry", "$dest/$entry", $permissions);

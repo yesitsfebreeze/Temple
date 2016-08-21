@@ -25,7 +25,7 @@ $(function() {
         var breadcrumbName = false;
         var breadcrumbLink = false;
 
-        if($(window).scrollTop() > $(".sidebar").height() + 250 && $(window).scrollTop() < ($(document).height() - $(window).height() - $("footer .dark.no-height").height())) {
+        if($(window).scrollTop() > $(".sidebar").height() + 250) {
             $(".breadcrumbs").addClass("in");
         } else {
             $(".breadcrumbs").removeClass("in");
