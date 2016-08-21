@@ -10,11 +10,23 @@ body, html {
 
 .page-wrapper {
     margin-top: 50px;
+    &.has-breadcrumbs {
+        padding-top: 50px;
+    }
+
+    &.is-docs {
+        background-color: @white;
+    }
+
     opacity:    0;
     .transition(opacity .5s @easing-slow);
     &.in {
         opacity: 1;
     }
+}
+
+.border-left-light {
+    border-left: 1px solid @gray-lighter;
 }
 
 a {

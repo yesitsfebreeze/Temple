@@ -8,10 +8,10 @@
             </div>
             <div class="text-center">
                 <h1>
-                    Welcome to Temple
+                    Temple
                 </h1>
                 <p>
-                    A flexible,extensible and lightweight php template engine.
+                    a leightweight template precompiler.
                 </p>
             </div>
         </div>

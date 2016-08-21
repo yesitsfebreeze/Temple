@@ -4,12 +4,10 @@
             {foreach $menu as $item}
                 <li>
                     {if $item.link}<a href="{$pathPrefix}{$item.link}" title="{$item.name}">{/if}{$item.name}{if $item.link}</a>{/if}
-                    {call menu menu=$item.children path=$path}
                 </li>
             {/foreach}
         </ul>
     {/if}
-
 {/function}
 
 <div class="menu">
@@ -30,13 +28,8 @@
                 </a>
             </li>
             <li>
-                <a href="https://github.com/hvlmnns" title="fork me" target="_blank">
-                    <i class="fa fa-code-fork"></i>&nbsp;&nbsp;fork me
-                </a>
-            </li>
-            <li>
                 <a href="https://github.com/hvlmnns/Temple" title="github" target="_blank">
-                    <i class="fa fa-2x fa-github"></i>
+                    <i class="fa fa-2x fa-github"></i> fork me
                 </a>
             </li>
         </ul>

@@ -1,5 +1,8 @@
 index:
-  getting started:
-  test drive:
-  docs:
-  languages:
+  documentation:
+    getting started:
+      setting up an instance:
+      using the Template class:
+    creating languages:
+    using events:
+    adding console commands:

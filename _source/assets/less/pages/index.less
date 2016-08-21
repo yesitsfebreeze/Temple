@@ -12,16 +12,16 @@
 
 .section-1 {
     .logo {
-        opacity: .4;
+        opacity:  .4;
         position: absolute;
-        right: -100px;
-        float: left;
-        display: inline;
-        width: 40%;
-        bottom: -320px;
+        right:    -100px;
+        float:    left;
+        display:  inline;
+        width:    40%;
+        bottom:   -320px;
         .transform(rotate(347deg));
         img {
-            width:100%;
+            width: 100%;
         }
     }
 }
@@ -31,5 +31,24 @@
         position:   absolute;
         margin-top: -168px;
         height:     600px;
+        width:      547px;
+        .editor-body {
+            height: 300px;
+        }
+        &.dark {
+            background: @gray-darker;
+            pre {
+                color:            @gray-lighter;
+                background-color: transparent;
+            }
+            .editor-header {
+                background: @gray-darker;
+                .editor-language {
+                    color: @gray-lighter;
+                }
+            }
+        }
     }
 }
+
+

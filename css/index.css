@@ -32,4 +32,21 @@
   position: absolute;
   margin-top: -168px;
   height: 600px;
+  width: 547px;
+}
+.section-2 .editor .editor-body {
+  height: 300px;
+}
+.section-2 .editor.dark {
+  background: #212122;
+}
+.section-2 .editor.dark pre {
+  color: #e2e5e5;
+  background-color: transparent;
+}
+.section-2 .editor.dark .editor-header {
+  background: #212122;
+}
+.section-2 .editor.dark .editor-header .editor-language {
+  color: #e2e5e5;
 }

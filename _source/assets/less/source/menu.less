@@ -22,7 +22,7 @@
             margin:     10px 0;
         }
         .text {
-            color:        white;
+            color:   white;
             padding: 0 15px 0 10px;
         }
     }
@@ -32,32 +32,34 @@
             float:   left;
             margin:  0;
             padding: 0 15px;
-            .fa {
+            .fa:not(.fa-github) {
                 height:      @menu-height;
                 line-height: @menu-height;
+            }
+            .fa-github {
+                position: relative;
+                top:      5px;
             }
         }
         .clearfix();
     }
-}
 
-.menu-list {
-    display:     inline-block;
-    line-height: @menu-height;
-    color:       @menu-color;
-    margin:      0;
-    padding:     0;
-    li {
-        margin:  0;
-        padding: 0 15px;
-    }
-    a {
-        color: @menu-color;
-        &:hover, &:active, &:focus {
-            color: @brand-primary;
+    .menu-list {
+        display:     inline-block;
+        line-height: @menu-height;
+        color:       @menu-color;
+        margin:      0;
+        padding:     0;
+        li {
+            margin:  0;
+            padding: 0 15px;
+        }
+        a {
+            color: @menu-color;
+            &:hover, &:active, &:focus {
+                color: @brand-primary;
+            }
         }
     }
-    .menu-list {
-        display: none;
-    }
+
 }

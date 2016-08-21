@@ -30,8 +30,20 @@ class Deployer
     /** @var string $environment */
     private $environment;
 
+    /** @var array $pages */
+    private $pages = array();
+
     /** @var array $menu */
     private $menu = array();
+
+    /** @var array $docsMenuName */
+    private $docsMenuName = "documentation";
+
+    /** @var array $docsMenu */
+    private $docsMenu = array();
+
+    /** @var array $docsSubMenu */
+    private $docsSubMenu = array();
 
 
     /**
@@ -67,12 +79,14 @@ class Deployer
      */
     public function deploy()
     {
-        $pages = $this->getPages();
-        $this->buildMenu($pages);
+        $this->pages = $this->getPages();
+        $this->buildMenu($this->pages);
+        $this->buildDocsMenu($this->pages);
         $this->parseLess("../source/all");
         $this->processJs("../source/all");
         $this->copyAssets();
-        $this->fetchTemplates($pages);
+        error_reporting(E_ERROR | E_WARNING | E_PARSE);
+        $this->fetchTemplates($this->pages);
     }
 
 
@@ -83,6 +97,29 @@ class Deployer
     {
         $menu       = $this->buildSubMenu(array(), $pages["index"]);
         $this->menu = $menu;
+
+    }
+
+
+    /**
+     * @param $pages
+     */
+    private function buildDocsMenu($pages)
+    {
+        $docsMenu       = $this->buildSubMenu(array(), $pages["index"][ $this->docsMenuName ], "/" . $this->docsMenuName);
+        $this->docsMenu = $docsMenu;
+    }
+
+
+    /**
+     * @param $pages
+     * @param $name
+     */
+    private function buildDocsSubMenu($pages, $name)
+    {
+        $name              = str_replace("_", " ", $name);
+        $docsSubMenu       = $this->buildSubMenu(array(), $pages["index"][ $this->docsMenuName ][ $name ], "/" . $this->docsMenuName . "/" . $name);
+        $this->docsSubMenu = $docsSubMenu;
     }
 
 
@@ -97,29 +134,30 @@ class Deployer
     {
 
         $iteration = 0;
+        if (sizeof($pages) > 0) {
+            foreach ($pages as $name => $page) {
+                $menu[ $iteration ]                = array();
+                $orgPath                           = $path;
+                $path                              = $path . "/" . $name;
+                $escaped                           = str_replace(" ", "_", $path);
+                $template                          = "index/" . substr($escaped . ".tpl", 1);
+                $exists                            = $this->smarty->templateExists($template);
+                $menu[ $iteration ]["name"]        = $name;
+                $menu[ $iteration ]["escapedName"] = str_replace(" ", "_", $name);
+                if ($exists) {
+                    $menu[ $iteration ]["link"] = $escaped;
+                } else {
+                    $menu[ $iteration ]["link"] = false;
+                }
+                $menu[ $iteration ]["children"] = array();
 
-        foreach ($pages as $name => $page) {
-            $menu[ $iteration ] = array();
-            $orgPath            = $path;
-            $path               = $path . "/" . $name;
-            $escaped            = str_replace(" ", "_", $path);
-            $template           = "index/" . substr($escaped . ".tpl", 1);
+                if (is_array($page)) {
+                    $menu[ $iteration ]["children"] = $this->buildSubMenu($menu[ $iteration ]["children"], $page, $path);
+                }
 
-            $exists                     = $this->smarty->templateExists($template);
-            $menu[ $iteration ]["name"] = $name;
-            if ($exists) {
-                $menu[ $iteration ]["link"] = $escaped;
-            } else {
-                $menu[ $iteration ]["link"] = false;
+                $iteration = $iteration + 1;
+                $path      = $orgPath;
             }
-            $menu[ $iteration ]["children"] = array();
-
-            if (is_array($page)) {
-                $menu[ $iteration ]["children"] = $this->buildSubMenu($menu[ $iteration ]["children"], $page, $path);
-            }
-
-            $iteration = $iteration + 1;
-            $path      = $orgPath;
         }
 
         return $menu;
@@ -151,14 +189,13 @@ class Deployer
                 $path            = substr($path, 1);
                 $path            = str_replace(" ", "_", $path);
                 $this->jsContent = "";
-//                if ($this->environment == "production") {
-                    $this->smarty->assign("pathPrefix", $this->pathPrefix);
-//                }
+                $this->smarty->assign("pathPrefix", $this->pathPrefix);
                 $this->assignPageData("default");
                 $this->assignPageData($path);
                 $this->parseLess($path);
                 $this->processJs($path);
                 $this->smarty->assign("menu", $this->menu);
+                $this->smarty->assign("docsMenu", $this->docsMenu);
                 $content = $this->smarty->fetch($path . ".tpl");
                 $this->saveFile($path, "", "html", $content, true, true);
             } catch (SmartyException $e) {
@@ -201,11 +238,14 @@ class Deployer
         $outputDir = dirname($outputFile);
         if (!is_dir($outputDir)) {
             mkdir($outputDir, 0777, true);
+            chown($outputDir, "hvlmnns");
         }
         if (!file_exists($outputFile)) {
             touch($outputFile);
         }
         file_put_contents($outputFile, $content);
+        chmod($outputFile, 0777);
+        chown($outputFile, "hvlmnns");
     }
 
 
@@ -216,9 +256,46 @@ class Deployer
      */
     private function assignPageData($path)
     {
-        $file = $this->page . "data" . DIRECTORY_SEPARATOR . $path . ".yml";
         if ($path != "default") {
             $this->smarty->assign("pagePath", $path);
+        }
+        $file = $this->page . "data" . DIRECTORY_SEPARATOR . $path . ".yml";
+        if ($path != "default") {
+            $oldPath   = $path;
+            $path      = explode("/", $path);
+            $preParent = $path[ sizeof($path) - 2 ];
+            $parent    = $path[ sizeof($path) - 1 ];
+            $path      = end($path);
+            $name      = str_replace("_", " ", $path);
+
+            $this->smarty->assign("pageName", $path);
+
+            if ($parent == $this->docsMenuName) {
+                $breadcrumbs = array(
+                    "Documentation" => preg_replace("/^index/", "/Temple/", "index/" . $this->docsMenuName)
+                );
+            }
+
+            if ($preParent == $this->docsMenuName) {
+                $this->buildDocsSubMenu($this->pages, $parent);
+                $this->smarty->assign("docsSubMenu", $this->docsSubMenu);
+                $pages       = array();
+                $breadcrumbs = array(
+                    "Documentation" => preg_replace("/^index/", "/Temple/", "index/" . $this->docsMenuName),
+                    "$name"    => preg_replace("/^index/", "/Temple/", $oldPath)
+                );
+                foreach ($this->docsSubMenu as $page) {
+                    $docPage                = array();
+                    $docPage["name"]        = $page["name"];
+                    $docPage["escapedName"] = str_replace(" ", "_", $page["name"]);
+                    $docPage["file"]        = "index" . $page["link"] . ".tpl";
+                    $pages[]                = $docPage;
+                }
+                $this->smarty->assign("docsPages", $pages);
+            }
+
+            $this->smarty->assign("breadcrumbs", $breadcrumbs);
+
         }
         if (file_exists($file)) {
             $data = $this->yaml->parse(file_get_contents($file));

@@ -5,7 +5,7 @@
     </head>
     <body>
         {include "_source/menu.tpl"}
-        <div class="page-wrapper">
+        <div class="page-wrapper {block name="page-wrapper:classes"}{/block}">
             {block name="content"}
 
             {/block}

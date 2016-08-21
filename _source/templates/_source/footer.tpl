@@ -43,8 +43,8 @@
                 {foreach $menu as $item}
                     <li>
                         {if $item.link}
-                        <a href="{$pathPrefix}{$item.link}" title="{$item.name}">{/if}{$item.name}{if $item.link}</a>{/if}
-                        {call menu menu=$item.children path=$path}
+                            <a href="{$pathPrefix}{$item.link}" title="{$item.name}">{$item.name}</a>
+                        {/if}
                     </li>
                 {/foreach}
             </ul>
@@ -64,12 +64,7 @@
                         </div>
                         <div class="col-xs-12 col-md-4">{call footermenu menu=$menu}</div>
                         <div class="col-xs-12 col-md-5 text-left">
-                            <ul class="social-links list-unstyled list-inline">
-                                <li>
-                                    <a href="https://github.com/hvlmnns" title="fork me" target="_blank">
-                                        <i class="fa fa-2x fa-code-fork"></i>
-                                    </a>
-                                </li>
+                            <ul class="social-links list-unstyled list-inline text-right">
                                 <li>
                                     <a href="https://github.com/hvlmnns/Temple" title="github" target="_blank">
                                         <i class="fa fa-2x fa-github"></i>
