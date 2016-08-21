@@ -17,9 +17,8 @@ use Temple\Engine\Structs\Language;
 class Languages extends Injection
 {
 
-
-    /** @var  Config $Config */
-    protected $Config;
+    /** @var  Instance $Instance */
+    protected $Instance;
 
     /** @var  EventManager $EventManager */
     protected $EventManager;
@@ -31,8 +30,7 @@ class Languages extends Injection
     public function dependencies()
     {
         return array(
-            "Engine/EventManager/EventManager" => "EventManager",
-            "Engine/Config"                    => "Config"
+            "Engine/EventManager/EventManager" => "EventManager"
         );
     }
 
@@ -54,6 +52,8 @@ class Languages extends Injection
         }
 
     }
+
+
     /**
      * @param $file
      *
@@ -73,22 +73,22 @@ class Languages extends Injection
                     preg_match("/^(.*?)(?:$|\s)/", trim($line), $tag);
                     $tag = trim($tag[0]);
 
-                    if ($this->Config->isUseCoreLanguage()) {
+                    if ($this->Instance->Config()->isUseCoreLanguage()) {
                         array_unshift($languages, "core");
                     }
 
-                    if ($tag == $this->Config->getLanguageTagName()) {
+                    if ($tag == $this->Instance->Config()->getLanguageTagName()) {
                         $lang = trim(str_replace($tag, "", $line));
                     } else {
-                        $lang = $this->Config->getDefaultLanguage();
+                        $lang = $this->Instance->Config()->getDefaultLanguage();
                     }
 
                     $languages[] = $lang;
 
-                    /** @var  Language $lang*/
+                    /** @var  Language $lang */
                     $this->load($languages);
-                    $class = $this->getLanguageClass($lang);
-                    $language = $this->languages[$class];
+                    $class    = $this->getLanguageClass($lang);
+                    $language = $this->languages[ $class ];
 
                     break;
                 }
@@ -96,7 +96,7 @@ class Languages extends Injection
         }
 
         if (!$language) {
-            throw new Exception(700,"The requested language doesn't exist");
+            throw new Exception(700, "The requested language doesn't exist");
         }
 
         return $language;
@@ -107,7 +107,6 @@ class Languages extends Injection
      * @param $languages
      *
      * @return Language
-     *
      * @throws Exception
      */
     private function load($languages)
@@ -137,7 +136,8 @@ class Languages extends Injection
     {
         $namespaces    = explode("\\", __NAMESPACE__);
         $frameworkName = reset($namespaces);
-        $class = "\\" . $frameworkName . "\\Languages\\" . ucfirst(strtolower($lang)) . "\\LanguageLoader";
+        $class         = "\\" . $frameworkName . "\\Languages\\" . ucfirst(strtolower($lang)) . "\\LanguageLoader";
+
         return $class;
     }
 
@@ -149,9 +149,30 @@ class Languages extends Injection
      */
     private function createLanguageClass($class)
     {
-        if (!isset($this->languages[$class])) {
-            $this->languages[$class] = new $class($this->Config);
+        if (!isset($this->languages[ $class ])) {
+            $this->languages[ $class ] = new $class($this->Instance);
         }
-        return $this->languages[$class];
+
+        return $this->languages[ $class ];
     }
+
+
+    /**
+     * @return Instance
+     */
+    public function getInstance()
+    {
+        return $this->Instance;
+    }
+
+
+    /**
+     * @param Instance $Instance
+     */
+    public function setInstance($Instance)
+    {
+        $this->Instance = $Instance;
+    }
+
+
 }

@@ -3,16 +3,18 @@
 namespace Temple\Engine\Structs;
 
 
+use Temple\Engine\Cache\VariablesBaseCache;
 use Temple\Engine\Config;
 use Temple\Engine\EventManager\Event;
 use Temple\Engine\Exception\Exception;
+use Temple\Engine\Instance;
 
 
 class Language extends Event
 {
 
-    /** @var Config $Config */
-    private $Config;
+    /** @var Instance $Instance */
+    protected $Instance;
 
     /** @var string $name */
     private $name;
@@ -20,12 +22,19 @@ class Language extends Event
     /** @var string $privateCacheFolder */
     private $privateCacheFolder;
 
-    public function __construct(Config $Config)
+    /** @var string $variableCache */
+    private $variableCache = false;
+
+    public function __construct(Instance $Instance)
     {
-        $this->Config = $Config;
+        $this->Instance = $Instance;
         $name = explode("\\", get_class($this));
         array_pop($name);
         $this->name = strtolower(end($name));
+        $this->variableCache = $this->variableCache();
+        if ($this->variableCache instanceof VariablesBaseCache) {
+            $this->variableCache->setInstance($this->Instance);
+        }
     }
 
 
@@ -74,6 +83,17 @@ class Language extends Event
     }
 
     /**
+     * this function is used to register all nodes and plugins for the language
+     *
+     * return VariablesBaseCache | false
+
+     */
+    protected function variableCache()
+    {
+        return false;
+    }
+
+    /**
      * returns the current language extension
      */
     public function getExtension()
@@ -100,7 +120,7 @@ class Language extends Event
         }
 
         if ($folder == "" || gettype($folder) != "string") {
-            $folder = $this->Config->getCacheDir() . DIRECTORY_SEPARATOR . $this->name;
+            $folder = $this->Instance->Config()->getCacheDir() . DIRECTORY_SEPARATOR . $this->name;
         }
 
         return $folder;
@@ -124,6 +144,14 @@ class Language extends Event
         return $this->name;
     }
 
+
+    /**
+     * @return string
+     */
+    public function getVariableCache()
+    {
+        return $this->variableCache;
+    }
 
 
 }

@@ -3,13 +3,14 @@
 namespace Temple\Engine;
 
 
-use Temple\Engine\Console\CommandCache;
-use Temple\Engine\Console\Console;
-use Temple\Engine\EventManager\EventManager;
 use Temple\Engine\Cache\Cache;
 use Temple\Engine\Cache\CacheInvalidator;
 use Temple\Engine\Cache\ConfigCache;
+use Temple\Engine\Console\CommandCache;
+use Temple\Engine\Console\Console;
+use Temple\Engine\EventManager\EventManager;
 use Temple\Engine\Filesystem\DirectoryHandler;
+use Temple\Engine\InjectionManager\Injection;
 use Temple\Engine\InjectionManager\InjectionManager;
 use Temple\Engine\Structs\Variables;
 
@@ -19,7 +20,7 @@ use Temple\Engine\Structs\Variables;
  *
  * @package Temple
  */
-class Instance
+class Instance extends Injection
 {
 
     /** @var InjectionManager $InjectionManager */
@@ -46,6 +47,9 @@ class Instance
     /** @var Cache $Cache */
     protected $Cache;
 
+    /** @var CommandCache $CommandCache */
+    protected $CommandCache;
+
     /** @var CacheInvalidator $CacheInvalidator */
     protected $CacheInvalidator;
 
@@ -60,6 +64,12 @@ class Instance
 
     /** @var Template $Template */
     protected $Template;
+
+    /** @var InstanceWrapper $InstanceWrapper */
+    protected $InstanceWrapper;
+
+    /** @var Instance $Instance */
+    protected $Instance;
 
 
     /**
@@ -81,6 +91,7 @@ class Instance
         $this->Console          = $this->InjectionManager->registerDependency(new Console());
         $this->DirectoryHandler = $this->InjectionManager->registerDependency(new DirectoryHandler());
         $this->EventManager     = $this->InjectionManager->registerDependency(new EventManager());
+        $this->Variables        = $this->InjectionManager->registerDependency(new Variables());
         $this->Languages        = $this->InjectionManager->registerDependency(new Languages());
         $this->Cache            = $this->InjectionManager->registerDependency(new Cache());
         $this->CacheInvalidator = $this->InjectionManager->registerDependency(new CacheInvalidator());
@@ -91,6 +102,7 @@ class Instance
 
         $this->Config->setInstanceWrapper($this->InstanceWrapper);
         $this->EventManager->setInstance($this);
+        $this->Languages->setInstance($this);
 
         return $this;
     }

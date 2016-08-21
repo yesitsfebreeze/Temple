@@ -42,6 +42,14 @@ class LanguageLoader extends Language
         return "php";
     }
 
+    /**
+     * registers the VariableCache
+     */
+    public function variableCache()
+    {
+        return new VariableCache();
+    }
+
 
     /**
      * register the nodes for the language
@@ -52,7 +60,6 @@ class LanguageLoader extends Language
         $this->registerNodes();
         $this->registerModifiers();
         $this->registerPlugins();
-        $this->registerServices();
     }
 
 
@@ -90,15 +97,6 @@ class LanguageLoader extends Language
     private function registerModifiers()
     {
         $this->EventManager->register("modifier.sizeof", new SizeofModifier());
-    }
-
-
-    /**
-     * registers all services
-     */
-    public function registerServices()
-    {
-        $this->EventManager->register("cache.save", new VariableCache());
     }
 
 

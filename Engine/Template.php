@@ -5,10 +5,12 @@ namespace Temple\Engine;
 
 use Temple\Engine\Cache\Cache;
 use Temple\Engine\Cache\CacheInvalidator;
+use Temple\Engine\Cache\VariablesBaseCache;
 use Temple\Engine\EventManager\EventManager;
 use Temple\Engine\Filesystem\DirectoryHandler;
 use Temple\Engine\InjectionManager\Injection;
 use Temple\Engine\Structs\Dom;
+use Temple\Engine\Structs\Language;
 use Temple\Engine\Structs\Page;
 
 
@@ -114,13 +116,14 @@ class Template extends Injection
         $page      = new Page();
         $page->setFileName($file);
         $page->setFile($cacheFile);
-
-        $event = $this->EventManager->notify("template.show.page", array("Page" => $page, "Template" => $this));
-        /** @var Page $page */
-        $page = $event["Page"];
-//        $this->VariableCache->setFile($file);
-//        $page->setVariables($this->VariableCache->getMergedVariables());
-
+        $template = $this->getTemplateFile($file);
+        /** @var Language $lang */
+        $lang = $this->Languages->getLanguageFromFile($template);
+        $VariableCache = $lang->getVariableCache();
+        if ($VariableCache instanceof VariablesBaseCache) {
+            $VariableCache->setFile($file);
+            $page->setVariables($VariableCache->getVariables());
+        }
 
         return $page->display();
     }
@@ -187,9 +190,17 @@ class Template extends Injection
         $this->Config->addProcessedTemplate($file);
 
         $this->EventManager->notify("template.fetch", $this);
-//        $this->VariableCache->setFile($file);
-//        $this->VariableCache->setDom($Dom);
-//        $this->VariableCache->saveTemplateVariables();
+
+        $template = $this->getTemplateFile($file);
+        /** @var Language $lang */
+        $lang = $this->Languages->getLanguageFromFile($template);
+        $VariableCache = $lang->getVariableCache();
+        if ($VariableCache instanceof VariablesBaseCache) {
+            $VariableCache->setFile($file);
+            $VariableCache->saveVariables($Dom->getVariables());
+        }
+
+
 
 
         return $content;
@@ -207,6 +218,19 @@ class Template extends Injection
     public function templateExists($file)
     {
         return $this->DirectoryHandler->templateExists($file);
+    }
+
+
+    /**
+     * checks if a template file exists within the template directories
+     *
+     * @param $file
+     *
+     * @return bool
+     */
+    public function getTemplateFile($file)
+    {
+        return $this->templateExists($file);
     }
 
 

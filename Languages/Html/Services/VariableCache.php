@@ -9,5 +9,4 @@ use Temple\Engine\Cache\VariablesBaseCache;
 class VariableCache extends VariablesBaseCache
 {
 
-
 }

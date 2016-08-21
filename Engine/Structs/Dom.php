@@ -3,15 +3,15 @@
 namespace Temple\Engine\Structs;
 
 
+use Temple\Engine\Cache\VariablesBaseCache;
 use Temple\Engine\Exception\Exception;
-use Temple\Engine\Filesystem\VariableCache;
 use Temple\Engine\Structs\Node\Node;
 
 
 class Dom
 {
 
-    /** @var VariableCache $Variables */
+    /** @var VariablesBaseCache $Variables */
     private $Variables;
 
     /** @var  string $namespace */
@@ -220,7 +220,7 @@ class Dom
             return $this->blocks[ $block ];
         }
 
-        throw new Exception(1,"The block %" . $block . "% doesn't exist", $this->getFile());
+        throw new Exception(1, "The block %" . $block . "% doesn't exist", $this->getFile());
     }
 
 
