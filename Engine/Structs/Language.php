@@ -4,7 +4,6 @@ namespace Temple\Engine\Structs;
 
 
 use Temple\Engine\Cache\VariablesBaseCache;
-use Temple\Engine\Config;
 use Temple\Engine\EventManager\Event;
 use Temple\Engine\Exception\Exception;
 use Temple\Engine\Instance;
@@ -25,12 +24,13 @@ class Language extends Event
     /** @var string $variableCache */
     private $variableCache = false;
 
+
     public function __construct(Instance $Instance)
     {
         $this->Instance = $Instance;
-        $name = explode("\\", get_class($this));
+        $name           = explode("\\", get_class($this));
         array_pop($name);
-        $this->name = strtolower(end($name));
+        $this->name          = strtolower(end($name));
         $this->variableCache = $this->variableCache();
         if ($this->variableCache instanceof VariablesBaseCache) {
             $this->variableCache->setInstance($this->Instance);
@@ -82,16 +82,16 @@ class Language extends Event
         throw new Exception(1, "Please implement the register function for %" . get_class($this) . "%", __FILE__);
     }
 
+
     /**
      * this function is used to register all nodes and plugins for the language
-     *
      * return VariablesBaseCache | false
-
      */
     protected function variableCache()
     {
         return false;
     }
+
 
     /**
      * returns the current language extension
@@ -123,7 +123,7 @@ class Language extends Event
             $folder = $this->Instance->Config()->getCacheDir() . DIRECTORY_SEPARATOR . $this->name;
         }
 
-        return $folder;
+        return $folder . "/";
     }
 
 

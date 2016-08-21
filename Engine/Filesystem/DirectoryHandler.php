@@ -111,8 +111,10 @@ class DirectoryHandler extends Injection
         $dirs = $this->getTemplateDirs();
 
         $file = $this->cleanExtension($file);
+
         foreach ($dirs as $level => $dir) {
-            $checkFile = $dir . $file;
+            $checkFile = str_replace($dir, "", $file);
+            $checkFile = $dir . $checkFile;
             if (file_exists($checkFile)) {
                 return $checkFile;
             }
@@ -179,7 +181,7 @@ class DirectoryHandler extends Injection
     {
         $dir = $this->path($dir);
         if (!is_dir($dir)) {
-            
+
 //            todo: check if is writeable
 //            if (!is_writable(dirname($dir))) {
 //                throw new Exception(1, "You'r missing permissions to create this directory!", "/" . $dir);
