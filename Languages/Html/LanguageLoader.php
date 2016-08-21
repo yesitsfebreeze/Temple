@@ -3,7 +3,6 @@
 namespace Temple\Languages\Html;
 
 
-use Temple\Languages\Html\Services\Variables\VariableCache;
 use Temple\Engine\EventManager\EventManager;
 use Temple\Engine\Structs\Language;
 use Temple\Languages\Html\Modifiers\SizeofModifier;
@@ -18,12 +17,12 @@ use Temple\Languages\Html\Plugins\CleanCommentsPlugin;
 use Temple\Languages\Html\Plugins\CleanPhpTagsPlugin;
 use Temple\Languages\Html\Plugins\VariableReturnPlugin;
 use Temple\Languages\Html\Plugins\VariablesPlugin;
+use Temple\Languages\Html\Services\VariableCache;
 
 
 /**
  * this is the default language
  * it renders to a mix of html and php
- *
  * Class LanguageLoader
  *
  * @package Temple\Languages\Html
@@ -42,6 +41,7 @@ class LanguageLoader extends Language
     {
         return "php";
     }
+
 
     /**
      * register the nodes for the language
@@ -89,7 +89,7 @@ class LanguageLoader extends Language
      */
     private function registerModifiers()
     {
-        $this->EventManager->register("modifier.sizeof",new SizeofModifier());
+        $this->EventManager->register("modifier.sizeof", new SizeofModifier());
     }
 
 
@@ -98,7 +98,7 @@ class LanguageLoader extends Language
      */
     public function registerServices()
     {
-        $this->EventManager->register("cache.save",new VariableCache());
+        $this->EventManager->register("cache.save", new VariableCache());
     }
 
 

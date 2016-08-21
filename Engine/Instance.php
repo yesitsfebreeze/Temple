@@ -3,22 +3,15 @@
 namespace Temple\Engine;
 
 
-use Temple\Engine\Compiler;
-use Temple\Engine\Config;
 use Temple\Engine\Console\CommandCache;
 use Temple\Engine\Console\Console;
 use Temple\Engine\EventManager\EventManager;
-use Temple\Engine\Filesystem\Cache;
-use Temple\Engine\Filesystem\CacheInvalidator;
-use Temple\Engine\Filesystem\ConfigCache;
+use Temple\Engine\Cache\Cache;
+use Temple\Engine\Cache\CacheInvalidator;
+use Temple\Engine\Cache\ConfigCache;
 use Temple\Engine\Filesystem\DirectoryHandler;
-use Temple\Engine\Filesystem\VariableCache;
 use Temple\Engine\InjectionManager\InjectionManager;
-use Temple\Engine\InstanceWrapper;
-use Temple\Engine\Languages;
-use Temple\Engine\Lexer;
 use Temple\Engine\Structs\Variables;
-use Temple\Engine\Template;
 
 
 /**
@@ -55,9 +48,6 @@ class Instance
 
     /** @var CacheInvalidator $CacheInvalidator */
     protected $CacheInvalidator;
-
-    /** @var VariableCache $VariableCache */
-    protected $VariableCache;
 
     /** @var Languages $Languages */
     protected $Languages;

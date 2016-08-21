@@ -3,11 +3,10 @@
 namespace Temple\Engine;
 
 
+use Temple\Engine\Cache\Cache;
+use Temple\Engine\Cache\CacheInvalidator;
 use Temple\Engine\EventManager\EventManager;
-use Temple\Engine\Filesystem\Cache;
-use Temple\Engine\Filesystem\CacheInvalidator;
 use Temple\Engine\Filesystem\DirectoryHandler;
-use Temple\Engine\Filesystem\VariableCache;
 use Temple\Engine\InjectionManager\Injection;
 use Temple\Engine\Structs\Dom;
 use Temple\Engine\Structs\Page;
@@ -52,8 +51,8 @@ class Template extends Injection
         return array(
             "Engine/Config"                      => "Config",
             "Engine/Filesystem/DirectoryHandler" => "DirectoryHandler",
-            "Engine/Filesystem/Cache"            => "Cache",
-            "Engine/Filesystem/CacheInvalidator" => "CacheInvalidator",
+            "Engine/Cache/Cache"            => "Cache",
+            "Engine/Cache/CacheInvalidator" => "CacheInvalidator",
             "Engine/Lexer"                       => "Lexer",
             "Engine/Compiler"                    => "Compiler",
             "Engine/Languages"                   => "Languages",

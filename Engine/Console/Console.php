@@ -11,7 +11,7 @@ use Temple\Engine\Console\Commands\CacheClearTemplatesCommand;
 use Temple\Engine\Console\Commands\CacheBuildTemplatesCommand;
 use Temple\Engine\Console\Commands\CurlUrlsCommand;
 use Temple\Engine\Exception\Exception;
-use Temple\Engine\Filesystem\ConfigCache;
+use Temple\Engine\Cache\ConfigCache;
 use Temple\Engine\InjectionManager\Injection;
 use Temple\Engine\Structs\Storage;
 

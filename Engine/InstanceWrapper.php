@@ -3,15 +3,13 @@
 namespace Temple\Engine;
 
 
+use Temple\Engine\Cache\Cache;
+use Temple\Engine\Cache\CacheInvalidator;
+use Temple\Engine\Cache\ConfigCache;
 use Temple\Engine\Console\Console;
 use Temple\Engine\EventManager\EventManager;
-use Temple\Engine\Filesystem\Cache;
-use Temple\Engine\Filesystem\CacheInvalidator;
-use Temple\Engine\Filesystem\ConfigCache;
 use Temple\Engine\Filesystem\DirectoryHandler;
-use Temple\Engine\Filesystem\VariableCache;
 use Temple\Engine\InjectionManager\Injection;
-use Temple\Engine\Structs\Variables;
 
 
 class InstanceWrapper extends Injection
@@ -55,12 +53,12 @@ class InstanceWrapper extends Injection
     {
         return array(
             "Engine/Config"                      => "Config",
-            "Engine/Filesystem/ConfigCache"      => "ConfigCache",
+            "Engine/Cache/ConfigCache"           => "ConfigCache",
             "Engine/Console/Console"             => "Console",
             "Engine/Filesystem/DirectoryHandler" => "DirectoryHandler",
             "Engine/EventManager/EventManager"   => "EventManager",
-            "Engine/Filesystem/Cache"            => "Cache",
-            "Engine/Filesystem/CacheInvalidator" => "CacheInvalidator",
+            "Engine/Cache/Cache"                 => "Cache",
+            "Engine/Cache/CacheInvalidator"      => "CacheInvalidator",
             "Engine/Languages"                   => "Languages",
             "Engine/Lexer"                       => "Lexer",
             "Engine/Compiler"                    => "Compiler",
@@ -95,16 +93,7 @@ class InstanceWrapper extends Injection
         return $this->Console;
     }
 
-
-    /**
-     * @return Variables
-     */
-    public function Variables()
-    {
-        return $this->Variables;
-    }
-
-
+    
     /**
      * @return DirectoryHandler
      */
@@ -138,15 +127,6 @@ class InstanceWrapper extends Injection
     public function CacheInvalidator()
     {
         return $this->CacheInvalidator;
-    }
-
-
-    /**
-     * @return VariableCache
-     */
-    public function VariableCache()
-    {
-        return $this->VariableCache;
     }
 
 
