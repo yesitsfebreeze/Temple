@@ -218,14 +218,9 @@ class Cache extends Injection
                     $exists = $this->CacheFilesExist($templatePath);
                 }
                 if ($timeDiffers || !$exists) {
-                    $this->setTime($templatePath);
                     $modified = true;
                 }
             } else {
-                $this->setTime($templatePath);
-                // todo: check why i did this..
-                // problem with depenedncies
-                // they are getting updated in the cache before i can process them
                 $modified = true;
             }
             if ($modified) {
@@ -374,7 +369,7 @@ class Cache extends Injection
      *
      * @return bool
      */
-    private function setTime($file)
+    public function setTime($file)
     {
         $file      = $this->cleanFile($file);
         $cache     = $this->getCache();

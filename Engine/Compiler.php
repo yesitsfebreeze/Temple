@@ -49,8 +49,10 @@ class Compiler extends Injection
     {
         $this->Language       = $dom->getLanguage();
         $this->languagePrefix = "language." . $this->Language->getName() . ".";
+        $dom                  = $this->EventManager->dispatch("language.core.plugin.dom", $dom);
         $dom                  = $this->EventManager->dispatch($this->languagePrefix . "plugin.dom", $dom);
         $output               = $this->createOutput($dom);
+        $output               = $this->EventManager->dispatch("language.core.plugin.output", $output);
         $output               = $this->EventManager->dispatch($this->languagePrefix . "plugin.output", $output);
 
         return $output;

@@ -168,6 +168,7 @@ class Template extends Injection
     {
         $file = $this->normalizeExtension($file);
         $dom  = $this->Lexer->lex($file, $level);
+        $this->Cache->setTime($file);
 
         return $dom;
     }

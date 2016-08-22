@@ -39,9 +39,12 @@ class ExtendPlugin extends Event
     private function extendDom(Dom $Dom)
     {
         if ($Dom->isExtending()) {
-            foreach ($Dom->getNodes() as &$node) {
+
+            $nodes = $Dom->getNodes();
+            foreach ($nodes as &$node) {
                 $node = $this->iterate($node, $Dom);
             }
+            $Dom->setNodes($nodes);
 
             return $this->extendDom($Dom->getParentDom());
         } else {
