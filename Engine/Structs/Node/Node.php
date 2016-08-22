@@ -128,32 +128,21 @@ abstract class Node extends Event implements NodeInterface
      * compiles children nodes and returns the output
      *
      * @return string
-     *
      * @throws Exception
      */
     public function compileChildren()
     {
-        $output = "";
-
-        $languagePrefix = "language." . $this->Dom->getLanguage()->getName() . ".";
+        $output   = "";
+        $language = $this->Dom->getLanguage()->getName();
 
         /** @var Node $child */
         foreach ($this->getChildren() as $child) {
 
             $nodeOutput = $child->compile();
-
             // this makes sure that if we have no events the right value gets returned
-            $nodeOutput = $this->Instance->EventManager()->dispatch("language.core.plugin.nodeOutput", array($nodeOutput, $child));
+            $nodeOutput = $this->Instance->EventManager()->dispatch($language, "plugin.nodeOutput", array($nodeOutput, $child));
             if (!is_string($nodeOutput) && !is_array($nodeOutput)) {
-                throw new Exception(600, "There went something wrong with the %" . $languagePrefix . "plugin.nodeOutput% event!");
-            } else if (is_array($nodeOutput)) {
-                $nodeOutput = $nodeOutput[0];
-            }
-
-            // this makes sure that if we have no events the right value gets returned
-            $nodeOutput = $this->Instance->EventManager()->dispatch($languagePrefix . "plugin.nodeOutput", array($nodeOutput, $child));
-            if (!is_string($nodeOutput) && !is_array($nodeOutput)) {
-                throw new Exception(600, "There went something wrong with the %" . $languagePrefix . "plugin.nodeOutput% event!");
+                throw new Exception(600, "There went something wrong with the %plugin.nodeOutput% event!");
             } else if (is_array($nodeOutput)) {
                 $nodeOutput = $nodeOutput[0];
             }

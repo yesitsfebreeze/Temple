@@ -59,7 +59,7 @@ class LanguageNode extends Node
      */
     public function compile()
     {
-        return false;
+        return "";
     }
 
 

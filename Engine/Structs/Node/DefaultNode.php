@@ -37,7 +37,8 @@ class DefaultNode extends Node
      */
     public function compile()
     {
-        throw new Exception(400, "%" . $this->getTag() . "% node is not defined!");
+        $language = $this->getDom()->getLanguage()->getName();
+        throw new Exception(400, "The %" . $this->getTag() . "% node for the language %" . $language . "% is not defined!", $this->getDom()->getFile(), $this->getLine());
     }
 
 

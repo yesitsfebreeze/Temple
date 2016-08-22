@@ -88,7 +88,7 @@ class Languages extends Injection
                     /** @var  Language $lang */
                     $this->load($languages);
                     $class    = $this->getLanguageClass($lang);
-                    $language = $this->languages[ $class ];
+                    $language = $this->languages[ $class ]["class"];
 
                     break;
                 }
@@ -116,8 +116,10 @@ class Languages extends Injection
             if (class_exists($class)) {
                 /** @var Language $lang */
                 $lang = $this->createLanguageClass($class);
-                $this->EventManager->subscribe("language." . $language, $lang);
-                $this->EventManager->dispatch("language." . $language);
+                if (!$this->languages[ $class ]["registered"]) {
+                    $lang->register();
+                    $this->languages[ $class ]["registered"] = true;
+                }
             } else {
                 throw new Exception(1, "Language %" . $language . "% does not exist!");
             }
@@ -150,10 +152,13 @@ class Languages extends Injection
     private function createLanguageClass($class)
     {
         if (!isset($this->languages[ $class ])) {
-            $this->languages[ $class ] = new $class($this->Instance);
+            $language                  = array();
+            $language["class"]         = new $class($this->Instance);
+            $language["registered"]    = false;
+            $this->languages[ $class ] = $language;
         }
 
-        return $this->languages[ $class ];
+        return $this->languages[ $class ]["class"];
     }
 
 

@@ -65,18 +65,27 @@ class EventManager extends Injection
 
 
     /**
-     * @param $event
-     * @param $arguments
+     * @param string $language
+     * @param string $event
+     * @param mixed  $arguments
      *
      * @return mixed
      * @throws Exception
      */
-    public function dispatch($event, $arguments = null)
+    public function dispatch($language, $event, $arguments = null)
     {
-        if (!$this->events->has($event)) {
+        $events = array();
+        if ($this->events->has("core" . "." . $event)) {
+            $events = array_merge($events, $this->events->get("core" . "." . $event));
+        }
+        if ($this->events->has($language . "." . $event)) {
+            $events = array_merge($events, $this->events->get($language . "." . $event));
+        }
+
+        if (sizeof($events) == 0) {
             return $arguments;
         } else {
-            return $this->dispatchEvent($this->events->get($event), $arguments);
+            return $this->dispatchEvent($events, $arguments);
         }
     }
 
@@ -125,7 +134,7 @@ class EventManager extends Injection
             }
 
             /** @noinspection PhpMethodParametersCountMismatchInspection */
-            if (!method_exists($eventInstance,"dispatch")) {
+            if (!method_exists($eventInstance, "dispatch")) {
                 $class = get_class($eventInstance);
                 throw new Exception(1, "Please register the %dispatch% method for %" . $class . "%");
             }
@@ -139,15 +148,15 @@ class EventManager extends Injection
 
 
     /**
-     * @param            $event
-     * @param Event      $subscriber
+     * @param string $language
+     * @param string $event
+     * @param Event  $subscriber
      *
      * @return bool
      */
-    public function subscribe($event, Event $subscriber)
+    public function subscribe($language, $event, Event $subscriber)
     {
-
-        $this->events->set($event, $subscriber);
+        $this->events->set($language . "." . $event, $subscriber);
 
         return true;
     }

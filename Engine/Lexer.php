@@ -182,19 +182,13 @@ class Lexer extends Injection
      */
     private function createNode($line, Dom $Dom)
     {
-        $languageName = $Dom->getLanguage()->getName();
-
-        $line = $this->EventManager->dispatch("language.core.plugin.line", $line);
-        $line = $this->EventManager->dispatch("language." . $languageName . ".plugin.line", $line);
+        $language = $Dom->getLanguage()->getName();
+        $line = $this->EventManager->dispatch($language,"plugin.line", $line);
 
         $arguments = array($line, $Dom);
 
         /** @var Node $node */
-        $node = $this->EventManager->dispatch("language." . $languageName . ".node", $arguments);
-
-        if (!($node instanceof Node)) {
-            $node = $this->EventManager->dispatch("language.core.node", $arguments);
-        }
+        $node = $this->EventManager->dispatch($language,"node", $arguments);
 
         if (!($node instanceof Node)) {
             $node = new DefaultNode();

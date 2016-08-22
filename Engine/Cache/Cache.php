@@ -9,7 +9,6 @@ use Temple\Engine\Exception\Exception;
 use Temple\Engine\Filesystem\DirectoryHandler;
 use Temple\Engine\InjectionManager\Injection;
 use Temple\Engine\Languages;
-use Temple\Engine\Structs\Dom;
 use Temple\Engine\Structs\Language;
 
 
@@ -88,25 +87,24 @@ class Cache extends Injection
      *
      * @param string $file
      * @param string $content
-     * @param Dom    $Dom
      * @param string $extension
      *
      * @return string
      * @throws Exception
      */
-    public function save($file, $content, Dom $Dom = null, $extension = null)
+    public function save($file, $content, $extension = null)
     {
 
         $folder    = $this->getFolder($file);
         $extension = $this->getExtension($extension);
         $this->setTime($file);
-        $file = $this->createFile($file, $extension, $folder);
+        $language = $this->getLanguage($file);
+        $language = $language->getName();
+        $file     = $this->createFile($file, $extension, $folder);
         $this->Config->addLanguageCacheFolder($this->getDirectory($folder));
         file_put_contents($file, $content);
-        $languageName = $Dom->getLanguage()->getName();
 
-        $this->EventManager->dispatch("language.core.cache.save", array($file, $content, $Dom, $extension));
-        $this->EventManager->dispatch("language." . $languageName . ".cache.save", array($file, $content, $Dom, $extension));
+        $this->EventManager->dispatch($language, "cache.save", array($file, $content, $extension));
 
         return $file;
     }
@@ -119,7 +117,6 @@ class Cache extends Injection
     public function invalidateCacheFile()
     {
         $cacheFile = $this->getPath($this->cacheFile);
-        var_dump($cacheFile);
         if (file_exists($cacheFile)) {
             if (is_writable($cacheFile)) {
                 unlink($cacheFile);
@@ -330,7 +327,7 @@ class Cache extends Injection
         }
 
         if (!in_array($file, $cache["dependencies"][ $parent ])) {
-            $cache["dependencies"][ $parent ][$file] = array("file" => $file, "type" => $needToExist);
+            $cache["dependencies"][ $parent ][ $file ] = array("file" => $file, "type" => $needToExist);
         }
 
         return $this->saveCache($cache);

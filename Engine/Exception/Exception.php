@@ -3,6 +3,9 @@
 namespace Temple\Engine\Exception;
 
 
+use Temple\Engine\Cache\ConfigCache;
+
+
 /**
  * Class Exception
  *
@@ -41,6 +44,8 @@ class Exception extends \Exception
 
         if ($file) {
             $this->customFile = $file;
+
+            $this->touchTemplateFiles($file);
         }
 
         if ($line) {
@@ -59,6 +64,7 @@ class Exception extends \Exception
 
     }
 
+
     /**
      * returns the Custom Exception Code
      *
@@ -68,6 +74,7 @@ class Exception extends \Exception
     {
         return $this->customCode;
     }
+
 
     /**
      * returns the Custom file
@@ -142,6 +149,40 @@ class Exception extends \Exception
         if ($function) {
             echo " in function " . "<b>" . $function . "</b>";
         }
+    }
+
+
+    /**
+     * updates the file modified time to keep the exception alive
+     *
+     * @param string $file
+     *
+     * @return bool
+     */
+    private function touchTemplateFiles($file)
+    {
+        $ConfigCache = new ConfigCache();
+        $configs     = $ConfigCache->getConfigs();
+        foreach ($configs as $config) {
+            if (isset($config["templateDirs"])) {
+                $templateDirs = $config["templateDirs"];
+                foreach ($templateDirs as $templateDir) {
+                    $file = str_replace($templateDir, "", $file);
+                }
+                $extension = "." . $config["extension"];
+                $file      = preg_replace("/" . preg_quote($extension) . "$/", "", $file) . $extension;
+                foreach ($templateDirs as $templateDir) {
+                    $template = $templateDir . $file;
+                    if (file_exists($templateDir . $file)) {
+                        touch($template);
+
+                        return true;
+                    }
+                }
+            }
+        }
+
+        return false;
     }
 
 

@@ -147,7 +147,7 @@ class Template extends Injection
         if ($this->Cache->isModified($file)) {
             $dom     = $this->dom($file, $level);
             $content = $this->fetch($file, $level, $dom);
-            $this->Cache->save($file, $content, $dom, $extension);
+            $this->Cache->save($file, $content, $extension);
         }
 
         $cacheFile = $this->Cache->getFile($file, $extension);
@@ -191,9 +191,8 @@ class Template extends Injection
         $content = $this->Compiler->compile($Dom);
         $this->Config->addProcessedTemplate($file);
 
-        $languageName = $Dom->getLanguage()->getName();
-        $this->EventManager->dispatch("language.core.template.fetch", $this);
-        $this->EventManager->dispatch("language." . $languageName . ".template.fetch", $this);
+        $language = $Dom->getLanguage()->getName();
+        $this->EventManager->dispatch($language,"template.fetch", $this);
 
         $template = $this->getTemplateFile($file);
         /** @var Language $lang */

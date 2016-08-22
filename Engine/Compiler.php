@@ -41,20 +41,16 @@ class Compiler extends Injection
     /**
      * returns the finished template content
      *
-     * @param Dom $dom
+     * @param Dom $Dom
      *
      * @return string
      */
-    public function compile(Dom $dom)
+    public function compile(Dom $Dom)
     {
-        $this->Language       = $dom->getLanguage();
-        $this->languagePrefix = "language." . $this->Language->getName() . ".";
-        $dom                  = $this->EventManager->dispatch("language.core.plugin.dom", $dom);
-        $dom                  = $this->EventManager->dispatch($this->languagePrefix . "plugin.dom", $dom);
-        $output               = $this->createOutput($dom);
-        $output               = $this->EventManager->dispatch("language.core.plugin.output", $output);
-        $output               = $this->EventManager->dispatch($this->languagePrefix . "plugin.output", $output);
-
+        $language = $Dom->getLanguage()->getName();
+        $Dom                  = $this->EventManager->dispatch($language,"plugin.dom", $Dom);
+        $output               = $this->createOutput($Dom);
+        $output               = $this->EventManager->dispatch($language,"plugin.output", $output);
         return $output;
     }
 
@@ -62,24 +58,25 @@ class Compiler extends Injection
     /**
      * merges the nodes into the final content
      *
-     * @param Dom|array $dom
+     * @param Dom|array $Dom
      *
      * @return mixed
      * @throws Exception
      */
-    private function createOutput($dom)
+    private function createOutput($Dom)
     {
         # temp variable for the output
         $output = '';
-        $nodes  = $dom->getNodes();
+        $nodes  = $Dom->getNodes();
         /** @var Node $node */
         foreach ($nodes as $node) {
-            $node->setDom($dom);
+            $node->setDom($Dom);
             $nodeOutput = $node->compile();
-            $nodeOutput = $this->EventManager->dispatch($this->languagePrefix . "plugin.nodeOutput", array($nodeOutput, $node));
+            $language = $Dom->getLanguage()->getName();
+            $nodeOutput = $this->EventManager->dispatch($language,"plugin.nodeOutput", array($nodeOutput, $node));
 
             if (!is_string($nodeOutput) && !is_array($nodeOutput)) {
-                throw new Exception(600, "There went something wrong with the %" . $this->languagePrefix . "plugin.nodeOutput% event!");
+                throw new Exception(600, "There went something wrong with the %plugin.nodeOutput% event!");
             }
 
             if (is_array($nodeOutput)) {

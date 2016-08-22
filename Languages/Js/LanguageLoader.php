@@ -19,10 +19,6 @@ use Temple\Languages\Js\Nodes\TestNode;
 class LanguageLoader extends Language
 {
 
-    /** @var  EventManager $EventManager */
-    private $EventManager;
-
-
     /**
      * @return string
      */

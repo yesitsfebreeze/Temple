@@ -9,7 +9,7 @@ use Temple\Engine\Exception\Exception;
 use Temple\Engine\Instance;
 
 
-class Language extends Event
+class Language
 {
 
     /** @var Instance $Instance */
@@ -27,6 +27,8 @@ class Language extends Event
 
     public function __construct(Instance $Instance)
     {
+
+        // todo: add this Event to the cache invalidator to clear the cache if we change a node
         $this->Instance = $Instance;
         $name           = explode("\\", get_class($this));
         array_pop($name);
@@ -36,16 +38,6 @@ class Language extends Event
             $this->variableCache->setInstance($this->Instance);
         }
     }
-
-
-    /**
-     * @param $args
-     */
-    public function dispatch($args)
-    {
-        $this->register();
-    }
-
 
     /**
      * set the extension for the language
@@ -77,7 +69,7 @@ class Language extends Event
      *
      * @throws Exception
      */
-    protected function register()
+    public function register()
     {
         throw new Exception(1, "Please implement the register function for %" . get_class($this) . "%", __FILE__);
     }
@@ -101,8 +93,8 @@ class Language extends Event
      */
     public function subscribe($name, Event $event)
     {
-        $lang = $this->getName();
-        $this->Instance->EventManager()->subscribe("language." . $lang . "." . $name, $event);
+        // todo: add this Event to the cache invalidator to clear the cache if we change a node
+        $this->Instance->EventManager()->subscribe($this->getName(),$name, $event);
     }
 
 

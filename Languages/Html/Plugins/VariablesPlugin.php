@@ -2,6 +2,7 @@
 
 namespace Temple\Languages\Html\Plugins;
 
+
 use Temple\Engine\EventManager\Event;
 use Temple\Engine\Structs\Buffer;
 use Temple\Engine\Structs\Node\Node;
@@ -18,23 +19,26 @@ class VariablesPlugin extends Event
     /** @var  array $modifiers */
     private $modifiers = false;
 
+    /** @var  string $language */
+    private $language;
+
+
     /**
      * @param           $output
-     * @param Node|null $node
+     * @param Node|null $Node
      *
      * @return mixed
      */
-    public function dispatch($output, Node $node = null)
+    public function dispatch($output, Node $Node = null)
     {
-
-
-        $pattern = $this->Instance->Config()->getVariablePattern();
-        $pattern = explode('%', $pattern);
-        $pattern = "/" . preg_quote($pattern[0]) . "(.*?)" . preg_quote($pattern[1]) . "/";
+        $pattern        = $this->Instance->Config()->getVariablePattern();
+        $pattern        = explode('%', $pattern);
+        $pattern        = "/" . preg_quote($pattern[0]) . "(.*?)" . preg_quote($pattern[1]) . "/";
         preg_match_all($pattern, $output, $matches);
 
-        if (!is_null($node)) {
-            if ($node->isFunction()) {
+        if (!is_null($Node)) {
+            $this->language = $Node->getDom()->getLanguage()->getName();
+            if ($Node->isFunction()) {
                 return $this->replace($matches, $output);
             }
         }
@@ -56,7 +60,7 @@ class VariablesPlugin extends Event
     {
 
         foreach ($matches[0] as $key => $match) {
-            $path   = $this->getPath($matches[1][ $key ]);
+            $path = $this->getPath($matches[1][ $key ]);
 
             $buffer = new Buffer();
 
@@ -74,15 +78,15 @@ class VariablesPlugin extends Event
             if ($this->modifiers !== false) {
                 foreach ($this->modifiers as $modifier) {
                     // get modifier name
-                    $name = explode(":",$modifier);
+                    $name = explode(":", $modifier);
                     $name = $name[0];
 
                     // todo: get modifier arguments
                     $arguments = array();
 
-                    array_unshift($arguments,$buffer);
+                    array_unshift($arguments, $buffer);
                     // get arguments
-                    $buffer = $this->Instance->EventManager()->dispatch("modifier.". $name,$arguments);
+                    $buffer = $this->Instance->EventManager()->dispatch($this->language, "modifier." . $name, $arguments);
                 }
             }
 
@@ -111,7 +115,7 @@ class VariablesPlugin extends Event
     private function getPath($path)
     {
         $this->modifiers = false;
-        $path = explode("|", $path);
+        $path            = explode("|", $path);
 
         // gather all modifiers
         if (sizeof($path) > 1) {
