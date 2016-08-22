@@ -22,7 +22,7 @@ class CacheInvalidator extends Cache
         try {
             $this->classesToCheck();
         } catch (Exception $e) {
-            $this->invalidate();
+            $this->invalidateCacheFile();
             $this->saveCache($this->classesCache);
         }
     }

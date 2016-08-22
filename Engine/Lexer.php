@@ -187,8 +187,8 @@ class Lexer extends Injection
         $arguments = array($line, $Dom);
 
         $languageName = $Dom->getLanguage()->getName();
-        /** @var Node $node */
 
+        /** @var Node $node */
         $node = $this->EventManager->dispatch("language." . $languageName . ".node", $arguments);
 
         if (!($node instanceof Node)) {

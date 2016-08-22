@@ -113,9 +113,10 @@ class Cache extends Injection
      * @throws Exception
      * @return bool
      */
-    public function invalidate()
+    public function invalidateCacheFile()
     {
         $cacheFile = $this->getPath($this->cacheFile);
+        var_dump($cacheFile);
         if (file_exists($cacheFile)) {
             if (is_writable($cacheFile)) {
                 unlink($cacheFile);
@@ -211,7 +212,7 @@ class Cache extends Injection
 
                 $cacheTime   = $templateCache[ $template ][ md5($templatePath) ];
                 $currentTime = filemtime($templatePath);
-                $timeDiffers = $cacheTime != $currentTime;
+                $timeDiffers = $cacheTime < $currentTime;
                 $exists      = true;
                 if ($needToExist) {
                     $exists = $this->CacheFilesExist($templatePath);
@@ -222,6 +223,9 @@ class Cache extends Injection
                 }
             } else {
                 $this->setTime($templatePath);
+                // todo: check why i did this..
+                // problem with depenedncies
+                // they are getting updated in the cache before i can process them
                 $modified = true;
             }
             if ($modified) {
@@ -328,7 +332,7 @@ class Cache extends Injection
         }
 
         if (!in_array($file, $cache["dependencies"][ $parent ])) {
-            array_push($cache["dependencies"][ $parent ], array("file" => $file, "type" => $needToExist));
+            $cache["dependencies"][ $parent ][$file] = array("file" => $file, "type" => $needToExist);
         }
 
         return $this->saveCache($cache);
