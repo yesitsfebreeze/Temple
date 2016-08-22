@@ -38,7 +38,7 @@ abstract class Injection implements InjectionInterface
     {
         if (!property_exists($this, $name)) {
             new ExceptionHandler();
-            throw new Exception(1,"Dependency Management: Please subscribe %protected $" . $name . "%", get_class($this) . ".php");
+            throw new Exception(1,"Dependency Management: Please register %protected $" . $name . "%", get_class($this) . ".php");
         }
 
         $this->$name = $instance;

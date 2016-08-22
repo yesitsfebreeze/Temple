@@ -132,23 +132,10 @@ abstract class Node extends Event implements NodeInterface
     public function compileChildren()
     {
         $output = "";
-
-        $languagePrefix = "language." . $this->Dom->getLanguage()->getName() . ".";
-
         /** @var Node $child */
         foreach ($this->getChildren() as $child) {
-
             $nodeOutput = $child->compile();
-            $nodeOutput = $this->Instance->EventManager()->dispatch($languagePrefix . "plugin.nodeOutput", array($nodeOutput, $child));
-
-            if (!is_string($nodeOutput) && !is_array($nodeOutput)) {
-                throw new Exception(600, "There went something wrong with the %" . $languagePrefix . "plugin.nodeOutput% event!");
-            }
-
-            if (is_array($nodeOutput)) {
-                $nodeOutput = $nodeOutput[0];
-            }
-
+            $nodeOutput = $this->Instance->EventManager()->notify("plugin.nodeOutput", array($nodeOutput,$child));
             $output .= $nodeOutput;
         }
 
@@ -281,6 +268,7 @@ abstract class Node extends Event implements NodeInterface
     {
         $this->function = $function;
     }
+
 
 
     /**
@@ -445,7 +433,6 @@ abstract class Node extends Event implements NodeInterface
         return trim(preg_replace("/^" . $this->getTag() . "/", "", trim($this->plain)));
     }
 
-
     /**
      * @return boolean
      */
@@ -453,7 +440,6 @@ abstract class Node extends Event implements NodeInterface
     {
         return $this->commentNode;
     }
-
 
     /**
      * @param boolean $commentNode
@@ -463,7 +449,6 @@ abstract class Node extends Event implements NodeInterface
         $this->commentNode = $commentNode;
     }
 
-
     /**
      * @return boolean
      */
@@ -471,7 +456,6 @@ abstract class Node extends Event implements NodeInterface
     {
         return $this->showComment;
     }
-
 
     /**
      * @param boolean $showComment

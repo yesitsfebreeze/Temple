@@ -103,7 +103,7 @@ class Cache extends Injection
         $file = $this->createFile($file, $extension, $folder);
         $this->Config->addLanguageCacheFolder($this->getDirectory($folder));
         file_put_contents($file, $content);
-        $this->EventManager->dispatch("cache.save", array($file, $content, $dom, $extension));
+        $this->EventManager->notify("cache.save", array($file, $content, $dom, $extension));
 
         return $file;
     }
@@ -120,7 +120,7 @@ class Cache extends Injection
             if (is_writable($cacheFile)) {
                 unlink($cacheFile);
             } else {
-                throw new Exception(500, "You don't have the permission to unsubscribe this file", $cacheFile);
+                throw new Exception(500, "You don't have the permission to delete this file", $cacheFile);
             }
         }
 

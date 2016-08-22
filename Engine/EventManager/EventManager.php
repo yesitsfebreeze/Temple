@@ -71,12 +71,12 @@ class EventManager extends Injection
      * @return mixed
      * @throws Exception
      */
-    public function dispatch($event, $arguments = null)
+    public function notify($event, $arguments = null)
     {
         if (!$this->events->has($event)) {
             return $arguments;
         } else {
-            return $this->dispatchEvent($this->events->get($event), $arguments);
+            return $this->dispatch($this->events->get($event), $arguments);
         }
     }
 
@@ -87,15 +87,15 @@ class EventManager extends Injection
      *
      * @return mixed $arguments
      */
-    private function dispatchEvent($events, $arguments)
+    private function dispatch($events, $arguments)
     {
         /** @var Event $event */
         if (is_array($events)) {
             foreach ($events as $event) {
-                $arguments = $this->dispatchEvent($event, $arguments);
+                $arguments = $this->dispatch($event, $arguments);
             }
         } elseif (is_object($events)) {
-            $arguments = $this->executeEvent($events, $arguments);
+            $arguments = $this->execute($events, $arguments);
         }
 
         return $arguments;
@@ -109,7 +109,7 @@ class EventManager extends Injection
      * @return array
      * @throws Exception
      */
-    private function executeEvent(Event $event, $arguments)
+    private function execute(Event $event, $arguments)
     {
         if (is_object($event)) {
             $eventInstance = clone $event;
@@ -127,7 +127,7 @@ class EventManager extends Injection
             /** @noinspection PhpMethodParametersCountMismatchInspection */
             if (!method_exists($eventInstance,"dispatch")) {
                 $class = get_class($eventInstance);
-                throw new Exception(1, "Please subscribe the %dispatch% method for %" . $class . "%");
+                throw new Exception(1, "Please register the %dispatch% method for %" . $class . "%");
             }
 
             $arguments = $eventInstance->dispatch(...$arguments);
@@ -144,7 +144,7 @@ class EventManager extends Injection
      *
      * @return bool
      */
-    public function subscribe($event, Event $subscriber)
+    public function register($event, Event $subscriber)
     {
 
         $this->events->set($event, $subscriber);
@@ -158,7 +158,7 @@ class EventManager extends Injection
      *
      * @return bool
      */
-    public function unsubscribe($eventName)
+    public function delete($eventName)
     {
 
         if (!$this->events->has($eventName)) {

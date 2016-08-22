@@ -34,7 +34,7 @@ class LanguageLoader extends Language
 
 
     /**
-     * subscribe the nodes for the language
+     * register the nodes for the language
      */
     public function register()
     {
@@ -45,22 +45,22 @@ class LanguageLoader extends Language
 
 
     /**
-     * subscribe core nodes
+     * register core nodes
      */
     private function registerNodes()
     {
-        $this->subscribe("node.use", new LanguageNode());
-        $this->subscribe("node.extend", new ExtendNode());
-        $this->subscribe("node.block", new BlockNode());
-        $this->subscribe("node.include", new IncludeNode());
+        $this->EventManager->register("node.use", new LanguageNode());
+        $this->EventManager->register("node.extend", new ExtendNode());
+        $this->EventManager->register("node.block", new BlockNode());
+        $this->EventManager->register("node.include", new IncludeNode());
     }
 
 
     /**
-     * subscribe core plugins
+     * register core plugins
      */
     private function registerPlugins()
     {
-        $this->subscribe("plugin.dom.extend", new ExtendPlugin());
+        $this->EventManager->register("plugin.dom.extend", new ExtendPlugin());
     }
 }

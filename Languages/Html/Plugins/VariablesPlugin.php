@@ -82,7 +82,7 @@ class VariablesPlugin extends Event
 
                     array_unshift($arguments,$buffer);
                     // get arguments
-                    $buffer = $this->Instance->EventManager()->dispatch("modifier.". $name,$arguments);
+                    $buffer = $this->Instance->EventManager()->notify("modifier.". $name,$arguments);
                 }
             }
 

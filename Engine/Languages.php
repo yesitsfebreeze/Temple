@@ -116,8 +116,8 @@ class Languages extends Injection
             if (class_exists($class)) {
                 /** @var Language $lang */
                 $lang = $this->createLanguageClass($class);
-                $this->EventManager->subscribe("language." . $language, $lang);
-                $this->EventManager->dispatch("language." . $language);
+                $this->EventManager->register("language." . $language, $lang);
+                $this->EventManager->notify("language." . $language);
             } else {
                 throw new Exception(1, "Language %" . $language . "% does not exist!");
             }

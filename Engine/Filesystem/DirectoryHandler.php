@@ -110,7 +110,7 @@ class DirectoryHandler extends Injection
     {
         $dirs = $this->getTemplateDirs();
 
-        $file = $this->normalizeExtension($file);
+        $file = $this->cleanExtension($file);
 
         foreach ($dirs as $level => $dir) {
             $checkFile = str_replace($dir, "", $file);
@@ -129,23 +129,9 @@ class DirectoryHandler extends Injection
      *
      * @return string
      */
-    public function normalizeExtension($file)
-    {
-        $file = $this->cleanExtension($file);
-        $file .= "." . $this->Config->getExtension();
-
-        return $file;
-    }
-
-
-    /**
-     * @param $file
-     *
-     * @return string
-     */
     public function cleanExtension($file)
     {
-        $file = preg_replace('/\..*?$/', '', $file);
+        $file = preg_replace('/\..*?$/', '', $file) . "." . $this->Config->getExtension();
 
         return $file;
     }

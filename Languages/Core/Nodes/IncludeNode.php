@@ -38,9 +38,7 @@ class IncludeNode extends Node
 
     private function throwException()
     {
-        $language = $this->Dom->getLanguage();
-        $name     = $language->getName();
-        throw new Exception(500, "Please implement the %include% node for the %" . $name . "% language");
+        throw new Exception(500, "Please implement the include node for the current language");
     }
 
 }

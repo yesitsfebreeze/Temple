@@ -52,7 +52,7 @@ class Console extends Injection
 
 
     /**
-     * subscribe all default commands
+     * register all default commands
      */
     private function registerDefaultCommands()
     {

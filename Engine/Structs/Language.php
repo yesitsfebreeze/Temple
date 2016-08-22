@@ -72,37 +72,24 @@ class Language extends Event
 
 
     /**
-     * this function is used to subscribe all nodes and plugins for the language
+     * this function is used to register all nodes and plugins for the language
      * return void
      *
      * @throws Exception
      */
     protected function register()
     {
-        throw new Exception(1, "Please implement the subscribe function for %" . get_class($this) . "%", __FILE__);
+        throw new Exception(1, "Please implement the register function for %" . get_class($this) . "%", __FILE__);
     }
 
 
     /**
-     * this function is used to subscribe all nodes and plugins for the language
+     * this function is used to register all nodes and plugins for the language
      * return VariablesBaseCache | false
      */
     protected function variableCache()
     {
         return false;
-    }
-
-
-    /**
-     * subscribes an event into the scoped language
-     *
-     * @param       $name
-     * @param Event $event
-     */
-    public function subscribe($name, Event $event)
-    {
-        $lang = $this->getName();
-        $this->Instance->EventManager()->subscribe("language." . $lang . "." . $name, $event);
     }
 
 

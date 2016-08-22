@@ -39,7 +39,7 @@ class VariableNode extends Node
         $this->getVariableValue();
         $this->setFunction(true);
 
-        $this->variableValue = $this->Instance->EventManager()->dispatch("plugin.variableNode.variableReturn", array($this->variableValue, $this->getDom()->getVariables()));
+        $this->variableValue = $this->Instance->EventManager()->notify("plugin.variableNode.variableReturn", array($this->variableValue, $this->getDom()->getVariables()));
         $this->getDom()->getVariables()->set($this->variableName, $this->variableValue);
 
         return $this;
@@ -114,7 +114,7 @@ class VariableNode extends Node
                     $arrayValue = $exploded[0];
                 }
 
-                $arrayValue = $this->Instance->EventManager()->dispatch("plugin.variableNode.variableReturn", array($arrayValue, $this->getDom()->getVariables()));
+                $arrayValue = $this->Instance->EventManager()->notify("plugin.variableNode.variableReturn", array($arrayValue, $this->getDom()->getVariables()));
 
                 if ($key !== false) {
                     $array[ $key ] = $arrayValue;
