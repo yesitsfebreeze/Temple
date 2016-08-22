@@ -9031,7 +9031,7 @@ pre[class*="language-"] {
 }
 .dark code[class*="language-"],
 .dark pre[class*="language-"] {
-  color: #97a4b3;
+  color: #afb9c1;
 }
 .dark ::-moz-selection {
   color: #f8f8ff;
@@ -9057,7 +9057,7 @@ pre[class*="language-"] {
 .dark .token.prolog,
 .dark .token.doctype,
 .dark .token.cdata {
-  color: #46494c;
+  color: #6d7279;
 }
 .dark .namespace {
   opacity: .7;
@@ -9078,7 +9078,7 @@ pre[class*="language-"] {
 .dark .token.atrule,
 .dark .token.attr-value,
 .dark .token.function {
-  color: #6d7279;
+  color: #9da1a6;
 }
 .dark .token.class-name,
 .dark .token.scope {
@@ -9090,7 +9090,7 @@ pre[class*="language-"] {
 .dark .token.char,
 .dark .token.builtin,
 .dark .token.inserted {
-  color: #bfbfbf;
+  color: #d4d4d4;
 }
 .dark .token.operator,
 .dark .token.entity,

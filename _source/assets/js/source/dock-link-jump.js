@@ -25,6 +25,13 @@ $(function() {
         var breadcrumbName = false;
         var breadcrumbLink = false;
 
+
+        if($(window).scrollTop() < $(".sidebar").height()) {
+            $(".breadcrumbs").addClass("hidden");
+        } else {
+            $(".breadcrumbs").removeClass("hidden");
+        }
+
         if($(window).scrollTop() > $(".sidebar").height() + 250) {
             $(".breadcrumbs").addClass("in");
         } else {

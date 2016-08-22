@@ -8,7 +8,7 @@
         {if is_array($menu)}
             <ul class="menu-list list-unstyled">
                 <li>
-                    <a href="{$pathPrefix}/documentation" title="Overview" {if $item.escapedName == "documentation"}class="active"{/if}>
+                    <a href="{$pathPrefix}/documentation" title="Overview" {if $pageName == "documentation"}class="active"{/if}>
                         Overview
                     </a>
                 </li>
@@ -25,10 +25,14 @@
         {/if}
     {/function}
 
-    {function name="docsSubMenu" menu=false path="index" htag="h3"}
+    {function name="docsSubMenu" menu=false path="index" position="top"}
         {if is_array($menu) && $menu|@count > 0}
             <div class="docs-on-this-page">
-                <{$htag} class="text-upper">on this page</{$htag}>
+                {if $position == "top"}
+                    <h3 class="text-upper">on this page</h3>
+                {else}
+                    <h4 class="text-upper">on this page</h4>
+                {/if}
                 <ul class="menu-list list-unstyled">
                     {foreach $menu as $item}
                         <li class="doc-link">
@@ -39,7 +43,6 @@
             </div>
         {/if}
     {/function}
-
     <div class="container">
         <div class="row border-left-light">
             <div class="col-xs-3 no-padding-left">
@@ -53,7 +56,7 @@
                 <div class="breadcrumbs fade">
                     <div class="breadcrumbs-bg">
                         <div class="sidebar">
-                            {call docsSubMenu menu=$docsSubMenu htag="h4"}
+                            {call docsSubMenu menu=$docsSubMenu}
                         </div>
                     </div>
                 </div>
@@ -67,7 +70,7 @@
                         <p>
                             {$docText}
                         </p>
-                        {call docsSubMenu menu=$docsSubMenu}
+                        {call docsSubMenu menu=$docsSubMenu position="top"}
                     </div>
                     <div class="docs-sections">
                         {block name="content:docs"}
