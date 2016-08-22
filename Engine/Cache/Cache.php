@@ -88,13 +88,13 @@ class Cache extends Injection
      *
      * @param string $file
      * @param string $content
-     * @param Dom    $dom
+     * @param Dom    $Dom
      * @param string $extension
      *
      * @return string
      * @throws Exception
      */
-    public function save($file, $content, Dom $dom = null, $extension = null)
+    public function save($file, $content, Dom $Dom = null, $extension = null)
     {
 
         $folder    = $this->getFolder($file);
@@ -103,7 +103,10 @@ class Cache extends Injection
         $file = $this->createFile($file, $extension, $folder);
         $this->Config->addLanguageCacheFolder($this->getDirectory($folder));
         file_put_contents($file, $content);
-        $this->EventManager->dispatch("cache.save", array($file, $content, $dom, $extension));
+        $languageName = $Dom->getLanguage()->getName();
+
+        $this->EventManager->dispatch("language.core.cache.save", array($file, $content, $Dom, $extension));
+        $this->EventManager->dispatch("language." . $languageName . ".cache.save", array($file, $content, $Dom, $extension));
 
         return $file;
     }
