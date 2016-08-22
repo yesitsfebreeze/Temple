@@ -14,6 +14,9 @@ class Dom
     /** @var VariablesBaseCache $Variables */
     private $Variables;
 
+    /** @var Language $Language */
+    private $Language;
+
     /** @var  string $namespace */
     private $namespace;
 
@@ -45,9 +48,10 @@ class Dom
     protected $extending;
 
 
-    public function __construct($namespace, $file, $templates, $level)
+    public function __construct($namespace, $file, $templates, $level, Language $language)
     {
         $this->Variables = new Variables();
+        $this->Language  = $language;
         $this->setNamespace($namespace);
         $this->setTemplates($templates);
         $this->setLevel($level);
@@ -286,5 +290,13 @@ class Dom
         $this->extending = $extending;
     }
 
+
+    /**
+     * @return Language
+     */
+    public function getLanguage()
+    {
+        return $this->Language;
+    }
 
 }
