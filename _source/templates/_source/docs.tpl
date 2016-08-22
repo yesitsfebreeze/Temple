@@ -25,7 +25,7 @@
         {/if}
     {/function}
 
-    {function name="docsSubMenu" menu=false path="index" position="top"}
+    {function name="docsSubMenu" menu=false position="breadcrumbs" path="index"}
         {if is_array($menu) && $menu|@count > 0}
             <div class="docs-on-this-page">
                 {if $position == "top"}
@@ -34,6 +34,11 @@
                     <h4 class="text-upper">on this page</h4>
                 {/if}
                 <ul class="menu-list list-unstyled">
+                    {if $position != "top"}
+                        <li class="doc-link">
+                            <a href="#docs-sidebar" title="back to top">back to top</a>
+                        </li>
+                    {/if}
                     {foreach $menu as $item}
                         <li class="doc-link">
                             <a href="#{$item.escapedName}" title="{$item.name}">{$item.name}</a>
