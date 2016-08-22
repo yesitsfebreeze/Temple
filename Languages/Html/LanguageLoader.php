@@ -52,7 +52,7 @@ class LanguageLoader extends Language
 
 
     /**
-     * register the nodes for the language
+     * registers the nodes for the language
      */
     public function register()
     {
@@ -68,13 +68,13 @@ class LanguageLoader extends Language
      */
     private function registerNodes()
     {
-        $this->EventManager->register("node.include", new IncludeNode());
-        $this->EventManager->register("node.variable", new VariableNode());
-        $this->EventManager->register("node.plain", new PlainNode());
-        $this->EventManager->register("node.html", new HtmlNode());
-        $this->EventManager->register("node.comment", new CommentNode());
-        $this->EventManager->register("node.foreach", new ForeachNode());
-        $this->EventManager->register("node.if", new IfNode());
+        $this->subscribe("node.include", new IncludeNode());
+        $this->subscribe("node.variable", new VariableNode());
+        $this->subscribe("node.plain", new PlainNode());
+        $this->subscribe("node.html", new HtmlNode());
+        $this->subscribe("node.comment", new CommentNode());
+        $this->subscribe("node.foreach", new ForeachNode());
+        $this->subscribe("node.if", new IfNode());
     }
 
 
@@ -83,20 +83,20 @@ class LanguageLoader extends Language
      */
     private function registerPlugins()
     {
-        $this->EventManager->register("plugin.nodeOutput.variables", new VariablesPlugin());
-        $this->EventManager->register("plugin.output.variables", new VariablesPlugin());
-        $this->EventManager->register("plugin.variableNode.variableReturn", new VariableReturnPlugin());
-        $this->EventManager->register("plugin.dom.cleanComments", new CleanCommentsPlugin());
-        $this->EventManager->register("plugin.output.cleanPhpTags", new CleanPhpTagsPlugin());
+        $this->subscribe("plugin.nodeOutput.variables", new VariablesPlugin());
+        $this->subscribe("plugin.output.variables", new VariablesPlugin());
+        $this->subscribe("plugin.variableNode.variableReturn", new VariableReturnPlugin());
+        $this->subscribe("plugin.dom.cleanComments", new CleanCommentsPlugin());
+        $this->subscribe("plugin.output.cleanPhpTags", new CleanPhpTagsPlugin());
     }
 
 
     /**
-     * register all variable modifiers
+     * registers all variable modifiers
      */
     private function registerModifiers()
     {
-        $this->EventManager->register("modifier.sizeof", new SizeofModifier());
+        $this->subscribe("modifier.sizeof", new SizeofModifier());
     }
 
 

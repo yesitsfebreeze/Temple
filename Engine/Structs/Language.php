@@ -94,6 +94,19 @@ class Language extends Event
 
 
     /**
+     * subscribes an event into the scoped language
+     *
+     * @param       $name
+     * @param Event $event
+     */
+    public function subscribe($name, Event $event)
+    {
+        $lang = $this->getName();
+        $this->Instance->EventManager()->subscribe("language." . $lang . "." . $name, $event);
+    }
+
+
+    /**
      * returns the current language extension
      */
     public function getExtension()

@@ -8,6 +8,7 @@ use Temple\Engine\Exception\Exception;
 use Temple\Engine\Filesystem\DirectoryHandler;
 use Temple\Engine\InjectionManager\Injection;
 use Temple\Engine\Structs\Dom;
+use Temple\Engine\Structs\Language;
 use Temple\Engine\Structs\Node\DefaultNode;
 use Temple\Engine\Structs\Node\Node;
 
@@ -67,10 +68,14 @@ class Lexer extends Injection
 
         // todo: cache problem
         // $fileContent = file_get_contents($file);
-        // $fileContent = $this->EventManager->notify("plugins.file.process", $fileContent);
+        // $fileContent = $this->EventManager->dispatch("plugins.file.process", $fileContent);
         // file_put_contents($file, $fileContent);
 
-        $Dom = new Dom($namespace, $file, $files, $this->level);
+
+        /** @var Language $language */
+        $language = $this->Languages->getLanguageFromFile($file);
+
+        $Dom = new Dom($namespace, $file, $files, $this->level, $language);
         $this->process($file, $Dom);
 
 
@@ -147,10 +152,9 @@ class Lexer extends Injection
      */
     private function process($file, Dom $Dom)
     {
-        $handle = fopen($file, "r");
+        $handle      = fopen($file, "r");
         $nodeCounter = 0;
 
-        $this->Languages->getLanguageFromFile($file);
         while (($line = fgets($handle)) !== false) {
             if (trim($line) != '') {
                 $node = $this->createNode($line, $Dom);
@@ -178,14 +182,20 @@ class Lexer extends Injection
      */
     private function createNode($line, Dom $Dom)
     {
-        $line = $this->EventManager->notify("plugin.line", $line);
+        $line = $this->EventManager->dispatch("plugin.line", $line);
 
         $arguments = array($line, $Dom);
 
+        $languageName = $Dom->getLanguage()->getName();
         /** @var Node $node */
-        $node = $this->EventManager->notify("node", $arguments);
 
-        if (!$node instanceof Node) {
+        $node = $this->EventManager->dispatch("language." . $languageName . ".node", $arguments);
+
+        if (!($node instanceof Node)) {
+            $node = $this->EventManager->dispatch("language.core.node", $arguments);
+        }
+
+        if (!($node instanceof Node)) {
             $node = new DefaultNode();
             $node->setInstance($this->EventManager->getInstance());
             $node->dispatch(...$arguments);

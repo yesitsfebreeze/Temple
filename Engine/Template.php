@@ -7,6 +7,7 @@ use Temple\Engine\Cache\Cache;
 use Temple\Engine\Cache\CacheInvalidator;
 use Temple\Engine\Cache\VariablesBaseCache;
 use Temple\Engine\EventManager\EventManager;
+use Temple\Engine\Exception\Exception;
 use Temple\Engine\Filesystem\DirectoryHandler;
 use Temple\Engine\InjectionManager\Injection;
 use Temple\Engine\Structs\Dom;
@@ -53,8 +54,8 @@ class Template extends Injection
         return array(
             "Engine/Config"                      => "Config",
             "Engine/Filesystem/DirectoryHandler" => "DirectoryHandler",
-            "Engine/Cache/Cache"            => "Cache",
-            "Engine/Cache/CacheInvalidator" => "CacheInvalidator",
+            "Engine/Cache/Cache"                 => "Cache",
+            "Engine/Cache/CacheInvalidator"      => "CacheInvalidator",
             "Engine/Lexer"                       => "Lexer",
             "Engine/Compiler"                    => "Compiler",
             "Engine/Languages"                   => "Languages",
@@ -118,7 +119,7 @@ class Template extends Injection
         $page->setFile($cacheFile);
         $template = $this->getTemplateFile($file);
         /** @var Language $lang */
-        $lang = $this->Languages->getLanguageFromFile($template);
+        $lang          = $this->Languages->getLanguageFromFile($template);
         $VariableCache = $lang->getVariableCache();
         if ($VariableCache instanceof VariablesBaseCache) {
             $VariableCache->setFile($file);
@@ -139,7 +140,7 @@ class Template extends Injection
      */
     public function process($file, $level = 0)
     {
-        $file = $this->cleanExtension($file);
+        $file = $this->normalizeExtension($file);
 
         $extension = $this->getFileExtension($file);
 
@@ -165,7 +166,7 @@ class Template extends Injection
      */
     public function dom($file, $level = 0)
     {
-        $file = $this->cleanExtension($file);
+        $file = $this->normalizeExtension($file);
         $dom  = $this->Lexer->lex($file, $level);
 
         return $dom;
@@ -189,18 +190,16 @@ class Template extends Injection
         $content = $this->Compiler->compile($Dom);
         $this->Config->addProcessedTemplate($file);
 
-        $this->EventManager->notify("template.fetch", $this);
+        $this->EventManager->dispatch("template.fetch", $this);
 
         $template = $this->getTemplateFile($file);
         /** @var Language $lang */
-        $lang = $this->Languages->getLanguageFromFile($template);
+        $lang          = $this->Languages->getLanguageFromFile($template);
         $VariableCache = $lang->getVariableCache();
         if ($VariableCache instanceof VariablesBaseCache) {
             $VariableCache->setFile($file);
             $VariableCache->saveVariables($Dom->getVariables());
         }
-
-
 
 
         return $content;
@@ -238,11 +237,17 @@ class Template extends Injection
      * @param $file
      *
      * @return null|string|void
+     *
+     * @throws Exception
      */
     public function getFileExtension($file)
     {
         $extension = null;
         $template  = $this->templateExists($file);
+        if (!$template) {
+            $file = $this->DirectoryHandler->cleanExtension($file);
+            throw new Exception(123123, "The file %" . $file . "% doesn't exists!");
+        }
         $lang      = $this->Languages->getLanguageFromFile($template);
         $extension = $lang->getExtension();
 
@@ -257,9 +262,9 @@ class Template extends Injection
      *
      * @return string
      */
-    private function cleanExtension($file)
+    private function normalizeExtension($file)
     {
-        return $this->DirectoryHandler->cleanExtension($file);
+        return $this->DirectoryHandler->normalizeExtension($file);
     }
 
 }

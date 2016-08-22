@@ -71,12 +71,12 @@ class EventManager extends Injection
      * @return mixed
      * @throws Exception
      */
-    public function notify($event, $arguments = null)
+    public function dispatch($event, $arguments = null)
     {
         if (!$this->events->has($event)) {
             return $arguments;
         } else {
-            return $this->dispatch($this->events->get($event), $arguments);
+            return $this->dispatchEvent($this->events->get($event), $arguments);
         }
     }
 
@@ -87,15 +87,15 @@ class EventManager extends Injection
      *
      * @return mixed $arguments
      */
-    private function dispatch($events, $arguments)
+    private function dispatchEvent($events, $arguments)
     {
         /** @var Event $event */
         if (is_array($events)) {
             foreach ($events as $event) {
-                $arguments = $this->dispatch($event, $arguments);
+                $arguments = $this->dispatchEvent($event, $arguments);
             }
         } elseif (is_object($events)) {
-            $arguments = $this->execute($events, $arguments);
+            $arguments = $this->executeEvent($events, $arguments);
         }
 
         return $arguments;
@@ -109,7 +109,7 @@ class EventManager extends Injection
      * @return array
      * @throws Exception
      */
-    private function execute(Event $event, $arguments)
+    private function executeEvent(Event $event, $arguments)
     {
         if (is_object($event)) {
             $eventInstance = clone $event;
@@ -144,7 +144,7 @@ class EventManager extends Injection
      *
      * @return bool
      */
-    public function register($event, Event $subscriber)
+    public function subscribe($event, Event $subscriber)
     {
 
         $this->events->set($event, $subscriber);
@@ -158,7 +158,7 @@ class EventManager extends Injection
      *
      * @return bool
      */
-    public function delete($eventName)
+    public function unsubscribe($eventName)
     {
 
         if (!$this->events->has($eventName)) {

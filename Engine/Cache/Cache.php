@@ -103,7 +103,7 @@ class Cache extends Injection
         $file = $this->createFile($file, $extension, $folder);
         $this->Config->addLanguageCacheFolder($this->getDirectory($folder));
         file_put_contents($file, $content);
-        $this->EventManager->notify("cache.save", array($file, $content, $dom, $extension));
+        $this->EventManager->dispatch("cache.save", array($file, $content, $dom, $extension));
 
         return $file;
     }
