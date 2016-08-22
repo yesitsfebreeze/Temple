@@ -18,8 +18,8 @@ $(function() {
         jumpTo(link);
     });
 
-    window.sectionBreadcrum = $(".section-breadcrumb a");
 
+    window.breadCrumbLinks = $(".breadcrumbs a");
     $(window).off("scroll.docs").on("scroll.docs", function() {
         var jumpers = $(".docs-page-jumper:not(.no-index)");
         var breadcrumbName = false;
@@ -39,13 +39,16 @@ $(function() {
                 breadcrumbName = breadcrumbLink.replace(/_/g, " ");
             }
         });
+
+        window.breadCrumbLinks.removeClass("active");
         if(breadcrumbName && breadcrumbLink) {
-            window.sectionBreadcrum.parent().addClass("in");
-            window.sectionBreadcrum.html(breadcrumbName);
-            window.sectionBreadcrum.attr("href", breadcrumbLink);
-            window.sectionBreadcrum.attr("title", breadcrumbName);
-        } else {
-            window.sectionBreadcrum.parent().removeClass("in");
+            $.each(window.breadCrumbLinks, function() {
+                var link = $(this);
+                var href = link.attr("href").replace(/^#/,"");
+                if (breadcrumbLink == href) {
+                    link.addClass("active");
+                }
+            });
         }
     });
 });

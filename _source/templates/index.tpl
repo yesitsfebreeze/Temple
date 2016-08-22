@@ -20,9 +20,9 @@
         <div class="container vertical-center">
             <div class="row fix-height">
                 <div class="col-xs-7 vertical-center">
-                    {include file="snippets/editor.tpl" code="index-old"}
+                    {include file="snippets/editor.tpl" code="index-old" light=true}
                     <div class="parallax" data-distance="250" data-direction="bottom" data-lag="1.5" data-offset="350" data-fade="1" data-minus="false">
-                        {include file="snippets/editor.tpl" code="index-preview" dark=true}
+                        {include file="snippets/editor.tpl" code="index-preview"}
                     </div>
                 </div>
                 <div class="col-xs-5">

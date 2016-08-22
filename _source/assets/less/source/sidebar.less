@@ -1,11 +1,14 @@
 .sidebar {
-    z-index: 500;
+    font-size:    16px;
+    z-index:      500;
     padding-left: 15px;
-    border-left:  3px solid @brand-primary;
     a {
         color: @gray-light;
         &.active {
+            margin-left: -15px;
+            padding-left: 12px;
             color: @brand-primary;
+            border-left:  3px solid @brand-primary;
         }
         &:hover, &:active, &:focus {
             color: @brand-primary;

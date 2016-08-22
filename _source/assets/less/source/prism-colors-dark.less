@@ -1,6 +1,6 @@
 @prism-variable-color: #e96055;
 @prism-comment-color: #46494C;
-@prism-code-color: #6d7279;
+@prism-code-color: #97a4b3;
 @prism-operator-color: #6d7279;
 @prism-this-color: #949494;
 @prism-class-color: #e9427b;
@@ -8,6 +8,7 @@
 @prism-keyword-color: #7dcbf5;
 @prism-string-color: #bfbfbf;
 @prism-select-color: #26272B;
+@prism-delimiter-color: #FFA500;
 
 code[class*="language-"],
 pre[class*="language-"] {
@@ -15,24 +16,24 @@ pre[class*="language-"] {
 }
 
 ::-moz-selection {
-    color:            white;
-    background: salmon;
+    color:      @white;
+    background: fade(@brand-primary, 99%);
 }
 
 ::selection {
-    color:            white;
-    background: salmon;
+    color:      @white;
+    background: fade(@brand-primary, 99%);
 }
 
 code[class*="language-"]::-moz-selection, code[class*="language-"] ::-moz-selection {
-    color:            white;
-    background: salmon;
+    color:      @white;
+    background: fade(@brand-primary, 99%);
 }
 
 pre[class*="language-"]::selection, pre[class*="language-"] ::selection,
 code[class*="language-"]::selection, code[class*="language-"] ::selection {
-    color:            white;
-    background: salmon;
+    color:      @white;
+    background: fade(@brand-primary, 99%);
 }
 
 .token.comment,
@@ -52,7 +53,7 @@ code[class*="language-"]::selection, code[class*="language-"] ::selection {
 }
 
 .token.delimiter {
-    color: #e9c414;
+    color: @prism-delimiter-color;
 }
 
 .token.property,

@@ -7,6 +7,11 @@
     {function name="docsMenu" menu=false path="index"}
         {if is_array($menu)}
             <ul class="menu-list list-unstyled">
+                <li>
+                    <a href="{$pathPrefix}/documentation" title="Overview" {if $item.escapedName == "documentation"}class="active"{/if}>
+                        Overview
+                    </a>
+                </li>
                 {foreach $menu as $item}
                     <li>
                         {if $item.link}
@@ -20,10 +25,10 @@
         {/if}
     {/function}
 
-    {function name="docsSubMenu" menu=false path="index"}
+    {function name="docsSubMenu" menu=false path="index" htag="h3"}
         {if is_array($menu) && $menu|@count > 0}
             <div class="docs-on-this-page">
-                <h3 class="text-upper">on this page</h3>
+                <{$htag} class="text-upper">on this page</{$htag}>
                 <ul class="menu-list list-unstyled">
                     {foreach $menu as $item}
                         <li class="doc-link">
@@ -34,6 +39,7 @@
             </div>
         {/if}
     {/function}
+
     <div class="container">
         <div class="row border-left-light">
             <div class="col-xs-3 no-padding-left">
@@ -43,24 +49,11 @@
                 </h4>
                 <div class="sidebar">
                     {call docsMenu menu=$docsMenu}
-                    {* breadcrumbs*}
                 </div>
                 <div class="breadcrumbs fade">
                     <div class="breadcrumbs-bg">
-                        <h4 class="pl-grid">
-                            you are here:
-                        </h4>
                         <div class="sidebar">
-                            {foreach from=$breadcrumbs key=$name item=$link name="bread"}
-                                <div>
-                                    <a href="{$link}">
-                                        {$name}
-                                    </a>
-                                </div>
-                            {/foreach}
-                            <div class="section-breadcrumb doc-link fade">
-                                <a href="" title="" class="section-link"></a>
-                            </div>
+                            {call docsSubMenu menu=$docsSubMenu htag="h4"}
                         </div>
                     </div>
                 </div>
