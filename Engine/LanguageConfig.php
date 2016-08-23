@@ -18,11 +18,11 @@ use Temple\Engine\Exception\Exception;
 class LanguageConfig
 {
 
-    /** @var Engine $Engine */
+    /** @var string $name */
     protected $Engine;
 
     /** @var string $name */
-    protected $name;
+    private $name;
 
     /** @var string $cacheDir */
     protected $cacheDir = "";
@@ -45,8 +45,12 @@ class LanguageConfig
     /** @var VariablesBaseCache $variableCache */
     protected $variableCache;
 
+
     public function __construct(Engine $Engine)
     {
+        /** @var string $name */
+        $this->name = $this->getLanguageName();
+
         $this->Engine = $Engine;
     }
 
@@ -60,15 +64,30 @@ class LanguageConfig
     {
         $config = array();
 
-        $config["name"] = $this->getName();
-        $config["cacheDir"] = $this->getCacheDir();
+        $config["name"]            = $this->getName();
+        $config["cacheDir"]        = $this->getCacheDir();
         $config["indentCharacter"] = $this->getIndentCharacter();
-        $config["indentAmount"] = $this->getIndentAmount();
-        $config["showComments"] = $this->isShowComments();
-        $config["extension"] = $this->getExtension();
+        $config["indentAmount"]    = $this->getIndentAmount();
+        $config["showComments"]    = $this->isShowComments();
+        $config["extension"]       = $this->getExtension();
         $config["variablePattern"] = $this->getVariablePattern();
 
         return $config;
+    }
+
+
+    /**
+     * @return array|mixed|string
+     */
+    private function getLanguageName()
+    {
+        $name = get_class($this);
+        $name = explode("\\", $name);
+        array_pop($name);
+        $name = end($name);
+        $name = strtolower($name);
+
+        return $name;
     }
 
 
@@ -109,7 +128,6 @@ class LanguageConfig
     {
         $this->cacheDir = $cacheDir;
 
-#        $this->update();
 
         return $this->cacheDir;
     }
@@ -133,7 +151,6 @@ class LanguageConfig
     {
         $this->IndentCharacter = $IndentCharacter;
 
-#        $this->update();
 
         return $this->IndentCharacter;
     }
@@ -157,7 +174,6 @@ class LanguageConfig
     {
         $this->IndentAmount = $IndentAmount;
 
-#        $this->update();
 
         return $this->IndentAmount;
     }
@@ -181,7 +197,6 @@ class LanguageConfig
     {
         $this->showComments = $showComments;
 
-#        $this->update();
 
         return $this->showComments;
     }
@@ -204,14 +219,13 @@ class LanguageConfig
      */
     public function setExtension($extension)
     {
-        $extension = $this->extension;
-
         if ($extension == "" || gettype($extension) != "string") {
             throw new Exception(1, "Invalid extension set for %" . get_class($this) . "%", __FILE__);
         }
 
-#        $this->update();
-        return $extension;
+        $this->extension = $extension;
+
+        return $this->extension;
     }
 
 
@@ -230,7 +244,6 @@ class LanguageConfig
     public function setVariablePattern($variablePattern)
     {
         $this->variablePattern = $variablePattern;
-#        $this->update();
     }
 
 

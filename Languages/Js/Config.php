@@ -15,12 +15,6 @@ use Temple\Engine\LanguageConfig;
 class Config extends LanguageConfig
 {
 
-    /** @var string $name */
-    protected $name = "js";
-
-    /** @var string $cacheDir */
-    protected $cacheDir = "/assets/js";
-
     /** @var string $extension */
     protected $extension = "js";
 

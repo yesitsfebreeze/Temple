@@ -60,6 +60,40 @@ class Languages extends Injection
 
 
     /**
+     * @param $name
+     * @param $path
+     *
+     * @throws Exception
+     */
+    public function initLanguageConfig($name, $path)
+    {
+        $config = $path . "Config.php";
+
+        if ($name == "default") {
+            $name = explode("/", preg_replace("/\/$/", "", $path));
+            $name = strtolower(end($name));
+        }
+
+        if (!file_exists($config)) {
+            throw new Exception(1, "Please create a Config.php for the %" . $name . "% language!");
+        }
+
+        /** @noinspection PhpIncludeInspection */
+        require_once $config;
+
+        $configClassName = $this->getClassName($name, "Config");
+
+
+        if (!class_exists($configClassName)) {
+            throw new Exception(1, "There is not the right class declaration within  %" . $config . "%!");
+        }
+
+        $config = new $configClassName($this->Engine);
+        $this->Engine->Config()->addLanguageConfig($config);
+    }
+
+
+    /**
      * @param $lang
      *
      * @return mixed
@@ -161,31 +195,19 @@ class Languages extends Injection
     {
         if (is_dir($path)) {
             $loader = $path . "Loader.php";
-            $config = $path . "Config.php";
 
             if (!file_exists($loader)) {
                 throw new Exception(1, "Please create a Loader.php for the %" . $name . "% language!");
-            }
-            if (!file_exists($config)) {
-                throw new Exception(1, "Please create a Config.php for the %" . $name . "% language!");
             }
 
             /** @noinspection PhpIncludeInspection */
             require_once $loader;
 
-            /** @noinspection PhpIncludeInspection */
-            require_once $config;
-
             $loaderClassName = $this->getClassName($name, "Loader");
+            $configClassName = $this->getClassName($name, "Config");
 
             if (!class_exists($loaderClassName)) {
                 throw new Exception(1, "There is not the right class declaration within  %" . $loader . "%!");
-            }
-
-            $configClassName = $this->getClassName($name, "Config");
-
-            if (!class_exists($configClassName)) {
-                throw new Exception(1, "There is not the right class declaration within  %" . $config . "%!");
             }
 
 
@@ -195,7 +217,6 @@ class Languages extends Injection
 
             if (!$this->languages[ $loaderClassName ]["registered"]) {
                 $language->register();
-                $this->Engine->Config()->addLanguageConfig($language->getConfig());
                 $this->languages[ $loaderClassName ]["registered"] = true;
             }
 
@@ -235,11 +256,15 @@ class Languages extends Injection
     private function registerLanguageClass($loaderClass, $configClass, $path)
     {
         if (!isset($this->languages[ $loaderClass ])) {
-            $config                          = new $configClass($this->Engine);
+            /** @var LanguageConfig $config */
+            $config = new $configClass($this->Engine);
+
             $language                        = array();
-            $language["class"]               = new $loaderClass($this->Engine, $config, $path);
+            $language["class"]               = new $loaderClass($this->Engine, $config->getName(), $path);
             $language["registered"]          = false;
             $this->languages[ $loaderClass ] = $language;
+
+            unset($config);
         }
 
         return $this->languages[ $loaderClass ]["class"];

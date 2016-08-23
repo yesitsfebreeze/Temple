@@ -5,6 +5,7 @@ namespace Temple\Engine;
 
 use Temple\Engine\Exception\ExceptionHandler;
 use Temple\Engine\InjectionManager\Injection;
+use Temple\Engine\Structs\LanguageLoader;
 
 
 /**
@@ -339,6 +340,17 @@ class Config extends Injection
 
 
     /**
+     * @param $language
+     *
+     * @return LanguageLoader
+     */
+    public function getLanguage($language)
+    {
+        return $this->languages[$language];
+    }
+
+
+    /**
      * @param string $language
      * @param string $key
      */
@@ -350,6 +362,7 @@ class Config extends Injection
         }
         if (!in_array($language, $this->languages)) {
             $language = $this->EngineWrapper->DirectoryHandler()->getPath($language);
+            $this->EngineWrapper->Languages()->initLanguageConfig($key,$language);
             $this->languages[$key] = $language;
         }
     }
@@ -449,7 +462,6 @@ class Config extends Injection
      */
     public function getLanguageConfig($language)
     {
-
         return $this->languageConfigs[ $language ];
     }
 

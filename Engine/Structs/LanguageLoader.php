@@ -19,19 +19,19 @@ class LanguageLoader
     /** @var Engine $Engine */
     protected $Engine;
 
-    /** @var LanguageConfig $Config */
-    protected $Config;
+    /** @var string $name */
+    protected $name;
 
     /** @var VariablesBaseCache $variableCache */
     private $variableCache = false;
 
 
-    public function __construct(Engine $Engine, LanguageConfig $Config, $path)
+    public function __construct(Engine $Engine, $name, $path)
     {
 
         // todo: add this Event to the cache invalidator to clear the cache if we change a node
         $this->Engine = $Engine;
-        $this->Config = $Config;
+        $this->name   = $name;
         $this->path   = $path;
 
         $this->setupVariableCache();
@@ -71,13 +71,7 @@ class LanguageLoader
     public function subscribe($name, Event $event)
     {
         // todo: add this Event to the cache invalidator to clear the cache if we change a node
-        $this->Engine->EventManager()->subscribe($this->Config->getName(), $name, $event);
-    }
-
-
-    static function where()
-    {
-        return __DIR__;
+        $this->Engine->EventManager()->subscribe($this->name, $name, $event);
     }
 
 
@@ -93,7 +87,8 @@ class LanguageLoader
         if ($this->variableCache instanceof VariablesBaseCache) {
             $this->variableCache->setEngine($this->Engine);
         }
-        $this->Config->setVariableCache($this->variableCache);
+        $Config = $this->Engine->Config()->getLanguageConfig($this->name);
+        $Config->setVariableCache($this->variableCache);
     }
 
 
@@ -102,7 +97,7 @@ class LanguageLoader
      */
     public function getConfig()
     {
-        return $this->Config;
+        return $this->Engine->Config()->getLanguageConfig($this->name);
     }
 
 }

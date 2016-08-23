@@ -14,7 +14,5 @@ use Temple\Engine\LanguageConfig;
  */
 class Config extends LanguageConfig
 {
-    /** @var string $name */
-    protected $name = "html";
 
 }
