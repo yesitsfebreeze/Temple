@@ -17,8 +17,8 @@ use Temple\Engine\Structs\Language;
 class Languages extends Injection
 {
 
-    /** @var  Instance $Instance */
-    protected $Instance;
+    /** @var  Engine $Engine */
+    protected $Engine;
 
     /** @var  EventManager $EventManager */
     protected $EventManager;
@@ -73,14 +73,14 @@ class Languages extends Injection
                     preg_match("/^(.*?)(?:$|\s)/", trim($line), $tag);
                     $tag = trim($tag[0]);
 
-                    if ($this->Instance->Config()->isUseCoreLanguage()) {
+                    if ($this->Engine->Config()->isUseCoreLanguage()) {
                         array_unshift($languages, "core");
                     }
 
-                    if ($tag == $this->Instance->Config()->getLanguageTagName()) {
+                    if ($tag == $this->Engine->Config()->getLanguageTagName()) {
                         $lang = trim(str_replace($tag, "", $line));
                     } else {
-                        $lang = $this->Instance->Config()->getDefaultLanguage();
+                        $lang = $this->Engine->Config()->getDefaultLanguage();
                     }
 
                     $languages[] = $lang;
@@ -153,7 +153,7 @@ class Languages extends Injection
     {
         if (!isset($this->languages[ $class ])) {
             $language                  = array();
-            $language["class"]         = new $class($this->Instance);
+            $language["class"]         = new $class($this->Engine);
             $language["registered"]    = false;
             $this->languages[ $class ] = $language;
         }
@@ -163,20 +163,20 @@ class Languages extends Injection
 
 
     /**
-     * @return Instance
+     * @return Engine
      */
-    public function getInstance()
+    public function getEngine()
     {
-        return $this->Instance;
+        return $this->Engine;
     }
 
 
     /**
-     * @param Instance $Instance
+     * @param Engine $Engine
      */
-    public function setInstance($Instance)
+    public function setEngine($Engine)
     {
-        $this->Instance = $Instance;
+        $this->Engine = $Engine;
     }
 
 

@@ -27,7 +27,7 @@ abstract class Injection implements InjectionInterface
 
 
     /**
-     * has to add an instance to the class
+     * has to add an dependency instance to the class
      *
      * @param string    $name
      * @param Injection $instance

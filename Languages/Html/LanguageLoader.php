@@ -56,7 +56,7 @@ class LanguageLoader extends Language
      */
     public function register()
     {
-        $this->EventManager = $this->Instance->EventManager();
+        $this->EventManager = $this->Engine->EventManager();
         $this->registerNodes();
         $this->registerModifiers();
         $this->registerPlugins();

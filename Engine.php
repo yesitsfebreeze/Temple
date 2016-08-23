@@ -1,26 +1,32 @@
 <?php
 
-namespace Temple\Engine;
+namespace Temple;
 
 
 use Temple\Engine\Cache\Cache;
 use Temple\Engine\Cache\CacheInvalidator;
 use Temple\Engine\Cache\ConfigCache;
+use Temple\Engine\Compiler;
+use Temple\Engine\Config;
 use Temple\Engine\Console\CommandCache;
 use Temple\Engine\Console\Console;
 use Temple\Engine\EventManager\EventManager;
 use Temple\Engine\Filesystem\DirectoryHandler;
 use Temple\Engine\InjectionManager\Injection;
 use Temple\Engine\InjectionManager\InjectionManager;
+use Temple\Engine\EngineWrapper;
+use Temple\Engine\Languages;
+use Temple\Engine\Lexer;
 use Temple\Engine\Structs\Variables;
+use Temple\Engine\Template;
 
 
 /**
- * Class Instance
+ * Class Engine
  *
  * @package Temple
  */
-class Instance extends Injection
+class Engine extends Injection
 {
 
     /** @var InjectionManager $InjectionManager */
@@ -65,15 +71,12 @@ class Instance extends Injection
     /** @var Template $Template */
     protected $Template;
 
-    /** @var InstanceWrapper $InstanceWrapper */
-    protected $InstanceWrapper;
-
-    /** @var Instance $Instance */
-    protected $Instance;
+    /** @var EngineWrapper $EngineWrapper */
+    protected $EngineWrapper;
 
 
     /**
-     * Instance constructor.
+     * Engine constructor.
      *
      * @param Config|null $config
      */
@@ -98,11 +101,11 @@ class Instance extends Injection
         $this->Lexer            = $this->InjectionManager->registerDependency(new Lexer());
         $this->Compiler         = $this->InjectionManager->registerDependency(new Compiler());
         $this->Template         = $this->InjectionManager->registerDependency(new Template());
-        $this->InstanceWrapper  = $this->InjectionManager->registerDependency(new InstanceWrapper());
+        $this->EngineWrapper  = $this->InjectionManager->registerDependency(new EngineWrapper());
 
-        $this->Config->setInstanceWrapper($this->InstanceWrapper);
-        $this->EventManager->setInstance($this);
-        $this->Languages->setInstance($this);
+        $this->Config->setEngineWrapper($this->EngineWrapper);
+        $this->EventManager->setEngine($this);
+        $this->Languages->setEngine($this);
 
         return $this;
     }

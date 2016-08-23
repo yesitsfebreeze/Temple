@@ -6,14 +6,14 @@ namespace Temple\Engine\Structs;
 use Temple\Engine\Cache\VariablesBaseCache;
 use Temple\Engine\EventManager\Event;
 use Temple\Engine\Exception\Exception;
-use Temple\Engine\Instance;
+use Temple\Engine;
 
 
 class Language
 {
 
-    /** @var Instance $Instance */
-    protected $Instance;
+    /** @var Engine $Engine */
+    protected $Engine;
 
     /** @var string $name */
     private $name;
@@ -25,17 +25,17 @@ class Language
     private $variableCache = false;
 
 
-    public function __construct(Instance $Instance)
+    public function __construct(Engine $Engine)
     {
 
         // todo: add this Event to the cache invalidator to clear the cache if we change a node
-        $this->Instance = $Instance;
+        $this->Engine = $Engine;
         $name           = explode("\\", get_class($this));
         array_pop($name);
         $this->name          = strtolower(end($name));
         $this->variableCache = $this->variableCache();
         if ($this->variableCache instanceof VariablesBaseCache) {
-            $this->variableCache->setInstance($this->Instance);
+            $this->variableCache->setEngine($this->Engine);
         }
     }
 
@@ -94,7 +94,7 @@ class Language
     public function subscribe($name, Event $event)
     {
         // todo: add this Event to the cache invalidator to clear the cache if we change a node
-        $this->Instance->EventManager()->subscribe($this->getName(),$name, $event);
+        $this->Engine->EventManager()->subscribe($this->getName(),$name, $event);
     }
 
 
@@ -125,7 +125,7 @@ class Language
         }
 
         if ($folder == "" || gettype($folder) != "string") {
-            $folder = $this->Instance->Config()->getCacheDir() . DIRECTORY_SEPARATOR . $this->name;
+            $folder = $this->Engine->Config()->getCacheDir() . DIRECTORY_SEPARATOR . $this->name;
         }
 
         return $folder . "/";

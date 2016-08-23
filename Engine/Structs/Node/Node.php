@@ -140,7 +140,7 @@ abstract class Node extends Event implements NodeInterface
 
             $nodeOutput = $child->compile();
             // this makes sure that if we have no events the right value gets returned
-            $nodeOutput = $this->Instance->EventManager()->dispatch($language, "plugin.nodeOutput", array($nodeOutput, $child));
+            $nodeOutput = $this->Engine->EventManager()->dispatch($language, "plugin.nodeOutput", array($nodeOutput, $child));
             if (!is_string($nodeOutput) && !is_array($nodeOutput)) {
                 throw new Exception(600, "There went something wrong with the %plugin.nodeOutput% event!");
             } else if (is_array($nodeOutput)) {
@@ -313,13 +313,13 @@ abstract class Node extends Event implements NodeInterface
         # divide our counted characters trough the amount
         # we used to indent in the first line
         # this should be a non decimal number
-        $indentCharacter = ($this->Instance->Config()->getIndentCharacter() == "tab") ? "	" : " ";
+        $indentCharacter = ($this->Engine->Config()->getIndentCharacter() == "tab") ? "	" : " ";
         if (strlen($whitespace) > 0) {
             if (preg_match('/[^' . preg_quote($indentCharacter) . ']/', $whitespace)) {
-                throw new Exception(4, "Please use the %" . $this->Instance->Config()->getIndentCharacter() . "% character for indentation!", $this->getFile(), $this->getLine());
+                throw new Exception(4, "Please use the %" . $this->Engine->Config()->getIndentCharacter() . "% character for indentation!", $this->getFile(), $this->getLine());
             } else {
                 $indent = substr_count($whitespace, $indentCharacter);
-                $indent = $indent / $this->Instance->Config()->getIndentAmount();
+                $indent = $indent / $this->Engine->Config()->getIndentAmount();
                 # if we have a non decimal number return how many times we indented
                 if (is_int($indent)) return $indent;
             }

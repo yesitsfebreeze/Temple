@@ -192,7 +192,7 @@ class Lexer extends Injection
 
         if (!($node instanceof Node)) {
             $node = new DefaultNode();
-            $node->setInstance($this->EventManager->getInstance());
+            $node->setEngine($this->EventManager->getEngine());
             $node->dispatch(...$arguments);
         }
 

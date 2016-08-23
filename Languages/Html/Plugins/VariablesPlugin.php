@@ -31,7 +31,7 @@ class VariablesPlugin extends Event
      */
     public function dispatch($output, Node $Node = null)
     {
-        $pattern        = $this->Instance->Config()->getVariablePattern();
+        $pattern        = $this->Engine->Config()->getVariablePattern();
         $pattern        = explode('%', $pattern);
         $pattern        = "/" . preg_quote($pattern[0]) . "(.*?)" . preg_quote($pattern[1]) . "/";
         preg_match_all($pattern, $output, $matches);
@@ -86,7 +86,7 @@ class VariablesPlugin extends Event
 
                     array_unshift($arguments, $buffer);
                     // get arguments
-                    $buffer = $this->Instance->EventManager()->dispatch($this->language, "modifier." . $name, $arguments);
+                    $buffer = $this->Engine->EventManager()->dispatch($this->language, "modifier." . $name, $arguments);
                 }
             }
 

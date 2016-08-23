@@ -4,7 +4,7 @@
 namespace Temple\Engine\Cache;
 
 
-use Temple\Engine\Instance;
+use Temple\Engine;
 use Temple\Engine\Structs\Variables;
 
 
@@ -16,8 +16,8 @@ use Temple\Engine\Structs\Variables;
 abstract class VariablesBaseCache
 {
 
-    /** @var  Instance $Instance */
-    protected $Instance;
+    /** @var  Engine $Engine */
+    protected $Engine;
 
     /** @var  string $file */
     protected $file;
@@ -54,7 +54,7 @@ abstract class VariablesBaseCache
     public function saveVariables(Variables $Variables)
     {
         $Variables = serialize($Variables);
-        $this->Instance->Cache()->save($this->getFileName($this->file), $Variables);
+        $this->Engine->Cache()->save($this->getFileName($this->file), $Variables);
     }
 
 
@@ -69,7 +69,7 @@ abstract class VariablesBaseCache
     {
         $file = $this->cleanExtension($file);
         $file = $this->getFileName($file);
-        $file = $this->Instance->Cache()->getFile($file);
+        $file = $this->Engine->Cache()->getFile($file);
 
         return unserialize(file_get_contents($file));
     }
@@ -84,7 +84,7 @@ abstract class VariablesBaseCache
      */
     protected function getFileName($file)
     {
-        return str_replace($this->Instance->Config()->getExtension(), "variables." . $this->Instance->Config()->getExtension(), $file);
+        return str_replace($this->Engine->Config()->getExtension(), "variables." . $this->Engine->Config()->getExtension(), $file);
     }
 
 
@@ -97,18 +97,18 @@ abstract class VariablesBaseCache
      */
     protected function cleanExtension($file)
     {
-        $file = preg_replace('/\..*?$/', '', $file) . "." . $this->Instance->Config()->getExtension();
+        $file = preg_replace('/\..*?$/', '', $file) . "." . $this->Engine->Config()->getExtension();
 
         return $file;
     }
 
 
     /**
-     * @param Instance $Instance
+     * @param Engine $Engine
      */
-    public function setInstance(Instance $Instance)
+    public function setEngine(Engine $Engine)
     {
-        $this->Instance = $Instance;
+        $this->Engine = $Engine;
     }
 
 

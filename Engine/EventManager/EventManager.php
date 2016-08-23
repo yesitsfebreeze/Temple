@@ -5,7 +5,7 @@ namespace Temple\Engine\EventManager;
 
 use Temple\Engine\Exception\Exception;
 use Temple\Engine\InjectionManager\Injection;
-use Temple\Engine\Instance;
+use Temple\Engine;
 use Temple\Engine\Structs\Storage;
 
 
@@ -30,9 +30,9 @@ class EventManager extends Injection
     private $events;
 
     /**
-     * @var Instance $instance
+     * @var Engine $Engine
      */
-    private $instance;
+    private $Engine;
 
 
     /**
@@ -45,22 +45,22 @@ class EventManager extends Injection
 
 
     /**
-     * sets the current Instance
+     * sets the current Engine
      *
-     * @param Instance $instance
+     * @param Engine $Engine
      */
-    public function setInstance(Instance $instance)
+    public function setEngine(Engine $Engine)
     {
-        $this->instance = $instance;
+        $this->Engine = $Engine;
     }
 
 
     /**
-     * @return Instance
+     * @return Engine
      */
-    public function getInstance()
+    public function getEngine()
     {
-        return $this->instance;
+        return $this->Engine;
     }
 
 
@@ -122,7 +122,7 @@ class EventManager extends Injection
     {
         if (is_object($event)) {
             $eventInstance = clone $event;
-            $eventInstance->setInstance($this->instance);
+            $eventInstance->setEngine($this->Engine);
             $eventInstance->setInjectionManager($this->InjectionManager);
 
             if (!is_array($arguments)) {

@@ -96,7 +96,7 @@ class BlockNode extends Node
     public function compile()
     {
         $output = "";
-        if ($this->Instance->Config()->isShowBlockComments() && $this->isShowComment()) {
+        if ($this->Engine->Config()->isShowBlockComments() && $this->isShowComment()) {
             $output = "<!-- " . trim($this->plain) . " - " . $this->getRelativeFile() . "-->";
         }
 

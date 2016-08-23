@@ -6,7 +6,7 @@ namespace Temple\Engine\Console\Commands;
 
 use Temple\Engine\Config;
 use Temple\Engine\Console\Command;
-use Temple\Engine\Instance;
+use Temple\Engine;
 
 
 /**
@@ -36,9 +36,9 @@ class CacheBuildTemplatesCommand extends Command
     {
         if (isset($this->config["processedTemplates"])) {
             foreach ($this->config["processedTemplates"] as $template) {
-                $Instance = new Instance();
-                $Instance = $this->createConfig($Instance, $this->config);
-                $Instance->Template()->fetch($template);
+                $Engine = new Engine();
+                $Engine = $this->createConfig($Engine, $this->config);
+                $Engine->Template()->fetch($template);
             }
         }
 
@@ -46,15 +46,15 @@ class CacheBuildTemplatesCommand extends Command
 
 
     /**
-     * @param Instance $Instance
+     * @param Engine $Engine
      * @param          $cachedConfig
      *
-     * @return Instance
+     * @return Engine
      */
-    private function createConfig(Instance $Instance, $cachedConfig)
+    private function createConfig(Engine $Engine, $cachedConfig)
     {
         /** @var Config $config */
-        $config  = $Instance->Config();
+        $config  = $Engine->Config();
         $methods = array_flip(get_class_methods($config));
         foreach ($cachedConfig as $method => $value) {
             $setMethodName = "set" . ucfirst($method);
@@ -69,7 +69,7 @@ class CacheBuildTemplatesCommand extends Command
             }
         }
 
-        return $Instance;
+        return $Engine;
     }
 
 

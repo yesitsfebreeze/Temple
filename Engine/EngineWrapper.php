@@ -12,7 +12,7 @@ use Temple\Engine\Filesystem\DirectoryHandler;
 use Temple\Engine\InjectionManager\Injection;
 
 
-class InstanceWrapper extends Injection
+class EngineWrapper extends Injection
 {
 
     /** @var Config $Config */

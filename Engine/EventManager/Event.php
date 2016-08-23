@@ -5,7 +5,7 @@ namespace Temple\Engine\EventManager;
 
 use Temple\Engine\Exception\Exception;
 use Temple\Engine\InjectionManager\InjectionManager;
-use Temple\Engine\Instance;
+use Temple\Engine;
 
 
 /**
@@ -14,8 +14,8 @@ use Temple\Engine\Instance;
 abstract class Event
 {
 
-    /** @var Instance $Instance */
-    protected $Instance;
+    /** @var Engine $Engine */
+    protected $Engine;
 
 
     /** @var InjectionManager $InjectionManager */
@@ -23,11 +23,11 @@ abstract class Event
 
 
     /**
-     * @param Instance $Instance
+     * @param Engine $Engine
      */
-    public function setInstance(Instance $Instance)
+    public function setEngine(Engine $Engine)
     {
-        $this->Instance = $Instance;
+        $this->Engine = $Engine;
     }
 
 

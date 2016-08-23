@@ -30,7 +30,7 @@ class InjectionManager
     public function registerDependency(InjectionInterface &$instance)
     {
         # check if the dependencies method exists
-        # the Instance does net extend the InjectionInterface class if not
+        # the Engine does net extend the InjectionInterface class if not
         if (!method_exists($instance, "dependencies")) {
             return null;
         }
@@ -117,7 +117,7 @@ class InjectionManager
 
         if (!isset($this->dependencies[ $dependency ])) {
             new ExceptionHandler();
-            throw new Exception(1,"Injection Management: %" . $dependency . "% instance does't exist.", get_class($instance));
+            throw new Exception(1,"Injection Management: %" . $dependency . "% dependency instance does't exist.", get_class($instance));
         }
 
         $instance->setDependency($name, $this->dependencies[ $dependency ]);

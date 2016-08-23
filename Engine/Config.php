@@ -20,8 +20,8 @@ class Config extends Injection
     /** @var bool $shutdownCallbackRegistered */
     private $shutdownCallbackRegistered = false;
 
-    /** @var  InstanceWrapper $InstanceWrapper */
-    private $InstanceWrapper;
+    /** @var  EngineWrapper $EngineWrapper */
+    private $EngineWrapper;
 
     /** @var null $subfolder */
     private $subfolder = null;
@@ -29,8 +29,8 @@ class Config extends Injection
     /** @var bool $errorHandler */
     private $errorHandler = true;
 
-    /** @var ExceptionHandler $errorHandlerInstance */
-    private $errorHandlerInstance;
+    /** @var ExceptionHandler $errorHandlerEngine */
+    private $errorHandlerEngine;
 
     /** @var string $cacheDir */
     private $cacheDir = "./Cache";
@@ -85,11 +85,11 @@ class Config extends Injection
 
 
     /**
-     * @param InstanceWrapper $InstanceWrapper
+     * @param EngineWrapper $EngineWrapper
      */
-    public function setInstanceWrapper($InstanceWrapper)
+    public function setEngineWrapper($EngineWrapper)
     {
-        $this->InstanceWrapper = $InstanceWrapper;
+        $this->EngineWrapper = $EngineWrapper;
     }
 
 
@@ -102,7 +102,7 @@ class Config extends Injection
         if (!$this->shutdownCallbackRegistered) {
             register_shutdown_function(function (Config $configInstance) {
                 $config = array(
-                    "cacheDir"             => $configInstance->InstanceWrapper->DirectoryHandler()->getCacheDir(),
+                    "cacheDir"             => $configInstance->EngineWrapper->DirectoryHandler()->getCacheDir(),
                     "languageCacheFolders" => $configInstance->getLanguageCacheFolders(),
                     "curlUrls"             => $configInstance->getCurlUrls(),
                     "subfolder"            => $configInstance->getSubfolder(),
@@ -117,7 +117,7 @@ class Config extends Injection
                     "DocumentRoot"         => $_SERVER["DOCUMENT_ROOT"]
                 );
                 $key    = md5(serialize($configInstance));
-                $configInstance->InstanceWrapper->ConfigCache()->save($key, $config);
+                $configInstance->EngineWrapper->ConfigCache()->save($key, $config);
             }, $this);
             $this->shutdownCallbackRegistered = true;
         }
