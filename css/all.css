@@ -9633,7 +9633,7 @@ footer .social-links a {
 .docs-sections .h4,
 .docs-sections .h5,
 .docs-sections .h6 {
-  color: #47535f;
+  color: #07030d;
 }
 .docs-page-jumper {
   position: relative;
@@ -9643,10 +9643,13 @@ footer .social-links a {
   padding: 30px 0;
   border-bottom: 1px solid #e2e5e5;
 }
-.docs-on-this-page h3 {
+.docs-on-this-page h4 {
   text-transform: uppercase;
   margin: 0 0 15px 0;
   opacity: .75;
+}
+.docs-on-this-page a {
+  font-size: 16px;
 }
 .docs-sections h2 {
   margin-bottom: 0;
@@ -9655,6 +9658,8 @@ footer .social-links a {
 .docs-sections h4 {
   margin-top: 45px;
   margin-bottom: 15px;
+  opacity: 0.5;
+  font-weight: 300;
 }
 .docs-padding {
   padding: 15px 0;

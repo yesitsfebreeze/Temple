@@ -2,7 +2,7 @@ $(function() {
 
     var jumpTo = function(link) {
         var href = link.attr("href").replace("#", "");
-        window.location.hash = href;
+        window.location.hash = href.toLowerCase();
         $('html,body').animate({scrollTop: $(".jump-" + href).offset().top}, 555, "easeInSine");
     };
 

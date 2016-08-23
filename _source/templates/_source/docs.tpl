@@ -28,11 +28,7 @@
     {function name="docsSubMenu" menu=false position="breadcrumbs" path="index"}
         {if is_array($menu) && $menu|@count > 0}
             <div class="docs-on-this-page">
-                {if $position == "top"}
-                    <h3 class="text-upper">on this page</h3>
-                {else}
-                    <h4 class="text-upper">on this page</h4>
-                {/if}
+                <h4 class="text-upper">on this page</h4>
                 <ul class="menu-list list-unstyled">
                     {if $position != "top"}
                         <li class="doc-link">
@@ -41,7 +37,7 @@
                     {/if}
                     {foreach $menu as $item}
                         <li class="doc-link">
-                            <a href="#{$item.escapedName}" title="{$item.name}">{$item.name}</a>
+                            <a href="#{$item.escapedName}" title="{$item.name}">{if $position == "top"}-{/if} {$item.name}</a>
                         </li>
                     {/foreach}
                 </ul>
