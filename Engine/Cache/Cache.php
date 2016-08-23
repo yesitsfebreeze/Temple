@@ -10,6 +10,7 @@ use Temple\Engine\Filesystem\DirectoryHandler;
 use Temple\Engine\InjectionManager\Injection;
 use Temple\Engine\Languages;
 use Temple\Engine\Structs\Language;
+use Temple\Engine\Structs\LanguageLoader;
 
 
 class Cache extends Injection
@@ -98,8 +99,9 @@ class Cache extends Injection
         $folder    = $this->getFolder($file);
         $extension = $this->getExtension($extension);
         $this->setTime($file);
+        /** @var LanguageLoader $language */
         $language = $this->getLanguage($file);
-        $language = $language->getName();
+        $language = $language->getConfig()->getName();
         $file     = $this->createFile($file, $extension, $folder);
         $this->Config->addLanguageCacheFolder($this->getDirectory($folder));
         file_put_contents($file, $content);
@@ -537,10 +539,9 @@ class Cache extends Injection
     private function getExtension($extension = null)
     {
         if (is_null($extension)) {
-            $lang = $this->Config->getDefaultLanguage();
-            /** @var Language $lang */
-            $lang      = $this->Languages->getLanguage($lang);
-            $extension = $lang->getExtension();
+            /** @var LanguageLoader $lang */
+            $lang      = $this->Languages->getLanguage("default");
+            $extension = $lang->getConfig()->getExtension();
         }
 
         return $extension;
@@ -556,8 +557,9 @@ class Cache extends Injection
     {
         $filename = explode(".", $file);
         $filename = $filename[0];
+        /** @var LanguageLoader $lang */
         $lang     = $this->getLanguage($filename);
-        $folder   = $lang->getCacheFolder();
+        $folder   = $lang->getConfig()->getCacheDir();
 
         return $folder;
     }
@@ -566,7 +568,7 @@ class Cache extends Injection
     /**
      * @param $filename
      *
-     * @return false|Language
+     * @return false|LanguageLoader
      */
     private function getLanguage($filename)
     {

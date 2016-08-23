@@ -4,7 +4,7 @@ namespace Temple\Languages\Html;
 
 
 use Temple\Engine\EventManager\EventManager;
-use Temple\Engine\Structs\Language;
+use Temple\Engine\Structs\LanguageLoader;
 use Temple\Languages\Html\Modifiers\SizeofModifier;
 use Temple\Languages\Html\Nodes\CommentNode;
 use Temple\Languages\Html\Nodes\ForeachNode;
@@ -27,28 +27,12 @@ use Temple\Languages\Html\Services\VariableCache;
  *
  * @package Temple\Languages\Html
  */
-class LanguageLoader extends Language
+class Loader extends LanguageLoader
 {
 
     /** @var  EventManager $EventManager */
     private $EventManager;
 
-
-    /**
-     * @return string
-     */
-    public function extension()
-    {
-        return "php";
-    }
-
-    /**
-     * registers the VariableCache
-     */
-    public function variableCache()
-    {
-        return new VariableCache();
-    }
 
 
     /**
@@ -61,6 +45,15 @@ class LanguageLoader extends Language
         $this->registerModifiers();
         $this->registerPlugins();
     }
+
+    /**
+     * registers the VariableCache
+     */
+    public function registerVariableCache()
+    {
+        return new VariableCache();
+    }
+
 
 
     /**

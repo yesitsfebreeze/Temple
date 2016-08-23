@@ -106,6 +106,7 @@ class Engine extends Injection
         $this->Config->setEngineWrapper($this->EngineWrapper);
         $this->EventManager->setEngine($this);
         $this->Languages->setEngine($this);
+        $this->Languages->initLanguages();
 
         return $this;
     }

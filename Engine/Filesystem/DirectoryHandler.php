@@ -56,7 +56,7 @@ class DirectoryHandler extends Injection
             if (!$dir) {
                 return false;
             }
-            $dir = $this->path($dir);
+            $dir = $this->getPath($dir);
 
             # always add a trailing space
             if (strrev($dir)[0] != "/") {
@@ -193,7 +193,7 @@ class DirectoryHandler extends Injection
      */
     public function createDir($dir)
     {
-        $dir = $this->path($dir);
+        $dir = $this->getPath($dir);
         if (!is_dir($dir)) {
 
 //            todo: check if is writeable
@@ -216,14 +216,10 @@ class DirectoryHandler extends Injection
      *
      * @return string
      */
-    private function path($dir)
+    public function getPath($dir)
     {
-        $namespaces    = explode("\\", __NAMESPACE__);
-        $frameworkName = reset($namespaces);
         if ($dir[0] != "/") {
-            $framework = explode($frameworkName, __DIR__);
-            $framework = $framework[0] . $frameworkName . "/";
-            $dir       = $framework . $dir;
+            $dir = $this->getFrameworkDirectory() . $dir;
         } else {
             $docRoot = preg_replace("/\/$/", "", $_SERVER["DOCUMENT_ROOT"]);
             $dir     = $docRoot . preg_replace("#^" . preg_quote($docRoot) . "#", "", $dir);
@@ -232,6 +228,22 @@ class DirectoryHandler extends Injection
         $dir = preg_replace("/\/+/", "/", $dir);
 
         return $dir;
+    }
+
+
+    /**
+     * returns the path of Temple
+     *
+     * @return string
+     */
+    public function getFrameworkDirectory()
+    {
+        $namespaces    = explode("\\", __NAMESPACE__);
+        $frameworkName = reset($namespaces);
+        $frameworkDir  = explode($frameworkName, __DIR__);
+        $frameworkDir  = $frameworkDir[0] . $frameworkName . DIRECTORY_SEPARATOR;
+
+        return $frameworkDir;
     }
 
 
@@ -268,7 +280,7 @@ class DirectoryHandler extends Injection
      */
     public function validate($dir, $create = false)
     {
-        $dir = $this->path($dir);
+        $dir = $this->getPath($dir);
         if (is_dir($dir)) return $dir;
 
         if ($create) {

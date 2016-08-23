@@ -3,8 +3,7 @@
 namespace Temple\Languages\Js;
 
 
-use Temple\Engine\EventManager\EventManager;
-use Temple\Engine\Structs\Language;
+use Temple\Engine\Structs\LanguageLoader;
 use Temple\Languages\Js\Nodes\IncludeNode;
 use Temple\Languages\Js\Nodes\TestNode;
 
@@ -16,28 +15,8 @@ use Temple\Languages\Js\Nodes\TestNode;
  *
  * @package Temple\Languages\Js
  */
-class LanguageLoader extends Language
+class Loader extends LanguageLoader
 {
-
-    /**
-     * @return string
-     */
-    public function extension()
-    {
-        return "js";
-    }
-
-
-    /**
-     * where the language saves the generated files
-     *
-     * @return string
-     */
-    public function cacheFolder()
-    {
-        return "/assets/js";
-    }
-
 
     /**
      * subscribe the nodes for the language

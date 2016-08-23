@@ -133,7 +133,7 @@ abstract class Node extends Event implements NodeInterface
     public function compileChildren()
     {
         $output   = "";
-        $language = $this->Dom->getLanguage()->getName();
+        $language = $this->Dom->getLanguage()->getConfig()->getName();
 
         /** @var Node $child */
         foreach ($this->getChildren() as $child) {
@@ -313,13 +313,14 @@ abstract class Node extends Event implements NodeInterface
         # divide our counted characters trough the amount
         # we used to indent in the first line
         # this should be a non decimal number
-        $indentCharacter = ($this->Engine->Config()->getIndentCharacter() == "tab") ? "	" : " ";
+        $indentCharacter = $this->Dom->getLanguage()->getConfig()->getIndentCharacter();
+        $indentCharacter = ($indentCharacter == "tab") ? "	" : " ";
         if (strlen($whitespace) > 0) {
             if (preg_match('/[^' . preg_quote($indentCharacter) . ']/', $whitespace)) {
-                throw new Exception(4, "Please use the %" . $this->Engine->Config()->getIndentCharacter() . "% character for indentation!", $this->getFile(), $this->getLine());
+                throw new Exception(4, "Please use the %" . $this->Dom->getLanguage()->getConfig()->getIndentCharacter() . "% character for indentation!", $this->getFile(), $this->getLine());
             } else {
                 $indent = substr_count($whitespace, $indentCharacter);
-                $indent = $indent / $this->Engine->Config()->getIndentAmount();
+                $indent = $indent / $this->Dom->getLanguage()->getConfig()->getIndentAmount();
                 # if we have a non decimal number return how many times we indented
                 if (is_int($indent)) return $indent;
             }

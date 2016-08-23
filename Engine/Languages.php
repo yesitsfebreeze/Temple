@@ -3,10 +3,12 @@
 namespace Temple\Engine;
 
 
+use Temple\Engine;
 use Temple\Engine\EventManager\EventManager;
 use Temple\Engine\Exception\Exception;
+use Temple\Engine\Filesystem\DirectoryHandler;
 use Temple\Engine\InjectionManager\Injection;
-use Temple\Engine\Structs\Language;
+use Temple\Engine\Structs\LanguageLoader;
 
 
 /**
@@ -23,15 +25,37 @@ class Languages extends Injection
     /** @var  EventManager $EventManager */
     protected $EventManager;
 
+    /** @var  DirectoryHandler $DirectoryHandler */
+    protected $DirectoryHandler;
+
     /** @var array $languages */
     private $languages = array();
 
 
+    /**
+     * @return array
+     */
     public function dependencies()
     {
         return array(
-            "Engine/EventManager/EventManager" => "EventManager"
+            "Engine/EventManager/EventManager"   => "EventManager",
+            "Engine/Filesystem/DirectoryHandler" => "DirectoryHandler"
         );
+    }
+
+
+    /**
+     * the construct function loads all the default languages
+     * aka Languages constructor.
+     */
+    public function initLanguages()
+    {
+        $useCore = $this->Engine->Config()->isUseCoreLanguage();
+        if ($useCore) {
+            $this->Engine->Config()->addLanguage("./Languages/Core");
+        }
+        $defaultLanguagePath = $this->Engine->Config()->getDefaultLanguage();
+        $this->Engine->Config()->addLanguage($defaultLanguagePath, "default");
     }
 
 
@@ -43,21 +67,14 @@ class Languages extends Injection
      */
     public function getLanguage($lang)
     {
-        $class = $this->getLanguageClass($lang);
-        if (class_exists($class)) {
-            /** @var Language $lang */
-            return $this->createLanguageClass($class);
-        } else {
-            throw new Exception(1, "Language %" . $lang . "% does not exist!");
-        }
-
+        return $this->iterate($lang);
     }
 
 
     /**
      * @param $file
      *
-     * @return Language|false
+     * @return LanguageLoader|false
      * @throws Exception
      */
     public function getLanguageFromFile($file)
@@ -80,17 +97,13 @@ class Languages extends Injection
                     if ($tag == $this->Engine->Config()->getLanguageTagName()) {
                         $lang = trim(str_replace($tag, "", $line));
                     } else {
-                        $lang = $this->Engine->Config()->getDefaultLanguage();
+                        $lang = "default";
                     }
 
                     $languages[] = $lang;
 
-                    /** @var  Language $lang */
-                    $this->load($languages);
-                    $class    = $this->getLanguageClass($lang);
-                    $language = $this->languages[ $class ]["class"];
-
-                    break;
+                    /** @var  LanguageLoader $lang */
+                    return $this->iterate($languages);
                 }
             }
         }
@@ -106,59 +119,130 @@ class Languages extends Injection
     /**
      * @param $languages
      *
-     * @return Language
+     * @return LanguageLoader
      * @throws Exception
      */
-    private function load($languages)
+    private function iterate($languages)
     {
-        foreach ($languages as $language) {
-            $class = $this->getLanguageClass($language);
-            if (class_exists($class)) {
-                /** @var Language $lang */
-                $lang = $this->createLanguageClass($class);
-                if (!$this->languages[ $class ]["registered"]) {
-                    $lang->register();
-                    $this->languages[ $class ]["registered"] = true;
+        // todo: try to get languages from folder and then load it
+        $loadedLanguage = null;
+
+        if (is_string($languages)) {
+            $languages = array($languages);
+        }
+
+        $registeredLanguages = $this->Engine->Config()->getLanguages();
+
+        foreach ($languages as $name) {
+            if (isset($registeredLanguages[ $name ])) {
+                $path = realpath($registeredLanguages[ $name ]) . DIRECTORY_SEPARATOR;
+                if ($name == "default") {
+                    $name = explode("/", preg_replace("/\/$/", "", $path));
+                    $name = strtolower(end($name));
                 }
+                $loadedLanguage = $this->load($path, $name);
             } else {
-                throw new Exception(1, "Language %" . $language . "% does not exist!");
+                throw new Exception(1, "Language %" . $name . "% does not exist!");
             }
         }
+
+        return $loadedLanguage;
+    }
+
+
+    /**
+     * @param $path
+     * @param $name
+     *
+     * @return LanguageLoader
+     * @throws Exception
+     */
+    private function load($path, $name)
+    {
+        if (is_dir($path)) {
+            $loader = $path . "Loader.php";
+            $config = $path . "Config.php";
+
+            if (!file_exists($loader)) {
+                throw new Exception(1, "Please create a Loader.php for the %" . $name . "% language!");
+            }
+            if (!file_exists($config)) {
+                throw new Exception(1, "Please create a Config.php for the %" . $name . "% language!");
+            }
+
+            /** @noinspection PhpIncludeInspection */
+            require_once $loader;
+
+            /** @noinspection PhpIncludeInspection */
+            require_once $config;
+
+            $loaderClassName = $this->getClassName($name, "Loader");
+
+            if (!class_exists($loaderClassName)) {
+                throw new Exception(1, "There is not the right class declaration within  %" . $loader . "%!");
+            }
+
+            $configClassName = $this->getClassName($name, "Config");
+
+            if (!class_exists($configClassName)) {
+                throw new Exception(1, "There is not the right class declaration within  %" . $config . "%!");
+            }
+
+
+            /** @var LanguageLoader $lang */
+            $language = $this->registerLanguageClass($loaderClassName, $configClassName, $path);
+
+
+            if (!$this->languages[ $loaderClassName ]["registered"]) {
+                $language->register();
+                $this->Engine->Config()->addLanguageConfig($language->getConfig());
+                $this->languages[ $loaderClassName ]["registered"] = true;
+            }
+
+            return $this->languages[ $loaderClassName ]["class"];
+
+        }
+
+        throw new Exception(1, "There are no languages registered!");
     }
 
 
     /**
      * returns a namespaced class for the give language
      *
-     * @param $lang
+     * @param string $language
+     * @param string $name
      *
      * @return string
      */
-    private function getLanguageClass($lang)
+    private function getClassName($language, $name)
     {
         $namespaces    = explode("\\", __NAMESPACE__);
         $frameworkName = reset($namespaces);
-        $class         = "\\" . $frameworkName . "\\Languages\\" . ucfirst(strtolower($lang)) . "\\LanguageLoader";
+        $class         = "\\" . $frameworkName . "\\Languages\\" . ucfirst(strtolower($language)) . "\\$name";
 
         return $class;
     }
 
 
     /**
-     * @param $class
+     * @param $loaderClass
+     * @param $configClass
+     * @param $path
      *
      * @return mixed
      */
-    private function createLanguageClass($class)
+    private function registerLanguageClass($loaderClass, $configClass, $path)
     {
-        if (!isset($this->languages[ $class ])) {
-            $language                  = array();
-            $language["class"]         = new $class($this->Engine);
-            $language["registered"]    = false;
-            $this->languages[ $class ] = $language;
+        if (!isset($this->languages[ $loaderClass ])) {
+            $config                          = new $configClass($this->Engine);
+            $language                        = array();
+            $language["class"]               = new $loaderClass($this->Engine, $config, $path);
+            $language["registered"]          = false;
+            $this->languages[ $loaderClass ] = $language;
         }
 
-        return $this->languages[ $class ]["class"];
+        return $this->languages[ $loaderClass ]["class"];
     }
 
 

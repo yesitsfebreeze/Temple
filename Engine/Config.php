@@ -29,14 +29,14 @@ class Config extends Injection
     /** @var bool $errorHandler */
     private $errorHandler = true;
 
-    /** @var ExceptionHandler $errorHandlerEngine */
-    private $errorHandlerEngine;
+    /** @var ExceptionHandler $errorHandlerInstance */
+    private $errorHandlerInstance;
 
     /** @var string $cacheDir */
     private $cacheDir = "./Cache";
 
     /** @var bool $cacheEnabled */
-    private $cacheEnabled = true;
+    private $cacheEnabled = false;
 
     /** @var bool $CacheInvalidation */
     private $CacheInvalidation = true;
@@ -47,32 +47,26 @@ class Config extends Injection
     /** @var array $templateDirs */
     private $templateDirs = array();
 
-    /** @var string $IndentCharacter tab or space */
-    private $IndentCharacter = "space";
-
-    /** @var int $IndentAmount */
-    private $IndentAmount = 4;
+    /** @var bool $showBlockComments */
+    private $showBlockComments = true;
 
     /** @var string $extension */
     private $extension = "tmpl";
 
-    /** @var string $variablePattern */
-    private $variablePattern = "{{%}}";
-
-    /** @var bool $showComments */
-    private $showComments = true;
-
-    /** @var bool $showBlockComments */
-    private $showBlockComments = true;
-
     /** @var array $languages */
-    private $defaultLanguage = "html";
+    private $languages = array();
+
+    /** @var array $defaultLanguage */
+    private $defaultLanguage = "./Languages/Html";
 
     /** @var array $languages */
     private $languageTagName = "lang";
 
     /** @var array $languageCacheFolders */
     private $languageCacheFolders = array();
+
+    /** @var array $languageConfigs */
+    protected $languageConfigs = array();
 
     /** @var array $curlUrls */
     private $curlUrls = array();
@@ -109,14 +103,21 @@ class Config extends Injection
                     "cacheEnabled"         => $configInstance->isCacheEnabled(),
                     "templateDirs"         => $configInstance->getTemplateDirs(),
                     "processedTemplates"   => $configInstance->getProcessedTemplates(),
-                    "IndentCharacter"      => $configInstance->getIndentCharacter(),
-                    "IndentAmount"         => $configInstance->getIndentAmount(),
-                    "extension"            => $configInstance->getExtension(),
                     "defaultLanguage"      => $configInstance->getDefaultLanguage(),
                     "useCoreLanguage"      => $configInstance->isUseCoreLanguage(),
-                    "DocumentRoot"         => $_SERVER["DOCUMENT_ROOT"]
+                    "DocumentRoot"         => $_SERVER["DOCUMENT_ROOT"],
+                    "languageConfigs"      => array()
+
                 );
-                $key    = md5(serialize($configInstance));
+
+                $languageConfigs = $configInstance->getLanguageConfigs();
+                /* @var LanguageConfig $languageConfig */
+                foreach ($languageConfigs as $name => $languageConfig) {
+                    $config["languageConfigs"][ $name ] = $languageConfig->toArray();
+                }
+
+                // todo: update the config instead of adding it
+                $key = md5(serialize($configInstance));
                 $configInstance->EngineWrapper->ConfigCache()->save($key, $config);
             }, $this);
             $this->shutdownCallbackRegistered = true;
@@ -283,48 +284,25 @@ class Config extends Injection
 
 
     /**
-     * @return string
+     * @return boolean
      */
-    public function getIndentCharacter()
+    public function isShowBlockComments()
     {
-        return $this->IndentCharacter;
+        return $this->showBlockComments;
     }
 
 
     /**
-     * @param $IndentCharacter
+     * @param $showBlockComments
      *
-     * @return string
+     * @return mixed
      */
-    public function setIndentCharacter($IndentCharacter)
+    public function setShowBlockComments($showBlockComments)
     {
-        $this->IndentCharacter = $IndentCharacter;
+        $this->showBlockComments = $showBlockComments;
         $this->update();
 
-        return $this->IndentCharacter;
-    }
-
-
-    /**
-     * @return int
-     */
-    public function getIndentAmount()
-    {
-        return $this->IndentAmount;
-    }
-
-
-    /**
-     * @param $IndentAmount
-     *
-     * @return int
-     */
-    public function setIndentAmount($IndentAmount)
-    {
-        $this->IndentAmount = $IndentAmount;
-        $this->update();
-
-        return $this->IndentAmount;
+        return $this->showBlockComments;
     }
 
 
@@ -352,66 +330,28 @@ class Config extends Injection
 
 
     /**
-     * @return string
+     * @return array
      */
-    public function getVariablePattern()
+    public function getLanguages()
     {
-        return $this->variablePattern;
+        return $this->languages;
     }
 
 
     /**
-     * @param string $variablePattern
+     * @param string $language
+     * @param string $key
      */
-    public function setVariablePattern($variablePattern)
+    public function addLanguage($language, $key = null)
     {
-        $this->variablePattern = $variablePattern;
-    }
-
-
-    /**
-     * @return boolean
-     */
-    public function isShowComments()
-    {
-        return $this->showComments;
-    }
-
-
-    /**
-     * @param $showComments
-     *
-     * @return bool
-     */
-    public function setShowComments($showComments)
-    {
-        $this->showComments = $showComments;
-        $this->update();
-
-        return $this->showComments;
-    }
-
-
-    /**
-     * @return boolean
-     */
-    public function isShowBlockComments()
-    {
-        return $this->showBlockComments;
-    }
-
-
-    /**
-     * @param $showBlockComments
-     *
-     * @return mixed
-     */
-    public function setShowBlockComments($showBlockComments)
-    {
-        $this->showBlockComments = $showBlockComments;
-        $this->update();
-
-        return $this->showBlockComments;
+        if (is_null($key)) {
+            $key = explode("/", preg_replace("/\/$/", "", $language));
+            $key = strtolower(end($key));
+        }
+        if (!in_array($language, $this->languages)) {
+            $language = $this->EngineWrapper->DirectoryHandler()->getPath($language);
+            $this->languages[$key] = $language;
+        }
     }
 
 
@@ -491,7 +431,41 @@ class Config extends Injection
 
 
     /**
-     * @param string $curlUrl
+     * @param LanguageConfig $LanguageConfig
+     */
+    public function addLanguageConfig($LanguageConfig)
+    {
+
+        $key                           = $LanguageConfig->getName();
+        $this->languageConfigs[ $key ] = $LanguageConfig;
+
+    }
+
+
+    /**
+     * @param string $language
+     *
+     * @return LanguageConfig
+     */
+    public function getLanguageConfig($language)
+    {
+
+        return $this->languageConfigs[ $language ];
+    }
+
+
+    /**
+     * @return array
+     */
+    public function getLanguageConfigs()
+    {
+
+        return $this->languageConfigs;
+    }
+
+
+    /**
+     * @param string|array $curlUrl
      */
     public function addCurlUrl($curlUrl)
     {

@@ -3,8 +3,7 @@
 namespace Temple\Languages\Core;
 
 
-use Temple\Engine\EventManager\EventManager;
-use Temple\Engine\Structs\Language;
+use Temple\Engine\Structs\LanguageLoader;
 use Temple\Languages\Core\Nodes\BlockNode;
 use Temple\Languages\Core\Nodes\ExtendNode;
 use Temple\Languages\Core\Nodes\IncludeNode;
@@ -17,28 +16,14 @@ use Temple\Languages\Core\Plugins\ExtendPlugin;
  *
  * @package Temple\Languages\Core
  */
-class LanguageLoader extends Language
+class Loader extends LanguageLoader
 {
-
-    /** @var  EventManager $EventManager */
-    private $EventManager;
-
-
-    /**
-     * @return string
-     */
-    public function extension()
-    {
-        return "php";
-    }
-
 
     /**
      * registers the the nodes for the language
      */
     public function register()
     {
-        $this->EventManager = $this->Engine->EventManager();
         $this->registerNodes();
         $this->registerPlugins();
     }

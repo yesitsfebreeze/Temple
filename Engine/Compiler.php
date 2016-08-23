@@ -8,6 +8,7 @@ use Temple\Engine\Exception\Exception;
 use Temple\Engine\InjectionManager\Injection;
 use Temple\Engine\Structs\Dom;
 use Temple\Engine\Structs\Language;
+use Temple\Engine\Structs\LanguageLoader;
 use Temple\Engine\Structs\Node\Node;
 
 
@@ -21,12 +22,6 @@ class Compiler extends Injection
 
     /** @var  EventManager $EventManager */
     protected $EventManager;
-
-    /** @var  Language $Language */
-    private $Language;
-
-    /** @var  string $languagePrefix */
-    private $languagePrefix;
 
 
     /** @inheritdoc */
@@ -47,7 +42,7 @@ class Compiler extends Injection
      */
     public function compile(Dom $Dom)
     {
-        $language = $Dom->getLanguage()->getName();
+        $language = $Dom->getLanguage()->getConfig()->getName();
         $Dom                  = $this->EventManager->dispatch($language,"plugin.dom", $Dom);
         $output               = $this->createOutput($Dom);
         $output               = $this->EventManager->dispatch($language,"plugin.output", $output);
@@ -72,7 +67,7 @@ class Compiler extends Injection
         foreach ($nodes as $node) {
             $node->setDom($Dom);
             $nodeOutput = $node->compile();
-            $language = $Dom->getLanguage()->getName();
+            $language = $Dom->getLanguage()->getConfig()->getName();
             $nodeOutput = $this->EventManager->dispatch($language,"plugin.nodeOutput", array($nodeOutput, $node));
 
             if (!is_string($nodeOutput) && !is_array($nodeOutput)) {

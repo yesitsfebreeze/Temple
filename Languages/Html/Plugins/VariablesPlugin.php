@@ -31,19 +31,23 @@ class VariablesPlugin extends Event
      */
     public function dispatch($output, Node $Node = null)
     {
-        $pattern        = $this->Engine->Config()->getVariablePattern();
-        $pattern        = explode('%', $pattern);
-        $pattern        = "/" . preg_quote($pattern[0]) . "(.*?)" . preg_quote($pattern[1]) . "/";
-        preg_match_all($pattern, $output, $matches);
 
         if (!is_null($Node)) {
-            $this->language = $Node->getDom()->getLanguage()->getName();
+            $pattern = $Node->getDom()->getLanguage()->getConfig()->getVariablePattern();
+            $pattern = explode('%', $pattern);
+            $pattern = "/" . preg_quote($pattern[0]) . "(.*?)" . preg_quote($pattern[1]) . "/";
+            preg_match_all($pattern, $output, $matches);
+
+            $this->language = $Node->getDom()->getLanguage()->getConfig()->getName();
             if ($Node->isFunction()) {
                 return $this->replace($matches, $output);
             }
+
+            return $this->replace($matches, $output, true);
         }
 
-        return $this->replace($matches, $output, true);
+        return $output;
+
     }
 
 
