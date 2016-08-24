@@ -4,6 +4,7 @@ namespace Temple\Languages\Core\Nodes;
 
 
 use Temple\Engine\Exception\Exception;
+use Temple\Engine\LanguageConfig;
 use Temple\Engine\Structs\Node\Node;
 
 
@@ -38,8 +39,9 @@ class IncludeNode extends Node
 
     private function throwException()
     {
-        $language = $this->Dom->getLanguage();
-        $name     = $language->getName();
+        /** @var LanguageConfig $languageConfig */
+        $languageConfig = $this->Dom->getLanguage()->getConfig();
+        $name     = $languageConfig->getName();
         throw new Exception(500, "Please implement the %include% node for the %" . $name . "% language");
     }
 

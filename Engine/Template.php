@@ -191,8 +191,10 @@ class Template extends Injection
         $content = $this->Compiler->compile($Dom);
         $this->Config->addProcessedTemplate($file);
 
-        $language = $Dom->getLanguage()->getConfig()->getName();
-        $this->EventManager->dispatch($language,"template.fetch", $this);
+        /** @var LanguageConfig $language */
+        $language = $Dom->getLanguage()->getConfig();
+        $languageName = $language->getName();
+        $this->EventManager->dispatch($languageName,"template.fetch", $this);
 
         $template = $this->getTemplateFile($file);
         /** @var LanguageLoader $lang */

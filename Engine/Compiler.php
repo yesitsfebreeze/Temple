@@ -42,10 +42,11 @@ class Compiler extends Injection
      */
     public function compile(Dom $Dom)
     {
+        /** @var LanguageLoader $language */
         $language = $Dom->getLanguage()->getConfig()->getName();
-        $Dom                  = $this->EventManager->dispatch($language,"plugin.dom", $Dom);
-        $output               = $this->createOutput($Dom);
-        $output               = $this->EventManager->dispatch($language,"plugin.output", $output);
+        $Dom      = $this->EventManager->dispatch($language, "plugin.dom", $Dom);
+        $output   = $this->createOutput($Dom);
+        $output   = $this->EventManager->dispatch($language, "plugin.output", $output);
         return $output;
     }
 
@@ -67,8 +68,9 @@ class Compiler extends Injection
         foreach ($nodes as $node) {
             $node->setDom($Dom);
             $nodeOutput = $node->compile();
-            $language = $Dom->getLanguage()->getConfig()->getName();
-            $nodeOutput = $this->EventManager->dispatch($language,"plugin.nodeOutput", array($nodeOutput, $node));
+            /** @var LanguageLoader $language */
+            $language   = $Dom->getLanguage()->getConfig()->getName();
+            $nodeOutput = $this->EventManager->dispatch($language, "plugin.nodeOutput", array($nodeOutput, $node));
 
             if (!is_string($nodeOutput) && !is_array($nodeOutput)) {
                 throw new Exception(600, "There went something wrong with the %plugin.nodeOutput% event!");

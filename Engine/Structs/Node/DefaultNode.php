@@ -4,6 +4,7 @@ namespace Temple\Engine\Structs\Node;
 
 
 use Temple\Engine\Exception\Exception;
+use Temple\Engine\LanguageConfig;
 
 
 /**
@@ -37,8 +38,10 @@ class DefaultNode extends Node
      */
     public function compile()
     {
-        $language = $this->getDom()->getLanguage()->getName();
-        throw new Exception(400, "The %" . $this->getTag() . "% node for the language %" . $language . "% is not defined!", $this->getDom()->getFile(), $this->getLine());
+        /** @var LanguageConfig $language */
+        $languageConfig = $this->getDom()->getLanguage()->getConfig();
+        $languageName = $languageConfig->getName();
+        throw new Exception(400, "The %" . $this->getTag() . "% node for the language %" . $languageName . "% is not defined!", $this->getDom()->getFile(), $this->getLine());
     }
 
 

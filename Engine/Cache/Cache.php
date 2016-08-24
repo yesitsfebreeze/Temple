@@ -9,7 +9,6 @@ use Temple\Engine\Exception\Exception;
 use Temple\Engine\Filesystem\DirectoryHandler;
 use Temple\Engine\InjectionManager\Injection;
 use Temple\Engine\Languages;
-use Temple\Engine\Structs\Language;
 use Temple\Engine\Structs\LanguageLoader;
 
 

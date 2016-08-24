@@ -41,7 +41,7 @@ class VariableNode extends Node
         $this->getVariableName();
         $this->getVariableValue();
         $this->setFunction(true);
-        $this->language      = $this->getDom()->getLanguage()->getName();
+        $this->language      = $this->getDom()->getLanguage()->getConfig()->getName();
         $this->variableValue = $this->Engine->EventManager()->dispatch($this->language, "plugin.variableNode.variableReturn", array($this->variableValue, $this->getDom()->getVariables()));
         $this->getDom()->getVariables()->set($this->variableName, $this->variableValue);
 
