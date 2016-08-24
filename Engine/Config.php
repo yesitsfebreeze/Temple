@@ -5,7 +5,8 @@ namespace Temple\Engine;
 
 use Temple\Engine\Exception\ExceptionHandler;
 use Temple\Engine\InjectionManager\Injection;
-use Temple\Engine\Structs\LanguageLoader;
+use Temple\Engine\Languages\BaseLanguage;
+use Temple\Engine\Languages\LanguageConfig;
 
 
 /**
@@ -115,7 +116,7 @@ class Config extends Injection
                 /* @var LanguageConfig $languageConfig */
                 foreach ($languageConfigs as $name => $languageConfig) {
                     $config["languageConfigs"][ $name ] = $languageConfig->toArray();
-                }
+                } 
 
                 // todo: update the config instead of adding it
                 $key = md5(serialize($configInstance));
@@ -342,7 +343,7 @@ class Config extends Injection
     /**
      * @param $language
      *
-     * @return LanguageLoader
+     * @return BaseLanguage
      */
     public function getLanguage($language)
     {
