@@ -27,9 +27,6 @@ class CurlUrlsCommand extends Command
     }
 
 
-    /**
-     * removes all cache folders
-     */
     public function execute($arg = null)
     {
         if (isset($this->config["curlUrls"])) {

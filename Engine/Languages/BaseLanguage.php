@@ -1,16 +1,15 @@
 <?php
 
-namespace Temple\Engine\Structs;
+namespace Temple\Engine\Languages;
 
 
 use Temple\Engine;
 use Temple\Engine\Cache\VariablesBaseCache;
 use Temple\Engine\EventManager\Event;
 use Temple\Engine\Exception\Exception;
-use Temple\Engine\LanguageConfig;
 
 
-class LanguageLoader
+class BaseLanguage
 {
 
     /** @var  string $path */

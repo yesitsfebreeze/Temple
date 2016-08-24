@@ -3,7 +3,7 @@
 namespace Temple\Languages\Core;
 
 
-use Temple\Engine\Structs\LanguageLoader;
+use Temple\Engine\Languages\BaseLanguage;
 use Temple\Languages\Core\Nodes\BlockNode;
 use Temple\Languages\Core\Nodes\ExtendNode;
 use Temple\Languages\Core\Nodes\IncludeNode;
@@ -12,11 +12,11 @@ use Temple\Languages\Core\Plugins\ExtendPlugin;
 
 
 /**
- * Class LanguageLoader
+ * Class BaseLanguage
  *
  * @package Temple\Languages\Core
  */
-class Loader extends LanguageLoader
+class Language extends BaseLanguage
 {
 
     /**

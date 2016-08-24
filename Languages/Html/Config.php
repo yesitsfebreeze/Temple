@@ -2,7 +2,7 @@
 
 namespace Temple\Languages\Html;
 
-use Temple\Engine\LanguageConfig;
+use Temple\Engine\Languages\LanguageConfig;
 
 
 /**

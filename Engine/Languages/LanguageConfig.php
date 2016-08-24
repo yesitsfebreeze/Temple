@@ -1,6 +1,6 @@
 <?php
 
-namespace Temple\Engine;
+namespace Temple\Engine\Languages;
 
 
 use Temple\Engine;

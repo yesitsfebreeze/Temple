@@ -8,8 +8,8 @@ use Temple\Engine\EventManager\EventManager;
 use Temple\Engine\Exception\Exception;
 use Temple\Engine\Filesystem\DirectoryHandler;
 use Temple\Engine\InjectionManager\Injection;
-use Temple\Engine\Languages;
-use Temple\Engine\Structs\LanguageLoader;
+use Temple\Engine\Languages\BaseLanguage;
+use Temple\Engine\Languages\Languages;
 
 
 class Cache extends Injection
@@ -35,7 +35,7 @@ class Cache extends Injection
         return array(
             "Engine/Config"                      => "Config",
             "Engine/Filesystem/DirectoryHandler" => "DirectoryHandler",
-            "Engine/Languages"                   => "Languages",
+            "Engine/Languages/Languages"         => "Languages",
             "Engine/EventManager/EventManager"   => "EventManager"
         );
     }
@@ -98,7 +98,7 @@ class Cache extends Injection
         $folder    = $this->getFolder($file);
         $extension = $this->getExtension($extension);
         $this->setTime($file);
-        /** @var LanguageLoader $language */
+        /** @var BaseLanguage $language */
         $language = $this->getLanguage($file);
         $language = $language->getConfig()->getName();
         $file     = $this->createFile($file, $extension, $folder);
@@ -247,18 +247,18 @@ class Cache extends Injection
             $cacheFilePath = str_replace($templateDir, "", $cacheFilePath);
         }
 
-        $lang = $this->getLanguage($templatePath);
 
-        $folder = $lang->getCacheFolder();
-        $folder = $this->DirectoryHandler->validate($folder, true);
+        $languageConfig = $this->getLanguage($templatePath)->getConfig();
+        $folder         = $languageConfig->getCacheDir();
+        $folder         = $this->DirectoryHandler->validate($folder, true);
 
-        $extension = "." . $lang->getExtension();
+        $extension = "." . $languageConfig->getExtension();
 
         // check if all needed variable files exist
         $templateFile       = $folder . str_replace("." . $this->Config->getExtension(), $extension, $cacheFilePath);
         $templateFileExists = file_exists($templateFile);
 
-        $variableCache           = $lang->getVariableCache();
+        $variableCache           = $languageConfig->getVariableCache();
         $variableCacheFileExists = true;
         if ($variableCache) {
             $variableFile            = $folder . str_replace("." . $this->Config->getExtension(), ".variables" . $extension, $cacheFilePath);
@@ -538,9 +538,8 @@ class Cache extends Injection
     private function getExtension($extension = null)
     {
         if (is_null($extension)) {
-            /** @var LanguageLoader $lang */
-            $lang      = $this->Languages->getLanguage("default");
-            $extension = $lang->getConfig()->getExtension();
+            $languageConfig = $this->Languages->getLanguage("default")->getConfig();
+            $extension      = $languageConfig->getExtension();
         }
 
         return $extension;
@@ -554,11 +553,10 @@ class Cache extends Injection
      */
     public function getFolder($file)
     {
-        $filename = explode(".", $file);
-        $filename = $filename[0];
-        /** @var LanguageLoader $lang */
-        $lang     = $this->getLanguage($filename);
-        $folder   = $lang->getConfig()->getCacheDir();
+        $filename       = explode(".", $file);
+        $filename       = $filename[0];
+        $languageConfig = $this->getLanguage($filename)->getConfig();
+        $folder         = $languageConfig->getCacheDir();
 
         return $folder;
     }
@@ -567,14 +565,14 @@ class Cache extends Injection
     /**
      * @param $filename
      *
-     * @return false|LanguageLoader
+     * @return false|BaseLanguage
      */
     private function getLanguage($filename)
     {
         $filename = $this->DirectoryHandler->templateExists($filename);
-        $lang     = $this->Languages->getLanguageFromFile($filename);
+        $language = $this->Languages->getLanguageFromFile($filename);
 
-        return $lang;
+        return $language;
     }
 
 }

@@ -4,7 +4,7 @@ namespace Temple\Engine\Structs\Node;
 
 
 use Temple\Engine\Exception\Exception;
-use Temple\Engine\LanguageConfig;
+use Temple\Engine\Languages\LanguageConfig;
 
 
 /**

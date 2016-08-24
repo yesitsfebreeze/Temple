@@ -3,7 +3,7 @@
 namespace Temple\Languages\Js;
 
 
-use Temple\Engine\Structs\LanguageLoader;
+use Temple\Engine\Languages\BaseLanguage;
 use Temple\Languages\Js\Nodes\IncludeNode;
 use Temple\Languages\Js\Nodes\TestNode;
 
@@ -11,11 +11,11 @@ use Temple\Languages\Js\Nodes\TestNode;
 /**
  * this is the default language
  * it renders to a mix of html and php
- * Class LanguageLoader
+ * Class Language
  *
  * @package Temple\Languages\Js
  */
-class Loader extends LanguageLoader
+class Language extends BaseLanguage
 {
 
     /**

@@ -14,9 +14,6 @@ use Temple\Engine\Structs\Node\Node;
 class VariableNode extends Node
 {
 
-    /** @var  string $language */
-    private $language;
-
     /** @var  string $variableName */
     private $variableName;
 
@@ -41,7 +38,6 @@ class VariableNode extends Node
         $this->getVariableName();
         $this->getVariableValue();
         $this->setFunction(true);
-        $this->language      = $this->getDom()->getLanguage()->getConfig()->getName();
         $this->variableValue = $this->Engine->EventManager()->dispatch($this->language, "plugin.variableNode.variableReturn", array($this->variableValue, $this->getDom()->getVariables()));
         $this->getDom()->getVariables()->set($this->variableName, $this->variableValue);
 

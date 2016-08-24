@@ -10,6 +10,7 @@ use Temple\Engine\Console\Console;
 use Temple\Engine\EventManager\EventManager;
 use Temple\Engine\Filesystem\DirectoryHandler;
 use Temple\Engine\InjectionManager\Injection;
+use Temple\Engine\Languages\Languages;
 
 
 class EngineWrapper extends Injection
@@ -59,7 +60,7 @@ class EngineWrapper extends Injection
             "Engine/EventManager/EventManager"   => "EventManager",
             "Engine/Cache/Cache"                 => "Cache",
             "Engine/Cache/CacheInvalidator"      => "CacheInvalidator",
-            "Engine/Languages"                   => "Languages",
+            "Engine/Languages/Languages"                   => "Languages",
             "Engine/Lexer"                       => "Lexer",
             "Engine/Compiler"                    => "Compiler",
             "Engine/Template"                    => "Template"

@@ -4,8 +4,6 @@ namespace Temple\Languages\Html\Plugins;
 
 use Temple\Engine\EventManager\Event;
 use Temple\Engine\Exception\Exception;
-use Temple\Engine\Structs\Buffer;
-use Temple\Engine\Structs\Node\Node;
 use Temple\Engine\Structs\Variables;
 
 
@@ -17,8 +15,6 @@ use Temple\Engine\Structs\Variables;
 class VariableReturnPlugin extends Event
 {
 
-
-
     public function dispatch($input, Variables $Variables)
     {
 
@@ -26,7 +22,7 @@ class VariableReturnPlugin extends Event
             return $input;
         }
 
-        $pattern = $this->Engine->Config()->getVariablePattern();
+        $pattern = $this->Engine->Config()->getLanguageConfig($this->getLanguage())->getVariablePattern();
         $pattern = explode('%', $pattern);
         $pattern = "/" . preg_quote($pattern[0]) . "(.*?)" . preg_quote($pattern[1]) . "/";
         preg_match_all($pattern, $input, $matches);

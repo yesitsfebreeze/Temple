@@ -87,6 +87,7 @@ class Command
      */
     public function execute($args)
     {
+        unset($args);
         $commandName = preg_replace('/^.*?\[^\]*?$/', "", get_class($this));
         throw new Exception(5000, "Please implement the %execute% function for %" . $commandName . "%!");
     }

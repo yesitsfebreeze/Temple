@@ -31,6 +31,6 @@ class TestNode extends Node
 
     public function compile()
     {
-        return "asdasdddd";
+        return "test";
     }
 }

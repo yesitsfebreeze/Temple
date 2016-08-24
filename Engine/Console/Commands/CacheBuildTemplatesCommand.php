@@ -28,10 +28,6 @@ class CacheBuildTemplatesCommand extends Command
         $this->setProgressTitleColor("green");
     }
 
-
-    /**
-     * removes all cache folders
-     */
     public function execute($arg = null)
     {
         if (isset($this->config["processedTemplates"])) {

@@ -5,6 +5,7 @@ namespace Temple\Engine\Structs;
 
 use Temple\Engine\Cache\VariablesBaseCache;
 use Temple\Engine\Exception\Exception;
+use Temple\Engine\Languages\BaseLanguage;
 use Temple\Engine\Structs\Node\Node;
 
 
@@ -14,7 +15,7 @@ class Dom
     /** @var VariablesBaseCache $Variables */
     private $Variables;
 
-    /** @var LanguageLoader $Language */
+    /** @var BaseLanguage $Language */
     private $Language;
 
     /** @var  string $namespace */
@@ -48,7 +49,7 @@ class Dom
     protected $extending;
 
 
-    public function __construct($namespace, $file, $templates, $level, LanguageLoader $language)
+    public function __construct($namespace, $file, $templates, $level, BaseLanguage $language)
     {
         $this->Variables = new Variables();
         $this->Language  = $language;
@@ -292,7 +293,7 @@ class Dom
 
 
     /**
-     * @return LanguageLoader
+     * @return BaseLanguage
      */
     public function getLanguage()
     {

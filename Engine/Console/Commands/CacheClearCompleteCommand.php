@@ -26,9 +26,6 @@ class CacheClearCompleteCommand extends Command
     }
 
 
-    /**
-     * removes all cache folders
-     */
     public function execute($arg = null)
     {
         $this->CliOutput->writeln("clearing caches...", "green");

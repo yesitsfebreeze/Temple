@@ -67,7 +67,7 @@ class CommentNode extends Node
      */
     public function compile()
     {
-        if ($this->Engine->Config()->isShowComments()) {
+        if ($this->getDom()->getLanguage()->getConfig()->isShowComments()) {
             $output = "<!-- ";
             $output .= trim(preg_replace("/^" . $this->getTag() . "/", "", trim($this->plain)));
             $output .= " -->";

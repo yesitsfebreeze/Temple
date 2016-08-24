@@ -169,14 +169,16 @@ class Exception extends \Exception
                 foreach ($templateDirs as $templateDir) {
                     $file = str_replace($templateDir, "", $file);
                 }
-                $extension = "." . $config["extension"];
-                $file      = preg_replace("/" . preg_quote($extension) . "$/", "", $file) . $extension;
-                foreach ($templateDirs as $templateDir) {
-                    $template = $templateDir . $file;
-                    if (file_exists($templateDir . $file)) {
-                        touch($template);
+                if (isset($config["extension"])) {
+                    $extension = "." . $config["extension"];
+                    $file      = preg_replace("/" . preg_quote($extension) . "$/", "", $file) . $extension;
+                    foreach ($templateDirs as $templateDir) {
+                        $template = $templateDir . $file;
+                        if (file_exists($templateDir . $file)) {
+                            touch($template);
 
-                        return true;
+                            return true;
+                        }
                     }
                 }
             }

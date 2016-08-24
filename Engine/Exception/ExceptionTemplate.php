@@ -56,7 +56,7 @@ class ExceptionTemplate
     {
 
         $code = "<div class='mute code'>";
-        $code .= "Errorcode " . $this->exception->getCustomCode();
+        $code .= "Error code: " . $this->exception->getCustomCode();
         $code .= "</div>";
 
         $this->template = str_replace("%code%", $code, $this->template);

@@ -1,6 +1,6 @@
 <?php
 
-namespace Temple\Engine;
+namespace Temple\Engine\Languages;
 
 
 use Temple\Engine;
@@ -8,7 +8,6 @@ use Temple\Engine\EventManager\EventManager;
 use Temple\Engine\Exception\Exception;
 use Temple\Engine\Filesystem\DirectoryHandler;
 use Temple\Engine\InjectionManager\Injection;
-use Temple\Engine\Structs\LanguageLoader;
 
 
 /**
@@ -96,7 +95,7 @@ class Languages extends Injection
     /**
      * @param $lang
      *
-     * @return mixed
+     * @return BaseLanguage|false
      * @throws Exception
      */
     public function getLanguage($lang)
@@ -108,7 +107,7 @@ class Languages extends Injection
     /**
      * @param $file
      *
-     * @return LanguageLoader|false
+     * @return BaseLanguage|false
      * @throws Exception
      */
     public function getLanguageFromFile($file)
@@ -136,7 +135,7 @@ class Languages extends Injection
 
                     $languages[] = $lang;
 
-                    /** @var  LanguageLoader $lang */
+                    /** @var  BaseLanguage $lang */
                     return $this->iterate($languages);
                 }
             }
@@ -153,7 +152,7 @@ class Languages extends Injection
     /**
      * @param $languages
      *
-     * @return LanguageLoader
+     * @return BaseLanguage
      * @throws Exception
      */
     private function iterate($languages)
@@ -188,39 +187,39 @@ class Languages extends Injection
      * @param $path
      * @param $name
      *
-     * @return LanguageLoader
+     * @return BaseLanguage
      * @throws Exception
      */
     private function load($path, $name)
     {
         if (is_dir($path)) {
-            $loader = $path . "Loader.php";
+            $language = $path . "Language.php";
 
-            if (!file_exists($loader)) {
+            if (!file_exists($language)) {
                 throw new Exception(1, "Please create a Loader.php for the %" . $name . "% language!");
             }
 
             /** @noinspection PhpIncludeInspection */
-            require_once $loader;
+            require_once $language;
 
-            $loaderClassName = $this->getClassName($name, "Loader");
+            $languageClassName = $this->getClassName($name, "Language");
             $configClassName = $this->getClassName($name, "Config");
 
-            if (!class_exists($loaderClassName)) {
-                throw new Exception(1, "There is not the right class declaration within  %" . $loader . "%!");
+            if (!class_exists($languageClassName)) {
+                throw new Exception(1, "There is not the right class declaration within  %" . $language . "%!");
             }
 
 
-            /** @var LanguageLoader $lang */
-            $language = $this->registerLanguageClass($loaderClassName, $configClassName, $path);
+            /** @var BaseLanguage $lang */
+            $language = $this->registerLanguageClass($languageClassName, $configClassName, $path);
 
 
-            if (!$this->languages[ $loaderClassName ]["registered"]) {
+            if (!$this->languages[ $languageClassName ]["registered"]) {
                 $language->register();
-                $this->languages[ $loaderClassName ]["registered"] = true;
+                $this->languages[ $languageClassName ]["registered"] = true;
             }
 
-            return $this->languages[ $loaderClassName ]["class"];
+            return $this->languages[ $languageClassName ]["class"];
 
         }
 

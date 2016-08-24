@@ -15,7 +15,7 @@ use Temple\Engine\Filesystem\DirectoryHandler;
 use Temple\Engine\InjectionManager\Injection;
 use Temple\Engine\InjectionManager\InjectionManager;
 use Temple\Engine\EngineWrapper;
-use Temple\Engine\Languages;
+use Temple\Engine\Languages\Languages;
 use Temple\Engine\Lexer;
 use Temple\Engine\Structs\Variables;
 use Temple\Engine\Template;

@@ -2,7 +2,7 @@
 
 namespace Temple\Languages\Core;
 
-use Temple\Engine\LanguageConfig;
+use Temple\Engine\Languages\LanguageConfig;
 
 
 /**

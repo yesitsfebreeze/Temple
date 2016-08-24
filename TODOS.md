@@ -4,7 +4,7 @@
 
 [] i have to create base classes for the variable node and plugin within the core
 
-[] extend the config trough a language
+[] add language config and name to base event
 
 [] clear language cache if nodes change
 

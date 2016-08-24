@@ -10,8 +10,10 @@ use Temple\Engine\EventManager\EventManager;
 use Temple\Engine\Exception\Exception;
 use Temple\Engine\Filesystem\DirectoryHandler;
 use Temple\Engine\InjectionManager\Injection;
+use Temple\Engine\Languages\LanguageConfig;
+use Temple\Engine\Languages\Languages;
 use Temple\Engine\Structs\Dom;
-use Temple\Engine\Structs\LanguageLoader;
+use Temple\Engine\Languages\BaseLanguage;
 use Temple\Engine\Structs\Page;
 
 
@@ -58,7 +60,7 @@ class Template extends Injection
             "Engine/Cache/CacheInvalidator"      => "CacheInvalidator",
             "Engine/Lexer"                       => "Lexer",
             "Engine/Compiler"                    => "Compiler",
-            "Engine/Languages"                   => "Languages",
+            "Engine/Languages/Languages"                   => "Languages",
             "Engine/EventManager/EventManager"   => "EventManager"
         );
     }
@@ -118,7 +120,7 @@ class Template extends Injection
         $page->setFileName($file);
         $page->setFile($cacheFile);
         $template = $this->getTemplateFile($file);
-        /** @var LanguageLoader $lang */
+        /** @var BaseLanguage $lang */
         $lang          = $this->Languages->getLanguageFromFile($template);
         $VariableCache = $lang->getConfig()->getVariableCache();
         if ($VariableCache instanceof VariablesBaseCache) {
@@ -197,7 +199,7 @@ class Template extends Injection
         $this->EventManager->dispatch($languageName,"template.fetch", $this);
 
         $template = $this->getTemplateFile($file);
-        /** @var LanguageLoader $lang */
+        /** @var BaseLanguage $lang */
         $lang          = $this->Languages->getLanguageFromFile($template);
         $VariableCache = $lang->getConfig()->getVariableCache();
         if ($VariableCache instanceof VariablesBaseCache) {
@@ -252,7 +254,7 @@ class Template extends Injection
             $file = $this->DirectoryHandler->cleanExtension($file);
             throw new Exception(123123, "The file %" . $file . "% doesn't exists!");
         }
-        /** @var LanguageLoader $lang */
+        /** @var BaseLanguage $lang */
         $lang      = $this->Languages->getLanguageFromFile($template);
         $extension = $lang->getConfig()->getExtension();
 

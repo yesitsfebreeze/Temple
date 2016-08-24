@@ -3,7 +3,6 @@
 namespace Temple\Languages\Html\Nodes;
 
 
-use Temple\Engine\Exception\Exception;
 use Temple\Engine\Structs\Node\Node;
 
 

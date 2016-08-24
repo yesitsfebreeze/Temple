@@ -3,7 +3,6 @@
 namespace Temple\Engine\EventManager;
 
 
-use Temple\Engine\Exception\Exception;
 use Temple\Engine\InjectionManager\InjectionManager;
 use Temple\Engine;
 
@@ -14,12 +13,15 @@ use Temple\Engine;
 abstract class Event
 {
 
+
     /** @var Engine $Engine */
     protected $Engine;
 
-
     /** @var InjectionManager $InjectionManager */
     protected $InjectionManager;
+
+    /** @var string $language */
+    protected $language;
 
 
     /**
@@ -37,6 +39,24 @@ abstract class Event
     public function setInjectionManager(InjectionManager $InjectionManager)
     {
         $this->InjectionManager = $InjectionManager;
+    }
+
+
+    /**
+     * @return string
+     */
+    public function getLanguage()
+    {
+        return $this->language;
+    }
+
+
+    /**
+     * @param string $language
+     */
+    public function setLanguage($language)
+    {
+        $this->language = $language;
     }
 
 }

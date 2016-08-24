@@ -19,10 +19,6 @@ class VariablesPlugin extends Event
     /** @var  array $modifiers */
     private $modifiers = false;
 
-    /** @var  string $language */
-    private $language;
-
-
     /**
      * @param           $output
      * @param Node|null $Node
@@ -38,7 +34,6 @@ class VariablesPlugin extends Event
             $pattern = "/" . preg_quote($pattern[0]) . "(.*?)" . preg_quote($pattern[1]) . "/";
             preg_match_all($pattern, $output, $matches);
 
-            $this->language = $Node->getDom()->getLanguage()->getConfig()->getName();
             if ($Node->isFunction()) {
                 return $this->replace($matches, $output);
             }
