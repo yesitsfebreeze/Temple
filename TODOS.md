@@ -8,6 +8,7 @@
 
 [] clear language cache if nodes change
 
+[] on creation of a node set the the languageConfig to the getter to be able to access it faster within nodes
 
 [] make a list of html functions i need to implement
     [x] blocks
