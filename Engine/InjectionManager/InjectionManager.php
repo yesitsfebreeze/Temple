@@ -62,7 +62,7 @@ class InjectionManager
 
         if (!isset($this->dependencies[ $name ])) {
             new ExceptionHandler();
-            throw new Exception(1,"Injection Management: %" . $name . "% is not instantiated yet.");
+            throw new Exception( 1, "Injection Management: %" . $name . "% is not instantiated yet.");
         }
 
         return $this->dependencies[ $name ];
@@ -96,7 +96,7 @@ class InjectionManager
     {
         if (!is_array($dependencies)) {
             new ExceptionHandler();
-            throw new Exception(1,"Injection Management: %dependencies()% must return an array ", get_class($instance) . ".php");
+            throw new Exception( 1, "Injection Management: %dependencies()% must return an array ", get_class($instance) . ".php");
         }
 
         foreach ($dependencies as $dependency => $name) {
@@ -117,7 +117,7 @@ class InjectionManager
 
         if (!isset($this->dependencies[ $dependency ])) {
             new ExceptionHandler();
-            throw new Exception(1,"Injection Management: %" . $dependency . "% dependency instance does't exist.", get_class($instance));
+            throw new Exception( 1, "Injection Management: %" . $dependency . "% dependency instance does't exist.", get_class($instance));
         }
 
         $instance->setDependency($name, $this->dependencies[ $dependency ]);

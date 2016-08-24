@@ -38,7 +38,7 @@ class Config extends Injection
     private $cacheDir = "./Cache";
 
     /** @var bool $cacheEnabled */
-    private $cacheEnabled = false;
+    private $cacheEnabled = true;
 
     /** @var bool $CacheInvalidation */
     private $CacheInvalidation = true;
@@ -97,6 +97,7 @@ class Config extends Injection
 
         if (!$this->shutdownCallbackRegistered) {
             register_shutdown_function(function (Config $configInstance) {
+                // todo: if is modified
                 $config = array(
                     "cacheDir"             => $configInstance->EngineWrapper->DirectoryHandler()->getCacheDir(),
                     "languageCacheFolders" => $configInstance->getLanguageCacheFolders(),
@@ -109,18 +110,20 @@ class Config extends Injection
                     "useCoreLanguage"      => $configInstance->isUseCoreLanguage(),
                     "DocumentRoot"         => $_SERVER["DOCUMENT_ROOT"],
                     "languageConfigs"      => array()
-
                 );
 
                 $languageConfigs = $configInstance->getLanguageConfigs();
+
                 /* @var LanguageConfig $languageConfig */
                 foreach ($languageConfigs as $name => $languageConfig) {
                     $config["languageConfigs"][ $name ] = $languageConfig->toArray();
-                } 
+                }
 
                 // todo: update the config instead of adding it
                 $key = md5(serialize($configInstance));
-                $configInstance->EngineWrapper->ConfigCache()->save($key, $config);
+                $cache = $configInstance->EngineWrapper->ClassCache()->getCache();
+                $cache[$key] = $config;
+                $configInstance->EngineWrapper->ClassCache()->saveCache($cache);
             }, $this);
             $this->shutdownCallbackRegistered = true;
         }

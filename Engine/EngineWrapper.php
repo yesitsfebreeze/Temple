@@ -5,7 +5,7 @@ namespace Temple\Engine;
 
 use Temple\Engine\Cache\Cache;
 use Temple\Engine\Cache\CacheInvalidator;
-use Temple\Engine\Cache\ConfigCache;
+use Temple\Engine\Cache\ClassCache;
 use Temple\Engine\Console\Console;
 use Temple\Engine\EventManager\EventManager;
 use Temple\Engine\Filesystem\DirectoryHandler;
@@ -19,8 +19,8 @@ class EngineWrapper extends Injection
     /** @var Config $Config */
     protected $Config;
 
-    /** @var ConfigCache $ConfigCache */
-    protected $ConfigCache;
+    /** @var ClassCache $ClassCache */
+    protected $ClassCache;
 
     /** @var Console $Console */
     protected $Console;
@@ -54,13 +54,13 @@ class EngineWrapper extends Injection
     {
         return array(
             "Engine/Config"                      => "Config",
-            "Engine/Cache/ConfigCache"           => "ConfigCache",
+            "Engine/Cache/ClassCache"            => "ClassCache",
             "Engine/Console/Console"             => "Console",
             "Engine/Filesystem/DirectoryHandler" => "DirectoryHandler",
             "Engine/EventManager/EventManager"   => "EventManager",
             "Engine/Cache/Cache"                 => "Cache",
             "Engine/Cache/CacheInvalidator"      => "CacheInvalidator",
-            "Engine/Languages/Languages"                   => "Languages",
+            "Engine/Languages/Languages"         => "Languages",
             "Engine/Lexer"                       => "Lexer",
             "Engine/Compiler"                    => "Compiler",
             "Engine/Template"                    => "Template"
@@ -78,11 +78,11 @@ class EngineWrapper extends Injection
 
 
     /**
-     * @return ConfigCache
+     * @return ClassCache
      */
-    public function ConfigCache()
+    public function ClassCache()
     {
-        return $this->ConfigCache;
+        return $this->ClassCache;
     }
 
 
@@ -94,7 +94,7 @@ class EngineWrapper extends Injection
         return $this->Console;
     }
 
-    
+
     /**
      * @return DirectoryHandler
      */

@@ -5,7 +5,7 @@ namespace Temple;
 
 use Temple\Engine\Cache\Cache;
 use Temple\Engine\Cache\CacheInvalidator;
-use Temple\Engine\Cache\ConfigCache;
+use Temple\Engine\Cache\ClassCache;
 use Temple\Engine\Compiler;
 use Temple\Engine\Config;
 use Temple\Engine\Console\CommandCache;
@@ -35,8 +35,8 @@ class Engine extends Injection
     /** @var Config $Config */
     protected $Config;
 
-    /** @var ConfigCache $ConfigCache */
-    protected $ConfigCache;
+    /** @var ClassCache $ClassCache */
+    protected $ClassCache;
 
     /** @var Console $Console */
     protected $Console;
@@ -86,16 +86,16 @@ class Engine extends Injection
         // used passed config or default
         $config = ($config instanceof Config) ? $config : new Config();
 
-        $this->InjectionManager = new InjectionManager();
+        $this->InjectionManager = new InjectionManager($config);
 
         $this->Config           = $this->InjectionManager->registerDependency($config);
-        $this->ConfigCache      = $this->InjectionManager->registerDependency(new ConfigCache());
+        $this->DirectoryHandler = $this->InjectionManager->registerDependency(new DirectoryHandler());
         $this->CommandCache     = $this->InjectionManager->registerDependency(new CommandCache());
         $this->Console          = $this->InjectionManager->registerDependency(new Console());
-        $this->DirectoryHandler = $this->InjectionManager->registerDependency(new DirectoryHandler());
         $this->EventManager     = $this->InjectionManager->registerDependency(new EventManager());
         $this->Variables        = $this->InjectionManager->registerDependency(new Variables());
         $this->Languages        = $this->InjectionManager->registerDependency(new Languages());
+        $this->ClassCache      = $this->InjectionManager->registerDependency(new ClassCache());
         $this->Cache            = $this->InjectionManager->registerDependency(new Cache());
         $this->CacheInvalidator = $this->InjectionManager->registerDependency(new CacheInvalidator());
         $this->Lexer            = $this->InjectionManager->registerDependency(new Lexer());

@@ -112,14 +112,13 @@ class Languages extends Injection
      */
     public function getLanguageFromFile($file)
     {
-        $language = false;
-
         $languages = array();
+        $file = $this->DirectoryHandler->getTemplatePath($file);
         if (file_exists($file)) {
-
             $handle = fopen($file, "r");
             while (($line = fgets($handle)) !== false) {
                 if (trim($line) != '') {
+
                     preg_match("/^(.*?)(?:$|\s)/", trim($line), $tag);
                     $tag = trim($tag[0]);
 
@@ -139,13 +138,11 @@ class Languages extends Injection
                     return $this->iterate($languages);
                 }
             }
+        } else {
+            var_dump($file);
         }
 
-        if (!$language) {
-            throw new Exception(700, "The requested language doesn't exist");
-        }
-
-        return $language;
+        return false;
     }
 
 
@@ -157,7 +154,6 @@ class Languages extends Injection
      */
     private function iterate($languages)
     {
-        // todo: try to get languages from folder and then load it
         $loadedLanguage = null;
 
         if (is_string($languages)) {
@@ -165,6 +161,7 @@ class Languages extends Injection
         }
 
         $registeredLanguages = $this->Engine->Config()->getLanguages();
+
 
         foreach ($languages as $name) {
             if (isset($registeredLanguages[ $name ])) {
@@ -203,7 +200,7 @@ class Languages extends Injection
             require_once $language;
 
             $languageClassName = $this->getClassName($name, "Language");
-            $configClassName = $this->getClassName($name, "Config");
+            $configClassName   = $this->getClassName($name, "Config");
 
             if (!class_exists($languageClassName)) {
                 throw new Exception(1, "There is not the right class declaration within  %" . $language . "%!");

@@ -9,7 +9,7 @@ use Temple\Engine\Structs\Variables;
 
 
 /**
- * Class ConfigCache
+ * Class ClassCache
  *
  * @package Temple\Engine\Cache
  */
@@ -54,7 +54,7 @@ abstract class VariablesBaseCache
     public function saveVariables(Variables $Variables)
     {
         $Variables = serialize($Variables);
-        $this->Engine->Cache()->save($this->getFileName($this->file), $Variables);
+        $this->Engine->Cache()->saveTemplate($this->getFileName($this->file), $Variables);
     }
 
 
@@ -84,7 +84,7 @@ abstract class VariablesBaseCache
      */
     protected function getFileName($file)
     {
-        return str_replace($this->Engine->Config()->getExtension(), "variables." . $this->Engine->Config()->getExtension(), $file);
+        return str_replace($this->Engine->Config()->getExtension(), "__vars." . $this->Engine->Config()->getExtension(), $file);
     }
 
 

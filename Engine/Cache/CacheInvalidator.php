@@ -5,13 +5,14 @@ namespace Temple\Engine\Cache;
 
 use Temple\Engine\Exception\Exception;
 use Temple\Engine\InjectionManager\Injection;
+use Temple\Engine\Structs\Storage;
 
 
-class CacheInvalidator extends Cache
+class CacheInvalidator extends ClassCache
 {
 
     /** @var  array $tempCache */
-    private $classesCache;
+    private $cache;
 
 
     /**
@@ -23,7 +24,7 @@ class CacheInvalidator extends Cache
             $this->classesToCheck();
         } catch (Exception $e) {
             $this->invalidateCacheFile();
-            $this->saveCache($this->classesCache);
+            $this->saveCache($this->cache);
         }
     }
 
@@ -34,6 +35,7 @@ class CacheInvalidator extends Cache
     private function classesToCheck()
     {
         $this->check($this->Config);
+        $this->check(new Storage());
     }
 
 
@@ -52,15 +54,15 @@ class CacheInvalidator extends Cache
 
         $classname = get_class($class);
         $cache     = $this->getCache();
-        $hash      = md5(serialize($this->Config));
+        $hash      = md5(serialize($class));
 
         if ($cache) {
             if (!isset($cache["classes"])) {
                 $cache["classes"] = array();
             }
             if (key_exists($classname, $cache["classes"])) {
-                $currentHash = $cache["classes"][ $classname ];
-                if ($currentHash == $hash) {
+                $cacheHash = $cache["classes"][ $classname ];
+                if ($cacheHash == $hash) {
                     return true;
                 } else {
                     return $this->update($cache, $classname, $hash);
@@ -70,7 +72,7 @@ class CacheInvalidator extends Cache
             }
         }
 
-        throw new Exception(1, "Cache Invalidation failed -> check()");
+        throw new Exception( 1, "Cache Invalidation failed -> check()");
     }
 
 
@@ -86,7 +88,7 @@ class CacheInvalidator extends Cache
     private function update($cache, $name, $hash)
     {
         $cache["classes"][ $name ] = $hash;
-        $this->classesCache        = $cache;
+        $this->cache               = $cache;
 
         throw new Exception(1, "Cache Invalidation failed -> update()");
     }

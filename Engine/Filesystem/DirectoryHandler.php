@@ -30,6 +30,19 @@ class DirectoryHandler extends Injection
 
 
     /**
+     * just a helper for the exception class
+     *
+     * DirectoryHandler constructor.
+     *
+     * @param Config|null $Config
+     */
+    public function __construct(Config $Config = null)
+    {
+        $this->Config = $Config;
+    }
+
+
+    /**
      * returns all template Directories
      *
      * @return mixed
@@ -37,6 +50,19 @@ class DirectoryHandler extends Injection
     public function getTemplateDirs()
     {
         return $this->check();
+    }
+
+
+    /**
+     * returns the directory of the given template
+     *
+     * @param $file
+     *
+     * @return bool|string
+     */
+    public function getTemplatePath($file)
+    {
+        return $this->templateExists($file);
     }
 
 

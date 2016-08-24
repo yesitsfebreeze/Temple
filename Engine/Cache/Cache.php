@@ -42,7 +42,7 @@ class Cache extends Injection
 
 
     /** @var string $cacheFile */
-    private $cacheFile = "cache";
+    protected $cacheFile = "cache.templates";
 
 
     /**
@@ -87,21 +87,18 @@ class Cache extends Injection
      *
      * @param string $file
      * @param string $content
-     * @param string $extension
      *
      * @return string
      * @throws Exception
      */
-    public function save($file, $content, $extension = null)
+    public function saveTemplate($file, $content)
     {
-
-        $folder    = $this->getFolder($file);
-        $extension = $this->getExtension($extension);
+        $folder = $this->getFolder($file);
         $this->setTime($file);
         /** @var BaseLanguage $language */
-        $language = $this->getLanguage($file);
-        $language = $language->getConfig()->getName();
-        $file     = $this->createFile($file, $extension, $folder);
+        $language  = $this->getLanguage($file)->getConfig()->getName();
+        $extension = $this->getExtension($file);
+        $file      = $this->createFile($file, $folder);
         $this->Config->addLanguageCacheFolder($this->getDirectory($folder));
         file_put_contents($file, $content);
 
@@ -117,7 +114,7 @@ class Cache extends Injection
      */
     public function invalidateCacheFile()
     {
-        $cacheFile = $this->getPath($this->cacheFile);
+        $cacheFile = $this->createCacheFile();
         if (file_exists($cacheFile)) {
             if (is_writable($cacheFile)) {
                 unlink($cacheFile);
@@ -278,16 +275,14 @@ class Cache extends Injection
      * returns a cache file
      *
      * @param $file
-     * @param $extension
      *
      * @return string
      */
-    public function getFile($file, $extension = null)
+    public function getFile($file)
     {
-        $extension = $this->getExtension($extension);
-        $folder    = $this->getFolder($file);
+        $folder = $this->getFolder($file);
         # returns the cache file
-        $file = $this->createFile($file, $extension, $folder);
+        $file = $this->createFile($file, $folder);
 
         return $file;
     }
@@ -390,7 +385,7 @@ class Cache extends Injection
      */
     protected function getCache()
     {
-        $cacheFile = $this->createFile($this->cacheFile, "php");
+        $cacheFile = $this->createCacheFile();
         $cache     = unserialize(file_get_contents($cacheFile));
 
         // set initial templates sub array
@@ -414,11 +409,27 @@ class Cache extends Injection
      *
      * @return bool
      */
-    protected function saveCache($cache)
+    public function saveCache($cache)
     {
-        $cacheFile = $this->createFile($this->cacheFile, "php");
+        $cacheFile = $this->createCacheFile();
 
         return file_put_contents($cacheFile, serialize($cache));
+    }
+
+
+    /**
+     * creates a cache file if it doesn't exist
+     */
+    protected function createCacheFile()
+    {
+
+        $dir  = $this->getDirectory();
+        $file = $dir . $this->cacheFile . ".php";
+        if (!file_exists($file)) {
+            touch($file);
+        }
+
+        return $file;
     }
 
 
@@ -450,16 +461,13 @@ class Cache extends Injection
      * creates the file if its not already there
      *
      * @param $file
-     * @param $extension
      * @param $folder
      *
      * @return mixed|string
      */
-    private function createFile($file, $extension = null, $folder = null)
+    private function createFile($file, $folder = null)
     {
-        $extension = $this->getExtension($extension);
-
-        $file = $this->getPath($file, $extension, $folder);
+        $file = $this->getTemplatePath($file, $folder);
         # setup the file
         $dir = dirname($file);
         if (!is_dir($dir)) {
@@ -475,18 +483,16 @@ class Cache extends Injection
      * returns the cache path for the given file
      *
      * @param $file
-     * @param $extension
      * @param $folder
      *
      * @return string
      */
-    public function getPath($file, $extension = null, $folder = null)
+    public function getTemplatePath($file, $folder = null)
     {
-        $extension = $this->getExtension($extension);
         # remove the template dir
         $file = $this->cleanFile($file);
-        $file = $this->extension($file, $extension);
-        $file = $this->getDirectory($folder) . $file;
+        $file = $this->extension($file);
+        $file = $this->getFolder($folder) . $file;
 
         return $file;
     }
@@ -496,13 +502,12 @@ class Cache extends Injection
      * adds a php extension to the files path
      *
      * @param $file
-     * @param $extension
      *
      * @return mixed|string
      */
-    private function extension($file, $extension = null)
+    private function extension($file)
     {
-        $extension = $this->getExtension($extension);
+        $extension = $this->getExtension($file);
         $file      = str_replace("." . $this->Config->getExtension(), "", $file);
         $file      = str_replace("." . $extension, "", $file);
         $file      = $file . "." . $extension;
@@ -517,30 +522,35 @@ class Cache extends Injection
      * @param $file
      *
      * @return string
+     * @throws Exception
      */
     private function cleanFile($file)
     {
-        foreach ($this->DirectoryHandler->getTemplateDirs() as $templateDir) {
-            $file = str_replace($templateDir, "", $file);
-        }
+        $templateDirs = $this->DirectoryHandler->getTemplateDirs();
+        if (!is_null($templateDirs) && sizeof($templateDirs) > 0) {
+            foreach ($this->DirectoryHandler->getTemplateDirs() as $templateDir) {
+                $file = str_replace($templateDir, "", $file);
+            }
 
-        $file = str_replace("." . $this->Config->getExtension(), "", $file);
+            $file = str_replace("." . $this->Config->getExtension(), "", $file);
+        } else {
+            throw new Exception(123123, "Please add at least one template directory!");
+        }
 
         return $file;
     }
 
 
     /**
-     * @param null $extension
+     * @param string $file
      *
      * @return null|string
      */
-    private function getExtension($extension = null)
+    private function getExtension($file)
     {
-        if (is_null($extension)) {
-            $languageConfig = $this->Languages->getLanguage("default")->getConfig();
-            $extension      = $languageConfig->getExtension();
-        }
+        $file = str_replace(".__vars", "", $file);
+        $languageConfig = $this->Languages->getLanguageFromFile($file)->getConfig();
+        $extension      = $languageConfig->getExtension();
 
         return $extension;
     }

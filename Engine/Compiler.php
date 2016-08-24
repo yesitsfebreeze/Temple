@@ -6,8 +6,8 @@ namespace Temple\Engine;
 use Temple\Engine\EventManager\EventManager;
 use Temple\Engine\Exception\Exception;
 use Temple\Engine\InjectionManager\Injection;
-use Temple\Engine\Structs\Dom;
 use Temple\Engine\Languages\BaseLanguage;
+use Temple\Engine\Structs\Dom;
 use Temple\Engine\Structs\Node\Node;
 
 
@@ -22,12 +22,16 @@ class Compiler extends Injection
     /** @var  EventManager $EventManager */
     protected $EventManager;
 
+    /** @var  Config $Config */
+    protected $Config;
+
 
     /** @inheritdoc */
     public function dependencies()
     {
         return array(
-            "Engine/EventManager/EventManager" => "EventManager"
+            "Engine/EventManager/EventManager" => "EventManager",
+            "Engine/Config"                    => "Config"
         );
     }
 
@@ -46,6 +50,7 @@ class Compiler extends Injection
         $Dom      = $this->EventManager->dispatch($language, "plugin.dom", $Dom);
         $output   = $this->createOutput($Dom);
         $output   = $this->EventManager->dispatch($language, "plugin.output", $output);
+
         return $output;
     }
 
@@ -72,7 +77,7 @@ class Compiler extends Injection
             $nodeOutput = $this->EventManager->dispatch($language, "plugin.nodeOutput", array($nodeOutput, $node));
 
             if (!is_string($nodeOutput) && !is_array($nodeOutput)) {
-                throw new Exception(600, "There went something wrong with the %plugin.nodeOutput% event!");
+                throw new Exception( 600, "There went something wrong with the %plugin.nodeOutput% event!");
             }
 
             if (is_array($nodeOutput)) {

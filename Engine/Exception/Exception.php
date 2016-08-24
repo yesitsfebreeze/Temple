@@ -3,7 +3,9 @@
 namespace Temple\Engine\Exception;
 
 
-use Temple\Engine\Cache\ConfigCache;
+use Temple\Engine\Cache\ClassCache;
+use Temple\Engine\Config;
+use Temple\Engine\Filesystem\DirectoryHandler;
 
 
 /**
@@ -13,6 +15,9 @@ use Temple\Engine\Cache\ConfigCache;
  */
 class Exception extends \Exception
 {
+
+    /** @var Config $Config */
+    private $Config;
 
     /** @var bool|string $customMessage */
     private $customMessage;
@@ -27,6 +32,15 @@ class Exception extends \Exception
     private $customCode;
 
 
+    /**
+     * Exception constructor.
+     *
+     * @param int             $code
+     * @param string          $message
+     * @param bool            $file
+     * @param bool            $line
+     * @param \Exception|null $previous
+     */
     public function __construct($code, $message = "", $file = false, $line = false, \Exception $previous = null)
     {
 
@@ -44,7 +58,6 @@ class Exception extends \Exception
 
         if ($file) {
             $this->customFile = $file;
-
             $this->touchTemplateFiles($file);
         }
 
@@ -161,28 +174,29 @@ class Exception extends \Exception
      */
     private function touchTemplateFiles($file)
     {
-        $ConfigCache = new ConfigCache();
-        $configs     = $ConfigCache->getConfigs();
-        foreach ($configs as $config) {
-            if (isset($config["templateDirs"])) {
-                $templateDirs = $config["templateDirs"];
-                foreach ($templateDirs as $templateDir) {
-                    $file = str_replace($templateDir, "", $file);
-                }
-                if (isset($config["extension"])) {
-                    $extension = "." . $config["extension"];
-                    $file      = preg_replace("/" . preg_quote($extension) . "$/", "", $file) . $extension;
-                    foreach ($templateDirs as $templateDir) {
-                        $template = $templateDir . $file;
-                        if (file_exists($templateDir . $file)) {
-                            touch($template);
-
-                            return true;
-                        }
-                    }
-                }
-            }
-        }
+//        $DirectoryHandler = new DirectoryHandler($this->Config);
+//        $ClassCache       = new ClassCache($DirectoryHandler);
+//        $configs          = $ClassCache->getCache();
+//        foreach ($configs as $config) {
+//            if (isset($config["templateDirs"])) {
+//                $templateDirs = $config["templateDirs"];
+//                foreach ($templateDirs as $templateDir) {
+//                    $file = str_replace($templateDir, "", $file);
+//                }
+//                if (isset($config["extension"])) {
+//                    $extension = "." . $config["extension"];
+//                    $file      = preg_replace("/" . preg_quote($extension) . "$/", "", $file) . $extension;
+//                    foreach ($templateDirs as $templateDir) {
+//                        $template = $templateDir . $file;
+//                        if (file_exists($templateDir . $file)) {
+//                            touch($template);
+//
+//                            return true;
+//                        }
+//                    }
+//                }
+//            }
+//        }
 
         return false;
     }
