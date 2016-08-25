@@ -12,7 +12,7 @@ use Temple\Engine\Languages\BaseLanguage;
 use Temple\Engine\Languages\Languages;
 
 
-class Cache extends Injection
+class TemplateCache extends Injection
 {
 
 
@@ -42,7 +42,7 @@ class Cache extends Injection
 
 
     /** @var string $cacheFile */
-    protected $cacheFile = "cache.templates";
+    protected $cacheFile = "template.cache";
 
 
     /**

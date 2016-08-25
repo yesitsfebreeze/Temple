@@ -3,7 +3,7 @@
 namespace Temple\Engine;
 
 
-use Temple\Engine\Cache\Cache;
+use Temple\Engine\Cache\TemplateCache;
 use Temple\Engine\Cache\CacheInvalidator;
 use Temple\Engine\Cache\VariablesBaseCache;
 use Temple\Engine\EventManager\EventManager;
@@ -31,8 +31,8 @@ class Template extends Injection
     /** @var  DirectoryHandler $DirectoryHandler */
     protected $DirectoryHandler;
 
-    /** @var  Cache $Cache */
-    protected $Cache;
+    /** @var  TemplateCache TemplateCache */
+    protected $TemplateCache;
 
     /** @var  CacheInvalidator $CacheInvalidator */
     protected $CacheInvalidator;
@@ -56,7 +56,7 @@ class Template extends Injection
         return array(
             "Engine/Config"                      => "Config",
             "Engine/Filesystem/DirectoryHandler" => "DirectoryHandler",
-            "Engine/Cache/Cache"                 => "Cache",
+            "Engine/Cache/TemplateCache"         => "TemplateCache",
             "Engine/Cache/CacheInvalidator"      => "CacheInvalidator",
             "Engine/Lexer"                       => "Lexer",
             "Engine/Compiler"                    => "Compiler",
@@ -146,15 +146,15 @@ class Template extends Injection
 
         $folder = $this->Languages->getLanguageFromFile($file)->getConfig()->getName();
 
-        $this->CacheInvalidator->checkValidation();
-        if ($this->Cache->isModified($file)) {
+//        $this->CacheInvalidator->checkValidation();
+        if ($this->TemplateCache->isModified($file)) {
             $dom     = $this->dom($file, $level);
             $content = $this->fetch($file, $level, $dom);
-            $this->Cache->saveTemplate($file, $content);
+            $this->TemplateCache->saveTemplate($file, $content);
         }
 
 
-        $cacheFile = $this->Cache->getTemplatePath($file, $folder);
+        $cacheFile = $this->TemplateCache->getTemplatePath($file, $folder);
 
         return $cacheFile;
     }
@@ -172,7 +172,7 @@ class Template extends Injection
     {
         $file = $this->normalizeExtension($file);
         $dom  = $this->Lexer->lex($file, $level);
-        $this->Cache->setTime($file);
+        $this->TemplateCache->setTime($file);
 
         return $dom;
     }
@@ -190,7 +190,7 @@ class Template extends Injection
     public function fetch($file, $level = 0, $Dom = null)
     {
         if (is_null($Dom)) {
-            $this->CacheInvalidator->checkValidation();
+//            $this->CacheInvalidator->checkValidation();
             $Dom = $this->dom($file, $level);
         }
         $content = $this->Compiler->compile($Dom);

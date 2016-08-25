@@ -3,7 +3,7 @@
 namespace Temple\Engine\Languages;
 
 
-use Temple\Engine;
+use Temple\Engine\Engine;
 use Temple\Engine\EventManager\EventManager;
 use Temple\Engine\Exception\Exception;
 use Temple\Engine\Filesystem\DirectoryHandler;

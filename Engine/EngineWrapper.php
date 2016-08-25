@@ -3,9 +3,9 @@
 namespace Temple\Engine;
 
 
-use Temple\Engine\Cache\Cache;
 use Temple\Engine\Cache\CacheInvalidator;
-use Temple\Engine\Cache\ClassCache;
+use Temple\Engine\Cache\ConfigCache;
+use Temple\Engine\Cache\TemplateCache;
 use Temple\Engine\Console\Console;
 use Temple\Engine\EventManager\EventManager;
 use Temple\Engine\Filesystem\DirectoryHandler;
@@ -19,8 +19,8 @@ class EngineWrapper extends Injection
     /** @var Config $Config */
     protected $Config;
 
-    /** @var ClassCache $ClassCache */
-    protected $ClassCache;
+    /** @var ConfigCache $ConfigCache */
+    protected $ConfigCache;
 
     /** @var Console $Console */
     protected $Console;
@@ -31,8 +31,8 @@ class EngineWrapper extends Injection
     /** @var EventManager $EventManager */
     protected $EventManager;
 
-    /** @var Cache $Cache */
-    protected $Cache;
+    /** @var TemplateCache $TemplateCache */
+    protected $TemplateCache;
 
     /** @var CacheInvalidator $CacheInvalidator */
     protected $CacheInvalidator;
@@ -54,11 +54,11 @@ class EngineWrapper extends Injection
     {
         return array(
             "Engine/Config"                      => "Config",
-            "Engine/Cache/ClassCache"            => "ClassCache",
+            "Engine/Cache/ConfigCache"           => "ConfigCache",
             "Engine/Console/Console"             => "Console",
             "Engine/Filesystem/DirectoryHandler" => "DirectoryHandler",
             "Engine/EventManager/EventManager"   => "EventManager",
-            "Engine/Cache/Cache"                 => "Cache",
+            "Engine/Cache/TemplateCache"         => "TemplateCache",
             "Engine/Cache/CacheInvalidator"      => "CacheInvalidator",
             "Engine/Languages/Languages"         => "Languages",
             "Engine/Lexer"                       => "Lexer",
@@ -78,11 +78,11 @@ class EngineWrapper extends Injection
 
 
     /**
-     * @return ClassCache
+     * @return ConfigCache
      */
-    public function ClassCache()
+    public function ConfigCache()
     {
-        return $this->ClassCache;
+        return $this->ConfigCache;
     }
 
 
@@ -114,11 +114,11 @@ class EngineWrapper extends Injection
 
 
     /**
-     * @return Cache
+     * @return TemplateCache
      */
-    public function Cache()
+    public function TemplateCache()
     {
-        return $this->Cache;
+        return $this->TemplateCache;
     }
 
 

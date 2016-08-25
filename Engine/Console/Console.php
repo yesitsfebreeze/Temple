@@ -4,6 +4,7 @@
 namespace Temple\Engine\Console;
 
 
+use Temple\Engine\Cache\CommandCache;
 use Temple\Engine\Console\Commands\CacheClearCommandsCommand;
 use Temple\Engine\Console\Commands\CacheClearCompleteCommand;
 use Temple\Engine\Console\Commands\CacheClearConfigsCommand;
@@ -11,7 +12,7 @@ use Temple\Engine\Console\Commands\CacheClearTemplatesCommand;
 use Temple\Engine\Console\Commands\CacheBuildTemplatesCommand;
 use Temple\Engine\Console\Commands\CurlUrlsCommand;
 use Temple\Engine\Exception\Exception;
-use Temple\Engine\Cache\ClassCache;
+use Temple\Engine\Cache\ConfigCache;
 use Temple\Engine\InjectionManager\Injection;
 use Temple\Engine\Structs\Storage;
 
@@ -30,8 +31,8 @@ class Console extends Injection
     /** @var CliProgress $CliProgress */
     protected $CliProgress;
 
-    /** @var ClassCache $ClassCache */
-    private $ClassCache;
+    /** @var ConfigCache $ConfigCache */
+    private $ConfigCache;
 
     /** @var CommandCache $CommandCache */
     private $CommandCache;
@@ -43,7 +44,7 @@ class Console extends Injection
      */
     public function __construct()
     {
-        $this->ClassCache  = new ClassCache();
+        $this->ConfigCache  = new ConfigCache();
         $this->CommandCache = new CommandCache();
         $this->CliOutput    = new CliOutput(new CliColors());
 
@@ -173,7 +174,7 @@ class Console extends Injection
     {
         $command->define();
 
-        $configs = $this->ClassCache->getConfigs();
+        $configs = $this->ConfigCache->getConfigs();
 
         $this->prepareProgress($command, $configs);
 

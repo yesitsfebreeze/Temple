@@ -120,10 +120,7 @@ class Config extends Injection
                 }
 
                 // todo: update the config instead of adding it
-                $key = md5(serialize($configInstance));
-                $cache = $configInstance->EngineWrapper->ClassCache()->getCache();
-                $cache[$key] = $config;
-                $configInstance->EngineWrapper->ClassCache()->saveCache($cache);
+                $configInstance->EngineWrapper->ConfigCache()->save($configInstance);
             }, $this);
             $this->shutdownCallbackRegistered = true;
         }
