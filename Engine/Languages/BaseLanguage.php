@@ -3,8 +3,8 @@
 namespace Temple\Engine\Languages;
 
 
-use Temple\Engine;
 use Temple\Engine\Cache\VariablesBaseCache;
+use Temple\Engine\EngineWrapper;
 use Temple\Engine\EventManager\Event;
 use Temple\Engine\Exception\Exception;
 
@@ -15,21 +15,21 @@ class BaseLanguage
     /** @var  string $path */
     private $path;
 
-    /** @var Engine $Engine */
-    protected $Engine;
+    /** @var EngineWrapper $EngineWrapper */
+    protected $EngineWrapper;
 
     /** @var string $name */
     protected $name;
 
     /** @var VariablesBaseCache $variableCache */
-    private $variableCache = false;
+    private $variableCache = null;
 
 
-    public function __construct(Engine $Engine, $name, $path)
+    public function __construct(EngineWrapper $EngineWrapper, $name, $path)
     {
 
         // todo: add this Event to the cache invalidator to clear the cache if we change a node
-        $this->Engine = $Engine;
+        $this->EngineWrapper = $EngineWrapper;
         $this->name   = $name;
         $this->path   = $path;
 
@@ -53,11 +53,11 @@ class BaseLanguage
     /**
      * this function can be used to implement a variable cache
      *
-     * @return bool|VariablesBaseCache
+     * @return null|VariablesBaseCache
      */
     public function registerVariableCache()
     {
-        return false;
+        return null;
     }
 
 
@@ -70,7 +70,7 @@ class BaseLanguage
     public function subscribe($name, Event $event)
     {
         // todo: add this Event to the cache invalidator to clear the cache if we change a node
-        $this->Engine->EventManager()->subscribe($this->name, $name, $event);
+        $this->EngineWrapper->EventManager()->subscribe($this->name, $name, $event);
     }
 
 
@@ -84,9 +84,9 @@ class BaseLanguage
     {
         $this->variableCache = $this->registerVariableCache();
         if ($this->variableCache instanceof VariablesBaseCache) {
-            $this->variableCache->setEngine($this->Engine);
+            $this->variableCache->setEngineWrapper($this->EngineWrapper);
         }
-        $Config = $this->Engine->Config()->getLanguageConfig($this->name);
+        $Config = $this->EngineWrapper->Config()->getLanguageConfig($this->name);
         $Config->setVariableCache($this->variableCache);
     }
 
@@ -96,7 +96,7 @@ class BaseLanguage
      */
     public function getConfig()
     {
-        return $this->Engine->Config()->getLanguageConfig($this->name);
+        return $this->EngineWrapper->Config()->getLanguageConfig($this->name);
     }
 
 }

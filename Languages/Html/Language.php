@@ -40,7 +40,6 @@ class Language extends BaseLanguage
      */
     public function register()
     {
-        $this->EventManager = $this->Engine->EventManager();
         $this->registerNodes();
         $this->registerModifiers();
         $this->registerPlugins();

@@ -140,7 +140,7 @@ abstract class Node extends Event implements NodeInterface
 
             $nodeOutput = $child->compile();
             // this makes sure that if we have no events the right value gets returned
-            $nodeOutput = $this->Engine->EventManager()->dispatch($language, "plugin.nodeOutput", array($nodeOutput, $child));
+            $nodeOutput = $this->EngineWrapper->EventManager()->dispatch($language, "plugin.nodeOutput", array($nodeOutput, $child));
             if (!is_string($nodeOutput) && !is_array($nodeOutput)) {
                 throw new Exception(600, "There went something wrong with the %plugin.nodeOutput% event!");
             } else if (is_array($nodeOutput)) {

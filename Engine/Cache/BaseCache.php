@@ -23,36 +23,46 @@ abstract class BaseCache extends Injection
 
 
     /**
-     * @param       $object
+     * @param       $value
      * @param  null $identifier
      */
-    public function save($object, $identifier = null)
+    public function save($value, $identifier = null)
     {
-        $this->getCurrent($object, $identifier);
+        $this->getCurrent($value, $identifier);
     }
 
 
     /**
-     * @param      $object
+     * @param       $value
+     * @param  null $identifier
+     */
+    public function update($value, $identifier = null)
+    {
+        $this->save($value, $identifier);
+    }
+
+
+    /**
+     * @param      $value
      * @param null $identifier
      *
      * @return bool
      */
-    public function isModified($object, $identifier = null)
+    public function changed($value, $identifier = null)
     {
-        return $this->get($object, $identifier) !== $object;
+        return $this->get($value, $identifier) !== $value;
     }
 
 
     /**
-     * @param null $object
+     * @param null $value
      * @param null $identifier
      *
      * @return array|mixed|null
      */
-    public function get($object = null, $identifier = null)
+    public function get($value = null, $identifier = null)
     {
-        if (is_null($object)) {
+        if (is_null($value)) {
             $cache = $this->getCache();
 
             if (!is_null($identifier)) {
@@ -68,7 +78,7 @@ abstract class BaseCache extends Injection
             return $cache;
         }
 
-        return $this->getCurrent($object, $identifier);
+        return $this->getCurrent($value, $identifier);
     }
 
 
@@ -86,37 +96,37 @@ abstract class BaseCache extends Injection
 
 
     /**
-     * @param      $object
+     * @param      $value
      * @param null $identifier
      *
      * @return mixed|null
      */
-    private function getCurrent($object, $identifier = null)
+    protected function getCurrent($value, $identifier = null)
     {
         $cache = $this->getCache();
-        if (is_string($object)) {
-            $name = "Temple\\" . str_replace("/", "\\", $object);
+        if (is_string($value)) {
+            $name = "Temple\\" . str_replace("/", "\\", $value);
         } else {
-            $name = get_class($object);
+            $name = get_class($value);
         }
 
         if (!is_null($identifier)) {
-            $name = $identifier . ":::" . get_class($object);
+            $name = $identifier . ":::" . get_class($value);
         }
 
         if (isset($cache[ $name ])) {
-            if (!is_null($object)) {
-                $serializedValue = serialize($object);
+            if (!is_null($value)) {
+                $serializedValue = serialize($value);
                 if ($cache[ $name ] != $serializedValue) {
-                    $cache[ $name ] = $object;
+                    $cache[ $name ] = $value;
                     $this->saveCache($cache);
                 }
             }
         } else {
-            if (is_null($object)) {
+            if (is_null($value)) {
                 return null;
             } else {
-                $cache[ $name ] = $object;
+                $cache[ $name ] = $value;
                 $this->saveCache($cache);
             }
         }
@@ -139,7 +149,7 @@ abstract class BaseCache extends Injection
     /**
      * @param array $cache
      *
-     * @return bool
+     * @return int
      */
     protected function saveCache($cache)
     {
@@ -152,7 +162,7 @@ abstract class BaseCache extends Injection
     /**
      * creates cache file if it doesn't exist already
      */
-    private function createCacheFile()
+    protected function createCacheFile()
     {
         $cacheDir = $cacheFile = __DIR__ . DIRECTORY_SEPARATOR . ".." . DIRECTORY_SEPARATOR . ".." . DIRECTORY_SEPARATOR . "Cache" . DIRECTORY_SEPARATOR;
         if (!is_dir($cacheDir)) {

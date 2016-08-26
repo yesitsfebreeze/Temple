@@ -48,11 +48,11 @@ class ExtendNode extends Node
 
         try {
             if ($fileToExtend == $this->getNamespace()) {
-                $Dom = $this->Engine->Template()->dom($fileToExtend, $this->getLevel() + 1);
+                $Dom = $this->EngineWrapper->Template()->dom($fileToExtend, $this->getLevel() + 1);
             } else {
-                $Dom = $this->Engine->Template()->dom($fileToExtend);
+                $Dom = $this->EngineWrapper->Template()->dom($fileToExtend);
             }
-            $this->Engine->Cache()->addDependency($this->getNamespace(), $fileToExtend, false);
+            $this->EngineWrapper->TemplateCache()->addDependency($this->getNamespace(), $fileToExtend, false);
         } catch (Exception $e) {
 
             if ($e->getCustomCode() == 0) {
@@ -79,7 +79,7 @@ class ExtendNode extends Node
     public function compile()
     {
         $output = "";
-        if ($this->Engine->Config()->isShowBlockComments() && $this->isShowComment()) {
+        if ($this->EngineWrapper->Config()->isShowBlockComments() && $this->isShowComment()) {
             $output = "<!-- " . trim($this->plain) . " - " . $this->getRelativeFile() . "-->";
         }
 

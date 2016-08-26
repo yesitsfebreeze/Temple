@@ -46,6 +46,9 @@ class Config extends Injection
     /** @var bool $variableCacheEnabled */
     private $variableCacheEnabled = true;
 
+    /** @var string $variableCachePostfix */
+    private $variableCachePostfix = "_variables";
+
     /** @var array $templateDirs */
     private $templateDirs = array();
 
@@ -260,6 +263,16 @@ class Config extends Injection
     {
         $this->variableCacheEnabled = $variableCacheEnabled;
     }
+
+
+    /**
+     * @return boolean
+     */
+    public function getVariableCachePostfix()
+    {
+        return $this->variableCachePostfix;
+    }
+
 
 
     /**

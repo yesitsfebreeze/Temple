@@ -8,7 +8,7 @@ namespace Temple\Engine\Cache;
  *
  * @package Temple\Engine\Cache
  */
-class LanguageCache extends BaseCache
+class EventCache extends BaseCache
 {
-    protected $cacheFile = "language.cache";
+    protected $cacheFile = "event.cache";
 }

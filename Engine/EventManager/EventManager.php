@@ -3,9 +3,10 @@
 namespace Temple\Engine\EventManager;
 
 
+use Temple\Engine\Cache\EventCache;
+use Temple\Engine\EngineWrapper;
 use Temple\Engine\Exception\Exception;
 use Temple\Engine\InjectionManager\Injection;
-use Temple\Engine;
 use Temple\Engine\Structs\Storage;
 
 
@@ -30,9 +31,14 @@ class EventManager extends Injection
     private $events;
 
     /**
-     * @var Engine $Engine
+     * @var EngineWrapper $EngineWrapper
      */
-    private $Engine;
+    private $EngineWrapper;
+
+    /**
+     * @var EventCache $EventCache
+     */
+    private $EventCache;
 
 
     /**
@@ -40,27 +46,28 @@ class EventManager extends Injection
      */
     public function __construct()
     {
-        $this->events = new Storage();
+        $this->events     = new Storage();
+        $this->EventCache = new EventCache();
     }
 
 
     /**
      * sets the current Engine
      *
-     * @param Engine $Engine
+     * @param EngineWrapper $EngineWrapper
      */
-    public function setEngine(Engine $Engine)
+    public function setEngineWrapper(EngineWrapper $EngineWrapper)
     {
-        $this->Engine = $Engine;
+        $this->EngineWrapper = $EngineWrapper;
     }
 
 
     /**
-     * @return Engine
+     * @return EngineWrapper
      */
-    public function getEngine()
+    public function getEngineWrapper()
     {
-        return $this->Engine;
+        return $this->EngineWrapper;
     }
 
 
@@ -122,7 +129,7 @@ class EventManager extends Injection
     {
         if (is_object($event)) {
             $eventInstance = clone $event;
-            $eventInstance->setEngine($this->Engine);
+            $eventInstance->setEngineWrapper($this->EngineWrapper);
             $eventInstance->setInjectionManager($this->InjectionManager);
 
             if (!is_array($arguments)) {
@@ -157,6 +164,7 @@ class EventManager extends Injection
     public function subscribe($language, $event, Event $subscriber)
     {
         $subscriber->setLanguage($language);
+        $this->EventCache->save($subscriber);
         $this->events->set($language . "." . $event, $subscriber);
 
         return true;

@@ -18,15 +18,16 @@ class CacheInvalidator extends Injection
 //    /**
 //     * checks the validation of a list of predefined classes
 //     */
-//    public function checkValidation()
-//    {
+    public function checkValidation()
+    {
+
 //        try {
 //            $this->classesToCheck();
 //        } catch (Exception $e) {
 //            $this->invalidateCacheFile();
 //            $this->saveCache($this->cache);
 //        }
-//    }
+    }
 //
 //
 //    /**

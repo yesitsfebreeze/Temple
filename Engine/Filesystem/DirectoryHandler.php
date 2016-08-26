@@ -31,7 +31,6 @@ class DirectoryHandler extends Injection
 
     /**
      * just a helper for the exception class
-     *
      * DirectoryHandler constructor.
      *
      * @param Config|null $Config
@@ -158,6 +157,7 @@ class DirectoryHandler extends Injection
     public function normalizeExtension($file)
     {
         $file = $this->cleanExtension($file);
+        // todo: add language extension
         $file .= "." . $this->Config->getExtension();
 
         return $file;
@@ -171,7 +171,7 @@ class DirectoryHandler extends Injection
      */
     public function cleanExtension($file)
     {
-        $file = preg_replace('/\..*?$/', '', $file);
+        $file = preg_replace('/\.[^.]*?$/', '', $file);
 
         return $file;
     }
@@ -219,7 +219,8 @@ class DirectoryHandler extends Injection
      */
     public function createDir($dir)
     {
-        $dir = $this->getPath($dir);
+        $dir = dirname($this->getPath($dir));
+
         if (!is_dir($dir)) {
 
 //            todo: check if is writable

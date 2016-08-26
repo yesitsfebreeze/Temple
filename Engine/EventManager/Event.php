@@ -3,8 +3,8 @@
 namespace Temple\Engine\EventManager;
 
 
+use Temple\Engine\EngineWrapper;
 use Temple\Engine\InjectionManager\InjectionManager;
-use Temple\Engine;
 
 
 /**
@@ -14,8 +14,8 @@ abstract class Event
 {
 
 
-    /** @var Engine $Engine */
-    protected $Engine;
+    /** @var EngineWrapper $EngineWrapper */
+    protected $EngineWrapper;
 
     /** @var InjectionManager $InjectionManager */
     protected $InjectionManager;
@@ -25,11 +25,11 @@ abstract class Event
 
 
     /**
-     * @param Engine $Engine
+     * @param EngineWrapper $EngineWrapper
      */
-    public function setEngine(Engine $Engine)
+    public function setEngineWrapper(EngineWrapper $EngineWrapper)
     {
-        $this->Engine = $Engine;
+        $this->EngineWrapper = $EngineWrapper;
     }
 
 

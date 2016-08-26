@@ -21,7 +21,7 @@ class LanguageNode extends Node
     public function check()
     {
 
-        if ((strtolower($this->getTag()) == $this->Engine->Config()->getLanguageTagName())) {
+        if ((strtolower($this->getTag()) == $this->EngineWrapper->Config()->getLanguageTagName())) {
             return true;
         }
 

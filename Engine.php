@@ -96,8 +96,8 @@ class Engine extends Injection
         $this->Variables        = $this->InjectionManager->registerDependency(new Variables());
         $this->Languages        = $this->InjectionManager->registerDependency(new Languages());
         $this->ConfigCache      = $this->InjectionManager->registerDependency(new ConfigCache());
-        $this->TemplateCache    = $this->InjectionManager->registerDependency(new TemplateCache());
         $this->CacheInvalidator = $this->InjectionManager->registerDependency(new CacheInvalidator());
+        $this->TemplateCache    = $this->InjectionManager->registerDependency(new TemplateCache());
         $this->Lexer            = $this->InjectionManager->registerDependency(new Lexer());
         $this->Compiler         = $this->InjectionManager->registerDependency(new Compiler());
         $this->Template         = $this->InjectionManager->registerDependency(new Template());
@@ -115,8 +115,8 @@ class Engine extends Injection
     protected function init()
     {
         $this->Config->setEngineWrapper($this->EngineWrapper);
-        $this->EventManager->setEngine($this);
-        $this->Languages->setEngine($this);
+        $this->EventManager->setEngineWrapper($this->EngineWrapper);
+        $this->Languages->setEngineWrapper($this->EngineWrapper);
         $this->Config->update();
         $this->Languages->initLanguages();
     }

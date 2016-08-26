@@ -3,8 +3,8 @@
 namespace Temple\Engine\Languages;
 
 
-use Temple\Engine;
 use Temple\Engine\Cache\VariablesBaseCache;
+use Temple\Engine\EngineWrapper;
 use Temple\Engine\Exception\Exception;
 
 
@@ -43,15 +43,15 @@ class LanguageConfig
     protected $variablePattern = "{{%}}";
 
     /** @var VariablesBaseCache $variableCache */
-    protected $variableCache;
+    protected $variableCache = null;
 
 
-    public function __construct(Engine $Engine)
+    public function __construct(EngineWrapper $EngineWrapper)
     {
         /** @var string $name */
         $this->name = $this->getLanguageName();
 
-        $this->Engine = $Engine;
+        $this->EngineWrapper = $EngineWrapper;
     }
 
 
@@ -112,10 +112,12 @@ class LanguageConfig
     {
 
         if ($this->cacheDir == "" || gettype($this->cacheDir) != "string") {
-            $this->cacheDir = $this->Engine->Config()->getCacheDir() . DIRECTORY_SEPARATOR . $this->name;
+            $this->cacheDir = $this->EngineWrapper->Config()->getCacheDir() . DIRECTORY_SEPARATOR . $this->name;
         }
 
-        return $this->cacheDir . "/";
+        $this->cacheDir = $this->EngineWrapper->DirectoryHandler()->getPath($this->cacheDir);
+
+        return $this->cacheDir;
     }
 
 

@@ -4,122 +4,136 @@ namespace Temple\Engine\Cache;
 
 
 use Temple\Engine\Config;
-use Temple\Engine\EventManager\EventManager;
 use Temple\Engine\Exception\Exception;
 use Temple\Engine\Filesystem\DirectoryHandler;
-use Temple\Engine\InjectionManager\Injection;
 use Temple\Engine\Languages\BaseLanguage;
 use Temple\Engine\Languages\Languages;
+use Temple\Languages\Core\Language;
 
 
-class TemplateCache extends Injection
+class TemplateCache extends BaseCache
 {
 
+    /** @var  string $cacheFile */
+    protected $cacheFile = "template.cache";
 
     /** @var  Config $Config */
     protected $Config;
 
-    /** @var  DirectoryHandler $DirectoryHandler */
-    protected $DirectoryHandler;
-
-    /** @var  EventManager $EventManager */
-    protected $EventManager;
+    /** @var  CacheInvalidator $CacheInvalidator */
+    protected $CacheInvalidator;
 
     /** @var  Languages $Languages */
     protected $Languages;
 
+    /** @var  DirectoryHandler $DirectoryHandler */
+    protected $DirectoryHandler;
 
-    /** @inheritdoc */
+    /** @var  Language $Language */
+    protected $Language;
+
+
+    /**
+     * set dependencies
+     *
+     * @return array
+     */
     public function dependencies()
     {
         return array(
             "Engine/Config"                      => "Config",
-            "Engine/Filesystem/DirectoryHandler" => "DirectoryHandler",
+            "Engine/Cache/CacheInvalidator"      => "CacheInvalidator",
             "Engine/Languages/Languages"         => "Languages",
-            "Engine/EventManager/EventManager"   => "EventManager"
+            "Engine/Filesystem/DirectoryHandler" => "DirectoryHandler"
         );
     }
 
 
-    /** @var string $cacheFile */
-    protected $cacheFile = "template.cache";
-
-
     /**
-     * sets the cache directory
+     * returns if the file has changed since the last update
      *
-     * @param string $dir
+     * @param     $value
+     * @param int $identifier
      *
-     * @return string
-     */
-    public function setDirectory($dir)
-    {
-        $this->DirectoryHandler->createDir($dir);
-
-        return $this->DirectoryHandler->setCacheDir($dir);
-    }
-
-
-    /**
-     * returns the cache directory
-     * #
-     *
-     * @param $folder
-     *
-     * @return string
-     */
-    public function getDirectory($folder = null)
-    {
-        if (!is_null($folder)) {
-            return $this->DirectoryHandler->createDir($folder);
-        }
-
-        $cacheDir = $this->Config->getCacheDir();
-        $this->DirectoryHandler->createDir($cacheDir);
-
-        return $this->DirectoryHandler->getCacheDir();
-
-    }
-
-
-    /**
-     * saves the file to the cache and returns its path
-     *
-     * @param string $file
-     * @param string $content
-     *
-     * @return string
-     * @throws Exception
-     */
-    public function saveTemplate($file, $content)
-    {
-        $folder = $this->getFolder($file);
-        $this->setTime($file);
-        /** @var BaseLanguage $language */
-        $language  = $this->getLanguage($file)->getConfig()->getName();
-        $extension = $this->getExtension($file);
-        $file      = $this->createFile($file, $folder);
-        $this->Config->addLanguageCacheFolder($this->getDirectory($folder));
-        file_put_contents($file, $content);
-
-        $this->EventManager->dispatch($language, "cache.save", array($file, $content, $extension));
-
-        return $file;
-    }
-
-
-    /**
-     * @throws Exception
      * @return bool
      */
-    public function invalidateCacheFile()
+    public function changed($value, $identifier = 0)
     {
-        $cacheFile = $this->createCacheFile();
-        if (file_exists($cacheFile)) {
-            if (is_writable($cacheFile)) {
-                unlink($cacheFile);
-            } else {
-                throw new Exception(500, "You don't have the permission to delete this file", $cacheFile);
+
+        if (!$this->Config->isCacheEnabled()) {
+            $this->update($value, $identifier);
+
+            return true;
+        }
+
+        // if we want to check if any configuration has changed
+        // we would invalidate the cache if so
+        if ($this->Config->isCacheInvalidation()) {
+            $this->CacheInvalidator->checkValidation();
+        }
+
+        $cacheFile    = $this->getCacheFilePath($value);
+        $templateFile = $this->DirectoryHandler->getTemplatePath($value);
+        $cache        = $this->getCache();
+
+        if (!file_exists($cacheFile)) {
+            $this->update($value, $identifier);
+
+            return true;
+        }
+
+        // this is checking if the variable file from the cache
+        // is deleted and therefore the template would not work
+        // if so we reprocess the template
+        $languageConfig = $this->Language->getConfig();
+        if (!is_null($languageConfig->getVariableCache())) {
+            $variableCacheFile = $this->getCacheFilePath($value, $this->Config->getVariableCachePostfix() . ".");
+            if (!file_exists($variableCacheFile)) {
+                $this->update($value, $identifier);
+
+                return true;
+            }
+        }
+
+        if (!isset($cache[ $identifier ])) {
+            $this->update($value, $identifier);
+
+            return true;
+        }
+
+        if (!isset($cache[ $identifier ][ $value ])) {
+            $this->update($value, $identifier);
+
+            return true;
+        }
+
+
+        if ($cache[ $identifier ][ $value ]["time"] != filemtime($templateFile)) {
+            $this->update($value, $identifier);
+
+            return true;
+        }
+
+        // iterate over all dependencies and see if one of those has changed
+        if (isset($cache[ $identifier ][ $value ]["dependencies"])) {
+            $dependencies = $cache[ $identifier ][ $value ]["dependencies"];
+            foreach ($dependencies as $dependency) {
+
+                if ($dependency["needed"]) {
+                    if ($this->changed($dependency["file"], $identifier)) {
+                        $this->update($value, $identifier);
+
+                        return true;
+                    }
+                }
+                // if a file got renamed or deleted we
+                // check if it exists, otherwise we have to reprocess
+                $dependencyTemplateFile = $this->DirectoryHandler->getTemplatePath($dependency["file"]);
+                if (!file_exists($dependencyTemplateFile)) {
+                    $this->update($value, $identifier);
+
+                    return true;
+                }
             }
         }
 
@@ -128,461 +142,149 @@ class TemplateCache extends Injection
 
 
     /**
-     * returns if the file passed is newer than the cached file
+     * dumps the file with the given content to the cache
      *
-     * @param $file
+     * @param     $value
+     * @param     $content
+     * @param int $identifier
+     *
+     * @return string
+     */
+    public function dump($value, $content, $identifier = 0)
+    {
+
+        $cacheFile = $this->getCacheFilePath($value);
+
+        if (!is_dir($cacheFile)) {
+            $this->DirectoryHandler->createDir($cacheFile);
+        }
+
+        if (!file_exists($cacheFile)) {
+            touch($cacheFile);
+        }
+
+        $this->update($value, $identifier);
+        file_put_contents($cacheFile, $content);
+
+        return $cacheFile;
+    }
+
+
+    /**
+     * update the cache time for a template file
+     *
+     * @param      $value
+     * @param int  $identifier
      *
      * @return bool
      */
-    public function isModified($file)
+    public function update($value, $identifier = 0)
     {
+        $value        = $this->DirectoryHandler->normalizeExtension($value);
+        $templateFile = $this->DirectoryHandler->getTemplatePath($value);
 
-        if (!$this->Config->isCacheInvalidation()) {
-            return false;
-        }
-
-        if (!$this->Config->isCacheEnabled()) {
-            return true;
-        }
-
-        $file  = $this->cleanFile($file);
         $cache = $this->getCache();
-
-        if (!$cache) {
-            return true;
-        } else {
-            $modified = $this->checkModified($file);
-            if (!$modified) {
-                $modified = $this->checkDependencies($file);
-            }
+        if (!isset($cache[ $identifier ])) {
+            $cache[ $identifier ] = array();
         }
+        if (!isset($cache[ $identifier ][ $value ])) {
+            $cache[ $identifier ][ $value ]                 = array();
+            $cache[ $identifier ][ $value ]["dependencies"] = array();
+        }
+        $cache[ $identifier ][ $value ]["location"] = $templateFile;
+        $cache[ $identifier ][ $value ]["time"]     = filemtime($templateFile);
 
-        return $modified;
+        return $this->saveCache($cache);
     }
 
 
     /**
-     * checks all of the files dependencies and returns true if they are modified
+     * adds a dependency to the given file
+     * so temple can check if it need to be reprocessed
      *
-     * @param string $file
-     *
-     * @return bool
-     */
-    private function checkDependencies($file)
-    {
-        $cache    = $this->getCache();
-        $modified = false;
-        if (isset($cache["dependencies"]) && isset($cache["dependencies"][ $file ])) {
-            foreach ($cache["dependencies"][ $file ] as $dependency) {
-                $template = $dependency["file"];
-                $type     = $dependency["type"];
-                $modified = $this->checkModified($template, $type);
-                if ($modified) {
-                    break;
-                }
-            }
-        }
-
-        return $modified;
-    }
-
-
-    /**
-     * check if a file or its parents are modified
-     *
+     * @param      $parent
      * @param      $file
-     * @param bool $needToExist | if the file has to exist withing the cache
-     *
-     * @return bool
+     * @param bool $needed
+     * @param int  $identifier
      */
-    public function checkModified($file, $needToExist = true)
+    public function addDependency($parent, $file, $needed = true, $identifier = 0)
     {
-        $cache         = $this->getCache();
-        $templateCache = $cache["templates"];
+        $cache  = $this->getCache();
 
-        $modified = false;
+        // normalize all incoming files
+        // to be sure they are indexed within the cache
+        $parent = $this->DirectoryHandler->normalizeExtension($parent);
+        $file   = $this->DirectoryHandler->normalizeExtension($file);
 
-        foreach ($this->getTemplateFiles($file) as $template) {
-            $templatePath = $template;
-            $template     = $this->cleanFile($template);
-
-            if (isset($templateCache[ $template ])) {
-
-                $cacheTime   = $templateCache[ $template ][ md5($templatePath) ];
-                $currentTime = filemtime($templatePath);
-                $timeDiffers = $cacheTime < $currentTime;
-                $exists      = true;
-                if ($needToExist) {
-                    $exists = $this->CacheFilesExist($templatePath);
-                }
-                if ($timeDiffers || !$exists) {
-                    $modified = true;
-                }
-            } else {
-                $modified = true;
-            }
-            if ($modified) {
-                break;
-            }
+        if (isset($cache[ $identifier ][ $parent ])) {
+            $cache[ $identifier ][ $parent ]["dependencies"][ $file ] = array(
+                "file"   => $file,
+                "needed" => $needed
+            );
         }
 
-        return $modified;
+        $this->saveCache($cache);
     }
 
 
     /**
-     * check if all needed variable files exist
+     * returns a template from the cache
      *
-     * @param string $templatePath
+     * @param string $value
+     * @param mixed  $identifier
      *
-     * @return bool
-     */
-    private function CacheFilesExist($templatePath)
-    {
-        $cacheFilePath = $templatePath;
-        foreach ($this->DirectoryHandler->getTemplateDirs() as $templateDir) {
-            $cacheFilePath = str_replace($templateDir, "", $cacheFilePath);
-        }
-
-
-        $languageConfig = $this->getLanguage($templatePath)->getConfig();
-        $folder         = $languageConfig->getCacheDir();
-        $folder         = $this->DirectoryHandler->validate($folder, true);
-
-        $extension = "." . $languageConfig->getExtension();
-
-        // check if all needed variable files exist
-        $templateFile       = $folder . str_replace("." . $this->Config->getExtension(), $extension, $cacheFilePath);
-        $templateFileExists = file_exists($templateFile);
-
-        $variableCache           = $languageConfig->getVariableCache();
-        $variableCacheFileExists = true;
-        if ($variableCache) {
-            $variableFile            = $folder . str_replace("." . $this->Config->getExtension(), ".variables" . $extension, $cacheFilePath);
-            $variableCacheFileExists = file_exists($variableFile);
-        }
-
-        if (!$templateFileExists || !$variableCacheFileExists) {
-            return false;
-        }
-
-
-        return true;
-    }
-
-
-    /**
-     * returns a cache file
-     *
-     * @param $file
-     *
-     * @return string
-     */
-    public function getFile($file)
-    {
-        $folder = $this->getFolder($file);
-        # returns the cache file
-        $file = $this->createFile($file, $folder);
-
-        return $file;
-    }
-
-
-    /**
-     * adds a dependency to the cache
-     *
-     * @param string $parent
-     * @param string $file
-     * @param bool   $needToExist
-     *
-     * @return bool
      * @throws Exception
+     * @return string
      */
-    public function addDependency($parent, $file, $needToExist = true)
+    public function get($value = null, $identifier = null)
     {
-
-        if (!$file || $file == "") {
-            throw new Exception(1, "Please set a file for your dependency");
+        if (is_null($value)) {
+            throw new Exception(123, "Please pass a template file!");
         }
 
-        if (!$parent || $parent == "") {
-            throw new Exception(1, "Please set a parent file for your dependency");
-        }
+        $cacheFile = $this->getCacheFilePath($value);
 
-        $file   = $this->cleanFile($file);
-        $parent = $this->cleanFile($parent);
-
-        $cache = $this->getCache();
-
-        if (!isset($cache["templates"][ $file ])) {
-            $this->setTime($file);
-        }
-
-        if (!isset($cache["dependencies"][ $parent ])) {
-            $cache["dependencies"][ $parent ] = array();
-        }
-
-        if (!in_array($file, $cache["dependencies"][ $parent ])) {
-            $cache["dependencies"][ $parent ][ $file ] = array("file" => $file, "type" => $needToExist);
-        }
-
-        return $this->saveCache($cache);
+        return $cacheFile;
     }
 
 
     /**
-     * removes the whole cache directory
+     * returns the path to the file within the cache directory of the language
      *
-     * @param null $dir
-     *
-     * @return bool
-     */
-    public function clear($dir = null)
-    {
-        if ($dir == null) {
-            $dir = $this->getDirectory();
-        }
-        foreach (scandir($dir) as $item) {
-            if ($item != '..' && $item != '.') {
-                $item = $dir . "/" . $item;
-                if (!is_dir($item)) {
-                    unlink($item);
-                } else {
-                    $this->clear($item);
-                }
-            }
-        }
-
-        return rmdir($dir);
-    }
-
-
-    /**
-     * writes the modify times for the current template
-     * into our cache file
-     *
-     * @param $file
-     *
-     * @return bool
-     */
-    public function setTime($file)
-    {
-        $file      = $this->cleanFile($file);
-        $cache     = $this->getCache();
-        $templates = $this->getTemplateFiles($file);
-        foreach ($templates as $template) {
-            $cache["templates"][ $file ][ md5($template) ] = filemtime($template);
-        }
-
-        return $this->saveCache($cache);
-    }
-
-
-    /**
-     * returns the cache array
-     *
-     * @return array
-     */
-    protected function getCache()
-    {
-        $cacheFile = $this->createCacheFile();
-        $cache     = unserialize(file_get_contents($cacheFile));
-
-        // set initial templates sub array
-        if (!isset($cache["templates"])) {
-            $cache["templates"] = array();
-        }
-
-        // set initial dependencies sub array
-        if (!isset($cache["dependencies"])) {
-            $cache["dependencies"] = array();
-        }
-
-        return $cache;
-    }
-
-
-    /**
-     * saves the array to the cache
-     *
-     * @param array $cache
-     *
-     * @return bool
-     */
-    public function saveCache($cache)
-    {
-        $cacheFile = $this->createCacheFile();
-
-        return file_put_contents($cacheFile, serialize($cache));
-    }
-
-
-    /**
-     * creates a cache file if it doesn't exist
-     */
-    protected function createCacheFile()
-    {
-
-        $dir  = $this->getDirectory();
-        $file = $dir . $this->cacheFile . ".php";
-        if (!file_exists($file)) {
-            touch($file);
-        }
-
-        return $file;
-    }
-
-
-    /**
-     * returns all found template files
-     *
-     * @param $file
-     *
-     * @return array
-     */
-    private function getTemplateFiles($file)
-    {
-
-        $dirs  = $this->DirectoryHandler->getTemplateDirs();
-        $files = array();
-        foreach ($dirs as $dir) {
-            $templateFile = $dir . $file . "." . $this->Config->getExtension();
-            if (file_exists($templateFile)) {
-                $files[] = $templateFile;
-            }
-        }
-
-
-        return $files;
-    }
-
-
-    /**
-     * creates the file if its not already there
-     *
-     * @param $file
-     * @param $folder
-     *
-     * @return mixed|string
-     */
-    private function createFile($file, $folder = null)
-    {
-        $file = $this->getTemplatePath($file, $folder);
-        # setup the file
-        $dir = dirname($file);
-        if (!is_dir($dir)) {
-            mkdir($dir, 0777, true);
-        }
-        if (!file_exists($file)) touch($file);
-
-        return $file;
-    }
-
-
-    /**
-     * returns the cache path for the given file
-     *
-     * @param $file
-     * @param $folder
+     * @param string $value
+     * @param string $postfix
      *
      * @return string
      */
-    public function getTemplatePath($file, $folder = null)
+    private function getCacheFilePath($value, $postfix = "")
     {
-        # remove the template dir
-        $file = $this->cleanFile($file);
-        $file = $this->extension($file);
-        $file = $this->getFolder($folder) . $file;
 
-        return $file;
-    }
+        $variableCachePostfix = $this->Config->getVariableCachePostfix() . ".";
 
-
-    /**
-     * adds a php extension to the files path
-     *
-     * @param $file
-     *
-     * @return mixed|string
-     */
-    private function extension($file)
-    {
-        $extension = $this->getExtension($file);
-        $file      = str_replace("." . $this->Config->getExtension(), "", $file);
-        $file      = str_replace("." . $extension, "", $file);
-        $file      = $file . "." . $extension;
-
-        return $file;
-    }
-
-
-    /**
-     * removes the template dirs and the extension form a file path
-     *
-     * @param $file
-     *
-     * @return string
-     * @throws Exception
-     */
-    private function cleanFile($file)
-    {
-        $templateDirs = $this->DirectoryHandler->getTemplateDirs();
-        if (!is_null($templateDirs) && sizeof($templateDirs) > 0) {
-            foreach ($this->DirectoryHandler->getTemplateDirs() as $templateDir) {
-                $file = str_replace($templateDir, "", $file);
-            }
-
-            $file = str_replace("." . $this->Config->getExtension(), "", $file);
-        } else {
-            throw new Exception(123123, "Please add at least one template directory!");
+        // get rid of the cache postfix to enable the Languages
+        // class to get the extension for the file
+        if ($postfix != "") {
+            $value = $this->DirectoryHandler->normalizeExtension($value);
+            $value = preg_replace("/" . $this->Config->getExtension() . "$/", $variableCachePostfix, $value);
         }
 
-        return $file;
-    }
+        if (strpos($value, $variableCachePostfix) != false) {
+            $value   = str_replace($variableCachePostfix, "", $value);
+            $postfix = $variableCachePostfix;
+        }
 
+        // add the language template extension to it
+        $value = $this->DirectoryHandler->normalizeExtension($value);
 
-    /**
-     * @param string $file
-     *
-     * @return null|string
-     */
-    private function getExtension($file)
-    {
-        $file = str_replace(".__vars", "", $file);
-        $languageConfig = $this->Languages->getLanguageFromFile($file)->getConfig();
+        // get the full path to the cache of the language
+        /** @var BaseLanguage $language */
+        $this->Language = $this->Languages->getLanguageFromFile($value);
+        $languageConfig = $this->Language->getConfig();
+        $cacheDir       = $languageConfig->getCacheDir();
         $extension      = $languageConfig->getExtension();
+        $cacheFile      = $cacheDir . preg_replace("/" . $this->Config->getExtension() . "$/", $postfix . $extension, $value);
 
-        return $extension;
-    }
-
-
-    /**
-     * @param $file
-     *
-     * @return string
-     */
-    public function getFolder($file)
-    {
-        $filename       = explode(".", $file);
-        $filename       = $filename[0];
-        $languageConfig = $this->getLanguage($filename)->getConfig();
-        $folder         = $languageConfig->getCacheDir();
-
-        return $folder;
-    }
-
-
-    /**
-     * @param $filename
-     *
-     * @return false|BaseLanguage
-     */
-    private function getLanguage($filename)
-    {
-        $filename = $this->DirectoryHandler->templateExists($filename);
-        $language = $this->Languages->getLanguageFromFile($filename);
-
-        return $language;
+        return $cacheFile;
     }
 
 }

@@ -3,8 +3,8 @@
 namespace Temple\Engine;
 
 
-use Temple\Engine\Cache\TemplateCache;
 use Temple\Engine\Cache\CacheInvalidator;
+use Temple\Engine\Cache\TemplateCache;
 use Temple\Engine\Cache\VariablesBaseCache;
 use Temple\Engine\EventManager\EventManager;
 use Temple\Engine\Exception\Exception;
@@ -119,7 +119,6 @@ class Template extends Injection
         $page->setFileName($file);
         $page->setFile($cacheFile);
         $template = $this->getTemplatePath($file);
-//        $file = str_replace(".__vars", "", $file);
         /** @var BaseLanguage $lang */
         $lang          = $this->Languages->getLanguageFromFile($template);
         $VariableCache = $lang->getConfig()->getVariableCache();
@@ -146,17 +145,15 @@ class Template extends Injection
 
         $folder = $this->Languages->getLanguageFromFile($file)->getConfig()->getName();
 
-//        $this->CacheInvalidator->checkValidation();
-        if ($this->TemplateCache->isModified($file)) {
+        if ($this->TemplateCache->changed($file)) {
+            var_dump("modifed");
             $dom     = $this->dom($file, $level);
-            $content = $this->fetch($file, $level, $dom);
-            $this->TemplateCache->saveTemplate($file, $content);
+            $content = $this->fetch($file, $level, $dom, true);
+
+            return $this->TemplateCache->dump($file, $content);
+        } else {
+            return $this->TemplateCache->get($file, $folder);
         }
-
-
-        $cacheFile = $this->TemplateCache->getTemplatePath($file, $folder);
-
-        return $cacheFile;
     }
 
 
@@ -172,7 +169,6 @@ class Template extends Injection
     {
         $file = $this->normalizeExtension($file);
         $dom  = $this->Lexer->lex($file, $level);
-        $this->TemplateCache->setTime($file);
 
         return $dom;
     }
@@ -184,32 +180,40 @@ class Template extends Injection
      * @param string $file
      * @param int    $level
      * @param DOM    $Dom
+     * @param bool   $changed
      *
      * @return string
      */
-    public function fetch($file, $level = 0, $Dom = null)
+    public function fetch($file, $level = 0, $Dom = null, $changed = false)
     {
-        if (is_null($Dom)) {
-//            $this->CacheInvalidator->checkValidation();
-            $Dom = $this->dom($file, $level);
-        }
-        $content = $this->Compiler->compile($Dom);
-        $this->Config->addProcessedTemplate($file);
-
-        /** @var LanguageConfig $language */
-        $language     = $Dom->getLanguage()->getConfig();
-        $languageName = $language->getName();
-        $this->EventManager->dispatch($languageName, "template.fetch", $this);
-
-        $template = $this->getTemplatePath($file);
-        /** @var BaseLanguage $lang */
-        $lang          = $this->Languages->getLanguageFromFile($template);
-        $VariableCache = $lang->getConfig()->getVariableCache();
-        if ($VariableCache instanceof VariablesBaseCache) {
-            $VariableCache->setFile($file);
-            $VariableCache->saveVariables($Dom->getVariables());
+        if (!$changed) {
+            $changed = $this->TemplateCache->changed($file);
         }
 
+        if ($changed) {
+            if (is_null($Dom)) {
+                $Dom = $this->dom($file, $level);
+            }
+            $content = $this->Compiler->compile($Dom);
+            $this->Config->addProcessedTemplate($file);
+
+            /** @var LanguageConfig $language */
+            $language     = $Dom->getLanguage()->getConfig();
+            $languageName = $language->getName();
+            $this->EventManager->dispatch($languageName, "template.fetch", $this);
+
+            $template = $this->getTemplatePath($file);
+            /** @var BaseLanguage $lang */
+            $lang          = $this->Languages->getLanguageFromFile($template);
+            $VariableCache = $lang->getConfig()->getVariableCache();
+            if ($VariableCache instanceof VariablesBaseCache) {
+                $VariableCache->setFile($file);
+                $VariableCache->saveVariables($Dom->getVariables());
+            }
+        } else {
+            $cacheFile = $this->TemplateCache->get($file);
+            $content   = file_get_contents($cacheFile);
+        }
 
         return $content;
 

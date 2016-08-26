@@ -85,7 +85,7 @@ class VariablesPlugin extends Event
 
                     array_unshift($arguments, $buffer);
                     // get arguments
-                    $buffer = $this->Engine->EventManager()->dispatch($this->language, "modifier." . $name, $arguments);
+                    $buffer = $this->EngineWrapper->EventManager()->dispatch($this->language, "modifier." . $name, $arguments);
                 }
             }
 
