@@ -3,6 +3,7 @@
 namespace Temple\Engine;
 
 
+use Temple\Engine\Cache\CommandCache;
 use Temple\Engine\Cache\ConfigCache;
 use Temple\Engine\Cache\TemplateCache;
 use Temple\Engine\Console\Console;
@@ -10,39 +11,45 @@ use Temple\Engine\EventManager\EventManager;
 use Temple\Engine\Filesystem\DirectoryHandler;
 use Temple\Engine\InjectionManager\Injection;
 use Temple\Engine\Languages\Languages;
+use Temple\Engine\Structs\Variables;
 
 
 class Instance extends Injection
 {
-
-    /** @var Config $Config */
+    /** @var  Config $Config */
     protected $Config;
 
-    /** @var ConfigCache $ConfigCache */
-    protected $ConfigCache;
-
-    /** @var Console $Console */
-    protected $Console;
-
-    /** @var DirectoryHandler $DirectoryHandler */
+    /** @var  DirectoryHandler $DirectoryHandler */
     protected $DirectoryHandler;
 
-    /** @var EventManager $EventManager */
+    /** @var  CommandCache $CommandCache */
+    protected $CommandCache;
+
+    /** @var  Console $Console */
+    protected $Console;
+
+    /** @var  EventManager $EventManager */
     protected $EventManager;
 
-    /** @var TemplateCache $TemplateCache */
-    protected $TemplateCache;
+    /** @var  Variables $Variables */
+    protected $Variables;
 
-    /** @var Languages $Languages */
+    /** @var  Languages $Languages */
     protected $Languages;
 
-    /** @var Lexer $Lexer */
+    /** @var  ConfigCache $ConfigCache */
+    protected $ConfigCache;
+
+    /** @var  TemplateCache $TemplateCache */
+    protected $TemplateCache;
+
+    /** @var  Lexer $Lexer */
     protected $Lexer;
 
-    /** @var Compiler $Compiler */
+    /** @var  Compiler $Compiler */
     protected $Compiler;
 
-    /** @var Template $Template */
+    /** @var  Template $Template */
     protected $Template;
 
 
@@ -53,7 +60,9 @@ class Instance extends Injection
             "Engine/Cache/ConfigCache"           => "ConfigCache",
             "Engine/Console/Console"             => "Console",
             "Engine/Filesystem/DirectoryHandler" => "DirectoryHandler",
+            "Engine/Cache/CommandCache"          => "CommandCache",
             "Engine/EventManager/EventManager"   => "EventManager",
+            "Engine/Structs/Variables"           => "Variables",
             "Engine/Cache/TemplateCache"         => "TemplateCache",
             "Engine/Languages/Languages"         => "Languages",
             "Engine/Lexer"                       => "Lexer",
@@ -98,6 +107,16 @@ class Instance extends Injection
         return $this->DirectoryHandler;
     }
 
+
+    /**
+     * @return CommandCache
+     */
+    public function CommandCache()
+    {
+        return $this->CommandCache;
+    }
+
+
     /**
      * @return EventManager
      */
@@ -108,13 +127,22 @@ class Instance extends Injection
 
 
     /**
+     * @return Variables
+     */
+    public function Variables()
+    {
+        return $this->Variables;
+    }
+
+
+    /**
      * @return TemplateCache
      */
     public function TemplateCache()
     {
         return $this->TemplateCache;
     }
-    
+
 
     /**
      * @return Languages

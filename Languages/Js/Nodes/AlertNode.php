@@ -17,7 +17,7 @@ class AlertNode extends Node
 
     public function check()
     {
-        if ($this->getTag() == "test") {
+        if ($this->getTag() == "alert") {
             return true;
         }
 
@@ -33,6 +33,6 @@ class AlertNode extends Node
 
     public function compile()
     {
-        return 'alert("' . $this->getContent() . '");';
+        return 'alert("' . $this->Instance->Variables()->get($this->getContent()) . '");';
     }
 }
