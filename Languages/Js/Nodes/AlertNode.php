@@ -33,6 +33,6 @@ class AlertNode extends Node
 
     public function compile()
     {
-        return 'alert("' . $this->Instance->Variables()->get($this->getContent()) . '");';
+        return 'console.log("' . $this->getContent() . '");';
     }
 }

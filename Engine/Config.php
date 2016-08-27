@@ -19,6 +19,9 @@ use Temple\Engine\Languages\LanguageConfig;
 class Config extends Injection
 {
 
+    /** @var int $identifier */
+    private $identifier = 0;
+
     /** @var bool $shutdownCallbackRegistered */
     private $shutdownCallbackRegistered = false;
 
@@ -40,12 +43,13 @@ class Config extends Injection
     /** @var bool $cacheEnabled */
     private $cacheEnabled = true;
 
-    /** @var bool $CacheInvalidation */
-    private $CacheInvalidation = true;
+    /** @var bool $ConfigCacheEnabled */
+    private $configCacheEnabled = true;
 
     /** @var bool $variableCacheEnabled */
     private $variableCacheEnabled = true;
 
+    // todo: put into language config
     /** @var string $variableCachePostfix */
     private $variableCachePostfix = "_variables";
 
@@ -93,47 +97,77 @@ class Config extends Injection
 
 
     /**
+     *
+     */
+    public function toArray()
+    {
+        $array = array(
+            "static" => array(
+                "cacheDir"             => $this->Instance->DirectoryHandler()->getCacheDir(),
+                "languageCacheFolders" => $this->getLanguageCacheFolders(),
+                "curlUrls"             => $this->getCurlUrls(),
+                "subfolder"            => $this->getSubfolder(),
+                "cacheEnabled"         => $this->isCacheEnabled(),
+                "templateDirs"         => $this->getTemplateDirs(),
+                "variableCachePostfix"   => $this->getVariableCachePostfix(),
+                "defaultLanguage"      => $this->getDefaultLanguage(),
+                "useCoreLanguage"      => $this->isUseCoreLanguage(),
+                "DocumentRoot"         => $_SERVER["DOCUMENT_ROOT"],
+
+            ),
+            "dynamic" => array(
+                "processedTemplates"   => $this->getProcessedTemplates(),
+                "languageConfigs"      => array()
+            )
+        );
+
+        $languageConfigs = $this->getLanguageConfigs();
+
+        /* @var LanguageConfig $languageConfig */
+        foreach ($languageConfigs as $name => $languageConfig) {
+            $array["dynamic"]["languageConfigs"][ $name ] = $languageConfig->toArray();
+        }
+
+        return$array;
+
+    }
+
+
+    /**
      * updates the config
      */
     public function update()
     {
-
         if (!$this->shutdownCallbackRegistered) {
             register_shutdown_function(function (Config $configInstance) {
-                // todo: if is modified
-                $config = array(
-                    "cacheDir"             => $configInstance->Instance->DirectoryHandler()->getCacheDir(),
-                    "languageCacheFolders" => $configInstance->getLanguageCacheFolders(),
-                    "curlUrls"             => $configInstance->getCurlUrls(),
-                    "subfolder"            => $configInstance->getSubfolder(),
-                    "cacheEnabled"         => $configInstance->isCacheEnabled(),
-                    "templateDirs"         => $configInstance->getTemplateDirs(),
-                    "processedTemplates"   => $configInstance->getProcessedTemplates(),
-                    "defaultLanguage"      => $configInstance->getDefaultLanguage(),
-                    "useCoreLanguage"      => $configInstance->isUseCoreLanguage(),
-                    "DocumentRoot"         => $_SERVER["DOCUMENT_ROOT"],
-                    "languageConfigs"      => array()
-                );
-
-                $languageConfigs = $configInstance->getLanguageConfigs();
-
-                /* @var LanguageConfig $languageConfig */
-                foreach ($languageConfigs as $name => $languageConfig) {
-                    $config["languageConfigs"][ $name ] = $languageConfig->toArray();
-                }
-
-                // todo: update the config instead of adding it
-                $configInstance->Instance->ConfigCache()->save($configInstance);
+                $configInstance->Instance->ConfigCache()->save($configInstance->toArray(), $configInstance->getIdentifier());
             }, $this);
             $this->shutdownCallbackRegistered = true;
         }
-
 
         if ($this->errorHandler) {
             $this->errorHandlerInstance = new ExceptionHandler();
         } else {
             $this->errorHandlerInstance = null;
         }
+    }
+
+
+    /**
+     * @return int
+     */
+    public function getIdentifier()
+    {
+        return $this->identifier;
+    }
+
+
+    /**
+     * @param int $identifier
+     */
+    public function setIdentifier($identifier)
+    {
+        $this->identifier = $identifier;
     }
 
 
@@ -232,18 +266,18 @@ class Config extends Injection
     /**
      * @return boolean
      */
-    public function isCacheInvalidation()
+    public function isConfigCacheEnabled()
     {
-        return $this->CacheInvalidation;
+        return $this->configCacheEnabled;
     }
 
 
     /**
-     * @param boolean $CacheInvalidation
+     * @param boolean $ConfigCacheEnabled
      */
-    public function setCacheInvalidation($CacheInvalidation)
+    public function setConfigCacheEnabled($ConfigCacheEnabled)
     {
-        $this->CacheInvalidation = $CacheInvalidation;
+        $this->configCacheEnabled = $ConfigCacheEnabled;
     }
 
 
@@ -272,7 +306,6 @@ class Config extends Injection
     {
         return $this->variableCachePostfix;
     }
-
 
 
     /**
@@ -360,7 +393,7 @@ class Config extends Injection
      */
     public function getLanguage($language)
     {
-        return $this->languages[$language];
+        return $this->languages[ $language ];
     }
 
 
@@ -376,9 +409,11 @@ class Config extends Injection
         }
         if (!in_array($language, $this->languages)) {
             $language = $this->Instance->DirectoryHandler()->getPath($language);
-            $this->Instance->Languages()->initLanguageConfig($key,$language);
-            $this->languages[$key] = $language;
+            $this->Instance->Languages()->initLanguageConfig($key, $language);
+            $this->languages[ $key ] = $language;
         }
+
+        $this->update();
     }
 
 
@@ -533,6 +568,7 @@ class Config extends Injection
     public function addProcessedTemplate($processedTemplate)
     {
         $this->processedTemplates[] = $processedTemplate;
+        $this->update();
     }
 
 

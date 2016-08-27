@@ -69,7 +69,7 @@ class IncludeNode extends Node
     public function compile()
     {
         $includeFile = $this->Instance->Template()->process($this->includeFile);
-        $this->Instance->Cache()->addDependency($this->getNamespace(), $this->includeFile);
+        $this->Instance->TemplateCache()->addDependency($this->getNamespace(), $this->includeFile);
         return "require('" . $includeFile . "');";
     }
 }

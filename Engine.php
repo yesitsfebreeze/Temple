@@ -78,7 +78,6 @@ class Engine extends Injection
      */
     public function __construct(Config $config = null)
     {
-
         // used passed config or default
         $config = ($config instanceof Config) ? $config : new Config();
 
@@ -109,7 +108,14 @@ class Engine extends Injection
      */
     protected function init()
     {
+        // set up unique id for the object
+        if (!isset($GLOBALS["TempleInstanceCounter"])) {
+            $GLOBALS["TempleInstanceCounter"] = 0;
+        }
+        $GLOBALS["TempleInstance"] = $GLOBALS["TempleInstanceCounter"]++;
+
         $this->Config->setInstance($this->Instance);
+        $this->Config->setIdentifier($GLOBALS["TempleInstance"]);
         $this->EventManager->setInstance($this->Instance);
         $this->Languages->setInstance($this->Instance);
         $this->Config->update();

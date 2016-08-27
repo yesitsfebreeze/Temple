@@ -20,6 +20,9 @@ class TemplateCache extends BaseCache
     /** @var  Config $Config */
     protected $Config;
 
+    /** @var  ConfigCache $ConfigCache */
+    protected $ConfigCache;
+
     /** @var  Languages $Languages */
     protected $Languages;
 
@@ -39,6 +42,7 @@ class TemplateCache extends BaseCache
     {
         return array(
             "Engine/Config"                      => "Config",
+            "Engine/Cache/ConfigCache"           => "ConfigCache",
             "Engine/Languages/Languages"         => "Languages",
             "Engine/Filesystem/DirectoryHandler" => "DirectoryHandler"
         );
@@ -56,6 +60,15 @@ class TemplateCache extends BaseCache
      */
     public function changed($value, $identifier = 0, $update = true)
     {
+
+        if ($this->Config->isConfigCacheEnabled()) {
+            if ($this->ConfigCache->changed($this->Config, $this->Config->getIdentifier())) {
+                $this->clear();
+                $this->ConfigCache->clear();
+
+                return true;
+            }
+        }
 
         if (!$this->Config->isCacheEnabled()) {
             if ($update) {

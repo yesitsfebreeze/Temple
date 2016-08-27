@@ -3,9 +3,9 @@
 namespace Temple\Engine\EventManager;
 
 
-use Temple\Engine\Instance;
 use Temple\Engine\Exception\Exception;
 use Temple\Engine\InjectionManager\Injection;
+use Temple\Engine\Instance;
 use Temple\Engine\Structs\Storage;
 
 
@@ -16,7 +16,6 @@ use Temple\Engine\Structs\Storage;
  */
 class EventManager extends Injection
 {
-
 
 
     /** @var Storage */
@@ -70,7 +69,11 @@ class EventManager extends Injection
             $events = array_merge($events, $this->events->get("core" . "." . $event));
         }
         if ($this->events->has($language . "." . $event)) {
-            $events = array_merge($events, $this->events->get($language . "." . $event));
+            $eventArray = $this->events->get($language . "." . $event);
+            if (!is_array($eventArray)) {
+                $eventArray = array($eventArray);
+            }
+            $events = array_merge($events, $eventArray);
         }
 
         if (sizeof($events) == 0) {

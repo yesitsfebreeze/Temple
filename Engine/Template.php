@@ -2,6 +2,7 @@
 
 namespace Temple\Engine;
 
+
 use Temple\Engine\Cache\TemplateCache;
 use Temple\Engine\Cache\VariablesBaseCache;
 use Temple\Engine\EventManager\EventManager;
@@ -31,7 +32,6 @@ class Template extends Injection
 
     /** @var  TemplateCache TemplateCache */
     protected $TemplateCache;
-
 
     /** @var  Lexer $Lexer */
     protected $Lexer;

@@ -91,9 +91,15 @@ abstract class BaseCache extends Injection
      */
     public function changed($value, $identifier = 0)
     {
-        return $this->get($value, $identifier) !== $value;
-    }
+        $old     = unserialize($this->get($value, $identifier));
+        $new     = $value;
+        $changed = $old !== $new;
+        if ($changed) {
+            $this->save($value, $identifier);
+        }
 
+        return $old !== $new;
+    }
 
     /**
      * @param null $value
@@ -137,8 +143,9 @@ abstract class BaseCache extends Injection
      */
     public function clear()
     {
-        if (file($this->cacheFile)) {
-            unlink($this->cacheFile);
+        $path = $this->createCacheFile();
+        if (file_exists($path)) {
+            unlink($path);
         }
 
         return true;
@@ -151,7 +158,9 @@ abstract class BaseCache extends Injection
     protected function getCache()
     {
         $path = $this->createCacheFile();
-
+        if (!file_exists($path)) {
+            return array();
+        }
         return unserialize(file_get_contents($path));
     }
 

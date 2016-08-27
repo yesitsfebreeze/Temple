@@ -148,8 +148,6 @@ class Languages extends Injection
         array_unshift($languages, "default");
 
         return $this->iterate($languages);
-
-        return false;
     }
 
 
@@ -170,7 +168,16 @@ class Languages extends Injection
         $registeredLanguages = $this->Instance->Config()->getLanguages();
 
 
+
+
         foreach ($languages as $name) {
+            $default = $this->Instance->Config()->getDefaultLanguage();
+            $default = explode("/",$default);
+            $default = strtolower(end($default));
+            if ($name == $default) {
+                $name = "default";
+            }
+
             if (isset($registeredLanguages[ $name ])) {
                 $path = realpath($registeredLanguages[ $name ]) . DIRECTORY_SEPARATOR;
                 if ($name == "default") {
