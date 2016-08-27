@@ -141,7 +141,7 @@ class Template extends Injection
         $folder = $this->Languages->getLanguageFromFile($file)->getConfig()->getName();
 
         if ($this->TemplateCache->changed($file)) {
-            var_dump("modifed");
+            echo "test";
             $dom     = $this->dom($file, $level);
             $content = $this->fetch($file, $level, $dom, true);
 

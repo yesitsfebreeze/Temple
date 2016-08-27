@@ -11,7 +11,7 @@ use Temple\Engine\Structs\Node\Node;
  *
  * @package Temple\Languages\Core\Nodes
  */
-class TestNode extends Node
+class AlertNode extends Node
 {
 
 
@@ -31,6 +31,6 @@ class TestNode extends Node
 
     public function compile()
     {
-        return "console.log('test');";
+        return "alert('alert');";
     }
 }

@@ -4,7 +4,6 @@ namespace Temple\Engine\Cache;
 
 
 use Temple\Engine\Config;
-use Temple\Engine\EventManager\EventManager;
 use Temple\Engine\Exception\Exception;
 use Temple\Engine\Filesystem\DirectoryHandler;
 use Temple\Engine\Languages\BaseLanguage;
@@ -27,9 +26,6 @@ class TemplateCache extends BaseCache
     /** @var  DirectoryHandler $DirectoryHandler */
     protected $DirectoryHandler;
 
-    /** @var  EventManager $EventManager */
-    protected $EventManager;
-
     /** @var  Language $Language */
     protected $Language;
 
@@ -44,8 +40,7 @@ class TemplateCache extends BaseCache
         return array(
             "Engine/Config"                      => "Config",
             "Engine/Languages/Languages"         => "Languages",
-            "Engine/Filesystem/DirectoryHandler" => "DirectoryHandler",
-            "Engine/EventManager/EventManager"   => "EventManager"
+            "Engine/Filesystem/DirectoryHandler" => "DirectoryHandler"
         );
     }
 
@@ -53,79 +48,99 @@ class TemplateCache extends BaseCache
     /**
      * returns if the file has changed since the last update
      *
-     * @param     $value
-     * @param int $identifier
+     * @param      $value
+     * @param int  $identifier
+     * @param bool $update
      *
      * @return bool
      */
-    public function changed($value, $identifier = 0)
+    public function changed($value, $identifier = 0, $update = true)
     {
+
         if (!$this->Config->isCacheEnabled()) {
-            $this->update($value, $identifier);
+            if ($update) {
+                $this->update($value, $identifier);
+            }
 
             return true;
         }
 
         $cacheFile    = $this->getCacheFilePath($value);
         $templateFile = $this->DirectoryHandler->getTemplatePath($value);
-
-        if (!file_exists($cacheFile)) {
-            $this->update($value, $identifier);
-
-            return true;
-        }
+        $cache        = $this->getCache();
 
 
-        $languageConfig = $this->Language->getConfig();
-
-        // this is checking if the variable file from the cache
-        // is deleted and therefore the template would not work
-        // if so we reprocess the template
-        if (!is_null($languageConfig->getVariableCache())) {
-            $variableCacheFile = $this->getCacheFilePath($value, $this->Config->getVariableCachePostfix() . ".");
-            if (!file_exists($variableCacheFile)) {
-                $this->update($value, $identifier);
-
-                return true;
-            }
-        }
-        
-        $cache = $this->getCache();
         if (!isset($cache[ $identifier ])) {
-            $this->update($value, $identifier);
+            if ($update) {
+                $this->update($value, $identifier);
+            }
 
             return true;
         }
 
         if (!isset($cache[ $identifier ][ $value ])) {
-            $this->update($value, $identifier);
+            if ($update) {
+                $this->update($value, $identifier);
+            }
 
             return true;
         }
 
+        if ($cache[ $identifier ][ $value ]["needed"]) {
+            // this is checking if the variable file from the cache
+            // is deleted and therefore the template would not work
+            // if so we reprocess the template
+            $languageConfig = $this->Language->getConfig();
+            if (!is_null($languageConfig->getVariableCache())) {
+                $variableCacheFile = $this->getCacheFilePath($value, $this->Config->getVariableCachePostfix() . ".");
+                if (!file_exists($variableCacheFile)) {
+                    if ($update) {
+                        $this->update($value, $identifier);
+                    }
+
+                    return true;
+                }
+            }
+
+            if (!file_exists($cacheFile)) {
+                if ($update) {
+                    $this->update($value, $identifier);
+                }
+
+                return true;
+            }
+        }
+
 
         if ($cache[ $identifier ][ $value ]["time"] != filemtime($templateFile)) {
-            $this->update($value, $identifier);
+            if ($update) {
+                $this->update($value, $identifier);
+            }
 
             return true;
         }
 
         // iterate over all dependencies and see if one of those has changed
-        if (isset($cache[ $identifier ][ $value ]["dependencies"])) {
+        if (isset($cache[ $identifier ][ $value ]["dependencies"]) && sizeof($cache[ $identifier ][ $value ]["dependencies"]) > 0) {
             $dependencies = $cache[ $identifier ][ $value ]["dependencies"];
             foreach ($dependencies as $dependency) {
-                if ($dependency["needed"]) {
-                    if ($this->changed($dependency["file"], $identifier)) {
-                        $this->update($value, $identifier);
 
-                        return true;
+                var_dump($dependency["file"]);
+                if ($this->changed($dependency["file"], $identifier, false)) {
+                    if ($update) {
+                        $this->update($value, $identifier);
                     }
+
+                    return true;
                 }
+
                 // if a file got renamed or deleted we
                 // check if it exists, otherwise we have to reprocess
                 $dependencyTemplateFile = $this->DirectoryHandler->getTemplatePath($dependency["file"]);
                 if (!file_exists($dependencyTemplateFile)) {
-                    $this->update($value, $identifier);
+                    if ($update) {
+                        $this->update($value, $identifier);
+                    }
 
                     return true;
                 }
@@ -185,10 +200,10 @@ class TemplateCache extends BaseCache
         if (!isset($cache[ $identifier ][ $value ])) {
             $cache[ $identifier ][ $value ]                 = array();
             $cache[ $identifier ][ $value ]["dependencies"] = array();
+            $cache[ $identifier ][ $value ]["needed"]       = true;
         }
-        $modifiedTime                               = filemtime($templateFile);
         $cache[ $identifier ][ $value ]["location"] = $templateFile;
-        $cache[ $identifier ][ $value ]["time"]     = $modifiedTime;
+        $cache[ $identifier ][ $value ]["time"]     = filemtime($templateFile);
 
         return $this->saveCache($cache);
     }
@@ -215,9 +230,11 @@ class TemplateCache extends BaseCache
         if (isset($cache[ $identifier ][ $parent ])) {
             $cache[ $identifier ][ $parent ]["dependencies"][ $file ] = array(
                 "file"   => $file,
-                "needed" => $needed,
-                "force"  => false
+                "needed" => $needed
             );
+            if (isset($cache[ $identifier ][ $file ])) {
+                $cache[ $identifier ][ $file ]["needed"] = $needed;
+            }
         }
 
         $this->saveCache($cache);

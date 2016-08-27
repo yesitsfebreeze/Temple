@@ -4,8 +4,8 @@ namespace Temple\Languages\Js;
 
 
 use Temple\Engine\Languages\BaseLanguage;
+use Temple\Languages\Js\Nodes\AlertNode;
 use Temple\Languages\Js\Nodes\IncludeNode;
-use Temple\Languages\Js\Nodes\TestNode;
 
 
 /**
@@ -30,7 +30,7 @@ class Language extends BaseLanguage
     private function registerNodes()
     {
         $this->subscribe("node.include", new IncludeNode());
-        $this->subscribe("node.test", new TestNode());
+        $this->subscribe("node.alert", new AlertNode());
     }
 
 }
