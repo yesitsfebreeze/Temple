@@ -5,6 +5,7 @@ namespace Temple\Engine;
 
 use Temple\Engine\Cache\CacheInvalidator;
 use Temple\Engine\Cache\ConfigCache;
+use Temple\Engine\Cache\EventCache;
 use Temple\Engine\Cache\TemplateCache;
 use Temple\Engine\Console\Console;
 use Temple\Engine\EventManager\EventManager;
@@ -27,6 +28,9 @@ class EngineWrapper extends Injection
 
     /** @var DirectoryHandler $DirectoryHandler */
     protected $DirectoryHandler;
+
+    /** @var EventCache $EventCache */
+    protected $EventCache;
 
     /** @var EventManager $EventManager */
     protected $EventManager;
@@ -57,6 +61,7 @@ class EngineWrapper extends Injection
             "Engine/Cache/ConfigCache"           => "ConfigCache",
             "Engine/Console/Console"             => "Console",
             "Engine/Filesystem/DirectoryHandler" => "DirectoryHandler",
+            "Engine/Cache/EventCache"            => "EventCache",
             "Engine/EventManager/EventManager"   => "EventManager",
             "Engine/Cache/TemplateCache"         => "TemplateCache",
             "Engine/Cache/CacheInvalidator"      => "CacheInvalidator",
@@ -101,6 +106,15 @@ class EngineWrapper extends Injection
     public function DirectoryHandler()
     {
         return $this->DirectoryHandler;
+    }
+
+
+    /**
+     * @return EventCache
+     */
+    public function EventCache()
+    {
+        return $this->EventCache;
     }
 
 
