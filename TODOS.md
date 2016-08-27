@@ -13,7 +13,6 @@
 [] creating all error codes for the exceptions
 
 [] make a list of html functions i need to implement
-    [x] blocks
     [] modifier
     [] implement filter
     [] capture
