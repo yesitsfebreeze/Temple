@@ -58,17 +58,4 @@ abstract class Event
     {
         $this->language = $language;
     }
-
-
-    public function __toString()
-    {
-        if ($this->Instance->Config()->isCacheInvalidation()) {
-            $reflection = new \ReflectionClass($this);
-            $content    = file_get_contents($reflection->getFileName());
-
-            return $content;
-        } else {
-            return "Event";
-        }
-    }
 }

@@ -3,7 +3,6 @@
 namespace Temple\Engine\EventManager;
 
 
-use Temple\Engine\Cache\EventCache;
 use Temple\Engine\Instance;
 use Temple\Engine\Exception\Exception;
 use Temple\Engine\InjectionManager\Injection;
@@ -18,17 +17,7 @@ use Temple\Engine\Structs\Storage;
 class EventManager extends Injection
 {
 
-    /** @var  EventCache $EventCache */
-    protected $EventCache;
 
-
-    /** @inheritdoc */
-    public function dependencies()
-    {
-        return array(
-            "Engine/Cache/EventCache" => "EventCache"
-        );
-    }
 
     /** @var Storage */
     private $events;

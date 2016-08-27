@@ -21,9 +21,6 @@ class TemplateCache extends BaseCache
     /** @var  Config $Config */
     protected $Config;
 
-    /** @var  CacheInvalidator $CacheInvalidator */
-    protected $CacheInvalidator;
-
     /** @var  Languages $Languages */
     protected $Languages;
 
@@ -46,7 +43,6 @@ class TemplateCache extends BaseCache
     {
         return array(
             "Engine/Config"                      => "Config",
-            "Engine/Cache/CacheInvalidator"      => "CacheInvalidator",
             "Engine/Languages/Languages"         => "Languages",
             "Engine/Filesystem/DirectoryHandler" => "DirectoryHandler",
             "Engine/EventManager/EventManager"   => "EventManager"
@@ -81,17 +77,6 @@ class TemplateCache extends BaseCache
 
 
         $languageConfig = $this->Language->getConfig();
-
-        // if we want to check if any configuration has changed
-        // we would invalidate the cache if so
-        if ($this->Config->isCacheInvalidation()) {
-            if ($this->CacheInvalidator->checkValidation($languageConfig, $identifier)) {
-                $this->update($value, $identifier);
-
-                return true;
-            };
-        }
-
 
         // this is checking if the variable file from the cache
         // is deleted and therefore the template would not work
@@ -131,7 +116,7 @@ class TemplateCache extends BaseCache
             foreach ($dependencies as $dependency) {
                 if ($dependency["needed"]) {
                     if ($this->changed($dependency["file"], $identifier)) {
-                        $this->update($dependency["file"], $identifier);
+                        $this->update($value, $identifier);
 
                         return true;
                     }

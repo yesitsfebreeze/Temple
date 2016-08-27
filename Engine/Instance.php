@@ -3,9 +3,7 @@
 namespace Temple\Engine;
 
 
-use Temple\Engine\Cache\CacheInvalidator;
 use Temple\Engine\Cache\ConfigCache;
-use Temple\Engine\Cache\EventCache;
 use Temple\Engine\Cache\TemplateCache;
 use Temple\Engine\Console\Console;
 use Temple\Engine\EventManager\EventManager;
@@ -29,17 +27,11 @@ class Instance extends Injection
     /** @var DirectoryHandler $DirectoryHandler */
     protected $DirectoryHandler;
 
-    /** @var EventCache $EventCache */
-    protected $EventCache;
-
     /** @var EventManager $EventManager */
     protected $EventManager;
 
     /** @var TemplateCache $TemplateCache */
     protected $TemplateCache;
-
-    /** @var CacheInvalidator $CacheInvalidator */
-    protected $CacheInvalidator;
 
     /** @var Languages $Languages */
     protected $Languages;
@@ -61,10 +53,8 @@ class Instance extends Injection
             "Engine/Cache/ConfigCache"           => "ConfigCache",
             "Engine/Console/Console"             => "Console",
             "Engine/Filesystem/DirectoryHandler" => "DirectoryHandler",
-            "Engine/Cache/EventCache"            => "EventCache",
             "Engine/EventManager/EventManager"   => "EventManager",
             "Engine/Cache/TemplateCache"         => "TemplateCache",
-            "Engine/Cache/CacheInvalidator"      => "CacheInvalidator",
             "Engine/Languages/Languages"         => "Languages",
             "Engine/Lexer"                       => "Lexer",
             "Engine/Compiler"                    => "Compiler",
@@ -108,16 +98,6 @@ class Instance extends Injection
         return $this->DirectoryHandler;
     }
 
-
-    /**
-     * @return EventCache
-     */
-    public function EventCache()
-    {
-        return $this->EventCache;
-    }
-
-
     /**
      * @return EventManager
      */
@@ -134,16 +114,7 @@ class Instance extends Injection
     {
         return $this->TemplateCache;
     }
-
-
-    /**
-     * @return CacheInvalidator
-     */
-    public function CacheInvalidator()
-    {
-        return $this->CacheInvalidator;
-    }
-
+    
 
     /**
      * @return Languages

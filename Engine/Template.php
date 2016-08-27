@@ -2,8 +2,6 @@
 
 namespace Temple\Engine;
 
-
-use Temple\Engine\Cache\CacheInvalidator;
 use Temple\Engine\Cache\TemplateCache;
 use Temple\Engine\Cache\VariablesBaseCache;
 use Temple\Engine\EventManager\EventManager;
@@ -34,8 +32,6 @@ class Template extends Injection
     /** @var  TemplateCache TemplateCache */
     protected $TemplateCache;
 
-    /** @var  CacheInvalidator $CacheInvalidator */
-    protected $CacheInvalidator;
 
     /** @var  Lexer $Lexer */
     protected $Lexer;
@@ -57,7 +53,6 @@ class Template extends Injection
             "Engine/Config"                      => "Config",
             "Engine/Filesystem/DirectoryHandler" => "DirectoryHandler",
             "Engine/Cache/TemplateCache"         => "TemplateCache",
-            "Engine/Cache/CacheInvalidator"      => "CacheInvalidator",
             "Engine/Lexer"                       => "Lexer",
             "Engine/Compiler"                    => "Compiler",
             "Engine/Languages/Languages"         => "Languages",

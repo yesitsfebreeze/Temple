@@ -3,19 +3,17 @@
 namespace Temple;
 
 
-use Temple\Engine\Cache\CacheInvalidator;
 use Temple\Engine\Cache\CommandCache;
 use Temple\Engine\Cache\ConfigCache;
-use Temple\Engine\Cache\EventCache;
 use Temple\Engine\Cache\TemplateCache;
 use Temple\Engine\Compiler;
 use Temple\Engine\Config;
 use Temple\Engine\Console\Console;
-use Temple\Engine\Instance;
 use Temple\Engine\EventManager\EventManager;
 use Temple\Engine\Filesystem\DirectoryHandler;
 use Temple\Engine\InjectionManager\Injection;
 use Temple\Engine\InjectionManager\InjectionManager;
+use Temple\Engine\Instance;
 use Temple\Engine\Languages\Languages;
 use Temple\Engine\Lexer;
 use Temple\Engine\Structs\Variables;
@@ -48,9 +46,6 @@ class Engine extends Injection
     /** @var DirectoryHandler $DirectoryHandler */
     protected $DirectoryHandler;
 
-    /** @var EventCache $EventCache */
-    protected $EventCache;
-
     /** @var EventManager $EventManager */
     protected $EventManager;
 
@@ -59,9 +54,6 @@ class Engine extends Injection
 
     /** @var CommandCache $CommandCache */
     protected $CommandCache;
-
-    /** @var CacheInvalidator $CacheInvalidator */
-    protected $CacheInvalidator;
 
     /** @var Languages $Languages */
     protected $Languages;
@@ -96,17 +88,15 @@ class Engine extends Injection
         $this->DirectoryHandler = $this->InjectionManager->registerDependency(new DirectoryHandler());
         $this->CommandCache     = $this->InjectionManager->registerDependency(new CommandCache());
         $this->Console          = $this->InjectionManager->registerDependency(new Console());
-        $this->EventCache       = $this->InjectionManager->registerDependency(new EventCache());
         $this->EventManager     = $this->InjectionManager->registerDependency(new EventManager());
         $this->Variables        = $this->InjectionManager->registerDependency(new Variables());
         $this->Languages        = $this->InjectionManager->registerDependency(new Languages());
         $this->ConfigCache      = $this->InjectionManager->registerDependency(new ConfigCache());
-        $this->CacheInvalidator = $this->InjectionManager->registerDependency(new CacheInvalidator());
         $this->TemplateCache    = $this->InjectionManager->registerDependency(new TemplateCache());
         $this->Lexer            = $this->InjectionManager->registerDependency(new Lexer());
         $this->Compiler         = $this->InjectionManager->registerDependency(new Compiler());
         $this->Template         = $this->InjectionManager->registerDependency(new Template());
-        $this->Instance    = $this->InjectionManager->registerDependency(new Instance());
+        $this->Instance         = $this->InjectionManager->registerDependency(new Instance());
 
         $this->init();
 
