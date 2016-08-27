@@ -24,13 +24,15 @@ class AlertNode extends Node
         return false;
     }
 
+
     public function setup()
     {
 
     }
 
+
     public function compile()
     {
-        return "alert('alert');";
+        return 'alert("' . $this->getContent() . '");';
     }
 }

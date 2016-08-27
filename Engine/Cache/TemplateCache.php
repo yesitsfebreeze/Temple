@@ -124,12 +124,16 @@ class TemplateCache extends BaseCache
         if (isset($cache[ $identifier ][ $value ]["dependencies"]) && sizeof($cache[ $identifier ][ $value ]["dependencies"]) > 0) {
             $dependencies = $cache[ $identifier ][ $value ]["dependencies"];
             foreach ($dependencies as $dependency) {
-
-                var_dump($dependency["file"]);
                 if ($this->changed($dependency["file"], $identifier, false)) {
                     if ($update) {
                         $this->update($value, $identifier);
                     }
+                    foreach ($dependencies as $template) {
+                        if (isset($cache[ $identifier ][ $template["file"] ])) {
+                            $cache[ $identifier ][ $template["file"] ]["time"] = 0;
+                        }
+                    }
+                    $this->saveCache($cache);
 
                     return true;
                 }
