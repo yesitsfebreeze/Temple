@@ -9372,6 +9372,15 @@ section.bg-stretch {
 section.bg-maple {
   background-image: url("../assets/img/bgs/maple.jpg");
 }
+section.bg-coffee {
+  background-image: url("../assets/img/bgs/coffee.jpg");
+}
+section.bg-dunes {
+  background-image: url("../assets/img/bgs/dunes.jpg");
+}
+section.bg-chile {
+  background-image: url("../assets/img/bgs/chile.jpg");
+}
 section.bg-shrine {
   background-image: url("../assets/img/bgs/shrine.jpg");
 }

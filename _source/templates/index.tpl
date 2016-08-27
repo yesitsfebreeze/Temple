@@ -1,11 +1,11 @@
 {extends file="_source/body.tpl"}
 
 {block name="content"}
-    <section class="light section-1">
+    <section class="light section-1 bg-dunes bg-stretch">
         <div class="vertical-center">
-            <div class="logo">
-                <img src="{$pathPrefix}/assets/img/logo-ultra-large.png" alt="Temple">
-            </div>
+            {*<div class="logo">*}
+                {*<img src="{$pathPrefix}/assets/img/logo-ultra-large.png" alt="Temple">*}
+            {*</div>*}
             <div class="text-center">
                 <h1>
                     Temple
