@@ -57,6 +57,7 @@ class IncludeNode extends Node
             $prefix      = preg_replace("/\/([^\/]*?$)/", "/", $this->getNamespace());
             $includeFile = $prefix . $includeFile;
         }
+
         return $includeFile;
     }
 
@@ -68,8 +69,9 @@ class IncludeNode extends Node
      */
     public function compile()
     {
-        $includeFile = $this->EngineWrapper->Template()->process($this->includeFile);
-        $this->EngineWrapper->TemplateCache()->addDependency($this->getNamespace(), $this->includeFile);
+        $includeFile = $this->Instance->Template()->process($this->includeFile);
+        $this->Instance->TemplateCache()->addDependency($this->getNamespace(), $this->includeFile);
+
         return "<?php include('" . $includeFile . "'); ?>";
     }
 }

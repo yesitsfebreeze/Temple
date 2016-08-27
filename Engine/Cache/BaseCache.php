@@ -3,6 +3,7 @@
 namespace Temple\Engine\Cache;
 
 
+use Temple\Engine\Exception\Exception;
 use Temple\Engine\InjectionManager\Injection;
 
 
@@ -23,20 +24,60 @@ abstract class BaseCache extends Injection
 
 
     /**
-     * @param       $value
-     * @param  null $identifier
+     * returns the cache file location
      */
-    public function save($value, $identifier = null)
+    public function getCacheFile()
     {
-        $this->getCurrent($value, $identifier);
+        $path = $this->createCacheFile();
+
+        return $path;
     }
 
 
     /**
      * @param       $value
-     * @param  null $identifier
+     * @param  int  $identifier
+     *
+     * @throws Exception
      */
-    public function update($value, $identifier = null)
+    public function save($value, $identifier = 0)
+    {
+        if (!is_object($value)) {
+            throw new Exception(23123123, "%\$value% must be an object!");
+        }
+
+        if (!is_null($value)) {
+            $cache = $this->getCache();
+
+            $name = get_class($value);
+
+            if (!isset($cache[ $identifier ])) {
+                $cache[ $identifier ] = array();
+            }
+
+            $cache[ $identifier ][ $name ] = $this->realSave($value);
+
+            $this->saveCache($cache);
+        }
+    }
+
+
+    /**
+     * @param $value
+     *
+     * @return string
+     */
+    protected function realSave($value)
+    {
+        return serialize($value);
+    }
+
+
+    /**
+     * @param       $value
+     * @param  int  $identifier
+     */
+    public function update($value, $identifier = 0)
     {
         $this->save($value, $identifier);
     }
@@ -44,11 +85,11 @@ abstract class BaseCache extends Injection
 
     /**
      * @param      $value
-     * @param null $identifier
+     * @param int  $identifier
      *
      * @return bool
      */
-    public function changed($value, $identifier = null)
+    public function changed($value, $identifier = 0)
     {
         return $this->get($value, $identifier) !== $value;
     }
@@ -56,29 +97,38 @@ abstract class BaseCache extends Injection
 
     /**
      * @param null $value
-     * @param null $identifier
+     * @param int  $identifier
      *
      * @return array|mixed|null
      */
-    public function get($value = null, $identifier = null)
+    public function get($value = null, $identifier = 0)
     {
         if (is_null($value)) {
-            $cache = $this->getCache();
-
-            if (!is_null($identifier)) {
-                $returnCache = array();
-                foreach ($cache as $key => $item) {
-                    if (strpos($key, $identifier) != false) {
-                        $returnCache[] = $item;
-                    }
+            if (is_null($identifier)) {
+                return $this->getCache();
+            } else {
+                $cache = $this->getCache();
+                if (isset($cache[ $identifier ])) {
+                    return $cache[ $identifier ];
                 }
-                $cache = $returnCache;
-            }
 
-            return $cache;
+                return null;
+            }
         }
 
-        return $this->getCurrent($value, $identifier);
+        $cache = $this->getCache();
+        if (isset($cache[ $identifier ])) {
+            if (is_string($value)) {
+                $name = "Temple\\" . str_replace("/", "\\", $value);
+            } else {
+                $name = get_class($value);
+            }
+            if (isset($cache[ $identifier ][ $name ])) {
+                return $cache[ $identifier ][ $name ];
+            };
+        }
+
+        return null;
     }
 
 
@@ -92,46 +142,6 @@ abstract class BaseCache extends Injection
         }
 
         return true;
-    }
-
-
-    /**
-     * @param      $value
-     * @param null $identifier
-     *
-     * @return mixed|null
-     */
-    protected function getCurrent($value, $identifier = null)
-    {
-        $cache = $this->getCache();
-        if (is_string($value)) {
-            $name = "Temple\\" . str_replace("/", "\\", $value);
-        } else {
-            $name = get_class($value);
-        }
-
-        if (!is_null($identifier)) {
-            $name = $identifier . ":::" . get_class($value);
-        }
-
-        if (isset($cache[ $name ])) {
-            if (!is_null($value)) {
-                $serializedValue = serialize($value);
-                if ($cache[ $name ] != $serializedValue) {
-                    $cache[ $name ] = $value;
-                    $this->saveCache($cache);
-                }
-            }
-        } else {
-            if (is_null($value)) {
-                return null;
-            } else {
-                $cache[ $name ] = $value;
-                $this->saveCache($cache);
-            }
-        }
-
-        return $cache[ $name ];
     }
 
 

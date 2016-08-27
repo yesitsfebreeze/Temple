@@ -6,11 +6,12 @@ namespace Temple;
 use Temple\Engine\Cache\CacheInvalidator;
 use Temple\Engine\Cache\CommandCache;
 use Temple\Engine\Cache\ConfigCache;
+use Temple\Engine\Cache\EventCache;
 use Temple\Engine\Cache\TemplateCache;
 use Temple\Engine\Compiler;
 use Temple\Engine\Config;
 use Temple\Engine\Console\Console;
-use Temple\Engine\EngineWrapper;
+use Temple\Engine\Instance;
 use Temple\Engine\EventManager\EventManager;
 use Temple\Engine\Filesystem\DirectoryHandler;
 use Temple\Engine\InjectionManager\Injection;
@@ -47,6 +48,9 @@ class Engine extends Injection
     /** @var DirectoryHandler $DirectoryHandler */
     protected $DirectoryHandler;
 
+    /** @var EventCache $EventCache */
+    protected $EventCache;
+
     /** @var EventManager $EventManager */
     protected $EventManager;
 
@@ -71,8 +75,8 @@ class Engine extends Injection
     /** @var Template $Template */
     protected $Template;
 
-    /** @var EngineWrapper $EngineWrapper */
-    protected $EngineWrapper;
+    /** @var Instance $Instance */
+    protected $Instance;
 
 
     /**
@@ -92,6 +96,7 @@ class Engine extends Injection
         $this->DirectoryHandler = $this->InjectionManager->registerDependency(new DirectoryHandler());
         $this->CommandCache     = $this->InjectionManager->registerDependency(new CommandCache());
         $this->Console          = $this->InjectionManager->registerDependency(new Console());
+        $this->EventCache       = $this->InjectionManager->registerDependency(new EventCache());
         $this->EventManager     = $this->InjectionManager->registerDependency(new EventManager());
         $this->Variables        = $this->InjectionManager->registerDependency(new Variables());
         $this->Languages        = $this->InjectionManager->registerDependency(new Languages());
@@ -101,7 +106,7 @@ class Engine extends Injection
         $this->Lexer            = $this->InjectionManager->registerDependency(new Lexer());
         $this->Compiler         = $this->InjectionManager->registerDependency(new Compiler());
         $this->Template         = $this->InjectionManager->registerDependency(new Template());
-        $this->EngineWrapper    = $this->InjectionManager->registerDependency(new EngineWrapper());
+        $this->Instance    = $this->InjectionManager->registerDependency(new Instance());
 
         $this->init();
 
@@ -114,9 +119,9 @@ class Engine extends Injection
      */
     protected function init()
     {
-        $this->Config->setEngineWrapper($this->EngineWrapper);
-        $this->EventManager->setEngineWrapper($this->EngineWrapper);
-        $this->Languages->setEngineWrapper($this->EngineWrapper);
+        $this->Config->setInstance($this->Instance);
+        $this->EventManager->setInstance($this->Instance);
+        $this->Languages->setInstance($this->Instance);
         $this->Config->update();
         $this->Languages->initLanguages();
     }

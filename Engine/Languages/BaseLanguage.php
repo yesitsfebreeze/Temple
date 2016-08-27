@@ -4,7 +4,7 @@ namespace Temple\Engine\Languages;
 
 
 use Temple\Engine\Cache\VariablesBaseCache;
-use Temple\Engine\EngineWrapper;
+use Temple\Engine\Instance;
 use Temple\Engine\EventManager\Event;
 use Temple\Engine\Exception\Exception;
 
@@ -15,8 +15,8 @@ class BaseLanguage
     /** @var  string $path */
     private $path;
 
-    /** @var EngineWrapper $EngineWrapper */
-    protected $EngineWrapper;
+    /** @var Instance $Instance */
+    protected $Instance;
 
     /** @var string $name */
     protected $name;
@@ -25,11 +25,11 @@ class BaseLanguage
     private $variableCache = null;
 
 
-    public function __construct(EngineWrapper $EngineWrapper, $name, $path)
+    public function __construct(Instance $Instance, $name, $path)
     {
 
         // todo: add this Event to the cache invalidator to clear the cache if we change a node
-        $this->EngineWrapper = $EngineWrapper;
+        $this->Instance = $Instance;
         $this->name   = $name;
         $this->path   = $path;
 
@@ -70,7 +70,7 @@ class BaseLanguage
     public function subscribe($name, Event $event)
     {
         // todo: add this Event to the cache invalidator to clear the cache if we change a node
-        $this->EngineWrapper->EventManager()->subscribe($this->name, $name, $event);
+        $this->Instance->EventManager()->subscribe($this->name, $name, $event);
     }
 
 
@@ -84,9 +84,9 @@ class BaseLanguage
     {
         $this->variableCache = $this->registerVariableCache();
         if ($this->variableCache instanceof VariablesBaseCache) {
-            $this->variableCache->setEngineWrapper($this->EngineWrapper);
+            $this->variableCache->setInstance($this->Instance);
         }
-        $Config = $this->EngineWrapper->Config()->getLanguageConfig($this->name);
+        $Config = $this->Instance->Config()->getLanguageConfig($this->name);
         $Config->setVariableCache($this->variableCache);
     }
 
@@ -96,7 +96,7 @@ class BaseLanguage
      */
     public function getConfig()
     {
-        return $this->EngineWrapper->Config()->getLanguageConfig($this->name);
+        return $this->Instance->Config()->getLanguageConfig($this->name);
     }
 
 }

@@ -72,7 +72,6 @@ class Lexer extends Injection
         // $fileContent = $this->EventManager->dispatch("plugins.file.process", $fileContent);
         // file_put_contents($file, $fileContent);
 
-
         /** @var BaseLanguage $language */
         $language = $this->Languages->getLanguageFromFile($file);
 
@@ -192,9 +191,10 @@ class Lexer extends Injection
         /** @var Node $node */
         $node = $this->EventManager->dispatch($language,"node", $arguments);
 
+        // backup node
         if (!($node instanceof Node)) {
             $node = new DefaultNode();
-            $node->setEngineWrapper($this->EventManager->getEngineWrapper());
+            $node->setInstance($this->EventManager->getInstance());
             $node->dispatch(...$arguments);
         }
 

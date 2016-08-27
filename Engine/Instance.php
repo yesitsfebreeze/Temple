@@ -14,7 +14,7 @@ use Temple\Engine\InjectionManager\Injection;
 use Temple\Engine\Languages\Languages;
 
 
-class EngineWrapper extends Injection
+class Instance extends Injection
 {
 
     /** @var Config $Config */

@@ -22,8 +22,8 @@ class Config extends Injection
     /** @var bool $shutdownCallbackRegistered */
     private $shutdownCallbackRegistered = false;
 
-    /** @var  EngineWrapper $EngineWrapper */
-    private $EngineWrapper;
+    /** @var  Instance $Instance */
+    private $Instance;
 
     /** @var null $subfolder */
     private $subfolder = null;
@@ -84,11 +84,11 @@ class Config extends Injection
 
 
     /**
-     * @param EngineWrapper $EngineWrapper
+     * @param Instance $Instance
      */
-    public function setEngineWrapper($EngineWrapper)
+    public function setInstance($Instance)
     {
-        $this->EngineWrapper = $EngineWrapper;
+        $this->Instance = $Instance;
     }
 
 
@@ -102,7 +102,7 @@ class Config extends Injection
             register_shutdown_function(function (Config $configInstance) {
                 // todo: if is modified
                 $config = array(
-                    "cacheDir"             => $configInstance->EngineWrapper->DirectoryHandler()->getCacheDir(),
+                    "cacheDir"             => $configInstance->Instance->DirectoryHandler()->getCacheDir(),
                     "languageCacheFolders" => $configInstance->getLanguageCacheFolders(),
                     "curlUrls"             => $configInstance->getCurlUrls(),
                     "subfolder"            => $configInstance->getSubfolder(),
@@ -123,7 +123,7 @@ class Config extends Injection
                 }
 
                 // todo: update the config instead of adding it
-                $configInstance->EngineWrapper->ConfigCache()->save($configInstance);
+                $configInstance->Instance->ConfigCache()->save($configInstance);
             }, $this);
             $this->shutdownCallbackRegistered = true;
         }
@@ -375,8 +375,8 @@ class Config extends Injection
             $key = strtolower(end($key));
         }
         if (!in_array($language, $this->languages)) {
-            $language = $this->EngineWrapper->DirectoryHandler()->getPath($language);
-            $this->EngineWrapper->Languages()->initLanguageConfig($key,$language);
+            $language = $this->Instance->DirectoryHandler()->getPath($language);
+            $this->Instance->Languages()->initLanguageConfig($key,$language);
             $this->languages[$key] = $language;
         }
     }

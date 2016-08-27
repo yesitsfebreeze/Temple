@@ -4,7 +4,7 @@ namespace Temple\Engine\EventManager;
 
 
 use Temple\Engine\Cache\EventCache;
-use Temple\Engine\EngineWrapper;
+use Temple\Engine\Instance;
 use Temple\Engine\Exception\Exception;
 use Temple\Engine\InjectionManager\Injection;
 use Temple\Engine\Structs\Storage;
@@ -18,27 +18,23 @@ use Temple\Engine\Structs\Storage;
 class EventManager extends Injection
 {
 
+    /** @var  EventCache $EventCache */
+    protected $EventCache;
+
+
     /** @inheritdoc */
     public function dependencies()
     {
-        return array();
+        return array(
+            "Engine/Cache/EventCache" => "EventCache"
+        );
     }
 
-
-    /**
-     * @var Storage
-     */
+    /** @var Storage */
     private $events;
 
-    /**
-     * @var EngineWrapper $EngineWrapper
-     */
-    private $EngineWrapper;
-
-    /**
-     * @var EventCache $EventCache
-     */
-    private $EventCache;
+    /** @var Instance $Instance */
+    private $Instance;
 
 
     /**
@@ -46,28 +42,27 @@ class EventManager extends Injection
      */
     public function __construct()
     {
-        $this->events     = new Storage();
-        $this->EventCache = new EventCache();
+        $this->events = new Storage();
     }
 
 
     /**
      * sets the current Engine
      *
-     * @param EngineWrapper $EngineWrapper
+     * @param Instance $Instance
      */
-    public function setEngineWrapper(EngineWrapper $EngineWrapper)
+    public function setInstance(Instance $Instance)
     {
-        $this->EngineWrapper = $EngineWrapper;
+        $this->Instance = $Instance;
     }
 
 
     /**
-     * @return EngineWrapper
+     * @return Instance
      */
-    public function getEngineWrapper()
+    public function getInstance()
     {
-        return $this->EngineWrapper;
+        return $this->Instance;
     }
 
 
@@ -129,7 +124,7 @@ class EventManager extends Injection
     {
         if (is_object($event)) {
             $eventInstance = clone $event;
-            $eventInstance->setEngineWrapper($this->EngineWrapper);
+            $eventInstance->setInstance($this->Instance);
             $eventInstance->setInjectionManager($this->InjectionManager);
 
             if (!is_array($arguments)) {
@@ -164,7 +159,7 @@ class EventManager extends Injection
     public function subscribe($language, $event, Event $subscriber)
     {
         $subscriber->setLanguage($language);
-        $this->EventCache->save($subscriber);
+        $subscriber->setInstance($this->Instance);
         $this->events->set($language . "." . $event, $subscriber);
 
         return true;

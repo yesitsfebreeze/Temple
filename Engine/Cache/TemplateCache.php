@@ -4,6 +4,7 @@ namespace Temple\Engine\Cache;
 
 
 use Temple\Engine\Config;
+use Temple\Engine\EventManager\EventManager;
 use Temple\Engine\Exception\Exception;
 use Temple\Engine\Filesystem\DirectoryHandler;
 use Temple\Engine\Languages\BaseLanguage;
@@ -29,6 +30,9 @@ class TemplateCache extends BaseCache
     /** @var  DirectoryHandler $DirectoryHandler */
     protected $DirectoryHandler;
 
+    /** @var  EventManager $EventManager */
+    protected $EventManager;
+
     /** @var  Language $Language */
     protected $Language;
 
@@ -44,7 +48,8 @@ class TemplateCache extends BaseCache
             "Engine/Config"                      => "Config",
             "Engine/Cache/CacheInvalidator"      => "CacheInvalidator",
             "Engine/Languages/Languages"         => "Languages",
-            "Engine/Filesystem/DirectoryHandler" => "DirectoryHandler"
+            "Engine/Filesystem/DirectoryHandler" => "DirectoryHandler",
+            "Engine/EventManager/EventManager"   => "EventManager"
         );
     }
 
@@ -59,22 +64,14 @@ class TemplateCache extends BaseCache
      */
     public function changed($value, $identifier = 0)
     {
-
         if (!$this->Config->isCacheEnabled()) {
             $this->update($value, $identifier);
 
             return true;
         }
 
-        // if we want to check if any configuration has changed
-        // we would invalidate the cache if so
-        if ($this->Config->isCacheInvalidation()) {
-            $this->CacheInvalidator->checkValidation();
-        }
-
         $cacheFile    = $this->getCacheFilePath($value);
         $templateFile = $this->DirectoryHandler->getTemplatePath($value);
-        $cache        = $this->getCache();
 
         if (!file_exists($cacheFile)) {
             $this->update($value, $identifier);
@@ -82,10 +79,23 @@ class TemplateCache extends BaseCache
             return true;
         }
 
+
+        $languageConfig = $this->Language->getConfig();
+
+        // if we want to check if any configuration has changed
+        // we would invalidate the cache if so
+        if ($this->Config->isCacheInvalidation()) {
+            if ($this->CacheInvalidator->checkValidation($languageConfig, $identifier)) {
+                $this->update($value, $identifier);
+
+                return true;
+            };
+        }
+
+
         // this is checking if the variable file from the cache
         // is deleted and therefore the template would not work
         // if so we reprocess the template
-        $languageConfig = $this->Language->getConfig();
         if (!is_null($languageConfig->getVariableCache())) {
             $variableCacheFile = $this->getCacheFilePath($value, $this->Config->getVariableCachePostfix() . ".");
             if (!file_exists($variableCacheFile)) {
@@ -94,7 +104,8 @@ class TemplateCache extends BaseCache
                 return true;
             }
         }
-
+        
+        $cache = $this->getCache();
         if (!isset($cache[ $identifier ])) {
             $this->update($value, $identifier);
 
@@ -118,10 +129,9 @@ class TemplateCache extends BaseCache
         if (isset($cache[ $identifier ][ $value ]["dependencies"])) {
             $dependencies = $cache[ $identifier ][ $value ]["dependencies"];
             foreach ($dependencies as $dependency) {
-
                 if ($dependency["needed"]) {
                     if ($this->changed($dependency["file"], $identifier)) {
-                        $this->update($value, $identifier);
+                        $this->update($dependency["file"], $identifier);
 
                         return true;
                     }
@@ -191,8 +201,9 @@ class TemplateCache extends BaseCache
             $cache[ $identifier ][ $value ]                 = array();
             $cache[ $identifier ][ $value ]["dependencies"] = array();
         }
+        $modifiedTime                               = filemtime($templateFile);
         $cache[ $identifier ][ $value ]["location"] = $templateFile;
-        $cache[ $identifier ][ $value ]["time"]     = filemtime($templateFile);
+        $cache[ $identifier ][ $value ]["time"]     = $modifiedTime;
 
         return $this->saveCache($cache);
     }
@@ -209,7 +220,7 @@ class TemplateCache extends BaseCache
      */
     public function addDependency($parent, $file, $needed = true, $identifier = 0)
     {
-        $cache  = $this->getCache();
+        $cache = $this->getCache();
 
         // normalize all incoming files
         // to be sure they are indexed within the cache
@@ -219,7 +230,8 @@ class TemplateCache extends BaseCache
         if (isset($cache[ $identifier ][ $parent ])) {
             $cache[ $identifier ][ $parent ]["dependencies"][ $file ] = array(
                 "file"   => $file,
-                "needed" => $needed
+                "needed" => $needed,
+                "force"  => false
             );
         }
 

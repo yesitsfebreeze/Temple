@@ -31,6 +31,6 @@ class TestNode extends Node
 
     public function compile()
     {
-        return "console.log('test');";
+        return "console.log('testdd');";
     }
 }

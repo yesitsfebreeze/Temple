@@ -3,7 +3,7 @@
 namespace Temple\Engine\Languages;
 
 
-use Temple\Engine\EngineWrapper;
+use Temple\Engine\Instance;
 use Temple\Engine\EventManager\EventManager;
 use Temple\Engine\Exception\Exception;
 use Temple\Engine\Filesystem\DirectoryHandler;
@@ -18,8 +18,8 @@ use Temple\Engine\InjectionManager\Injection;
 class Languages extends Injection
 {
 
-    /** @var  EngineWrapper $EngineWrapper */
-    protected $EngineWrapper;
+    /** @var  Instance $Instance */
+    protected $Instance;
 
     /** @var  EventManager $EventManager */
     protected $EventManager;
@@ -49,12 +49,12 @@ class Languages extends Injection
      */
     public function initLanguages()
     {
-        $useCore = $this->EngineWrapper->Config()->isUseCoreLanguage();
+        $useCore = $this->Instance->Config()->isUseCoreLanguage();
         if ($useCore) {
-            $this->EngineWrapper->Config()->addLanguage("./Languages/Core");
+            $this->Instance->Config()->addLanguage("./Languages/Core");
         }
-        $defaultLanguagePath = $this->EngineWrapper->Config()->getDefaultLanguage();
-        $this->EngineWrapper->Config()->addLanguage($defaultLanguagePath, "default");
+        $defaultLanguagePath = $this->Instance->Config()->getDefaultLanguage();
+        $this->Instance->Config()->addLanguage($defaultLanguagePath, "default");
     }
 
 
@@ -87,8 +87,8 @@ class Languages extends Injection
             throw new Exception(1, "There is not the right class declaration within  %" . $config . "%!");
         }
 
-        $config = new $configClassName($this->EngineWrapper);
-        $this->EngineWrapper->Config()->addLanguageConfig($config);
+        $config = new $configClassName($this->Instance);
+        $this->Instance->Config()->addLanguageConfig($config);
     }
 
 
@@ -122,11 +122,11 @@ class Languages extends Injection
                     preg_match("/^(.*?)(?:$|\s)/", trim($line), $tag);
                     $tag = trim($tag[0]);
 
-                    if ($this->EngineWrapper->Config()->isUseCoreLanguage()) {
+                    if ($this->Instance->Config()->isUseCoreLanguage()) {
                         array_unshift($languages, "core");
                     }
 
-                    if ($tag == $this->EngineWrapper->Config()->getLanguageTagName()) {
+                    if ($tag == $this->Instance->Config()->getLanguageTagName()) {
                         $lang = trim(str_replace($tag, "", $line));
                     } else {
                         $lang = "default";
@@ -142,10 +142,11 @@ class Languages extends Injection
             throw new Exception(123, "There is no language for this file", $file);
         }
 
-        if ($this->EngineWrapper->Config()->isUseCoreLanguage()) {
+        if ($this->Instance->Config()->isUseCoreLanguage()) {
             array_unshift($languages, "core");
         }
         array_unshift($languages, "default");
+
         return $this->iterate($languages);
 
         return false;
@@ -166,7 +167,7 @@ class Languages extends Injection
             $languages = array($languages);
         }
 
-        $registeredLanguages = $this->EngineWrapper->Config()->getLanguages();
+        $registeredLanguages = $this->Instance->Config()->getLanguages();
 
 
         foreach ($languages as $name) {
@@ -216,17 +217,30 @@ class Languages extends Injection
             /** @var BaseLanguage $lang */
             $language = $this->registerLanguageClass($languageClassName, $configClassName, $path);
 
-
-            if (!$this->languages[ $languageClassName ]["registered"]) {
-                $language->register();
-                $this->languages[ $languageClassName ]["registered"] = true;
-            }
+            $this->registerLanguage($language);
 
             return $this->languages[ $languageClassName ]["class"];
 
         }
 
         throw new Exception(1, "There are no languages registered!");
+    }
+
+
+    /**
+     * registers all nodes of a language
+     *
+     * @param BaseLanguage $language
+     */
+    public function registerLanguage(BaseLanguage $language)
+    {
+        $name              = $language->getConfig()->getName();
+        $languageClassName = $this->getClassName($name, "Language");
+
+        if (!$this->languages[ $languageClassName ]["registered"]) {
+            $language->register();
+            $this->languages[ $languageClassName ]["registered"] = true;
+        }
     }
 
 
@@ -259,10 +273,10 @@ class Languages extends Injection
     {
         if (!isset($this->languages[ $loaderClass ])) {
             /** @var LanguageConfig $config */
-            $config = new $configClass($this->EngineWrapper);
+            $config = new $configClass($this->Instance);
 
             $language                        = array();
-            $language["class"]               = new $loaderClass($this->EngineWrapper, $config->getName(), $path);
+            $language["class"]               = new $loaderClass($this->Instance, $config->getName(), $path);
             $language["registered"]          = false;
             $this->languages[ $loaderClass ] = $language;
 
@@ -274,20 +288,20 @@ class Languages extends Injection
 
 
     /**
-     * @return EngineWrapper
+     * @return Instance
      */
-    public function getEngineWrapper()
+    public function getInstance()
     {
-        return $this->EngineWrapper;
+        return $this->Instance;
     }
 
 
     /**
-     * @param EngineWrapper $EngineWrapper
+     * @param Instance $Instance
      */
-    public function setEngineWrapper($EngineWrapper)
+    public function setInstance($Instance)
     {
-        $this->EngineWrapper = $EngineWrapper;
+        $this->Instance = $Instance;
     }
 
 

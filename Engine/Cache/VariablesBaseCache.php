@@ -4,7 +4,7 @@
 namespace Temple\Engine\Cache;
 
 
-use Temple\Engine\EngineWrapper;
+use Temple\Engine\Instance;
 use Temple\Engine\Structs\Variables;
 
 
@@ -16,8 +16,8 @@ use Temple\Engine\Structs\Variables;
 abstract class VariablesBaseCache
 {
 
-    /** @var  EngineWrapper $EngineWrapper */
-    protected $EngineWrapper;
+    /** @var  Instance $Instance */
+    protected $Instance;
 
     /** @var  string $file */
     protected $file;
@@ -54,7 +54,7 @@ abstract class VariablesBaseCache
     public function saveVariables(Variables $Variables)
     {
         $Variables = serialize($Variables);
-        $this->EngineWrapper->TemplateCache()->dump($this->getFileName($this->file), $Variables);
+        $this->Instance->TemplateCache()->dump($this->getFileName($this->file), $Variables);
     }
 
 
@@ -69,7 +69,7 @@ abstract class VariablesBaseCache
     {
         $file = $this->cleanExtension($file);
         $file = $this->getFileName($file);
-        $file = $this->EngineWrapper->TemplateCache()->get($file);
+        $file = $this->Instance->TemplateCache()->get($file);
 
         return unserialize(file_get_contents($file));
     }
@@ -84,7 +84,7 @@ abstract class VariablesBaseCache
      */
     protected function getFileName($file)
     {
-        return str_replace($this->EngineWrapper->Config()->getExtension(), $this->EngineWrapper->Config()->getVariableCachePostfix() . "." . $this->EngineWrapper->Config()->getExtension(), $file);
+        return str_replace($this->Instance->Config()->getExtension(), $this->Instance->Config()->getVariableCachePostfix() . "." . $this->Instance->Config()->getExtension(), $file);
     }
 
 
@@ -97,18 +97,18 @@ abstract class VariablesBaseCache
      */
     protected function cleanExtension($file)
     {
-        $file = preg_replace('/\..*?$/', '', $file) . "." . $this->EngineWrapper->Config()->getExtension();
+        $file = preg_replace('/\..*?$/', '', $file) . "." . $this->Instance->Config()->getExtension();
 
         return $file;
     }
 
 
     /**
-     * @param EngineWrapper $EngineWrapper
+     * @param Instance $Instance
      */
-    public function setEngineWrapper(EngineWrapper $EngineWrapper)
+    public function setInstance(Instance $Instance)
     {
-        $this->EngineWrapper = $EngineWrapper;
+        $this->Instance = $Instance;
     }
 
 

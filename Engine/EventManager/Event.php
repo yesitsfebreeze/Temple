@@ -3,7 +3,7 @@
 namespace Temple\Engine\EventManager;
 
 
-use Temple\Engine\EngineWrapper;
+use Temple\Engine\Instance;
 use Temple\Engine\InjectionManager\InjectionManager;
 
 
@@ -14,8 +14,8 @@ abstract class Event
 {
 
 
-    /** @var EngineWrapper $EngineWrapper */
-    protected $EngineWrapper;
+    /** @var Instance $Instance */
+    protected $Instance;
 
     /** @var InjectionManager $InjectionManager */
     protected $InjectionManager;
@@ -25,11 +25,11 @@ abstract class Event
 
 
     /**
-     * @param EngineWrapper $EngineWrapper
+     * @param Instance $Instance
      */
-    public function setEngineWrapper(EngineWrapper $EngineWrapper)
+    public function setInstance(Instance $Instance)
     {
-        $this->EngineWrapper = $EngineWrapper;
+        $this->Instance = $Instance;
     }
 
 
@@ -59,4 +59,16 @@ abstract class Event
         $this->language = $language;
     }
 
+
+    public function __toString()
+    {
+        if ($this->Instance->Config()->isCacheInvalidation()) {
+            $reflection = new \ReflectionClass($this);
+            $content    = file_get_contents($reflection->getFileName());
+
+            return $content;
+        } else {
+            return "Event";
+        }
+    }
 }
