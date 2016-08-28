@@ -1,5 +1,5 @@
 body, html {
-    background-color: @black;
+    background-color: @white;
     position:         absolute;
     width:            100%;
     height:           100%;
@@ -9,10 +9,7 @@ body, html {
 }
 
 .page-wrapper {
-    margin-top: 50px;
-    &.has-breadcrumbs {
-        padding-top: 50px;
-    }
+    margin-top: 150px;
 
     &.is-docs {
         background-color: @white;
@@ -27,7 +24,7 @@ body, html {
 
 .border-left-light {
     border-left:  1px solid @gray-lighter;
-    margin-right: 0;
+    margin-left: 0;
 }
 
 .no-padding-left {
@@ -64,4 +61,24 @@ a {
             border-color:     transparent;
         }
     }
+}
+
+.no-padding {
+    padding: 0;
+}
+
+.no-margin {
+    margin: 0;
+}
+
+.no-padding-top {
+    padding-top: 0;
+}
+
+.no-margin {
+    margin-top: 0;
+}
+
+.full-width {
+    width: 100%;
 }

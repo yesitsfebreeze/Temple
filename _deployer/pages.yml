@@ -1,8 +1,7 @@
 index:
-  documentation:
-    getting started:
-      Setting up an instance:
-      Using the Template class:
-    creating languages:
-    using events:
-    adding console commands:
+  getting started:
+    Setting up an instance:
+    Using the Template class:
+  creating languages:
+  using events:
+  adding console commands:

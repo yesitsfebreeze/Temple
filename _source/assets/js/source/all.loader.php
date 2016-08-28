@@ -8,8 +8,9 @@ $scripts = array(
     "easing.js",
     "sectionResize.js",
     "pageFadeIn.js",
-    "parallax.js", 
+    "parallax.js",
     "fix-height.js",
     "jump-to-donate.js",
-    "dock-link-jump.js"
+    "dock-link-jump.js",
+    "header-on-scroll.js"
 );

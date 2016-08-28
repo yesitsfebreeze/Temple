@@ -39,9 +39,6 @@ class Deployer
     /** @var array $menu */
     private $menu = array();
 
-    /** @var array $docsMenuName */
-    private $docsMenuName = "documentation";
-
     /** @var array $docsMenu */
     private $docsMenu = array();
 
@@ -65,6 +62,8 @@ class Deployer
         if ($task == "template") {
             $this->smarty = new Smarty();
             $this->smarty->addTemplateDir($this->page . "templates");
+            $this->smarty->addPluginsDir($this->root . "plugins/smarty");
+            $GLOBALS["templateDir"] = $this->page . "templates" . DIRECTORY_SEPARATOR;
         }
 
         $this->yaml = new \Symfony\Component\Yaml\Yaml();
@@ -93,7 +92,7 @@ class Deployer
     {
         $this->pages = $this->getPages();
         if ($this->task == "template") {
-            $this->buildMenu($this->pages);
+            $this->menu = $this->getMenu();
             $this->buildDocsMenu($this->pages);
         }
         if ($this->task == "less") {
@@ -115,20 +114,9 @@ class Deployer
     /**
      * @param $pages
      */
-    private function buildMenu($pages)
-    {
-        $menu       = $this->buildSubMenu(array(), $pages["index"]);
-        $this->menu = $menu;
-
-    }
-
-
-    /**
-     * @param $pages
-     */
     private function buildDocsMenu($pages)
     {
-        $docsMenu       = $this->buildSubMenu(array(), $pages["index"][ $this->docsMenuName ], "/" . $this->docsMenuName);
+        $docsMenu       = $this->buildSubMenu(array(), $pages["index"], "/");
         $this->docsMenu = $docsMenu;
     }
 
@@ -140,7 +128,7 @@ class Deployer
     private function buildDocsSubMenu($pages, $name)
     {
         $name              = str_replace("_", " ", $name);
-        $docsSubMenu       = $this->buildSubMenu(array(), $pages["index"][ $this->docsMenuName ][ $name ], "/" . $this->docsMenuName . "/" . $name);
+        $docsSubMenu       = $this->buildSubMenu(array(), $pages["index"][ $name ], "/" . $name);
         $this->docsSubMenu = $docsSubMenu;
     }
 
@@ -248,13 +236,12 @@ class Deployer
     private function saveFile($path, $subPath, $extension, $content, $useIndex = true, $removeIndex = false)
     {
 
-
+        if ($removeIndex) {
+            $path = preg_replace("/^index\//", "", $path);
+        }
         if ($path == "index" || $useIndex == false) {
             $outputFile = $this->root . ".." . DIRECTORY_SEPARATOR . $subPath . $path . "." . $extension;
         } else {
-            if ($removeIndex) {
-                $path = preg_replace("/^index\//", "", $path);
-            }
             $outputFile = $this->root . ".." . DIRECTORY_SEPARATOR . $subPath . $path . "/index." . $extension;
         }
         $outputDir = dirname($outputFile);
@@ -283,38 +270,29 @@ class Deployer
         }
         $file = $this->page . "data" . DIRECTORY_SEPARATOR . $path . ".yml";
         if ($path != "default") {
-            $oldPath   = $path;
-            $path      = explode("/", $path);
-            $preParent = $path[ sizeof($path) - 2 ];
-            $parent    = $path[ sizeof($path) - 1 ];
-            $path      = end($path);
-            $name      = str_replace("_", " ", $path);
+            $oldPath = $path;
+            $path    = explode("/", $path);
+            $parent  = $path[ sizeof($path) - 1 ];
+            $path    = end($path);
+            $name    = str_replace("_", " ", $path);
 
             $this->smarty->assign("pageName", $path);
 
-            if ($parent == $this->docsMenuName) {
-                $breadcrumbs = array(
-                    "Documentation" => preg_replace("/^index/", "/Temple/", "index/" . $this->docsMenuName)
-                );
+            $this->buildDocsSubMenu($this->pages, $parent);
+            $this->smarty->assign("docsSubMenu", $this->docsSubMenu);
+            $pages       = array();
+            $breadcrumbs = array(
+                "Documentation" => "",
+                "$name"         => preg_replace("/^index/", "/", $oldPath)
+            );
+            foreach ($this->docsSubMenu as $page) {
+                $docPage                = array();
+                $docPage["name"]        = $page["name"];
+                $docPage["escapedName"] = str_replace(" ", "_", $page["name"]);
+                $docPage["file"]        = "index" . $page["link"] . ".tpl";
+                $pages[]                = $docPage;
             }
-
-            if ($preParent == $this->docsMenuName) {
-                $this->buildDocsSubMenu($this->pages, $parent);
-                $this->smarty->assign("docsSubMenu", $this->docsSubMenu);
-                $pages       = array();
-                $breadcrumbs = array(
-                    "Documentation" => preg_replace("/^index/", "/Temple/", "index/" . $this->docsMenuName),
-                    "$name"         => preg_replace("/^index/", "/Temple/", $oldPath)
-                );
-                foreach ($this->docsSubMenu as $page) {
-                    $docPage                = array();
-                    $docPage["name"]        = $page["name"];
-                    $docPage["escapedName"] = str_replace(" ", "_", $page["name"]);
-                    $docPage["file"]        = "index" . $page["link"] . ".tpl";
-                    $pages[]                = $docPage;
-                }
-                $this->smarty->assign("docsPages", $pages);
-            }
+            $this->smarty->assign("docsPages", $pages);
 
             $this->smarty->assign("breadcrumbs", $breadcrumbs);
 
@@ -333,15 +311,15 @@ class Deployer
      */
     private function parseLess($path)
     {
-        $file       = $this->page . "assets" . DIRECTORY_SEPARATOR . "less" . DIRECTORY_SEPARATOR . "pages" . DIRECTORY_SEPARATOR . $path . ".less";
-        
+        $file = $this->page . "assets" . DIRECTORY_SEPARATOR . "less" . DIRECTORY_SEPARATOR . "pages" . DIRECTORY_SEPARATOR . $path . ".less";
+
         if (file_exists($file)) {
             if (!$this->less instanceof Less_Parser) {
                 Less_Parser::$options = array(
                     "cache_method" => "serialize",
-                    "sourceMap" => true
+                    "sourceMap"    => true
                 );
-                $this->less = new Less_Parser();
+                $this->less           = new Less_Parser();
             }
             $this->less->Reset();
             $less = $this->less->parseFile($file);
@@ -406,6 +384,30 @@ class Deployer
         $source = $this->root . "pages.yml";
         if (file_exists($source)) {
             return $this->yaml->parse(file_get_contents($source));
+        }
+
+        return null;
+    }
+
+
+    /**
+     * returns deep array of all registered pages
+     *
+     * @return mixed|null
+     */
+    private function getMenu()
+    {
+        $source = $this->root . "menu.yml";
+        $menu   = array();
+        if (file_exists($source)) {
+            $data = $this->yaml->parse(file_get_contents($source));
+            foreach ($data as $name => $item) {
+                $menuItem["name"] = $name;
+                $menuItem["link"] = $item;
+                $menu[]           = $menuItem;
+            }
+
+            return $menu;
         }
 
         return null;

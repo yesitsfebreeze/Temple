@@ -1,18 +1,26 @@
-@menu-color: @gray-lighter;
+@menu-color: @black;
 @menu-height: 50px;
 
 .menu {
     font-size:        14px;
     position:         fixed;
-    top:              0;
     left:             0;
-    background-color: @black;
+    background-color: @white;
     width:            100%;
     height:           @menu-height;
     margin:           0;
     z-index:          999;
     padding:          0;
+    top:              0;
     line-height:      @menu-height;
+    .transition(top .6s @easing-fast);
+
+    &.up {
+        top: -@menu-height;
+    }
+    &.down {
+        top: 0;
+    }
 
     .logo {
         display: inline-block;
@@ -22,7 +30,7 @@
             margin:     10px 0;
         }
         .text {
-            color:   white;
+            color:   @menu-color;
             padding: 0 15px 0 10px;
         }
     }
@@ -61,5 +69,4 @@
             }
         }
     }
-
 }

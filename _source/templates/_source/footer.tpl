@@ -1,38 +1,36 @@
 <footer>
     <section class="light donate-section">
-        <div class="pattern parent-height">
-            <div class="vertical-center text-center">
-                <form id="paypal-donate" action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank">
-                    <input type="hidden" name="cmd" value="_donations">
-                    <input type="hidden" name="business" value="stefan.hoevelmanns@schmiechen.de">
-                    <input type="hidden" name="lc" value="DE">
-                    <input type="hidden" name="item_name" value="Temple donation">
-                    <input type="hidden" name="no_note" value="0">
-                    <input type="hidden" name="currency_code" value="EUR">
-                    <input type="hidden" name="bn" value="PP-DonationsBF:donate-button.png:NonHostedGuest">
-                    <button type="submit" class="btn btn-link">
+        <div class="vertical-center text-center">
+            <form id="paypal-donate" action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank">
+                <input type="hidden" name="cmd" value="_donations">
+                <input type="hidden" name="business" value="stefan.hoevelmanns@schmiechen.de">
+                <input type="hidden" name="lc" value="DE">
+                <input type="hidden" name="item_name" value="Temple donation">
+                <input type="hidden" name="no_note" value="0">
+                <input type="hidden" name="currency_code" value="EUR">
+                <input type="hidden" name="bn" value="PP-DonationsBF:donate-button.png:NonHostedGuest">
+                <button type="submit" class="btn btn-link">
                         <span class="click-me">
                             <img class="img-responsive" src="{$pathPrefix}/assets/img/click-me.png" alt="Temple">
                         </span>
-                        <h2 class="text-primary">
-                            <i class="icon icon-static fa fa-2x fa-heart-o"></i>
-                            <i class="icon icon-hover fa fa-2x fa-heart"></i>
-                        </h2>
-                    </button>
-                    <img alt="" border="0" src="https://www.paypalobjects.com/de_DE/i/scr/pixel.gif" width="1" height="1">
-                </form>
+                    <h2 class="text-primary">
+                        <i class="icon icon-static fa fa-2x fa-heart-o"></i>
+                        <i class="icon icon-hover fa fa-2x fa-heart"></i>
+                    </h2>
+                </button>
+                <img alt="" border="0" src="https://www.paypalobjects.com/de_DE/i/scr/pixel.gif" width="1" height="1">
+            </form>
 
-                <h3 class="no-margin">
-                    Show me your support!
-                </h3>
-                <p>
-                    Since i'm working alone on this project, a little love never hurts.
-                </p>
+            <h3 class="no-margin">
+                Show me your support!
+            </h3>
+            <p>
+                Since i'm working alone on this project, a little love never hurts.
+            </p>
 
-                <small class="text-muted">
-                    donation via &nbsp; <i class="fa fa-paypal"></i>
-                </small>
-            </div>
+            <small class="text-muted">
+                donation via &nbsp; <i class="fa fa-paypal"></i>
+            </small>
         </div>
     </section>
 

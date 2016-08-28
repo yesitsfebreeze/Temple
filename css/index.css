@@ -38,15 +38,18 @@
   height: 300px;
 }
 .section-2 .editor.dark {
-  background: #212122;
+  background: #3a3a3a;
 }
 .section-2 .editor.dark pre {
   color: #e2e5e5;
   background-color: transparent;
 }
 .section-2 .editor.dark .editor-header {
-  background: #212122;
+  background: #3a3a3a;
 }
 .section-2 .editor.dark .editor-header .editor-language {
   color: #e2e5e5;
+}
+.temple-heading {
+  text-indent: -0.25em;
 }

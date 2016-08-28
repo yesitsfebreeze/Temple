@@ -8,7 +8,7 @@
         {if is_array($menu)}
             <ul class="menu-list list-unstyled">
                 <li>
-                    <a href="{$pathPrefix}/documentation" title="Overview" {if $pageName == "documentation"}class="active"{/if}>
+                    <a href="{$pathPrefix}" title="Overview" {if $pageName == "index"}class="active"{/if}>
                         Overview
                     </a>
                 </li>
@@ -48,9 +48,6 @@
         <div class="row border-left-light">
             <div class="col-xs-3 no-padding-left">
                 <div class="jump-docs-sidebar docs-page-jumper no-index"></div>
-                <h4 class="pl-grid">
-                    Documentation
-                </h4>
                 <div class="sidebar">
                     {call docsMenu menu=$docsMenu}
                 </div>

@@ -1,4 +1,4 @@
-{extends file="_source/docs.tpl"}
+{extends file="index.tpl"}
 
 {block name="content:docs"}
     {foreach $docsPages as $page}

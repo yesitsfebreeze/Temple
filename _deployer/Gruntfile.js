@@ -61,5 +61,7 @@ module.exports = function(grunt) {
 
     grunt.registerTask('default', ["exec", "watch"]);
     grunt.registerTask('dump', ["exec"]);
+    grunt.registerTask('assets', ["exec:assets"]);
+    grunt.registerTask('template', ["exec:template"]);
 
 };
