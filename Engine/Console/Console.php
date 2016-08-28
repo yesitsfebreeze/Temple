@@ -5,14 +5,14 @@ namespace Temple\Engine\Console;
 
 
 use Temple\Engine\Cache\CommandCache;
+use Temple\Engine\Cache\ConfigCache;
+use Temple\Engine\Console\Commands\CacheBuildTemplatesCommand;
 use Temple\Engine\Console\Commands\CacheClearCommandsCommand;
 use Temple\Engine\Console\Commands\CacheClearCompleteCommand;
 use Temple\Engine\Console\Commands\CacheClearConfigsCommand;
 use Temple\Engine\Console\Commands\CacheClearTemplatesCommand;
-use Temple\Engine\Console\Commands\CacheBuildTemplatesCommand;
 use Temple\Engine\Console\Commands\CurlUrlsCommand;
 use Temple\Engine\Exception\Exception;
-use Temple\Engine\Cache\ConfigCache;
 use Temple\Engine\InjectionManager\Injection;
 use Temple\Engine\Structs\Storage;
 
@@ -184,9 +184,11 @@ class Console extends Injection
 
         if ($command->isUseConfigs()) {
             # execute the command for each cached config
-            foreach ($configs as $config) {
-                $command = $this->prepareCommand($command);
-                $command = $this->callCommandExecute($command, $args, $config);
+            if ($configs) {
+                foreach ($configs as $config) {
+                    $command = $this->prepareCommand($command);
+                    $command = $this->callCommandExecute($command, $args, $config);
+                }
             }
         } else {
             $command = $this->callCommandExecute($command, $args);

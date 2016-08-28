@@ -69,7 +69,6 @@ class BaseLanguage
      */
     public function subscribe($name, Event $event)
     {
-        // todo: add this Event to the cache invalidator to clear the cache if we change a node
         $this->Instance->EventManager()->subscribe($this->name, $name, $event);
     }
 

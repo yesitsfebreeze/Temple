@@ -73,7 +73,7 @@ class CacheClearCommandsCommand extends Command
                     if (is_dir($dir . "/" . $object)) {
                         $this->removeDir($dir . "/" . $object);
                     } else {
-                        if ($object == "cache.commands.php") {
+                        if ($object == "command.cache.php") {
                             unlink($dir . "/" . $object);
                         }
                     }

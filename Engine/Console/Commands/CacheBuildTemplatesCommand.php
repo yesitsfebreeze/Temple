@@ -4,9 +4,8 @@
 namespace Temple\Engine\Console\Commands;
 
 
-use Temple\Engine\Config;
-use Temple\Engine\Console\Command;
 use Temple\Engine;
+use Temple\Engine\Console\Command;
 
 
 /**
@@ -28,44 +27,24 @@ class CacheBuildTemplatesCommand extends Command
         $this->setProgressTitleColor("green");
     }
 
-    public function execute($arg = null)
-    {
-        if (isset($this->config["processedTemplates"])) {
-            foreach ($this->config["processedTemplates"] as $template) {
-                $Engine = new Engine();
-                $Engine = $this->createConfig($Engine, $this->config);
-                $Engine->Template()->fetch($template);
-            }
-        }
-
-    }
-
 
     /**
-     * @param Engine $Engine
-     * @param          $cachedConfig
-     *
-     * @return Engine
+     * @param null $arg
      */
-    private function createConfig(Engine $Engine, $cachedConfig)
+    public function execute($arg = null)
     {
-        /** @var Config $config */
-        $config  = $Engine->Config();
-        $methods = array_flip(get_class_methods($config));
-        foreach ($cachedConfig as $method => $value) {
-            $setMethodName = "set" . ucfirst($method);
-            $addMethodName = "add" . preg_replace("/s$/", "", ucfirst($method));
+        if (isset($this->config["dynamic"]["processedTemplates"])) {
 
-            if (isset($methods[ $setMethodName ])) {
-                $config->$setMethodName($value);
-            } else if (isset($methods[ $addMethodName ])) {
-                foreach ($value as $v) {
-                    $config->$addMethodName($v);
-                }
+            $Engine = new Engine();
+            $Engine->Config()->setUpdate(false);
+            $Engine->Config()->setConfigCacheEnabled(false);
+            $Engine->Config()->createFromArray($this->config);
+
+            foreach ($this->config["dynamic"]["processedTemplates"] as $template) {
+                $Engine->Template()->process($template);
             }
-        }
 
-        return $Engine;
+        }
     }
 
 

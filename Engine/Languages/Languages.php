@@ -167,9 +167,6 @@ class Languages extends Injection
 
         $registeredLanguages = $this->Instance->Config()->getLanguages();
 
-
-
-
         foreach ($languages as $name) {
             $default = $this->Instance->Config()->getDefaultLanguage();
             $default = explode("/",$default);

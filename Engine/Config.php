@@ -22,6 +22,9 @@ class Config extends Injection
     /** @var int $identifier */
     private $identifier = 0;
 
+    /** @var bool $doUpdate */
+    private $doUpdate = true;
+
     /** @var bool $shutdownCallbackRegistered */
     private $shutdownCallbackRegistered = false;
 
@@ -97,7 +100,7 @@ class Config extends Injection
 
 
     /**
-     *
+     * converts the config to an array
      */
     public function toArray()
     {
@@ -111,6 +114,7 @@ class Config extends Injection
                 "templateDirs"         => $this->getTemplateDirs(),
                 "variableCachePostfix" => $this->getVariableCachePostfix(),
                 "defaultLanguage"      => $this->getDefaultLanguage(),
+                "languages"            => $this->getLanguages(),
                 "useCoreLanguage"      => $this->isUseCoreLanguage(),
                 "DocumentRoot"         => $_SERVER["DOCUMENT_ROOT"],
 
@@ -134,13 +138,77 @@ class Config extends Injection
 
 
     /**
+     * creates a config from an array
+     *
+     * @param array $config
+     *
+     * @return Config
+     */
+    public function createFromArray($config)
+    {
+
+
+        /** @var Config $Config */
+        $methods = array_flip(get_class_methods($this));
+        foreach ($config as $type) {
+            foreach ($type as $method => $value) {
+                $setMethodName = "set" . ucfirst($method);
+                $addMethodName = "add" . preg_replace("/s$/", "", ucfirst($method));
+
+                if (isset($methods[ $setMethodName ])) {
+                    $this->$setMethodName($value);
+                }
+
+                if (isset($methods[ $addMethodName ])) {
+                    foreach ($value as $k => $v) {
+                        if (is_int($k)) {
+                            $this->$addMethodName($v);
+                        } else {
+                            if ($method == "languageConfigs") {
+                                $languageConfig = new LanguageConfig($this->Instance);
+                                $v              = $languageConfig->createFromArray($v);
+                            }
+                            $this->$addMethodName($v, $k);
+                        }
+                    }
+                }
+            }
+        }
+
+        return $this;
+    }
+
+
+    /**
+     * whenever or not to update the cache for this config
+     *
+     * @param $update
+     */
+    public function setUpdate($update)
+    {
+        $this->doUpdate = $update;
+    }
+
+
+    /**
+     * @return bool
+     */
+    public function getUpdate()
+    {
+        return $this->doUpdate;
+    }
+
+
+    /**
      * updates the config
      */
     public function update()
     {
         if (!$this->shutdownCallbackRegistered) {
             register_shutdown_function(function (Config $configInstance) {
-                $configInstance->Instance->ConfigCache()->save($configInstance->toArray(), $configInstance->getIdentifier());
+                if ($configInstance->getUpdate()) {
+                    $configInstance->Instance->ConfigCache()->save($configInstance->toArray(), $configInstance->getIdentifier());
+                }
             }, $this);
             $this->shutdownCallbackRegistered = true;
         }
@@ -494,13 +562,12 @@ class Config extends Injection
 
     /**
      * @param LanguageConfig $LanguageConfig
+     * @param string         $key
      */
-    public function addLanguageConfig($LanguageConfig)
+    public function addLanguageConfig($LanguageConfig, $key = null)
     {
-
         $key                           = $LanguageConfig->getName();
         $this->languageConfigs[ $key ] = $LanguageConfig;
-
     }
 
 
@@ -567,9 +634,10 @@ class Config extends Injection
      */
     public function addProcessedTemplate($processedTemplate)
     {
-        $this->processedTemplates[] = $processedTemplate;
+        if (!in_array($processedTemplate,$this->processedTemplates)) {
+            $this->processedTemplates[] = $processedTemplate;
+        }
         $this->update();
     }
-
 
 }

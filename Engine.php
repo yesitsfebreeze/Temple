@@ -75,8 +75,9 @@ class Engine extends Injection
      * Engine constructor.
      *
      * @param Config|null $config
+     * @param int $identifier
      */
-    public function __construct(Config $config = null)
+    public function __construct(Config $config = null, $identifier = 0)
     {
         // used passed config or default
         $config = ($config instanceof Config) ? $config : new Config();

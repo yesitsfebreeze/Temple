@@ -29,7 +29,7 @@ class CacheClearConfigsCommand extends Command
     public function execute($arg = null)
     {
         $this->CliOutput->writeln("clearing caches...", "green");
-        $cacheDir = $this->config["cacheDir"];
+        $cacheDir = $this->config["static"]["cacheDir"];
 
         if (!$this->Storage->has("paths." . $cacheDir)) {
 
@@ -73,7 +73,7 @@ class CacheClearConfigsCommand extends Command
                     if (is_dir($dir . "/" . $object)) {
                         $this->removeDir($dir . "/" . $object);
                     } else {
-                        if ($object == "cache.configs.php") {
+                        if ($object == "config.cache.php") {
                             unlink($dir . "/" . $object);
                         }
                     }

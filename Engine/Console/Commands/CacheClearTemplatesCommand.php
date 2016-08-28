@@ -33,7 +33,11 @@ class CacheClearTemplatesCommand extends Command
         $last_error_reporting = error_reporting();
         error_reporting(E_ALL & ~E_WARNING);
         $folders = array($cacheDir);
-        $folders = array_merge($this->config["languageCacheFolders"], $folders);
+        foreach ($this->config["dynamic"]["languageConfigs"] as $languageConfig) {
+            if (strpos($languageConfig["cacheDir"], $cacheDir) === false) {
+                $folders[] = $languageConfig["cacheDir"];
+            }
+        }
 
         foreach ($folders as $folder) {
             if (!$this->Storage->has("paths." . $folder)) {
@@ -76,7 +80,7 @@ class CacheClearTemplatesCommand extends Command
                     if (is_dir($dir . "/" . $object)) {
                         $this->removeDir($dir . "/" . $object);
                     } else {
-                        if ($object != "cache.commands.php" && $object != "cache.configs.php") {
+                        if ($object != "command.cache.php" && $object != "config.cache.php") {
                             unlink($dir . "/" . $object);
                         }
                     }

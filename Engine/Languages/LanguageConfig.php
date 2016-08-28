@@ -4,8 +4,8 @@ namespace Temple\Engine\Languages;
 
 
 use Temple\Engine\Cache\VariablesBaseCache;
-use Temple\Engine\Instance;
 use Temple\Engine\Exception\Exception;
+use Temple\Engine\Instance;
 
 
 /**
@@ -73,6 +73,27 @@ class LanguageConfig
         $config["variablePattern"] = $this->getVariablePattern();
 
         return $config;
+    }
+
+
+    /**
+     * turns this config into an array
+     *
+     * @param array $config
+     *
+     * @return LanguageConfig
+     */
+    public function createFromArray($config)
+    {
+        $this->name = $config["name"];
+        $this->setCacheDir($config["cacheDir"]);
+        $this->setIndentCharacter($config["indentCharacter"]);
+        $this->setIndentAmount($config["indentAmount"]);
+        $this->setShowComments($config["showComments"]);
+        $this->setExtension($config["extension"]);
+        $this->setVariablePattern($config["variablePattern"]);
+
+        return $this;
     }
 
 

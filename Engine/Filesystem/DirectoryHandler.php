@@ -228,12 +228,6 @@ class DirectoryHandler extends Injection
         }
 
         if (!is_dir($dir)) {
-
-//            todo: check if is writable
-//            if (!is_writable(dirname($dir))) {
-//                throw new Exception(1, "You'r missing permissions to create this directory!", "/" . $dir);
-//            }
-
             mkdir($dir, 0777, true);
         }
 
