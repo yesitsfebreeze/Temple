@@ -29,11 +29,15 @@ class CacheClearCompleteCommand extends Command
     public function execute($arg = null)
     {
         $this->CliOutput->writeln("clearing caches...", "green");
-        $cacheDir             = $this->config["cacheDir"];
+        $cacheDir             = $this->config["static"]["cacheDir"];
         $last_error_reporting = error_reporting();
         error_reporting(E_ALL & ~E_WARNING);
         $folders = array($cacheDir);
-        $folders = array_merge($this->config["languageCacheFolders"], $folders);
+        foreach ($this->config["dynamic"]["languageConfigs"] as $languageConfig) {
+            if (strpos($languageConfig["cacheDir"], $cacheDir) === false) {
+                $folders[] = $languageConfig["cacheDir"];
+            }
+        }
 
         foreach ($folders as $folder) {
             if (!$this->Storage->has("paths." . $folder)) {

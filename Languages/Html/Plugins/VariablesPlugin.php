@@ -29,7 +29,7 @@ class VariablesPlugin extends Event
     {
 
         if (!is_null($Node)) {
-            $pattern = $Node->getDom()->getLanguage()->getConfig()->getVariablePattern();
+            $pattern = $this->getLanguageConfig()->getVariablePattern();
             $pattern = explode('%', $pattern);
             $pattern = "/" . preg_quote($pattern[0]) . "(.*?)" . preg_quote($pattern[1]) . "/";
             preg_match_all($pattern, $output, $matches);

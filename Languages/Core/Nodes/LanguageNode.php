@@ -42,17 +42,6 @@ class LanguageNode extends Node
 
 
     /**
-     * returns the language class
-     *
-     * @return string
-     */
-    public function getLanguage()
-    {
-        return "";
-    }
-
-
-    /**
      * creates the output
      *
      * @return string

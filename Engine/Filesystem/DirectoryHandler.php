@@ -219,7 +219,13 @@ class DirectoryHandler extends Injection
      */
     public function createDir($dir)
     {
-        $dir = dirname($this->getPath($dir));
+
+        $isFile = (preg_replace('#(|/).*?[^/]\.[^/]+?$#', "isFile", $dir) == "isFile");
+        if ($isFile) {
+            $dir = dirname($this->getPath($dir));
+        } else {
+            $dir = realpath($this->getPath($dir));
+        }
 
         if (!is_dir($dir)) {
 

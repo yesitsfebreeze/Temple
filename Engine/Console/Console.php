@@ -174,8 +174,7 @@ class Console extends Injection
     {
         $command->define();
 
-        $configs = $this->ConfigCache->getConfigs();
-
+        $configs = $this->ConfigCache->getCache();
         $this->prepareProgress($command, $configs);
 
         # add storage to store persistent data
@@ -214,6 +213,8 @@ class Console extends Injection
      */
     private function callCommandExecute(Command $command, $args, $config = null)
     {
+
+        $config = unserialize($config);
 
         if (!is_null($config)) {
             $command->setConfig($config);

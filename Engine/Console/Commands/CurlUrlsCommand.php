@@ -29,8 +29,8 @@ class CurlUrlsCommand extends Command
 
     public function execute($arg = null)
     {
-        if (isset($this->config["curlUrls"])) {
-            foreach ($this->config["curlUrls"] as $curlUrl) {
+        if (isset($this->config["static"]["curlUrls"])) {
+            foreach ($this->config["static"]["curlUrls"] as $curlUrl) {
                 $curl = curl_init($curlUrl);
                 curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
                 curl_exec($curl);

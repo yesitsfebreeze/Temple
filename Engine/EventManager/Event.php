@@ -5,6 +5,7 @@ namespace Temple\Engine\EventManager;
 
 use Temple\Engine\Instance;
 use Temple\Engine\InjectionManager\InjectionManager;
+use Temple\Engine\Languages\LanguageConfig;
 
 
 /**
@@ -20,8 +21,8 @@ abstract class Event
     /** @var InjectionManager $InjectionManager */
     protected $InjectionManager;
 
-    /** @var string $language */
-    protected $language;
+    /** @var string $languageName */
+    protected $languageName;
 
 
     /**
@@ -45,17 +46,26 @@ abstract class Event
     /**
      * @return string
      */
-    public function getLanguage()
+    public function getLanguageName()
     {
-        return $this->language;
+        return $this->languageName;
     }
 
 
     /**
-     * @param string $language
+     * @param string $Language
      */
-    public function setLanguage($language)
+    public function setLanguageName($Language)
     {
-        $this->language = $language;
+        $this->languageName = $Language;
     }
+
+    /**
+     * @return LanguageConfig
+     */
+    public function getLanguageConfig()
+    {
+        return $this->Instance->Languages()->getLanguage($this->languageName)->getConfig();
+    }
+
 }

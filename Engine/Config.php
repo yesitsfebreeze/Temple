@@ -41,7 +41,7 @@ class Config extends Injection
     private $cacheDir = "./Cache";
 
     /** @var bool $cacheEnabled */
-    private $cacheEnabled = true;
+    private $cacheEnabled = false;
 
     /** @var bool $ConfigCacheEnabled */
     private $configCacheEnabled = true;
@@ -102,22 +102,22 @@ class Config extends Injection
     public function toArray()
     {
         $array = array(
-            "static" => array(
+            "static"  => array(
                 "cacheDir"             => $this->Instance->DirectoryHandler()->getCacheDir(),
                 "languageCacheFolders" => $this->getLanguageCacheFolders(),
                 "curlUrls"             => $this->getCurlUrls(),
                 "subfolder"            => $this->getSubfolder(),
                 "cacheEnabled"         => $this->isCacheEnabled(),
                 "templateDirs"         => $this->getTemplateDirs(),
-                "variableCachePostfix"   => $this->getVariableCachePostfix(),
+                "variableCachePostfix" => $this->getVariableCachePostfix(),
                 "defaultLanguage"      => $this->getDefaultLanguage(),
                 "useCoreLanguage"      => $this->isUseCoreLanguage(),
                 "DocumentRoot"         => $_SERVER["DOCUMENT_ROOT"],
 
             ),
             "dynamic" => array(
-                "processedTemplates"   => $this->getProcessedTemplates(),
-                "languageConfigs"      => array()
+                "processedTemplates" => $this->getProcessedTemplates(),
+                "languageConfigs"    => array()
             )
         );
 
@@ -128,7 +128,7 @@ class Config extends Injection
             $array["dynamic"]["languageConfigs"][ $name ] = $languageConfig->toArray();
         }
 
-        return$array;
+        return $array;
 
     }
 

@@ -155,7 +155,7 @@ abstract class BaseCache extends Injection
     /**
      * @return array
      */
-    protected function getCache()
+    public function getCache()
     {
         $path = $this->createCacheFile();
         if (!file_exists($path)) {
@@ -166,6 +166,7 @@ abstract class BaseCache extends Injection
 
 
     /**
+     * @param array $cache
      * @param array $cache
      *
      * @return int

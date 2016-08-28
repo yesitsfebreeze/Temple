@@ -150,7 +150,7 @@ class EventManager extends Injection
      */
     public function subscribe($language, $event, Event $subscriber)
     {
-        $subscriber->setLanguage($language);
+        $subscriber->setLanguageName($language);
         $subscriber->setInstance($this->Instance);
         $this->events->set($language . "." . $event, $subscriber);
 

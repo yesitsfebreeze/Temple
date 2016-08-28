@@ -22,7 +22,7 @@ class VariableReturnPlugin extends Event
             return $input;
         }
 
-        $pattern = $this->Instance->Config()->getLanguageConfig($this->getLanguage())->getVariablePattern();
+        $pattern = $this->getLanguageConfig()->getVariablePattern();
         $pattern = explode('%', $pattern);
         $pattern = "/" . preg_quote($pattern[0]) . "(.*?)" . preg_quote($pattern[1]) . "/";
         preg_match_all($pattern, $input, $matches);

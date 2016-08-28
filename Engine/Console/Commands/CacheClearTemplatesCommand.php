@@ -29,7 +29,7 @@ class CacheClearTemplatesCommand extends Command
     public function execute($arg = null)
     {
         $this->CliOutput->writeln("clearing caches...", "green");
-        $cacheDir             = $this->config["cacheDir"];
+        $cacheDir             = $this->config["static"]["cacheDir"];
         $last_error_reporting = error_reporting();
         error_reporting(E_ALL & ~E_WARNING);
         $folders = array($cacheDir);
