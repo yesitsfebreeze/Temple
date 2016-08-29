@@ -9102,7 +9102,7 @@ html {
   font-weight: 300;
 }
 .page-wrapper {
-  margin-top: 150px;
+  margin-top: 0;
   opacity: 0;
   -webkit-transition: opacity 0.7s cubic-bezier(1, 0.23, 0.32, 1);
   -o-transition: opacity 0.7s cubic-bezier(1, 0.23, 0.32, 1);
@@ -9481,9 +9481,6 @@ section .vertical-center {
 pre {
   border: none;
 }
-body {
-  font-weight: 500;
-}
 h1 {
   letter-spacing: -0.02em;
 }
@@ -9495,6 +9492,7 @@ h5,
 h6 {
   margin-bottom: 40px;
   color: inherit;
+  font-weight: 500;
 }
 h1.no-margin,
 h2.no-margin,

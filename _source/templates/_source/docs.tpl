@@ -46,7 +46,7 @@
     {/function}
     <div class="container">
         <div class="row border-left-light">
-            <div class="col-xs-3 no-padding-left">
+            <div class="col-xs-3 col-xs-pull-3 no-padding-left">
                 <div class="jump-docs-sidebar docs-page-jumper no-index"></div>
                 <div class="sidebar">
                     {call docsMenu menu=$docsMenu}
@@ -59,8 +59,8 @@
                     </div>
                 </div>
             </div>
-            <div class="col-xs-9">
-                <div class="docs">
+            <div class="col-xs-12">
+                <div class="docs"> 
                     <div class="head">
                         <h1>
                             {$docTitle}
