@@ -1,6 +1,6 @@
 <?php
 
-namespace Temple\Languages\Html\Plugins;
+namespace Temple\Languages\Core\Plugins;
 
 
 use Temple\Engine\EventManager\Event;

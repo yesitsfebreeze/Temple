@@ -1,6 +1,6 @@
 <?php
 
-namespace Temple\Languages\Html\Nodes;
+namespace Temple\Languages\Core\Nodes;
 
 
 use Temple\Engine\Structs\Node\Node;
