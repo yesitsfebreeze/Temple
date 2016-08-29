@@ -23,10 +23,9 @@ class VariableNode extends Node
 
     public function check()
     {
-        if ($this->getTag() == "var") {
-            return true;
-        }
-
+//        if ($this->getTag() == "var") {
+//            return true;
+//        }
         return false;
     }
 

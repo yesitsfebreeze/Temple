@@ -8,4 +8,7 @@
     [] capture
 
 
-- 
+    # modifiers
+        - truncate
+        - sizeof|count
+        -
