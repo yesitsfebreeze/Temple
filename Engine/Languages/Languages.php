@@ -51,10 +51,12 @@ class Languages extends Injection
     {
         $useCore = $this->Instance->Config()->isUseCoreLanguage();
         if ($useCore) {
-            $this->Instance->Config()->addLanguage("./Languages/Core");
+            $this->Instance->Config()->addLanguage("./Engine/Languages/Core");
         }
         $defaultLanguagePath = $this->Instance->Config()->getDefaultLanguage();
-        $this->Instance->Config()->addLanguage($defaultLanguagePath, "default");
+        if ($defaultLanguagePath != "") {
+            $this->Instance->Config()->addLanguage($defaultLanguagePath, "default");
+        }
     }
 
 
@@ -82,7 +84,7 @@ class Languages extends Injection
 
         $configClassName = $this->getClassName($name, "Config");
 
-
+        var_dump($configClassName);
         if (!class_exists($configClassName)) {
             throw new Exception(1, "There is not the right class declaration within  %" . $config . "%!");
         }
@@ -260,7 +262,7 @@ class Languages extends Injection
     {
         $namespaces    = explode("\\", __NAMESPACE__);
         $frameworkName = reset($namespaces);
-        $class         = "\\" . $frameworkName . "\\Languages\\" . ucfirst(strtolower($language)) . "\\$name";
+        $class         = "\\" . $frameworkName . "\\Language\\" . ucfirst(strtolower($language)) . "\\$name";
 
         return $class;
     }

@@ -68,8 +68,8 @@ class Config extends Injection
     /** @var array $languages */
     private $languages = array();
 
-    /** @var array $defaultLanguage */
-    private $defaultLanguage = "./Languages/Html";
+    /** @var string $defaultLanguage */
+    private $defaultLanguage = "";
 
     /** @var array $languages */
     private $languageTagName = "lang";
@@ -486,7 +486,7 @@ class Config extends Injection
 
 
     /**
-     * @return array
+     * @return string
      */
     public function getDefaultLanguage()
     {
@@ -495,7 +495,7 @@ class Config extends Injection
 
 
     /**
-     * @param array $language
+     * @param string $language
      */
     public function setDefaultLanguage($language)
     {
