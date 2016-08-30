@@ -84,7 +84,6 @@ class Languages extends Injection
 
         $configClassName = $this->getClassName($name, "Config");
 
-        var_dump($configClassName);
         if (!class_exists($configClassName)) {
             throw new Exception(1, "There is not the right class declaration within  %" . $config . "%!");
         }
