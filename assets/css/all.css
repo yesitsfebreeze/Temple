@@ -1,2 +1,161 @@
-@import "variables.less";
-@import "gradient-moving.less";
+@import 'https://fonts.googleapis.com/css?family=Jaldi:400,700|Open+Sans:300';
+body,
+html {
+  margin: 0;
+  padding: 0;
+  position: absolute;
+}
+body {
+  font-family: "Open Sans", Helvetica, Arial, sans-serif;
+  font-weight: 300;
+  font-size: 18px;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: "Jaldi", Helvetica, Arial, sans-serif;
+  font-weight: 400;
+}
+h1 {
+  font-size: 46px;
+  text-transform: uppercase;
+}
+.gradient-moving {
+  overflow: hidden;
+  position: relative;
+}
+.gradient-moving .gradient {
+  position: absolute;
+  width: 2400px;
+  height: 2400px;
+  left: 50%;
+  top: 50%;
+  margin-left: -1200px;
+  margin-top: -1200px;
+  background: linear-gradient(219deg, #eb3b81, #eb3b81 12%, #ed891d 88%, #ed891d);
+  background-size: 400% 400%;
+  transform: rotate(0deg) scale(1.5);
+  -ms-transform-origin: 50% 50%;
+  -webkit-transform-origin: 50% 50%;
+  -webkit-animation: gradient-moving 6s cubic-bezier(0.32, 1, 0.23, 1) infinite;
+  -moz-animation: gradient-moving 6s cubic-bezier(0.32, 1, 0.23, 1) infinite;
+  animation: gradient-moving 6s cubic-bezier(0.32, 1, 0.23, 1) infinite;
+}
+.gradient-moving-animation 0% {
+  transform: rotate(0deg) scale(1.5);
+  background-position: 0% 14%;
+}
+.gradient-moving-animation 20% {
+  transform: rotate(30deg) scale(1.5);
+  background-position: 50% 35%;
+}
+.gradient-moving-animation 40% {
+  transform: rotate(-30deg) scale(1.5);
+  background-position: 100% 87%;
+}
+.gradient-moving-animation 60% {
+  transform: rotate(60deg) scale(1.5);
+  background-position: 87% 100%;
+}
+.gradient-moving-animation 80% {
+  transform: rotate(-60deg) scale(1.5);
+  background-position: 50% 35%;
+}
+.gradient-moving-animation 100% {
+  transform: rotate(0deg) scale(1.5);
+  background-position: 0% 14%;
+}
+@-webkit-keyframes gradient-moving {
+  0% {
+    transform: rotate(0deg) scale(1.5);
+    background-position: 0% 14%;
+  }
+  20% {
+    transform: rotate(30deg) scale(1.5);
+    background-position: 50% 35%;
+  }
+  40% {
+    transform: rotate(-30deg) scale(1.5);
+    background-position: 100% 87%;
+  }
+  60% {
+    transform: rotate(60deg) scale(1.5);
+    background-position: 87% 100%;
+  }
+  80% {
+    transform: rotate(-60deg) scale(1.5);
+    background-position: 50% 35%;
+  }
+  100% {
+    transform: rotate(0deg) scale(1.5);
+    background-position: 0% 14%;
+  }
+}
+@-moz-keyframes gradient-moving {
+  0% {
+    transform: rotate(0deg) scale(1.5);
+    background-position: 0% 14%;
+  }
+  20% {
+    transform: rotate(30deg) scale(1.5);
+    background-position: 50% 35%;
+  }
+  40% {
+    transform: rotate(-30deg) scale(1.5);
+    background-position: 100% 87%;
+  }
+  60% {
+    transform: rotate(60deg) scale(1.5);
+    background-position: 87% 100%;
+  }
+  80% {
+    transform: rotate(-60deg) scale(1.5);
+    background-position: 50% 35%;
+  }
+  100% {
+    transform: rotate(0deg) scale(1.5);
+    background-position: 0% 14%;
+  }
+}
+@keyframes gradient-moving {
+  0% {
+    transform: rotate(0deg) scale(1.5);
+    background-position: 0% 14%;
+  }
+  20% {
+    transform: rotate(30deg) scale(1.5);
+    background-position: 50% 35%;
+  }
+  40% {
+    transform: rotate(-30deg) scale(1.5);
+    background-position: 100% 87%;
+  }
+  60% {
+    transform: rotate(60deg) scale(1.5);
+    background-position: 87% 100%;
+  }
+  80% {
+    transform: rotate(-60deg) scale(1.5);
+    background-position: 50% 35%;
+  }
+  100% {
+    transform: rotate(0deg) scale(1.5);
+    background-position: 0% 14%;
+  }
+}
+header {
+  z-index: 500;
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 50px;
+  background: rgba(0, 0, 0, 0.87);
+}
+footer {
+  min-height: 500px;
+  background: #0d0d14;
+}

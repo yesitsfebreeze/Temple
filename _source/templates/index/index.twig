@@ -1,8 +1,20 @@
 {% extends "page.twig" %}
 
 {% block page %}
-    {#{{ dump({{ basePath }}"/assets/css/all.css") }}#}
-    <section class="start gradient-moving fullpage">
-
+    <section class="start fullpage gradient-moving">
+        <div class="gradient"></div>
+        <div class="logo-large">
+            {% include "/bricks/logo-svg.twig" %}
+        </div>
+        <div class="intro-text">
+            <div class="row">
+                <div class="col-xs-12 col-md-6">
+                    {{ content.title|raw }}
+                </div>
+            </div>
+            <a href="#download" title="download" class="btn btn-primary">
+                download
+            </a>
+        </div>
     </section>
 {% endblock %}

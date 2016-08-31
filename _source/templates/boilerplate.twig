@@ -17,6 +17,8 @@
         <link rel="icon" href="{{ basePath }}/assets/img/favicon.ico" type="image/x-icon"/>
 
         {% block css %}
+            {% block additionalCssBefore %}
+            {% endblock %}
             <link rel="stylesheet" href="{{ basePath }}/assets/css/normalize.css">
             <link rel="stylesheet" href="{{ basePath }}/assets/css/main.css">
             {% if exists(docPath~"assets/css/all.css") %}
@@ -25,7 +27,7 @@
             {% if exists(docPath~"assets/css/"~page~".css") %}
                 <link rel="stylesheet" href="{{ basePath }}/assets/css/{{ page }}.css">
             {% endif %}
-            {% block additionalCss %}
+            {% block additionalCssAfter %}
             {% endblock %}
         {% endblock %}
         {% block modernizr %}
@@ -51,6 +53,8 @@
         <section class="scripts">
             {% block javascripts %}
                 <script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
+                {% block additionalJavascriptsBefore %}
+                {% endblock %}
                 <script>window.jQuery || document.write('<script src="{{ basePath }}/assets/js/vendor/jquery-1.12.0.min.js"><\/script>')</script>
                 <script src="{{ basePath }}/assets/js/plugins.js"></script>
                 {% if exists(docPath~"assets/js/all.js") %}
@@ -63,7 +67,7 @@
                     ga('create', '{% block googleAnalyticsKey %}{% endblock %}', 'auto');
                     ga('send', 'pageview');
                 </script>
-                {% block additionalJavascripts %}
+                {% block additionalJavascriptsAfter %}
                 {% endblock %}
             {% endblock %}
         </section>

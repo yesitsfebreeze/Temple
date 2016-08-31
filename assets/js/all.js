@@ -1,1 +1,1 @@
-;$(function(){$('.fullpage').css({width:$(window).width(),height:$(window).height()})});
+;$(function(){var i=function(){$('.fullpage').css({width:$(window).width(),height:$(window).height()});var i=($(window).width()>$(window).height())?$(window).width():$(window).height();$('.fullpage').find('.gradient').css({width:i,height:i,marginLeft:0-i/2,marginTop:0-i/2})};i();$(window).on('resize',function(){var w=('undefined'!=typeof window.fullpageTimer)?window.fullpageTimer:!1;clearTimeout(w);window.fullpageTimer=window.setTimeout(function(){i()},80)})});
