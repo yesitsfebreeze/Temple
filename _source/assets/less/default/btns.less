@@ -1,15 +1,15 @@
 .btn {
-    .transition(all .5s @easing);
+    .transition(all .5s @easing-fast);
 }
 
 .btn-black {
-    border:           1px solid black;
+    border:           1px solid @black;
     background-color: transparent;
-    color:            black;
+    color:            @black;
 
     &:hover, &:active, &:focus {
-        border:           1px solid black;
-        background-color: black;
-        color:            @second;
+        border:           1px solid @black;
+        background-color: @black;
+        color:            @brand-secondary;
     }
 }

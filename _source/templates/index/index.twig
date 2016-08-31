@@ -3,7 +3,8 @@
 {% block page %}
     <section class="start fullpage">
         <div class="container">
-            {{ content.title|raw }}
+            {% include "/bricks/text.twig" with {'file': 'intro'} %}
+            {% include "/bricks/editor.twig" with {'file': 'code1'} %}
         </div>
     </section>
 {% endblock %}
