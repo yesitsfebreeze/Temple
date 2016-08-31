@@ -1,0 +1,8 @@
+index:
+  name: home
+  folder: /
+
+docs:
+  parent: index
+  name: documentation
+  folder: /docs

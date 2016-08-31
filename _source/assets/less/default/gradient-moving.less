@@ -1,0 +1,23 @@
+.gradient-moving {
+    background: linear-gradient(219deg, @main, @second);
+    background-size: 400% 400%;
+    -webkit-animation: gradient-moving @gradient-moving-speed ease infinite;
+    -moz-animation: gradient-moving @gradient-moving-speed ease infinite;
+    animation: gradient-moving @gradient-moving-speed ease infinite;
+}
+
+@-webkit-keyframes gradient-moving {
+    0%{background-position:0% 14%}
+    50%{background-position:100% 87%}
+    100%{background-position:0% 14%}
+}
+@-moz-keyframes gradient-moving {
+    0%{background-position:0% 14%}
+    50%{background-position:100% 87%}
+    100%{background-position:0% 14%}
+}
+@keyframes gradient-moving {
+    0%{background-position:0% 14%}
+    50%{background-position:100% 87%}
+    100%{background-position:0% 14%}
+}

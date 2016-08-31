@@ -1,0 +1,71 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        {% block metatags %}
+
+        {% endblock %}
+        <title>
+            {% block title %}
+            {% endblock %}
+        </title>
+        <meta name="description" content="{% block metaDescription %}{% endblock %}">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="apple-touch-icon" href="{{ basePath }}/assets/img/apple-touch-icon.png">
+        <link rel="icon" href="{{ basePath }}/assets/img/favicon.ico" type="image/x-icon"/>
+
+        {% block css %}
+            <link rel="stylesheet" href="{{ basePath }}/assets/css/normalize.css">
+            <link rel="stylesheet" href="{{ basePath }}/assets/css/main.css">
+            {% if exists(docPath~"assets/css/all.css") %}
+                <link rel="stylesheet" href="{{ basePath }}/assets/css/all.css">
+            {% endif %}
+            {% if exists(docPath~"assets/css/"~page~".css") %}
+                <link rel="stylesheet" href="{{ basePath }}/assets/css/{{ page }}.css">
+            {% endif %}
+            {% block additionalCss %}
+            {% endblock %}
+        {% endblock %}
+        {% block modernizr %}
+            <script src="{{ basePath }}/assets/js/vendor/modernizr-2.8.3.min.js"></script>
+        {% endblock %}
+    </head>
+    <body>
+
+        <div class="ie-info">
+            <!--[if lt IE 8]>
+            <p class="browserupgrade">You are using an
+                <strong>outdated</strong> browser. Please<a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.
+            </p>
+            <![endif]-->
+        </div>
+
+        <div class="page-wrap">
+            {% block content %}
+                <!-- Add your site or application content here -->
+            {% endblock %}
+        </div>
+
+        <section class="scripts">
+            {% block javascripts %}
+                <script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
+                <script>window.jQuery || document.write('<script src="{{ basePath }}/assets/js/vendor/jquery-1.12.0.min.js"><\/script>')</script>
+                <script src="{{ basePath }}/assets/js/plugins.js"></script>
+                {% if exists(docPath~"assets/js/all.js") %}
+                <script src="{{ basePath }}/assets/js/all.js"></script>
+                {% endif %}
+                {% if exists(docPath~"assets/js/"~page~".js") %}
+                    <script src="{{ basePath }}/assets/js/{{ page }}.js"></script>
+                {% endif %}
+                <script>
+                    ga('create', '{% block googleAnalyticsKey %}{% endblock %}', 'auto');
+                    ga('send', 'pageview');
+                </script>
+                {% block additionalJavascripts %}
+                {% endblock %}
+            {% endblock %}
+        </section>
+    </body>
+</html>

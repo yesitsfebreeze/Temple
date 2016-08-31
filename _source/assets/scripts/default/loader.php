@@ -1,0 +1,3 @@
+<?php $scripts = array(
+    "fullpage"
+);
