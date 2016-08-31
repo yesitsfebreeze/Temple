@@ -4,7 +4,7 @@ module.exports = function(grunt) {
         exec: {
             deploy: {
                 cmd: function() {
-                    return 'echo $(curl localhost/Temple/deploy.php)';
+                    return 'echo $(wget localhost/Temple/deploy.php -q -O -)';
                 }
             }
         },
