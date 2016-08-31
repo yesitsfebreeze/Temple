@@ -6,9 +6,16 @@ html {
   position: absolute;
 }
 body {
+  padding-top: 50px;
+}
+.container {
+  width: 750px;
+}
+body {
   font-family: "Open Sans", Helvetica, Arial, sans-serif;
   font-weight: 300;
   font-size: 18px;
+  color: #4f515d;
 }
 h1,
 h2,
@@ -147,15 +154,30 @@ h1 {
   }
 }
 header {
-  z-index: 500;
-  position: fixed;
   left: 0;
   right: 0;
   top: 0;
   height: 50px;
-  background: rgba(0, 0, 0, 0.87);
 }
 footer {
   min-height: 500px;
   background: #0d0d14;
+}
+.btn {
+  -webkit-transition: all 0.5s cubic-bezier(0.32, 1, 0.23, 1);
+  -moz-transition: all 0.5s cubic-bezier(0.32, 1, 0.23, 1);
+  -ms-transition: all 0.5s cubic-bezier(0.32, 1, 0.23, 1);
+  -o-transition: all 0.5s cubic-bezier(0.32, 1, 0.23, 1);
+}
+.btn-black {
+  border: 1px solid black;
+  background-color: transparent;
+  color: black;
+}
+.btn-black:hover,
+.btn-black:active,
+.btn-black:focus {
+  border: 1px solid black;
+  background-color: black;
+  color: #ed891d;
 }

@@ -1,0 +1,22 @@
+{
+  "name": "temple",
+  "version": "1.0.0",
+  "description": "",
+  "main": "Gruntfile.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://hvlmnns@github.com/hvlmnns/Temple.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/hvlmnns/Temple/issues"
+  },
+  "homepage": "https://github.com/hvlmnns/Temple#readme"
+}

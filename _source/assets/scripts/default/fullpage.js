@@ -6,8 +6,8 @@ $(function() {
         });
         var larger = ($(window).width() > $(window).height()) ? $(window).width() : $(window).height();
         $(".fullpage").find(".gradient").css({
-            width: larger,
-            height: larger,
+            minWidth: larger,
+            minHeight: larger,
             marginLeft: 0 - larger / 2,
             marginTop: 0 - larger / 2
         });

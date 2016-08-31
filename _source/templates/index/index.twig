@@ -1,20 +1,9 @@
 {% extends "page.twig" %}
 
 {% block page %}
-    <section class="start fullpage gradient-moving">
-        <div class="gradient"></div>
-        <div class="logo-large">
-            {% include "/bricks/logo-svg.twig" %}
-        </div>
-        <div class="intro-text">
-            <div class="row">
-                <div class="col-xs-12 col-md-6">
-                    {{ content.title|raw }}
-                </div>
-            </div>
-            <a href="#download" title="download" class="btn btn-primary">
-                download
-            </a>
+    <section class="start fullpage">
+        <div class="container">
+            {{ content.title|raw }}
         </div>
     </section>
 {% endblock %}
