@@ -1,8 +1,13 @@
 index:
-  name: home
+  name: Overview
   folder: /
 
-docs:
+adding classes:
   parent: index
   name: documentation
-  folder: /docs
+  folder: /adding_classes
+
+adding events:
+  parent: index
+  name: documentation
+  folder: /adding_events

@@ -1,28 +1,34 @@
 .editor {
-    margin:        15px 0;
-    background: @black;
-    pre {
-        color:            @gray-lighter;
-        background-color: transparent;
-    }
-    .editor-header {
-        background: @black;
-        .editor-language {
-            color: @gray-lighter;
-        }
-    }
+
     background:    @white;
     border-radius: 5px;
     box-shadow:    0 8px 12px rgba(0, 0, 0, 0.1);
     overflow:      hidden;
+    background:    @black;
+    max-height:    500px;
+
+    pre {
+        color:            @gray-lighter;
+        background-color: transparent;
+    }
 
     .editor-header {
         height:     37px;
-        background: @gray;
+        background: @black;
         position:   relative;
         margin-top: -1px;
+        .editor-title {
+            position:    absolute;
+            line-height: 37px;
+            width:       100%;
+            height:      100%;
+            font-size:   16px;
+            text-align:  center;
+            color:       @gray-lighter;
+        }
         .action-buttons {
             .action-button {
+                cursor:        pointer;
                 position:      absolute;
                 top:           50%;
                 left:          10px;
@@ -30,45 +36,84 @@
                 width:         10px;
                 height:        10px;
                 border-radius: 50%;
-            }
-            .btn1 {
-                background-color: #DC143C;
-            }
-            .btn2 {
-                left:             25px;
-                background-color: #FFA500;
-            }
-            .btn3 {
-                left:             40px;
-                background-color: #32CD32;
+                .transition(background-color .4s @easing-fast);
+                &.close-btn {
+                    background-color: #DC143C;
+                    &:hover, &:active, &:focus {
+                        background-color: darken(#DC143C, 15%);
+                    }
+                }
+                &.minimize-btn {
+                    left:             25px;
+                    background-color: #FFA500;
+                    &:hover, &:active, &:focus {
+                        background-color: darken(#FFA500, 15%);
+                    }
+                }
+                &.fullscreen-btn {
+                    left:             40px;
+                    background-color: #32CD32;
+                    &:hover, &:active, &:focus {
+                        background-color: darken(#32CD32, 15%);
+                    }
+                }
             }
         }
         .editor-language {
             float:         right;
             line-height:   38px;
             padding-right: 15px;
-            color:         @black;
+            color:         @gray-lighter;
             opacity:       0.4;
             font-weight:   400;
+            font-size:     18px;
+        }
+    }
+
+    &.fullscreen {
+        max-height: inherit;
+        max-width:  inherit;
+        .editor-body {
+            max-height: inherit;
+            max-width:  inherit;
+            pre {
+                max-height: inherit;
+                max-width:  inherit;
+                code {
+                    max-height: inherit;
+                    max-width:  inherit;
+                }
+            }
         }
     }
 
     .editor-body {
-        position: relative;
-        code {
-            padding:          0;
-            font-size:        87%;
+        position:   relative;
+        max-height: 500px - 37px;
+        pre {
+            max-height:       inherit;
             background-color: transparent;
+            border-color:     transparent;
             border:           none !important;
-            pre {
+            overflow:         auto !important;
+            padding:          15px;
+            code {
+                max-height:       inherit;
+                padding:          0;
+                font-size:        87%;
                 background-color: transparent;
-                border-color:     transparent;
                 border:           none !important;
             }
         }
+    }
+    .transition(transform .6s @easing-fast);
+    &.closing {
+        .transform-origin(center, bottom);
+        .transform(scale(0));
     }
 }
 
 pre {
     border: none;
+    width:  100% !important;
 }

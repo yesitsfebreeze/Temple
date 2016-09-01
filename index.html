@@ -5,19 +5,20 @@
         <meta http-equiv="x-ua-compatible" content="ie=edge">
         
                 <title>
-                                </title>
+                Temple
+        </title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <link rel="apple-touch-icon" href="./assets/img/apple-touch-icon.png">
-        <link rel="icon" href="./assets/img/favicon.ico" type="image/x-icon"/>
+        <link rel="apple-touch-icon" href="/Temple/assets/img/apple-touch-icon.png">
+        <link rel="icon" href="/Temple/assets/img/favicon.ico" type="image/x-icon"/>
 
                         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-            <link rel="stylesheet" href="./assets/css/normalize.css">
-            <link rel="stylesheet" href="./assets/css/main.css">
-                            <link rel="stylesheet" href="./assets/css/all.css">
-                                        <link rel="stylesheet" href="./assets/css/index.css">
-                                                                <script src="./assets/js/vendor/modernizr-2.8.3.min.js"></script>
+            <link rel="stylesheet" href="/Temple/assets/css/normalize.css">
+            <link rel="stylesheet" href="/Temple/assets/css/main.css">
+                            <link rel="stylesheet" href="/Temple/assets/css/all.css">
+                                        <link rel="stylesheet" href="/Temple/assets/css/index.css">
+                                                                <script src="/Temple/assets/js/vendor/modernizr-2.8.3.min.js"></script>
             </head>
     <body>
 
@@ -30,43 +31,124 @@
         </div>
 
         <div class="page-wrap">
-                <header>
+                        <nav class="menu">
+            <ul class="list-unstyled level-0">
+                <li class="menu-item ">
+            <a href="/Temple/adding_classes" title="adding classes">
+                adding classes
+            </a>
+                    </li>
+            <li class="menu-item ">
+            <a href="/Temple/adding_events" title="adding events">
+                adding events
+            </a>
+                    </li>
+    </ul>        </nav>
+        <header>
     <div class="container">
+
         <div class="logo">
-            test
+            <a href="/Temple" title="Temple">
+            <img class="img-responsive pull-left" src="/Temple/assets/img/logo.png" alt="temple">
+            </a>
+            <div class="title pull-left">Temple</div>
         </div>
-        <ul class="list-unstyled list-inline">
-            <li>
-                1
-            </li>
-            <li>
-                2
-            </li>
-            <li>
-                3
-            </li>
-        </ul>
+        <div class="clear"></div>
     </div>
-
-
+    <div class="distance"></div>
 </header>        <section class="start fullpage">
         <div class="container">
             <section>
-    <h1>temple</h1>
-<p>Temple is a language engine/framework which enables you to create your own template engine or even a own langauge.  </p>
-</section>            <div class="editor">
+    <p>Temple is a <strong>language</strong> engine/framework which enables you to create your own template engine or even a own language.  </p>
+<p>Its easy to understand and extensible trough events.  </p>
+</section>            <div class="distance">
+                <div class="line"></div>
+            </div>
+            <div class="distance distance-xs"></div>
+<div class="editor">
     <div class="editor-header">
+        <div class="editor-title">
+            creating an instance
+        </div>
         <div class="action-buttons">
-            <div class="action-button btn1"></div>
-            <div class="action-button btn2"></div>
-            <div class="action-button btn3"></div>
+            <div class="action-button close-btn"></div>
+            <div class="action-button minimize-btn"></div>
+            <div class="action-button fullscreen-btn"></div>
         </div>
         <div class="editor-language">php</div>
     </div>
     <div class="editor-body">
-        <pre><code class="language-php">some code</code></pre>
+        <pre><code class="language-php">&lt;?php
+
+namespace Pagen;
+
+use Symfony\Component\Yaml\Yaml;
+
+class Routing
+{
+
+    /** @var Config $config */
+    private $config;
+
+    /** @var PathHelper $pathHelper */
+    private $pathHelper;
+
+    /** @var Yaml $yaml */
+    private $yaml;
+
+    /**
+     * Routing constructor.
+     *
+     * @param Config     $config
+     * @param PathHelper $pathHelper
+     * @param Yaml       $yaml
+     */
+    public function __construct($config, PathHelper $pathHelper, Yaml $yaml)
+    {
+        $this-&gt;config     = $config;
+        $this-&gt;pathHelper = $pathHelper;
+        $this-&gt;yaml       = $yaml;
+    }
+
+    /**
+     * returns an array of routs
+     *
+     * @returns array
+     * @throws \Exception
+     */
+    public function getRoutes()
+    {
+        $source      = $this-&gt;pathHelper-&gt;getPath($this-&gt;config-&gt;getSourceFolder());
+        $routingFile = $source . "routing.yml";
+
+        if (!file_exists($routingFile)) {
+            throw new \Exception("routing.yml file doesn't exists!");
+        }
+
+        $content = file_get_contents($routingFile);
+        $content = $this-&gt;yaml-&gt;parse($content);
+
+        $requiredKeys = array("name", "folder", "parent");
+
+        foreach ($content as $key =&gt; $route) {
+            $content[$key]["page"] = $key;
+            foreach ($requiredKeys as $required) {
+                if ($required == "parent" &amp;&amp; $key == "index") {
+                    continue;
+                }
+                if (!array_key_exists($required, $route)) {
+                    throw new \Exception("$required: has to exist withing the $key routing!");
+                }
+            }
+        }
+
+        return $content;
+    }
+
+}</code></pre>
     </div>
-</div>        </div>
+</div>
+<div class="distance distance-xs"></div>        </div>
     </section>
     <footer>
     <div class="logo">
@@ -89,9 +171,9 @@
 
         <section class="scripts">
                             <script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
-                                                <script>window.jQuery || document.write('<script src="./assets/js/vendor/jquery-1.12.0.min.js"><\/script>')</script>
-                <script src="./assets/js/plugins.js"></script>
-                                <script src="./assets/js/all.js"></script>
+                                                <script>window.jQuery || document.write('<script src="/Temple/assets/js/vendor/jquery-1.12.0.min.js"><\/script>')</script>
+                <script src="/Temple/assets/js/plugins.js"></script>
+                                <script src="/Temple/assets/js/all.js"></script>
                                                 <script>
                     ga('create', '', 'auto');
                     ga('send', 'pageview');

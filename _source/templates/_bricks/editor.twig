@@ -1,0 +1,18 @@
+<div class="distance distance-xs"></div>
+<div class="editor">
+    <div class="editor-header">
+        <div class="editor-title">
+            {{ file }}
+        </div>
+        <div class="action-buttons">
+            <div class="action-button close-btn"></div>
+            <div class="action-button minimize-btn"></div>
+            <div class="action-button fullscreen-btn"></div>
+        </div>
+        <div class="editor-language">php</div>
+    </div>
+    <div class="editor-body">
+        {{ content[file]|raw }}
+    </div>
+</div>
+<div class="distance distance-xs"></div>

@@ -1,0 +1,13 @@
+<ul class="list-unstyled level-{{ level }}">
+    {% set level = level + 1 %}
+    {% for pageName,item in menu %}
+        <li class="menu-item {% if pageName == page %}active{% endif %}">
+            <a href="{{ basePath }}{{ item.folder }}" title="{{ item.name }}">
+                {{ item.name }}
+            </a>
+            {% if item.children %}
+                {% include "/_bricks/menu.twig"  with {'page': page, 'menu': item.children, 'level': level} %}
+            {% endif %}
+        </li>
+    {% endfor %}
+</ul>

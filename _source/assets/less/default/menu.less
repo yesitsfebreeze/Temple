@@ -1,0 +1,37 @@
+nav.menu {
+    float:        left;
+    padding-left: 30px;
+    position:     fixed;
+    top:          120px;
+    left:         0;
+
+    .menu-item {
+        position: relative;
+        &.active {
+            &:before {
+                content:          '';
+                width:            10px;
+                height:           10px;
+                position:         absolute;
+                top:              10px;
+                left:             -20px;
+                background-color: @brand-primary;
+                .border-radius(999px);
+            }
+        }
+    }
+    [class*="level-"] {
+        &:not(.level-0) {
+            display: none;
+        }
+        &:hover, &:active, &:focus {
+            & > li > [class*="level-"] {
+                display: block;
+            }
+        }
+    }
+    > ul ul {
+        padding-left: 15px;
+    }
+
+}

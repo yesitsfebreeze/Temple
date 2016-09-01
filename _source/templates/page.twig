@@ -9,9 +9,18 @@
 {% endblock %}
 
 
+{% block title %}
+    {{ title }}
+{% endblock %}
+
 {% block content  %}
-    {% include "bricks/header.twig" %}
+    {% block menu  %}
+        <nav class="menu">
+            {% include "/_bricks/menu.twig" with {'page': page, 'menu': menu.index.children, 'level': 0} %}
+        </nav>
+    {% endblock %}
+    {% include "/_bricks/header.twig" %}
     {% block page  %}
     {% endblock %}
-    {% include "bricks/footer.twig" %}
+    {% include "/_bricks/footer.twig" %}
 {% endblock %}

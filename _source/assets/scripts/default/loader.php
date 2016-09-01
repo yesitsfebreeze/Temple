@@ -1,3 +1,5 @@
 <?php $scripts = array(
-    "fullpage"
+    "fullpage",
+    "prism",
+    "editor"
 );

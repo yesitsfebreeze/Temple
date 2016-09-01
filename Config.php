@@ -13,6 +13,6 @@ class CustomPagenConfig extends \Pagen\Config
     protected $subFolder = "/";
 
     /** @var  string $subFolder */
-    protected $basePath = ".";
+    protected $basePath = "/Temple";
 
 }
