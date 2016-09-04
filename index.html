@@ -59,96 +59,19 @@
 </header>        <section class="start fullpage">
         <div class="container">
             <section>
-    <p>Temple is a <strong>language</strong> engine/framework which enables you to create your own template engine or even a own language.  </p>
-<p>Its easy to understand and extensible trough events.  </p>
+    <p>Temple is a <strong>language engine</strong> framework which enables you to create your own translation engine for your favourite language.
+Its main purpose is creating a pipeline four your frontend code which uses the same variables in all languages.</p>
+<p>It is also easy to understand and extensible trough events.  </p>
 </section>            <div class="distance">
                 <div class="line"></div>
             </div>
-            <div class="distance distance-xs"></div>
-<div class="editor">
-    <div class="editor-header">
-        <div class="editor-title">
-            creating an instance
-        </div>
-        <div class="action-buttons">
-            <div class="action-button close-btn"></div>
-            <div class="action-button minimize-btn"></div>
-            <div class="action-button fullscreen-btn"></div>
-        </div>
-        <div class="editor-language">php</div>
-    </div>
-    <div class="editor-body">
-        <pre><code class="language-php">&lt;?php
+            <section>
+    <h1>Main benefits</h1>
+<p>I stared this project because i was tired of all the template engines which where not object orientated or simple to use/extend.
+Now im left with a engine that provides full customization for your needs.</p>
+</section>
 
-namespace Pagen;
-
-use Symfony\Component\Yaml\Yaml;
-
-class Routing
-{
-
-    /** @var Config $config */
-    private $config;
-
-    /** @var PathHelper $pathHelper */
-    private $pathHelper;
-
-    /** @var Yaml $yaml */
-    private $yaml;
-
-    /**
-     * Routing constructor.
-     *
-     * @param Config     $config
-     * @param PathHelper $pathHelper
-     * @param Yaml       $yaml
-     */
-    public function __construct($config, PathHelper $pathHelper, Yaml $yaml)
-    {
-        $this-&gt;config     = $config;
-        $this-&gt;pathHelper = $pathHelper;
-        $this-&gt;yaml       = $yaml;
-    }
-
-    /**
-     * returns an array of routs
-     *
-     * @returns array
-     * @throws \Exception
-     */
-    public function getRoutes()
-    {
-        $source      = $this-&gt;pathHelper-&gt;getPath($this-&gt;config-&gt;getSourceFolder());
-        $routingFile = $source . "routing.yml";
-
-        if (!file_exists($routingFile)) {
-            throw new \Exception("routing.yml file doesn't exists!");
-        }
-
-        $content = file_get_contents($routingFile);
-        $content = $this-&gt;yaml-&gt;parse($content);
-
-        $requiredKeys = array("name", "folder", "parent");
-
-        foreach ($content as $key =&gt; $route) {
-            $content[$key]["page"] = $key;
-            foreach ($requiredKeys as $required) {
-                if ($required == "parent" &amp;&amp; $key == "index") {
-                    continue;
-                }
-                if (!array_key_exists($required, $route)) {
-                    throw new \Exception("$required: has to exist withing the $key routing!");
-                }
-            }
-        }
-
-        return $content;
-    }
-
-}</code></pre>
-    </div>
-</div>
-<div class="distance distance-xs"></div>        </div>
+                    </div>
     </section>
     <footer>
     <div class="logo">

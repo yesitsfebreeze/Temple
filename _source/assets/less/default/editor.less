@@ -6,12 +6,7 @@
     overflow:      hidden;
     background:    @black;
     max-height:    500px;
-
-    pre {
-        color:            @gray-lighter;
-        background-color: transparent;
-    }
-
+    z-index:      1500;
     .editor-header {
         height:     37px;
         background: @black;
@@ -70,35 +65,20 @@
         }
     }
 
-    &.fullscreen {
-        max-height: inherit;
-        max-width:  inherit;
-        .editor-body {
-            max-height: inherit;
-            max-width:  inherit;
-            pre {
-                max-height: inherit;
-                max-width:  inherit;
-                code {
-                    max-height: inherit;
-                    max-width:  inherit;
-                }
-            }
-        }
-    }
-
     .editor-body {
-        position:   relative;
-        max-height: 500px - 37px;
+        position: relative;
+        height:   100%;
         pre {
-            max-height:       inherit;
+            height:           100%;
+            color:            @gray-lighter;
             background-color: transparent;
             border-color:     transparent;
             border:           none !important;
             overflow:         auto !important;
             padding:          15px;
+            padding-bottom:   52px;
             code {
-                max-height:       inherit;
+                height:           100%;
                 padding:          0;
                 font-size:        87%;
                 background-color: transparent;
@@ -108,7 +88,7 @@
     }
     .transition(transform .6s @easing-fast);
     &.closing {
-        .transform-origin(center, bottom);
+        .transform-origin(center, center);
         .transform(scale(0));
     }
 }

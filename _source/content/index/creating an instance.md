@@ -5,11 +5,15 @@
 namespace Pagen;
 
 
-use Symfony\Component\Yaml\Yaml;
-
-
-class Routing
+/**
+ * Class Content
+ *
+ * @package Pagen
+ */
+class Content
 {
+    /** @var  array $routes */
+    private $routes;
 
     /** @var Config $config */
     private $config;
@@ -17,59 +21,98 @@ class Routing
     /** @var PathHelper $pathHelper */
     private $pathHelper;
 
-    /** @var Yaml $yaml */
-    private $yaml;
+    /** @var string $contentFolder */
+    private $contentFolder;
+
+    /** @var \Parsedown $parsedown */
+    private $parsedown;
 
 
     /**
-     * Routing constructor.
+     * Content constructor.
      *
      * @param Config     $config
      * @param PathHelper $pathHelper
-     * @param Yaml       $yaml
+     * @param \Parsedown $parsedown
      */
-    public function __construct($config, PathHelper $pathHelper, Yaml $yaml)
+    public function __construct($config, PathHelper $pathHelper, \Parsedown $parsedown)
     {
         $this->config     = $config;
         $this->pathHelper = $pathHelper;
-        $this->yaml       = $yaml;
+        $this->parsedown  = $parsedown;
     }
 
 
     /**
-     * returns an array of routs
-     *
-     * @returns array
-     * @throws \Exception
+     * adds all md files to the routing array
+     */
+    public function addContentToRoutes()
+    {
+        $this->contentFolder = $this->pathHelper->getPath($this->config->getSourceFolder() . DIRECTORY_SEPARATOR . "content");
+
+        $this->gatherMdFiles();
+        return $this->routes;
+    }
+
+
+    /**
+     * gathers and returns the parsed content of all md files
+     * within the respective content folder
+     */
+    private function gatherMdFiles()
+    {
+        foreach ($this->routes as $name => &$route) {
+            $path = $this->contentFolder . $name . DIRECTORY_SEPARATOR;
+
+            if (!is_dir($path)) {
+                mkdir($path, 0777, true);
+            }
+
+            $files = scandir($path);
+            foreach ($files as $key => $file) {
+                if (strpos($file, ".md") == false) {
+                    unset($files[ $key ]);
+                }
+            }
+            $route["mdFiles"] = $files;
+            $route["content"] = array();
+            $this->parseMdFiles($path, $route);
+        }
+    }
+
+
+    /**
+     * @param $path
+     * @param $route
+     */
+    private function parseMdFiles($path, &$route)
+    {
+        foreach ($route["mdFiles"] as $mdFile) {
+            $name                      = str_replace(".md", "", $mdFile);
+            $content                   = file_get_contents($path . $mdFile);
+            $content                   = $this->parsedown->parse($content);
+            $route["content"][ $name ] = $content;
+        }
+    }
+
+
+    /**
+     * @return array
      */
     public function getRoutes()
     {
-        $source      = $this->pathHelper->getPath($this->config->getSourceFolder());
-        $routingFile = $source . "routing.yml";
-
-        if (!file_exists($routingFile)) {
-            throw new \Exception("routing.yml file doesn't exists!");
-        }
-
-        $content = file_get_contents($routingFile);
-        $content = $this->yaml->parse($content);
-
-        $requiredKeys = array("name", "folder", "parent");
-
-        foreach ($content as $key => $route) {
-            $content[$key]["page"] = $key;
-            foreach ($requiredKeys as $required) {
-                if ($required == "parent" && $key == "index") {
-                    continue;
-                }
-                if (!array_key_exists($required, $route)) {
-                    throw new \Exception("$required: has to exist withing the $key routing!");
-                }
-            }
-        }
-
-        return $content;
+        return $this->routes;
     }
+
+
+    /**
+     * @param array $routes
+     */
+    public function setRoutes($routes)
+    {
+        $this->routes = $routes;
+    }
+
 
 }
 ```
