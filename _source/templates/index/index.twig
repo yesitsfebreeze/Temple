@@ -3,14 +3,8 @@
 {% block page %}
     <section class="start fullpage">
         <div class="container">
-            {% include "/_bricks/text.twig" with {'file': 'intro'} %}
-            <div class="distance">
-                <div class="line"></div>
-            </div>
-            {% include "/_bricks/text.twig" with {'file': 'description'} %}
-
-
-            {#{% include "/_bricks/editor.twig" with {'file': 'creating an instance'} %}#}
+            {% include "/bricks/text.twig" with {'file': 'intro'} %}
+            {% include "/bricks/editor.twig" with {'file': 'code1'} %}
         </div>
     </section>
 {% endblock %}
