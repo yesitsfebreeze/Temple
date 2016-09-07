@@ -1,15 +1,22 @@
-@import 'https://fonts.googleapis.com/css?family=Jaldi:400,700|Open+Sans:300';
+@import 'https://fonts.googleapis.com/css?family=Jaldi:400,700|Open+Sans:300,400';
+
+@font-family-sans-serif: "Open Sans", Helvetica, Arial, sans-serif;
+@font-family-serif: "Jaldi", Helvetica, Arial, sans-serif;
 
 body {
     font-family: "Jaldi", Helvetica, Arial, sans-serif;
     font-weight: 400;
-    color:       desaturate(lighten(@black, 20%), 50%);
+    color:       desaturate(lighten(@black, 25%), 50%);
 }
 
 h1, h2, h3, h4, h5, h6 {
     font-family: "Open Sans", Helvetica, Arial, sans-serif;
+    font-weight: 400;
+    color:       #494c5d;
+}
+
+h2, h4, h6 {
     font-weight: 300;
-    color:       @gray;
 }
 
 strong {

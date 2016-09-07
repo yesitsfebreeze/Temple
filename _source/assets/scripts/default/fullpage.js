@@ -1,7 +1,6 @@
 $(function() {
     var fullapge = function() {
         $(".fullpage").css({
-            minWidth: $(window).width(),
             minHeight: $(window).height()
         });
     };

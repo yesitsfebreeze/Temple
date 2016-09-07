@@ -1,9 +1,34 @@
 .logo {
     .title {
         font-size: 24px;
-        position: relative;
-        top: 11px;
-        left: 19px;
-        opacity: .5;
+        position:  relative;
+        top:       11px;
+        left:      19px;
+        opacity:   .5;
+    }
+}
+
+.logo-sticky {
+    @media (max-width: @screen-sm-max) {
+        display: none;
+    }
+    .transition(opacity .6s @easing-fast);
+    opacity:        0;
+    pointer-events: none;
+    z-index:        999999;
+    position:       fixed;
+    height:         110px;
+    width:          110px;
+    top:            0;
+    left:           0;
+    &.in {
+        opacity:        1;
+        pointer-events: all;
+    }
+    a {
+        position: absolute;
+        right:    38px;
+        bottom:   38px;
+        width:    50px;
     }
 }

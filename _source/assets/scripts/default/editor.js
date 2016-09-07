@@ -40,6 +40,17 @@ $(function() {
         $(window).off("scroll.prevent");
     });
 
+    $(window).on("resize", function() {
+        $.each(editors, function() {
+            var editor = $(this);
+            if(editor.hasClass("fullscreen")) {
+                editor.removeClass("fullscreen");
+                console.log(editor);
+                window.editor.fullscreen(editor, true);
+            }
+        })
+    });
+
     window.editor = {};
 
     window.editor.closeAnimation = function(editor) {
@@ -48,6 +59,7 @@ $(function() {
             editor.remove();
         }, animationSpeed * 2);
     };
+
     window.editor.close = function(editor) {
         if(!editor.hasClass("fullscreen") && !editor.hasClass("minimized")) {
             window.editor.minimize(editor);
@@ -61,7 +73,7 @@ $(function() {
 
     window.editor.minimize = function(editor) {
         var node = editor[0];
-        if(editor.hasClass("minimized") || editor.hasClass("fullscreen")) {
+        if(editor.hasClass("minimized")) {
             editor.removeClass("minimized").stop(true).animate({
                 height: node.editorDimensions.orgHeight
             }, animationSpeed);
@@ -73,8 +85,18 @@ $(function() {
         }
     };
 
-    window.editor.fullscreen = function(editor) {
+    window.editor.fullscreen = function(editor, force) {
         var node = editor[0];
+        if(force == true) {
+            editor.css({
+                position: "fixed",
+                left: 0,
+                top: 0,
+                height: $(window).height(),
+                width: $(window).width()
+            }).addClass("fullscreen");
+            return true;
+        }
         if(editor.hasClass("fullscreen")) {
             editor.stop(true).css({
                 left: node.editorDimensions.newLeft,
@@ -94,8 +116,6 @@ $(function() {
 
             editor.addClass("fullscreen");
             window.editor.minimize(editor);
-            console.log(Math.abs(node.editorDimensions.newLeft));
-            console.log(Math.abs(editor.offset().left));
             editor.css({
                 position: "fixed",
                 left: Math.abs(node.editorDimensions.newLeft),

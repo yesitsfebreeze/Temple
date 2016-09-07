@@ -1,17 +1,21 @@
 .editor {
-
+    @btn-close-color: #dc2c51;
+    @btn-minimize-color: #ffae25;
+    @btn-fullscreen-color: #47cd6a;
     background:    @white;
     border-radius: 5px;
     box-shadow:    0 8px 12px rgba(0, 0, 0, 0.1);
     overflow:      hidden;
     background:    @black;
     max-height:    500px;
-    z-index:      1500;
+    z-index:       1500;
     .editor-header {
         height:     37px;
+        z-index:    1 ;
         background: @black;
         position:   relative;
         margin-top: -1px;
+        .box-shadow(0 -222px 50px 250px @black);
         .editor-title {
             position:    absolute;
             line-height: 37px;
@@ -31,26 +35,20 @@
                 width:         10px;
                 height:        10px;
                 border-radius: 50%;
-                .transition(background-color .4s @easing-fast);
+                .transition(opacity .4s @easing-fast);
                 &.close-btn {
-                    background-color: #DC143C;
-                    &:hover, &:active, &:focus {
-                        background-color: darken(#DC143C, 15%);
-                    }
+                    background-color: @btn-close-color;
                 }
                 &.minimize-btn {
                     left:             25px;
-                    background-color: #FFA500;
-                    &:hover, &:active, &:focus {
-                        background-color: darken(#FFA500, 15%);
-                    }
+                    background-color: @btn-minimize-color;
                 }
                 &.fullscreen-btn {
                     left:             40px;
-                    background-color: #32CD32;
-                    &:hover, &:active, &:focus {
-                        background-color: darken(#32CD32, 15%);
-                    }
+                    background-color: @btn-fullscreen-color;
+                }
+                &:hover, &:active, &:focus {
+                    opacity: 0.5;
                 }
             }
         }
@@ -75,8 +73,9 @@
             border-color:     transparent;
             border:           none !important;
             overflow:         auto !important;
-            padding:          15px;
-            padding-bottom:   52px;
+            padding:          30px 15px 52px 15px;
+            font-size: 16px;
+            .transition(font-size .4s @easing-fast);
             code {
                 height:           100%;
                 padding:          0;
@@ -86,10 +85,14 @@
             }
         }
     }
-    .transition(transform .6s @easing-fast);
+    .transition(opacity .6s @easing-fast);
     &.closing {
-        .transform-origin(center, center);
-        .transform(scale(0));
+        opacity: 0;
+    }
+    &.fullscreen {
+        pre {
+            font-size: 20px;
+        }
     }
 }
 

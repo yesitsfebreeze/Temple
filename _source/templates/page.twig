@@ -13,14 +13,18 @@
     {{ title }}
 {% endblock %}
 
-{% block content  %}
-    {% block menu  %}
-        <nav class="menu">
-            {% include "/_bricks/menu.twig" with {'page': page, 'menu': menu.index.children, 'level': 0} %}
-        </nav>
-    {% endblock %}
-    {% include "/_bricks/header.twig" %}
-    {% block page  %}
-    {% endblock %}
+{% block content %}
+    <div class="page-overlay">
+        {% include "/_bricks/header.twig" %}
+        <div class="container fullpage">
+            {% block menu %}
+                <nav class="menu">
+                    {% include "/_bricks/menu.twig" with {'page': page, 'menu': menu.index.children, 'level': 0} %}
+                </nav>
+            {% endblock %}
+            {% block page %}
+            {% endblock %}
+        </div>
+    </div>
     {% include "/_bricks/footer.twig" %}
 {% endblock %}

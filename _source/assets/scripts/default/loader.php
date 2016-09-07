@@ -2,5 +2,7 @@
     "../../vendors/bootstrap/dist/js/bootstrap.min.js",
     "fullpage",
     "prism",
-    "editor"
+    "editor",
+    "logo",
+    "bodyFade"
 );

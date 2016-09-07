@@ -1,7 +1,14 @@
 <ul class="list-unstyled level-{{ level }}">
+    {% if level == 0%}
+        <li class="menu-item {% if page == "index" %}active{% endif %}">
+            <a href="{{ basePath }}" title="Overview">
+                Overview
+            </a>
+        </li>
+    {% endif %}
     {% set level = level + 1 %}
     {% for pageName,item in menu %}
-        <li class="menu-item {% if pageName == page %}active{% endif %}">
+        <li class="menu-item {% if page == pageName %}active{% endif %}">
             <a href="{{ basePath }}{{ item.folder }}" title="{{ item.name }}">
                 {{ item.name }}
             </a>

@@ -1,6 +1,5 @@
-``` php
+code php
 <?php
-
 
 namespace Pagen;
 
@@ -115,4 +114,3 @@ class Content
 
 
 }
-```
