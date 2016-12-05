@@ -1,10 +1,26 @@
+header {
+    position:         fixed;
+    top:              0;
+    left:             0;
+    right:            0;
+    height:           50px;
+    background-color: @black;
+    z-index:          1200;
+}
+
 .logo {
+    img {
+        height:   30px;
+        top:      10px;
+        position: relative;
+    }
     .title {
-        font-size: 24px;
+        font-size: 20px;
         position:  relative;
-        top:       11px;
+        top:       12px;
         left:      19px;
         opacity:   .5;
+        color:     @gray;
     }
 }
 
@@ -15,7 +31,7 @@
     .transition(opacity .6s @easing-fast);
     opacity:        0;
     pointer-events: none;
-    z-index:        999999;
+    z-index:        1400;
     position:       fixed;
     height:         110px;
     width:          110px;

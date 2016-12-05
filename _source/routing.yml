@@ -2,12 +2,28 @@ index:
   name: Overview
   folder: /
 
-adding classes:
+docs:
   parent: index
   name: documentation
-  folder: /adding_classes
+  folder: docs/
 
-adding events:
-  parent: index
+config:
+  parent: docs
   name: documentation
-  folder: /adding_events
+  folder: /docs/config
+
+template hirachy:
+  parent: docs
+  name: documentation
+  folder: /docs/template_hirachy
+
+adding languages:
+  parent: docs
+  name: documentation
+  folder: /docs/adding_languages
+
+examples:
+  parent: index
+  name: examples
+  folder: /examples
+

@@ -7,14 +7,10 @@
             </a>
             <div class="title pull-left">Temple</div>
         </div>
+        <div class="main-menu pull-right">
+            {% include "/_bricks/header-menu.twig" with {'page': page, 'menu': menu.index.children, 'level': 0} %}
+        </div>
         <div class="clear"></div>
-    </div>
-    <div class="distance"></div>
-
-    <div class="logo-sticky">
-        <a href="{{ basePath }}" title="Temple">
-            <img class="img-responsive" src="{{ basePath }}/assets/img/logo.png" alt="temple">
-        </a>
     </div>
     
 </header>

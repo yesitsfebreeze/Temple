@@ -1,13 +1,17 @@
-<ul class="list-unstyled level-{{ level }}">
+<ul class="list-unstyled list-inline level-{{ level }}">
+    {% if level == 0%}
+        <li class="menu-item {% if page == "index" %}active{% endif %}">
+            <a href="{{ basePath }}" title="Overview">
+                overview
+            </a>
+        </li>
+    {% endif %}
     {% set level = level + 1 %}
     {% for pageName,item in menu %}
         <li class="menu-item {% if page == pageName %}active{% endif %}">
             <a href="{{ basePath }}{{ item.folder }}" title="{{ item.name }}">
                 {{ item.name }}
             </a>
-            {% if item.children %}
-                {% include "/_bricks/menu.twig"  with {'page': page, 'menu': item.children, 'level': level} %}
-            {% endif %}
         </li>
     {% endfor %}
 </ul>

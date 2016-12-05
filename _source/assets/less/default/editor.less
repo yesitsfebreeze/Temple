@@ -11,7 +11,7 @@
     z-index:       1500;
     .editor-header {
         height:     37px;
-        z-index:    1 ;
+        z-index:    1;
         background: @black;
         position:   relative;
         margin-top: -1px;
@@ -68,14 +68,14 @@
         height:   100%;
         pre {
             height:           100%;
+            width:            110% !important;
             color:            @gray-lighter;
             background-color: transparent;
             border-color:     transparent;
             border:           none !important;
             overflow:         auto !important;
-            padding:          30px 15px 52px 15px;
-            font-size: 16px;
-            .transition(font-size .4s @easing-fast);
+            padding:          30px 12% 52px 15px;
+            font-size:        16px;
             code {
                 height:           100%;
                 padding:          0;
@@ -85,14 +85,10 @@
             }
         }
     }
-    .transition(opacity .6s @easing-fast);
     &.closing {
+        .transition(e("opacity .6s @{easing-fast},height .6s @{easing-fast}"));
         opacity: 0;
-    }
-    &.fullscreen {
-        pre {
-            font-size: 20px;
-        }
+        height:  0 !important;
     }
 }
 

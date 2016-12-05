@@ -1,5 +1,5 @@
 $(function() {
-    var animationSpeed = 350;
+    var animationSpeed = 666;
     var editors = $(".editor");
 
     $.each(editors, function() {
@@ -57,6 +57,7 @@ $(function() {
         editor.addClass("closing");
         setTimeout(function() {
             editor.remove();
+            $(window).off("scroll.prevent");
         }, animationSpeed * 2);
     };
 
@@ -76,12 +77,12 @@ $(function() {
         if(editor.hasClass("minimized")) {
             editor.removeClass("minimized").stop(true).animate({
                 height: node.editorDimensions.orgHeight
-            }, animationSpeed);
+            }, animationSpeed,"customEase");
         } else if(!editor.hasClass("fullscreen")) {
             var headerHeight = editor.find(".editor-header").outerHeight();
             editor.addClass("minimized").stop(true).animate({
                 height: headerHeight
-            }, animationSpeed);
+            }, animationSpeed,"customEase");
         }
     };
 
@@ -107,7 +108,7 @@ $(function() {
                 height: node.editorDimensions.orgHeight,
                 left: 0,
                 top: 0
-            }, animationSpeed);
+            }, animationSpeed,"customEase");
             editor.removeClass("fullscreen");
         } else {
             node.editorDimensions = node.editorDimensions || {};
@@ -127,7 +128,7 @@ $(function() {
                 width: $(window).width(),
                 left: 0,
                 top: 0
-            }, animationSpeed, function() {
+            }, animationSpeed,"customEase", function() {
                 editor.css({});
             });
         }
