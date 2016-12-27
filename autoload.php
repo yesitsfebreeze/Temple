@@ -3,6 +3,10 @@
 namespace Temple;
 
 
+/**
+ * PSR-4 Conform Class autoloadery
+ */
+
 $namespace = __NAMESPACE__;
 $dir       = __DIR__ . DIRECTORY_SEPARATOR;
 

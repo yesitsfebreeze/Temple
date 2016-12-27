@@ -69,7 +69,7 @@ class Config extends Injection
     private $languages = array();
 
     /** @var string $defaultLanguage */
-    private $defaultLanguage = "";
+    private $defaultLanguage = "./Languages/html";
 
     /** @var array $languages */
     private $languageTagName = "lang";
