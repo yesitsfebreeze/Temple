@@ -99,7 +99,7 @@ class ForeachNode extends Node
         $parts = $this->getParts();
         $part  = $parts[0];
         if (!strpos($part, ",")) {
-            return $part;
+            return trim($part);
         }
 
         return trim(explode(",", $part)[1]);

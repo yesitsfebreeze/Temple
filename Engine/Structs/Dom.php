@@ -49,9 +49,9 @@ class Dom
     protected $extending;
 
 
-    public function __construct($namespace, $file, $templates, $level, BaseLanguage $language)
+    public function __construct($namespace, $file, $templates, $level, BaseLanguage $language, Variables $variables)
     {
-        $this->Variables = new Variables();
+        $this->Variables = $variables;
         $this->Language  = $language;
         $this->setNamespace($namespace);
         $this->setTemplates($templates);

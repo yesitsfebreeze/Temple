@@ -7,11 +7,12 @@ use Temple\Engine\EventManager\EventManager;
 use Temple\Engine\Exception\Exception;
 use Temple\Engine\Filesystem\DirectoryHandler;
 use Temple\Engine\InjectionManager\Injection;
+use Temple\Engine\Languages\BaseLanguage;
 use Temple\Engine\Languages\Languages;
 use Temple\Engine\Structs\Dom;
-use Temple\Engine\Languages\BaseLanguage;
 use Temple\Engine\Structs\Node\DefaultNode;
 use Temple\Engine\Structs\Node\Node;
+use Temple\Engine\Structs\Variables;
 
 
 /**
@@ -28,6 +29,9 @@ class Lexer extends Injection
     /** @var  Languages $Languages */
     protected $Languages;
 
+    /** @var  Variables $Variables */
+    protected $Variables;
+
     /** @var  DirectoryHandler $DirectoryHandler */
     protected $DirectoryHandler;
 
@@ -43,7 +47,8 @@ class Lexer extends Injection
     {
         return array(
             "Engine/Config"                      => "Config",
-            "Engine/Languages/Languages"                   => "Languages",
+            "Engine/Structs/Variables"           => "Variables",
+            "Engine/Languages/Languages"         => "Languages",
             "Engine/Filesystem/DirectoryHandler" => "DirectoryHandler",
             "Engine/EventManager/EventManager"   => "EventManager"
         );
@@ -75,7 +80,7 @@ class Lexer extends Injection
         /** @var BaseLanguage $language */
         $language = $this->Languages->getLanguageFromFile($file);
 
-        $Dom = new Dom($namespace, $file, $files, $this->level, $language);
+        $Dom = new Dom($namespace, $file, $files, $this->level, $language, $this->Variables);
         $this->process($file, $Dom);
 
 
@@ -184,12 +189,12 @@ class Lexer extends Injection
     {
         /** @var BaseLanguage $language */
         $language = $Dom->getLanguage()->getConfig()->getName();
-        $line = $this->EventManager->dispatch($language,"plugin.line", $line);
+        $line     = $this->EventManager->dispatch($language, "plugin.line", $line);
 
         $arguments = array($line, $Dom);
 
         /** @var Node $node */
-        $node = $this->EventManager->dispatch($language,"node", $arguments);
+        $node = $this->EventManager->dispatch($language, "node", $arguments);
 
         // backup node
         if (!($node instanceof Node)) {

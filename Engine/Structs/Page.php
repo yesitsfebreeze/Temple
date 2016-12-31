@@ -14,7 +14,6 @@ class Page {
     /** @var  string $file */
     private $file;
 
-
     /** @var  Variables $Variables */
     private $Variables;
 
