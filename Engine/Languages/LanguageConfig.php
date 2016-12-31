@@ -42,6 +42,9 @@ class LanguageConfig
     /** @var string $variablePattern */
     protected $variablePattern = "{{%}}";
 
+    /** @var string $variablePattern */
+    protected $variableCacheString = '<?php $this->Variables->get("%name%"); ?>';
+
     /** @var VariablesBaseCache $variableCache */
     protected $variableCache = null;
 

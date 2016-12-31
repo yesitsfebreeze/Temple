@@ -32,6 +32,12 @@ abstract class VariablesBaseCache
     }
 
 
+    public function get()
+    {
+        $config =  $this->Languages->getLangaugeConfig($this->file);
+    }
+
+
     /**
      * returns the finished and merge php and template variables
      *

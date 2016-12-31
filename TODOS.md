@@ -8,7 +8,13 @@
     [] capture
 
 
-    # modifiers
-        - truncate
-        - sizeof|count
-        -
+[] modifiers
+    [] truncate
+    
+[] Variable cache interface to return getter string
+[] refactor language implementation
+
+        
+
+        
+        
