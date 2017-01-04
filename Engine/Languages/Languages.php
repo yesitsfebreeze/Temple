@@ -115,32 +115,29 @@ class Languages extends Injection
     {
         $languages    = array();
         $templateFile = $this->DirectoryHandler->getTemplatePath($file);
-        if (file_exists($templateFile)) {
-            $handle = fopen($templateFile, "r");
-            while (($line = fgets($handle)) !== false) {
-                if (trim($line) != '') {
 
-                    preg_match("/^(.*?)(?:$|\s)/", trim($line), $tag);
-                    $tag = trim($tag[0]);
+        $handle = fopen($templateFile, "r");
+        while (($line = fgets($handle)) !== false) {
+            if (trim($line) != '') {
 
-                    if ($this->Instance->Config()->isUseCoreLanguage()) {
-                        array_unshift($languages, "core");
-                    }
+                preg_match("/^(.*?)(?:$|\s)/", trim($line), $tag);
+                $tag = trim($tag[0]);
 
-                    if ($tag == $this->Instance->Config()->getLanguageTagName()) {
-                        $lang = trim(str_replace($tag, "", $line));
-                    } else {
-                        $lang = "default";
-                    }
-
-                    $languages[] = $lang;
-
-                    /** @var  BaseLanguage $lang */
-                    return $this->iterate($languages);
+                if ($this->Instance->Config()->isUseCoreLanguage()) {
+                    array_unshift($languages, "core");
                 }
+
+                if ($tag == $this->Instance->Config()->getLanguageTagName()) {
+                    $lang = trim(str_replace($tag, "", $line));
+                } else {
+                    $lang = "default";
+                }
+
+                $languages[] = $lang;
+
+                /** @var  BaseLanguage $lang */
+                return $this->iterate($languages);
             }
-        } else {
-            throw new Exception(123, "There is no language for this file", $file);
         }
 
         if ($this->Instance->Config()->isUseCoreLanguage()) {

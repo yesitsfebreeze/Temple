@@ -130,6 +130,8 @@ class DirectoryHandler extends Injection
      * @param $file
      *
      * @return bool|string
+     *
+     * @throws Exception
      */
     public function templateExists($file)
     {
@@ -145,7 +147,7 @@ class DirectoryHandler extends Injection
             }
         }
 
-        return false;
+        throw new Exception(123, "Template file not found", $file);
     }
 
 
