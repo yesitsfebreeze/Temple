@@ -32,12 +32,6 @@ abstract class VariablesBaseCache
     }
 
 
-    public function get()
-    {
-        $config =  $this->Languages->getLangaugeConfig($this->file);
-    }
-
-
     /**
      * returns the finished and merge php and template variables
      *
@@ -60,7 +54,8 @@ abstract class VariablesBaseCache
     public function saveVariables(Variables $Variables)
     {
         $Variables = serialize($Variables);
-        $this->Instance->TemplateCache()->dump($this->getFileName($this->file), $Variables);
+        $file = $this->getFileName($this->file);
+        $this->Instance->TemplateCache()->dump($file, $Variables);
     }
 
 
@@ -90,7 +85,7 @@ abstract class VariablesBaseCache
      */
     protected function getFileName($file)
     {
-        return str_replace($this->Instance->Config()->getExtension(), "_varaibles." . $this->Instance->Config()->getExtension(), $file);
+        return str_replace("." . $this->Instance->Config()->getExtension(), "_variables." . $this->Instance->Config()->getExtension(), $file);
     }
 
 

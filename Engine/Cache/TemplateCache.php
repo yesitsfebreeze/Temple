@@ -41,9 +41,9 @@ class TemplateCache extends BaseCache
     public function dependencies()
     {
         return array(
-            "Engine/Config"                      => "Config",
-            "Engine/Cache/ConfigCache"           => "ConfigCache",
-            "Engine/Languages/Languages"         => "Languages",
+            "Engine/Config" => "Config",
+            "Engine/Cache/ConfigCache" => "ConfigCache",
+            "Engine/Languages/Languages" => "Languages",
             "Engine/Filesystem/DirectoryHandler" => "DirectoryHandler"
         );
     }
@@ -78,9 +78,9 @@ class TemplateCache extends BaseCache
             return true;
         }
 
-        $cacheFile    = $this->getCacheFilePath($value);
+        $cacheFile = $this->getCacheFilePath($value);
         $templateFile = $this->DirectoryHandler->getTemplatePath($value);
-        $cache        = $this->getCache();
+        $cache = $this->getCache();
 
 
         if (!isset($cache[ $identifier ])) {
@@ -105,7 +105,7 @@ class TemplateCache extends BaseCache
             // if so we reprocess the template
             $languageConfig = $this->Language->getConfig();
             if (!is_null($languageConfig->getVariableCache())) {
-                $variableCacheFile = $this->getCacheFilePath($value, "_variables.");
+                $variableCacheFile = $this->getCacheFilePath($value, "_variables");
                 if (!file_exists($variableCacheFile)) {
                     if ($update) {
                         $this->update($value, $identifier);
@@ -207,7 +207,7 @@ class TemplateCache extends BaseCache
      */
     public function update($value, $identifier = 0)
     {
-        $value        = $this->DirectoryHandler->normalizeExtension($value);
+        $value = $this->DirectoryHandler->normalizeExtension($value);
         $templateFile = $this->DirectoryHandler->getTemplatePath($value);
 
         $cache = $this->getCache();
@@ -215,12 +215,12 @@ class TemplateCache extends BaseCache
             $cache[ $identifier ] = array();
         }
         if (!isset($cache[ $identifier ][ $value ])) {
-            $cache[ $identifier ][ $value ]                 = array();
+            $cache[ $identifier ][ $value ] = array();
             $cache[ $identifier ][ $value ]["dependencies"] = array();
-            $cache[ $identifier ][ $value ]["needed"]       = true;
+            $cache[ $identifier ][ $value ]["needed"] = true;
         }
         $cache[ $identifier ][ $value ]["location"] = $templateFile;
-        $cache[ $identifier ][ $value ]["time"]     = filemtime($templateFile);
+        $cache[ $identifier ][ $value ]["time"] = filemtime($templateFile);
 
         return $this->saveCache($cache);
     }
@@ -242,11 +242,11 @@ class TemplateCache extends BaseCache
         // normalize all incoming files
         // to be sure they are indexed within the cache
         $parent = $this->DirectoryHandler->normalizeExtension($parent);
-        $file   = $this->DirectoryHandler->normalizeExtension($file);
+        $file = $this->DirectoryHandler->normalizeExtension($file);
 
         if (isset($cache[ $identifier ][ $parent ])) {
             $cache[ $identifier ][ $parent ]["dependencies"][ $file ] = array(
-                "file"   => $file,
+                "file" => $file,
                 "needed" => $needed
             );
             if (isset($cache[ $identifier ][ $file ])) {
@@ -282,38 +282,35 @@ class TemplateCache extends BaseCache
     /**
      * returns the path to the file within the cache directory of the language
      *
-     * @param string $value
+     * @param string $file
      * @param string $postfix
      *
      * @return string
      */
-    private function getCacheFilePath($value, $postfix = "")
+    private function getCacheFilePath($file, $postfix = "")
     {
-
-        $variableCachePostfix = "_variables.";
-
         // get rid of the cache postfix to enable the Languages
         // class to get the extension for the file
-        if ($postfix != "") {
-            $value = $this->DirectoryHandler->normalizeExtension($value);
-            $value = preg_replace("/" . $this->Config->getExtension() . "$/", $variableCachePostfix, $value);
+        if ($postfix !== "") {
+            $file = $this->DirectoryHandler->normalizeExtension($file);
+            $file = preg_replace("/\." . $this->Config->getExtension() . "$/", $postfix, $file);
         }
 
-        if (strpos($value, $variableCachePostfix) != false) {
-            $value   = str_replace($variableCachePostfix, "", $value);
-            $postfix = $variableCachePostfix;
+        if (strpos($file, "_variables") != false) {
+            $file = str_replace("_variables", "", $file);
+            $postfix = "_variables";
         }
 
         // add the language template extension to it
-        $value = $this->DirectoryHandler->normalizeExtension($value);
+        $file = $this->DirectoryHandler->normalizeExtension($file);
 
         // get the full path to the cache of the language
         /** @var BaseLanguage $language */
-        $this->Language = $this->Languages->getLanguageFromFile($value);
+        $this->Language = $this->Languages->getLanguageFromFile($file);
         $languageConfig = $this->Language->getConfig();
-        $cacheDir       = $languageConfig->getCacheDir();
-        $extension      = $languageConfig->getExtension();
-        $cacheFile      = $cacheDir . preg_replace("/" . $this->Config->getExtension() . "$/", $postfix . $extension, $value);
+        $cacheDir = $languageConfig->getCacheDir();
+        $extension = $languageConfig->getExtension();
+        $cacheFile = $cacheDir . preg_replace("/\." . $this->Config->getExtension() . "$/", $postfix . "." . $extension, $file);
 
         return $cacheFile;
     }

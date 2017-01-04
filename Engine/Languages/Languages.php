@@ -37,7 +37,7 @@ class Languages extends Injection
     public function dependencies()
     {
         return array(
-            "Engine/EventManager/EventManager"   => "EventManager",
+            "Engine/EventManager/EventManager" => "EventManager",
             "Engine/Filesystem/DirectoryHandler" => "DirectoryHandler"
         );
     }
@@ -83,7 +83,7 @@ class Languages extends Injection
         require_once $config;
 
         $configClassName = $this->getClassName($name, "Config");
-        
+
         if (!class_exists($configClassName)) {
             throw new Exception(1, "There is not the right class declaration within  %" . $config . "%!");
         }
@@ -113,30 +113,32 @@ class Languages extends Injection
      */
     public function getLanguageFromFile($file)
     {
-        $languages    = array();
+        $languages = array();
         $templateFile = $this->DirectoryHandler->getTemplatePath($file);
 
-        $handle = fopen($templateFile, "r");
-        while (($line = fgets($handle)) !== false) {
-            if (trim($line) != '') {
+        if ($templateFile) {
+            $handle = fopen($templateFile, "r");
+            while (($line = fgets($handle)) !== false) {
+                if (trim($line) != '') {
 
-                preg_match("/^(.*?)(?:$|\s)/", trim($line), $tag);
-                $tag = trim($tag[0]);
+                    preg_match("/^(.*?)(?:$|\s)/", trim($line), $tag);
+                    $tag = trim($tag[0]);
 
-                if ($this->Instance->Config()->isUseCoreLanguage()) {
-                    array_unshift($languages, "core");
+                    if ($this->Instance->Config()->isUseCoreLanguage()) {
+                        array_unshift($languages, "core");
+                    }
+
+                    if ($tag == $this->Instance->Config()->getLanguageTagName()) {
+                        $lang = trim(str_replace($tag, "", $line));
+                    } else {
+                        $lang = "default";
+                    }
+
+                    $languages[] = $lang;
+
+                    /** @var  BaseLanguage $lang */
+                    return $this->iterate($languages);
                 }
-
-                if ($tag == $this->Instance->Config()->getLanguageTagName()) {
-                    $lang = trim(str_replace($tag, "", $line));
-                } else {
-                    $lang = "default";
-                }
-
-                $languages[] = $lang;
-
-                /** @var  BaseLanguage $lang */
-                return $this->iterate($languages);
             }
         }
 
@@ -167,7 +169,7 @@ class Languages extends Injection
 
         foreach ($languages as $name) {
             $default = $this->Instance->Config()->getDefaultLanguage();
-            $default = explode("/",$default);
+            $default = explode("/", $default);
             $default = strtolower(end($default));
             if ($name == $default) {
                 $name = "default";
@@ -209,7 +211,7 @@ class Languages extends Injection
             require_once $language;
 
             $languageClassName = $this->getClassName($name, "Language");
-            $configClassName   = $this->getClassName($name, "Config");
+            $configClassName = $this->getClassName($name, "Config");
 
             if (!class_exists($languageClassName)) {
                 throw new Exception(1, "There is not the right class declaration within  %" . $language . "%!");
@@ -236,7 +238,7 @@ class Languages extends Injection
      */
     public function registerLanguage(BaseLanguage $language)
     {
-        $name              = $language->getConfig()->getName();
+        $name = $language->getConfig()->getName();
         $languageClassName = $this->getClassName($name, "Language");
 
         if (!$this->languages[ $languageClassName ]["registered"]) {
@@ -256,9 +258,9 @@ class Languages extends Injection
      */
     private function getClassName($language, $name)
     {
-        $namespaces    = explode("\\", __NAMESPACE__);
+        $namespaces = explode("\\", __NAMESPACE__);
         $frameworkName = reset($namespaces);
-        $class         = "\\" . $frameworkName . "\\Languages\\" . ucfirst(strtolower($language)) . "\\$name";
+        $class = "\\" . $frameworkName . "\\Languages\\" . ucfirst(strtolower($language)) . "\\$name";
 
         return $class;
     }
@@ -277,9 +279,9 @@ class Languages extends Injection
             /** @var LanguageConfig $config */
             $config = new $configClass($this->Instance);
 
-            $language                        = array();
-            $language["class"]               = new $loaderClass($this->Instance, $config->getName(), $path);
-            $language["registered"]          = false;
+            $language = array();
+            $language["class"] = new $loaderClass($this->Instance, $config->getName(), $path);
+            $language["registered"] = false;
             $this->languages[ $loaderClass ] = $language;
 
             unset($config);

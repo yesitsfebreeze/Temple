@@ -56,12 +56,13 @@ class DirectoryHandler extends Injection
      * returns the directory of the given template
      *
      * @param $file
+     * @param $exception bool
      *
      * @return bool|string
      */
-    public function getTemplatePath($file)
+    public function getTemplatePath($file, $exception = false)
     {
-        return $this->templateExists($file);
+        return $this->templateExists($file, $exception);
     }
 
 
@@ -117,7 +118,7 @@ class DirectoryHandler extends Injection
         } elseif (is_string($levelOrPath)) {
             if (in_array($levelOrPath, $dirs)) {
                 $flipped = array_flip($dirs);
-                $key     = $flipped[ $levelOrPath ];
+                $key = $flipped[ $levelOrPath ];
                 unset($dirs[ $key ]);
             }
         }
@@ -128,12 +129,13 @@ class DirectoryHandler extends Injection
 
     /**
      * @param $file
+     * @param $exception bool
      *
      * @return bool|string
      *
      * @throws Exception
      */
-    public function templateExists($file)
+    public function templateExists($file, $exception = false)
     {
         $dirs = $this->getTemplateDirs();
 
@@ -147,7 +149,11 @@ class DirectoryHandler extends Injection
             }
         }
 
-        throw new Exception(123, "Template file not found", $file);
+        if ($exception) {
+            throw new Exception(123, "Template file not found", $file);
+        }
+
+        return false;
     }
 
 
@@ -251,7 +257,7 @@ class DirectoryHandler extends Injection
             $dir = $this->getFrameworkDirectory() . $dir;
         } else {
             $docRoot = preg_replace("/\/$/", "", $_SERVER["DOCUMENT_ROOT"]);
-            $dir     = $docRoot . preg_replace("#^" . preg_quote($docRoot) . "#", "", $dir);
+            $dir = $docRoot . preg_replace("#^" . preg_quote($docRoot) . "#", "", $dir);
         }
         $dir = str_replace("/./", "/", $dir) . "/";
         $dir = preg_replace("/\/+/", "/", $dir);
@@ -267,10 +273,10 @@ class DirectoryHandler extends Injection
      */
     public function getFrameworkDirectory()
     {
-        $namespaces    = explode("\\", __NAMESPACE__);
+        $namespaces = explode("\\", __NAMESPACE__);
         $frameworkName = reset($namespaces);
-        $frameworkDir  = explode($frameworkName, __DIR__);
-        $frameworkDir  = $frameworkDir[0] . $frameworkName . DIRECTORY_SEPARATOR;
+        $frameworkDir = explode($frameworkName, __DIR__);
+        $frameworkDir = $frameworkDir[0] . $frameworkName . DIRECTORY_SEPARATOR;
 
         return $frameworkDir;
     }

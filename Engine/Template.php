@@ -50,13 +50,13 @@ class Template extends Injection
     public function dependencies()
     {
         return array(
-            "Engine/Config"                      => "Config",
+            "Engine/Config" => "Config",
             "Engine/Filesystem/DirectoryHandler" => "DirectoryHandler",
-            "Engine/Cache/TemplateCache"         => "TemplateCache",
-            "Engine/Lexer"                       => "Lexer",
-            "Engine/Compiler"                    => "Compiler",
-            "Engine/Languages/Languages"         => "Languages",
-            "Engine/EventManager/EventManager"   => "EventManager"
+            "Engine/Cache/TemplateCache" => "TemplateCache",
+            "Engine/Lexer" => "Lexer",
+            "Engine/Compiler" => "Compiler",
+            "Engine/Languages/Languages" => "Languages",
+            "Engine/EventManager/EventManager" => "EventManager"
         );
     }
 
@@ -110,12 +110,12 @@ class Template extends Injection
     public function show($file)
     {
         $cacheFile = $this->process($file);
-        $page      = new Page();
+        $page = new Page();
         $page->setFileName($file);
         $page->setFile($cacheFile);
         $template = $this->getTemplatePath($file);
         /** @var BaseLanguage $lang */
-        $lang          = $this->Languages->getLanguageFromFile($template);
+        $lang = $this->Languages->getLanguageFromFile($template);
         $VariableCache = $lang->getConfig()->getVariableCache();
         if ($VariableCache instanceof VariablesBaseCache) {
             $VariableCache->setFile($file);
@@ -141,7 +141,7 @@ class Template extends Injection
         $folder = $this->Languages->getLanguageFromFile($file)->getConfig()->getName();
 
         if ($this->TemplateCache->changed($file)) {
-            $dom     = $this->dom($file, $level);
+            $dom = $this->dom($file, $level);
             $content = $this->fetch($file, $level, $dom, true);
 
             return $this->TemplateCache->dump($file, $content);
@@ -162,7 +162,7 @@ class Template extends Injection
     public function dom($file, $level = 0)
     {
         $file = $this->normalizeExtension($file);
-        $dom  = $this->Lexer->lex($file, $level);
+        $dom = $this->Lexer->lex($file, $level);
 
         return $dom;
     }
@@ -192,13 +192,13 @@ class Template extends Injection
             $this->Config->addProcessedTemplate($file);
 
             /** @var LanguageConfig $language */
-            $language     = $Dom->getLanguage()->getConfig();
+            $language = $Dom->getLanguage()->getConfig();
             $languageName = $language->getName();
             $this->EventManager->dispatch($languageName, "template.fetch", $this);
 
             $template = $this->getTemplatePath($file);
             /** @var BaseLanguage $lang */
-            $lang          = $this->Languages->getLanguageFromFile($template);
+            $lang = $this->Languages->getLanguageFromFile($template);
             $VariableCache = $lang->getConfig()->getVariableCache();
             if ($VariableCache instanceof VariablesBaseCache) {
                 $VariableCache->setFile($file);
@@ -206,7 +206,7 @@ class Template extends Injection
             }
         } else {
             $cacheFile = $this->TemplateCache->get($file);
-            $content   = file_get_contents($cacheFile);
+            $content = file_get_contents($cacheFile);
         }
 
         return $content;
@@ -218,12 +218,13 @@ class Template extends Injection
      * checks if a template file exists within the template directories
      *
      * @param $file
+     * @param $exception bool
      *
      * @return bool
      */
-    public function templateExists($file)
+    public function templateExists($file, $exception = false)
     {
-        return $this->DirectoryHandler->templateExists($file);
+        return $this->DirectoryHandler->templateExists($file, $exception);
     }
 
 
@@ -249,13 +250,10 @@ class Template extends Injection
     public function getFileExtension($file)
     {
         $extension = null;
-        $template  = $this->templateExists($file);
-        if (!$template) {
-            $file = $this->DirectoryHandler->cleanExtension($file);
-            throw new Exception(123123, "The file %" . $file . "% doesn't exists!");
-        }
+        $template = $this->templateExists($file, true);
+
         /** @var BaseLanguage $lang */
-        $lang      = $this->Languages->getLanguageFromFile($template);
+        $lang = $this->Languages->getLanguageFromFile($template);
         $extension = $lang->getConfig()->getExtension();
 
         return $extension;
