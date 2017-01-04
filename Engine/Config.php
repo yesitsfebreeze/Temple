@@ -52,10 +52,6 @@ class Config extends Injection
     /** @var bool $variableCacheEnabled */
     private $variableCacheEnabled = true;
 
-    // todo: put into language config
-    /** @var string $variableCachePostfix */
-    private $variableCachePostfix = "_variables";
-
     /** @var array $templateDirs */
     private $templateDirs = array();
 
@@ -112,7 +108,6 @@ class Config extends Injection
                 "subfolder"            => $this->getSubfolder(),
                 "cacheEnabled"         => $this->isCacheEnabled(),
                 "templateDirs"         => $this->getTemplateDirs(),
-                "variableCachePostfix" => $this->getVariableCachePostfix(),
                 "defaultLanguage"      => $this->getDefaultLanguage(),
                 "languages"            => $this->getLanguages(),
                 "useCoreLanguage"      => $this->isUseCoreLanguage(),
@@ -364,15 +359,6 @@ class Config extends Injection
     public function setVariableCacheEnabled($variableCacheEnabled)
     {
         $this->variableCacheEnabled = $variableCacheEnabled;
-    }
-
-
-    /**
-     * @return boolean
-     */
-    public function getVariableCachePostfix()
-    {
-        return $this->variableCachePostfix;
     }
 
 

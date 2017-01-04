@@ -105,7 +105,7 @@ class TemplateCache extends BaseCache
             // if so we reprocess the template
             $languageConfig = $this->Language->getConfig();
             if (!is_null($languageConfig->getVariableCache())) {
-                $variableCacheFile = $this->getCacheFilePath($value, $this->Config->getVariableCachePostfix() . ".");
+                $variableCacheFile = $this->getCacheFilePath($value, "_variables.");
                 if (!file_exists($variableCacheFile)) {
                     if ($update) {
                         $this->update($value, $identifier);
@@ -290,7 +290,7 @@ class TemplateCache extends BaseCache
     private function getCacheFilePath($value, $postfix = "")
     {
 
-        $variableCachePostfix = $this->Config->getVariableCachePostfix() . ".";
+        $variableCachePostfix = "_variables.";
 
         // get rid of the cache postfix to enable the Languages
         // class to get the extension for the file

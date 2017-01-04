@@ -90,7 +90,7 @@ abstract class VariablesBaseCache
      */
     protected function getFileName($file)
     {
-        return str_replace($this->Instance->Config()->getExtension(), $this->Instance->Config()->getVariableCachePostfix() . "." . $this->Instance->Config()->getExtension(), $file);
+        return str_replace($this->Instance->Config()->getExtension(), "_varaibles." . $this->Instance->Config()->getExtension(), $file);
     }
 
 
