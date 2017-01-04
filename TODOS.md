@@ -1,20 +1,32 @@
-[] creating all error codes for the exceptions
+[] creating all error codes for the exceptions  
 [] need to write all tests ( except InjectionManager :) )
-[] complete documentation
-
-[] make a list of html functions i need to implement
-    [] modifier
-    [] implement filter
-    [] capture
-
-
-[] modifiers
-    [] truncate
+  
+list of html functions i need to implement:  
+    - modifier  
+    - implement filter  
+    - capture  
     
-[] Variable cache interface to return getter string
+list of modifier functions i need to implement:
+    - truncate
+    
+
+## languages
+
+[] Variable cache interface to return getter string  
 [] refactor language implementation
 
-        
+they should be only dependent on their own and should have one interface to connect them (plugin system)
 
-        
-        
+functionality needed:
+  - variable cache
+  - plugins (they maybe need to be globalized)
+  - modifier (they maybe need to be globalized)
+  - nodes
+  - hook for rendering (plugin?)
+  - configs should be empty at first? 
+   
+## documentation
+- setup
+- custom languages
+- list of events and their use
+
