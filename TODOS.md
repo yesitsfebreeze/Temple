@@ -24,6 +24,7 @@ functionality needed:
   - nodes
   - hook for rendering (plugin?)
   - configs should be empty at first? 
+  - configs need to be adjustable form the outside therefore they must be persistent for an instance
    
 ## documentation
 - setup
