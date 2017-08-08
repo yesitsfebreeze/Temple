@@ -2,6 +2,7 @@
 
 namespace Temple\Languages\Html;
 
+
 use Temple\Engine\Languages\LanguageConfig;
 
 
@@ -14,5 +15,5 @@ use Temple\Engine\Languages\LanguageConfig;
  */
 class Config extends LanguageConfig
 {
-
+    private $name = "html";
 }

@@ -3,7 +3,7 @@
 namespace Temple\Languages\Js;
 
 
-use Temple\Engine\Languages\BaseLanguage;
+use Temple\Engine\Languages\Language;
 use Temple\Languages\Js\Nodes\AlertNode;
 use Temple\Languages\Js\Nodes\IncludeNode;
 
@@ -15,7 +15,7 @@ use Temple\Languages\Js\Nodes\IncludeNode;
  *
  * @package Temple\Languages\Js
  */
-class Language extends BaseLanguage
+class JsLanguage extends Language
 {
 
     /**

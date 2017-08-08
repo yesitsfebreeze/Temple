@@ -6,7 +6,7 @@ namespace Temple\Engine;
 use Temple\Engine\EventManager\EventManager;
 use Temple\Engine\Exception\Exception;
 use Temple\Engine\InjectionManager\Injection;
-use Temple\Engine\Languages\BaseLanguage;
+use Temple\Engine\Languages\Language;
 use Temple\Engine\Structs\Dom;
 use Temple\Engine\Structs\Node\Node;
 
@@ -45,7 +45,7 @@ class Compiler extends Injection
      */
     public function compile(Dom $Dom)
     {
-        /** @var BaseLanguage $language */
+        /** @var Language $language */
         $language = $Dom->getLanguage()->getConfig()->getName();
         $Dom      = $this->EventManager->dispatch($language, "plugin.dom", $Dom);
         $output   = $this->createOutput($Dom);
@@ -72,7 +72,7 @@ class Compiler extends Injection
         foreach ($nodes as $node) {
             $node->setDom($Dom);
             $nodeOutput = $node->compile();
-            /** @var BaseLanguage $language */
+            /** @var Language $language */
             $language   = $Dom->getLanguage()->getConfig()->getName();
             $nodeOutput = $this->EventManager->dispatch($language, "plugin.nodeOutput", array($nodeOutput, $node));
 

@@ -9,7 +9,7 @@ use Temple\Engine\EventManager\EventManager;
 use Temple\Engine\Exception\Exception;
 use Temple\Engine\Filesystem\DirectoryHandler;
 use Temple\Engine\InjectionManager\Injection;
-use Temple\Engine\Languages\BaseLanguage;
+use Temple\Engine\Languages\Language;
 use Temple\Engine\Languages\LanguageConfig;
 use Temple\Engine\Languages\Languages;
 use Temple\Engine\Structs\Dom;
@@ -114,7 +114,7 @@ class Template extends Injection
         $page->setFileName($file);
         $page->setFile($cacheFile);
         $template = $this->getTemplatePath($file);
-        /** @var BaseLanguage $lang */
+        /** @var Language $lang */
         $lang = $this->Languages->getLanguageFromFile($template);
         $VariableCache = $lang->getConfig()->getVariableCache();
         if ($VariableCache instanceof VariablesBaseCache) {
@@ -197,7 +197,7 @@ class Template extends Injection
             $this->EventManager->dispatch($languageName, "template.fetch", $this);
 
             $template = $this->getTemplatePath($file);
-            /** @var BaseLanguage $lang */
+            /** @var Language $lang */
             $lang = $this->Languages->getLanguageFromFile($template);
             $VariableCache = $lang->getConfig()->getVariableCache();
             if ($VariableCache instanceof VariablesBaseCache) {
@@ -252,7 +252,7 @@ class Template extends Injection
         $extension = null;
         $template = $this->templateExists($file, true);
 
-        /** @var BaseLanguage $lang */
+        /** @var Language $lang */
         $lang = $this->Languages->getLanguageFromFile($template);
         $extension = $lang->getConfig()->getExtension();
 

@@ -6,9 +6,9 @@ namespace Temple\Engine\Cache;
 use Temple\Engine\Config;
 use Temple\Engine\Exception\Exception;
 use Temple\Engine\Filesystem\DirectoryHandler;
-use Temple\Engine\Languages\BaseLanguage;
+use Temple\Engine\Languages\Language;
 use Temple\Engine\Languages\Languages;
-use Temple\Languages\Core\Language;
+use Temple\Languages\Core\CoreLanguage;
 
 
 class TemplateCache extends BaseCache
@@ -305,7 +305,7 @@ class TemplateCache extends BaseCache
         $file = $this->DirectoryHandler->normalizeExtension($file);
 
         // get the full path to the cache of the language
-        /** @var BaseLanguage $language */
+        /** @var Language $language */
         $this->Language = $this->Languages->getLanguageFromFile($file);
         $languageConfig = $this->Language->getConfig();
         $cacheDir = $languageConfig->getCacheDir();

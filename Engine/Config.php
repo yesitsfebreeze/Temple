@@ -5,7 +5,7 @@ namespace Temple\Engine;
 
 use Temple\Engine\Exception\ExceptionHandler;
 use Temple\Engine\InjectionManager\Injection;
-use Temple\Engine\Languages\BaseLanguage;
+use Temple\Engine\Languages\Language;
 use Temple\Engine\Languages\LanguageConfig;
 
 
@@ -443,7 +443,7 @@ class Config extends Injection
     /**
      * @param $language
      *
-     * @return BaseLanguage
+     * @return Language
      */
     public function getLanguage($language)
     {

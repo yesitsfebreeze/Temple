@@ -7,7 +7,7 @@ use Temple\Engine\EventManager\EventManager;
 use Temple\Engine\Exception\Exception;
 use Temple\Engine\Filesystem\DirectoryHandler;
 use Temple\Engine\InjectionManager\Injection;
-use Temple\Engine\Languages\BaseLanguage;
+use Temple\Engine\Languages\Language;
 use Temple\Engine\Languages\Languages;
 use Temple\Engine\Structs\Dom;
 use Temple\Engine\Structs\Node\DefaultNode;
@@ -77,7 +77,7 @@ class Lexer extends Injection
         // $fileContent = $this->EventManager->dispatch("plugins.file.process", $fileContent);
         // file_put_contents($file, $fileContent);
 
-        /** @var BaseLanguage $language */
+        /** @var Language $language */
         $language = $this->Languages->getLanguageFromFile($file);
 
         $Dom = new Dom($namespace, $file, $files, $this->level, $language, $this->Variables);
@@ -187,7 +187,7 @@ class Lexer extends Injection
      */
     private function createNode($line, Dom $Dom)
     {
-        /** @var BaseLanguage $language */
+        /** @var Language $language */
         $language = $Dom->getLanguage()->getConfig()->getName();
         $line     = $this->EventManager->dispatch($language, "plugin.line", $line);
 

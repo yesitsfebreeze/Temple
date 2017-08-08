@@ -4,7 +4,7 @@ namespace Temple\Languages\Html;
 
 
 use Temple\Engine\EventManager\EventManager;
-use Temple\Engine\Languages\BaseLanguage;
+use Temple\Engine\Languages\Language;
 use Temple\Languages\Html\Modifiers\SizeofModifier;
 use Temple\Languages\Html\Nodes\CommentNode;
 use Temple\Languages\Html\Nodes\ForeachNode;
@@ -23,17 +23,12 @@ use Temple\Languages\Html\Services\VariableCache;
 /**
  * this is the default language
  * it renders to a mix of html and php
- * Class BaseLanguage
+ * Class Language
  *
  * @package Temple\Languages\Html
  */
-class Language extends BaseLanguage
+class HtmlLanguage extends Language
 {
-
-    /** @var  EventManager $EventManager */
-    private $EventManager;
-
-
 
     /**
      * registers the nodes for the language

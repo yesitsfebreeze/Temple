@@ -9,7 +9,7 @@ use Temple\Engine\EventManager\Event;
 use Temple\Engine\Exception\Exception;
 
 
-class BaseLanguage
+class Language
 {
 
     /** @var  string $path */
